@@ -1,6 +1,6 @@
 import { TextInput } from '../data/TextInput';
 
-function formReducer(state, action) {
+const formReducer = (state, action) => {
   console.log('reducer hit ', action.type)
   if(typeof state === 'undefined') {
     state = {
@@ -9,6 +9,7 @@ function formReducer(state, action) {
     }
   }
   if (action.type === 'INCREMENT') {
+    console.log('increment reducer hit')
     return Object.assign({}, state, {
       value: state.value + 1
     })
@@ -19,11 +20,18 @@ function formReducer(state, action) {
     })
   }
   if (action.type === 'ADDFORMENTITY') {
-    console.log('addformentity hit')
+    return Object.assign({}, state, {
+      form: state.form.concat(action.payload)
+    })
+  }
+
+  if (action.type === 'INITFORMENTITY') {
+    console.log('INITFORMENTITY')
     return Object.assign({}, state, {
       form: state.form.concat((new TextInput({uuid: 1, width: 2, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'type', tabOrder: [1, 2, 3], inputWidth: 7, promptNumber: 'promptNumber',  prepend: 88, autoNumber: 'SEQUENTIAL', append: 4, length: 'DEFAULT', autoTab: true, doubleEntry: true}).properties()))
     })
   }
+
   return state;
 }
 

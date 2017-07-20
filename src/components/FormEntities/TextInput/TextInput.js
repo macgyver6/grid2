@@ -4,8 +4,9 @@ const TextInput = (props) => {
 
     let formEntities = 
     props.form.map((element, i) => {
+      console.log(element)
        return <div key={i}>
-        Name:  <input type={element.type} value={element.defaultContent} />
+        {element.name}:  <input type={element.type} value={element.defaultContent} />
       </div>;
     })
   return <div>{ formEntities }</div>
