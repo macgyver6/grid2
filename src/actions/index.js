@@ -1,9 +1,27 @@
-export const INCREMENT = 'INCREMENT'
-export const increment = { type: 'INCREMENT' };
-export const DECREMENT = 'DECREMENT'
-export const decrement = { type: 'DECREMENT' };
-export const ADDFORMENTITY = 'ADDFORMENTITY'
-export const addformentity = { type: 'ADDFORMENTITY' };
+// export const INCREMENT = 'INCREMENT'
+// export const increment = { type: 'INCREMENT' };
+// export const DECREMENT = 'DECREMENT'
+// export const decrement = { type: 'DECREMENT' };
+// export const ADDFORMENTITY = 'ADDFORMENTITY'
+// export const addformentity = { type: 'ADDFORMENTITY' };
+
+export const increment = () => {
+  return {
+    type: 'INCREMENT'
+  }
+}
+
+export const addformentity = () => {
+  return {
+    type: 'ADDFORMENTITY'
+  }
+}
+
+export const decrement = () => {
+  return {
+    type: 'DECREMENT'
+  }
+}
 
 
 /*

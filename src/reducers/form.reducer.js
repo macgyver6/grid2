@@ -1,6 +1,7 @@
 import { TextInput } from '../data/TextInput';
 
-function reducer(state, action) {
+function formReducer(state, action) {
+  console.log('reducer hit ', action.type)
   if(typeof state === 'undefined') {
     state = {
       value: 0,
@@ -18,6 +19,7 @@ function reducer(state, action) {
     })
   }
   if (action.type === 'ADDFORMENTITY') {
+    console.log('addformentity hit')
     return Object.assign({}, state, {
       form: state.form.concat((new TextInput({uuid: 1, width: 2, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'type', tabOrder: [1, 2, 3], inputWidth: 7, promptNumber: 'promptNumber',  prepend: 88, autoNumber: 'SEQUENTIAL', append: 4, length: 'DEFAULT', autoTab: true, doubleEntry: true}).properties()))
     })
@@ -25,4 +27,4 @@ function reducer(state, action) {
   return state;
 }
 
-export default reducer;
+export default formReducer;

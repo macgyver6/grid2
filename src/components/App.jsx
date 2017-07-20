@@ -6,30 +6,30 @@ import SimpleComponent from './SimpleComponent'
 import * as actions from '../actions/index';
 
 class App extends Component {
-
   render() {
+  console.log(this.props.increment)
+
     return (
       <div className="container">
-        <p>Value: <span>{ this.props.value }</span></p>
+        <p>Value: <span>{ this.props.data.formData.value }</span></p>
           <button
           className="btn btn-success"
-          onClick={ this.props.onIncrement }
+          onClick={ this.props.increment }
         >+</button>
         <button
           className="btn btn-success"
-          onClick={ this.props.onDecrement }
+          onClick={ this.props.decrement }
         >-</button>
         <div className="components">
            <button
           className="btn btn-success"
-          onClick={ this.props.addFormEntity }
+          onClick={ this.props.addformentity }
         >Add Text Input</button>
-        {/* {this.props.form.length > 0 ? 
-        <FormEntitiesList form={this.props.form}/> :
+          {this.props.data.formData.form.length > 0 ? 
+        <FormEntitiesList form={this.props.data.formData.form}/> :
         
-        <p>no form entities</p> */}
+        <p>no form entities</p>} 
         <SimpleComponent stuff={this.props}/>
-        }
           
         </div> 
       </div> 

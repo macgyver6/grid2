@@ -3,13 +3,12 @@ import { connect } from'react-redux';
 import TextInput  from './TextInput/TextInput';
 import store from '../../store';
 
-const mapStateToProps = state => {
-  return { form: state.form }
+const FormEntitiesList = (props) => {
+  return (
+    <TextInput form={props.form} />
+    // <h1>FormEntitiesList</h1>
+  )
 }
-
-const FormEntitiesList = connect(
-  mapStateToProps
-)(TextInput)
 
 // class FormEntitiesContainer extends Component {
 
