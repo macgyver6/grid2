@@ -4,20 +4,12 @@ import TextInput  from './TextInput/TextInput';
 import store from '../../store';
 
 const FormEntitiesList = (props) => {
-  return (
-    <TextInput form={props.form} />
-    // <h1>FormEntitiesList</h1>
-  )
+
+   let formEntities = 
+    props.form.map((element, i) => {
+       return <TextInput key={i} element = {element}/>
+    })
+  return <div>{ formEntities }</div>
 }
-
-// class FormEntitiesContainer extends Component {
-
-//   render() {
-//     // console.log(this.props)
-//     return (
-//       <p>FormEntitiesContainer</p>
-//     )
-//   }
-// }
 
 export default FormEntitiesList;
