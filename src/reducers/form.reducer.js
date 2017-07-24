@@ -20,8 +20,9 @@ const formReducer = (state, action) => {
     })
   }
   if (action.type === 'ADDFORMENTITY') {
+    console.log('addformentity reducer hit ', action.formEntity)
     return Object.assign({}, state, {
-      form: state.form.concat((new TextInput({uuid: 1, width: 2, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'type', tabOrder: [1, 2, 3], inputWidth: 7, promptNumber: 'promptNumber',  prepend: 88, autoNumber: 'SEQUENTIAL', append: 4, length: 'DEFAULT', autoTab: true, doubleEntry: true}).properties()))
+      form: state.form.concat(action.formEntity)
     })
   }
 

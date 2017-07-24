@@ -1,4 +1,3 @@
-// "use strict";
 const deepFreeze = require('deep-freeze');
 const { ImageBlock } = require('./ImageBlock.js');
 

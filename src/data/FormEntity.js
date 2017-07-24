@@ -1,5 +1,3 @@
-"use strict";
-
 const deepFreeze = require('deep-freeze');
 /** Class representing a FormEntity. 
  * See {@link http://csccjenk.cscc.unc.edu:8080/job/cdart2-model/javadoc/edu/unc/tcrdms/model/form/FormSection.html}
@@ -102,7 +100,6 @@ class FormEntity {
         var properties = this.properties();
         // if key exists in new props, use, if not, use existing
         for (var key in properties) {
-            var value = properties[key];
             if (newProperties[key]) {
                 properties[key] = newProperties[key]
             }

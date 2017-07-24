@@ -1,4 +1,3 @@
-// "use strict";
 const deepFreeze = require('deep-freeze');
 const { FormEntity } = require('./FormEntity.js');
 
@@ -42,15 +41,6 @@ class FormInput extends FormEntity {
       deepFreeze(this);
     };
 
-  };
-
-  /**
-     * Get the name of the Form Input.
-     * @return {number}
-     * @memberof FormInput
-     */
-  name() {
-    return this._name;
   };
 
   /**
@@ -159,15 +149,15 @@ class FormInput extends FormEntity {
      * @returns {FormInput}
      * @memberof FormInput
      */
-    clone(props) {
-        return new FormInput(props === undefined ? this.properties() : props);
-    }
-    
-    /**
-     * 
-     * Returns public properties of a form input.
-     * @returns {Object}
-     */
+  clone(props) {
+    return new FormInput(props === undefined ? this.properties() : props);
+  }
+
+  /**
+   * 
+   * Returns public properties of a form input.
+   * @returns {Object}
+   */
   properties() {
     return {
       uuid: this.UUID(),
@@ -192,12 +182,12 @@ class FormInput extends FormEntity {
 FormInput.DEFAULT_PROMPT_PRE_WIDTH = 2;
 FormInput.DEFAULT_PROMPT_POST_WIDTH = 2;
 // These are dummy options, need to replace with real options
-FormInput.AutoNumberRuleToken = 
-{
-  SEQUENTIAL: 0,
-  UNORDERED: 1,
-  ORDERED: 2
-}
+FormInput.AutoNumberRuleToken =
+  {
+    SEQUENTIAL: 0,
+    UNORDERED: 1,
+    ORDERED: 2
+  }
 
 if (this.constructor === FormInput) {
   deepFreeze(FormInput);

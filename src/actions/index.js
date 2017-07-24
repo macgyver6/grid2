@@ -1,20 +1,14 @@
-// export const INCREMENT = 'INCREMENT'
-// export const increment = { type: 'INCREMENT' };
-// export const DECREMENT = 'DECREMENT'
-// export const decrement = { type: 'DECREMENT' };
-// export const ADDFORMENTITY = 'ADDFORMENTITY'
-// export const addformentity = { type: 'ADDFORMENTITY' };
-
 export const increment = () => {
   return {
     type: 'INCREMENT'
   }
 }
 
-export const addformentity = (inputType) => {
+export const addformentity = (formEntity) => {
+  console.log('addformentity action hit ', formEntity)
   return {
     type: 'ADDFORMENTITY',
-    inputType: inputType
+    formEntity: formEntity
   }
 }
 

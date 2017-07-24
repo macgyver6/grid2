@@ -1,4 +1,3 @@
-// "use strict";
 const deepFreeze = require('deep-freeze');
 const { FormInput } = require('./FormInput.js');
 

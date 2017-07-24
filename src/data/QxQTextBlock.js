@@ -1,4 +1,3 @@
-// "use strict";
 const deepFreeze = require('deep-freeze');
 const { TextBlock } = require('./TextBlock.js');
 
