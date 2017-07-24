@@ -5,7 +5,6 @@ export const increment = () => {
 }
 
 export const addformentity = (formEntity) => {
-  console.log('addformentity action hit ', formEntity)
   return {
     type: 'ADDFORMENTITY',
     formEntity: formEntity
@@ -24,9 +23,14 @@ export const initformentity = () => {
   }
 }
 
+export const savestate = () => {
+  return {
+    type: 'SAVESTATE',
+  }
+}
 
-/*
-  -- alternate method of exporting (for only 1 action) --
-const increment = { type: 'INCREMENT' }
-export default increment;
-*/
+export const loadstate = () => {
+  return {
+    type: 'LOADSTATE',
+  }
+}

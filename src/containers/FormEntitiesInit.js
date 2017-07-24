@@ -1,29 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
-import defaultProps from '../constants/defaultPropsFI';
-import TextInputComponent from '../components/FormEntities/TextInput';
-import TextAreaComponent from '../components/FormEntities/TextArea';
-import { TextInput } from '../data/TextInput';
-import { TextArea } from '../data/TextArea';
+import defaultProps from '../constants/defaultPropsFE';
+import { utility } from '../utility';
 
 class FormEntityInit extends Component {
   constructor(props) {
     super();
-    // this.mapComponent = this.mapComponent.bind(this);
   }
 
-  mapComponent(modelInstance)
-  {
-    console.log('mapComponent hit modelInstance ', modelInstance)
-    if (modelInstance instanceof TextInput)
-    {
-      console.log('TextInputComponent')
-      return TextInputComponent;
-    }
-    else if (modelInstance instanceof TextArea) {
-      return TextAreaComponent;
-    }
+  componentDidMount() {
+
   }
 
   /* 
@@ -34,19 +21,12 @@ class FormEntityInit extends Component {
   5. Add TextInput Object to store
   6. FormEntitiesRender is the template for the inputs
 */
-  componentDidMount() {
-
-  }
-
-  // clickHandler(input, event) {
-  //   // event.preventDefault()
-  //   this.props.addformentity(input)
-  //   // console.log(payload)
-  // }
 
   render() {
     return (
       <div>
+        <h1>FormEntitiesInit</h1>
+
         <button
           className="btn btn-success"
           onClick={this.props.addformentity.bind(this, defaultProps.TextInput)}>
@@ -58,16 +38,29 @@ class FormEntityInit extends Component {
           onClick={this.props.addformentity.bind(this, defaultProps.TextArea)}>
           Add Text Area
         </button>
+        {this.props.store.model.form[0] ? <p>There is stuff {this.props.store.model.form.length}</p> : null}
+        {this.props.store.model.form.map((element, i) => {
+          return <p>{element._name}</p>
+        })}
 
-        {this.props.store.model.form.map((element, i) =>  
-        React.createElement(this.mapComponent(element), { key: i, model: element }))}
+        {this.props.store.model.form.map((element, i) =>
+          <p>{element._width}</p>)}
+
+        {/* {this.props.store.model.form.map((element, i) => {
+
+          if(element._name === 'TextInput') {
+            return <TextInput key = {i} model = {element} />
+          } else if(element._name === 'TextArea') {
+            return <TextArea key = {i} model = {element}/>
+          }
+            })} */}
       </div>
     )
   }
 }
 
 const mapStateToProps = (state) => {
-  return { store : state };
+  return { store: state };
 }
 
 FormEntityInit = connect(mapStateToProps, actions)(FormEntityInit)

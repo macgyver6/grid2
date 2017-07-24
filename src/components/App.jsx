@@ -4,6 +4,7 @@ import * as actions from '../actions/index';
 import FormEntityInit from '../containers/FormEntitiesInit.js';
 
 class App extends Component {
+
   render() {
 
     return (
@@ -18,6 +19,18 @@ class App extends Component {
           onClick={this.props.decrement}
         >-</button>
         <FormEntityInit />
+        <button 
+          type="button" 
+          className="btn btn-primary btn-lg btn-block"
+          onClick={this.props.savestate}>
+          Save Model State
+          </button>
+        <button 
+          type="button" 
+          className="btn btn-success btn-lg btn-block"
+          onClick={this.props.loadstate}>
+          Load Model State
+          </button>
       </div>
     )
   }
