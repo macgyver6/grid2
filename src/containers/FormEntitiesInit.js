@@ -38,22 +38,9 @@ class FormEntityInit extends Component {
           onClick={this.props.addformentity.bind(this, defaultProps.TextArea)}>
           Add Text Area
         </button>
-        {this.props.store.model.form[0] ? <p>There is stuff {this.props.store.model.form.length}</p> : null}
-        {this.props.store.model.form.map((element, i) => {
-          return <p>{element._name}</p>
-        })}
 
         {this.props.store.model.form.map((element, i) =>
-          <p>{element._width}</p>)}
-
-        {/* {this.props.store.model.form.map((element, i) => {
-
-          if(element._name === 'TextInput') {
-            return <TextInput key = {i} model = {element} />
-          } else if(element._name === 'TextArea') {
-            return <TextArea key = {i} model = {element}/>
-          }
-            })} */}
+          React.createElement(utility.lookup(element), { key: i, model: element }))}
       </div>
     )
   }

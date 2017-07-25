@@ -38,9 +38,9 @@ class TextInput extends FormInput {
     this._doubleEntry = properties.doubleEntry;
 
     if (this.constructor === TextInput) {
-            deepFreeze(this);
-        };
-        
+      deepFreeze(this);
+    };
+
   }
 
   /**
@@ -95,11 +95,11 @@ class TextInput extends FormInput {
     return new TextInput(props === undefined ? this.properties() : props);
   }
 
-      /**
-     * 
-     * Returns public properties of a text input.
-     * @returns {Object}
-     */
+  /**
+ * 
+ * Returns public properties of a text input.
+ * @returns {Object}
+ */
   properties() {
     return {
       uuid: this.UUID(),
