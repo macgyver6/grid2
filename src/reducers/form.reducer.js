@@ -10,19 +10,21 @@ const formReducer = (state, action) => {
     state = {
       value: 0,
       form: [],
-      lastSaved: null
     }
   }
+
   if (action.type === 'INCREMENT') {
     return Object.assign({}, state, {
       value: state.value + 1
     })
   }
+
   if (action.type === 'DECREMENT') {
     return Object.assign({}, state, {
       value: state.value - 1
     })
   }
+
   if (action.type === 'ADDFORMENTITY') {
     return Object.assign({}, state, {
       form: state.form.concat(action.formEntity)
@@ -36,28 +38,27 @@ const formReducer = (state, action) => {
   }
 
   if (action.type === 'SAVESTATE') {
-    let serialize = []
-    state.form.map((element) => { serialize.push(element.properties()) })
-    localStorage.setItem('model', JSON.stringify(serialize))
+    let serialized = []
+    state.form.map((element) => { serialized.push(element.properties()) })
+    localStorage.setItem('model', JSON.stringify(serialized))
     return Object.assign({}, state, {
       lastSaved: Date.now()
     })
   }
 
   if (action.type === 'LOADSTATE') {
-    let array = [];
+    let unserialize = [];
     if (localStorage.getItem('model')) {
       JSON.parse(localStorage.getItem('model')).map((element, i) => {
         if (element.type === 'TextInput') {
-          array.push((new TextInput({ ...element })))
+          unserialize.push((new TextInput({ ...element })))
         } else if (element.type === 'TextArea') {
-          array.push((new TextArea({ ...element })))
+          unserialize.push((new TextArea({ ...element })))
         }
       })
-      return { ...state, form: array };
+      return { ...state, form: unserialize };
     }
   }
-
 
   return state;
 }
