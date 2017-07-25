@@ -5,18 +5,21 @@ import { TextInput } from './data/TextInput';
 import { TextArea } from './data/TextArea';
 
 export const utility = {
-  lookup: function(modelInstance) {
+  lookupComponent: function (modelInstance) {
     if (modelInstance instanceof TextInput) {
-      console.log('TextInput')
       return TextInputComponent;
     }
     else if (modelInstance instanceof TextArea) {
-      console.log('TextArea')
       return TextAreaComponent;
     }
   },
-  yolo: function() {
-    console.log('yolo')
+
+  resurrectEntity: function (formEntitySerialized) {
+    switch (formEntitySerialized.type) {
+      case 'TextInput': 
+        return new TextInput({...formEntitySerialized})
+      case 'TextArea':         return new TextArea({...formEntitySerialized})
+    }
   }
 }
 

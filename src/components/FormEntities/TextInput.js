@@ -4,7 +4,9 @@ const TextInputComponent = (props) => {
 
   return (
   <div>
-    {props.model.name()}:  <input type={props.model.type()} value={props.model.defaultContent()} />
+    {props.model.name()}:  
+    <input type={props.model.type()} 
+    value={props.model.defaultContent()} />
 </div>
 );
 }

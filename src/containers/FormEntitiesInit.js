@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
-import defaultProps from '../constants/defaultPropsFE';
+import { defaultPropsFE } from '../constants/defaultPropsFE';
 import { utility } from '../utility';
 
 class FormEntityInit extends Component {
@@ -29,18 +29,18 @@ class FormEntityInit extends Component {
 
         <button
           className="btn btn-success"
-          onClick={this.props.addformentity.bind(this, defaultProps.TextInput)}>
+          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextInput)}>
           Add Text Input
         </button>
 
         <button
           className="btn btn-danger"
-          onClick={this.props.addformentity.bind(this, defaultProps.TextArea)}>
+          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextArea)}>
           Add Text Area
         </button>
 
-        {this.props.store.model.form.map((element, i) =>
-          React.createElement(utility.lookup(element), { key: i, model: element }))}
+        {this.props.store.model.formSection.map((element, i) =>
+          React.createElement(utility.lookupComponent(element), { key: i, model: element }))}
       </div>
     )
   }

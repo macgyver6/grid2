@@ -12,10 +12,6 @@ const store = createStore(reducer, /* preloadedState, */ composeEnhancers(
   applyMiddleware(logger)
 ));
 
-const finalCreateStore = compose(
-  window.devToolsExtension ? window.devToolsExtension() : f => f
-)(createStore)
-
 ReactDOM.render(
   <Provider store={store}>
     <App />

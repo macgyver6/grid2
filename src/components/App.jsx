@@ -6,8 +6,7 @@ import FormEntityInit from '../containers/FormEntitiesInit.js';
 class App extends Component {
 
   render() {
-    var modelProps = []
-    let formStore = this.props.store.model.form;
+    let formStore = this.props.store.model.formSection;
     let formLocal = JSON.parse(localStorage.getItem('model'));
     let saveStatus = false;
     if (formStore && formLocal) {
