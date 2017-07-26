@@ -31,14 +31,27 @@ class FormSection extends FormEntity {
 
 
   /**
-    * 
-    * Set the Children of the form section.
-    * @returns {array}
+    * The children of the form section
+
+    * @returns {FormEntity[]}
     * @memberof FormSection
     */
-  children() {
+  children() 
+  {
     return this._children;
   };
+
+  /**
+   * Set the children of the form section.
+   * 
+   * @param {FormEntity[]} children 
+   * @returns {FormSection} copy of the form section with the given children
+   * set
+   */
+  setChildren(children)
+  {
+    return this.mutate({children : children});
+  }
 
   /**
     * 

@@ -4,10 +4,11 @@ export const increment = () => {
   }
 }
 
-export const addformentity = (formEntity) => {
+export const addformentity = (formEntity, path) => {
   return {
     type: 'ADDFORMENTITY',
-    formEntity: formEntity
+    formEntity: formEntity,
+    path: path
   }
 }
 

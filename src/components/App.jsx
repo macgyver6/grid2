@@ -6,13 +6,13 @@ import FormEntityInit from '../containers/FormEntitiesInit.js';
 class App extends Component {
 
   render() {
-    let formStore = this.props.store.model.formSection;
+    let formStore = this.props.store.model.form;
     let formLocal = JSON.parse(localStorage.getItem('model'));
     let saveStatus = false;
     if (formStore && formLocal) {
-      console.log('both have storage')
+      // console.log('both have storage')
       if (formStore.length === formLocal.length) {
-        console.log('length is the same')
+        // console.log('length is the same')
         saveStatus = true;
       }
     }

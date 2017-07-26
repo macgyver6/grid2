@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
 import { utility } from '../utility';
+import Form  from '../components/FormEntities/Form';
 
 class FormEntityInit extends Component {
   constructor(props) {
@@ -29,7 +30,7 @@ class FormEntityInit extends Component {
 
         <button
           className="btn btn-success"
-          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextInput)}>
+          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextInput, [0, 0])}>
           Add Text Input
         </button>
 
@@ -38,9 +39,7 @@ class FormEntityInit extends Component {
           onClick={this.props.addformentity.bind(this, defaultPropsFE.TextArea)}>
           Add Text Area
         </button>
-
-        {this.props.store.model.formSection.map((element, i) =>
-          React.createElement(utility.lookupComponent(element), { key: i, model: element }))}
+        <Form form={this.props.store.model.form}/>
       </div>
     )
   }
