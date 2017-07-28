@@ -69,21 +69,23 @@ export const utility = {
     }
   },
 
-  unserialize: function unserialize(payload, parent) {
-    console.log(payload)
-    if (payload.length <= 0) {
-      throw new Error("provide a valid children array")
-    }
-    return payload.map((child) => {
+  unserialize: function unserialize(formSections, index2, output2) {
+    console.log('formSections: ', formSections, 'index2: ', index2, 'output2: ', output2)
+    let index = index2 || 0;
+    let output = output2 || [];
 
-      // if parent !== cccc then dpn't use parent[index]
-      if (!(child instanceof FormSection)) {
-        console.log(parent)
-        return (parent[0].children = (utility.resurrectEntity((child))))
+    if (index < formSections.length) {
+      let children =
+        formSections[index].children.map((child) => {
+          return utility.resurrectEntity(child);
+        })
+      output.push(utility.resurrectEntity((utility.resurrectEntity(formSections[index]).setChildren(children))))
+      if (index < formSections.length - 1) {
+        return unserialize(formSections, ++index, output)
       } else {
-        return unserialize(child.children, payload)
+        return output
       }
-    })
+    }
   },
 
   lookupComponent: function (modelInstance) {

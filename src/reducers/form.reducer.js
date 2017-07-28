@@ -65,16 +65,9 @@ const formReducer = (state, action) => {
     if (localStorage.getItem('model')) {
 
       let resurrectedEntities =
-        utility.unserialize((JSON.parse(localStorage.getItem('model'))), 0)
+        utility.unserialize((JSON.parse(localStorage.getItem('model')).children))
 
-      // map through the formEntities
-      // console.log((utility.resurrectEntity(formSection)).type())
-
-      // (utility.resurrectEntity(formSection)).children().map((formEntities) => { 
-      // return formSection.setChildren((utility.resurrectEntity(formEntities)))
-      // console.log(formSection)
-
-      return { ...state, form: resurrectedEntities };
+      return { ...state, form: utility.resurrectEntity(state.form.setChildren(resurrectedEntities)) };
     } else {
       throw new Error('No items saved in local storage')
     }
