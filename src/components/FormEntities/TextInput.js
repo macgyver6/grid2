@@ -1,14 +1,13 @@
 import React from 'react';
 
 const TextInputComponent = (props) => {
-
   return (
-  <div>
-    {props.model.name()}:  
-    <input type={props.model.type()} 
-    value={props.model.defaultContent()} />
-</div>
-);
+    <div>
+      {props.formEntity.name()}
+    <input className="form-control" type={props.formEntity.type()}
+        value={props.formEntity.defaultContent()} />
+    </div>
+  );
 }
 
 export default TextInputComponent;

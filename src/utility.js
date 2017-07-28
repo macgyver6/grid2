@@ -18,14 +18,14 @@ import { Checkbox } from './data/Checkbox';
  */
 
 export const utility = {
-  add: function add (entity, section, path) {
+  add: function add(entity, section, path) {
     if (path[0] < 0 || path[0] === undefined) {
       throw new Error("path OOB");
     }
 
-    if (!(section instanceof FormSection)) {
-      throw new Error("section was not FormSection");
-    }
+    // if (!(section instanceof FormSection)) {
+    //   throw new Error("section was not FormSection");
+    // }
 
     let e = entity;
     if (path.length > 1) {
@@ -35,6 +35,70 @@ export const utility = {
     let newChildren = section.children().slice(0);
     newChildren.splice(path[0], path.length > 1 ? 1 : 0, e);
     return section.setChildren(newChildren);
+  },
+
+  // serialize: function serialize(payload, parent) {
+  //   if (payload.length <= 0) {
+  //     throw new Error("provide a valid children array")
+  //   }
+  //   return payload.map((child, index) => {
+
+  //     if (!(child instanceof FormSection)) {
+  //       let unserializedParent = parent.properties()
+  //       console.log(unserializedParent.children)
+  //       // console.log(child.properties())
+  //       // let newChildren = parent.children().slice(0)
+  //       return (Object.assign({}, unserializedParent, { children: unserializedParent.children.push(( child.properties())) }))
+  //     } else {
+  //       return serialize(child.children(), payload[index])
+  //     }
+  //   })
+  // },
+
+  /*  
+    1. Pass in array of FormSections
+    2. If instance of FormSection, then call it's properties, then map through the form element properties
+    3. Replace the FormSection children with the unserialized and then replace FormSection[i] .properties
+    4. Call serialize again, passing in array of form sections
+    5. Terminal case is if there are no instance of form section, return array of unserialized form sections
+  */
+  serialize: function serialize(formSections, index, output) {
+    console.log('serialize entry ', formSections, index, output)
+    if (formSections.length <= 0) {
+      throw new Error("provide a valid children array")
+    }
+    if ((formSections[index] instanceof FormSection)) {
+      let children = formSections[index].properties()
+      children =
+        formSections[index].children().slice().map((child) => {
+          return child.properties()
+        })
+        let output = []
+        output.push(formSections[index].properties())
+        output[index].children = children;
+      if (index < formSections.length - 1) {
+        return serialize(formSections, ++index, output)
+      } else {
+        return output
+      }
+    }
+  },
+
+  unserialize: function unserialize(payload, parent) {
+    console.log(payload)
+    if (payload.length <= 0) {
+      throw new Error("provide a valid children array")
+    }
+    return payload.map((child) => {
+
+      // if parent !== cccc then dpn't use parent[index]
+      if (!(child instanceof FormSection)) {
+        console.log(parent)
+        return (parent[0].children = (utility.resurrectEntity((child))))
+      } else {
+        return unserialize(child.children, payload)
+      }
+    })
   },
 
   lookupComponent: function (modelInstance) {
@@ -56,7 +120,8 @@ export const utility = {
   },
 
   resurrectEntity: function (formEntitySerialized) {
-    switch (formEntitySerialized.type) {
+    // @hack
+    switch (formEntitySerialized.type || formEntitySerialized._type) {
       case 'Form':
         return new Form({ ...formEntitySerialized })
       case 'FormSection':

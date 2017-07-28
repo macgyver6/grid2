@@ -7,10 +7,10 @@ const FormSectionComponent = (props) => {
   }
 
   return (
-    <div type={props.formSection.type()} style={divStyle}>
+    <div className="form-group" style={divStyle}>
       <h2>FormSection</h2>
-       {props.formSection.map((element, i) =>
-        React.createElement(utility.lookupComponent(element), { key: i, formEntity: element }))} 
+            {props.formSection.children().map((element, i) =>
+        React.createElement(utility.lookupComponent(element), { key: i, formEntity: element }))}      
     </div>
   );
 }

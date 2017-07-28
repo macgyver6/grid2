@@ -12,6 +12,7 @@ class FormSection extends FormEntity {
   /**
      * Create a FormSection.
      * @param {Object} properties 
+     * @param @property {string} properties.type
      * @param @property {number} properties.uuid
      * @param @property {number} properties.width Description of width
      * @param @property {array} properties.children
@@ -81,6 +82,7 @@ class FormSection extends FormEntity {
    */
   properties() {
     return {
+      type: this.type(),
       uuid: this.UUID(),
       width: this.width(),
       prepend: this.prepend(),

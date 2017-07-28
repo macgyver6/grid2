@@ -28,17 +28,24 @@ class FormEntityInit extends Component {
       <div>
         <h1>FormEntitiesInit</h1>
 
+        {/* <button
+          className="btn btn-info"
+          onClick={this.props.addformentity.bind(this, defaultPropsFE.FormSection, [0, 0])}>
+          Add Form Section
+        </button> */}
+
         <button
           className="btn btn-success"
-          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextInput, [0, 0])}>
+          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextInput, [0])}>
           Add Text Input
         </button>
 
         <button
           className="btn btn-danger"
-          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextArea)}>
+          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextArea, [0])}>
           Add Text Area
         </button>
+        
         <Form form={this.props.store.model.form}/>
       </div>
     )

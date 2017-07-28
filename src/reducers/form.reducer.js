@@ -24,30 +24,47 @@ const formReducer = (state, action) => {
   }
 
   if (action.type === 'ADDFORMENTITY') {
-    console.log('action.formEntity ', action.formEntity, 'action.path ', action.path)
-    utility.add(action.formEntity, action.path, state.form)
-    // return Object.assign({}, state, {
-    //   form: state.form.concat(action.formEntity)
-    // })
-  }
+    let update = utility.resurrectEntity((utility.add(action.formEntity, state.form.children()[action.path[0]], action.path)))
 
-  if (action.type === 'SAVESTATE') {
-    let serialized = []
-    state.form.forEach((element) => { serialized.push(element.properties()) })
-    localStorage.setItem('model', JSON.stringify(serialized))
     return Object.assign({}, state, {
-      lastSaved: Date.now()
+      form: utility.resurrectEntity(state.form.setChildren([update]))
     })
   }
 
+  if (action.type === 'SAVESTATE') {
+      
+    // const serialized = (Object.assign({}, {form: state.form.properties()}, {children: utility.serialize(state.form.children())}))
+    // const serialized = {
+    //   form: state.form.properties(),
+    //   children: utility.serialize(state.form.children())
+    // }
+
+    console.log(utility.serialize(state.form.children(), 0))
+
+    // localStorage.setItem('model', JSON.stringify(serialized))
+    // return Object.assign({}, state, {
+    //   lastSaved: Date.now()
+    // })
+  }
   if (action.type === 'LOADSTATE') {
     if (localStorage.getItem('model')) {
+
       let resurrectedEntities =
-        JSON.parse(localStorage.getItem('model')).map(utility.resurrectEntity);
+        utility.unserialize((JSON.parse(localStorage.getItem('model'))), 0)
+        
+          // map through the formEntities
+          // console.log((utility.resurrectEntity(formSection)).type())
+
+          // (utility.resurrectEntity(formSection)).children().map((formEntities) => { 
+          // return formSection.setChildren((utility.resurrectEntity(formEntities)))
+          // console.log(formSection)
+
+
+        
 
       return { ...state, form: resurrectedEntities };
     } else {
-      throw 'No items saved in local storage'
+      throw new Error('No items saved in local storage')
     }
   }
   return state;

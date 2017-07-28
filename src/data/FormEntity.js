@@ -6,6 +6,7 @@ class FormEntity {
     /**
      * Create a FormEntity.
      * @param {Object} properties
+     * @param {string} properties.type - Type of form entity.
      * @param {number} properties.uuid - UUID of form entity.
      * @param {number} properties.width - Width (in grid units) of the form entity.
      * @param {number} properties.prepend - Get the number of grid units prepended to rendered representations of the form entity.
@@ -13,6 +14,7 @@ class FormEntity {
      */
     constructor(properties) {
 
+        this._type = properties.type;
         this._uuid = properties.uuid;
         this._width = properties.width;
         this._prepend = properties.prepend || FormEntity.DEFAULT_GRID_PREPEND;
@@ -24,6 +26,15 @@ class FormEntity {
             deepFreeze(this);
         };
 
+    };
+
+    /**
+     * Get the type of the form entity.
+     * @return {string}
+     * @memberof FormEntity
+     */
+    type() {
+        return this._type;
     };
 
     /**
@@ -69,6 +80,7 @@ class FormEntity {
      */
     properties() {   
         return {
+            type : this.type(),
             uuid : this.UUID(),
             prepend : this.prepend(),
             append : this.append(),
