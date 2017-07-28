@@ -32,7 +32,6 @@ class App extends Component {
           className="btn btn-success"
           onClick={this.props.decrement}
         >-</button>
-        <FormEntityInit />
         <button
           type="button"
           className="btn btn-primary btn-lg btn-block"
@@ -45,6 +44,7 @@ class App extends Component {
           onClick={this.props.loadstate}>
           Load Model State
           </button>
+        <FormEntityInit />
       </div>
     )
   }

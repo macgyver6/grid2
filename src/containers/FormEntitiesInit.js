@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
-import { utility } from '../utility';
 import Form  from '../components/FormEntities/Form';
 
 class FormEntityInit extends Component {
@@ -28,21 +27,21 @@ class FormEntityInit extends Component {
       <div>
         <h1>FormEntitiesInit</h1>
 
-        {/* <button
+         <button
           className="btn btn-info"
-          onClick={this.props.addformentity.bind(this, defaultPropsFE.FormSection, [0, 0])}>
+          onClick={this.props.addformentity.bind(this, defaultPropsFE.FormSection, [0])}>
           Add Form Section
-        </button> */}
+        </button>
 
         <button
           className="btn btn-success"
-          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextInput, [0])}>
+          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextInput, [0, 1])}>
           Add Text Input
         </button>
 
         <button
           className="btn btn-danger"
-          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextArea, [0])}>
+          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextArea, [1, 0])}>
           Add Text Area
         </button>
         

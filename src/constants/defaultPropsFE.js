@@ -6,7 +6,14 @@ import { Checkbox } from '../data/Checkbox';
 
 export const defaultPropsFE = {
   
-  Form: (new Form({ uuid: 10, type: 'Form', version: 1, autoId: true, children: [(new FormSection({uuid: 1, type: 'FormSection', width: 2, children: [], legend: 'string', prepend: 3, append: 4})), (new FormSection({uuid: 1, type: 'FormSection', width: 2, children: [], legend: 'string', prepend: 3, append: 4}))], crf: 'crf', inputs: ['input1', 'input2'], remoteValidatorCondition: { 0: 'zero', 1: 'one' }, sectionTabs: false, versionDescription: 'version description' })),
+  Form: (new Form(
+    { uuid: 10, type: 'Form', version: 1, autoId: true, children: 
+    [
+      // (new FormSection({uuid: 1, type: 'FormSection', width: 2, children: [], legend: 'string', prepend: 3, append: 4})), 
+      
+      // (new FormSection({uuid: 1, type: 'FormSection', width: 2, children: [], legend: 'string', prepend: 66, append: 4}))
+    ],
+      crf: 'crf', inputs: ['input1', 'input2'], remoteValidatorCondition: { 0: 'zero', 1: 'one' }, sectionTabs: false, versionDescription: 'version description' })),
 
   FormSection: (new FormSection({uuid: 1, type: 'FormSection', width: 2, children: [], legend: 'string', prepend: 3, append: 4})),
 

@@ -1,12 +1,11 @@
 import React from 'react';
-import { utility } from '../../utility';
 import FormSectionComponent from './FormSection'
-
 
 const FormComponent = (props) => {
   const divStyle = {
     border: '2px solid #a1a1a1'
   }
+
   return (
 
     <div type='{props.model.type()}' style={divStyle}>
