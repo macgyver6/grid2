@@ -33,6 +33,12 @@ class FormEntityInit extends Component {
           Add Form Section
         </button>
 
+         <button
+           className="btn btn-info"
+           onClick={this.props.removeformentity.bind(this, [0, 0])}>
+           Remove Entity
+        </button>
+
         <button
           className="btn btn-success"
           onClick={this.props.addformentity.bind(this, defaultPropsFE.TextInput, [0, 1])}>

@@ -10,14 +10,16 @@ import { TextInput } from './data/TextInput';
 import { TextArea } from './data/TextArea';
 import { Checkbox } from './data/Checkbox';
 
-/**
- * 
- * @param {FormEntity} entity 
- * @param {FormSection} section 
- * @param {number[]} path 
- */
+
 
 export const utility = {
+  /**
+   * 
+   * @param {FormEntity} entity 
+   * @param {FormSection} section 
+   * @param {number[]} path 
+   * @returns {FormEntity}
+   */
   add: function add(entity, section, path) {
     if (path[0] < 0 || path[0] === undefined && (!(entity instanceof FormSection))) {
       throw new Error("path OOB");
@@ -38,6 +40,24 @@ export const utility = {
     let newChildren = section.children().slice(0);
     newChildren.splice(path[0], path.length > 1 ? 1 : 0, e);
     return section.setChildren(newChildren);
+  },
+
+  /**
+   * @param {FormSection} section
+   * @param {number[]} path
+   * @returns {FormEntity}
+   */
+  remove: function remove(section, path) {
+    if (path.length === 1 && section.children()[path[0]] === undefined) {
+      throw new Error("path OOB");
+    }
+    if (path.length > 1) {
+      return remove(section.children()[path[0]], path.slice(1));
+    } else if (!(section instanceof Form)) {
+      let newChildren = section.children().slice(0)
+      newChildren.splice(path[0], 1);
+      return (utility.resurrectEntity(section.setChildren(newChildren)));
+    }
   },
 
   serialize: (node) => {

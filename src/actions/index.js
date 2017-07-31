@@ -12,6 +12,13 @@ export const addformentity = (formEntity, path) => {
   }
 }
 
+export const removeformentity = (path) => {
+  return {
+    type: 'REMOVEFORMENTITY',
+    path: path
+  }
+}
+
 export const decrement = () => {
   return {
     type: 'DECREMENT'

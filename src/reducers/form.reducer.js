@@ -23,31 +23,45 @@ const formReducer = (state, action) => {
 
   if (action.type === 'ADDFORMENTITY') {
     let update
+    let allSections = state.form.children().slice()
     if (action.formEntity._type !== 'FormSection') {
-      update = utility.resurrectEntity((
+      allSections[[action.path[0]]] = utility.resurrectEntity(
         utility.add(
           action.formEntity,
           state.form.children()[action.path[0]],
           action.path.slice(1))
-      ))
-    } else {
-      update = utility.resurrectEntity((
-        utility.add(action.formEntity,
-          state.form,
-          action.path)
-      ))
-    }
-
-    let allSections = state.form.children().slice()
-    allSections[[action.path[0]]] = update
-
-    if (action.formEntity._type !== 'FormSection') {
+      )
       return Object.assign({}, state, {
         form: utility.resurrectEntity(state.form.setChildren(allSections))
       })
     } else {
+      allSections[[action.path[0]]] = utility.resurrectEntity(
+        utility.add(action.formEntity,
+          state.form,
+          action.path)
+      )
       return Object.assign({}, state, {
         form: allSections[0]
+      })
+    }
+  }
+
+  if (action.type === 'REMOVEFORMENTITY') {
+    let path = action.path;
+    let update = utility.remove(
+      state.form.children()[path[0]],
+      path.slice(1)
+    )
+    let allSections = state.form.children().slice()
+    if (path.length > 1) {
+      allSections[[action.path[0]]] = update
+      return Object.assign({}, state, {
+        form: utility.resurrectEntity(state.form.setChildren(allSections))
+      })
+    } else {
+      allSections.splice(action.path[action.path.length], 1)
+      return Object.assign({}, state, {
+        form: utility.resurrectEntity(state.form.setChildren(allSections))
       })
     }
   }
