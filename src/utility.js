@@ -1,4 +1,4 @@
-import defaultProps from './constants/defaultPropsFE';
+// import defaultProps from './constants/defaultPropsFE';
 import FormComponent from './components/FormEntities/Form';
 import FormSectionComponent from './components/FormEntities/FormSection';
 import TextInputComponent from './components/FormEntities/TextInput';
@@ -40,37 +40,26 @@ export const utility = {
     return section.setChildren(newChildren);
   },
 
-  serialize: (node, parent) => {
+  serialize: (node) => {
     // process this node and return public copy with props
-    let nodeProps = node.properties()
-
-    if (nodeProps && nodeProps.children) {
+    const props = node.properties()
+    let children;
+    if (props && props.children) {
       // process any children
-      nodeProps.children =
-        nodeProps.children.map((child) => {
-          return (utility.serialize(child, nodeProps))
-        });
+      (children = props.children.map(child => utility.serialize(child)));
     }
-    return nodeProps
+    return { ...props, children }
   },
 
-  unserialize: function unserialize(formSections, index2, output2) {
-    console.log('formSections: ', formSections, 'index2: ', index2, 'output2: ', output2)
-    let index = index2 || 0;
-    let output = output2 || [];
-
-    if (index < formSections.length) {
-      let children =
-        formSections[index].children.map((child) => {
-          return utility.resurrectEntity(child);
-        })
-      output.push(utility.resurrectEntity((utility.resurrectEntity(formSections[index]).setChildren(children))))
-      if (index < formSections.length - 1) {
-        return unserialize(formSections, ++index, output)
-      } else {
-        return output
-      }
+  unserialize: (node) => {
+    // process this node and return public copy with props
+    const props = utility.resurrectEntity(node)
+    if (node && (props instanceof Form || props instanceof FormSection)) {
+      // process any children
+      return utility.resurrectEntity(props.setChildren(props.children().map(child => utility.unserialize(child)
+      )))
     }
+    return props
   },
 
   lookupComponent: function (modelInstance) {
@@ -93,7 +82,7 @@ export const utility = {
 
   resurrectEntity: function (formEntitySerialized) {
     // @hack
-    switch (formEntitySerialized.type || formEntitySerialized._type) {
+    switch (formEntitySerialized.type || formEntitySerialized._type || formEntitySerialized.type()) {
       case 'Form':
         return new Form({ ...formEntitySerialized })
       case 'FormSection':

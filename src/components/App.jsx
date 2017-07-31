@@ -7,7 +7,7 @@ class App extends Component {
 
   render() {
     let formStore = this.props.store.model.form.children();
-    let formLocal = (JSON.parse(localStorage.getItem('model'))).children;
+    let formLocal = (JSON.parse(localStorage.getItem('model')).children);
     let saveStatus = false;
     if (formStore && formLocal) {
       if (formStore.length === formLocal.length) {

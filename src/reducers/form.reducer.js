@@ -54,7 +54,6 @@ const formReducer = (state, action) => {
 
   if (action.type === 'SAVESTATE') {
     let serialized = utility.serialize(state.form);
-    console.log(serialized)
     localStorage.setItem('model', JSON.stringify(serialized))
     return Object.assign({}, state, {
       lastSaved: Date.now()
@@ -62,11 +61,9 @@ const formReducer = (state, action) => {
   }
   if (action.type === 'LOADSTATE') {
     if (localStorage.getItem('model')) {
-
       let resurrectedEntities =
-        utility.unserialize((JSON.parse(localStorage.getItem('model')).children))
-
-      return { ...state, form: utility.resurrectEntity(state.form.setChildren(resurrectedEntities)) };
+        utility.unserialize((JSON.parse(localStorage.getItem('model'))))
+      return { ...state, form: (resurrectedEntities) };
     } else {
       throw new Error('No items saved in local storage')
     }
