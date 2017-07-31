@@ -53,10 +53,9 @@ const formReducer = (state, action) => {
   }
 
   if (action.type === 'SAVESTATE') {
-    let serialized = utility.serialize(state.form.children());
-    let form = state.form.properties();
-    form.children = serialized
-    localStorage.setItem('model', JSON.stringify(form))
+    let serialized = utility.serialize(state.form);
+    console.log(serialized)
+    localStorage.setItem('model', JSON.stringify(serialized))
     return Object.assign({}, state, {
       lastSaved: Date.now()
     })

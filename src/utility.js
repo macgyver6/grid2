@@ -40,33 +40,18 @@ export const utility = {
     return section.setChildren(newChildren);
   },
 
-  /*  
-    1. Pass in array of FormSections
-    2. If instance of FormSection, then call it's properties, then map through the form element properties
-    3. Replace the FormSection children with the unserialized and then replace FormSection[i] .properties
-    4. Call serialize again, passing in array of form sections
-    5. Terminal case is if there are no instance of form section, return array of unserialized form sections
-  */
-  serialize: function serialize(formSections, index2, output2) {
-    let index = index2 || 0;
-    let output = output2 || [];
-    if (formSections.length <= 0 || (!(formSections[index] instanceof FormSection))) {
-      throw new Error("provide a valid array of type FormSections")
+  serialize: (node, parent) => {
+    // process this node and return public copy with props
+    let nodeProps = node.properties()
+
+    if (nodeProps && nodeProps.children) {
+      // process any children
+      nodeProps.children =
+        nodeProps.children.map((child) => {
+          return (utility.serialize(child, nodeProps))
+        });
     }
-    if (index < formSections.length) {
-      let children = formSections[index].properties()
-      children =
-        formSections[index].children().slice().map((child) => {
-          return child.properties()
-        })
-      output.push(formSections[index].properties())
-      output[index].children = children;
-      if (index < formSections.length - 1) {
-        return serialize(formSections, ++index, output)
-      } else {
-        return output
-      }
-    }
+    return nodeProps
   },
 
   unserialize: function unserialize(formSections, index2, output2) {
