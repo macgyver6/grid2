@@ -9,19 +9,6 @@ class FormEntityInit extends Component {
     super();
   }
 
-  componentDidMount() {
-
-  }
-
-  /* 
-  1. Set the default spec as consts for each type
-  2. dispatches action 'initformentity'
-  3. action sends properties as payload to API - input
-  4. API output is TextInput Object
-  5. Add TextInput Object to store
-  6. FormEntitiesRender is the template for the inputs
-*/
-
   render() {
     return (
       <div>
@@ -34,21 +21,27 @@ class FormEntityInit extends Component {
         </button>
 
          <button
-           className="btn btn-info"
-           onClick={this.props.removeformentity.bind(this, [0, 0])}>
-           Remove Entity
+          className="btn btn-info"
+          onClick={this.props.addformentity.bind(this, defaultPropsFE.Checkbox, [0, 0])}>
+          Add Checkbox
         </button>
 
         <button
           className="btn btn-success"
-          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextInput, [0, 1])}>
+          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextInput, [0, 0])}>
           Add Text Input
         </button>
 
         <button
           className="btn btn-danger"
-          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextArea, [1, 0])}>
+          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextArea, [0, 0])}>
           Add Text Area
+        </button>
+
+        <button
+          className="btn btn-info"
+          onClick={this.props.removeformentity.bind(this, [0, 0])}>
+          Remove Entity
         </button>
         
         <Form form={this.props.store.model.form}/>

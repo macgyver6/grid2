@@ -21,9 +21,9 @@ export const utility = {
    * @returns {FormEntity}
    */
   add: function add(entity, section, path) {
-    if (path[0] < 0 || path[0] === undefined && (!(entity instanceof FormSection))) {
-      throw new Error("path OOB");
-    }
+    // if (path[0] < 0 || path[0] === undefined && (!(entity instanceof FormSection))) {
+    //   throw new Error("path OOB");
+    // }
 
     // if not passing in either entity=FormSection section=Form, or entity=someFormEntity section !== FormSection
     // if ((!(section instanceof Form)) &&
@@ -36,10 +36,9 @@ export const utility = {
     if (path.length > 1) {
       e = add(entity, section.children()[path[0]], path.slice(1));
     }
-
     let newChildren = section.children().slice(0);
     newChildren.splice(path[0], path.length > 1 ? 1 : 0, e);
-    return section.setChildren(newChildren);
+    return utility.resurrectEntity(section.setChildren(newChildren));
   },
 
   /**
@@ -48,16 +47,17 @@ export const utility = {
    * @returns {FormEntity}
    */
   remove: function remove(section, path) {
-    if (path.length === 1 && section.children()[path[0]] === undefined) {
-      throw new Error("path OOB");
-    }
+    // if (path.length === 1 && section.children()[path[0]] === undefined) {
+    //   throw new Error("path OOB");
+    // }
+    let newChildren = section.children().slice(0)
+    let e
     if (path.length > 1) {
-      return remove(section.children()[path[0]], path.slice(1));
-    } else if (!(section instanceof Form)) {
-      let newChildren = section.children().slice(0)
-      newChildren.splice(path[0], 1);
-      return (utility.resurrectEntity(section.setChildren(newChildren)));
+      e = remove(section.children()[path[0]], path.slice(1));
+    } else {
+      newChildren.splice(path[0], 1)
     }
+      return (utility.resurrectEntity(section.setChildren(path.length > 1 ? [e] : newChildren)));
   },
 
   serialize: (node) => {

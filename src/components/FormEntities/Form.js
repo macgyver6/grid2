@@ -7,11 +7,10 @@ const FormComponent = (props) => {
   }
 
   return (
-
-    <div type='{props.model.type()}' style={divStyle}>
+    <div style={divStyle}>
       <h1>Form Component</h1>
          {props.form.children().map((element, i) =>
-        React.createElement(FormSectionComponent, { key: i, formSection: element }))}
+        React.createElement(FormSectionComponent, { key: i, model: element }))}
     </div>
   );
 }

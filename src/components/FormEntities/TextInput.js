@@ -3,9 +3,9 @@ import React from 'react';
 const TextInputComponent = (props) => {
   return (
     <div>
-      {props.formEntity.name()}
-    <input className="form-control" type={props.formEntity.type()}
-        value={props.formEntity.defaultContent()} />
+      {props.model.name()}
+    <input className="form-control" type={props.model.type()}
+        value={props.model.defaultContent()} />
     </div>
   );
 }

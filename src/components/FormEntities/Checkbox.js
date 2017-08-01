@@ -5,7 +5,7 @@ const CheckboxComponent = (props) => {
   return (
 
     <div>
-       <input rows={props.formEntity.numRows()} type={props.formEntity.type()}>
+       <input type={props.model.type()}>
       </input> 
     </div>
   );

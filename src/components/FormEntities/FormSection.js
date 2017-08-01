@@ -2,6 +2,7 @@ import React from 'react';
 import { utility } from '../../utility';
 
 const FormSectionComponent = (props) => {
+  console.log(props.model)
   const divStyle = {
     border: '2px solid green'
   }
@@ -9,8 +10,12 @@ const FormSectionComponent = (props) => {
   return (
     <div className="form-group" style={divStyle}>
       <h2>FormSection</h2>
-            {props.formSection.children().map((element, i) =>
-        React.createElement(utility.lookupComponent(element), { key: i, formEntity: element }))}      
+      {props.model.children().map((element, i) => {
+        console.log(element)
+
+
+        
+        return React.createElement(utility.lookupComponent(element), { key: i, model: element })})}
     </div>
   );
 }
