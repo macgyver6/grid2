@@ -1,4 +1,4 @@
-// import defaultProps from './constants/defaultPropsFE';
+// import {defaultPropsFE} from './constants/defaultPropsFE';
 import FormComponent from './components/FormEntities/Form';
 import FormSectionComponent from './components/FormEntities/FormSection';
 import TextInputComponent from './components/FormEntities/TextInput';
@@ -10,8 +10,6 @@ import { TextInput } from './data/TextInput';
 import { TextArea } from './data/TextArea';
 import { Checkbox } from './data/Checkbox';
 
-
-
 export const utility = {
   /**
    * 
@@ -20,6 +18,15 @@ export const utility = {
    * @param {number[]} path 
    * @returns {FormEntity}
    */
+
+  // handleChange: function handleChange(event) {
+  //   console.log(event.target.value)
+  //   actions.removeformentity([0, 0])
+  //   actions.addformentity(
+  //     this.mutate({ defaultContent: event.target.value }
+  //     ), [0, 0])
+  // },
+
   add: function add(entity, section, path) {
     // if (path[0] < 0 || path[0] === undefined && (!(entity instanceof FormSection))) {
     //   throw new Error("path OOB");

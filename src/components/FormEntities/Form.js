@@ -1,18 +1,24 @@
-import React from 'react';
+import React, {Component} from 'react';
 import FormSectionComponent from './FormSection'
 
-const FormComponent = (props) => {
-  const divStyle = {
-    border: '2px solid #a1a1a1'
+class FormComponent extends Component {
+  constructor(props) {
+    super();
   }
 
-  return (
-    <div style={divStyle}>
-      <h1>Form Component</h1>
-         {props.form.children().map((element, i) =>
-        React.createElement(FormSectionComponent, { key: i, model: element }))}
-    </div>
-  );
+  render() {
+    const divStyle = {
+      border: '2px solid #a1a1a1'
+    }
+
+    return (
+      <div style={divStyle}>
+        <h1>Form Component</h1>
+        {this.props.form.children().map((element, i) => 
+          React.createElement(FormSectionComponent, { key: i, model: element, removeformentity: this.props.removeformentity, addformentity: this.props.addformentity }))}
+      </div>
+    );
+  }
 }
 
 export default FormComponent;

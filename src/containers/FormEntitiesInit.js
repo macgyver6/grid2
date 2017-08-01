@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
-import Form  from '../components/FormEntities/Form';
+import Form from '../components/FormEntities/Form';
 
 class FormEntityInit extends Component {
   constructor(props) {
     super();
+    // this.handleChange = this.handleChange.bind(this);
   }
 
   render() {
@@ -14,13 +15,13 @@ class FormEntityInit extends Component {
       <div>
         <h1>FormEntitiesInit</h1>
 
-         <button
+        <button
           className="btn btn-info"
           onClick={this.props.addformentity.bind(this, defaultPropsFE.FormSection, [0])}>
           Add Form Section
         </button>
 
-         <button
+        <button
           className="btn btn-info"
           onClick={this.props.addformentity.bind(this, defaultPropsFE.Checkbox, [0, 0])}>
           Add Checkbox
@@ -43,8 +44,17 @@ class FormEntityInit extends Component {
           onClick={this.props.removeformentity.bind(this, [0, 0])}>
           Remove Entity
         </button>
-        
-        <Form form={this.props.store.model.form}/>
+
+        {/* <button
+          className="btn btn-info"
+          onClick={this.handleChange.bind(this, [0, 0])}>
+          Modify Entity
+        </button> */}
+
+        <Form form={this.props.store.model.form} removeformentity={this.props.removeformentity}
+        addformentity={this.props.addformentity}
+        />
+
       </div>
     )
   }
