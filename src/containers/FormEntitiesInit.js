@@ -23,13 +23,13 @@ class FormEntityInit extends Component {
 
         <button
           className="btn btn-info"
-          onClick={this.props.addformentity.bind(this, defaultPropsFE.Checkbox, [0, 0])}>
+          onClick={this.props.addformentity.bind(this, defaultPropsFE.Checkbox, [0, 1])}>
           Add Checkbox
         </button>
 
         <button
           className="btn btn-success"
-          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextInput, [0, 0])}>
+          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextInput, [0, 2])}>
           Add Text Input
         </button>
 

@@ -17,7 +17,7 @@ class FormSectionComponent extends Component {
         {this.props.model.children().map((element, i) => {
           console.log(element)
 
-          return React.createElement(utility.lookupComponent(element), { key: i, model: element, removeformentity: this.props.removeformentity, addformentity: this.props.addformentity })
+          return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: this.props.form, removeformentity: this.props.removeformentity, addformentity: this.props.addformentity })
         })}
       </div>
     );

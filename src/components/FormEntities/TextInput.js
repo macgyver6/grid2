@@ -10,10 +10,12 @@ class TextInputComponent extends Component {
   handleChange(event) {
     console.log(event.target.value)
     console.log(this)
-    this.props.removeformentity([0, 0])
+    let result = utility.findNode(this.props.model, this.props.form)
+    console.log(result)
+    this.props.removeformentity(result)
     this.props.addformentity(
       utility.resurrectEntity(this.props.model.mutate({ defaultContent: event.target.value })
-      ), [0, 0])
+      ), result)
   }
 
   render() {

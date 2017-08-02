@@ -64,7 +64,21 @@ export const utility = {
     } else {
       newChildren.splice(path[0], 1)
     }
-      return (utility.resurrectEntity(section.setChildren(path.length > 1 ? [e] : newChildren)));
+    return (utility.resurrectEntity(section.setChildren(path.length > 1 ? [e] : newChildren)));
+  },
+
+  findNode: (target, node, path = []) => {
+    if (node === target) { // NOTE change `node.type` to `node.id`
+      return path;
+    }
+
+    if (node.children) {
+      return node.children().reduce((memo, child, index) => {
+        return memo || utility.findNode(target, child, [...path, index]);
+      }, null);
+    }
+
+    return null;
   },
 
   serialize: (node) => {

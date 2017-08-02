@@ -15,7 +15,7 @@ class FormComponent extends Component {
       <div style={divStyle}>
         <h1>Form Component</h1>
         {this.props.form.children().map((element, i) => 
-          React.createElement(FormSectionComponent, { key: i, model: element, removeformentity: this.props.removeformentity, addformentity: this.props.addformentity }))}
+          React.createElement(FormSectionComponent, { key: i, model: element, form: this.props.form, removeformentity: this.props.removeformentity, addformentity: this.props.addformentity }))}
       </div>
     );
   }
