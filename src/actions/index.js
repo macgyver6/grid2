@@ -5,7 +5,6 @@ export const increment = () => {
 }
 
 export const addformentity = (formEntity, path) => {
-  console.log(formEntity)
   return {
     type: 'ADDFORMENTITY',
     formEntity: formEntity,
@@ -14,7 +13,6 @@ export const addformentity = (formEntity, path) => {
 }
 
 export const removeformentity = (path) => {
-  console.log(path)
   return {
     type: 'REMOVEFORMENTITY',
     path: path

@@ -97,7 +97,7 @@ class FormEntity {
      */
     // throw failed to provide valid class....
     clone(props) {
-        return new FormEntity(props === undefined ? this.properties() : props);
+        throw new Error('Illegal instatiation - cannot instantiate a FormEntity directly');
     }
 
     /**
@@ -112,11 +112,11 @@ class FormEntity {
         var properties = this.properties();
         // if key exists in new props, use, if not, use existing
         for (var key in properties) {
-            if (newProperties[key]) {
+            if (newProperties.hasOwnProperty(key)) {
                 properties[key] = newProperties[key]
             }
         }
-        return properties;
+        return this.clone(properties);
     };
 };
 

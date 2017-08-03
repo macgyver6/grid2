@@ -45,7 +45,7 @@ export const utility = {
     }
     let newChildren = section.children().slice(0);
     newChildren.splice(path[0], path.length > 1 ? 1 : 0, e);
-    return utility.resurrectEntity(section.setChildren(newChildren));
+    return section.setChildren(newChildren);
   },
 
   /**
@@ -57,24 +57,25 @@ export const utility = {
     // if (path.length === 1 && section.children()[path[0]] === undefined) {
     //   throw new Error("path OOB");
     // }
-    let newChildren = section.children().slice(0)
-    let e
-    if (path.length > 1) {
-      e = remove(section.children()[path[0]], path.slice(1));
+    let newChildren = section.children().slice(0);
+    if (path.length > 1) 
+    {
+      newChildren[path[0]] = remove(section.children()[path[0]], path.slice(1));
     } else {
-      newChildren.splice(path[0], 1)
+      newChildren.splice(path[0], 1);
     }
-    return (utility.resurrectEntity(section.setChildren(path.length > 1 ? [e] : newChildren)));
+
+    return section.setChildren(newChildren);
   },
 
   findNode: (target, node, path = []) => {
-    if (node === target) { // NOTE change `node.type` to `node.id`
+    if (node === target) {
       return path;
     }
 
     if (node.children) {
-      return node.children().reduce((memo, child, index) => {
-        return memo || utility.findNode(target, child, [...path, index]);
+      return node.children().reduce((acc, child, index) => {
+        return acc || utility.findNode(target, child, [...path, index]);
       }, null);
     }
 
@@ -97,8 +98,8 @@ export const utility = {
     const props = utility.resurrectEntity(node)
     if (node && (props instanceof Form || props instanceof FormSection)) {
       // process any children
-      return utility.resurrectEntity(props.setChildren(props.children().map(child => utility.unserialize(child)
-      )))
+      return props.setChildren(props.children().map(child => utility.unserialize(child)
+      ))
     }
     return props
   },

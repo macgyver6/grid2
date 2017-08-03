@@ -23,25 +23,25 @@ class FormEntityInit extends Component {
 
         <button
           className="btn btn-info"
-          onClick={this.props.addformentity.bind(this, defaultPropsFE.Checkbox, [0, 1])}>
+          onClick={this.props.addformentity.bind(this, defaultPropsFE.Checkbox, [0, 0, 0])}>
           Add Checkbox
         </button>
 
         <button
           className="btn btn-success"
-          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextInput, [0, 2])}>
+          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextInput, [0, 0, 2])}>
           Add Text Input
         </button>
 
         <button
           className="btn btn-danger"
-          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextArea, [0, 0])}>
+          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextArea, [0, 0, 1])}>
           Add Text Area
         </button>
 
         <button
           className="btn btn-info"
-          onClick={this.props.removeformentity.bind(this, [0, 0])}>
+          onClick={this.props.removeformentity.bind(this, [0, 0, 1])}>
           Remove Entity
         </button>
 

@@ -27,8 +27,6 @@ class FormSection extends FormEntity {
 
   };
 
-
-
   /**
     * The children of the form section
 

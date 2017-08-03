@@ -184,11 +184,11 @@ class Form {
     var properties = this.properties();
     // if key exists in new props, use, if not, use existing
     for (var key in properties) {
-      if (newProperties[key]) {
+      if (newProperties.hasOwnProperty(key)) {
         properties[key] = newProperties[key]
       }
     }
-    return properties;
+    return this.clone(properties);
   };
 };
 
