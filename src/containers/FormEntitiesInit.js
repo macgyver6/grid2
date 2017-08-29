@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
-import Form from '../components/FormEntities/Form';
+import FormComponent from '../components/FormEntities/Form';
+import { FormSection } from '../data/FormSection';
+import { TextInput } from '../data/TextInput';
+import { TextArea } from '../data/TextArea';
+import { Checkbox } from '../data/Checkbox';
 
 class FormEntityInit extends Component {
   constructor(props) {
@@ -17,31 +21,32 @@ class FormEntityInit extends Component {
 
         <button
           className="btn btn-info"
-          onClick={this.props.addformentity.bind(this, defaultPropsFE.FormSection, [0])}>
+          onClick={this.props.addformentity.bind(this, new FormSection(defaultPropsFE.FormSection), [0])}>
           Add Form Section
         </button>
 
         <button
           className="btn btn-info"
-          onClick={this.props.addformentity.bind(this, defaultPropsFE.Checkbox, [0, 0, 0])}>
+          onClick={this.props.addformentity.bind(this,
+            new Checkbox(defaultPropsFE.Checkbox), [0, 0])}>
           Add Checkbox
         </button>
 
         <button
           className="btn btn-success"
-          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextInput, [0, 0, 2])}>
+          onClick={this.props.addformentity.bind(this, new TextInput(defaultPropsFE.TextInput), [0, 0])}>
           Add Text Input
         </button>
 
         <button
           className="btn btn-danger"
-          onClick={this.props.addformentity.bind(this, defaultPropsFE.TextArea, [0, 0, 1])}>
+          onClick={this.props.addformentity.bind(this, new TextArea(defaultPropsFE.TextArea), [0, 0])}>
           Add Text Area
         </button>
 
         <button
           className="btn btn-info"
-          onClick={this.props.removeformentity.bind(this, [0, 0, 1])}>
+          onClick={this.props.removeformentity.bind(this, [0, 0])}>
           Remove Entity
         </button>
 
@@ -51,10 +56,9 @@ class FormEntityInit extends Component {
           Modify Entity
         </button> */}
 
-        <Form form={this.props.store.model.form} removeformentity={this.props.removeformentity}
-        addformentity={this.props.addformentity}
+        <FormComponent form={this.props.store.model.form} removeformentity={this.props.removeformentity}
+          addformentity={this.props.addformentity}
         />
-
       </div>
     )
   }

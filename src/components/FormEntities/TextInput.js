@@ -8,13 +8,22 @@ let handleChange = function (event, props) {
   props.model.mutate({ defaultContent: event.target.value }), result)
 }
 
+let handleDelete = function (event, props) {
+  let result = utility.findNode(props.model, props.form)
+  props.removeformentity(result)
+}
+
 const TextInputComponent = (props) => {
   return (
     <div>
-      {props.model.name()}
       <input className="form-control" type={props.model.type()}
         value={props.model.defaultContent()}
       onChange={(e) => handleChange(e, props)} />
+      <button 
+        type="button" 
+        className="btn btn-danger"
+        onClick={(e) => handleDelete(e, props)}
+        >-</button>
     </div>
   );
 }

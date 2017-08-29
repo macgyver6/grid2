@@ -1,11 +1,12 @@
 import { utility } from '../utility';
-import { defaultPropsFE } from '../constants/defaultPropsFE'
+import { defaultPropsFE } from '../constants/defaultPropsFE';
+import { Form } from '../data/Form';
 
 const formReducer = (state, action) => {
   if (typeof state === 'undefined') {
     state = {
       value: 0,
-      form: (defaultPropsFE.Form)
+      form: new Form(defaultPropsFE.Form)
     }
   }
 
