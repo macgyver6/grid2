@@ -19,7 +19,7 @@ class FormEntityInit extends Component {
       <div>
         <h1>FormEntitiesInit</h1>
 
-        <button
+        {/* <button
           className="btn btn-info"
           onClick={this.props.addformentity.bind(this, new FormSection(defaultPropsFE.FormSection), [0])}>
           Add Form Section
@@ -48,7 +48,7 @@ class FormEntityInit extends Component {
           className="btn btn-info"
           onClick={this.props.removeformentity.bind(this, [0, 0])}>
           Remove Entity
-        </button>
+        </button> */}
 
         {/* <button
           className="btn btn-info"
