@@ -1,5 +1,3 @@
-"use strict";
-
 const deepFreeze = require('deep-freeze');
 const { FormEntity } = require('./FormEntity.js');
 
@@ -12,6 +10,7 @@ class FormSection extends FormEntity {
   /**
      * Create a FormSection.
      * @param {Object} properties 
+     * @param @property {string} properties.type
      * @param @property {number} properties.uuid
      * @param @property {number} properties.width Description of width
      * @param @property {array} properties.children
@@ -28,17 +27,28 @@ class FormSection extends FormEntity {
 
   };
 
-
-
   /**
-    * 
-    * Set the Children of the form section.
-    * @returns {array}
+    * The children of the form section
+
+    * @returns {FormEntity[]}
     * @memberof FormSection
     */
-  children() {
+  children() 
+  {
     return this._children;
   };
+
+  /**
+   * Set the children of the form section.
+   * 
+   * @param {FormEntity[]} children 
+   * @returns {FormSection} copy of the form section with the given children
+   * set
+   */
+  setChildren(children)
+  {
+    return this.mutate({children : children});
+  }
 
   /**
     * 
@@ -68,6 +78,7 @@ class FormSection extends FormEntity {
    */
   properties() {
     return {
+      type: this.type(),
       uuid: this.UUID(),
       width: this.width(),
       prepend: this.prepend(),

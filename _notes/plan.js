@@ -18,3 +18,15 @@ var model =
   - the children TextInput components will inherit model from parents ex. {model: model[0]}
   - there will be a container component for form
 */
+
+/*
+  1. add TextInput model to FormEntity
+  2. 
+*/
+
+/*
+  1. fix bug - cannot remove last char in content
+  2. implemement a function to find the array location of an element
+    complete case - formEntity === section.children()[index]
+    continue case - 
+*/

@@ -6,6 +6,7 @@ class Form {
   /**
    * Create a Form.
    * @param {Object} properties
+   * @param {string} properties.type - The type of the entity(form).
    * @param {number} properties.uuid - The UUID of the form.
    * @param {number} properties.version - The major version of the form.
    * @param {boolean} properties.autoId - Whether children inputs have their external IDs generated automatically.
@@ -18,6 +19,7 @@ class Form {
    */
   constructor(properties) {
 
+    this._type = properties.type;
     this._uuid = properties.uuid;
     this._version = properties.version || Form.DEFAULT_VERSION;
     this._autoId = properties.autoId;
@@ -37,6 +39,15 @@ class Form {
   };
 
   /**
+   * Get the type of the form.
+   * @return {string}
+   * @memberof Form
+   */
+  type() {
+    return this._type;
+  };
+
+  /**
    * Get the major version of the form.
    * @return {boolean}
    * @memberof Form
@@ -53,6 +64,18 @@ class Form {
   children() {
     return this._children;
   };
+
+    /**
+   * Set the children of the form.
+   * 
+   * @param {FormSection[]} children 
+   * @returns {Form} - copy of the form section with the given children
+   * set
+   */
+  setChildren(children)
+  {
+    return this.mutate({children : children});
+  }
 
   /**
    * Gets the CRF that this form belongs to.
@@ -124,6 +147,7 @@ class Form {
    */
   properties() {
     return {
+      type: this.type(),
       uuid: this.UUID(),
       version: this.version(),
       autoId: this.autoId(),
@@ -160,11 +184,11 @@ class Form {
     var properties = this.properties();
     // if key exists in new props, use, if not, use existing
     for (var key in properties) {
-      if (newProperties[key]) {
+      if (newProperties.hasOwnProperty(key)) {
         properties[key] = newProperties[key]
       }
     }
-    return properties;
+    return this.clone(properties);
   };
 };
 

@@ -1,4 +1,6 @@
 const deepFreeze = require('deep-freeze');
+const uuidv4 = require('uuid/v4');
+
 /** Class representing a FormEntity. 
  * See {@link http://csccjenk.cscc.unc.edu:8080/job/cdart2-model/javadoc/edu/unc/tcrdms/model/form/FormSection.html}
 */
@@ -6,6 +8,7 @@ class FormEntity {
     /**
      * Create a FormEntity.
      * @param {Object} properties
+     * @param {string} properties.type - Type of form entity.
      * @param {number} properties.uuid - UUID of form entity.
      * @param {number} properties.width - Width (in grid units) of the form entity.
      * @param {number} properties.prepend - Get the number of grid units prepended to rendered representations of the form entity.
@@ -13,10 +16,18 @@ class FormEntity {
      */
     constructor(properties) {
 
-        this._uuid = properties.uuid;
+        this._type = properties.type;
+        this._uuid = uuid()
         this._width = properties.width;
         this._prepend = properties.prepend || FormEntity.DEFAULT_GRID_PREPEND;
         this._append = properties.append || FormEntity.DEFAULT_GRID_APPEND;
+
+        function uuid() {
+            if (!properties.hasOwnProperty("uuid") || properties["uuid"] === undefined) {
+                return uuidv4()
+            }
+            return properties.uuid
+        }
 
         // if FormEntity is not being inherited by another class, recursively freeze all properties to prevent mutation
 
@@ -24,6 +35,15 @@ class FormEntity {
             deepFreeze(this);
         };
 
+    };
+
+    /**
+     * Get the type of the form entity.
+     * @return {string}
+     * @memberof FormEntity
+     */
+    type() {
+        return this._type;
     };
 
     /**
@@ -67,12 +87,13 @@ class FormEntity {
      * Returns public properties of a form entity.
      * @returns {Object}
      */
-    properties() {   
+    properties() {
         return {
-            uuid : this.UUID(),
-            prepend : this.prepend(),
-            append : this.append(),
-            width : this.width()
+            type: this.type(),
+            uuid: this.UUID(),
+            prepend: this.prepend(),
+            append: this.append(),
+            width: this.width()
         };
     }
 
@@ -85,7 +106,7 @@ class FormEntity {
      */
     // throw failed to provide valid class....
     clone(props) {
-        return new FormEntity(props === undefined ? this.properties() : props);
+        throw new Error('Illegal instatiation - cannot instantiate a FormEntity directly');
     }
 
     /**
@@ -100,11 +121,11 @@ class FormEntity {
         var properties = this.properties();
         // if key exists in new props, use, if not, use existing
         for (var key in properties) {
-            if (newProperties[key]) {
+            if (newProperties.hasOwnProperty(key)) {
                 properties[key] = newProperties[key]
             }
         }
-        return properties;
+        return this.clone(properties);
     };
 };
 
