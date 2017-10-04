@@ -8,6 +8,52 @@ import { TextInput } from '../data/TextInput';
 import { TextArea } from '../data/TextArea';
 import { Checkbox } from '../data/Checkbox';
 
+import {
+  backgroundPanelStyle,
+  leftPanelStyle,
+  middlePanelStyle,
+  rightPanelStyle,
+  headerPanelStyle,
+  bodyPanelStyle
+} from '../components/layout/styles/Layout';
+
+import DesignBoxHeader from '../components/layout/design/DesignBoxHeader'
+// import DesignBoxGrid from './design/DesignBoxGrid'
+
+// import EditorBox from './editor/EditorBox'
+
+const BackgroundPanel = (props) =>
+  <div style={backgroundPanelStyle}>
+    <LeftPanel
+      form={props.form} removeformentity={props.removeformentity}
+      addformentity={props.addformentity} />
+    <MiddlePanel />
+    <RightPanel />
+  </div>
+
+const LeftPanel = (props) =>
+  <div style={leftPanelStyle}>
+    <FormComponent form={props.form} removeformentity={props.removeformentity}
+      addformentity={props.addformentity}
+    />
+  </div>
+
+const HeaderPanel = () =>
+  <div style={headerPanelStyle}>
+  </div>
+
+const MiddlePanel = () =>
+  <div style={middlePanelStyle}>
+    <div style={{ ...headerPanelStyle, backgroundColor: "green" }}>
+      <DesignBoxHeader />
+    </div>
+  </div>
+
+const RightPanel = () =>
+  <div style={rightPanelStyle}>
+  </div>
+
+
 class FormEntityInit extends Component {
   constructor(props) {
     super();
@@ -56,9 +102,16 @@ class FormEntityInit extends Component {
           Modify Entity
         </button> */}
 
-        <FormComponent form={this.props.store.model.form} removeformentity={this.props.removeformentity}
+        <BackgroundPanel
+          form={this.props.store.model.form}
+          removeformentity={this.props.removeformentity}
           addformentity={this.props.addformentity}
         />
+
+
+        {/* <FormComponent form={this.props.store.model.form} removeformentity={this.props.removeformentity}
+          addformentity={this.props.addformentity}
+        /> */}
       </div>
     )
   }
