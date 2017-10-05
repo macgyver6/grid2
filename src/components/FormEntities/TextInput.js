@@ -14,13 +14,14 @@ let handleDelete = function (event, props) {
 }
 
 const TextInputComponent = (props) => {
+  console.log(props)
   return (
     <div>
       <input className="form-control" type={props.model.type()}
         value={props.model.defaultContent()}
       onChange={(e) => handleChange(e, props)} />
-      <button 
-        type="button" 
+      <button
+        type="button"
         className="btn btn-danger"
         onClick={(e) => handleDelete(e, props)}
         >-</button>

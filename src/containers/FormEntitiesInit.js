@@ -32,21 +32,99 @@ const BackgroundPanel = (props) =>
     <MiddlePanel />
     <RightPanel />
   </div>
+var divStyleTI = {
+  background: "green",
+  padding: "20px",
+  margin: "20px"
+};
+var divStyleTA = {
+  background: "purple",
+  padding: "20px",
+  margin: "20px"
+};
+var divStyleCB = {
+  background: "red",
+  padding: "20px",
+  margin: "20px"
+};
+var divStyleFS = {
+  background: "orange",
+  padding: "20px",
+  margin: "20px"
+};
+const TextInputSimple = () => <div draggable="true" style={divStyleTI}>
+  <p>TextInput</p>
+</div>
+
+const TextAreaSimple = () => <div draggable="true" style={divStyleTA}>
+  <p>TextArea</p>
+</div>
+
+const CheckboxSimple = () => <div draggable="true" style={divStyleCB}>
+  <p>Checkbox</p>
+</div>
+
+const FormSectionSimple = () => <div draggable="true"
+  onDragEnd={dragend_handler}
+  onDragStart={dragstart_handler}
+  onMouseUp={mouseup_handler}
+ style={divStyleFS}>
+  <p>FormSection</p>
+</div>
 
 const LeftPanel = (props) =>
   <div style={leftPanelStyle}>
-    {initFE.map((element, i) => {
-      return (utility.lookupComponent(utility.resurrectEntity(element)))
+    {/* {initFE.map((element, i) => {
       console.log(utility.lookupComponent(utility.resurrectEntity(element)))
-    })}
+      return React.createElement(utility.lookupComponent(utility.resurrectEntity(element)), { key: i, model: element, form: initFE.form })
+    })} */}
+    <FormSectionSimple />
+    <TextInputSimple />
+    <TextAreaSimple />
+    <CheckboxSimple />
   </div>
 
 const HeaderPanel = () =>
   <div style={headerPanelStyle}>
   </div>
+let mouseup_handler = function(event) {
+  event.preventDefault();
+  console.log('mouseup_handler hit')
+}
+
+let drop_handler = function(event) {
+  event.preventDefault();
+  let data = event.dataTransfer.getData("text");
+  console.log('dataTransfer: ', data)
+  console.log('drop_handler hit')
+}
+
+let dragover_handler = function(event) {
+  event.preventDefault();
+  console.log('dragover_handler hit')
+}
+
+let dragstart_handler = function(event) {
+  // event.preventDefault();
+  event.dataTransfer.setData("text/plain", 'testData');
+  console.log('dragstart_handler hit')
+}
+
+let dragend_handler = function(event) {
+  event.preventDefault();
+  console.log('dragend_handler hit')
+}
+let dragleave_handler = function(event) {
+  event.preventDefault();
+  console.log('dragleave_handler hit')
+}
 
 const MiddlePanel = () =>
-  <div style={middlePanelStyle}>
+  <div
+    onDrop={drop_handler}
+    onDragOver={dragover_handler}
+    onDragLeave={dragleave_handler}
+  style={middlePanelStyle}>
     <div style={{ ...headerPanelStyle, backgroundColor: "green" }}>
       <DesignBoxHeader />
     </div>
