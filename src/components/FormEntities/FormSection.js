@@ -12,6 +12,7 @@ class FormSectionComponent extends Component {
   }
 
   render() {
+    console.log('formsection hit')
     const divStyle = {
       border: '2px solid green'
     }

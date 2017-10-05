@@ -29,7 +29,10 @@ const BackgroundPanel = (props) =>
     <LeftPanel
       form={props.form} removeformentity={props.removeformentity}
       addformentity={props.addformentity} />
-    <MiddlePanel />
+    <MiddlePanel
+      form={props.form} removeformentity={props.removeformentity}
+      addformentity={props.addformentity}
+    />
     <RightPanel />
   </div>
 var divStyleTI = {
@@ -68,7 +71,7 @@ const FormSectionSimple = () => <div draggable="true"
   onDragEnd={dragend_handler}
   onDragStart={dragstart_handler}
   onMouseUp={mouseup_handler}
- style={divStyleFS}>
+  style={divStyleFS}>
   <p>FormSection</p>
 </div>
 
@@ -87,48 +90,56 @@ const LeftPanel = (props) =>
 const HeaderPanel = () =>
   <div style={headerPanelStyle}>
   </div>
-let mouseup_handler = function(event) {
+let mouseup_handler = function (event) {
   event.preventDefault();
   console.log('mouseup_handler hit')
 }
 
-let drop_handler = function(event) {
-  event.preventDefault();
-  let data = event.dataTransfer.getData("text");
-  console.log('dataTransfer: ', data)
-  console.log('drop_handler hit')
-}
-
-let dragover_handler = function(event) {
+let dragover_handler = function (event) {
   event.preventDefault();
   console.log('dragover_handler hit')
 }
 
-let dragstart_handler = function(event) {
+let dragstart_handler = function (event) {
   // event.preventDefault();
   event.dataTransfer.setData("text/plain", 'testData');
   console.log('dragstart_handler hit')
 }
 
-let dragend_handler = function(event) {
+let dragend_handler = function (event) {
   event.preventDefault();
   console.log('dragend_handler hit')
 }
-let dragleave_handler = function(event) {
+let dragleave_handler = function (event) {
   event.preventDefault();
   console.log('dragleave_handler hit')
 }
 
-const MiddlePanel = () =>
-  <div
+const MiddlePanel = (props) => {
+  const drop_handler = event => {
+    console.log(props.form)
+    event.preventDefault();
+    // console.log(props.addformentity(event, new FormSection(defaultPropsFE.FormSection), [0]))
+    let data = event.dataTransfer.getData("text");
+    props.addformentity(new FormSection(defaultPropsFE.FormSection), props.form, [0])
+    console.log('dataTransfer: ', data)
+    console.log('drop_handler hit')
+  }
+  console.log(props)
+  return <div
     onDrop={drop_handler}
     onDragOver={dragover_handler}
     onDragLeave={dragleave_handler}
-  style={middlePanelStyle}>
+    style={middlePanelStyle}>
     <div style={{ ...headerPanelStyle, backgroundColor: "green" }}>
       <DesignBoxHeader />
     </div>
+    <FormComponent form={props.form}
+      removeformentity={props.removeformentity}
+      addformentity={props.addformentity}
+    />
   </div>
+}
 
 const RightPanel = () =>
   <div style={rightPanelStyle}>
@@ -188,11 +199,6 @@ class FormEntityInit extends Component {
           removeformentity={this.props.removeformentity}
           addformentity={this.props.addformentity}
         />
-
-
-        {/* <FormComponent form={this.props.store.model.form} removeformentity={this.props.removeformentity}
-          addformentity={this.props.addformentity}
-        /> */}
       </div>
     )
   }
