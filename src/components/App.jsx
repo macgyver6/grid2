@@ -44,7 +44,7 @@ class App extends Component {
           onClick={this.props.loadstate}>
           Load Model State
           </button> */}
-        <Layout />
+        <FormEntityInit />
         {/* <FormEntityInit /> */}
       </div>
     )

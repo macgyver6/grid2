@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
+import { initFE } from '../constants/defaultPropsFE';
 import FormComponent from '../components/FormEntities/Form';
 import { FormSection } from '../data/FormSection';
 import { TextInput } from '../data/TextInput';
 import { TextArea } from '../data/TextArea';
 import { Checkbox } from '../data/Checkbox';
+import { utility } from '../utility';
 
 import {
   backgroundPanelStyle,
@@ -33,9 +35,10 @@ const BackgroundPanel = (props) =>
 
 const LeftPanel = (props) =>
   <div style={leftPanelStyle}>
-    <FormComponent form={props.form} removeformentity={props.removeformentity}
-      addformentity={props.addformentity}
-    />
+    {initFE.map((element, i) => {
+      return (utility.lookupComponent(utility.resurrectEntity(element)))
+      console.log(utility.lookupComponent(utility.resurrectEntity(element)))
+    })}
   </div>
 
 const HeaderPanel = () =>
