@@ -12,10 +12,10 @@ import { Checkbox } from './data/Checkbox';
 
 export const utility = {
   /**
-   * 
-   * @param {FormEntity} entity 
-   * @param {FormSection} section 
-   * @param {number[]} path 
+   *
+   * @param {FormEntity} entity
+   * @param {FormSection} section
+   * @param {number[]} path
    * @returns {FormEntity}
    */
 
@@ -28,6 +28,7 @@ export const utility = {
   // },
 
   add: function add(entity, section, path) {
+    console.log('fnAdd: ', path)
     // if (path[0] < 0 || path[0] === undefined && (!(entity instanceof FormSection))) {
     //   throw new Error("path OOB");
     // }
@@ -45,6 +46,7 @@ export const utility = {
     }
     let newChildren = section.children().slice(0);
     newChildren.splice(path[0], path.length > 1 ? 1 : 0, e);
+    console.log(section.setChildren(newChildren));
     return section.setChildren(newChildren);
   },
 
@@ -58,7 +60,7 @@ export const utility = {
     //   throw new Error("path OOB");
     // }
     let newChildren = section.children().slice(0);
-    if (path.length > 1) 
+    if (path.length > 1)
     {
       newChildren[path[0]] = remove(section.children()[path[0]], path.slice(1));
     } else {

@@ -1,6 +1,15 @@
+import { FormSection } from '../data/FormSection';
+import { Checkbox } from '../data/Checkbox';
+
 export var defaultPropsFE = {
 
-  Form: { uuid: undefined, type: 'Form', version: 1, autoId: true, children: [], crf: 'crf', inputs: ['input1', 'input2'], remoteValidatorCondition: { 0: 'zero', 1: 'one' }, sectionTabs: false, versionDescription: 'version description' },
+  Form: {
+    uuid: undefined, type: 'Form', version: 1, autoId: true, children: [
+      new FormSection({ uuid: undefined, type: 'FormSection', width: 2, children: [
+
+      ], legend: 'string', prepend: 3, append: 4 })
+  ]
+  , crf: 'crf', inputs: ['input1', 'input2'], remoteValidatorCondition: { 0: 'zero', 1: 'one' }, sectionTabs: false, versionDescription: 'version description' },
 
   FormSection: { uuid: undefined, type: 'FormSection', width: 2, children: [], legend: 'string', prepend: 3, append: 4 },
 
