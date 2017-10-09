@@ -13,7 +13,7 @@ import {
 
 class DesignBoxHeader extends React.Component {
   render() {
-    let { tabs, selected_tab, handleApplicationAction } = this.props;
+    // let { tabs, selected_tab, handleApplicationAction } = this.props;
 
     return (
       <div style={DesignBoxHeaderStyle}>

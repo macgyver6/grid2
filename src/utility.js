@@ -28,7 +28,6 @@ export const utility = {
   // },
 
   add: function add(entity, section, path) {
-    console.log('fnAdd: ', path)
     // if (path[0] < 0 || path[0] === undefined && (!(entity instanceof FormSection))) {
     //   throw new Error("path OOB");
     // }
@@ -46,7 +45,6 @@ export const utility = {
     }
     let newChildren = section.children().slice(0);
     newChildren.splice(path[0], path.length > 1 ? 1 : 0, e);
-    console.log(section.setChildren(newChildren));
     return section.setChildren(newChildren);
   },
 

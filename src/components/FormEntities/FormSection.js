@@ -13,7 +13,6 @@ class FormSectionComponent extends Component {
 
   handleDelete = function (event, props) {
     let result = utility.findNode(props.model, props.form)
-    console.log(result)
     props.removeformentity(result)
   }
 
@@ -22,38 +21,32 @@ class FormSectionComponent extends Component {
     event.stopPropagation();
     let data = event.dataTransfer.getData("text");
     let entityToAdd = utility.resurrectEntity(defaultPropsFE[data])
-    console.log(entityToAdd)
-    let target = this.props.model;
-    let node = this.props.form;
-    let final = []
-    let location = utility.findNode(target, node)
-    // need to work on the final position in the array to insert at
-    this.props.addformentity(entityToAdd, final)
-    console.log(location)
+    let location = utility.findNode(this.props.model, this.props.form)
+    // @hack - only adds to position 0 at this point
+    location.push(0)
+    this.props.addformentity(entityToAdd, location)
   }
 
   dragover_handler(event) {
     event.preventDefault();
-    console.log('dragover_handler hit')
   }
 
   dragleave_handler(event) {
     event.preventDefault();
-    console.log('dragleave_handler hit')
   }
 
   render() {
     const divStyle = {
-      border: '2px solid green'
+      border: '6px dashed #c04df9',
+      backgroundColor: '#f3ea5f',
+      margin: '20px'
     }
     return (
       <div className="form-group"
         style={divStyle}
         onDrop={this.drop_handler}>
         <p>FormSection: {this.props.model._uuid}</p>
-        {console.log(this.props.model.children())}
         {this.props.model.children().map((element, i) => {
-          console.log(element)
           return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: this.props.form, removeformentity: this.props.removeformentity, addformentity: this.props.addformentity })
         })}
         <button

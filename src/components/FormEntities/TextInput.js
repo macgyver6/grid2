@@ -5,7 +5,7 @@ let handleChange = function (event, props) {
   let result = utility.findNode(props.model, props.form)
   props.removeformentity(result)
   props.addformentity(
-  props.model.mutate({ defaultContent: event.target.value }), result)
+    props.model.mutate({ defaultContent: event.target.value }), result)
 }
 
 let handleDelete = function (event, props) {
@@ -14,17 +14,23 @@ let handleDelete = function (event, props) {
 }
 
 const TextInputComponent = (props) => {
-  console.log(props)
+  const tiStyle = {
+    border: '6px dashed #c04df9',
+    backgroundColor: '#ff3f3f',
+    margin: '20px',
+    maxWidth: '400px'
+  }
+
   return (
-    <div>
+    <div style={tiStyle}>
       <input className="form-control" type={props.model.type()}
         value={props.model.defaultContent()}
-      onChange={(e) => handleChange(e, props)} />
+        onChange={(e) => handleChange(e, props)} />
       <button
         type="button"
         className="btn btn-danger"
         onClick={(e) => handleDelete(e, props)}
-        >-</button>
+      >-</button>
     </div>
   );
 }

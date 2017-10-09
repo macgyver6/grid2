@@ -17,29 +17,29 @@ import DesignBoxHeader from './design/DesignBoxHeader'
 
 import EditorBox from './editor/EditorBox'
 
-const BackgroundPanel = () => 
+const BackgroundPanel = () =>
   <div style={backgroundPanelStyle}>
     <LeftPanel />
     <MiddlePanel />
     <RightPanel />
   </div>
 
-const LeftPanel = () => 
+const LeftPanel = () =>
   <div style={leftPanelStyle}>
   </div>
 
-const HeaderPanel = () => 
+const HeaderPanel = () =>
   <div style={headerPanelStyle}>
   </div>
 
-const MiddlePanel = () => 
+const MiddlePanel = () =>
   <div style={middlePanelStyle}>
-    <div style={{ ...headerPanelStyle, backgroundColor: "green" }}>
+    <div style={{ ...headerPanelStyle, backgroundColor: "blue" }}>
       <DesignBoxHeader />
       </div>
   </div>
 
-const RightPanel = () => 
+const RightPanel = () =>
   <div style={rightPanelStyle}>
   </div>
 
@@ -47,8 +47,8 @@ const Layout = () => {
   return (
     <div>
       <BackgroundPanel />
-      
-      
+
+
 
         {/* <div style={{ ...headerPanelStyle, backgroundColor: "green" }}>
           <DesignBoxHeader tabs={tabs} selected_tab={selected_tab} handleApplicationAction={handleApplicationAction} />
@@ -60,7 +60,7 @@ const Layout = () => {
             handleApplicationAction={handleApplicationAction} />
         </div> */}
 
-{/* 
+{/*
         <EditorBox
           formId={selected_form_entity.id}
           editorViewId={editorViewId}

@@ -14,7 +14,7 @@ export const DesignBoxHeaderButtonStyle = {
   width: "10%",
   height: "100%",
   border: "none",
-  backgroundColor: "#01FF70",
+  backgroundColor: "#e51506",
   color: "white",
   float: "right",
   fontSize: 50
@@ -25,7 +25,7 @@ export const DesignBoxHeaderTabStyle = {
   height: "40%",
   marginTop: "2%",
   marginLeft: "1%",
-  backgroundColor: "lightgreen",
+  backgroundColor: "#e51506",
   border: "0.25px solid white",
 };
 

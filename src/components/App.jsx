@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import FormEntityInit from '../containers/FormEntitiesInit.js';
-import Layout from './layout/Layout'
 
 class App extends Component {
 

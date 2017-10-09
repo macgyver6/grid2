@@ -16,24 +16,24 @@ class FormComponent extends Component {
     event.stopPropagation();
     let data = event.dataTransfer.getData("text");
     let entityToAdd = utility.resurrectEntity(defaultPropsFE[data])
-    let target = this.props.form
-    let node = this.props.form;
-    this.props.addformentity(entityToAdd, [0, 0])
+    let location = utility.findNode(this.props.form, this.props.form)
+    // @hack - only adds to position 0 at this point
+    location.push(0)
+    this.props.addformentity(entityToAdd, location)
   }
 
   dragover_handler(event) {
     event.preventDefault();
-    console.log('dragover_handler hit')
   }
 
   dragleave_handler(event) {
     event.preventDefault();
-    console.log('dragleave_handler hit')
   }
 
   render() {
     const divStyle = {
-      border: '2px solid #a1a1a1'
+      border: '6px dashed #c04df9',
+      margin: '20px'
     }
 
     return (
@@ -42,15 +42,10 @@ class FormComponent extends Component {
         onDragOver={this.dragover_handler}
         onDragLeave={this.dragleave_handler}
       >
-        <h1>Form Component</h1>
+        <p>Form Component</p>
+
         {this.props.form.children().map((element, i) => {
-          console.log(element)
           return React.createElement(FormSectionComponent, { key: i, model: element, form: this.props.form, removeformentity: this.props.removeformentity, addformentity: this.props.addformentity })
-
-          {/* return <FormSectionComponent  key= {i}
-           model= {element} form= {this.props.form} removeformentity= {this.props.removeformentity} addformentity= {this.props.addformentity} /> */}
-
-
         })}
       </div>
     );

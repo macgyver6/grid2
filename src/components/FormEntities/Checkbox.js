@@ -7,12 +7,17 @@ let handleDelete = function (event, props) {
 }
 
 const CheckboxComponent = (props) => {
+  const cbStyle = {
+    border: '6px dashed #c04df9',
+    backgroundColor: '#ff48c4',
+    margin: '20px',
+    maxWidth: '200px'
+  }
 
   return (
-
-    <div>
+    <div style={cbStyle}>
       <input type={props.model.type()} onChange={props.handleInputChange} checked={props.model.defaultState()}>
-      </input> 
+      </input>
 
       <button
         type="button"
