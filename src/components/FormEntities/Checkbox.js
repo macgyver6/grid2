@@ -3,7 +3,6 @@ import { utility } from '../../utility';
 
 let handleDelete = function (event, props) {
   let result = utility.findNode(props.model, props.form)
-  console.log(result)
   props.removeformentity(result)
 }
 
@@ -20,7 +19,7 @@ const CheckboxComponent = (props) => {
   }
 
   let dragstart_handler = function (event) {
-    console.log(props.model.UUID())
+    event.stopPropagation();
     event.dataTransfer.setData("text/plain", JSON.stringify(props.model.properties()));
   }
 
@@ -33,11 +32,11 @@ const CheckboxComponent = (props) => {
       <input type={props.model.type()} onChange={props.handleInputChange} checked={props.model.defaultState()}>
       </input>
       <p>{props.model.UUID()}</p>
-      <button
+      {/* <button
         type="button"
         className="btn btn-danger"
         onClick={(e) => handleDelete(e, props)}
-      >-</button>
+      >-</button> */}
     </div>
   );
 }

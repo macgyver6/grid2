@@ -20,9 +20,21 @@ const TextInputComponent = (props) => {
     margin: '20px',
     maxWidth: '400px'
   }
+  let dragend_handler = function (event) {
+    event.preventDefault();
+  }
+
+  let dragstart_handler = function (event) {
+    event.stopPropagation();
+    event.dataTransfer.setData("text/plain", JSON.stringify(props.model.properties()));
+  }
 
   return (
-    <div style={tiStyle}>
+    <div style={tiStyle}
+      draggable="true"
+      onDragEnd={dragend_handler}
+      onDragStart={dragstart_handler}
+    >
       <input className="form-control" type={props.model.type()}
         value={props.model.defaultContent()}
         onChange={(e) => handleChange(e, props)} />

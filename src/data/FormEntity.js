@@ -24,10 +24,8 @@ class FormEntity {
         function uuid() {
             if (!properties.hasOwnProperty("uuid") || properties["uuid"] === undefined) {
                 let num = uuidv4()
-                console.log('creating new uuid: ', num)
                 return num
             }
-            console.log('using existing uuid: ', properties.uuid)
             return properties.uuid
         }
 

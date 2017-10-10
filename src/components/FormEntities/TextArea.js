@@ -21,8 +21,21 @@ const TextAreaComponent = (props) => {
     maxWidth: '400px'
   }
 
+  let dragend_handler = function (event) {
+    event.preventDefault();
+  }
+
+  let dragstart_handler = function (event) {
+    event.stopPropagation();
+    event.dataTransfer.setData("text/plain", JSON.stringify(props.model.properties()));
+  }
+
   return (
-    <div style={taStyle}>
+    <div style={taStyle}
+      draggable="true"
+      onDragEnd={dragend_handler}
+      onDragStart={dragstart_handler}
+    >
       <textarea className="form-control" placeholder="Write something in text area" name={props.model.name()} rows={props.model.numRows()} cols={props.model.numColumns()} type={props.model.type()}>
       </textarea>
 

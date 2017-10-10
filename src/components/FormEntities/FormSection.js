@@ -9,12 +9,24 @@ class FormSectionComponent extends Component {
     this.drop_handler = this.drop_handler.bind(this);
     this.dragleave_handler = this.dragleave_handler.bind(this);
     this.dragover_handler = this.dragover_handler.bind(this);
+    this.dragend_handler = this.dragend_handler.bind(this);
+    this.dragstart_handler = this.dragstart_handler.bind(this);
   }
 
   handleDelete = function (event, props) {
     let result = utility.findNode(props.model, props.form)
     props.removeformentity(result)
   }
+
+  dragend_handler = function (event) {
+  event.preventDefault();
+}
+
+dragstart_handler = function (event) {
+  event.stopPropagation();
+  console.log(this.props.model._uuid)
+  event.dataTransfer.setData("text/plain", JSON.stringify(this.props.model.properties()));
+}
 
   drop_handler(event) {
     event.preventDefault();
@@ -36,6 +48,10 @@ class FormSectionComponent extends Component {
     event.preventDefault();
   }
 
+  dragend_handler(event) {
+  event.preventDefault();
+}
+
   render() {
     const divStyle = {
       border: '6px dashed #c04df9',
@@ -45,7 +61,11 @@ class FormSectionComponent extends Component {
     return (
       <div className="form-group"
         style={divStyle}
-        onDrop={this.drop_handler}>
+        onDrop={this.drop_handler}
+        draggable="true"
+        onDragEnd={this.dragend_handler}
+        onDragStart={this.dragstart_handler}
+        >
         <p>FormSection: {this.props.model._uuid}</p>
         {/* <p>FormSection: {this.props.model._uuid}</p> */}
         {this.props.model.children().map((element, i) => {

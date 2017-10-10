@@ -91,21 +91,10 @@ let dragleave_handler = (event) => {
 const DeleteBtn = (props) => {
   let drop_handler = (event) => {
     event.preventDefault();
-    // event.stopPropagation();
-    let data = JSON.parse(event.dataTransfer.getData("text"));
-
-    console.log(data.uuid)
-    let data2 = utility.resurrectEntity(data)
-    console.log(event.dataTransfer.getData("text"))
-    console.log(JSON.stringify(data2))
-    console.log(data2.UUID())
-
-    let test = utility.findNode(data2, props.form)
-    console.log(test)
-    // props.removeformentity(utility.findNode(entityToAdd, props.form)) //section, path
-    // @hack - only adds to position 0 at this point
-    // location.push(0)
-    // this.props.removeformentity(entityToAdd, location)
+    event.stopPropagation();
+    console.log(JSON.parse(event.dataTransfer.getData("text")))
+    let entityModel = utility.resurrectEntity(JSON.parse(event.dataTransfer.getData("text")))
+    props.removeformentity(utility.findNode(entityModel, props.form))
   }
   return <div
     style={selectionStyles.Remove}
