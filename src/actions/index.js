@@ -13,6 +13,7 @@ export const addformentity = (formEntity, path) => {
 }
 
 export const removeformentity = (path) => {
+  console.log(path)
   return {
     type: 'REMOVEFORMENTITY',
     path: path

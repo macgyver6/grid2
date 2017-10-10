@@ -19,6 +19,7 @@ class FormSectionComponent extends Component {
   drop_handler(event) {
     event.preventDefault();
     event.stopPropagation();
+    console.log('drophandler 2')
     let data = event.dataTransfer.getData("text");
     let entityToAdd = utility.resurrectEntity(defaultPropsFE[data])
     let location = utility.findNode(this.props.model, this.props.form)

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import FormComponent from '../components/FormEntities/Form';
+import { utility } from '../utility';
+import { defaultPropsFE } from '../constants/defaultPropsFE';
 
 import {
   backgroundPanelStyle,
@@ -65,13 +67,65 @@ const selectionStyles = {
     background: "#f3ea5f",
     padding: "20px",
     margin: "20px"
+  },
+
+  Remove: {
+    background: "red",
+    padding: "20px",
+    margin: "20px"
   }
 }
 
 let entityTypes = ['FormSection', 'Checkbox', 'TextArea', 'TextInput']
 
+
+
+let dragover_handler = (event) => {
+  event.preventDefault();
+}
+
+let dragleave_handler = (event) => {
+  event.preventDefault();
+}
+
+const DeleteBtn = (props) => {
+  let drop_handler = (event) => {
+    event.preventDefault();
+    // event.stopPropagation();
+    let data = JSON.parse(event.dataTransfer.getData("text"));
+
+    console.log(data.uuid)
+    let data2 = utility.resurrectEntity(data)
+    console.log(event.dataTransfer.getData("text"))
+    console.log(JSON.stringify(data2))
+    console.log(data2.UUID())
+
+    let test = utility.findNode(data2, props.form)
+    console.log(test)
+    // props.removeformentity(utility.findNode(entityToAdd, props.form)) //section, path
+    // @hack - only adds to position 0 at this point
+    // location.push(0)
+    // this.props.removeformentity(entityToAdd, location)
+  }
+  return <div
+    style={selectionStyles.Remove}
+    onDrop={drop_handler}
+    onDragOver={dragover_handler}
+    onDragLeave={dragleave_handler}
+  >
+    <p>Delete -</p>
+    {/* <button
+      type="button"
+      className="btn btn-danger"
+      onClick={(e) => this.handleDelete(e, this.props)}
+    >-</button> */}
+  </div>
+}
+
 const LeftPanel = (props) =>
-  <div style={leftPanelStyle}>
+  <div style={leftPanelStyle}
+    form={props.form}
+  >
     {entityTypes.map((entity, index) => {
       return (
         <div
@@ -85,6 +139,10 @@ const LeftPanel = (props) =>
         </div>
       )
     })}
+    < DeleteBtn
+      form={props.form}
+      removeformentity={props.removeformentity}
+    />
   </div>
 
 const MiddlePanel = (props) => {
@@ -93,11 +151,12 @@ const MiddlePanel = (props) => {
     <div style={{
       ...headerPanelStyle, backgroundColor: "#EB7265", border: '6px dashed #f3ea5f', margin: '0px 20px 0px'
     }}>
-      {props.form.sectionTabs ?
+      {props.form.sectionTabs() ?
         <DesignBoxHeader
-          tabs = { props.form.children() }
+          tabs={props.form.children()}
         />
-        : <DesignBoxHeader/>
+        : <DesignBoxHeader
+        />
       }
 
     </div>

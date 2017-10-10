@@ -69,6 +69,7 @@ export const utility = {
   },
 
   findNode: (target, node, path = []) => {
+    console.log(target, node)
     if (node === target) {
       return path;
     }
@@ -134,6 +135,8 @@ export const utility = {
       case 'TextArea':
         return new TextArea({ ...formEntitySerialized })
       case 'Checkbox':
+        console.log(formEntitySerialized)
+        console.log(new Checkbox({ ...formEntitySerialized }))
         return new Checkbox({ ...formEntitySerialized })
       default: throw new Error('Unexpected Entity Type')
     }

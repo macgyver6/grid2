@@ -3,6 +3,7 @@ import { utility } from '../../utility';
 
 let handleDelete = function (event, props) {
   let result = utility.findNode(props.model, props.form)
+  console.log(result)
   props.removeformentity(result)
 }
 
@@ -14,11 +15,24 @@ const CheckboxComponent = (props) => {
     maxWidth: '200px'
   }
 
+  let dragend_handler = function (event) {
+    event.preventDefault();
+  }
+
+  let dragstart_handler = function (event) {
+    console.log(props.model.UUID())
+    event.dataTransfer.setData("text/plain", JSON.stringify(props.model.properties()));
+  }
+
   return (
-    <div style={cbStyle}>
+    <div style={cbStyle}
+      draggable="true"
+      onDragEnd={dragend_handler}
+      onDragStart={dragstart_handler}
+    >
       <input type={props.model.type()} onChange={props.handleInputChange} checked={props.model.defaultState()}>
       </input>
-
+      <p>{props.model.UUID()}</p>
       <button
         type="button"
         className="btn btn-danger"

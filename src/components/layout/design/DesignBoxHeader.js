@@ -20,11 +20,14 @@ class DesignBoxHeader extends React.Component {
 
         <div style={DesignBoxHeaderTabContainerStyle}>
 
-          {this.props.tabs.map((tab, index) =>
+          {this.props.tabs ?
+          this.props.tabs.map((tab, index) =>
             <DesignBoxHeaderTab
               tab={index + 1}
               key={index} />
-          )}
+          )
+          : null
+          }
 
         </div>
         <button

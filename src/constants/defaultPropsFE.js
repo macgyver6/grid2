@@ -24,7 +24,7 @@ export var defaultPropsFE = {
         ], legend: 'string', prepend: 3, append: 4
       })
     ]
-    , crf: 'crf', inputs: ['input1', 'input2'], remoteValidatorCondition: { 0: 'zero', 1: 'one' }, sectionTabs: true, versionDescription: 'version description'
+    , crf: 'crf', inputs: ['input1', 'input2'], remoteValidatorCondition: { 0: 'zero', 1: 'one' }, sectionTabs: false, versionDescription: 'version description'
   },
 
   FormSection: { uuid: undefined, type: 'FormSection', width: 2, children: [], legend: 'string', prepend: 3, append: 4 },
