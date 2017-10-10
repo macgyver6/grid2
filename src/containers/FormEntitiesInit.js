@@ -93,7 +93,13 @@ const MiddlePanel = (props) => {
     <div style={{
       ...headerPanelStyle, backgroundColor: "#EB7265", border: '6px dashed #f3ea5f', margin: '0px 20px 0px'
     }}>
-      <DesignBoxHeader />
+      {props.form.sectionTabs ?
+        <DesignBoxHeader
+          tabs = { props.form.children() }
+        />
+        : <DesignBoxHeader/>
+      }
+
     </div>
     <FormComponent
       form={props.form}

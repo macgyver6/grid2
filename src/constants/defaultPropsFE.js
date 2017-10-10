@@ -6,7 +6,21 @@ export var defaultPropsFE = {
     uuid: undefined, type: 'Form', version: 1, autoId: true, children: [
       new FormSection({
         uuid: undefined, type: 'FormSection', width: 2, children: [
+          new FormSection({
+            uuid: undefined, type: 'FormSection', width: 2, children: [
 
+            ], legend: 'string', prepend: 3, append: 4
+          }),
+          new FormSection({
+            uuid: undefined, type: 'FormSection', width: 2, children: [
+
+            ], legend: 'string', prepend: 3, append: 4
+          }),
+          new FormSection({
+            uuid: undefined, type: 'FormSection', width: 2, children: [
+
+            ], legend: 'string', prepend: 3, append: 4
+          })
         ], legend: 'string', prepend: 3, append: 4
       })
     ]

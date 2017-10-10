@@ -46,6 +46,7 @@ class FormSectionComponent extends Component {
         style={divStyle}
         onDrop={this.drop_handler}>
         <p>FormSection: {this.props.model._uuid}</p>
+        {/* <p>FormSection: {this.props.model._uuid}</p> */}
         {this.props.model.children().map((element, i) => {
           return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: this.props.form, removeformentity: this.props.removeformentity, addformentity: this.props.addformentity })
         })}

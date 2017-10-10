@@ -9,34 +9,27 @@ import {
 //   addTab
 // } from '../auxillary/actions/design'
 
-// import DesignBoxHeaderTab from './DesignBoxHeaderTab'
+import DesignBoxHeaderTab from './DesignBoxHeaderTab'
 
 class DesignBoxHeader extends React.Component {
-  render() {
+  render(props) {
     // let { tabs, selected_tab, handleApplicationAction } = this.props;
 
     return (
       <div style={DesignBoxHeaderStyle}>
 
         <div style={DesignBoxHeaderTabContainerStyle}>
-          {/* {
-            tabs.map((tab) => {
-              return <DesignBoxHeaderTab
-                key={tab} tab={tab}
-                selected={tab === selected_tab}
-                handleApplicationAction={this.props.handleApplicationAction} />
-            })
-          } */}
-        </div>
 
-        {/* <button
-          style={DesignBoxHeaderButtonStyle}
-          onClick={() => handleApplicationAction(addTab())}>
-          +
-        </button> */}
+          {this.props.tabs.map((tab, index) =>
+            <DesignBoxHeaderTab
+              tab={index + 1}
+              key={index} />
+          )}
+
+        </div>
         <button
           style={DesignBoxHeaderButtonStyle}
-          >
+        >
           +
         </button>
 

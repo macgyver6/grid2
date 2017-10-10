@@ -32,7 +32,7 @@ const HeaderPanel = () =>
   <div style={headerPanelStyle}>
   </div>
 
-const MiddlePanel = () =>
+const MiddlePanel = (props) =>
   <div style={middlePanelStyle}>
     <div style={{ ...headerPanelStyle, backgroundColor: "blue" }}>
       <DesignBoxHeader />

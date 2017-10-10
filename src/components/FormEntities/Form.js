@@ -44,7 +44,11 @@ class FormComponent extends Component {
       >
         <p>Form Component</p>
 
-        {this.props.form.children().map((element, i) => {
+        {this.props.form.sectionTabs() ?
+        this.props.form.children().map(child => child.children().map((formSection, i) => {return <FormSectionComponent
+             key= {i} model= {formSection} form= {this.props.form} removeformentity= {this.props.removeformentity} addformentity= {this.props.addformentity }
+        />}))
+        : this.props.form.children().map((element, i) => {
           return React.createElement(FormSectionComponent, { key: i, model: element, form: this.props.form, removeformentity: this.props.removeformentity, addformentity: this.props.addformentity })
         })}
       </div>
