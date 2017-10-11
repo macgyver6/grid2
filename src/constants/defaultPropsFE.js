@@ -1,4 +1,5 @@
 import { FormSection } from '../data/FormSection';
+import { Checkbox } from '../data/Checkbox';
 
 export var defaultPropsFE = {
 
@@ -6,16 +7,16 @@ export var defaultPropsFE = {
     uuid: undefined, type: 'Form', version: 1, autoId: true, children: [
       new FormSection({
         uuid: undefined, type: 'FormSection', width: 2, children: [
+
           new FormSection({
             uuid: undefined, type: 'FormSection', width: 2, children: [
-
+              new Checkbox ({ uuid: undefined, width: 2, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'Checkbox', tabOrder: [1, 2, 3], inputWidth: 7, promptNumber: 'promptNumber', prepend: 88, autoNumber: 'SEQUENTIAL', append: 4, defaultState: true })
             ], legend: 'string', prepend: 3, append: 4
-          }),
-          new FormSection({
-            uuid: undefined, type: 'FormSection', width: 2, children: [
-
-            ], legend: 'string', prepend: 3, append: 4
-          }),
+          })
+        ], legend: 'string', prepend: 3, append: 4
+      }),
+      new FormSection({
+        uuid: undefined, type: 'FormSection', width: 2, children: [
           new FormSection({
             uuid: undefined, type: 'FormSection', width: 2, children: [
 
@@ -24,7 +25,7 @@ export var defaultPropsFE = {
         ], legend: 'string', prepend: 3, append: 4
       })
     ]
-    , crf: 'crf', inputs: ['input1', 'input2'], remoteValidatorCondition: { 0: 'zero', 1: 'one' }, sectionTabs: false, versionDescription: 'version description'
+    , crf: 'crf', inputs: ['input1', 'input2'], remoteValidatorCondition: { 0: 'zero', 1: 'one' }, sectionTabs: true, versionDescription: 'version description'
   },
 
   FormSection: { uuid: undefined, type: 'FormSection', width: 2, children: [], legend: 'string', prepend: 3, append: 4 },

@@ -11,7 +11,27 @@ const CheckboxComponent = (props) => {
     border: '6px dashed #c04df9',
     backgroundColor: '#ff48c4',
     margin: '20px',
-    maxWidth: '200px'
+    maxWidth: '500px',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start'
+  }
+
+  const appendStyle = {
+    border: '2px dashed black',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
+  }
+
+  const Append = () => {
+    return (
+      <div
+      style={appendStyle}>
+        <h1>Append</h1>
+
+      </div>
+    )
   }
 
   let dragend_handler = function (event) {
@@ -32,6 +52,7 @@ const CheckboxComponent = (props) => {
       <input type={props.model.type()} onChange={props.handleInputChange} checked={props.model.defaultState()}>
       </input>
       <p>{props.model.UUID()}</p>
+      <Append />
       {/* <button
         type="button"
         className="btn btn-danger"

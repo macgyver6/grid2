@@ -38,11 +38,11 @@ const TextInputComponent = (props) => {
       <input className="form-control" type={props.model.type()}
         value={props.model.defaultContent()}
         onChange={(e) => handleChange(e, props)} />
-      <button
+      {/* <button
         type="button"
         className="btn btn-danger"
         onClick={(e) => handleDelete(e, props)}
-      >-</button>
+      >-</button> */}
     </div>
   );
 }

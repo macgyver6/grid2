@@ -39,11 +39,11 @@ const TextAreaComponent = (props) => {
       <textarea className="form-control" placeholder="Write something in text area" name={props.model.name()} rows={props.model.numRows()} cols={props.model.numColumns()} type={props.model.type()}>
       </textarea>
 
-      <button
+      {/* <button
         type="button"
         className="btn btn-danger"
         onClick={(e) => handleDelete(e, props)}
-      >-</button>
+      >-</button> */}
     </div>
   );
 }

@@ -56,7 +56,8 @@ dragstart_handler = function (event) {
     const divStyle = {
       border: '6px dashed #c04df9',
       backgroundColor: '#f3ea5f',
-      margin: '20px'
+      margin: '20px',
+      minHeight: '100px'
     }
     return (
       <div className="form-group"
@@ -71,11 +72,11 @@ dragstart_handler = function (event) {
         {this.props.model.children().map((element, i) => {
           return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: this.props.form, removeformentity: this.props.removeformentity, addformentity: this.props.addformentity })
         })}
-        <button
+        {/* <button
           type="button"
           className="btn btn-danger"
           onClick={(e) => this.handleDelete(e, this.props)}
-        >-</button>
+        >-</button> */}
       </div>
     );
   }

@@ -92,7 +92,6 @@ const DeleteBtn = (props) => {
   let drop_handler = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    console.log(JSON.parse(event.dataTransfer.getData("text")))
     let entityModel = utility.resurrectEntity(JSON.parse(event.dataTransfer.getData("text")))
     props.removeformentity(utility.findNode(entityModel, props.form))
   }
