@@ -60,7 +60,7 @@ dragstart_handler = function (event) {
       minHeight: '100px'
     }
     return (
-      <div className="form-group"
+      <div className="grid form-group"
         style={divStyle}
         onDrop={this.drop_handler}
         draggable="true"

@@ -18,7 +18,8 @@ const TextAreaComponent = (props) => {
     border: '6px dashed #c04df9',
     backgroundColor: '#2bd1fc',
     margin: '20px',
-    maxWidth: '400px'
+    padding: '20px',
+    gridColumn: `1 / ${props.model.inputWidth()}`
   }
 
   let dragend_handler = function (event) {
