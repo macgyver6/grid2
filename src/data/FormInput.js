@@ -35,7 +35,8 @@ class FormInput extends FormEntity {
     this._tabOrder = properties.tabOrder;
     this._inputWidth = properties.inputWidth;
     this._promptNumber = properties.promptNumber;
-    this._autoNumber = FormInput.AutoNumberRuleToken[properties.autoNumber];
+    this._autoNumber = typeof(properties.autoNumber) === 'string' ? FormInput.AutoNumberRuleToken[properties.autoNumber]
+    : properties.autoNumber;
 
     if (this.constructor === FormInput) {
       deepFreeze(this);
@@ -143,9 +144,9 @@ class FormInput extends FormEntity {
   };
 
   /**
-     * 
+     *
      * Clone the form input.
-     * @param {Object} props 
+     * @param {Object} props
      * @returns {FormInput}
      * @memberof FormInput
      */
@@ -154,7 +155,7 @@ class FormInput extends FormEntity {
   }
 
   /**
-   * 
+   *
    * Returns public properties of a form input.
    * @returns {Object}
    */

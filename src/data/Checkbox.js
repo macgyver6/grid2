@@ -28,7 +28,7 @@ class Checkbox extends FormInput {
       * @property {boolean} properties.defaultState - Default state of the checkbox.
      */
   constructor(properties) {
-    
+
     super(properties);
 
     this._defaultState = properties.defaultState;
@@ -38,9 +38,9 @@ class Checkbox extends FormInput {
   }
 
   /**
-   * 
+   *
    * Clone the text area.
-   * @param {Object} props 
+   * @param {Object} props
    * @returns {Checkbox}
    * @memberof Checkbox
    */
@@ -49,7 +49,7 @@ class Checkbox extends FormInput {
   }
 
   /**
-   * 
+   *
    * Get the defaultState.
    * @returns {Checkbox}
    * @memberof Checkbox
@@ -59,7 +59,7 @@ class Checkbox extends FormInput {
   }
 
  /**
-     * 
+     *
      * Returns public properties of a form input.
      * @returns {Object}
      */
@@ -71,7 +71,7 @@ class Checkbox extends FormInput {
       append: this.append(),
       prePrompt: this.prePrompt(),
       prePromptWidth: this.prePromptWidth(),
-      postPrompt: this.postPromptWidth(),
+      postPrompt: this.postPrompt(),
       postPromptWidth: this.postPromptWidth(),
       name: this.name(),
       sasCodeLabel: this.sasCodeLabel(),

@@ -12,10 +12,10 @@ import { Checkbox } from './data/Checkbox';
 
 export const utility = {
   /**
-   * 
-   * @param {FormEntity} entity 
-   * @param {FormSection} section 
-   * @param {number[]} path 
+   *
+   * @param {FormEntity} entity
+   * @param {FormSection} section
+   * @param {number[]} path
    * @returns {FormEntity}
    */
 
@@ -58,7 +58,7 @@ export const utility = {
     //   throw new Error("path OOB");
     // }
     let newChildren = section.children().slice(0);
-    if (path.length > 1) 
+    if (path.length > 1)
     {
       newChildren[path[0]] = remove(section.children()[path[0]], path.slice(1));
     } else {
@@ -69,7 +69,7 @@ export const utility = {
   },
 
   findNode: (target, node, path = []) => {
-    if (node === target) {
+    if (node.UUID() === target.UUID()) {
       return path;
     }
 

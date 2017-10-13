@@ -9,7 +9,8 @@ export const backgroundPanelStyle = {
 export const leftPanelStyle = {
   width: "10%",
   height: "100%",
-  backgroundColor: "black"
+  backgroundColor: "#1A7381",
+  border: '6px dashed #f3ea5f'
 };
 export const middlePanelStyle = {
   width: "70%",
@@ -19,7 +20,8 @@ export const middlePanelStyle = {
 export const rightPanelStyle = {
   width: "20%",
   height: "100%",
-  backgroundColor: "blue"
+  backgroundColor: "#1A7381",
+  border: '6px dashed #f3ea5f'
 };
 export const headerPanelStyle = {
   width: "100%",

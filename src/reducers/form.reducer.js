@@ -37,7 +37,6 @@ const formReducer = (state, action) => {
     let update = utility.remove (
       state.form,
       action.path )
-      console.log(update)
     return Object.assign({}, state, {
       form: update
     })

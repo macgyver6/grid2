@@ -1,7 +1,7 @@
 const deepFreeze = require('deep-freeze');
 const uuidv4 = require('uuid/v4');
 
-/** Class representing a FormEntity. 
+/** Class representing a FormEntity.
  * See {@link http://csccjenk.cscc.unc.edu:8080/job/cdart2-model/javadoc/edu/unc/tcrdms/model/form/FormSection.html}
 */
 class FormEntity {
@@ -15,7 +15,6 @@ class FormEntity {
      * @param {number} properties.append - Get the number of grid units appended to rendered representations of the form entity.
      */
     constructor(properties) {
-
         this._type = properties.type;
         this._uuid = uuid()
         this._width = properties.width;
@@ -24,7 +23,8 @@ class FormEntity {
 
         function uuid() {
             if (!properties.hasOwnProperty("uuid") || properties["uuid"] === undefined) {
-                return uuidv4()
+                let num = uuidv4()
+                return num
             }
             return properties.uuid
         }
@@ -83,7 +83,7 @@ class FormEntity {
     };
 
     /**
-     * 
+     *
      * Returns public properties of a form entity.
      * @returns {Object}
      */
@@ -98,9 +98,9 @@ class FormEntity {
     }
 
     /**
-     * 
+     *
      * Clone the form entity.
-     * @param {Object} props 
+     * @param {Object} props
      * @returns {FormEntity}
      * @memberof FormEntity
      */
@@ -110,9 +110,9 @@ class FormEntity {
     }
 
     /**
-     * 
+     *
      * Mutate the form entity.
-     * @param {Object} newProperties 
+     * @param {Object} newProperties
      * @returns {FormEntity}
      * @memberof FormEntity
      */
