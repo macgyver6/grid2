@@ -37,20 +37,24 @@ class FormComponent extends Component {
     }
 
     return (
-      <div style={divStyle}
+      <div
+        className='grid'
+        style={divStyle}
         onDrop={this.drop_handler}
         onDragOver={this.dragover_handler}
         onDragLeave={this.dragleave_handler}
       >
-        <p>Form Component</p>
+        {/* <p>Form Component</p> */}
 
         {this.props.form.sectionTabs() ?
-        this.props.form.children().map(child => child.children().map((formSection, i) => {return <FormSectionComponent
-             key= {i} model= {formSection} form= {this.props.form} removeformentity= {this.props.removeformentity} addformentity= {this.props.addformentity }
-        />}))
-        : this.props.form.children().map((element, i) => {
-          return React.createElement(FormSectionComponent, { key: i, model: element, form: this.props.form, removeformentity: this.props.removeformentity, addformentity: this.props.addformentity })
-        })}
+          this.props.form.children().map(child => child.children().map((formSection, i) => {
+            return <FormSectionComponent
+              key={i} model={formSection} form={this.props.form} removeformentity={this.props.removeformentity} addformentity={this.props.addformentity}
+            />
+          }))
+          : this.props.form.children().map((element, i) => {
+            return React.createElement(FormSectionComponent, { key: i, model: element, form: this.props.form, removeformentity: this.props.removeformentity, addformentity: this.props.addformentity })
+          })}
       </div>
     );
   }

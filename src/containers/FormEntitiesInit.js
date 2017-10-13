@@ -169,8 +169,6 @@ class FormEntityInit extends Component {
   render() {
     return (
       <div>
-        <h1>FormEntitiesInit</h1>
-
         <BackgroundPanel
           form={this.props.store.model.form}
           removeformentity={this.props.removeformentity}

@@ -51,7 +51,7 @@ const CheckboxComponent = (props) => {
     >
       <input type={props.model.type()} onChange={props.handleInputChange} checked={props.model.defaultState()}>
       </input>
-      <p>{props.model.UUID()}</p>
+      {/* <p>{props.model.UUID()}</p> */}
       <Append />
       {/* <button
         type="button"

@@ -57,17 +57,17 @@ dragstart_handler = function (event) {
       border: '6px dashed #c04df9',
       backgroundColor: '#f3ea5f',
       margin: '20px',
-      minHeight: '100px'
+      minHeight: '100px',
+      gridColumn: `1 / ${this.props.model.width()}`
     }
     return (
-      <div className="grid form-group"
+      <div className=" form-group"
         style={divStyle}
         onDrop={this.drop_handler}
         draggable="true"
         onDragEnd={this.dragend_handler}
         onDragStart={this.dragstart_handler}
         >
-        <p>FormSection: {this.props.model._uuid}</p>
         {/* <p>FormSection: {this.props.model._uuid}</p> */}
         {this.props.model.children().map((element, i) => {
           return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: this.props.form, removeformentity: this.props.removeformentity, addformentity: this.props.addformentity })
