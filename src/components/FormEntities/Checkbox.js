@@ -11,10 +11,10 @@ const CheckboxComponent = (props) => {
     border: '6px dashed #c04df9',
     backgroundColor: '#ff48c4',
     margin: '20px',
-    maxWidth: '500px',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    gridColumn: `span ${props.model.width()}`
   }
 
   const appendStyle = {
@@ -49,6 +49,7 @@ const CheckboxComponent = (props) => {
       onDragEnd={dragend_handler}
       onDragStart={dragstart_handler}
     >
+      <p>{props.model.width()}</p>
       <input type={props.model.type()} onChange={props.handleInputChange} checked={props.model.defaultState()}>
       </input>
       {/* <p>{props.model.UUID()}</p> */}

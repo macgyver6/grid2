@@ -18,7 +18,7 @@ const TextInputComponent = (props) => {
     border: '6px dashed #c04df9',
     backgroundColor: '#ff3f3f',
     margin: '20px',
-    maxWidth: '400px'
+    gridColumn: `span ${props.model.width()}`
   }
   let dragend_handler = function (event) {
     event.preventDefault();
@@ -29,22 +29,34 @@ const TextInputComponent = (props) => {
     event.dataTransfer.setData("text/plain", JSON.stringify(props.model.properties()));
   }
 
-  return (
-    <div style={tiStyle}
-      draggable="true"
-      onDragEnd={dragend_handler}
-      onDragStart={dragstart_handler}
-    >
-      <input className="form-control" type={props.model.type()}
-        value={props.model.defaultContent()}
-        onChange={(e) => handleChange(e, props)} />
-      {/* <button
+  let updateDimensions = function () {
+    if (window.innerWidth < 500) {
+      this.setState({ width: 450, height: 102 });
+    } else {
+      let update_width = window.innerWidth - 100;
+      let update_height = Math.round(update_width / 4.4);
+      this.setState({ width: update_width, height: update_height });
+    }
+  }
+
+
+    return (
+      <div style={tiStyle}
+        draggable="true"
+        onDragEnd={dragend_handler}
+        onDragStart={dragstart_handler}
+
+      ><p>{props.model.width()}</p>
+        <input className="form-control" type={props.model.type()}
+          value={props.model.defaultContent()}
+          onChange={(e) => handleChange(e, props)} />
+        {/* <button
         type="button"
         className="btn btn-danger"
         onClick={(e) => handleDelete(e, props)}
       >-</button> */}
-    </div>
-  );
-}
+      </div>
+    );
+  }
 
-export default TextInputComponent;
+  export default TextInputComponent;

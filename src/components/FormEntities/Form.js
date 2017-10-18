@@ -38,7 +38,7 @@ class FormComponent extends Component {
 
     return (
       <div
-        className='grid'
+        className=''
         style={divStyle}
         onDrop={this.drop_handler}
         onDragOver={this.dragover_handler}

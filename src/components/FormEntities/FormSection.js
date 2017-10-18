@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { utility } from '../../utility';
 import { defaultPropsFE } from '../../constants/defaultPropsFE';
 
-
 class FormSectionComponent extends Component {
   constructor(props) {
     super()
@@ -19,14 +18,14 @@ class FormSectionComponent extends Component {
   }
 
   dragend_handler = function (event) {
-  event.preventDefault();
-}
+    event.preventDefault();
+  }
 
-dragstart_handler = function (event) {
-  event.stopPropagation();
-  console.log(this.props.model._uuid)
-  event.dataTransfer.setData("text/plain", JSON.stringify(this.props.model.properties()));
-}
+  dragstart_handler = function (event) {
+    event.stopPropagation();
+    console.log(this.props.model._uuid)
+    event.dataTransfer.setData("text/plain", JSON.stringify(this.props.model.properties()));
+  }
 
   drop_handler(event) {
     event.preventDefault();
@@ -49,8 +48,8 @@ dragstart_handler = function (event) {
   }
 
   dragend_handler(event) {
-  event.preventDefault();
-}
+    event.preventDefault();
+  }
 
   render() {
     const divStyle = {
@@ -58,25 +57,19 @@ dragstart_handler = function (event) {
       backgroundColor: '#f3ea5f',
       margin: '20px',
       minHeight: '100px',
-      gridColumn: `1 / ${this.props.model.width()}`
+      gridTemplateColumns: 'repeat(24, 1fr)'
     }
     return (
-      <div className=" form-group"
+        <div className="grid form-group"
         style={divStyle}
         onDrop={this.drop_handler}
         draggable="true"
         onDragEnd={this.dragend_handler}
         onDragStart={this.dragstart_handler}
         >
-        {/* <p>FormSection: {this.props.model._uuid}</p> */}
         {this.props.model.children().map((element, i) => {
           return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: this.props.form, removeformentity: this.props.removeformentity, addformentity: this.props.addformentity })
         })}
-        {/* <button
-          type="button"
-          className="btn btn-danger"
-          onClick={(e) => this.handleDelete(e, this.props)}
-        >-</button> */}
       </div>
     );
   }
