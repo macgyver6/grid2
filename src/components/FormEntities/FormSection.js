@@ -23,12 +23,13 @@ class FormSectionComponent extends Component {
 
   mouseDownHandler(event) {
     if (event.target.className === 'resizer') {
+      console.log('className === resizer')
       event.preventDefault();
       event.stopPropagation();
       const resize = this.state.resize;
       resize.init = event.screenX;
       this.setState({ resize })
-      // window.addEventListener('mouseup', this.mouseUpHandler);
+      document.getElementById(this.props.model.UUID()).addEventListener('mouseup', this.mouseUpHandler);
     }
   }
 
@@ -62,6 +63,8 @@ class FormSectionComponent extends Component {
         entityToChange.mutate({ width: (newWidth) }), address
       )
     }
+
+    document.getElementById(this.props.model.UUID()).removeEventListener('mouseup', this.mouseUpHandler);
   }
 
   handleDelete = function (event, props) {
@@ -81,6 +84,7 @@ class FormSectionComponent extends Component {
   drop_handler(event) {
     event.preventDefault();
     event.stopPropagation();
+    console.log(event.target)
     let data = event.dataTransfer.getData("text");
     let entityToAdd = utility.resurrectEntity(defaultPropsFE[data])
     let location = utility.findNode(this.props.model, this.props.form)
@@ -107,17 +111,20 @@ class FormSectionComponent extends Component {
       backgroundColor: '#f3ea5f',
       margin: '20px',
       minHeight: '100px',
-      gridTemplateColumns: 'repeat(24, 1fr)'
+      minWidth: '100px',
+      display: 'grid',
+      gridTemplateColumns: `repeat(${this.props.model.width()}, 1fr)`,
+      gridGap: '8px',
+      gridColumn: `span ${this.props.model.width()}`
     }
     return (
-        <div className="grid form-group"
+        <div className="form-group"
         style={divStyle}
         onDrop={this.drop_handler}
         draggable="true"
         onDragEnd={this.dragend_handler}
         onDragStart={this.dragstart_handler}
         onMouseDown={(e) => this.mouseDownHandler(e, this.props)}
-        onMouseUp={(e) => this.mouseUpHandler(e, this.props)}
         id={this.props.model.UUID()}
         >
         {this.props.model.children().map((element, i) => {

@@ -33,7 +33,10 @@ class FormComponent extends Component {
   render() {
     const divStyle = {
       border: '6px dashed #c04df9',
-      margin: '20px'
+      margin: '20px',
+      display: 'grid',
+      gridTemplateColumns: `24, 1fr)`,
+      gridGap: '8px'
     }
 
     return (
