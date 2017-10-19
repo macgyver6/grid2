@@ -1,7 +1,6 @@
 export const backgroundPanelStyle = {
   display: 'flex',
   justifyContent: 'flex-start',
-  position: 'absolute',
   width: window.screen.availWidth * 0.98,
   height: window.screen.availHeight * 0.89,
   backgroundColor: '#DDDDDD',

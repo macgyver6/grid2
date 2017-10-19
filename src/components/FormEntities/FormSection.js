@@ -17,32 +17,33 @@ let FormSectionComponent = (props) => {
     }
   }
 
-  let mouseUpHandler = (event) => {
+  function mouseUpHandler(event) {
+    resize.changed = event.screenX;
     let initGrid = props.model.children()[0].width()
+    let resizeX = event.screenX
     let address = utility.findNode(props.model.children()[0], props.form)
-    let initDiff = event.screenX - resize.init
+    let initDiff = resizeX - resize.init
     let fsWidth = parseInt((document.getElementById(props.model.UUID()).clientWidth / 24), 10)
     let diffGrid = (parseInt(((Math.abs(initDiff)) / fsWidth), 10))
     if ((Math.abs(initDiff)) > 20) {
-      resize.changed = event.screenX;
       var calcOpp = {
         '+': (a, b) => a + b,
         '-': (a, b) => a - b
       }
+      const calc = ((newWidth) => {
+        let entityToChange = props.model.children()[0]
+        props.removeformentity(address)
+        return props.addformentity(
+          entityToChange.mutate({ width: (newWidth) }), address
+        )
+      })
       if (initDiff > 0) {
-        calc(calcOpp['+'](resize.init, diffGrid))
+        calc(calcOpp['+'](initGrid, diffGrid))
       } else {
-        calc(calcOpp['-'](resize.init, diffGrid))
+        calc(calcOpp['-'](initGrid, diffGrid))
       }
     }
 
-    const calc = (newWidth) => {
-      let entityToChange = props.model.children()[0]
-      props.removeformentity(address)
-      props.addformentity(
-        entityToChange.mutate({ width: (newWidth) }), address
-      )
-    }
     document.getElementById(props.model.UUID()).removeEventListener('mouseup', mouseUpHandler);
   }
 
@@ -81,15 +82,20 @@ let FormSectionComponent = (props) => {
   }
 
   const divStyle = {
-    border: '6px dashed #c04df9',
+    // border: '6px dashed #c04df9',
     backgroundColor: '#f3ea5f',
     margin: '20px',
-    minHeight: '100px',
-    minWidth: '100px',
-    display: 'grid',
-    gridTemplateColumns: `repeat(${props.model.width()}, 1fr)`,
-    gridGap: '8px',
-    gridColumn: `span ${props.model.width()}`
+    // minHeight: '100px',
+    // minWidth: '100px',
+    // display: 'grid',
+    // gridTemplateColumns: `repeat(${props.model.width()}, 1fr)`,
+    // gridGap: '8px',
+    // gridColumn: `span 12`,
+    gridColumn: `col 1 / span 13`,
+    gridRow: `row 1`,
+    // gridColumn: `span ${props.model.width()}`,
+    minHeight: '400px',
+    zIndex: '20'
   }
 
   return (

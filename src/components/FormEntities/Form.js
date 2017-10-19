@@ -28,18 +28,63 @@ const FormComponent = (props) => {
     border: '6px dashed #c04df9',
     margin: '20px',
     display: 'grid',
-    gridTemplateColumns: `24, 1fr)`,
-    gridGap: '8px'
+    gridTemplateColumns: `repeat(24, [col] 1fr)`,
+    gridTemplateRows: `repeat(3, [row] auto  )`,
+    gridGap: '8px',
+    opacity: '0%',
+    zIndex: '10'
+    // backgroundColor: 'lightgreen'
+  }
+
+  const innerStyle = {
+    // gridColumn: `span 1`,
+    padding: '0px',
+    margin: '0px',
+    fontSize: '12',
+    color: 'grey',
+    textAlign: 'center',
+    // border: '2px solid lightgrey',
+    backgroundColor: 'lightgrey',
+    // gridColumn: 'span 1',
+    // minHeight: '400px',
+    zIndex: '15'
   }
 
   return (
     <div
-      className=''
+      className='wrapper'
       style={divStyle}
       onDrop={drop_handler}
       onDragOver={dragover_handler}
       onDragLeave={dragleave_handler}
     >
+
+      <div className="one" style={innerStyle}>1</div>
+      <div className="two" style={innerStyle}>2</div>
+      <div className="three" style={innerStyle}>3</div>
+      <div className="four" style={innerStyle}>4</div>
+      <div className="five" style={innerStyle}>5</div>
+      <div className="six" style={innerStyle}>6</div>
+      <div className="seven" style={innerStyle}>7</div>
+      <div className="eight" style={innerStyle}>8</div>
+      <div className="nine" style={innerStyle}>9</div>
+      <div className="ten" style={innerStyle}>10</div>
+      <div className="eleven" style={innerStyle}>11</div>
+      <div className="twelve" style={innerStyle}>12</div>
+      <div className="thirteen" style={innerStyle}>13</div>
+      <div className="fourteen" style={innerStyle}>14</div>
+      <div className="fifteen" style={innerStyle}>15</div>
+      <div className="sixteen" style={innerStyle}>16</div>
+      <div className="seventeen" style={innerStyle}>17</div>
+      <div className="eighteen" style={innerStyle}>18</div>
+      <div className="nineteen" style={innerStyle}>19</div>
+      <div className="twenty" style={innerStyle}>20</div>
+      <div className="twentyone" style={innerStyle}>21</div>
+      <div className="twentytwo" style={innerStyle}>22</div>
+      <div className="twentythree" style={innerStyle}>23</div>
+      <div className="twentyfour" style={innerStyle}>24</div>
+
+
       {props.form.sectionTabs() ?
         props.form.children().map(child => child.children().map((formSection, i) => {
           return <FormSectionComponent

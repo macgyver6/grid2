@@ -1,8 +1,96 @@
-.grid {
-  display: grid;
-  /* height: 100px; */
-  grid-template-columns: repeat(24, 1fr);
-  /* grid-template-rows: 100px; */
-}
-
-/* * {box-sizing: border-box;} */
+.one {
+		grid-column: col 1;
+		grid-row: 1 ;
+	}
+.two {
+		grid-column: col 2;
+		grid-row: 1 ;
+	}
+.three {
+		grid-column: col 3;
+		grid-row: 1 ;
+	}
+.four {
+		grid-column: col 4;
+		grid-row: 1 ;
+	}
+.five {
+		grid-column: col 5;
+		grid-row: 1 ;
+	}
+.six {
+		grid-column: col 6;
+		grid-row: 1 ;
+	}
+.seven {
+		grid-column: col 7;
+		grid-row: 1 ;
+	}
+.eight {
+		grid-column: col 8;
+		grid-row: 1 ;
+	}
+.nine {
+		grid-column: col 9;
+		grid-row: 1 ;
+	}
+.ten {
+		grid-column: col 10;
+		grid-row: 1 ;
+	}
+.eleven {
+		grid-column: col 11;
+		grid-row: 1 ;
+	}
+.twelve {
+		grid-column: col 12;
+		grid-row: 1 ;
+	}
+.thirteen {
+		grid-column: col 13;
+		grid-row: 1 ;
+	}
+.fourteen {
+		grid-column: col 14;
+		grid-row: 1 ;
+	}
+.fifteen {
+		grid-column: col 15;
+		grid-row: 1 ;
+	}
+.sixteen {
+		grid-column: col 16;
+		grid-row: 1 ;
+	}
+.seventeen {
+		grid-column: col 17;
+		grid-row: 1 ;
+	}
+.eighteen {
+		grid-column: col 18;
+		grid-row: 1 ;
+	}
+.nineteen {
+		grid-column: col 19;
+		grid-row: 1 ;
+	}
+.twenty {
+		grid-column: col 20;
+		grid-row: 1 ;
+	}
+.twentyone {
+		grid-column: col 21;
+		grid-row: 1 ;
+	}
+.twentytwo {
+		grid-column: col 22;
+		grid-row: 1 ;
+	}
+.twentythree {
+		grid-column: col 23;
+		grid-row: 1 ;
+	}
+.twentyfour {
+		grid-column: col 24;
+		grid-row: 1 ;
+	}

@@ -17,11 +17,11 @@ export var defaultPropsFE = {
       }),
       new FormSection({
         uuid: undefined, type: 'FormSection', width: 24, children: [
-          new FormSection({
-            uuid: undefined, type: 'FormSection', width: 24, children: [
+          // new FormSection({
+          //   uuid: undefined, type: 'FormSection', width: 24, children: [
 
-            ], legend: 'string', prepend: 3, append: 4
-          })
+          //   ], legend: 'string', prepend: 3, append: 4
+          // })
         ], legend: 'string', prepend: 3, append: 4
       })
     ]

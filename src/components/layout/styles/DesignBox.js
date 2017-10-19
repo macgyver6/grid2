@@ -47,7 +47,7 @@ export const DesignBoxGridStyle = {
 export const FormEntityConstants = {
   widthUnit: ((window.screen.availWidth * 0.98) * 0.70) / 24,
   heightUnit: (((window.screen.availWidth * 0.98) * 0.68) * 1.5) / 24,
-  position: "absolute",
+
   ///Decide position with marginLeft and marginTop
 
 

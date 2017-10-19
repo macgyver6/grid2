@@ -28,13 +28,12 @@ let TextAreaComponent = (props) => {
     margin: '20px',
     padding: '20px',
     gridColumn: `span ${props.model.width()}`,
-    position: 'relative'
+
   }
   const resizeStyle = {
     width: '20px',
     height: '20px',
     backgroundColor: 'yellow',
-    position: 'absolute',
     right: 0,
     bottom: 0,
     cursor: 'w-resize'
