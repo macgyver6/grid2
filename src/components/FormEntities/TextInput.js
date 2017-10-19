@@ -1,12 +1,15 @@
 import React from 'react';
 import { utility } from '../../utility';
+import Resizer from './subentities/Resizer.js';
 
 const TextInputComponent = (props) => {
   const tiStyle = {
-    border: '6px dashed #c04df9',
+    // border: '6px dashed #c04df9',
     backgroundColor: '#ff3f3f',
-    margin: '20px',
-    gridColumn: `span ${props.model.width()}`
+    margin: '10px',
+    gridColumn: `span ${props.model.width()}`,
+    position: 'relative',
+    maxHeight: '100px'
   }
   let handleChange = (event, props) => {
     let result = utility.findNode(props.model, props.form)
@@ -33,11 +36,12 @@ const TextInputComponent = (props) => {
       draggable="true"
       onDragEnd={dragend_handler}
       onDragStart={dragstart_handler}
-
-    ><p>{props.model.width()}</p>
+    >
       <input className="form-control" type={props.model.type()}
         value={props.model.defaultContent()}
         onChange={(e) => handleChange(e, props)} />
+
+        <Resizer />
     </div>
   );
 }

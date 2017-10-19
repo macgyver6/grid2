@@ -72,7 +72,8 @@ const selectionStyles = {
   Remove: {
     background: "red",
     padding: "20px",
-    margin: "20px"
+    margin: "20px",
+    textAlign: 'center'
   }
 }
 
@@ -101,7 +102,7 @@ const DeleteBtn = (props) => {
     onDragOver={dragover_handler}
     onDragLeave={dragleave_handler}
   >
-    <p>Delete -</p>
+    <h1>🗑</h1>
     {/* <button
       type="button"
       className="btn btn-danger"

@@ -24,7 +24,7 @@ let FormSectionComponent = (props) => {
     let address = utility.findNode(props.model.children()[0], props.form)
     let initDiff = resizeX - resize.init
     let fsWidth = parseInt((document.getElementById(props.model.UUID()).clientWidth / 24), 10)
-    let diffGrid = (parseInt(((Math.abs(initDiff)) / fsWidth), 10))
+    let diffGrid = (parseInt(((Math.abs(initDiff)) / fsWidth), 10) + 1)
     if ((Math.abs(initDiff)) > 20) {
       var calcOpp = {
         '+': (a, b) => a + b,
@@ -83,18 +83,18 @@ let FormSectionComponent = (props) => {
 
   const divStyle = {
     // border: '6px dashed #c04df9',
-    backgroundColor: '#f3ea5f',
-    margin: '20px',
-    // minHeight: '100px',
-    // minWidth: '100px',
-    // display: 'grid',
-    // gridTemplateColumns: `repeat(${props.model.width()}, 1fr)`,
-    // gridGap: '8px',
+    backgroundColor: 'rgba(243, 234, 95, 0.7)',
+    // margin: '20px',
+    maxHeight: '120px',
+    minHeight: '120px',
+    minWidth: '100px',
+    display: 'grid',
+    gridTemplateColumns: `repeat(${props.model.width()}, 1fr)`,
+    gridGap: '8px',
     // gridColumn: `span 12`,
-    gridColumn: `col 1 / span 13`,
+    // gridColumn: `col 1 / span 13`,
     gridRow: `row 1`,
-    // gridColumn: `span ${props.model.width()}`,
-    minHeight: '400px',
+    gridColumn: `col 1 / span ${props.model.width()}`,
     zIndex: '20'
   }
 

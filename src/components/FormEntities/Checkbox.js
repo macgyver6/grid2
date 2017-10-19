@@ -1,5 +1,7 @@
 import React from 'react';
 import { utility } from '../../utility';
+import Resizer from './subentities/Resizer';
+import Append from './subentities/Append';
 
 let handleDelete = function (event, props) {
   let result = utility.findNode(props.model, props.form)
@@ -8,30 +10,14 @@ let handleDelete = function (event, props) {
 
 const CheckboxComponent = (props) => {
   const cbStyle = {
-    border: '6px dashed #c04df9',
+    // border: '6px dashed #c04df9',
     backgroundColor: '#ff48c4',
-    margin: '20px',
-    display: 'flex',
+    margin: '10px',
+    position: 'relative',
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    gridColumn: `span ${props.model.width()}`
-  }
-
-  const appendStyle = {
-    border: '2px dashed black',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end'
-  }
-
-  const Append = () => {
-    return (
-      <div
-      style={appendStyle}>
-        <h1>Append</h1>
-
-      </div>
-    )
+    gridColumn: `span ${props.model.width()}`,
+    maxHeight: '100px',
   }
 
   let dragend_handler = function (event) {
@@ -49,11 +35,10 @@ const CheckboxComponent = (props) => {
       onDragEnd={dragend_handler}
       onDragStart={dragstart_handler}
     >
-      <p>{props.model.width()}</p>
       <input type={props.model.type()} onChange={props.handleInputChange} checked={props.model.defaultState()}>
       </input>
-      {/* <p>{props.model.UUID()}</p> */}
       <Append />
+      <Resizer />
       {/* <button
         type="button"
         className="btn btn-danger"

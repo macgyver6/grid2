@@ -25,14 +25,15 @@ const FormComponent = (props) => {
   }
 
   const divStyle = {
-    border: '6px dashed #c04df9',
+    // border: '6px dashed #c04df9',
     margin: '20px',
     display: 'grid',
     gridTemplateColumns: `repeat(24, [col] 1fr)`,
-    gridTemplateRows: `repeat(3, [row] auto  )`,
+    gridTemplateRows: `[row] auto`,
     gridGap: '8px',
-    opacity: '0%',
-    zIndex: '10'
+    // opacity: '0%',
+    zIndex: '10',
+    minHeight: '85vh'
     // backgroundColor: 'lightgreen'
   }
 
@@ -46,7 +47,6 @@ const FormComponent = (props) => {
     // border: '2px solid lightgrey',
     backgroundColor: 'lightgrey',
     // gridColumn: 'span 1',
-    // minHeight: '400px',
     zIndex: '15'
   }
 
