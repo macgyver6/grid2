@@ -1,79 +1,66 @@
 import React from 'react';
 import { utility } from '../../utility';
 
-let handleDelete = function (event, props) {
-  let address = utility.findNode(props.model, props.form)
-  props.removeformentity(address)
-}
-
-
-
-class TextAreaComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.dragend_handler = this.dragend_handler.bind(this);
-    this.dragstart_handle = this.dragstart_handle.bind(this);
-
+let TextAreaComponent = (props) => {
+  let handleDelete = function (event, props) {
+    let address = utility.findNode(props.model, props.form)
+    props.removeformentity(address)
   }
 
-  handleChange(event, props) {
+  let handleChange = function(event, props) {
     let address = utility.findNode(props.model, props.form)
     props.removeformentity(address)
     props.addformentity(
       props.model.mutate({ width: props.model.width() - 1 }), address)
   }
 
-  dragend_handler(event) {
-    this.event.preventDefault();
+  let dragend_handler = function(event) {
+    event.preventDefault();
   }
 
-  dragstart_handle(event) {
-    this.event.stopPropagation();
-    this.event.dataTransfer.setData("text/plain", JSON.stringify(this.props.model.properties()));
+  let dragstart_handler = function(event) {
+    event.stopPropagation();
+    event.dataTransfer.setData("text/plain", JSON.stringify(props.model.properties()));
+  }
+  const taStyle = {
+    border: '6px dashed #c04df9',
+    backgroundColor: '#2bd1fc',
+    margin: '20px',
+    padding: '20px',
+    gridColumn: `span ${props.model.width()}`,
+    position: 'relative'
+  }
+  const resizeStyle = {
+    width: '20px',
+    height: '20px',
+    backgroundColor: 'yellow',
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    cursor: 'w-resize'
   }
 
-  render() {
-    const taStyle = {
-      border: '6px dashed #c04df9',
-      backgroundColor: '#2bd1fc',
-      margin: '20px',
-      padding: '20px',
-      gridColumn: `span ${this.props.model.width()}`,
-      position: 'relative'
-    }
-    const resizeStyle = {
-      width: '20px',
-      height: '20px',
-      backgroundColor: 'yellow',
-      position: 'absolute',
-      right: 0,
-      bottom: 0,
-      cursor: 'w-resize'
-    }
+  let Resizer = () =>
+    <div
+      className="resizer"
+      style={resizeStyle}
+    >
+    </div>
 
-    let Resizer = () =>
-      <div
-        className="resizer"
-        style={resizeStyle}
-      >
-      </div>
-
-    return (
-      <div style={taStyle}
-        ref={elem => this.TA = elem}
-        draggable="true"
-        onDragEnd={this.dragend_handler}
-        onDragStart={this.dragstart_handler}
-      >
-        {/* onClick={(e) => this.handleChange(e, this.props)} */}
-        <p>{this.props.model.width()}</p>
-        <textarea className="form-control" placeholder="Write something in text area" name={this.props.model.name()} rows={this.props.model.numRows()} cols={this.props.model.numColumns()} type={this.props.model.type()}>
-        </textarea>
-        <Resizer />
-      </div>
-    )
-  }
+  return (
+    <div style={taStyle}
+      /* ref={elem => TA = elem} */
+      draggable="true"
+      onDragEnd={dragend_handler}
+      onDragStart={dragstart_handler}
+    >
+      {/* onClick={(e) => handleChange(e, props)} */}
+      <p>{props.model.width()}</p>
+      <textarea className="form-control" placeholder="Write something in text area" name={props.model.name()} rows={props.model.numRows()} cols={props.model.numColumns()} type={props.model.type()}>
+      </textarea>
+      <Resizer />
+    </div>
+  )
 }
 
 export default TextAreaComponent;

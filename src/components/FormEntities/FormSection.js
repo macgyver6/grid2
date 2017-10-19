@@ -2,137 +2,112 @@ import React, { Component } from 'react';
 import { utility } from '../../utility';
 import { defaultPropsFE } from '../../constants/defaultPropsFE';
 
-class FormSectionComponent extends Component {
-  constructor(props) {
-    super()
-    this.drop_handler = this.drop_handler.bind(this);
-    this.dragleave_handler = this.dragleave_handler.bind(this);
-    this.dragover_handler = this.dragover_handler.bind(this);
-    this.dragend_handler = this.dragend_handler.bind(this);
-    this.dragstart_handler = this.dragstart_handler.bind(this);
-    this.mouseDownHandler = this.mouseDownHandler.bind(this);
-    this.mouseUpHandler = this.mouseUpHandler.bind(this);
-
-    this.state = {
-      resize: {
-        init: null,
-        changed: null
-      }
-    }
+let FormSectionComponent = (props) => {
+  const resize = {
+    init: null,
+    changed: null
   }
-
-  mouseDownHandler(event) {
+  let mouseDownHandler = (event) => {
     if (event.target.className === 'resizer') {
       console.log('className === resizer')
       event.preventDefault();
       event.stopPropagation();
-      const resize = this.state.resize;
       resize.init = event.screenX;
-      this.setState({ resize })
-      document.getElementById(this.props.model.UUID()).addEventListener('mouseup', this.mouseUpHandler);
+      document.getElementById(props.model.UUID()).addEventListener('mouseup', mouseUpHandler);
     }
   }
 
-  mouseUpHandler(event) {
-    const resize = this.state.resize;
-    resize.changed = event.screenX;
-    let initX = this.state.resize.init
-    let initGrid = this.props.model.children()[0].width()
-    let resizeX = event.screenX
-    let address = utility.findNode(this.props.model.children()[0], this.props.form)
-    let initDiff = resizeX - initX
-    let fsWidth = parseInt((document.getElementById(this.props.model.UUID()).clientWidth / 24), 10)
+  let mouseUpHandler = (event) => {
+    let initGrid = props.model.children()[0].width()
+    let address = utility.findNode(props.model.children()[0], props.form)
+    let initDiff = event.screenX - resize.init
+    let fsWidth = parseInt((document.getElementById(props.model.UUID()).clientWidth / 24), 10)
     let diffGrid = (parseInt(((Math.abs(initDiff)) / fsWidth), 10))
     if ((Math.abs(initDiff)) > 20) {
-      this.setState({ resize })
+      resize.changed = event.screenX;
       var calcOpp = {
         '+': (a, b) => a + b,
         '-': (a, b) => a - b
       }
       if (initDiff > 0) {
-        calc.call(this, calcOpp['+'](initGrid, diffGrid))
+        calc(calcOpp['+'](resize.init, diffGrid))
       } else {
-        calc.call(this, calcOpp['-'](initGrid, diffGrid))
+        calc(calcOpp['-'](resize.init, diffGrid))
       }
     }
 
-    function calc(newWidth) {
-      let entityToChange = this.props.model.children()[0]
-      this.props.removeformentity(address)
-      this.props.addformentity(
+    const calc = (newWidth) => {
+      let entityToChange = props.model.children()[0]
+      props.removeformentity(address)
+      props.addformentity(
         entityToChange.mutate({ width: (newWidth) }), address
       )
     }
-
-    document.getElementById(this.props.model.UUID()).removeEventListener('mouseup', this.mouseUpHandler);
+    document.getElementById(props.model.UUID()).removeEventListener('mouseup', mouseUpHandler);
   }
 
-  handleDelete = function (event, props) {
+  let handleDelete = (event, props) => {
     let result = utility.findNode(props.model, props.form)
     props.removeformentity(result)
   }
 
-  dragend_handler = function (event) {
+  let dragend_handler = (event) => {
     event.preventDefault();
   }
 
-  dragstart_handler = function (event) {
+  let dragstart_handler = (event) => {
     event.stopPropagation();
-    event.dataTransfer.setData("text/plain", JSON.stringify(this.props.model.properties()));
+    event.dataTransfer.setData("text/plain", JSON.stringify(props.model.properties()));
   }
 
-  drop_handler(event) {
+  let drop_handler = (event) => {
     event.preventDefault();
     event.stopPropagation();
     console.log(event.target)
     let data = event.dataTransfer.getData("text");
     let entityToAdd = utility.resurrectEntity(defaultPropsFE[data])
-    let location = utility.findNode(this.props.model, this.props.form)
+    let location = utility.findNode(props.model, props.form)
     // @hack - only adds to position 0 at this point
     location.push(0)
-    this.props.addformentity(entityToAdd, location)
+    props.addformentity(entityToAdd, location)
   }
 
-  dragover_handler(event) {
+  let dragover_handler = (event) => {
     event.preventDefault();
   }
 
-  dragleave_handler(event) {
+  let dragleave_handler = (event) => {
     event.preventDefault();
   }
 
-  dragend_handler(event) {
-    event.preventDefault();
+  const divStyle = {
+    border: '6px dashed #c04df9',
+    backgroundColor: '#f3ea5f',
+    margin: '20px',
+    minHeight: '100px',
+    minWidth: '100px',
+    display: 'grid',
+    gridTemplateColumns: `repeat(${props.model.width()}, 1fr)`,
+    gridGap: '8px',
+    gridColumn: `span ${props.model.width()}`
   }
 
-  render() {
-    const divStyle = {
-      border: '6px dashed #c04df9',
-      backgroundColor: '#f3ea5f',
-      margin: '20px',
-      minHeight: '100px',
-      minWidth: '100px',
-      display: 'grid',
-      gridTemplateColumns: `repeat(${this.props.model.width()}, 1fr)`,
-      gridGap: '8px',
-      gridColumn: `span ${this.props.model.width()}`
-    }
-    return (
-        <div className="form-group"
-        style={divStyle}
-        onDrop={this.drop_handler}
-        draggable="true"
-        onDragEnd={this.dragend_handler}
-        onDragStart={this.dragstart_handler}
-        onMouseDown={(e) => this.mouseDownHandler(e, this.props)}
-        id={this.props.model.UUID()}
-        >
-        {this.props.model.children().map((element, i) => {
-          return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: this.props.form, removeformentity: this.props.removeformentity, addformentity: this.props.addformentity })
-        })}
-      </div>
-    );
-  }
+  return (
+    <div className="form-group"
+      style={divStyle}
+      onDrop={drop_handler}
+      draggable="true"
+      onDragEnd={dragend_handler}
+      onDragStart={dragstart_handler}
+      onMouseDown={(e) => mouseDownHandler(e, props)}
+      id={props.model.UUID()}
+    >
+      {props.model.children().map((element, i) => {
+        return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity })
+      })}
+    </div>
+  );
 }
+
 
 export default FormSectionComponent;
