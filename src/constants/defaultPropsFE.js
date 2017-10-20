@@ -1,8 +1,8 @@
 import { FormSection } from '../data/FormSection';
 import { TextArea } from '../data/TextArea';
+import { Checkbox } from '../data/Checkbox';
 
 export var defaultPropsFE = {
-
   Form: {
     uuid: undefined, type: 'Form', version: 1, autoId: true, children: [
       new FormSection({
@@ -10,6 +10,7 @@ export var defaultPropsFE = {
 
           new FormSection({
             uuid: undefined, type: 'FormSection', width: 24, children: [
+              // new TextArea ({ uuid: undefined, width: 12, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'TextArea', tabOrder: [1, 2, 3], inputWidth: 12, promptNumber: 'promptNumber', prepend: 88, autoNumber: 'SEQUENTIAL', append: 4, numColumns: 20, numRows: 2, defaultContent: 'Default Content' })
 
             ], legend: 'string', prepend: 3, append: 4
           })

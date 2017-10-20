@@ -2,6 +2,7 @@ import React from 'react';
 import { utility } from '../../utility';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
+import { styles } from './feStyles';
 
 let handleDelete = function (event, props) {
   let result = utility.findNode(props.model, props.form)
@@ -9,16 +10,6 @@ let handleDelete = function (event, props) {
 }
 
 const CheckboxComponent = (props) => {
-  const cbStyle = {
-    // border: '6px dashed #c04df9',
-    backgroundColor: '#ff48c4',
-    margin: '10px',
-    position: 'relative',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    gridColumn: `span ${props.model.width()}`,
-    maxHeight: '100px',
-  }
 
   let dragend_handler = function (event) {
     event.preventDefault();
@@ -29,21 +20,37 @@ const CheckboxComponent = (props) => {
     event.dataTransfer.setData("text/plain", JSON.stringify(props.model.properties()));
   }
 
+  const cbStyle = {
+    backgroundColor: '#ff48c4',
+    position: 'relative',
+    gridColumn: `span ${props.model.width()}`,
+    maxHeight: '100px',
+  }
+
+  // return actual style values
+  // 1. # of grid columns the CheckBox and Append will fill
+  styles.defaultEntity['gridColumn'] = 'span ' + (props.model.width() + props.model.append())
+  // 2. # of grid columns within the CheckBox
+  styles.defaultEntity['gridTemplateColumns'] = 'repeat(' + (props.model.width() + props.model.append()) + ', [col] 1fr)'
+
+
   return (
-    <div style={cbStyle}
-      draggable="true"
-      onDragEnd={dragend_handler}
-      onDragStart={dragstart_handler}
-    >
-      <input type={props.model.type()} onChange={props.handleInputChange} checked={props.model.defaultState()}>
-      </input>
-      <Append />
-      <Resizer />
-      {/* <button
+    <div style={styles.defaultEntity}>
+      <div style={cbStyle}
+        draggable="true"
+        onDragEnd={dragend_handler}
+        onDragStart={dragstart_handler}
+      >
+        <input type={props.model.type()} onChange={props.handleInputChange} checked={props.model.defaultState()}>
+        </input>
+        <Resizer />
+        {/* <button
         type="button"
         className="btn btn-danger"
         onClick={(e) => handleDelete(e, props)}
       >-</button> */}
+      </div>
+      <Append append={props.model.append()}/>
     </div>
   );
 }

@@ -1,17 +1,20 @@
 import React from 'react';
+import Resizer from './Resizer';
 
-const appendStyle = {
-  border: '2px dashed black',
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'flex-end'
-}
+const Append = (props) => {
+  const appendStyle = {
+    // border: '2px dashed black',
+    gridColumn: `span ${props.append}`,
+    position: 'relative',
+    backgroundColor: 'lightgrey'
+    // flexDirection: 'row',
+    // justifyContent: 'flex-end'
+  }
 
-const Append = () => {
   return (
     <div
       style={appendStyle}>
-      <h1>Append</h1>
+      <Resizer />
     </div>
   )
 }
