@@ -82,24 +82,19 @@ let FormSectionComponent = (props) => {
   }
 
   const divStyle = {
-    // border: '6px dashed #c04df9',
-    backgroundColor: 'rgba(243, 234, 95, 0.7)',
-    // margin: '20px',
-    maxHeight: '120px',
-    minHeight: '120px',
-    minWidth: '100px',
-    display: 'grid',
-    gridTemplateColumns: `repeat(${props.model.width()}, 1fr)`,
-    gridGap: '8px',
-    // gridColumn: `span 12`,
-    // gridColumn: `col 1 / span 13`,
-    gridRow: `row 1`,
-    gridColumn: `col 1 / span ${props.model.width()}`,
-    zIndex: '20'
+    "display": "grid",
+    "gridTemplateColumns": "repeat(24, [col] 1fr)",
+    "backgroundColor": "rgba(243, 234, 95, 0.7)",
+    // "marginTop": "10px",
+    "minHeight": "120px",
+    "minWidth": "100px",
+    "gridColumn": "col 1 / span 24",
+    "gridGap": "8px",
+    "zIndex": "30"
   }
 
   return (
-    <div className="form-group"
+    <div className="form-group FS"
       style={divStyle}
       onDrop={drop_handler}
       draggable="true"
