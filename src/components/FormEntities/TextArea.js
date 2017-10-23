@@ -1,21 +1,15 @@
 import React from 'react';
-import { utility } from '../../utility';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
 
 const TextAreaComponent = (props) => {
-  let handleDelete = function (event, props) {
-    let address = utility.findNode(props.model, props.form)
-    props.removeformentity(address)
-  }
-
-  let handleChange = function (event, props) {
-    let address = utility.findNode(props.model, props.form)
-    props.removeformentity(address)
-    props.addformentity(
-      props.model.mutate({ width: props.model.width() - 1 }), address)
-  }
+  // let handleChange = function (event, props) {
+  //   let address = utility.findNode(props.model, props.form)
+  //   props.removeformentity(address)
+  //   props.addformentity(
+  //     props.model.mutate({ width: props.model.width() - 1 }), address)
+  // }
 
   let dragend_handler = function (event) {
     event.preventDefault();
@@ -25,7 +19,6 @@ const TextAreaComponent = (props) => {
     event.stopPropagation();
     event.dataTransfer.setData("text/plain", JSON.stringify(props.model.properties()));
   }
-  const width = (props.model.width() + props.model.append())
   const taStyle = {
     backgroundColor: '#2bd1fc',
     opacity: '1',

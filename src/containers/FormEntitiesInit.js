@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import FormComponent from '../components/FormEntities/Form';
 import { utility } from '../utility';
-import { defaultPropsFE } from '../constants/defaultPropsFE';
-
 import {
   backgroundPanelStyle,
   leftPanelStyle,
@@ -12,12 +10,7 @@ import {
   rightPanelStyle,
   headerPanelStyle,
 } from '../components/layout/styles/Layout';
-
 import DesignBoxHeader from '../components/layout/design/DesignBoxHeader';
-
-// let dragover_handler = function (event) {
-//   event.preventDefault();
-// }
 
 let dragstart_handler = function (event) {
   event.dataTransfer.setData("text/plain", event.target.dataset.type);
@@ -26,10 +19,6 @@ let dragstart_handler = function (event) {
 let dragend_handler = function (event) {
   event.preventDefault();
 }
-
-// let dragleave_handler = function (event) {
-//   event.preventDefault();
-// }
 
 const BackgroundPanel = (props) =>
   <div style={backgroundPanelStyle}>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { utility } from '../../utility';
 import { defaultPropsFE } from '../../constants/defaultPropsFE';
 
@@ -47,11 +47,6 @@ let FormSectionComponent = (props) => {
     document.getElementById(props.model.UUID()).removeEventListener('mouseup', mouseUpHandler);
   }
 
-  let handleDelete = (event, props) => {
-    let result = utility.findNode(props.model, props.form)
-    props.removeformentity(result)
-  }
-
   let dragend_handler = (event) => {
     event.preventDefault();
   }
@@ -74,13 +69,13 @@ let FormSectionComponent = (props) => {
     props.addformentity(entityToAdd, location)
   }
 
-  let dragover_handler = (event) => {
-    event.preventDefault();
-  }
+  // let dragover_handler = (event) => {
+  //   event.preventDefault();
+  // }
 
-  let dragleave_handler = (event) => {
-    event.preventDefault();
-  }
+  // let dragleave_handler = (event) => {
+  //   event.preventDefault();
+  // }
 
   const divStyle = {
     "display": "grid",

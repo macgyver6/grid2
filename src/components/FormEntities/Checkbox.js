@@ -1,13 +1,7 @@
 import React from 'react';
-import { utility } from '../../utility';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
-
-let handleDelete = function (event, props) {
-  let result = utility.findNode(props.model, props.form)
-  props.removeformentity(result)
-}
 
 const CheckboxComponent = (props) => {
 

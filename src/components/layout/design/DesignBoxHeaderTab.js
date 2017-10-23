@@ -13,7 +13,6 @@ import {
 
 const DesignBoxHeaderTab = (props) => {
   let onClickHandler = (event) => { props.changetab(props.tab)  }
-  let { tab, selected, handleApplicationAction } = props;
   return (
 
     <div

@@ -1,6 +1,5 @@
 import { FormSection } from '../data/FormSection';
 import { TextArea } from '../data/TextArea';
-import { Checkbox } from '../data/Checkbox';
 
 export var defaultPropsFE = {
   Form: {

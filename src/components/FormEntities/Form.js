@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import FormSectionComponent from './FormSection'
 import { utility } from '../../utility';
 import { defaultPropsFE } from '../../constants/defaultPropsFE';
@@ -11,8 +11,10 @@ const FormComponent = (props) => {
     let data = event.dataTransfer.getData("text");
     let entityToAdd = utility.resurrectEntity(defaultPropsFE[data])
     let location = utility.findNode(props.form, props.form)
+    location.push(props.activeTab - 1)
     // @hack - only adds to position 0 at this point
     location.push(0)
+    console.log(location)
     props.addformentity(entityToAdd, location)
   }
 
@@ -31,16 +33,6 @@ const FormComponent = (props) => {
     gridTemplateRows: `[row] auto`,
     gridGap: '8px',
     zIndex: '10',
-  }
-
-  const innerStyle = {
-    padding: '0px',
-    margin: '0px',
-    fontSize: '12',
-    color: 'grey',
-    textAlign: 'center',
-    backgroundColor: 'lightgrey',
-    zIndex: '15'
   }
 
   const bgrndGrd = {

@@ -13,11 +13,6 @@ const TextInputComponent = (props) => {
       props.model.mutate({ defaultContent: event.target.value }), result)
   }
 
-  let handleDelete = (event, props) => {
-    let result = utility.findNode(props.model, props.form)
-    props.removeformentity(result)
-  }
-
   let dragend_handler = (event) => {
     event.preventDefault();
   }
