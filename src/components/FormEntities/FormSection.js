@@ -62,6 +62,7 @@ let FormSectionComponent = (props) => {
   }
 
   let drop_handler = (event) => {
+
     event.preventDefault();
     event.stopPropagation();
     console.log(event.target)

@@ -44,11 +44,6 @@ const CheckboxComponent = (props) => {
         <input type={props.model.type()} onChange={props.handleInputChange} checked={props.model.defaultState()}>
         </input>
         <Resizer />
-        {/* <button
-        type="button"
-        className="btn btn-danger"
-        onClick={(e) => handleDelete(e, props)}
-      >-</button> */}
       </div>
       <Append append={props.model.append()}/>
     </div>

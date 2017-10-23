@@ -2,11 +2,15 @@ import { utility } from '../utility';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
 import { Form } from '../data/Form';
 
+// initialize the store
 const formReducer = (state, action) => {
   if (typeof state === 'undefined') {
     state = {
       value: 0,
-      form: new Form(defaultPropsFE.Form)
+      form: new Form(defaultPropsFE.Form),
+      app: {
+        activeTab: 1
+      }
     }
   }
 
@@ -57,6 +61,9 @@ const formReducer = (state, action) => {
     } else {
       throw new Error('No items saved in local storage')
     }
+  }
+  if (action.type === 'CHANGETAB') {
+    return Object.assign({}, state, { app: { activeTab: action.tab}})
   }
   return state;
 }

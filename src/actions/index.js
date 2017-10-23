@@ -8,14 +8,14 @@ export const addformentity = (formEntity, path) => {
   return {
     type: 'ADDFORMENTITY',
     formEntity: formEntity,
-    path: path
+    path
   }
 }
 
 export const removeformentity = (path) => {
   return {
     type: 'REMOVEFORMENTITY',
-    path: path
+    path
   }
 }
 
@@ -40,6 +40,14 @@ export const savestate = () => {
 export const loadstate = () => {
   return {
     type: 'LOADSTATE',
+  }
+}
+
+export const changetab = (tab) => {
+  console.log(tab)
+  return {
+    type: 'CHANGETAB',
+    tab
   }
 }
 

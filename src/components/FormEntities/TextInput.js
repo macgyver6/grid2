@@ -29,7 +29,6 @@ const TextInputComponent = (props) => {
 
   const tiStyle = {
     backgroundColor: '#ff3f3f',
-    // gridColumn: `span ${props.model.width()}`,
     position: 'relative',
     maxHeight: '100px'
   }
@@ -50,7 +49,6 @@ const TextInputComponent = (props) => {
         <input className="form-control" type={props.model.type()}
           value={props.model.defaultContent()}
           onChange={(e) => handleChange(e, props)} />
-
         <Resizer />
       </div>
       <Append append={props.model.append()} />

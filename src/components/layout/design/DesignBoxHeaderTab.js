@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 import {
   DesignBoxHeaderTabStyle,
@@ -11,25 +11,26 @@ import {
 //   deleteTab
 // } from '../auxillary/actions/design'
 
-class DesignBoxHeaderTab extends React.Component {
-  render(props) {
-    let { tab, selected, handleApplicationAction } = this.props;
-    return (
-      <div
-        style={{ ...DesignBoxHeaderTabStyle, backgroundColor: (selected) ? "white" : DesignBoxHeaderTabStyle.backgroundColor }}
-        >
-        Tab # {this.props.tab}
-        <button
-          style={DesignBoxHeaderTabButtonStyle}
-         >
+const DesignBoxHeaderTab = (props) => {
+  let onClickHandler = (event) => { props.changetab(props.tab)  }
+  let { tab, selected, handleApplicationAction } = props;
+  return (
+
+    <div
+      style={{ ...DesignBoxHeaderTabStyle, backgroundColor: (props.tab === props.activeTab) ? "white" : DesignBoxHeaderTabStyle.backgroundColor }}
+      onClick={onClickHandler}
+    >
+      Tab # {props.tab}
+      <button
+        style={DesignBoxHeaderTabButtonStyle}
+      >
         {/* <button
           style={DesignBoxHeaderTabButtonStyle}
           onClick={(e) => { e.stopPropagation(); handleApplicationAction(deleteTab(tab)) }}> */}
-          X
+        X
         </button>
-      </div>
-    );
-  }
+    </div>
+  );
 };
 
 export default DesignBoxHeaderTab;

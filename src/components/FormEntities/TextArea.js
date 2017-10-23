@@ -27,7 +27,6 @@ const TextAreaComponent = (props) => {
   }
   const width = (props.model.width() + props.model.append())
   const taStyle = {
-    // border: '6px dashed #c04df9',
     backgroundColor: '#2bd1fc',
     opacity: '1',
     gridColumn: `span ${props.model.width()}`,
@@ -44,7 +43,6 @@ const TextAreaComponent = (props) => {
   return (
     <div style={styles.defaultEntity}>
       <div style={taStyle}
-        /* ref={elem => TA = elem} */
         draggable="true"
         onDragEnd={dragend_handler}
         onDragStart={dragstart_handler}

@@ -40,7 +40,9 @@ const BackgroundPanel = (props) =>
     <MiddlePanel
       form={props.form}
       removeformentity={props.removeformentity}
-      addformentity={props.addformentity} />
+      addformentity={props.addformentity}
+      changetab={props.changetab}
+      activeTab={props.activeTab} />
     <RightPanel />
   </div>
 
@@ -136,13 +138,17 @@ const LeftPanel = (props) =>
 
 const MiddlePanel = (props) => {
   return <div
-    style={middlePanelStyle}>
+    style={middlePanelStyle}
+    addformentity={props.addformentity} >
     <div style={{
       ...headerPanelStyle, backgroundColor: "#EB7265", border: '6px dashed #f3ea5f', margin: '0px 20px 0px'
     }}>
       {props.form.sectionTabs() ?
         <DesignBoxHeader
           tabs={props.form.children()}
+          addformentity={props.addformentity}
+          changetab={props.changetab}
+          activeTab={props.activeTab}
         />
         : <DesignBoxHeader
         />
@@ -174,6 +180,8 @@ class FormEntityInit extends Component {
           form={this.props.store.model.form}
           removeformentity={this.props.removeformentity}
           addformentity={this.props.addformentity}
+          changetab={this.props.changetab}
+          activeTab={this.props.store.model.app.activeTab}
         />
       </div>
     )

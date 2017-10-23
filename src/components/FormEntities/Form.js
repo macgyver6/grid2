@@ -25,28 +25,21 @@ const FormComponent = (props) => {
   }
 
   const divStyle = {
-    // border: '6px dashed #c04df9',
     margin: '20px',
     position: 'relative',
     gridTemplateColumns: `repeat(24, [col] 1fr)`,
     gridTemplateRows: `[row] auto`,
     gridGap: '8px',
-    // opacity: '0%',
     zIndex: '10',
-    // minHeight: '85vh'
-    // backgroundColor: 'lightgreen'
   }
 
   const innerStyle = {
-    // gridColumn: `span 1`,
     padding: '0px',
     margin: '0px',
     fontSize: '12',
     color: 'grey',
     textAlign: 'center',
-    // border: '2px solid lightgrey',
     backgroundColor: 'lightgrey',
-    // gridColumn: 'span 1',
     zIndex: '15'
   }
 
@@ -58,7 +51,13 @@ const FormComponent = (props) => {
     "textAlign": "center",
     "backgroundColor": "lightgrey",
     "zIndex": "15",
-    "height": "100%"
+    "height": "100vh"
+  }
+
+  const bgColumns = []
+
+  for (var i = 0; i < 24; i++) {
+    bgColumns.push(<div style={bgrndGrd}>{i+1}</div>)
   }
 
   return (
@@ -70,41 +69,25 @@ const FormComponent = (props) => {
       onDragLeave={dragleave_handler}
     >
       <div className="grid" >
-        {props.form.sectionTabs() ?
+        {/* if sectionTabs are turned on - map through and render the FormSection */}
+
+        {props.form.sectionTabs() === true ?
           props.form.children().map(child => child.children().map((formSection, i) => {
             return <FormSectionComponent
-              key={i} model={formSection} form={props.form} removeformentity={props.removeformentity} addformentity={props.addformentity}
+              key={i}
+              model={formSection}
+              form={props.form}
+              removeformentity={props.removeformentity}
+              addformentity={props.addformentity}
             />
           }))
+      // if sectionTabs are turned off - map through and render the element
           : props.form.children().map((element, i) => {
             return React.createElement(FormSectionComponent, { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity })
           })}
       </div>
       <div className="grid grid_background">
-        <div style={bgrndGrd}>1</div>
-        <div style={bgrndGrd}>2</div>
-        <div style={bgrndGrd}>3</div>
-        <div style={bgrndGrd}>4</div>
-        <div style={bgrndGrd}>5</div>
-        <div style={bgrndGrd}>6</div>
-        <div style={bgrndGrd}>7</div>
-        <div style={bgrndGrd}>8</div>
-        <div style={bgrndGrd}>9</div>
-        <div style={bgrndGrd}>10</div>
-        <div style={bgrndGrd}>11</div>
-        <div style={bgrndGrd}>12</div>
-        <div style={bgrndGrd}>13</div>
-        <div style={bgrndGrd}>14</div>
-        <div style={bgrndGrd}>15</div>
-        <div style={bgrndGrd}>16</div>
-        <div style={bgrndGrd}>17</div>
-        <div style={bgrndGrd}>18</div>
-        <div style={bgrndGrd}>19</div>
-        <div style={bgrndGrd}>20</div>
-        <div style={bgrndGrd}>21</div>
-        <div style={bgrndGrd}>22</div>
-        <div style={bgrndGrd}>23</div>
-        <div style={bgrndGrd}>24</div>
+        {bgColumns}
       </div>
     </div>
   );

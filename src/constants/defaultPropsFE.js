@@ -23,7 +23,8 @@ export var defaultPropsFE = {
             ], legend: 'string', prepend: 3, append: 4
           })
         ], legend: 'string', prepend: 3, append: 4
-      })
+      }),
+
     ]
     , crf: 'crf', inputs: ['input1', 'input2'], remoteValidatorCondition: { 0: 'zero', 1: 'one' }, sectionTabs: true, versionDescription: 'version description'
   },
