@@ -72,7 +72,7 @@ const FormComponent = (props) => {
         {/* if sectionTabs are turned on - map through and render the FormSection */}
 
         {props.form.sectionTabs() === true ?
-          props.form.children().map(child => child.children().map((formSection, i) => {
+          props.form.children()[props.activeTab - 1].children().map((formSection, i) => {
             return <FormSectionComponent
               key={i}
               model={formSection}
@@ -80,7 +80,7 @@ const FormComponent = (props) => {
               removeformentity={props.removeformentity}
               addformentity={props.addformentity}
             />
-          }))
+          })
       // if sectionTabs are turned off - map through and render the element
           : props.form.children().map((element, i) => {
             return React.createElement(FormSectionComponent, { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity })

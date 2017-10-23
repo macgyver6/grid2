@@ -159,6 +159,7 @@ const MiddlePanel = (props) => {
       form={props.form}
       removeformentity={props.removeformentity}
       addformentity={props.addformentity}
+      activeTab={props.activeTab}
     />
   </div>
 }
