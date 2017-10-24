@@ -82,6 +82,20 @@ export const utility = {
     return null;
   },
 
+  findNode2: (uuid, node, path = []) => {
+    if (node.UUID() === uuid) {
+      return path;
+    }
+
+    if (node.children) {
+      return node.children().reduce((acc, child, index) => {
+        return acc || utility.findNode2(uuid, child, [...path, index]);
+      }, null);
+    }
+
+    return null;
+  },
+
   serialize: (node) => {
     // process this node and return public copy with props
     const props = node.properties()

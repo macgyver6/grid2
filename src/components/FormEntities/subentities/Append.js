@@ -14,7 +14,9 @@ const Append = (props) => {
   return (
     <div
       style={appendStyle}>
-      <Resizer />
+      <Resizer
+      uuid={props.uuid}
+      element='append'/>
     </div>
   )
 }

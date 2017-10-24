@@ -10,9 +10,9 @@ const resizeStyle = {
   cursor: 'w-resize'
 }
 
-let Resizer = () =>
+let Resizer = (props) =>
   <div
-    className="resizer"
+    className={`resizer.${props.uuid}.${props.element}`}
     style={resizeStyle}
   >↔
   </div>

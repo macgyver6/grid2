@@ -35,18 +35,25 @@ const TextInputComponent = (props) => {
   styles.defaultEntity['gridTemplateColumns'] = 'repeat(' + (props.model.width() + props.model.append()) + ', [col] 1fr)'
 
   return (
-    <div style={styles.defaultEntity}>
+    <div style={styles.defaultEntity}
+      draggable="true"
+      onDragEnd={dragend_handler}
+      onDragStart={dragstart_handler}
+    >
       <div style={tiStyle}
-        draggable="true"
-        onDragEnd={dragend_handler}
-        onDragStart={dragstart_handler}
       >
         <input className="form-control" type={props.model.type()}
           value={props.model.defaultContent()}
           onChange={(e) => handleChange(e, props)} />
-        <Resizer />
+        <Resizer
+          uuid={props.model.UUID()}
+          element='width'
+        />
       </div>
-      <Append append={props.model.append()} />
+      <Append
+        append={props.model.append()}
+        uuid={props.model.UUID()}
+      />
     </div>
   );
 }

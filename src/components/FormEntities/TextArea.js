@@ -19,6 +19,7 @@ const TextAreaComponent = (props) => {
     event.stopPropagation();
     event.dataTransfer.setData("text/plain", JSON.stringify(props.model.properties()));
   }
+
   const taStyle = {
     backgroundColor: '#2bd1fc',
     opacity: '1',
@@ -28,24 +29,32 @@ const TextAreaComponent = (props) => {
   }
 
   // return actual style values
-    // 1. # of grid columns the TextArea and Append will fill
+  // 1. # of grid columns the TextArea and Append will fill
   styles.defaultEntity['gridColumn'] = 'span ' + (props.model.width() + props.model.append())
-    // 2. # of grid columns within the TextArea
+  // 2. # of grid columns within the TextArea
   styles.defaultEntity['gridTemplateColumns'] = 'repeat(' + (props.model.width() + props.model.append()) + ', [col] 1fr)'
 
   return (
-    <div style={styles.defaultEntity}>
+    <div
+    style={styles.defaultEntity}
+      draggable="true"
+      onDragEnd={dragend_handler}
+      onDragStart={dragstart_handler}
+    >
       <div style={taStyle}
-        draggable="true"
-        onDragEnd={dragend_handler}
-        onDragStart={dragstart_handler}
       >
         {/* onClick={(e) => handleChange(e, props)} */}
         <textarea className="form-control" placeholder="Write something in text area" name={props.model.name()} rows={props.model.numRows()} cols={props.model.numColumns()} type={props.model.type()}>
         </textarea>
-        <Resizer />
+        <Resizer
+          uuid={props.model.UUID()}
+          element='width'
+        />
       </div>
-      <Append append={props.model.append()} />
+      <Append
+        append={props.model.append()}
+        uuid={props.model.UUID()}
+      />
     </div>
   )
 }

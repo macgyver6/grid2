@@ -29,17 +29,25 @@ const CheckboxComponent = (props) => {
 
 
   return (
-    <div style={styles.defaultEntity}>
+    <div
+      style={styles.defaultEntity}
+      draggable="true"
+      onDragEnd={dragend_handler}
+      onDragStart={dragstart_handler}
+    >
       <div style={cbStyle}
-        draggable="true"
-        onDragEnd={dragend_handler}
-        onDragStart={dragstart_handler}
       >
         <input type={props.model.type()} onChange={props.handleInputChange} checked={props.model.defaultState()}>
         </input>
-        <Resizer />
+        <Resizer
+          uuid={props.model.UUID()}
+          element='width'
+        />
       </div>
-      <Append append={props.model.append()}/>
+      <Append
+        append={props.model.append()}
+        uuid={props.model.UUID()}
+      />
     </div>
   );
 }

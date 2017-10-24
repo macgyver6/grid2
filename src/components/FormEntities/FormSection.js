@@ -7,9 +7,12 @@ let FormSectionComponent = (props) => {
     init: null,
     changed: null
   }
+  let type = null
+
   let mouseDownHandler = (event) => {
-    if (event.target.className === 'resizer') {
-      console.log('className === resizer')
+    console.log(event.target)
+    type = (event.target.className).split('.')
+    if (type[0] === 'resizer') {
       event.preventDefault();
       event.stopPropagation();
       resize.init = event.screenX;
@@ -18,10 +21,14 @@ let FormSectionComponent = (props) => {
   }
 
   function mouseUpHandler(event) {
+    let locEntity = utility.findNode2(type[1], props.form)
     resize.changed = event.screenX;
-    let initGrid = props.model.children()[0].width()
+    let fn = {
+      width: props.model.children()[locEntity[locEntity.length - 1]].width(),
+      append: props.model.children()[locEntity[locEntity.length - 1]].append()
+    }
+    let initGrid = fn[type[2]];
     let resizeX = event.screenX
-    let address = utility.findNode(props.model.children()[0], props.form)
     let initDiff = resizeX - resize.init
     let fsWidth = parseInt((document.getElementById(props.model.UUID()).clientWidth / 24), 10)
     let diffGrid = (parseInt(((Math.abs(initDiff)) / fsWidth), 10) + 1)
@@ -32,9 +39,9 @@ let FormSectionComponent = (props) => {
       }
       const calc = ((newWidth) => {
         let entityToChange = props.model.children()[0]
-        props.removeformentity(address)
+        props.removeformentity(locEntity)
         return props.addformentity(
-          entityToChange.mutate({ width: (newWidth) }), address
+          props.model.children()[locEntity[locEntity.length - 1]].mutate({ [type[2]]: newWidth }), locEntity
         )
       })
       if (initDiff > 0) {
@@ -43,7 +50,6 @@ let FormSectionComponent = (props) => {
         calc(calcOpp['-'](initGrid, diffGrid))
       }
     }
-
     document.getElementById(props.model.UUID()).removeEventListener('mouseup', mouseUpHandler);
   }
 
@@ -60,7 +66,6 @@ let FormSectionComponent = (props) => {
 
     event.preventDefault();
     event.stopPropagation();
-    console.log(event.target)
     let data = event.dataTransfer.getData("text");
     let entityToAdd = utility.resurrectEntity(defaultPropsFE[data])
     let location = utility.findNode(props.model, props.form)
