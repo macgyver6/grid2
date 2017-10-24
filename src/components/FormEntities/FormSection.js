@@ -10,7 +10,6 @@ let FormSectionComponent = (props) => {
   let type = null
 
   let mouseDownHandler = (event) => {
-    console.log(event.target)
     type = (event.target.className).split('.')
     if (type[0] === 'resizer') {
       event.preventDefault();

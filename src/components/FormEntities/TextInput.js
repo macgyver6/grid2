@@ -7,6 +7,7 @@ import Append from './subentities/Append.js';
 const TextInputComponent = (props) => {
 
   let handleChange = (event, props) => {
+    console.log('hit')
     let result = utility.findNode(props.model, props.form)
     props.removeformentity(result)
     props.addformentity(
@@ -25,6 +26,7 @@ const TextInputComponent = (props) => {
   const tiStyle = {
     backgroundColor: '#ff3f3f',
     position: 'relative',
+    gridColumn: `span ${props.model.width()}`,
     maxHeight: '100px'
   }
 
