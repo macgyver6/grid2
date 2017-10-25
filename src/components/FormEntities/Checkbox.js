@@ -1,9 +1,18 @@
 import React from 'react';
+import { utility } from '../../utility';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
 
 const CheckboxComponent = (props) => {
+
+  let handleChange = (event, props) => {
+    console.log(event.target.value)
+    let result = utility.findNode(props.model, props.form)
+    props.removeformentity(result)
+    props.addformentity(
+      props.model.mutate({ defaultState: event.target.value }), result)
+  }
 
   let dragend_handler = function (event) {
     event.preventDefault();
@@ -37,7 +46,7 @@ const CheckboxComponent = (props) => {
     >
       <div style={cbStyle}
       >
-        <input type={props.model.type()} onChange={props.handleInputChange} checked={props.model.defaultState()}>
+        <input type={props.model.type()} onChange={(e) => handleChange(e, props)} >
         </input>
         <Resizer
           uuid={props.model.UUID()}

@@ -4,12 +4,6 @@ import Append from './subentities/Append';
 import { styles } from './feStyles';
 
 const TextAreaComponent = (props) => {
-  // let handleChange = function (event, props) {
-  //   let address = utility.findNode(props.model, props.form)
-  //   props.removeformentity(address)
-  //   props.addformentity(
-  //     props.model.mutate({ width: props.model.width() - 1 }), address)
-  // }
 
   let dragend_handler = function (event) {
     event.preventDefault();
@@ -36,14 +30,14 @@ const TextAreaComponent = (props) => {
 
   return (
     <div
-    style={styles.defaultEntity}
+      style={styles.defaultEntity}
       draggable="true"
       onDragEnd={dragend_handler}
       onDragStart={dragstart_handler}
     >
-      <div style={taStyle}
+      <div
+        style={taStyle}
       >
-        {/* onClick={(e) => handleChange(e, props)} */}
         <textarea className="form-control" placeholder="Write something in text area" name={props.model.name()} rows={props.model.numRows()} cols={props.model.numColumns()} type={props.model.type()}>
         </textarea>
         <Resizer
