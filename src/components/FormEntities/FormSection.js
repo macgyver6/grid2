@@ -27,9 +27,8 @@ let FormSectionComponent = (props) => {
       append: props.model.children()[locEntity[locEntity.length - 1]].append()
     }
     let initGrid = fn[type[2]];
-    let resizeX = event.screenX
-    let initDiff = resizeX - resize.init
-    let fsWidth = parseInt((document.getElementById(props.model.UUID()).clientWidth / 24), 10)
+    let initDiff = resize.changed - resize.init
+    let fsWidth = parseInt((document.getElementById(props.model.UUID()).clientWidth / props.model.width()), 10)
     let diffGrid = (parseInt(((Math.abs(initDiff)) / fsWidth), 10) + 1)
     if ((Math.abs(initDiff)) > 20) {
       var calcOpp = {
@@ -62,11 +61,15 @@ let FormSectionComponent = (props) => {
   }
 
   let drop_handler = (event) => {
-
     event.preventDefault();
     event.stopPropagation();
-    let data = event.dataTransfer.getData("text");
-    let entityToAdd = utility.resurrectEntity(defaultPropsFE[data])
+    let data = JSON.parse(event.dataTransfer.getData("text"));
+    let entityToAdd = utility.resurrectEntity(
+      Object.assign({},
+        data, {
+          append: (props.model.width() - data.width)
+        })
+    )
     let location = utility.findNode(props.model, props.form)
     // @hack - only adds to position 0 at this point
     location.push(0)

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import FormComponent from '../components/FormEntities/Form';
 import { utility } from '../utility';
+import { defaultPropsFE } from '../constants/defaultPropsFE';
 import {
   backgroundPanelStyle,
   leftPanelStyle,
@@ -13,8 +14,8 @@ import {
 import DesignBoxHeader from '../components/layout/design/DesignBoxHeader';
 
 let dragstart_handler = function (event) {
-  event.dataTransfer.setData("text/plain", event.target.dataset.type);
-}
+  event.dataTransfer.setData("text/plain",
+    JSON.stringify(defaultPropsFE[event.target.dataset.type]))}
 
 let dragend_handler = function (event) {
   event.preventDefault();
