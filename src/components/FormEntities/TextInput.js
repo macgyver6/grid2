@@ -3,6 +3,7 @@ import { utility } from '../../utility';
 import Resizer from './subentities/Resizer.js';
 import { styles } from './feStyles';
 import Append from './subentities/Append.js';
+import Prepend from './subentities/Prepend.js';
 
 const TextInputComponent = (props) => {
 
@@ -26,7 +27,8 @@ const TextInputComponent = (props) => {
     backgroundColor: '#ff3f3f',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
-    maxHeight: '100px'
+    maxHeight: '100px',
+    cursor: 'move'
   }
 
   // return actual style values
@@ -41,7 +43,13 @@ const TextInputComponent = (props) => {
       onDragEnd={dragend_handler}
       onDragStart={dragstart_handler}
     >
+      {(props.model.prepend() > 0) ?
+        <Prepend
+          prepend={props.model.prepend()} /> :
+        null
+      }
       <div style={tiStyle}
+        className={`mover.${props.model.UUID()}.TextInput`}
       >
         <input className="form-control" type={props.model.type()}
           value={props.model.defaultContent()}

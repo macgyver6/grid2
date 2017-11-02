@@ -11,12 +11,21 @@ let FormSectionComponent = (props) => {
 
   let mouseDownHandler = (event) => {
     type = (event.target.className).split('.')
-    if (type[0] === 'resizer') {
-      event.preventDefault();
-      event.stopPropagation();
-      resize.init = event.screenX;
-      document.getElementById(props.model.UUID()).addEventListener('mouseup', mouseUpHandler);
+    switch (type[0]) {
+      case 'mover':
+        console.log('mover');
+        break;
+      case 'resizer':
+        console.log('resizer');
+        break;
     }
+    // console.log(type)
+    // if (type[0] === 'resizer') {
+    //   event.preventDefault();
+    //   event.stopPropagation();
+    //   resize.init = event.screenX;
+    //   document.getElementById(props.model.UUID()).addEventListener('mouseup', mouseUpHandler);
+    // }
   }
 
   function mouseUpHandler(event) {
@@ -32,8 +41,8 @@ let FormSectionComponent = (props) => {
     let diffGrid = (parseInt(((Math.abs(initDiff)) / fsWidth), 10) + 1)
     if ((Math.abs(initDiff)) > 20) {
       var calcOpp = {
-        '+': (a, b) => a + b,
-        '-': (a, b) => a - b
+        '+': (a, b) => initGrid, diffGrid,
+        '-': (a, b) => initGrid, diffGrid
       }
       const calc = ((newWidth) => {
         let entityToChange = props.model.children()[0]
@@ -42,6 +51,7 @@ let FormSectionComponent = (props) => {
           props.model.children()[locEntity[locEntity.length - 1]].mutate({ [type[2]]: newWidth }), locEntity
         )
       })
+      //how many units will be added or subtracted
       if (initDiff > 0) {
         calc(calcOpp['+'](initGrid, diffGrid))
       } else {
