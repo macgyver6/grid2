@@ -7,18 +7,16 @@ let FormSectionComponent = (props) => {
     init: null,
     changed: null
   }
-  let type = null
+let type = null
 
   let mouseDownHandler = (event) => {
-    type = (event.target.className).split('.')
-    switch (type[0]) {
-      case 'mover':
-        console.log('mover');
-        break;
-      case 'resizer':
-        console.log('resizer');
-        break;
-    }
+    type = (event.target.className).split('.');
+    if (type[0] === 'resizer' || type[0] === 'mover') {
+    event.preventDefault();
+    event.stopPropagation();
+    resize.init = event.screenX;
+    document.getElementById(props.model.UUID()).addEventListener('mouseup', mouseUpHandler);
+
     // console.log(type)
     // if (type[0] === 'resizer') {
     //   event.preventDefault();
@@ -26,11 +24,12 @@ let FormSectionComponent = (props) => {
     //   resize.init = event.screenX;
     //   document.getElementById(props.model.UUID()).addEventListener('mouseup', mouseUpHandler);
     // }
+    }
   }
-
   function mouseUpHandler(event) {
     let locEntity = utility.findNode2(type[1], props.form)
     resize.changed = event.screenX;
+    console.log(locEntity, type[0])
     let fn = {
       width: props.model.children()[locEntity[locEntity.length - 1]].width(),
       append: props.model.children()[locEntity[locEntity.length - 1]].append()
@@ -39,6 +38,7 @@ let FormSectionComponent = (props) => {
     let initDiff = resize.changed - resize.init
     let fsWidth = parseInt((document.getElementById(props.model.UUID()).clientWidth / props.model.width()), 10)
     let diffGrid = (parseInt(((Math.abs(initDiff)) / fsWidth), 10) + 1)
+    console.log(diffGrid)
     if ((Math.abs(initDiff)) > 20) {
       var calcOpp = {
         '+': (a, b) => initGrid, diffGrid,
@@ -73,14 +73,14 @@ let FormSectionComponent = (props) => {
   let drop_handler = (event) => {
     event.preventDefault();
     event.stopPropagation();
+    let location = utility.findNode(props.model, props.form)
     let data = JSON.parse(event.dataTransfer.getData("text"));
     let entityToAdd = utility.resurrectEntity(
       Object.assign({},
         data, {
-          append: (props.model.width() - data.width)
+          append: (props.model.width() - (data.prepend + data.width))
         })
     )
-    let location = utility.findNode(props.model, props.form)
     // @hack - only adds to position 0 at this point
     location.push(0)
     props.addformentity(entityToAdd, location)

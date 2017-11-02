@@ -3,6 +3,7 @@ import { utility } from '../../utility';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
+import Prepend from './subentities/Prepend.js';
 
 const CheckboxComponent = (props) => {
 
@@ -32,10 +33,9 @@ const CheckboxComponent = (props) => {
 
   // return actual style values
   // 1. # of grid columns the CheckBox and Append will fill
-  styles.defaultEntity['gridColumn'] = 'span ' + (props.model.width() + props.model.append())
+  styles.defaultEntity['gridColumn'] = 'span ' + (props.model.prepend() + props.model.width() + props.model.append())
   // 2. # of grid columns within the CheckBox
-  styles.defaultEntity['gridTemplateColumns'] = 'repeat(' + (props.model.width() + props.model.append()) + ', [col] 1fr)'
-
+  styles.defaultEntity['gridTemplateColumns'] = 'repeat(' + (props.model.prepend() + props.model.width() + props.model.append()) + ', [col] 1fr)'
 
   return (
     <div
@@ -44,6 +44,11 @@ const CheckboxComponent = (props) => {
       onDragEnd={dragend_handler}
       onDragStart={dragstart_handler}
     >
+      {(props.model.prepend() > 0) ?
+        <Prepend
+          prepend={props.model.prepend()} /> :
+        null
+      }
       <div style={cbStyle}
       >
         <input type={props.model.type()} onChange={(e) => handleChange(e, props)} >

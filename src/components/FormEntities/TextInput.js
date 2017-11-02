@@ -33,9 +33,9 @@ const TextInputComponent = (props) => {
 
   // return actual style values
   // 1. # of grid columns the TextArea and Append will fill
-  styles.defaultEntity['gridColumn'] = 'span ' + (props.model.width() + props.model.append())
+  styles.defaultEntity['gridColumn'] = 'span ' + (props.model.prepend() + props.model.width() + props.model.append())
   // 2. # of grid columns within the TextArea
-  styles.defaultEntity['gridTemplateColumns'] = 'repeat(' + (props.model.width() + props.model.append()) + ', [col] 1fr)'
+  styles.defaultEntity['gridTemplateColumns'] = 'repeat(' + (props.model.prepend() + props.model.width() + props.model.append()) + ', [col] 1fr)'
 
   return (
     <div style={styles.defaultEntity}

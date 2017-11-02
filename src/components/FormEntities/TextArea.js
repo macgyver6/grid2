@@ -2,6 +2,7 @@ import React from 'react';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
+import Prepend from './subentities/Prepend.js';
 
 const TextAreaComponent = (props) => {
 
@@ -24,9 +25,9 @@ const TextAreaComponent = (props) => {
 
   // return actual style values
   // 1. # of grid columns the TextArea and Append will fill
-  styles.defaultEntity['gridColumn'] = 'span ' + (props.model.width() + props.model.append())
+  styles.defaultEntity['gridColumn'] = 'span ' + (props.model.prepend() + props.model.width() + props.model.append())
   // 2. # of grid columns within the TextArea
-  styles.defaultEntity['gridTemplateColumns'] = 'repeat(' + (props.model.width() + props.model.append()) + ', [col] 1fr)'
+  styles.defaultEntity['gridTemplateColumns'] = 'repeat(' + (props.model.prepend() + props.model.width() + props.model.append()) + ', [col] 1fr)'
 
   return (
     <div
@@ -38,6 +39,11 @@ const TextAreaComponent = (props) => {
       <div
         style={taStyle}
       >
+        {(props.model.prepend() > 0) ?
+          <Prepend
+            prepend={props.model.prepend()} /> :
+          null
+        }
         <textarea className="form-control" placeholder="Write something in text area" name={props.model.name()} rows={props.model.numRows()} cols={props.model.numColumns()} type={props.model.type()}>
         </textarea>
         <Resizer

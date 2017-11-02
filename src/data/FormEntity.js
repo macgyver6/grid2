@@ -130,7 +130,7 @@ class FormEntity {
 };
 
 FormEntity.DEFAULT_GRID_PREPEND = 0;
-FormEntity.DEFAULT_GRID_APPEND = 2;
+FormEntity.DEFAULT_GRID_APPEND = 0;
 
 // if (this.constructor === FormEntity) {
 //     deeepFreeze(FormEntity);
