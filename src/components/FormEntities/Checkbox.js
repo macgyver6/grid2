@@ -50,6 +50,7 @@ const CheckboxComponent = (props) => {
         null
       }
       <div style={cbStyle}
+      className={`mover.${props.model.UUID()}.CheckBox`}
       >
         <input type={props.model.type()} onChange={(e) => handleChange(e, props)} >
         </input>
@@ -58,10 +59,13 @@ const CheckboxComponent = (props) => {
           element='width'
         />
       </div>
+      {(props.model.append() > 0) ?
       <Append
         append={props.model.append()}
         uuid={props.model.UUID()}
-      />
+      /> :
+        null
+      }
     </div>
   );
 }

@@ -38,7 +38,8 @@ const TextInputComponent = (props) => {
   styles.defaultEntity['gridTemplateColumns'] = 'repeat(' + (props.model.prepend() + props.model.width() + props.model.append()) + ', [col] 1fr)'
 
   return (
-    <div style={styles.defaultEntity}
+    <div
+      style={styles.defaultEntity}
       draggable="true"
       onDragEnd={dragend_handler}
       onDragStart={dragstart_handler}
@@ -59,10 +60,13 @@ const TextInputComponent = (props) => {
           element='width'
         />
       </div>
-      <Append
-        append={props.model.append()}
-        uuid={props.model.UUID()}
-      />
+      {(props.model.append() > 0) ?
+        <Append
+          append={props.model.append()}
+          uuid={props.model.UUID()}
+        /> :
+        null
+      }
     </div>
   );
 }

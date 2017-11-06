@@ -7,55 +7,66 @@ let FormSectionComponent = (props) => {
     init: null,
     changed: null
   }
-let type = null
+  let type = null
 
   let mouseDownHandler = (event) => {
     type = (event.target.className).split('.');
     if (type[0] === 'resizer' || type[0] === 'mover') {
-    event.preventDefault();
-    event.stopPropagation();
-    resize.init = event.screenX;
-    document.getElementById(props.model.UUID()).addEventListener('mouseup', mouseUpHandler);
-
-    // console.log(type)
-    // if (type[0] === 'resizer') {
-    //   event.preventDefault();
-    //   event.stopPropagation();
-    //   resize.init = event.screenX;
-    //   document.getElementById(props.model.UUID()).addEventListener('mouseup', mouseUpHandler);
-    // }
+      event.preventDefault();
+      event.stopPropagation();
+      resize.init = event.screenX;
+      document.getElementById(props.model.UUID()).addEventListener('mouseup', mouseUpHandler);
     }
   }
   function mouseUpHandler(event) {
     let locEntity = utility.findNode2(type[1], props.form)
     resize.changed = event.screenX;
-    console.log(locEntity, type[0])
-    let fn = {
+    let initGrid = {
       width: props.model.children()[locEntity[locEntity.length - 1]].width(),
-      append: props.model.children()[locEntity[locEntity.length - 1]].append()
+      append: props.model.children()[locEntity[locEntity.length - 1]].append(),
+      prepend: props.model.children()[locEntity[locEntity.length - 1]].prepend()
     }
-    let initGrid = fn[type[2]];
     let initDiff = resize.changed - resize.init
     let fsWidth = parseInt((document.getElementById(props.model.UUID()).clientWidth / props.model.width()), 10)
     let diffGrid = (parseInt(((Math.abs(initDiff)) / fsWidth), 10) + 1)
-    console.log(diffGrid)
-    if ((Math.abs(initDiff)) > 20) {
+    if (type[0] === 'resizer' & (Math.abs(initDiff)) > 20) {
       var calcOpp = {
-        '+': (a, b) => initGrid, diffGrid,
-        '-': (a, b) => initGrid, diffGrid
+        '+': (a, b) => Object.assign({}, { width: initGrid.width + diffGrid, append: initGrid.append - diffGrid }),
+        '-': (a, b) => Object.assign({}, { width: initGrid.width - diffGrid, append: initGrid.append + diffGrid })
       }
       const calc = ((newWidth) => {
-        let entityToChange = props.model.children()[0]
+        let entityToChange = props.model.children()[locEntity[locEntity.length - 1]]
+
         props.removeformentity(locEntity)
-        return props.addformentity(
-          props.model.children()[locEntity[locEntity.length - 1]].mutate({ [type[2]]: newWidth }), locEntity
-        )
+        return props.addformentity(utility.resurrectEntity(
+          Object.assign({},
+            entityToChange.properties(), newWidth)
+        ), locEntity)
       })
-      //how many units will be added or subtracted
       if (initDiff > 0) {
         calc(calcOpp['+'](initGrid, diffGrid))
       } else {
         calc(calcOpp['-'](initGrid, diffGrid))
+      }
+    }
+    if (type[0] === 'mover' & (Math.abs(initDiff)) > 20) {
+      var calcOpp = {
+        '+': (a, b) => Object.assign({}, { prepend: initGrid.prepend + diffGrid, append: initGrid.append - diffGrid }),
+        '-': (a, b) => Object.assign({}, { prepend: initGrid.prepend - diffGrid, append: initGrid.append + diffGrid }),
+      }
+      const calcMover = ((newWidth) => {
+        let entityToChange = props.model.children()[locEntity[locEntity.length - 1]]
+
+        props.removeformentity(locEntity)
+        return props.addformentity(utility.resurrectEntity(
+          Object.assign({},
+            entityToChange.properties(), newWidth)
+        ), locEntity)
+      })
+      if (initDiff > 0) {
+        calcMover(calcOpp['+'](initGrid, diffGrid))
+      } else {
+        calcMover(calcOpp['-'](initGrid, diffGrid))
       }
     }
     document.getElementById(props.model.UUID()).removeEventListener('mouseup', mouseUpHandler);
@@ -85,14 +96,6 @@ let type = null
     location.push(0)
     props.addformentity(entityToAdd, location)
   }
-
-  // let dragover_handler = (event) => {
-  //   event.preventDefault();
-  // }
-
-  // let dragleave_handler = (event) => {
-  //   event.preventDefault();
-  // }
 
   const divStyle = {
     "display": "grid",

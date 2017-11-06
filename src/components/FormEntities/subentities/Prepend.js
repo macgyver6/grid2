@@ -48,7 +48,7 @@ const Prepend = (props) => {
     // border: '2px dashed black',
     gridColumn: `span ${props.prepend}`,
     position: 'relative',
-    backgroundColor: 'lightgreen'
+    backgroundColor: 'lightgrey'
     // flexDirection: 'row',
     // justifyContent: 'flex-end'
   }
@@ -63,9 +63,6 @@ const Prepend = (props) => {
     <div
       style={prependStyle}
     >
-      <Resizer
-        uuid={props.uuid}
-        element='prepend' />
     </div>
   )
 }

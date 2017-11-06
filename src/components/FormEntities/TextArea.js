@@ -21,6 +21,7 @@ const TextAreaComponent = (props) => {
     gridColumn: `span ${props.model.width()}`,
     position: 'relative',
     maxHeight: '100px',
+    cursor: 'move'
   }
 
   // return actual style values
@@ -36,14 +37,16 @@ const TextAreaComponent = (props) => {
       onDragEnd={dragend_handler}
       onDragStart={dragstart_handler}
     >
+      {(props.model.prepend() > 0) ?
+        <Prepend
+          prepend={props.model.prepend()} /> :
+        null
+      }
       <div
         style={taStyle}
+        className={`mover.${props.model.UUID()}.TextArea`}
       >
-        {(props.model.prepend() > 0) ?
-          <Prepend
-            prepend={props.model.prepend()} /> :
-          null
-        }
+
         <textarea className="form-control" placeholder="Write something in text area" name={props.model.name()} rows={props.model.numRows()} cols={props.model.numColumns()} type={props.model.type()}>
         </textarea>
         <Resizer
@@ -51,10 +54,13 @@ const TextAreaComponent = (props) => {
           element='width'
         />
       </div>
-      <Append
-        append={props.model.append()}
-        uuid={props.model.UUID()}
-      />
+      {(props.model.append() > 0) ?
+        <Append
+          append={props.model.append()}
+          uuid={props.model.UUID()}
+        /> :
+        null
+      }
     </div>
   )
 }
