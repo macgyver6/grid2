@@ -51,7 +51,7 @@ const TextAreaComponent = (props) => {
         </textarea>
         <Resizer
           uuid={props.model.UUID()}
-          element='width'
+          element='FormEntity'
         />
       </div>
       {(props.model.append() > 0) ?

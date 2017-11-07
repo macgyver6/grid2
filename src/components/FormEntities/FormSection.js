@@ -1,6 +1,7 @@
 import React from 'react';
 import { utility } from '../../utility';
 import { defaultPropsFE } from '../../constants/defaultPropsFE';
+import Resizer from './subentities/Resizer.js';
 
 let FormSectionComponent = (props) => {
   const resize = {
@@ -22,21 +23,39 @@ let FormSectionComponent = (props) => {
     let locEntity = utility.findNode2(type[1], props.form)
     resize.changed = event.screenX;
     let initGrid = {
-      width: props.model.children()[locEntity[locEntity.length - 1]].width(),
-      append: props.model.children()[locEntity[locEntity.length - 1]].append(),
-      prepend: props.model.children()[locEntity[locEntity.length - 1]].prepend()
+      width:null,
+      append: null,
+      prepend: null
     }
+    if (type[2] === 'FormSection') {
+      initGrid.width = props.model.width()
+      initGrid.prepend = props.model.prepend()
+      initGrid.append = props.model.append()
+    } else {
+      initGrid.width = props.model.children()[locEntity[locEntity.length - 1]].width(),
+      initGrid.append = props.model.children()[locEntity[locEntity.length - 1]].append(),
+      initGrid.prepend = props.model.children()[locEntity[locEntity.length - 1]].prepend()
+    }
+
     let initDiff = resize.changed - resize.init
     let fsWidth = parseInt((document.getElementById(props.model.UUID()).clientWidth / props.model.width()), 10)
     let diffGrid = (parseInt(((Math.abs(initDiff)) / fsWidth), 10) + 1)
     if (type[0] === 'resizer' & (Math.abs(initDiff)) > 20) {
       var calcOpp = {
-        '+': (a, b) => Object.assign({}, { width: initGrid.width + diffGrid, append: initGrid.append - diffGrid }),
-        '-': (a, b) => Object.assign({}, { width: initGrid.width - diffGrid, append: initGrid.append + diffGrid })
+        FormEntity: {
+          '+': (a, b) => Object.assign({}, { width: initGrid.width + diffGrid, append: initGrid.append - diffGrid }),
+          '-': (a, b) => Object.assign({}, { width: initGrid.width - diffGrid, append: initGrid.append + diffGrid })
+        },
+       FormSection: {
+         '+': (a, b) => Object.assign({}, { width: initGrid.width + diffGrid}),
+         '-': (a, b) => Object.assign({}, { width: initGrid.width - diffGrid})
+       }
       }
       const calc = ((newWidth) => {
-        let entityToChange = props.model.children()[locEntity[locEntity.length - 1]]
-
+        let entityToChange = null
+        type[2] === 'FormSection' ?
+        entityToChange = props.model :
+        entityToChange = props.model.children()[locEntity[locEntity.length - 1]]
         props.removeformentity(locEntity)
         return props.addformentity(utility.resurrectEntity(
           Object.assign({},
@@ -44,9 +63,9 @@ let FormSectionComponent = (props) => {
         ), locEntity)
       })
       if (initDiff > 0) {
-        calc(calcOpp['+'](initGrid, diffGrid))
+        calc(calcOpp[type[2]]['+'](initGrid, diffGrid))
       } else {
-        calc(calcOpp['-'](initGrid, diffGrid))
+        calc(calcOpp[type[2]]['-'](initGrid, diffGrid))
       }
     }
     if (type[0] === 'mover' & (Math.abs(initDiff)) > 20) {
@@ -99,18 +118,19 @@ let FormSectionComponent = (props) => {
 
   const divStyle = {
     "display": "grid",
-    "gridTemplateColumns": "repeat(24, [col] 1fr)",
+    position: 'relative',
+    "gridTemplateColumns": `repeat(${props.model.width()}, [col] 1fr)`,
     "backgroundColor": "rgba(243, 234, 95, 0.7)",
     // "marginTop": "10px",
     "minHeight": "120px",
     "minWidth": "100px",
-    "gridColumn": "col 1 / span 24",
+    "gridColumn": `col 1 / span ${props.model.width()}`,
     "gridGap": "8px",
     "zIndex": "30"
   }
 
   return (
-    <div className="form-group FS"
+    <div
       style={divStyle}
       onDrop={drop_handler}
       draggable="true"
@@ -122,6 +142,10 @@ let FormSectionComponent = (props) => {
       {props.model.children().map((element, i) => {
         return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity })
       })}
+      <Resizer
+        uuid={props.model.UUID()}
+        element='FormSection'
+      />
     </div>
   );
 }

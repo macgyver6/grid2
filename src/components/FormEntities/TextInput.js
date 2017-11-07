@@ -57,7 +57,7 @@ const TextInputComponent = (props) => {
           onChange={(e) => handleChange(e, props)} />
         <Resizer
           uuid={props.model.UUID()}
-          element='width'
+          element='FormEntity'
         />
       </div>
       {(props.model.append() > 0) ?
