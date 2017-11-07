@@ -86,6 +86,7 @@ const DeleteBtn = (props) => {
     event.preventDefault();
     event.stopPropagation();
     let entityModel = utility.resurrectEntity(JSON.parse(event.dataTransfer.getData("text")))
+    console.log(utility.findNode(entityModel, props.form))
     props.removeformentity(utility.findNode(entityModel, props.form))
   }
   return <div

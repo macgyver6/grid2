@@ -54,6 +54,7 @@ export const utility = {
    * @returns {FormEntity}
    */
   remove: function remove(section, path) {
+    console.log(section, path)
     // if (path.length === 1 && section.children()[path[0]] === undefined) {
     //   throw new Error("path OOB");
     // }
@@ -82,14 +83,14 @@ export const utility = {
     return null;
   },
 
-  findNode2: (uuid, node, path = []) => {
+  findEntityUuid: (uuid, node, path = [], entity) => {
     if (node.UUID() === uuid) {
-      return path;
+      return [path, node];
     }
 
     if (node.children) {
       return node.children().reduce((acc, child, index) => {
-        return acc || utility.findNode2(uuid, child, [...path, index]);
+        return acc || utility.findEntityUuid(uuid, child, [...path, index]);
       }, null);
     }
 

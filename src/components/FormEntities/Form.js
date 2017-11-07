@@ -4,6 +4,93 @@ import { utility } from '../../utility';
 import { defaultPropsFE } from '../../constants/defaultPropsFE';
 
 const FormComponent = (props) => {
+  let type = null
+  const resize = {
+    init: null,
+    changed: null
+  }
+  let mouseDownHandler = (event) => {
+    type = (event.target.className).split('.');
+    if (type[0] === 'resizer' || type[0] === 'mover') {
+      event.preventDefault();
+      event.stopPropagation();
+      resize.init = event.screenX;
+      document.getElementById(type[1]).addEventListener('mouseup', mouseUpHandler);
+    }
+  }
+  function mouseUpHandler(event) {
+    let locEntity = utility.findEntityUuid(type[1], props.form)
+    console.log(locEntity)
+    resize.changed = event.screenX;
+    let initGrid = {
+      width: null,
+      append: null,
+      prepend: null
+    }
+    if (type[2] === 'FormSection') {
+      initGrid.width = locEntity[1].width()
+      initGrid.prepend = locEntity[1].prepend()
+      initGrid.append = locEntity[1].append()
+    } else {
+      initGrid.width = props.model.children()[locEntity[locEntity.length - 1]].width(),
+        initGrid.append = props.model.children()[locEntity[locEntity.length - 1]].append(),
+        initGrid.prepend = props.model.children()[locEntity[locEntity.length - 1]].prepend()
+    }
+
+    let initDiff = resize.changed - resize.init
+    let fsWidth = parseInt((document.getElementById(type[1]).clientWidth / locEntity[1].width()), 10)
+    let diffGrid = (parseInt(((Math.abs(initDiff)) / fsWidth), 10) + 1)
+    if (type[0] === 'resizer' & (Math.abs(initDiff)) > 20) {
+      var calcOpp = {
+        FormEntity: {
+          '+': (a, b) => Object.assign({}, { width: initGrid.width + diffGrid, append: initGrid.append - diffGrid }),
+          '-': (a, b) => Object.assign({}, { width: initGrid.width - diffGrid, append: initGrid.append + diffGrid })
+        },
+        FormSection: {
+          '+': (a, b) => Object.assign({}, { width: initGrid.width + diffGrid }),
+          '-': (a, b) => Object.assign({}, { width: initGrid.width - diffGrid })
+        }
+      }
+      const calc = ((newWidth) => {
+        let entityToChange = null
+        type[2] === 'FormSection' ?
+          entityToChange = locEntity[1] :
+          entityToChange = locEntity[1].children()[locEntity[locEntity.length - 1]]
+          console.log(entityToChange.properties)
+        props.removeformentity(locEntity[0])
+        return props.addformentity(utility.resurrectEntity(
+          Object.assign({},
+            entityToChange.properties(), newWidth)
+        ), locEntity[0])
+      })
+      if (initDiff > 0) {
+        calc(calcOpp[type[2]]['+'](initGrid, diffGrid))
+      } else {
+        calc(calcOpp[type[2]]['-'](initGrid, diffGrid))
+      }
+    }
+    if (type[0] === 'mover' & (Math.abs(initDiff)) > 20) {
+      var calcOpp = {
+        '+': (a, b) => Object.assign({}, { prepend: initGrid.prepend + diffGrid, append: initGrid.append - diffGrid }),
+        '-': (a, b) => Object.assign({}, { prepend: initGrid.prepend - diffGrid, append: initGrid.append + diffGrid }),
+      }
+      const calcMover = ((newWidth) => {
+        let entityToChange = props.model.children()[locEntity[locEntity.length - 1]]
+
+        props.removeformentity(locEntity[0])
+        return props.addformentity(utility.resurrectEntity(
+          Object.assign({},
+            entityToChange.properties(), newWidth)
+        ), locEntity)
+      })
+      if (initDiff > 0) {
+        calcMover(calcOpp['+'](initGrid, diffGrid))
+      } else {
+        calcMover(calcOpp['-'](initGrid, diffGrid))
+      }
+    }
+    document.getElementById(type[1]).removeEventListener('mouseup', mouseUpHandler);
+  }
 
   const drop_handler = (event) => {
     event.preventDefault();
@@ -59,6 +146,7 @@ const FormComponent = (props) => {
       onDrop={drop_handler}
       onDragOver={dragover_handler}
       onDragLeave={dragleave_handler}
+      onMouseDown={(e) => mouseDownHandler(e, props)}
     >
       <div className="grid" >
         {/* if sectionTabs are turned on - map through and render the FormSection */}
