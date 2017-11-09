@@ -54,7 +54,6 @@ export const utility = {
    * @returns {FormEntity}
    */
   remove: function remove(section, path) {
-    console.log(section, path)
     // if (path.length === 1 && section.children()[path[0]] === undefined) {
     //   throw new Error("path OOB");
     // }
@@ -65,7 +64,6 @@ export const utility = {
     } else {
       newChildren.splice(path[0], 1);
     }
-
     return section.setChildren(newChildren);
   },
 
@@ -95,6 +93,14 @@ export const utility = {
     }
 
     return null;
+  },
+
+  findEntityByPath: (section, path, entity) => {
+    if (path.length > 1) {
+      return utility.findEntityByPath(section.children()[path[0]], path.slice(1));
+    } else {
+      return section.children()[path]
+    }
   },
 
   serialize: (node) => {
