@@ -51,7 +51,7 @@ let FormSectionComponent = (props) => {
       draggable="true"
       onDragEnd={dragend_handler}
       onDragStart={dragstart_handler}
-      id={props.model.UUID()}
+      id={`mover.${props.model.UUID()}.FormSection`}
     >
       {props.model.children().map((element, i) => {
         return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity })

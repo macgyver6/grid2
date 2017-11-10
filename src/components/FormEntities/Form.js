@@ -28,6 +28,7 @@ const FormComponent = (props) => {
       append: null,
       prepend: null
     }
+    console.log(source)
     if (source[2] === 'FormSection') {
       initGrid.width = parentEntity.width()
       initGrid.prepend = parentEntity.prepend()
@@ -76,13 +77,12 @@ const FormComponent = (props) => {
         '-': (a, b) => Object.assign({}, { prepend: initGrid.prepend - diffGrid, append: initGrid.append + diffGrid }),
       }
       const calcMover = ((newWidth) => {
-        let entityToChange = props.model.children()[locEntity[locEntity.length - 1]]
-
+        let entityToChange = locEntity[1]
         props.removeformentity(locEntity[0])
         return props.addformentity(utility.resurrectEntity(
           Object.assign({},
             entityToChange.properties(), newWidth)
-        ), locEntity)
+        ), locEntity[0])
       })
       if (initDiff > 0) {
         calcMover(calcOpp['+'](initGrid, diffGrid))
