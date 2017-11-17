@@ -12,6 +12,7 @@ let FormSectionComponent = (props) => {
   let dragstart_handler = (event) => {
     event.stopPropagation();
     event.dataTransfer.setData("text/plain", JSON.stringify(props.model.properties()));
+    console.log('dragStart FS')
   }
 
   let drop_handler = (event) => {
@@ -51,7 +52,8 @@ let FormSectionComponent = (props) => {
       draggable="true"
       onDragEnd={dragend_handler}
       onDragStart={dragstart_handler}
-      id={`mover.${props.model.UUID()}.FormSection`}
+      id={props.model.UUID()}
+      data-action={`mover.${props.model.UUID()}.FormSection`}
     >
       {props.model.children().map((element, i) => {
         return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity })
@@ -63,6 +65,5 @@ let FormSectionComponent = (props) => {
     </div>
   );
 }
-
 
 export default FormSectionComponent;

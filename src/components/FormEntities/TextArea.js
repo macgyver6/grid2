@@ -44,7 +44,8 @@ const TextAreaComponent = (props) => {
       }
       <div
         style={taStyle}
-        className={`mover.${props.model.UUID()}.TextArea`}
+        data-action={`mover.${props.model.UUID()}.TextArea`}
+        id={props.model.UUID()}
       >
 
         <textarea className="form-control" placeholder="Write something in text area" name={props.model.name()} rows={props.model.numRows()} cols={props.model.numColumns()} type={props.model.type()}>

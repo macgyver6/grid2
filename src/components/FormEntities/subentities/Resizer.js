@@ -12,7 +12,8 @@ const resizeStyle = {
 
 let Resizer = (props) =>
   <div
-    className={`resizer.${props.uuid}.${props.element}`}
+    data-action={`resizer.${props.uuid}.${props.element}`}
+    id={props.uuid}
     style={resizeStyle}
   >↔
   </div>

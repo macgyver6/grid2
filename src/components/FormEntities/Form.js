@@ -12,7 +12,8 @@ const FormComponent = (props) => {
   let mouseDownHandler = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    source = (event.target.className).split('.');
+    source = (event.target.getAttribute('data-action')).split('.');
+    console.log()
     if (source[0] === 'resizer' || source[0] === 'mover') {
       resize.init = event.screenX;
       document.getElementById('FormComponent').addEventListener('mouseup', mouseUpHandler);
@@ -38,7 +39,6 @@ const FormComponent = (props) => {
         initGrid.append = locEntity[1].append(),
         initGrid.prepend = locEntity[1].prepend()
     }
-    let fsWidth2 = document.getElementById(parentEntity.UUID())
 
     let initDiff = resize.changed - resize.init
     let fsWidth = parseInt((document.getElementById(parentEntity.UUID()).clientWidth / parentEntity.width()), 10)

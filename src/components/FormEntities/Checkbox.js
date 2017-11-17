@@ -50,7 +50,8 @@ const CheckboxComponent = (props) => {
         null
       }
       <div style={cbStyle}
-      className={`mover.${props.model.UUID()}.CheckBox`}
+      data-action={`mover.${props.model.UUID()}.CheckBox`}
+      id={props.model.UUID()}
       >
         <input type={props.model.type()} onChange={(e) => handleChange(e, props)} >
         </input>
