@@ -10,12 +10,16 @@ let FormSectionComponent = (props) => {
   }
 
   let dragstart_handler = (event) => {
+    event.preventDefault();
     event.stopPropagation();
     event.dataTransfer.setData("text/plain", JSON.stringify(props.model.properties()));
     console.log('dragStart FS')
+    console.log(event.target)
   }
 
   let drop_handler = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     console.log('drop_handler FS')
     console.log(JSON.parse(event.dataTransfer.getData("text")))
     let data = JSON.parse(event.dataTransfer.getData("text"));
@@ -47,7 +51,7 @@ let FormSectionComponent = (props) => {
     "gridGap": "8px",
     "zIndex": "30"
   }
-
+// onDragStart={dragstart_handler}
   return (
     <div
       className="form-group FS"
@@ -55,7 +59,7 @@ let FormSectionComponent = (props) => {
       onDrop={drop_handler}
       draggable="true"
       onDragEnd={dragend_handler}
-      onDragStart={dragstart_handler}
+
       id={props.model.UUID()}
       data-action={`mover.${props.model.UUID()}.FormSection`}
     >

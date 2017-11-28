@@ -12,7 +12,10 @@ import {
 // } from '../auxillary/actions/design'
 
 const DesignBoxHeaderTab = (props) => {
-  let onClickHandler = (event) => { props.changetab(props.tab)  }
+  let onClickHandler = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    props.changetab(props.tab)  }
   return (
 
     <div

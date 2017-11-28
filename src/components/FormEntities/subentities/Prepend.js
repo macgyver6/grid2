@@ -3,8 +3,6 @@ import Resizer from './Resizer';
 import { utility } from '../../../utility';
 import { defaultPropsFE } from '../../../constants/defaultPropsFE';
 
-// prepend
-
 const Prepend = (props) => {
   // let drop_handler = (event) => {
   //   let data = event.dataTransfer.getData("text");
@@ -45,21 +43,13 @@ const Prepend = (props) => {
   // }
 
   const prependStyle = {
-    // border: '2px dashed black',
     gridColumn: `span ${props.prepend}`,
     position: 'relative',
     backgroundColor: 'lightgrey'
-    // flexDirection: 'row',
-    // justifyContent: 'flex-end'
+
   }
 
   return (
-    // <div
-    //   style={appendStyle}
-    //   onDrop={drop_handler}
-    //   onDragEnd={dragend_handler}
-    //   onDragStart={dragstart_handler}
-    // >
     <div
       style={prependStyle}
     >

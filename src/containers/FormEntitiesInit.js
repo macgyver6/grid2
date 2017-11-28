@@ -14,6 +14,8 @@ import {
 import DesignBoxHeader from '../components/layout/design/DesignBoxHeader';
 
 let dragstart_handler = function (event) {
+  // event.preventDefault();
+  event.stopPropagation();
   event.dataTransfer.setData("text/plain",
     JSON.stringify({
       action: 'addEntity',
@@ -87,6 +89,7 @@ let dragleave_handler = (event) => {
 
 const DeleteBtn = (props) => {
   let drop_handler = (event) => {
+    console.log(event.dataTransfer.getData("text"))
     event.preventDefault();
     event.stopPropagation();
     let entityModel = utility.resurrectEntity(JSON.parse(event.dataTransfer.getData("text")))
@@ -100,11 +103,6 @@ const DeleteBtn = (props) => {
     onDragLeave={dragleave_handler}
   >
     <h1>🗑</h1>
-    {/* <button
-      type="button"
-      className="btn btn-danger"
-      onClick={(e) => this.handleDelete(e, this.props)}
-    >-</button> */}
   </div>
 }
 

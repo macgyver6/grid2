@@ -11,6 +11,7 @@ const TextAreaComponent = (props) => {
   }
 
   let dragstart_handler = function (event) {
+    event.preventDefault();
     event.stopPropagation();
     event.dataTransfer.setData("text/plain", JSON.stringify(props.model.properties()));
   }
@@ -20,8 +21,7 @@ const TextAreaComponent = (props) => {
     opacity: '1',
     gridColumn: `span ${props.model.width()}`,
     position: 'relative',
-    maxHeight: '100px',
-    cursor: 'move'
+    maxHeight: '100px'
   }
 
   // return actual style values

@@ -16,15 +16,19 @@ const CheckboxComponent = (props) => {
   }
 
   let dragend_handler = function (event) {
-    event.preventDefault();
+    // event.preventDefault();
+    return true;
   }
 
   let dragstart_handler = function (event) {
-    event.stopPropagation();
+    console.log('Checkbox dragStart')
+    // event.preventDefault();
+    // event.stopPropagation();
     event.dataTransfer.setData("text/plain", JSON.stringify({
       action: 'move',
       model: props.model.properties()
     }));
+    return true;
   }
 
   const cbStyle = {
@@ -43,9 +47,8 @@ const CheckboxComponent = (props) => {
   return (
     <div
       style={styles.defaultEntity}
-      draggable="true"
-      onDragEnd={dragend_handler}
       onDragStart={dragstart_handler}
+      draggable="true"
     >
       {(props.model.prepend() > 0) ?
         <Prepend
