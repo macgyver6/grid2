@@ -144,6 +144,7 @@ export const utility = {
   },
 
   resurrectEntity: function (formEntitySerialized) {
+    console.log(formEntitySerialized)
     // @hack
     switch (formEntitySerialized.type || formEntitySerialized._type || formEntitySerialized.type()) {
       case 'Form':

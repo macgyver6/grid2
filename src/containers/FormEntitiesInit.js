@@ -15,7 +15,11 @@ import DesignBoxHeader from '../components/layout/design/DesignBoxHeader';
 
 let dragstart_handler = function (event) {
   event.dataTransfer.setData("text/plain",
-    JSON.stringify(defaultPropsFE[event.target.dataset.type]))}
+    JSON.stringify({
+      action: 'addEntity',
+      model: defaultPropsFE[event.target.dataset.type]
+    }))
+}
 
 let dragend_handler = function (event) {
   event.preventDefault();

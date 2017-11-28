@@ -16,19 +16,23 @@ let FormSectionComponent = (props) => {
   }
 
   let drop_handler = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    let location = utility.findNode(props.model, props.form)
+    console.log('drop_handler FS')
+    console.log(JSON.parse(event.dataTransfer.getData("text")))
     let data = JSON.parse(event.dataTransfer.getData("text"));
-    let entityToAdd = utility.resurrectEntity(
-      Object.assign({},
-        data, {
-          append: (props.model.width() - (data.prepend + data.width))
-        })
-    )
-    // @hack - only adds to position 0 at this point
-    location.push(0)
-    props.addformentity(entityToAdd, location)
+    if (data.action === 'addEntity') {
+      event.preventDefault();
+      event.stopPropagation();
+      let location = utility.findNode(props.model, props.form)
+      let entityToAdd = utility.resurrectEntity(
+        Object.assign({},
+          data.model, {
+            append: (props.model.width() - (data.model.prepend + data.model.width))
+          })
+      )
+      // @hack - only adds to position 0 at this point
+      location.push(0)
+      props.addformentity(entityToAdd, location)
+    }
   }
 
   const divStyle = {

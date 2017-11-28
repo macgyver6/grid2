@@ -21,7 +21,10 @@ const CheckboxComponent = (props) => {
 
   let dragstart_handler = function (event) {
     event.stopPropagation();
-    event.dataTransfer.setData("text/plain", JSON.stringify(props.model.properties()));
+    event.dataTransfer.setData("text/plain", JSON.stringify({
+      action: 'move',
+      model: props.model.properties()
+    }));
   }
 
   const cbStyle = {

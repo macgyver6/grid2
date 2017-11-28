@@ -9,18 +9,23 @@ const FormComponent = (props) => {
     init: null,
     changed: null
   }
-  let mouseDownHandler = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
+  let dragStart = (event) => {
+    console.log('dragStart Form')
     source = (event.target.getAttribute('data-action')).split('.');
-    console.log()
+    console.log('mouseDown Form', source[0])
     if (source[0] === 'resizer' || source[0] === 'mover') {
+      event.preventDefault();
+      // event.stopPropagation();
       resize.init = event.screenX;
       document.getElementById('FormComponent').addEventListener('mouseup', mouseUpHandler);
+      // event.dataTransfer.setData("text/plain",
+      //   JSON.stringify(defaultPropsFE[source[2]]))
+      console.log(defaultPropsFE[source[2]])
     }
     document.getElementById('FormComponent').addEventListener('mouseup', mouseUpHandler);
   }
   function mouseUpHandler(event) {
+    console.log('mouseUp Form', event.target)
     let locEntity = utility.findEntityUuid(source[1], props.form)
     let parentEntity = utility.findEntityByPath(props.form, locEntity[0].slice(0, locEntity.length))
     resize.changed = event.screenX;
@@ -96,8 +101,8 @@ const FormComponent = (props) => {
   const drop_handler = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    let data = event.dataTransfer.getData("text");
-    let entityToAdd = utility.resurrectEntity(defaultPropsFE[data])
+    let data = JSON.parse(event.dataTransfer.getData("text"));
+    let entityToAdd = utility.resurrectEntity(defaultPropsFE[data.model.type])
     let location = utility.findNode(props.form, props.form)
     location.push(props.activeTab - 1)
     // @hack - only adds to position 0 at this point
@@ -147,7 +152,7 @@ const FormComponent = (props) => {
       onDrop={drop_handler}
       onDragOver={dragover_handler}
       onDragLeave={dragleave_handler}
-      onMouseDown={(e) => mouseDownHandler(e, props)}
+      onDragStart={(e) => dragStart(e, props)}
     >
       <div className="grid" >
         {/* if sectionTabs are turned on - map through and render the FormSection */}
