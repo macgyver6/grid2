@@ -89,11 +89,7 @@ let dragleave_handler = (event) => {
 
 const DeleteBtn = (props) => {
   let drop_handler = (event) => {
-    console.log(event.dataTransfer.getData("text"))
-    event.preventDefault();
-    event.stopPropagation();
-    let entityModel = utility.resurrectEntity(JSON.parse(event.dataTransfer.getData("text")))
-    console.log(utility.findNode(entityModel, props.form))
+    let entityModel = utility.resurrectEntity(JSON.parse(event.dataTransfer.getData("text")).model)
     props.removeformentity(utility.findNode(entityModel, props.form))
   }
   return <div

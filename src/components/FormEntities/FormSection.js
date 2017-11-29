@@ -5,23 +5,19 @@ import Resizer from './subentities/Resizer.js';
 
 let FormSectionComponent = (props) => {
 
-  let dragend_handler = (event) => {
-    event.preventDefault();
-  }
-
   let dragstart_handler = (event) => {
-    event.preventDefault();
+    console.log('dragStart FormSection')
     event.stopPropagation();
-    event.dataTransfer.setData("text/plain", JSON.stringify(props.model.properties()));
-    console.log('dragStart FS')
-    console.log(event.target)
+    event.dataTransfer.setData("text/plain", JSON.stringify({
+      action: 'move',
+      model: props.model.properties()
+    }));
   }
 
   let drop_handler = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    console.log('drop_handler FS')
-    console.log(JSON.parse(event.dataTransfer.getData("text")))
+
     let data = JSON.parse(event.dataTransfer.getData("text"));
     if (data.action === 'addEntity') {
       event.preventDefault();
@@ -49,20 +45,19 @@ let FormSectionComponent = (props) => {
     "minWidth": "100px",
     "gridColumn": `col 1 / span ${props.model.width()}`,
     "gridGap": "8px",
-    "zIndex": "30"
+    "zIndex": "30",
+    cursor: 'move'
   }
-// onDragStart={dragstart_handler}
   return (
     <div
       className="form-group FS"
       style={divStyle}
       onDrop={drop_handler}
       draggable="true"
-      onDragEnd={dragend_handler}
-
       id={props.model.UUID()}
       data-action={`mover.${props.model.UUID()}.FormSection`}
-    >
+      onDragStart={dragstart_handler}
+   >
       {props.model.children().map((element, i) => {
         return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity })
       })}

@@ -19,9 +19,11 @@ const TextInputComponent = (props) => {
   }
 
   let dragstart_handler = (event) => {
-    event.preventDefault();
     event.stopPropagation();
-    event.dataTransfer.setData("text/plain", JSON.stringify(props.model.properties()));
+    event.dataTransfer.setData("text/plain", JSON.stringify({
+      action: 'move',
+      model: props.model.properties()
+    }));
   }
 
   const tiStyle = {

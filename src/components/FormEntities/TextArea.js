@@ -11,9 +11,11 @@ const TextAreaComponent = (props) => {
   }
 
   let dragstart_handler = function (event) {
-    event.preventDefault();
     event.stopPropagation();
-    event.dataTransfer.setData("text/plain", JSON.stringify(props.model.properties()));
+    event.dataTransfer.setData("text/plain", JSON.stringify({
+      action: 'move',
+      model: props.model.properties()
+    }));
   }
 
   const taStyle = {
@@ -33,7 +35,7 @@ const TextAreaComponent = (props) => {
   return (
     <div
       style={styles.defaultEntity}
-      draggable="true"
+      draggable="true" DragStar
       onDragEnd={dragend_handler}
       onDragStart={dragstart_handler}
     >

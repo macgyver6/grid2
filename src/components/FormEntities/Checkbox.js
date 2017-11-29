@@ -15,20 +15,13 @@ const CheckboxComponent = (props) => {
       props.model.mutate({ defaultState: event.target.value }), result)
   }
 
-  let dragend_handler = function (event) {
-    // event.preventDefault();
-    return true;
-  }
-
   let dragstart_handler = function (event) {
     console.log('Checkbox dragStart')
-    // event.preventDefault();
-    // event.stopPropagation();
+    event.stopPropagation();
     event.dataTransfer.setData("text/plain", JSON.stringify({
       action: 'move',
       model: props.model.properties()
     }));
-    return true;
   }
 
   const cbStyle = {
@@ -56,8 +49,8 @@ const CheckboxComponent = (props) => {
         null
       }
       <div style={cbStyle}
-      data-action={`mover.${props.model.UUID()}.CheckBox`}
-      id={props.model.UUID()}
+        data-action={`mover.${props.model.UUID()}.CheckBox`}
+        id={props.model.UUID()}
       >
         <input type={props.model.type()} onChange={(e) => handleChange(e, props)} >
         </input>
@@ -67,10 +60,10 @@ const CheckboxComponent = (props) => {
         />
       </div>
       {(props.model.append() > 0) ?
-      <Append
-        append={props.model.append()}
-        uuid={props.model.UUID()}
-      /> :
+        <Append
+          append={props.model.append()}
+          uuid={props.model.UUID()}
+        /> :
         null
       }
     </div>
