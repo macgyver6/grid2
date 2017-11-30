@@ -1,6 +1,7 @@
 import React from 'react';
 import { utility } from '../../utility';
 import Resizer from './subentities/Resizer';
+import Mover from './subentities/Mover';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
@@ -49,11 +50,15 @@ const CheckboxComponent = (props) => {
         null
       }
       <div style={cbStyle}
-        data-action={`mover.${props.model.UUID()}.CheckBox`}
+        // data-action={`mover.${props.model.UUID()}.CheckBox`}
         id={props.model.UUID()}
       >
         <input type={props.model.type()} onChange={(e) => handleChange(e, props)} >
         </input>
+        <Mover
+          uuid={props.model.UUID()}
+          element='FormEntity'
+        />
         <Resizer
           uuid={props.model.UUID()}
           element='FormEntity'

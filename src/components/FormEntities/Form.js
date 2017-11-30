@@ -11,16 +11,17 @@ const FormComponent = (props) => {
   }
   let mouseDownHandler = (event) => {
     // event.preventDefault();
-    // event.stopPropagation();
-    console.log('Form mouseDown')
-    // source = (event.target.getAttribute('data-action')).split('.');
-    // if (source[0] === 'resizer' || source[0] === 'mover') {
-    //   resize.init = event.screenX;
-    //   document.getElementById('FormComponent').addEventListener('mouseup', mouseUpHandler);
-    // }
-    // document.getElementById('FormComponent').addEventListener('mouseup', mouseUpHandler);
+    event.stopPropagation();
+    source = (event.target.getAttribute('data-action')).split('.');
+    if (source[0] === 'resizer' || source[0] === 'mover') {
+      console.log(source, event.screenX)
+      document.getElementById(source[1]).removeEventListener('dragstart', mouseUpHandler);
+      document.getElementById('FormComponent').addEventListener('mouseup', mouseUpHandler);
+    }
   }
   function mouseUpHandler(event) {
+    console.log('Form mouseUp: ', event.screenX)
+    event.stopPropagation();
     let locEntity = utility.findEntityUuid(source[1], props.form)
     let parentEntity = utility.findEntityByPath(props.form, locEntity[0].slice(0, locEntity.length))
     resize.changed = event.screenX;
@@ -43,6 +44,7 @@ const FormComponent = (props) => {
     let initDiff = resize.changed - resize.init
     let fsWidth = parseInt((document.getElementById(parentEntity.UUID()).clientWidth / parentEntity.width()), 10)
     let diffGrid = (parseInt(((Math.abs(initDiff)) / fsWidth), 10) + 1)
+    console.log(initGrid)
     if (source[0] === 'resizer' & (Math.abs(initDiff)) > 20) {
       var calcOpp = {
         FormEntity: {
@@ -55,6 +57,7 @@ const FormComponent = (props) => {
         }
       }
       const calc = ((newWidth) => {
+        console.log(newWidth)
         let entityToChange = null
         source[2] === 'FormSection' ?
           entityToChange = parentEntity :
@@ -139,7 +142,6 @@ const FormComponent = (props) => {
   for (var i = 0; i < 24; i++) {
     bgColumns.push(<div style={bgrndGrd}>{i+1}</div>)
   }
-  // onMouseDown = {(e) => mouseDownHandler(e, props)}
   return (
     <div
       className='wrapper'
@@ -148,7 +150,7 @@ const FormComponent = (props) => {
       onDrop={drop_handler}
       onDragOver={dragover_handler}
       onDragLeave={dragleave_handler}
-
+      onMouseDown={(e) => mouseDownHandler(e, props)}
     >
       <div className="grid" >
         {/* if sectionTabs are turned on - map through and render the FormSection */}
