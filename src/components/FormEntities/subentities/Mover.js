@@ -29,8 +29,6 @@ let dragstart_handler = (event, props) => {
     action: 'move',
     model: 'props.model.properties()'
   }));
-
-  console.log(event.screenX)
   resize.init = event.screenX
 }
 
@@ -50,6 +48,7 @@ let dragend_handler = function (event, props) {
     initGrid.width = parentEntity.width()
     initGrid.prepend = parentEntity.prepend()
     initGrid.append = parentEntity.append()
+    console.log(initGrid)
   } else {
     initGrid.width = locEntity[1].width(),
       initGrid.append = locEntity[1].append(),
@@ -59,37 +58,6 @@ let dragend_handler = function (event, props) {
   let initDiff = resize.changed - resize.init
   let fsWidth = parseInt((document.getElementById(parentEntity.UUID()).clientWidth / parentEntity.width()), 10)
   let diffGrid = (parseInt(((Math.abs(initDiff)) / fsWidth), 10) + 1)
-  console.log(initGrid)
-  if (Math.abs(initDiff) > 20) {
-    var calcOpp = {
-      CheckBox: {
-        '+': (a, b) => Object.assign({}, { width: initGrid.width + diffGrid, append: initGrid.append - diffGrid }),
-        '-': (a, b) => Object.assign({}, { width: initGrid.width - diffGrid, append: initGrid.append + diffGrid })
-      },
-      FormSection: {
-        '+': (a, b) => Object.assign({}, { width: initGrid.width + diffGrid }),
-        '-': (a, b) => Object.assign({}, { width: initGrid.width - diffGrid })
-      }
-    }
-    const calc = ((newWidth) => {
-      console.log(newWidth)
-      let entityToChange = null
-      props.model._type === 'FormSection' ?
-        entityToChange = parentEntity :
-        entityToChange = locEntity[1]
-      props.removeformentity(locEntity[0])
-      return props.addformentity(utility.resurrectEntity(
-        Object.assign({},
-          entityToChange.properties(), newWidth)
-      ), locEntity[0])
-    })
-    console.log(props.model._type)
-    if (initDiff > 0) {
-      calc(calcOpp[props.model._type]['+'](initGrid, diffGrid))
-    } else {
-      calc(calcOpp[props.model._type]['-'](initGrid, diffGrid))
-    }
-  }
   if (Math.abs(initDiff) > 20) {
     var calcOpp = {
       '+': (a, b) => Object.assign({}, { prepend: initGrid.prepend + diffGrid, append: initGrid.append - diffGrid }),
@@ -98,6 +66,12 @@ let dragend_handler = function (event, props) {
     const calcMover = ((newWidth) => {
       let entityToChange = locEntity[1]
       props.removeformentity(locEntity[0])
+      console.log(newWidth)
+      console.log((utility.resurrectEntity(
+        Object.assign({},
+          entityToChange.properties(), newWidth)
+      ), locEntity[0])
+    )
       return props.addformentity(utility.resurrectEntity(
         Object.assign({},
           entityToChange.properties(), newWidth)

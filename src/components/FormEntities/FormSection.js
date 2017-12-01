@@ -2,6 +2,10 @@ import React from 'react';
 import { utility } from '../../utility';
 import { defaultPropsFE } from '../../constants/defaultPropsFE';
 import Resizer from './subentities/Resizer.js';
+import Mover from './subentities/Mover.js';
+import Append from './subentities/Append';
+import { styles } from './feStyles';
+import Prepend from './subentities/Prepend.js';
 
 let FormSectionComponent = (props) => {
 
@@ -58,13 +62,35 @@ let FormSectionComponent = (props) => {
       data-action={`mover.${props.model.UUID()}.FormSection`}
       onDragStart={dragstart_handler}
    >
+      {(props.model.prepend() > 0) ?
+        <Prepend
+          prepend={props.model.prepend()} /> :
+        null
+      }
       {props.model.children().map((element, i) => {
         return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity })
       })}
-      <Resizer
-        uuid={props.model.UUID()}
+      <Mover
         element='FormSection'
+        model={props.model}
+        form={props.form}
+        removeformentity={props.removeformentity}
+        addformentity={props.addformentity}
       />
+      <Resizer
+        element='FormSection'
+        model={props.model}
+        form={props.form}
+        removeformentity={props.removeformentity}
+        addformentity={props.addformentity}
+      />
+      {(props.model.append() > 0) ?
+        <Append
+          append={props.model.append()}
+          uuid={props.model.UUID()}
+        /> :
+        null
+      }
     </div>
   );
 }

@@ -58,7 +58,6 @@ const FormComponent = (props) => {
         }
       }
       const calc = ((newWidth) => {
-        console.log(newWidth)
         let entityToChange = null
         source[2] === 'FormSection' ?
           entityToChange = parentEntity :
@@ -102,12 +101,14 @@ const FormComponent = (props) => {
     event.preventDefault();
     event.stopPropagation();
     let data = JSON.parse(event.dataTransfer.getData("text"));
-    let entityToAdd = utility.resurrectEntity(defaultPropsFE[data.model.type])
-    let location = utility.findNode(props.form, props.form)
-    location.push(props.activeTab - 1)
-    // @hack - only adds to position 0 at this point
-    location.push(0)
-    props.addformentity(entityToAdd, location)
+    if (data.action === 'addEntity') {
+      let entityToAdd = utility.resurrectEntity(defaultPropsFE[data.model.type])
+      let location = utility.findNode(props.form, props.form)
+      location.push(props.activeTab - 1)
+      // @hack - only adds to position 0 at this point
+      location.push(0)
+      props.addformentity(entityToAdd, location)
+    }
   }
 
   const dragover_handler = (event) => {

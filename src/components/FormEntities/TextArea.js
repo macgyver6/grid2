@@ -1,5 +1,6 @@
 import React from 'react';
 import Resizer from './subentities/Resizer';
+import Mover from './subentities/Mover';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
@@ -52,9 +53,19 @@ const TextAreaComponent = (props) => {
 
         <textarea className="form-control" placeholder="Write something in text area" name={props.model.name()} rows={props.model.numRows()} cols={props.model.numColumns()} type={props.model.type()}>
         </textarea>
-        <Resizer
-          uuid={props.model.UUID()}
+        <Mover
           element='FormEntity'
+          model={props.model}
+          form={props.form}
+          removeformentity={props.removeformentity}
+          addformentity={props.addformentity}
+        />
+        <Resizer
+          element='FormEntity'
+          model={props.model}
+          form={props.form}
+          removeformentity={props.removeformentity}
+          addformentity={props.addformentity}
         />
       </div>
       {(props.model.append() > 0) ?

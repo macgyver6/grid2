@@ -1,6 +1,7 @@
 import React from 'react';
 import { utility } from '../../utility';
 import Resizer from './subentities/Resizer.js';
+import Mover from './subentities/Mover.js';
 import { styles } from './feStyles';
 import Append from './subentities/Append.js';
 import Prepend from './subentities/Prepend.js';
@@ -59,9 +60,19 @@ const TextInputComponent = (props) => {
         <input className="form-control" type={props.model.type()}
           value={props.model.defaultContent()}
           onChange={(e) => handleChange(e, props)} />
-        <Resizer
-          uuid={props.model.UUID()}
+        <Mover
           element='FormEntity'
+          model={props.model}
+          form={props.form}
+          removeformentity={props.removeformentity}
+          addformentity={props.addformentity}
+        />
+        <Resizer
+          element='FormEntity'
+          model={props.model}
+          form={props.form}
+          removeformentity={props.removeformentity}
+          addformentity={props.addformentity}
         />
       </div>
       {(props.model.append() > 0) ?
