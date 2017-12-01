@@ -3,12 +3,12 @@ import FormComponent from './components/FormEntities/Form';
 import FormSectionComponent from './components/FormEntities/FormSection';
 import TextInputComponent from './components/FormEntities/TextInput';
 import TextAreaComponent from './components/FormEntities/TextArea';
-import CheckboxComponent from './components/FormEntities/Checkbox';
+import CheckBoxComponent from './components/FormEntities/CheckBox';
 import { Form } from './data/Form';
 import { FormSection } from './data/FormSection';
 import { TextInput } from './data/TextInput';
 import { TextArea } from './data/TextArea';
-import { Checkbox } from './data/Checkbox';
+import { CheckBox } from './data/CheckBox';
 
 export const utility = {
   /**
@@ -138,8 +138,8 @@ export const utility = {
     else if (modelInstance instanceof TextArea) {
       return TextAreaComponent;
     }
-    else if (modelInstance instanceof Checkbox) {
-      return CheckboxComponent;
+    else if (modelInstance instanceof CheckBox) {
+      return CheckBoxComponent;
     }
   },
 
@@ -155,8 +155,8 @@ export const utility = {
         return new TextInput({ ...formEntitySerialized })
       case 'TextArea':
         return new TextArea({ ...formEntitySerialized })
-      case 'Checkbox':
-        return new Checkbox({ ...formEntitySerialized })
+      case 'CheckBox':
+        return new CheckBox({ ...formEntitySerialized })
       default: throw new Error('Unexpected Entity Type')
     }
   }

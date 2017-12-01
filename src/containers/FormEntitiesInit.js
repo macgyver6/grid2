@@ -55,7 +55,7 @@ const selectionStyles = {
     margin: "20px"
   },
 
-  Checkbox: {
+  CheckBox: {
     background: "#ff48c4",
     padding: "20px",
     margin: "20px"
@@ -75,7 +75,7 @@ const selectionStyles = {
   }
 }
 
-let entityTypes = ['FormSection', 'Checkbox', 'TextArea', 'TextInput']
+let entityTypes = ['FormSection', 'CheckBox', 'TextArea', 'TextInput']
 
 
 

@@ -19,7 +19,7 @@ let FormSectionComponent = (props) => {
     event.stopPropagation();
 
     let data = JSON.parse(event.dataTransfer.getData("text"));
-    if (data.action === 'addEntity') {
+    if (data && data.action === 'addEntity') {
       event.preventDefault();
       event.stopPropagation();
       let location = utility.findNode(props.model, props.form)

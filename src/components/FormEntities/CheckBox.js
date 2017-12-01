@@ -6,7 +6,7 @@ import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 
-const CheckboxComponent = (props) => {
+const CheckBoxComponent = (props) => {
 
   let handleChange = (event, props) => {
     console.log(event.target.value)
@@ -17,7 +17,7 @@ const CheckboxComponent = (props) => {
   }
 
   let dragstart_handler = function (event) {
-    console.log('Checkbox dragStart')
+    console.log('CheckBox dragStart')
     event.stopPropagation();
     event.dataTransfer.setData("text/plain", JSON.stringify({
       action: 'move',
@@ -56,8 +56,11 @@ const CheckboxComponent = (props) => {
         <input type={props.model.type()} onChange={(e) => handleChange(e, props)} >
         </input>
         <Mover
-          uuid={props.model.UUID()}
           element='FormEntity'
+          model={props.model}
+          form={props.form}
+          removeformentity={props.removeformentity}
+          addformentity={props.addformentity}
         />
         <Resizer
           uuid={props.model.UUID()}
@@ -75,4 +78,4 @@ const CheckboxComponent = (props) => {
   );
 }
 
-export default CheckboxComponent;
+export default CheckBoxComponent;

@@ -15,10 +15,11 @@ const FormComponent = (props) => {
     source = (event.target.getAttribute('data-action')).split('.');
     if (source[0] === 'resizer' || source[0] === 'mover') {
       console.log(source, event.screenX)
-      document.getElementById(source[1]).removeEventListener('dragstart', mouseUpHandler);
+      // document.getElementById(source[1]).removeEventListener('dragstart', mouseUpHandler);
       document.getElementById('FormComponent').addEventListener('mouseup', mouseUpHandler);
     }
   }
+
   function mouseUpHandler(event) {
     console.log('Form mouseUp: ', event.screenX)
     event.stopPropagation();
@@ -142,6 +143,7 @@ const FormComponent = (props) => {
   for (var i = 0; i < 24; i++) {
     bgColumns.push(<div style={bgrndGrd}>{i+1}</div>)
   }
+  // onMouseDown = {(e) => mouseDownHandler(e, props)}
   return (
     <div
       className='wrapper'
@@ -150,7 +152,7 @@ const FormComponent = (props) => {
       onDrop={drop_handler}
       onDragOver={dragover_handler}
       onDragLeave={dragleave_handler}
-      onMouseDown={(e) => mouseDownHandler(e, props)}
+
     >
       <div className="grid" >
         {/* if sectionTabs are turned on - map through and render the FormSection */}
