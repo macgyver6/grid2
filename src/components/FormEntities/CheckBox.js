@@ -63,8 +63,11 @@ const CheckBoxComponent = (props) => {
           addformentity={props.addformentity}
         />
         <Resizer
-          uuid={props.model.UUID()}
           element='FormEntity'
+          model={props.model}
+          form={props.form}
+          removeformentity={props.removeformentity}
+          addformentity={props.addformentity}
         />
       </div>
       {(props.model.append() > 0) ?

@@ -54,7 +54,7 @@ const TextInputComponent = (props) => {
       }
       <div style={tiStyle}
         data-action={`mover.${props.model.UUID()}.TextInput`}
-        class={props.model.UUID()}
+        className={props.model.UUID()}
       >
         <input className="form-control" type={props.model.type()}
           value={props.model.defaultContent()}
