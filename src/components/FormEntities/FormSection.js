@@ -44,10 +44,9 @@ let FormSectionComponent = (props) => {
     position: 'relative',
     gridTemplateColumns: `repeat(${props.model.width()}, [col] 1fr)`,
     backgroundColor: "rgba(243, 234, 95, 0.7)",
-    // "marginTop": "10px",
     minHeight: "120px",
     minWidth: "100px",
-    gridColumn: `col 1 / span ${props.model.width()}`,
+    gridColumn: `span ${props.model.width()}`,
     gridGap: "8px",
     zIndex: "30",
     cursor: 'move'
