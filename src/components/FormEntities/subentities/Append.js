@@ -5,7 +5,7 @@ const Append = (props) => {
   const appendStyle = {
     // border: '2px dashed black',
     gridColumn: `span ${props.append}`,
-    position: 'relative',
+    // position: 'relative',
     backgroundColor: 'lightgrey'
     // flexDirection: 'row',
     // justifyContent: 'flex-end'

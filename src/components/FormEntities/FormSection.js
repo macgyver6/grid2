@@ -39,58 +39,70 @@ let FormSectionComponent = (props) => {
     }
   }
 
-  const divStyle = {
-    "display": "grid",
+  const fsStyle = {
+    display: "grid",
     position: 'relative',
-    "gridTemplateColumns": `repeat(${props.model.width()}, [col] 1fr)`,
-    "backgroundColor": "rgba(243, 234, 95, 0.7)",
+    gridTemplateColumns: `repeat(${props.model.width()}, [col] 1fr)`,
+    backgroundColor: "rgba(243, 234, 95, 0.7)",
     // "marginTop": "10px",
-    "minHeight": "120px",
-    "minWidth": "100px",
-    "gridColumn": `col 1 / span ${props.model.width()}`,
-    "gridGap": "8px",
-    "zIndex": "30",
+    minHeight: "120px",
+    minWidth: "100px",
+    gridColumn: `col 1 / span ${props.model.width()}`,
+    gridGap: "8px",
+    zIndex: "30",
     cursor: 'move'
   }
+
+  // return actual style values
+  // 1. # of grid columns the CheckBox and Append will fill
+  styles.defaultEntity['gridColumn'] = 'span ' + (props.model.prepend() + props.model.width() + props.model.append())
+  // 2. # of grid columns within the CheckBox
+  styles.defaultEntity['gridTemplateColumns'] = 'repeat(' + (props.model.prepend() + props.model.width() + props.model.append()) + ', [col] 1fr)'
+
   return (
     <div
-      className="form-group FS"
-      style={divStyle}
-      onDrop={drop_handler}
+      style={styles.defaultEntity}
+      // style={styles.defaultEntity}
       draggable="true"
-      id={props.model.UUID()}
-      data-action={`mover.${props.model.UUID()}.FormSection`}
-      onDragStart={dragstart_handler}
-   >
+    >
       {(props.model.prepend() > 0) ?
         <Prepend
           prepend={props.model.prepend()} /> :
         null
       }
-      {props.model.children().map((element, i) => {
-        return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity })
-      })}
-      <Mover
-        element='FormSection'
-        model={props.model}
-        form={props.form}
-        removeformentity={props.removeformentity}
-        addformentity={props.addformentity}
-      />
-      <Resizer
-        element='FormSection'
-        model={props.model}
-        form={props.form}
-        removeformentity={props.removeformentity}
-        addformentity={props.addformentity}
-      />
-      {(props.model.append() > 0) ?
-        <Append
-          append={props.model.append()}
-          uuid={props.model.UUID()}
-        /> :
-        null
-      }
+      <div
+        className="form-group FS"
+        style={fsStyle}
+        onDrop={drop_handler}
+        id={props.model.UUID()}
+        data-action={`mover.${props.model.UUID()}.FormSection`}
+        onDragStart={dragstart_handler}
+      >
+        {props.model.children().map((element, i) => {
+          return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity })
+        })}
+        <Mover
+          element='FormSection'
+          model={props.model}
+          form={props.form}
+          removeformentity={props.removeformentity}
+          addformentity={props.addformentity}
+        />
+        <Resizer
+          element='FormSection'
+          model={props.model}
+          form={props.form}
+          removeformentity={props.removeformentity}
+          addformentity={props.addformentity}
+        />
+      </div>
+        {(props.model.append() > 0) ?
+          <Append
+            append={props.model.append()}
+            uuid={props.model.UUID()}
+          /> :
+          null
+        }
     </div>
   );
 }

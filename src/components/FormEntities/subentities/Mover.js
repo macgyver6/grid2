@@ -64,6 +64,7 @@ let dragend_handler = function (event, props) {
       '-': (a, b) => Object.assign({}, { prepend: initGrid.prepend - diffGrid, append: initGrid.append + diffGrid }),
     }
     const calcMover = ((newWidth) => {
+      console.log(newWidth)
       let entityToChange = locEntity[1]
       props.removeformentity(locEntity[0])
       console.log(newWidth)

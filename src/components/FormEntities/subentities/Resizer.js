@@ -54,7 +54,6 @@ let dragend_handler = function (event, props) {
   let initDiff = resize.changed - resize.init
   let fsWidth = parseInt((document.getElementById(parentEntity.UUID()).clientWidth / parentEntity.width()), 10)
   let diffGrid = (parseInt(((Math.abs(initDiff)) / fsWidth), 10) + 1)
-  console.log(initGrid)
   if (Math.abs(initDiff) > 20) {
     var calcOpp = {
       FormEntity: {

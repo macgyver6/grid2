@@ -8,28 +8,27 @@ export var defaultPropsFE = {
         uuid: undefined, type: 'FormSection', width: 24, children: [
 
           new FormSection({
-            uuid: undefined, type: 'FormSection', width: 24, children: [
-              new CheckBox({ uuid: undefined, width: 6, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'CheckBox', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', prepend: 0, autoNumber: 'SEQUENTIAL', append: 4, defaultState: true })
-
-            ], legend: 'string', prepend: 0, append: 4
+            uuid: undefined, type: 'FormSection', width: 16, children: [
+              // new CheckBox({ uuid: undefined, width: 16, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'CheckBox', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', prepend: 0, autoNumber: 'SEQUENTIAL', append: 8, defaultState: true })
+            ], legend: 'string', prepend: 4, append: 4
           })
-        ], legend: 'string', prepend: 0, append: 4
+        ], legend: 'string', prepend: 0, append: 0
       }),
       new FormSection({
         uuid: undefined, type: 'FormSection', width: 24, children: [
           new FormSection({
             uuid: undefined, type: 'FormSection', width: 24, children: [
 
-            ], legend: 'string', prepend: 0, append: 4
+            ], legend: 'string', prepend: 0, append: 0
           })
-        ], legend: 'string', prepend: 0, append: 4
+        ], legend: 'string', prepend: 0, append: 0
       }),
 
     ]
     , crf: 'crf', inputs: ['input1', 'input2'], remoteValidatorCondition: { 0: 'zero', 1: 'one' }, sectionTabs: true, versionDescription: 'version description'
   },
 
-  FormSection: { uuid: undefined, type: 'FormSection', width: 12, children: [], legend: 'string', prepend: 0, append: 4 },
+  FormSection: { uuid: undefined, type: 'FormSection', width: 12, children: [], legend: 'string', prepend: 0, append: 0 },
 
   TextInput: { uuid: undefined, width: 8, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', prepend: 0, autoNumber: 'SEQUENTIAL', append: 4, length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content' },
 

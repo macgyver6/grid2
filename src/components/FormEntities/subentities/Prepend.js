@@ -44,9 +44,8 @@ const Prepend = (props) => {
 
   const prependStyle = {
     gridColumn: `span ${props.prepend}`,
-    position: 'relative',
+    // position: 'relative',
     backgroundColor: 'lightgrey'
-
   }
 
   return (
