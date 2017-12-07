@@ -46,23 +46,23 @@ let dragend_handler = function (event, props) {
     initGrid.prepend = parentEntity.prepend()
     initGrid.append = parentEntity.append()
   } else {
-    initGrid.width = locEntity[1].width(),
+      initGrid.width = locEntity[1].width(),
       initGrid.append = locEntity[1].append(),
       initGrid.prepend = locEntity[1].prepend()
   }
 
   let initDiff = resize.changed - resize.init
   let fsWidth = parseInt((document.getElementById(parentEntity.UUID()).clientWidth / parentEntity.width()), 10)
-  let diffGrid = (parseInt(((Math.abs(initDiff)) / fsWidth), 10) + 1)
+  let deltaGrid = (parseInt(((Math.abs(initDiff)) / fsWidth), 10) + 1)
   if (Math.abs(initDiff) > 20) {
     var calcOpp = {
       FormEntity: {
-        '+': (a, b) => Object.assign({}, { width: initGrid.width + diffGrid, append: initGrid.append - diffGrid }),
-        '-': (a, b) => Object.assign({}, { width: initGrid.width - diffGrid, append: initGrid.append + diffGrid })
+        '+': (a, b) => Object.assign({}, { width: initGrid.width + deltaGrid, append: initGrid.append - deltaGrid }),
+        '-': (a, b) => Object.assign({}, { width: initGrid.width - deltaGrid, append: initGrid.append + deltaGrid })
       },
       FormSection: {
-        '+': (a, b) => Object.assign({}, { width: initGrid.width + diffGrid }),
-        '-': (a, b) => Object.assign({}, { width: initGrid.width - diffGrid })
+        '+': (a, b) => Object.assign({}, { width: initGrid.width + deltaGrid, append: initGrid.append - deltaGrid }),
+        '-': (a, b) => Object.assign({}, { width: initGrid.width - deltaGrid, append: initGrid.append + deltaGrid })
       }
     }
     const calc = ((newWidth) => {
@@ -77,9 +77,9 @@ let dragend_handler = function (event, props) {
       ), locEntity[0])
     })
     if (initDiff > 0) {
-      calc(calcOpp[props.element]['+'](initGrid, diffGrid))
+      calc(calcOpp[props.element]['+'](initGrid, deltaGrid))
     } else {
-      calc(calcOpp[props.element]['-'](initGrid, diffGrid))
+      calc(calcOpp[props.element]['-'](initGrid, deltaGrid))
     }
   }
 }
