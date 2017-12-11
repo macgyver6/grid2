@@ -53,6 +53,7 @@ const CheckBoxComponent = (props) => {
         // data-action={`mover.${props.model.UUID()}.CheckBox`}
         id={props.model.UUID()}
       >
+      <p>{props.model.UUID()}</p>
         <input type={props.model.type()} onChange={(e) => handleChange(e, props)} >
         </input>
         <Mover
@@ -74,6 +75,10 @@ const CheckBoxComponent = (props) => {
         <Append
           append={props.model.append()}
           uuid={props.model.UUID()}
+          model={props.model}
+          form={props.form}
+          removeformentity={props.removeformentity}
+          addformentity={props.addformentity}
         /> :
         null
       }

@@ -79,6 +79,10 @@ const TextInputComponent = (props) => {
         <Append
           append={props.model.append()}
           uuid={props.model.UUID()}
+          model={props.model}
+          form={props.form}
+          removeformentity={props.removeformentity}
+          addformentity={props.addformentity}
         /> :
         null
       }

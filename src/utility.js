@@ -28,6 +28,7 @@ export const utility = {
   // },
 
   add: function add(entity, section, path) {
+    console.log(entity, section, path)
     // if (path[0] < 0 || path[0] === undefined && (!(entity instanceof FormSection))) {
     //   throw new Error("path OOB");
     // }
@@ -144,7 +145,7 @@ export const utility = {
   },
 
   resurrectEntity: function (formEntitySerialized) {
-    console.log(formEntitySerialized)
+    // console.af(formEntitySerialized)
     // @hack
     switch (formEntitySerialized.type || formEntitySerialized._type || formEntitySerialized.type()) {
       case 'Form':
