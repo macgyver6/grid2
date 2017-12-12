@@ -103,10 +103,7 @@ const FormComponent = (props) => {
     let data = JSON.parse(event.dataTransfer.getData("text"));
     if (data.action === 'addEntity') {
       let entityToAdd = utility.resurrectEntity(defaultPropsFE[data.model.type])
-      let location = utility.findNode(props.form, props.form)
-      location.push(props.activeTab - 1)
-      // @hack - only adds to position 0 at this point
-      location.push(0)
+      const location = [(props.activeTab - 1), props.form.children()[0].children().length]
       props.addformentity(entityToAdd, location)
     }
   }
