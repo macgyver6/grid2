@@ -48,9 +48,18 @@ const Prepend = (props) => {
     backgroundColor: 'lightgrey'
   }
 
+  const drop_handler = (event) => {
+    event.stopPropagation();
+    let data = JSON.parse(event.dataTransfer.getData("text"));
+    const totalWidthNewEntity = () => data.model.prepend + data.model.width + data.model.append
+    let locEntity = utility.findEntityUuid(props.model.UUID(), props.form)
+    props.addformentity(utility.resurrectEntity(Object.assign({}, data.model)), locEntity[0])
+  }
+
   return (
     <div
       style={prependStyle}
+      onDrop={drop_handler}
     >
     </div>
   )

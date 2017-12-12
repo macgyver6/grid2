@@ -66,7 +66,13 @@ let FormSectionComponent = (props) => {
     >
       {(props.model.prepend() > 0) ?
         <Prepend
-          prepend={props.model.prepend()} /> :
+          prepend={props.model.prepend()}
+          uuid={props.model.UUID()}
+          model={props.model}
+          form={props.form}
+          removeformentity={props.removeformentity}
+          addformentity={props.addformentity}
+          /> :
         null
       }
       <div
@@ -77,6 +83,8 @@ let FormSectionComponent = (props) => {
         data-action={`mover.${props.model.UUID()}.FormSection`}
         onDragStart={dragstart_handler}
       >
+        <p>{props.model.UUID()}</p>
+
         {props.model.children().map((element, i) => {
           return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity })
         })}
