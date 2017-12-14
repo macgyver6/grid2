@@ -31,7 +31,7 @@ const TextInputComponent = (props) => {
     backgroundColor: '#ff3f3f',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
-    maxHeight: '100px',
+    height: '100px',
     cursor: 'move'
   }
 

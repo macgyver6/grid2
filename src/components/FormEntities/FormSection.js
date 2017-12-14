@@ -60,6 +60,7 @@ let FormSectionComponent = (props) => {
 
   return (
     <div
+    id="FormSectionComponent"
       style={styles.defaultEntity}
       // style={styles.defaultEntity}
       draggable="true"
@@ -83,8 +84,6 @@ let FormSectionComponent = (props) => {
         data-action={`mover.${props.model.UUID()}.FormSection`}
         onDragStart={dragstart_handler}
       >
-        <p>{props.model.UUID()}</p>
-
         {props.model.children().map((element, i) => {
           return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity })
         })}

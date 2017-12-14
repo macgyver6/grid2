@@ -4,6 +4,7 @@ import * as actions from '../actions/index';
 import FormComponent from '../components/FormEntities/Form';
 import { utility } from '../utility';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
+import CheckBox from '../components/FormEntities/CheckBox.js'
 import {
   backgroundPanelStyle,
   leftPanelStyle,
@@ -15,16 +16,64 @@ import DesignBoxHeader from '../components/layout/design/DesignBoxHeader';
 
 let dragstart_handler = function (event) {
   // event.preventDefault();
-  event.stopPropagation();
+  //event.stopPropagation();
   event.dataTransfer.setData("text/plain",
     JSON.stringify({
       action: 'addEntity',
       model: defaultPropsFE[event.target.dataset.type]
-    }))
+    }));
+  // var test = document.createElement('div');
+  // test.style.width = '100px';
+  // test.style.height = '100px';
+  // // test.style.position = 'fixed';
+  // // test.style.top = '-1000000px';
+  // // test.style.left = '-1000000px';
+  // test.style.border = '2px solid red';
+  // document.body.appendChild(test);
+  // event.dataTransfer.setDragImage(test, 0, 0)
+
+  const type = event.target.dataset.type
+  const div = document.createElement('div');
+  div.id = "dmg";
+  div.style.width = `${defaultPropsFE[type].width * 46}px`;
+  div.style.height = '100px';
+  div.style.backgroundColor = defaultPropsFE[type].render.backgroundColor
+  div.style.position = "fixed";
+  div.style.top = "-1000px";
+  div.style.left = "-1000px";
+  document.body.appendChild(div);
+
+  // var p = document.getElementById("FormSectionComponent");
+
+  // var p_prime = p.cloneNode(true);
+  // p_prime.style.position = "fixed";
+  // p_prime.id = "dmg";
+  // p_prime.style.top = "-1000px";
+  // p_prime.style.left = "-1000px";
+  // console.log(p_prime)
+  // document.body.appendChild(p_prime);
+
+  event.dataTransfer.setDragImage(div, 0, 0);
 }
 
+
+
+//   var p = document.getElementById("FormSectionComponent");
+
+//   var p_prime = p.cloneNode(true);
+//   p_prime.style.position = "fixed";
+//   p_prime.id = "dmg";
+//   p_prime.style.top = "-1000px";
+//   p_prime.style.left = "-1000px";
+//   console.log(p_prime)
+//   document.body.appendChild(p_prime);
+
+//   event.dataTransfer.setDragImage(p_prime, 0, 0);
+// }
+
 let dragend_handler = function (event) {
-  event.preventDefault();
+  //event.preventDefault();
+  // document.getElementById("dmg").remove();
 }
 
 const BackgroundPanel = (props) =>

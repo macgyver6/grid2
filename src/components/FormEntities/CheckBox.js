@@ -29,7 +29,7 @@ const CheckBoxComponent = (props) => {
     backgroundColor: '#ff48c4',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
-    maxHeight: '100px',
+    height: '100px'
   }
 
   // return actual style values
@@ -53,7 +53,6 @@ const CheckBoxComponent = (props) => {
         // data-action={`mover.${props.model.UUID()}.CheckBox`}
         id={props.model.UUID()}
       >
-      <p>{props.model.UUID()}</p>
         <input type={props.model.type()} onChange={(e) => handleChange(e, props)} >
         </input>
         <Mover
