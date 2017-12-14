@@ -17,12 +17,12 @@ let FormSectionComponent = (props) => {
       model: props.model.properties()
     }));
   }
-
+  let data = '';
   let drop_handler = (event) => {
     event.preventDefault();
     event.stopPropagation();
 
-    let data = JSON.parse(event.dataTransfer.getData("text"));
+    data = JSON.parse(event.dataTransfer.getData("text"));
     if (data && data.action === 'addEntity') {
       event.preventDefault();
       event.stopPropagation();
@@ -36,6 +36,18 @@ let FormSectionComponent = (props) => {
       // @hack - only adds to position 0 at this point
       location.push(0)
       props.addformentity(entityToAdd, location)
+    }
+    const div = document.getElementById(props.model.UUID());
+    div.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
+  }
+
+  let dragEnterHandler = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    // @hack hard coded width
+    if (props.model.width() >= 5) {
+      const div = document.getElementById(props.model.UUID());
+      div.style.backgroundColor = 'rgba(63, 191, 63, 0.8)';
     }
   }
 
@@ -80,6 +92,7 @@ let FormSectionComponent = (props) => {
         className="form-group FS"
         style={fsStyle}
         onDrop={drop_handler}
+        onDragEnter={dragEnterHandler}
         id={props.model.UUID()}
         data-action={`mover.${props.model.UUID()}.FormSection`}
         onDragStart={dragstart_handler}

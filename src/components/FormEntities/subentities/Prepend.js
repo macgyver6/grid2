@@ -44,8 +44,9 @@ const Prepend = (props) => {
 
   const prependStyle = {
     gridColumn: `span ${props.prepend}`,
+    border: '1px dashed black',
     // position: 'relative',
-    backgroundColor: 'lightgrey'
+    backgroundColor: 'rgba(0, 0, 0, 0)'
   }
 
   const drop_handler = (event) => {
@@ -54,12 +55,24 @@ const Prepend = (props) => {
     const totalWidthNewEntity = () => data.model.prepend + data.model.width + data.model.append
     let locEntity = utility.findEntityUuid(props.model.UUID(), props.form)
     props.addformentity(utility.resurrectEntity(Object.assign({}, data.model)), locEntity[0])
+    event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)'
+  }
+
+  let dragEnterHandler
+  dragEnterHandler = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    // @hack hard coded width
+    if (props.model.width() >= 5) {
+      event.target.style.backgroundColor = 'rgba(63, 191, 63, 0.8)'
+    }
   }
 
   return (
     <div
       style={prependStyle}
       onDrop={drop_handler}
+      onDragEnter={dragEnterHandler}
     >
     </div>
   )
