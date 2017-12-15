@@ -18,11 +18,11 @@ const resize = {
 }
 
 let dragstart_handler = (event, props) => {
-  console.log(event, props)
+  console.log(event.target, props)
   event.stopPropagation();
   event.dataTransfer.setData("text", JSON.stringify({
-    action: 'move',
-    model: 'props.model.properties()'
+    action: 'resize',
+    model: props.model.properties()
   }));
 
   console.log(event.screenX)

@@ -38,7 +38,8 @@ let FormSectionComponent = (props) => {
       props.addformentity(entityToAdd, location)
     }
     const div = document.getElementById(props.model.UUID());
-    div.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
+    // div.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
+    event.target.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
   }
 
   let dragEnterHandler = (event) => {
@@ -72,7 +73,7 @@ let FormSectionComponent = (props) => {
 
   return (
     <div
-    id="FormSectionComponent"
+      id="FormSectionComponent"
       style={styles.defaultEntity}
       // style={styles.defaultEntity}
       draggable="true"
@@ -85,7 +86,7 @@ let FormSectionComponent = (props) => {
           form={props.form}
           removeformentity={props.removeformentity}
           addformentity={props.addformentity}
-          /> :
+        /> :
         null
       }
       <div
@@ -115,13 +116,17 @@ let FormSectionComponent = (props) => {
           addformentity={props.addformentity}
         />
       </div>
-        {(props.model.append() > 0) ?
-          <Append
-            append={props.model.append()}
-            uuid={props.model.UUID()}
-          /> :
-          null
-        }
+      {(props.model.append() > 0) ?
+        <Append
+          append={props.model.append()}
+          uuid={props.model.UUID()}
+          model={props.model}
+          form={props.form}
+          removeformentity={props.removeformentity}
+          addformentity={props.addformentity}
+        /> :
+        null
+      }
     </div>
   );
 }
