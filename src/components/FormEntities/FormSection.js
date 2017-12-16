@@ -77,6 +77,7 @@ let FormSectionComponent = (props) => {
     gridGap: "8px",
     zIndex: "30",
     cursor: 'move'
+
   }
 
   // return actual style values
@@ -91,6 +92,7 @@ let FormSectionComponent = (props) => {
       style={styles.defaultEntity}
       // style={styles.defaultEntity}
       draggable="true"
+      onDragStart={dragstart_handler}
     >
       {(props.model.prepend() > 0) ?
         <Prepend
@@ -110,7 +112,6 @@ let FormSectionComponent = (props) => {
         onDragEnter={dragEnterHandler}
         id={props.model.UUID()}
         data-action={`mover.${props.model.UUID()}.FormSection`}
-        onDragStart={dragstart_handler}
       >
         {props.model.children().map((element, i) => {
           return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity })

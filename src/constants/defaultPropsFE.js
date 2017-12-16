@@ -19,6 +19,11 @@ export var defaultPropsFE = {
                 render: { backgroundColor: 'rgb(255, 63, 63)' }
               }),
             ], legend: 'string', prepend: 4, append: 4
+          }),
+          new FormSection({
+            uuid: undefined, type: 'FormSection', width: 16, children: [
+
+            ], legend: 'string', prepend: 4, append: 4
           })
         ], legend: 'string', prepend: 0, append: 0
       }),
@@ -36,19 +41,23 @@ export var defaultPropsFE = {
     , crf: 'crf', inputs: ['input1', 'input2'], remoteValidatorCondition: { 0: 'zero', 1: 'one' }, sectionTabs: true, versionDescription: 'version description'
   },
 
-  FormSection: { uuid: undefined, type: 'FormSection', width: 12, children: [], legend: 'string', prepend: 0, append: 0,
+  FormSection: {
+    uuid: undefined, prepend: 4, width: 16, append: 4, type: 'FormSection', children: [], legend: 'string',
     render: { backgroundColor: 'rgb(243, 234, 95)'}
 },
 
-  TextInput: { uuid: undefined, width: 5, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', prepend: 0, autoNumber: 'SEQUENTIAL', append: 0, length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content',
+  TextInput: {
+    uuid: undefined, prepend: 1, width: 5, append: 1, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content',
     render: { backgroundColor: 'rgb(255, 63, 63)' }
   },
 
-  TextArea: { uuid: undefined, width: 5, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'TextArea', tabOrder: [1, 2, 3], inputWidth: 12, promptNumber: 'promptNumber', prepend: 0, autoNumber: 'SEQUENTIAL', append: 0, numColumns: 20, numRows: 2, defaultContent: 'Default Content',
+  TextArea: {
+    uuid: undefined, prepend: 1, width: 5, append: 1, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'TextArea', tabOrder: [1, 2, 3], inputWidth: 12, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL',  numColumns: 20, numRows: 2, defaultContent: 'Default Content',
     render: { backgroundColor: 'rgb(43, 209, 252)' }
    },
 
-  CheckBox: { uuid: undefined, width: 5, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'CheckBox', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', prepend: 0, autoNumber: 'SEQUENTIAL', append: 0, defaultState: true,
+  CheckBox: {
+    uuid: undefined, prepend: 1, width: 5, append: 1, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'CheckBox', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', defaultState: true,
     render: { backgroundColor: 'rgb(255, 72, 196)' }
   }
 }
