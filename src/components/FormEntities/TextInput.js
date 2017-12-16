@@ -50,7 +50,13 @@ const TextInputComponent = (props) => {
     >
       {(props.model.prepend() > 0) ?
         <Prepend
-          prepend={props.model.prepend()} /> :
+          prepend={props.model.prepend()}
+          uuid={props.model.UUID()}
+          model={props.model}
+          form={props.form}
+          removeformentity={props.removeformentity}
+          addformentity={props.addformentity}
+          /> :
         null
       }
       <div style={tiStyle}

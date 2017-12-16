@@ -44,13 +44,20 @@ const CheckBoxComponent = (props) => {
       onDragStart={dragstart_handler}
       draggable="true"
     >
-      {(props.model.prepend() > 0) ?
+      {/* {(props.model.prepend() > 0) ?
         <Prepend
           prepend={props.model.prepend()} /> :
         null
-      }
+      } */}
+      <Prepend
+        prepend={props.model.prepend()}
+        uuid={props.model.UUID()}
+        model={props.model}
+        form={props.form}
+        removeformentity={props.removeformentity}
+        addformentity={props.addformentity} />
       <div style={cbStyle}
-        // data-action={`mover.${props.model.UUID()}.CheckBox`}
+        data-action={`mover.${props.model.UUID()}.CheckBox`}
         id={props.model.UUID()}
       >
         <input type={props.model.type()} onChange={(e) => handleChange(e, props)} >

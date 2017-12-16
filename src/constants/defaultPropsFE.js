@@ -1,5 +1,6 @@
 import { FormSection } from '../data/FormSection';
 import { CheckBox } from '../data/CheckBox';
+import { TextInput } from '../data/TextInput';
 
 export var defaultPropsFE = {
   Form: {
@@ -9,7 +10,14 @@ export var defaultPropsFE = {
 
           new FormSection({
             uuid: undefined, type: 'FormSection', width: 16, children: [
-              // new CheckBox({ uuid: undefined, width: 16, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'CheckBox', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', prepend: 0, autoNumber: 'SEQUENTIAL', append: 8, defaultState: true })
+              new CheckBox( {
+                uuid: undefined, width: 5, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'CheckBox', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', prepend: 1, autoNumber: 'SEQUENTIAL', append: 1, defaultState: true,
+                render: { backgroundColor: 'rgb(255, 72, 196)' }}
+              ),
+              new TextInput( {
+                uuid: undefined, width: 5, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', prepend: 1, autoNumber: 'SEQUENTIAL', append: 1, length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content',
+                render: { backgroundColor: 'rgb(255, 63, 63)' }
+              }),
             ], legend: 'string', prepend: 4, append: 4
           })
         ], legend: 'string', prepend: 0, append: 0
