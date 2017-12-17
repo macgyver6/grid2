@@ -36,9 +36,7 @@ const TextAreaComponent = (props) => {
   return (
     <div
       style={styles.defaultEntity}
-      draggable="true"
       onDragEnd={dragend_handler}
-      onDragStart={dragstart_handler}
     >
       {(props.model.prepend() > 0) ?
         <Prepend
@@ -55,8 +53,9 @@ const TextAreaComponent = (props) => {
         style={taStyle}
         data-action={`mover.${props.model.UUID()}.TextArea`}
         id={props.model.UUID()}
+        draggable="true"
+        onDragStart={dragstart_handler}
       >
-
         <textarea className="form-control" placeholder="Write something in text area" name={props.model.name()} rows={props.model.numRows()} cols={props.model.numColumns()} type={props.model.type()}>
         </textarea>
         <Mover

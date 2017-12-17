@@ -44,9 +44,7 @@ const TextInputComponent = (props) => {
   return (
     <div
       style={styles.defaultEntity}
-      draggable="true"
       onDragEnd={dragend_handler}
-      onDragStart={dragstart_handler}
     >
       {(props.model.prepend() > 0) ?
         <Prepend
@@ -62,6 +60,8 @@ const TextInputComponent = (props) => {
       <div style={tiStyle}
         data-action={`mover.${props.model.UUID()}.TextInput`}
         className={props.model.UUID()}
+        draggable="true"
+        onDragStart={dragstart_handler}
       >
         <input className="form-control" type={props.model.type()}
           value={props.model.defaultContent()}
