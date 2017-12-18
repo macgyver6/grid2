@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   DesignBoxHeaderStyle,
-  DesignBoxHeaderTabContainerStyle,
+  TabContainerStyle,
   DesignBoxHeaderButtonStyle
 } from '../styles/DesignBox'
 import { FormSection } from '../../../data/FormSection';
@@ -10,7 +10,7 @@ import { FormSection } from '../../../data/FormSection';
 //   addTab
 // } from '../auxillary/actions/design'
 
-import DesignBoxHeaderTab from './DesignBoxHeaderTab';
+import Tab from './Tab';
 
 let DesignBoxHeader = (props) => {
 // console.log(props.tabs.length)
@@ -26,11 +26,11 @@ let DesignBoxHeader = (props) => {
   return (
     <div style={DesignBoxHeaderStyle}>
 
-      <div style={DesignBoxHeaderTabContainerStyle}>
+      <div style={TabContainerStyle}>
 
         {props.tabs ?
           props.tabs.map((tab, index) =>
-            <DesignBoxHeaderTab
+            <Tab
               tab={index + 1}
               key={index}
               changetab={props.changetab}

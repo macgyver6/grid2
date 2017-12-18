@@ -3,7 +3,7 @@ export const DesignBoxHeaderStyle = {
   height: "100%",
 };
 
-export const DesignBoxHeaderTabContainerStyle = {
+export const TabContainerStyle = {
   width: "90%",
   height: "100%",
   display: "inline-flex",
@@ -20,7 +20,7 @@ export const DesignBoxHeaderButtonStyle = {
   fontSize: 50
 };
 
-export const DesignBoxHeaderTabStyle = {
+export const TabStyle = {
   width: "10%",
   height: "40%",
   marginTop: "2%",
@@ -29,7 +29,7 @@ export const DesignBoxHeaderTabStyle = {
   border: "0.25px solid white",
 };
 
-export const DesignBoxHeaderTabButtonStyle = {
+export const TabButtonStyle = {
   float: "right",
   width: "20%",
   height: "100%",

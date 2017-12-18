@@ -101,10 +101,29 @@ const FormComponent = (props) => {
     event.preventDefault();
     event.stopPropagation();
     let data = JSON.parse(event.dataTransfer.getData("text"));
+    console.log(data)
     if (data.action === 'addEntity') {
       let entityToAdd = utility.resurrectEntity(defaultPropsFE[data.model.type])
       const location = [(props.activeTab - 1), props.form.children()[0].children().length]
       props.addformentity(entityToAdd, location)
+    }
+
+    if (data && data.action === 'move') {
+      const location = [(props.activeTab - 1), props.form.children()[0].children().length]
+      console.log(data.model)
+      // props.addformentity(entityToAdd, location)
+      let entityToAdd = utility.resurrectEntity(
+        Object.assign({},
+          data.model,
+          { children: data.model.children.map((child) => utility.resurrectEntity(child)) }
+        )
+      )
+      // @hack - only adds to position 0 at this point
+      // location.push(0)
+      console.log(entityToAdd, location)
+      props.addformentity(entityToAdd, location)
+      let initLocation = utility.findNode(utility.resurrectEntity(data.model), props.form)
+      props.removeformentity(initLocation)
     }
   }
 
@@ -139,7 +158,7 @@ const FormComponent = (props) => {
   const bgColumns = []
 
   for (var i = 0; i < 24; i++) {
-    bgColumns.push(<div style={bgrndGrd}>{i+1}</div>)
+    bgColumns.push(<div style={bgrndGrd}>{i + 1}</div>)
   }
   // onMouseDown = {(e) => mouseDownHandler(e, props)}
   return (
@@ -165,7 +184,7 @@ const FormComponent = (props) => {
               addformentity={props.addformentity}
             />
           })
-      // if sectionTabs are turned off - map through and render the element
+          // if sectionTabs are turned off - map through and render the element
           : props.form.children().map((element, i) => {
             return React.createElement(FormSectionComponent, { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity })
           })}

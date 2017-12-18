@@ -10,11 +10,10 @@ import Prepend from './subentities/Prepend.js';
 let FormSectionComponent = (props) => {
 
   let dragstart_handler = (event) => {
-    console.log('dragStart FormSection')
     event.stopPropagation();
     event.dataTransfer.setData("text/plain", JSON.stringify({
       action: 'move',
-      model: props.model.properties()
+      model: Object.assign({}, props.model.properties(), { children: props.model.children().map((child) => child.properties()) })
     }));
   }
   let data = '';
