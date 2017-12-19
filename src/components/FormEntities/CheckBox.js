@@ -3,6 +3,7 @@ import { utility } from '../../utility';
 import Resizer from './subentities/Resizer';
 import Mover from './subentities/Mover';
 import Append from './subentities/Append';
+import MovePrior from './subentities/MovePrior';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 
@@ -86,8 +87,6 @@ const CheckBoxComponent = (props) => {
     }
     // document.getElementById('FormComponent').removeEventListener('mouseup', mouseUpHandler);
     // document.getElementById('FormComponent').removeEventListener('mousedown', mouseUpHandler);
-
-    console.log(resize)
   }
 
   const cbStyle = {
@@ -96,6 +95,7 @@ const CheckBoxComponent = (props) => {
     gridColumn: `span ${props.model.width()}`,
     height: '100px'
   }
+
 
   // return actual style values
   // 1. # of grid columns the CheckBox and Append will fill
@@ -126,8 +126,15 @@ const CheckBoxComponent = (props) => {
         onDragEnd={dragend_handler}
         draggable="true"
       >
-        <input type={props.model.type()} onChange={(e) => handleChange(e, props)} >
-        </input>
+        {/* <input type={props.model.type()} onChange={(e) => handleChange(e, props)} >
+        </input> */}
+        <MovePrior
+          element='FormEntity'
+          model={props.model}
+          form={props.form}
+          removeformentity={props.removeformentity}
+          addformentity={props.addformentity}
+          />
         {/* <Mover
           element='FormEntity'
           model={props.model}
