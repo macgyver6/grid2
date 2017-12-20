@@ -76,19 +76,18 @@ let FormSectionComponent = (props) => {
     gridGap: "8px",
     zIndex: "30",
     cursor: 'move'
-
   }
 
   // return actual style values
   // 1. # of grid columns the CheckBox and Append will fill
-  styles.defaultEntity['gridColumn'] = 'span ' + (props.model.prepend() + props.model.width() + props.model.append())
+  styles.formSection['gridColumn'] = 'span ' + (props.model.prepend() + props.model.width() + props.model.append())
   // 2. # of grid columns within the CheckBox
-  styles.defaultEntity['gridTemplateColumns'] = 'repeat(' + (props.model.prepend() + props.model.width() + props.model.append()) + ', [col] 1fr)'
+  styles.formSection['gridTemplateColumns'] = 'repeat(' + (props.model.prepend() + props.model.width() + props.model.append()) + ', [col] 1fr)'
 
   return (
     <div
       id="FormSectionComponent"
-      style={styles.defaultEntity}
+      style={styles.formSection}
       // style={styles.defaultEntity}
       draggable="true"
       onDragStart={dragstart_handler}

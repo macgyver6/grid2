@@ -1,6 +1,7 @@
 import { FormSection } from '../data/FormSection';
 import { CheckBox } from '../data/CheckBox';
 import { TextInput } from '../data/TextInput';
+import { TextArea } from '../data/TextArea';
 import { RadioButton } from '../data/RadioButton';
 
 export var defaultPropsFE = {
@@ -17,14 +18,26 @@ export var defaultPropsFE = {
               }
               ),
               new TextInput({
-                uuid: undefined, width: 5, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', prepend: 0, autoNumber: 'SEQUENTIAL', append: 1, length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content',
+                uuid: undefined, prepend: 0, width: 5, append: 1, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content',
                 render: { backgroundColor: 'rgb(255, 63, 63)' }
               }),
+
             ], legend: 'string', prepend: 4, append: 4
           }),
           new FormSection({
             uuid: undefined, type: 'FormSection', width: 16, children: [
-
+              new RadioButton({
+                uuid: undefined, prepend: 0, width: 5, append: 1, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'RadioButton', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', defaultState: true,
+                render: { backgroundColor: 'lightgreen' }
+              }),
+              new TextInput({
+                uuid: undefined, width: 5, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', prepend: 0, autoNumber: 'SEQUENTIAL', append: 1, length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content',
+                render: { backgroundColor: 'rgb(255, 63, 63)' }
+              }),
+              new TextArea({
+                uuid: undefined, prepend: 0, width: 5, append: 1, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'TextArea', tabOrder: [1, 2, 3], inputWidth: 12, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', numColumns: 20, numRows: 2, defaultContent: 'Default Content',
+                render: { backgroundColor: 'rgb(43, 209, 252)' }
+              }),
             ], legend: 'string', prepend: 4, append: 4
           })
         ], legend: 'string', prepend: 0, append: 0
@@ -33,6 +46,9 @@ export var defaultPropsFE = {
         uuid: undefined, type: 'FormSection', width: 16, children: [
           new FormSection({
             uuid: undefined, type: 'FormSection', width: 16, children: [
+
+
+
             ], legend: 'string', prepend: 4, append: 4
           })
         ], legend: 'string', prepend: 4, append: 4
@@ -43,7 +59,10 @@ export var defaultPropsFE = {
   },
 
   FormSection: {
-    uuid: undefined, prepend: 4, width: 16, append: 4, type: 'FormSection', children: [], legend: 'string',
+    uuid: undefined, prepend: 4, width: 16, append: 4, type: 'FormSection', children: [
+
+
+    ], legend: 'string',
     render: { backgroundColor: 'rgb(243, 234, 95)' }
   },
 

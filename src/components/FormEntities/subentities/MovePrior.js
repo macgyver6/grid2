@@ -79,39 +79,38 @@ const MovePrior = (props) => {
   }
 
   let dragEnter_handler = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    console.log(event.dataTransfer.getData("text"))
-    // @hack hard coded width
-    // console.log(event.target.children[0])
-    if (props.model.width() >= 5) {
-      event.target.children[0].className = 'arrow_box'
-    }
-    // if (props.model.width() >= 5) {
-    //   event.target.style.backgroundColor = 'rgba(63, 191, 63, 0.8)'
-    // }
+
+    const div = document.createElement('div');
+    // div.style = MovePrior;
+    div.style.width = '30px',
+    div.style.height = '100px',
+    div.style.position = 'absolute',
+    div.style.top = '-100px',
+    div.style.left = '0px'
+    div.className = 'arrow_box';
+    event.target.appendChild(div);
   }
 
   let dragLeave_handler = (event) => {
+    event.target.children[0].className = ''
+  }
+  let clickHandler = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    event.target.children[0].className = ''
+    console.log(event.target)
   }
 
   return (
     <div
       id={props.model.UUID()}
+      className="outer"
       style={wrapper}
       onDrop={drop_handler}
       onDragEnter={dragEnter_handler}
       onDragLeave={dragLeave_handler}
+      onClick={clickHandler}
     >
-      <div
-        style={MovePrior}
 
-      >
-        {/* onDragEnter={dragEnterHandler} */}
-      </div>
     </div>
   )
 }
