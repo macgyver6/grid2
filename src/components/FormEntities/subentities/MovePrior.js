@@ -69,8 +69,7 @@ const MovePrior = (props) => {
     event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)'
   }
 
-  let dragEnterHandler
-  dragEnterHandler = (event) => {
+  let draEnter_handler = (event) => {
     event.preventDefault();
     event.stopPropagation();
     // @hack hard coded width
@@ -83,6 +82,7 @@ const MovePrior = (props) => {
     <div
       style={MovePrior}
       onDrop={drop_handler}
+      onDragEnter={draEnter_handler}
     >
       {/* onDragEnter={dragEnterHandler} */}
     </div>
