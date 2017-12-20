@@ -45,7 +45,16 @@ const MovePrior = (props) => {
   const MovePrior = {
     width: '30px',
     height: '100px',
-    backgroundColor: 'orange',
+    position: 'absolute',
+    top: '-100px',
+    left: '0px'
+  }
+  const wrapper = {
+    width: '30px',
+    height: '100px',
+    position: 'absolute',
+    top: '0px',
+    left: '0px'
   }
 
   const drop_handler = (event) => {
@@ -69,22 +78,37 @@ const MovePrior = (props) => {
     event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)'
   }
 
-  let draEnter_handler = (event) => {
+  let dragEnter_handler = (event) => {
     event.preventDefault();
     event.stopPropagation();
     // @hack hard coded width
+    // console.log(event.target.children[0])
     if (props.model.width() >= 5) {
-      event.target.style.backgroundColor = 'rgba(63, 191, 63, 0.8)'
+      event.target.children[0].className = 'arrow_box'
     }
+    // if (props.model.width() >= 5) {
+    //   event.target.style.backgroundColor = 'rgba(63, 191, 63, 0.8)'
+    // }
+  }
+
+  let dragLeave_handler = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    event.target.children[0].className = ''
   }
 
   return (
     <div
-      style={MovePrior}
+      style={wrapper}
       onDrop={drop_handler}
-      onDragEnter={draEnter_handler}
+      onDragEnter={dragEnter_handler}
+      onDragLeave={dragLeave_handler}
     >
-      {/* onDragEnter={dragEnterHandler} */}
+      <div
+        style={MovePrior}
+      >
+        {/* onDragEnter={dragEnterHandler} */}
+      </div>
     </div>
   )
 }

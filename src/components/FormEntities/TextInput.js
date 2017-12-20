@@ -123,9 +123,9 @@ const TextInputComponent = (props) => {
         draggable="true"
         onDragStart={dragstart_handler}
       >
-        {/* <input className="form-control" type={props.model.type()}
+        <input className="form-control" type={props.model.type()}
           value={props.model.defaultContent()}
-          onChange={(e) => handleChange(e, props)} /> */}
+          onChange={(e) => handleChange(e, props)} />
         <MovePrior
           element='FormEntity'
           model={props.model}

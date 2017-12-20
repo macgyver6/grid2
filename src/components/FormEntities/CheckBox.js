@@ -93,7 +93,7 @@ const CheckBoxComponent = (props) => {
     backgroundColor: '#ff48c4',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
-    height: '100px'
+    height: '100px',
   }
 
 
@@ -126,8 +126,8 @@ const CheckBoxComponent = (props) => {
         onDragEnd={dragend_handler}
         draggable="true"
       >
-        {/* <input type={props.model.type()} onChange={(e) => handleChange(e, props)} >
-        </input> */}
+        <input type={props.model.type()} onChange={(e) => handleChange(e, props)} >
+        </input>
         <MovePrior
           element='FormEntity'
           model={props.model}
