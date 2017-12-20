@@ -90,7 +90,7 @@ const RadioButtonComponent = (props) => {
   }
 
   const rbStyle = {
-    backgroundColor: 'lightgreen',
+    backgroundColor: 'lightgrey',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
     height: '100px',

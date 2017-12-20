@@ -88,7 +88,7 @@ const TextInputComponent = (props) => {
   }
 
   const tiStyle = {
-    backgroundColor: '#ff3f3f',
+    backgroundColor: 'lightgrey',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
     height: '100px',

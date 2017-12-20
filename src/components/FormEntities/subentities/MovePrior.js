@@ -51,9 +51,9 @@ const MovePrior = (props) => {
   }
   const wrapper = {
     width: '30px',
-    height: '100px',
+    height: '110px',
     position: 'absolute',
-    top: '0px',
+    top: '-10px',
     left: '0px'
   }
 
@@ -79,20 +79,23 @@ const MovePrior = (props) => {
   }
 
   let dragEnter_handler = (event) => {
+    event.target.style.borderLeft = '30px solid lightgreen'
 
     const div = document.createElement('div');
     // div.style = MovePrior;
-    div.style.width = '30px',
-    div.style.height = '100px',
-    div.style.position = 'absolute',
-    div.style.top = '-100px',
-    div.style.left = '0px'
+    // div.style.width = '10px',
+    // div.style.height = '100px',
+    // div.style.position = 'absolute',
+
     div.className = 'arrow_box';
+
     event.target.appendChild(div);
+    // div.innerHTML = `<h4 class="logo">Move before <strong>${props.model._type}</strong></h1>`
   }
 
   let dragLeave_handler = (event) => {
-    event.target.children[0].className = ''
+    event.target.removeChild(event.target.children[0])
+    event.target.style.borderLeft = ''
   }
   let clickHandler = (event) => {
     event.preventDefault();

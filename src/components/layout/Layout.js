@@ -34,9 +34,9 @@ const HeaderPanel = () =>
 
 const MiddlePanel = (props) =>
   <div style={middlePanelStyle}>
-    <div style={{ ...headerPanelStyle, backgroundColor: "blue" }}>
+
       <DesignBoxHeader />
-      </div>
+
   </div>
 
 const RightPanel = () =>

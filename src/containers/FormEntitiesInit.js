@@ -97,39 +97,45 @@ const BackgroundPanel = (props) =>
 
 const selectionStyles = {
   TextInput: {
-    background: "#ff3f3f",
+    background: "lightgrey",
     padding: "20px",
-    margin: "20px"
+    margin: "20px",
+    textAlign: 'center'
   },
 
   TextArea: {
-    background: "#2bd1fc",
+    background: "lightgrey",
     padding: "20px",
-    margin: "20px"
+    margin: "20px",
+    textAlign: 'center'
   },
 
   CheckBox: {
-    background: "#ff48c4",
+    background: "lightgrey",
     padding: "20px",
-    margin: "20px"
+    margin: "20px",
+    textAlign: 'center'
   },
 
   RadioButton: {
-    background: "lightgreen",
+    background: "lightgrey",
     padding: "20px",
-    margin: "20px"
+    margin: "20px",
+    textAlign: 'center'
   },
 
   FormSection: {
     background: "#f3ea5f",
     padding: "20px",
-    margin: "20px"
+    margin: "20px",
+    textAlign: 'center'
   },
 
   Remove: {
     background: "red",
     padding: "20px",
     margin: "20px",
+    textAlign: 'center',
     textAlign: 'center'
   }
 }
@@ -189,7 +195,7 @@ const MiddlePanel = (props) => {
     style={middlePanelStyle}
     addformentity={props.addformentity} >
     <div style={{
-      ...headerPanelStyle, backgroundColor: "#EB7265", border: '6px dashed #f3ea5f', margin: '0px 20px 0px'
+      ...headerPanelStyle, backgroundColor: "lightgrey", border: '0px dashed #f3ea5f', margin: '0px 20px 0px'
     }}>
       {props.form.sectionTabs() ?
         <DesignBoxHeader

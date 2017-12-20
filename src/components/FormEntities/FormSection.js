@@ -6,6 +6,7 @@ import Mover from './subentities/Mover.js';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
+import MovePrior from './subentities/MovePrior.js';
 
 let FormSectionComponent = (props) => {
 
@@ -36,7 +37,7 @@ let FormSectionComponent = (props) => {
 
     const div = document.getElementById(props.model.UUID());
     // div.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
-    event.target.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
+    // event.target.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
   }
 
     if (data && data.action === 'move') {
@@ -61,7 +62,7 @@ let FormSectionComponent = (props) => {
     // @hack hard coded width
     if (props.model.width() >= 5) {
       const div = document.getElementById(props.model.UUID());
-      div.style.backgroundColor = 'rgba(63, 191, 63, 0.8)';
+      // div.style.backgroundColor = 'rgba(63, 191, 63, 0.8)';
     }
   }
 
@@ -111,6 +112,13 @@ let FormSectionComponent = (props) => {
         id={props.model.UUID()}
         data-action={`mover.${props.model.UUID()}.FormSection`}
       >
+        <MovePrior
+          element='FormEntity'
+          model={props.model}
+          form={props.form}
+          removeformentity={props.removeformentity}
+          addformentity={props.addformentity}
+        />
         {props.model.children().map((element, i) => {
           console.log(element)
           return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity })

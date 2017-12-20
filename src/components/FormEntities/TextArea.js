@@ -82,7 +82,7 @@ const TextAreaComponent = (props) => {
   }
 
   const taStyle = {
-    backgroundColor: '#2bd1fc',
+    backgroundColor: 'lightgrey',
     opacity: '1',
     gridColumn: `span ${props.model.width()}`,
     position: 'relative',
