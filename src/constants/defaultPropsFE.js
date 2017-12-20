@@ -1,6 +1,7 @@
 import { FormSection } from '../data/FormSection';
 import { CheckBox } from '../data/CheckBox';
 import { TextInput } from '../data/TextInput';
+import { RadioButton } from '../data/RadioButton';
 
 export var defaultPropsFE = {
   Form: {
@@ -59,6 +60,11 @@ export var defaultPropsFE = {
   CheckBox: {
     uuid: undefined, prepend: 0, width: 5, append: 1, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'CheckBox', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', defaultState: true,
     render: { backgroundColor: 'rgb(255, 72, 196)' }
+  },
+
+  RadioButton: {
+    uuid: undefined, prepend: 0, width: 5, append: 1, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'RadioButton', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', defaultState: true,
+    render: { backgroundColor: 'lightgreen' }
   }
 }
 

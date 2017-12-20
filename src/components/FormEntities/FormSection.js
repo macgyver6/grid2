@@ -20,8 +20,8 @@ let FormSectionComponent = (props) => {
   let drop_handler = (event) => {
     event.preventDefault();
     event.stopPropagation();
-
     data = JSON.parse(event.dataTransfer.getData("text"));
+    console.log(data)
     if (data && data.action === 'addEntity') {
       let location = utility.findNode(props.model, props.form)
       let entityToAdd = utility.resurrectEntity(
@@ -113,6 +113,7 @@ let FormSectionComponent = (props) => {
         data-action={`mover.${props.model.UUID()}.FormSection`}
       >
         {props.model.children().map((element, i) => {
+          console.log(element)
           return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity })
         })}
         <Mover

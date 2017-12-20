@@ -81,6 +81,7 @@ const MovePrior = (props) => {
   let dragEnter_handler = (event) => {
     event.preventDefault();
     event.stopPropagation();
+    console.log(event.dataTransfer.getData("text"))
     // @hack hard coded width
     // console.log(event.target.children[0])
     if (props.model.width() >= 5) {
@@ -99,6 +100,7 @@ const MovePrior = (props) => {
 
   return (
     <div
+      id={props.model.UUID()}
       style={wrapper}
       onDrop={drop_handler}
       onDragEnter={dragEnter_handler}
@@ -106,6 +108,7 @@ const MovePrior = (props) => {
     >
       <div
         style={MovePrior}
+
       >
         {/* onDragEnter={dragEnterHandler} */}
       </div>

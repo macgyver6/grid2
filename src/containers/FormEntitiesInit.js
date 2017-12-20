@@ -17,6 +17,10 @@ import DesignBoxHeader from '../components/layout/design/DesignBoxHeader';
 let dragstart_handler = function (event) {
   // event.preventDefault();
   //event.stopPropagation();
+  console.log({
+    action: 'addEntity',
+    model: defaultPropsFE[event.target.dataset.type]
+  })
   event.dataTransfer.setData("text/plain",
     JSON.stringify({
       action: 'addEntity',
@@ -110,6 +114,12 @@ const selectionStyles = {
     margin: "20px"
   },
 
+  RadioButton: {
+    background: "lightgreen",
+    padding: "20px",
+    margin: "20px"
+  },
+
   FormSection: {
     background: "#f3ea5f",
     padding: "20px",
@@ -124,7 +134,7 @@ const selectionStyles = {
   }
 }
 
-let entityTypes = ['FormSection', 'CheckBox', 'TextArea', 'TextInput']
+let entityTypes = ['FormSection', 'CheckBox', 'TextArea', 'TextInput', 'RadioButton']
 
 
 

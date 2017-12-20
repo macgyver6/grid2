@@ -4,11 +4,13 @@ import FormSectionComponent from './components/FormEntities/FormSection';
 import TextInputComponent from './components/FormEntities/TextInput';
 import TextAreaComponent from './components/FormEntities/TextArea';
 import CheckBoxComponent from './components/FormEntities/CheckBox';
+import RadioButtonComponent from './components/FormEntities/RadioButton';
 import { Form } from './data/Form';
 import { FormSection } from './data/FormSection';
 import { TextInput } from './data/TextInput';
 import { TextArea } from './data/TextArea';
 import { CheckBox } from './data/CheckBox';
+import { RadioButton } from './data/RadioButton';
 
 export const utility = {
   /**
@@ -142,6 +144,9 @@ export const utility = {
     else if (modelInstance instanceof CheckBox) {
       return CheckBoxComponent;
     }
+    else if (modelInstance instanceof RadioButton) {
+      return RadioButtonComponent;
+    }
   },
 
   resurrectEntity: function (formEntitySerialized) {
@@ -158,6 +163,8 @@ export const utility = {
         return new TextArea({ ...formEntitySerialized })
       case 'CheckBox':
         return new CheckBox({ ...formEntitySerialized })
+      case 'RadioButton':
+        return new RadioButton({ ...formEntitySerialized })
       default: throw new Error('Unexpected Entity Type')
     }
   }
