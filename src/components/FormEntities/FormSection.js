@@ -120,7 +120,6 @@ let FormSectionComponent = (props) => {
           addformentity={props.addformentity}
         />
         {props.model.children().map((element, i) => {
-          console.log(element)
           return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity })
         })}
         <Mover

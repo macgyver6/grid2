@@ -1,5 +1,6 @@
 import React from 'react';
 import { utility } from '../../utility';
+import { aux } from '../../constants/aux';
 import Resizer from './subentities/Resizer';
 import Mover from './subentities/Mover';
 import Append from './subentities/Append';
@@ -24,13 +25,13 @@ const RadioButtonComponent = (props) => {
   }
 
   let dragstart_handler = function (event) {
-    console.log('CheckBox dragStart')
-    event.stopPropagation();
-    event.dataTransfer.setData("text/plain", JSON.stringify({
-      action: 'move',
-      model: props.model.properties()
-    }));
-    resize.init = event.screenX
+    aux.dragStart_handler(event, props.model, props.form)
+  //   event.stopPropagation();
+  //   event.dataTransfer.setData("text/plain", JSON.stringify({
+  //     action: 'move',
+  //     model: props.model.properties()
+  //   }));
+  //   resize.init = event.screenX
   }
 
   let dragleave_handler = function (event) {
@@ -45,65 +46,48 @@ const RadioButtonComponent = (props) => {
   }
 
   let dragend_handler = function (event) {
-    // console.log(event.target)
     // event.stopPropagation();
-    // // if (event.dataTransfer.dropEffect !== 'none') {
-    // //   (event).remove();
-    // // }
-    // console.log(event.dataTransfer)
     // resize.changed = event.screenX;
-    // if (event.target.dataset.action.split('.')[2] === 'RadioButton') {
-    //   console.log('it is a RadioButton')
-    //   let locEntity = utility.findEntityUuid(props.model.UUID(), props.form)
-    //   let parentEntity = utility.findEntityByPath(props.form, locEntity[0].slice(0, locEntity.length))
-    //   resize.changed = event.screenX;
-    //   let initGrid = {
-    //     width: null,
-    //     append: null,
-    //     prepend: null
-    //   }
-    //   if (props.model._type === 'FormSection') {
-    //     initGrid.width = parentEntity.width()
-    //     initGrid.prepend = parentEntity.prepend()
-    //     initGrid.append = parentEntity.append()
-    //     console.log(initGrid)
-    //   } else {
-    //     initGrid.width = locEntity[1].width(),
-    //       initGrid.append = locEntity[1].append(),
-    //       initGrid.prepend = locEntity[1].prepend()
-    //   }
+    // let locEntity = utility.findEntityUuid(props.model.UUID(), props.form)
+    // let parentEntity = utility.findEntityByPath(props.form, locEntity[0].slice(0, locEntity.length))
+    // resize.changed = event.screenX;
+    // let initGrid = {
+    //   width: null,
+    //   append: null,
+    //   prepend: null
+    // }
+    // if (props.model._type === 'FormSection') {
+    //   initGrid.width = parentEntity.width()
+    //   initGrid.prepend = parentEntity.prepend()
+    //   initGrid.append = parentEntity.append()
+    //   console.log(initGrid)
+    // } else {
+    //   initGrid.width = locEntity[1].width(),
+    //     initGrid.append = locEntity[1].append(),
+    //     initGrid.prepend = locEntity[1].prepend()
+    // }
 
-    //   let initDiff = resize.changed - resize.init
-    //   let fsWidth = parseInt((document.getElementById(parentEntity.UUID()).clientWidth / parentEntity.width()), 10)
-    //   let diffGrid = (parseInt(((Math.abs(initDiff)) / fsWidth), 10) + 1)
-    //   if (Math.abs(initDiff) > 20) {
-    //     var calcOpp = {
-    //       '+': (a, b) => Object.assign({}, { prepend: initGrid.prepend + diffGrid, append: initGrid.append - diffGrid }),
-    //       '-': (a, b) => Object.assign({}, { prepend: initGrid.prepend - diffGrid, append: initGrid.append + diffGrid }),
-    //     }
-    //     const calcMover = ((newWidth) => {
-    //       console.log(newWidth)
-    //       let entityToChange = locEntity[1]
-    //       props.removeformentity(locEntity[0])
-    //       console.log(newWidth)
-    //       console.log((utility.resurrectEntity(
-    //         Object.assign({},
-    //           entityToChange.properties(), newWidth)
-    //       ), locEntity[0])
-    //       )
-    //       return props.addformentity(utility.resurrectEntity(
-    //         Object.assign({},
-    //           entityToChange.properties(), newWidth)
-    //       ), locEntity[0])
-    //     })
-    //     if (initDiff > 0) {
-    //       calcMover(calcOpp['+'](initGrid, diffGrid))
-    //     } else {
-    //       calcMover(calcOpp['-'](initGrid, diffGrid))
-    //     }
+    // let initDiff = resize.changed - resize.init
+    // let fsWidth = parseInt((document.getElementById(parentEntity.UUID()).clientWidth / parentEntity.width()), 10)
+    // let diffGrid = (parseInt(((Math.abs(initDiff)) / fsWidth), 10) + 1)
+    // if (Math.abs(initDiff) > 20) {
+    //   var calcOpp = {
+    //     '+': (a, b) => Object.assign({}, { prepend: initGrid.prepend + diffGrid, append: initGrid.append - diffGrid }),
+    //     '-': (a, b) => Object.assign({}, { prepend: initGrid.prepend - diffGrid, append: initGrid.append + diffGrid }),
     //   }
-    //   // document.getElementById('FormComponent').removeEventListener('mouseup', mouseUpHandler);
-    //   // document.getElementById('FormComponent').removeEventListener('mousedown', mouseUpHandler);
+    //   const calcMover = ((newWidth) => {
+    //     let entityToChange = locEntity[1]
+    //     props.removeformentity(locEntity[0])
+    //     return props.addformentity(utility.resurrectEntity(
+    //       Object.assign({},
+    //         entityToChange.properties(), newWidth)
+    //     ), locEntity[0])
+    //   })
+    //   if (initDiff > 0) {
+    //     calcMover(calcOpp['+'](initGrid, diffGrid))
+    //   } else {
+    //     calcMover(calcOpp['-'](initGrid, diffGrid))
+    //   }
     // }
   }
 
