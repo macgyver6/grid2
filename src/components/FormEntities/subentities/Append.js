@@ -6,7 +6,7 @@ const Append = (props) => {
 const drop_handler = (event) => {
   event.stopPropagation();
   let data = JSON.parse(event.dataTransfer.getData("text"));
-  console.log('hit')
+  console.log(data)
   event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)'
   if (data.action === 'addEntity') {
     const totalWidthNewEntity = () => data.model.prepend + data.model.width + data.model.append
@@ -54,7 +54,7 @@ const drop_handler = (event) => {
   }
 
   const appendStyle = {
-    border: '1px dashed black',
+    // border: '1px dashed black',
     gridColumn: `span ${props.append}`,
     // position: 'relative',
     backgroundColor: 'rgba(0, 0, 0, 0)'

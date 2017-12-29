@@ -46,7 +46,7 @@ const Prepend = (props) => {
     // minWidth: '20px',
     // minHeight: '100px',
     gridColumn: `span ${props.prepend}`,
-    border: '1px dashed black',
+    // border: '1px dashed black',
     // position: 'relative',
     backgroundColor: 'rgba(0, 0, 0, 0)'
   }
