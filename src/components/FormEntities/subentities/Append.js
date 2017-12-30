@@ -1,12 +1,16 @@
 import React from 'react';
 import Resizer from './Resizer';
 import { utility } from '../../../utility';
+import { aux } from '../../../constants/aux';
 
 const Append = (props) => {
   const drop_handler = (event) => {
-    event.stopPropagation();
-    let data = JSON.parse(event.dataTransfer.getData("address"));
-    event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)'
+    aux.dropAppend_handler(event, props.model, props.form, props.addformentity, props.removeformentity)
+    // console.log('yolo')
+    // event.stopPropagation();
+    // console.log(event.dataTransfer.getData("address"))
+    // // let data = JSON.parse(event.dataTransfer.getData("address"));
+    // event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)'
     // if (data.action === 'addEntity') {
     //   const totalWidthNewEntity = () => data.model.prepend + data.model.width + data.model.append
     //   let existingEntity = utility.findEntityUuid(props.model.UUID(), props.form)
@@ -28,37 +32,28 @@ const Append = (props) => {
     //     console.log('reject')
     //   }
     // }
-    console.log(data.address)
-    let existingEntity = utility.findEntityUuid(props.model.UUID(), props.form)
-    let entityOnMove = utility.findEntityByPath(props.form, data.address)
-    console.log('existing: ', existingEntity, 'onMove: ', entityOnMove)
+    // console.log(data.address)
+    // let existingEntity = utility.findEntityUuid(props.model.UUID(), props.form)
+    // let entityOnMove = utility.findEntityByPath(props.form, data.address)
+    // console.log('existing: ', existingEntity, 'onMove: ', entityOnMove)
     // let parentEntity = utility.findEntityByPath(props.form, existingEntity[0].slice(0, existingEntity.length))
     // console.log(parentEntity)
     /*
       @entry
     */
-    if (data.model.width <= props.append) {
-      console.log('allow')
-      // props.removeformentity([...existingEntity[0]])
-      // props.addformentity(utility.resurrectEntity(
-      //   Object.assign({}, existingEntity[1].properties(), { append: 0 })), [...existingEntity[0]])
+    // if (data.model.width <= props.append) {
+    //   console.log('allow')
+    //   // props.removeformentity([...existingEntity[0]])
+    //   // props.addformentity(utility.resurrectEntity(
+    //   //   Object.assign({}, existingEntity[1].properties(), { append: 0 })), [...existingEntity[0]])
 
-      let loc = [...existingEntity[0]]
-      loc[loc.length - 1] = (existingEntity[0][existingEntity[0].length - 1] + 1)
-      // props.addformentity(utility.resurrectEntity(Object.assign({}, data.model, { append: (parentEntity.width() - existingEntity[1].width() - data.model.width)})), loc)
+    //   let loc = [...existingEntity[0]]
+    //   loc[loc.length - 1] = (existingEntity[0][existingEntity[0].length - 1] + 1)
+    //   // props.addformentity(utility.resurrectEntity(Object.assign({}, data.model, { append: (parentEntity.width() - existingEntity[1].width() - data.model.width)})), loc)
 
-    } else {
-      console.log('reject')
-    }
-  }
-
-  let dragEnterHandler = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    // @hack hard coded width
-    if (props.model.width() >= 5) {
-      event.target.style.backgroundColor = 'rgba(63, 191, 63, 0.8)'
-    }
+    // } else {
+    //   console.log('reject')
+    // }
   }
 
   let dragLeaveHandler = (event) => {
@@ -78,7 +73,7 @@ const Append = (props) => {
     <div
       style={appendStyle}
       onDrop={drop_handler}
-      onDragEnter={dragEnterHandler}
+      onDragLeave={dragLeaveHandler}
       onDragLeave={dragLeaveHandler}
     >
     </div>

@@ -19,41 +19,41 @@ let FormSectionComponent = (props) => {
   }
   let data = '';
   let drop_handler = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    data = JSON.parse(event.dataTransfer.getData("text"));
-    console.log(data)
-    if (data && data.action === 'addEntity') {
-      let location = utility.findNode(props.model, props.form)
-      let entityToAdd = utility.resurrectEntity(
-        Object.assign({},
-          data.model, {
-            append: (props.model.width() - (data.model.prepend + data.model.width))
-          })
-      )
-      // @hack - only adds to position 0 at this point
-      location.push(0)
-      props.addformentity(entityToAdd, location)
+  //   event.preventDefault();
+  //   event.stopPropagation();
+  //   data = JSON.parse(event.dataTransfer.getData("text"));
+  //   console.log(data)
+  //   if (data && data.action === 'addEntity') {
+  //     let location = utility.findNode(props.model, props.form)
+  //     let entityToAdd = utility.resurrectEntity(
+  //       Object.assign({},
+  //         data.model, {
+  //           append: (props.model.width() - (data.model.prepend + data.model.width))
+  //         })
+  //     )
+  //     // @hack - only adds to position 0 at this point
+  //     location.push(0)
+  //     props.addformentity(entityToAdd, location)
 
-    const div = document.getElementById(props.model.UUID());
-    // div.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
-    // event.target.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
-  }
+  //   const div = document.getElementById(props.model.UUID());
+  //   // div.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
+  //   // event.target.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
+  // }
 
-    if (data && data.action === 'move') {
-      let location = utility.findNode(props.model, props.form)
-      let entityToAdd = utility.resurrectEntity(
-        Object.assign({},
-          data.model, {
-            append: (props.model.width() - (data.model.prepend + data.model.width))
-          })
-      )
-      // @hack - only adds to position 0 at this point
-      location.push(0)
-      props.addformentity(entityToAdd, location)
-      let initLocation = utility.findNode(utility.resurrectEntity(data.model), props.form)
-          props.removeformentity(initLocation)
-    }
+  //   if (data && data.action === 'move') {
+  //     let location = utility.findNode(props.model, props.form)
+  //     let entityToAdd = utility.resurrectEntity(
+  //       Object.assign({},
+  //         data.model, {
+  //           append: (props.model.width() - (data.model.prepend + data.model.width))
+  //         })
+  //     )
+  //     // @hack - only adds to position 0 at this point
+  //     location.push(0)
+  //     props.addformentity(entityToAdd, location)
+  //     let initLocation = utility.findNode(utility.resurrectEntity(data.model), props.form)
+  //         props.removeformentity(initLocation)
+  //   }
   }
 
   let dragEnterHandler = (event) => {

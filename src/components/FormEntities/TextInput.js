@@ -1,5 +1,6 @@
 import React from 'react';
 import { utility } from '../../utility';
+import { aux } from '../../constants/aux';
 import Resizer from './subentities/Resizer.js';
 import Mover from './subentities/Mover.js';
 import { styles } from './feStyles';
@@ -79,12 +80,7 @@ const TextInputComponent = (props) => {
   }
 
   let dragstart_handler = function (event) {
-    event.stopPropagation();
-    event.dataTransfer.setData("text/plain", JSON.stringify({
-      action: 'move',
-      model: props.model.properties()
-    }));
-    resize.init = event.screenX
+    aux.dragStart_handler(event, props.model, props.form)
   }
 
   const tiStyle = {

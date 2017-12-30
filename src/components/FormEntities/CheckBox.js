@@ -1,5 +1,6 @@
 import React from 'react';
 import { utility } from '../../utility';
+import { aux } from '../../constants/aux';
 import Resizer from './subentities/Resizer';
 import Mover from './subentities/Mover';
 import Append from './subentities/Append';
@@ -24,13 +25,7 @@ const CheckBoxComponent = (props) => {
   }
 
   let dragstart_handler = function (event) {
-    console.log('CheckBox dragStart')
-    event.stopPropagation();
-    event.dataTransfer.setData("text/plain", JSON.stringify({
-      action: 'move',
-      model: props.model.properties()
-    }));
-    resize.init = event.screenX
+    aux.dragStart_handler(event, props.model, props.form)
   }
 
   let dragend_handler = function (event) {
@@ -134,7 +129,7 @@ const CheckBoxComponent = (props) => {
           form={props.form}
           removeformentity={props.removeformentity}
           addformentity={props.addformentity}
-          />
+        />
         {/* <Mover
           element='FormEntity'
           model={props.model}

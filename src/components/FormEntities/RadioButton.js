@@ -7,6 +7,7 @@ import Append from './subentities/Append';
 import MovePrior from './subentities/MovePrior';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
+import { Resizable, ResizableBox } from 'react-resizable';
 
 const RadioButtonComponent = (props) => {
 
@@ -26,12 +27,6 @@ const RadioButtonComponent = (props) => {
 
   let dragstart_handler = function (event) {
     aux.dragStart_handler(event, props.model, props.form)
-  //   event.stopPropagation();
-  //   event.dataTransfer.setData("text/plain", JSON.stringify({
-  //     action: 'move',
-  //     model: props.model.properties()
-  //   }));
-  //   resize.init = event.screenX
   }
 
   let dragleave_handler = function (event) {
@@ -40,12 +35,13 @@ const RadioButtonComponent = (props) => {
   }
 
   let dragover_handler = function (event) {
-    console.log(event.target);
+    // console.log(event.target);
     // console.log(document.getElementById(props.model.UUID()))
     // document.getElementById(props.model.UUID()).removeEventListener('dragend', dragend_handler);
   }
 
   let dragend_handler = function (event) {
+    // console.log(event.currentTarget)
     // event.stopPropagation();
     // resize.changed = event.screenX;
     // let locEntity = utility.findEntityUuid(props.model.UUID(), props.form)
@@ -119,7 +115,18 @@ const RadioButtonComponent = (props) => {
           addformentity={props.addformentity} /> :
         null
       }
+      <ResizableBox
+        // style={rbStyle}
+        // data-action={`mover.${props.model.UUID()}.RadioButton`}
+        // id={props.model.UUID()}
+        // onDragStart={dragstart_handler}
+        // // onDragEnd={dragend_handler}
+        // // onDragLeave={dragleave_handler}
+        // // onDragOver={dragover_handler}
+        // draggable="true"
 
+        width={45 * props.model.width()} height={100} draggableOpts={{ axis: 'x', grid: [45] }}
+        minConstraints={[45, 100]} maxConstraints={[1080, 100]}>
       <div
         style={rbStyle}
         data-action={`mover.${props.model.UUID()}.RadioButton`}
@@ -139,13 +146,13 @@ const RadioButtonComponent = (props) => {
           <input type="radio" name="_value" value="no" /> No<br />
           <input type="radio" name="_value" value="other" /> Other
 </form>
-        <MovePrior
+        {/* <MovePrior
           element='FormEntity'
           model={props.model}
           form={props.form}
           removeformentity={props.removeformentity}
           addformentity={props.addformentity}
-        />
+        /> */}
         {/* <Mover
           element='FormEntity'
           model={props.model}
@@ -153,14 +160,17 @@ const RadioButtonComponent = (props) => {
           removeformentity={props.removeformentity}
           addformentity={props.addformentity}
         /> */}
-        <Resizer
+        {/* <Resizer
           element='FormEntity'
           model={props.model}
           form={props.form}
           removeformentity={props.removeformentity}
           addformentity={props.addformentity}
-        />
+        /> */}
+
+
       </div>
+      </ResizableBox>
       {(props.model.append() > 0) ?
         <Append
           append={props.model.append()}

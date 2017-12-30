@@ -53,6 +53,7 @@ let dragend_handler = function (event, props) {
 
   let initDiff = resize.changed - resize.init
   let fsWidth = parseInt((document.getElementById(parentEntity.UUID()).clientWidth / parentEntity.width()), 10)
+  console.log(fsWidth)
   let deltaGrid = (parseInt(((Math.abs(initDiff)) / fsWidth), 10) + 1)
   if (Math.abs(initDiff) > 20) {
     var calcOpp = {

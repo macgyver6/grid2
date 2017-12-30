@@ -1,5 +1,6 @@
 import React from 'react';
 import { utility } from '../../utility';
+import { aux } from '../../constants/aux';
 import Resizer from './subentities/Resizer';
 import Mover from './subentities/Mover';
 import Append from './subentities/Append';
@@ -72,13 +73,13 @@ const TextAreaComponent = (props) => {
   }
 
   let dragstart_handler = function (event) {
-    console.log('CheckBox dragStart')
+    aux.dragStart_handler(event, props.model, props.form)
+  }
+
+  let drop_handler = function (event) {
     event.stopPropagation();
-    event.dataTransfer.setData("text/plain", JSON.stringify({
-      action: 'move',
-      model: props.model.properties()
-    }));
-    resize.init = event.screenX
+    let data = event.dataTransfer.getData("address");
+    aux.drop_handler(event, props.model, props.form, props.addformentity, props.removeformentity)
   }
 
   const taStyle = {
@@ -117,6 +118,7 @@ const TextAreaComponent = (props) => {
         id={props.model.UUID()}
         draggable="true"
         onDragStart={dragstart_handler}
+        // onDrop={drop_handler}
       >
         <textarea className="form-control" placeholder="Write something in text area" name={props.model.name()} rows={props.model.numRows()} cols={props.model.numColumns()} type={props.model.type()}>
         </textarea>
