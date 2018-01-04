@@ -11,6 +11,7 @@ import MovePrior from './subentities/MovePrior.js';
 let FormSectionComponent = (props) => {
 
   let dragstart_handler = (event) => {
+    console.log(event.target)
     event.stopPropagation();
     event.dataTransfer.setData("text/plain", JSON.stringify({
       action: 'move',

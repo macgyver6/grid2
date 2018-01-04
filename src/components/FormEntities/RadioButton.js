@@ -25,7 +25,19 @@ const RadioButtonComponent = (props) => {
     changed: null
   }
 
+  let dragstart_handler_draggable = function (event) {
+    console.log('dragstart_handler_draggable - prior')
+    event.preventDefault()
+    console.log('dragstart_handler_draggable - middle')
+    event.stopPropagation()
+    console.log('dragstart_handler_draggable')
+    // aux.dragStart_handler(event, props.model, props.form)
+  }
+
   let dragstart_handler = function (event) {
+    // event.preventDefault()
+    // event.stopPropagation()
+    console.log('dragstart_handler')
     aux.dragStart_handler(event, props.model, props.form)
   }
 
@@ -119,14 +131,15 @@ const RadioButtonComponent = (props) => {
         // style={rbStyle}
         // data-action={`mover.${props.model.UUID()}.RadioButton`}
         // id={props.model.UUID()}
-        // onDragStart={dragstart_handler}
+        onDragStart={dragstart_handler_draggable}
         // // onDragEnd={dragend_handler}
         // // onDragLeave={dragleave_handler}
         // // onDragOver={dragover_handler}
         // draggable="true"
 
         width={45 * props.model.width()} height={100} draggableOpts={{ axis: 'x', grid: [45] }}
-        minConstraints={[45, 100]} maxConstraints={[1080, 100]}>
+        minConstraints={[45, 100]} maxConstraints={[1080, 100]}
+        draggable="true">
       <div
         style={rbStyle}
         data-action={`mover.${props.model.UUID()}.RadioButton`}
