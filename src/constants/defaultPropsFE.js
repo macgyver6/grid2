@@ -26,10 +26,10 @@ export var defaultPropsFE = {
           }),
           new FormSection({
             uuid: undefined, type: 'FormSection', width: 16, children: [
-              new RadioButton({
-                uuid: undefined, prepend: 0, width: 5, append: 0, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'RadioButton', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', defaultState: true,
-                render: { backgroundColor: 'lightgreen' }
-              }),
+              // new RadioButton({
+              //   uuid: undefined, prepend: 0, width: 5, append: 0, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'RadioButton', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', defaultState: true,
+              //   render: { backgroundColor: 'lightgreen' }
+              // }),
               new TextInput({
                 uuid: undefined, width: 5, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', prepend: 0, autoNumber: 'SEQUENTIAL', append: 6, length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content',
                 render: { backgroundColor: 'rgb(255, 63, 63)' }
@@ -39,7 +39,7 @@ export var defaultPropsFE = {
                 render: { backgroundColor: 'rgb(43, 209, 252)' }
               }),
               new RadioButton({
-                uuid: undefined, prepend: 0, width: 5, append: 0, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'RadioButton', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', defaultState: true,
+                uuid: undefined, prepend: 0, width: 5, append: 11, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'RadioButton', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', defaultState: true,
                 render: { backgroundColor: 'lightgreen' }
               })
             ], legend: 'string', prepend: 4, append: 4

@@ -14,7 +14,35 @@ const resizeStyle = {
 let source = null
 const resize = {
   init: null,
-  changed: null
+  init_grids: null,
+  init_append: null,
+  changed: null,
+  grids: null
+}
+
+let drag_handler = (event, props) => {
+  // console.log('drag_handler, ', event.screenX)
+  if (resize.init === null) { resize.init = event.screenX, resize.init_grids = props.model.width(), resize.init_append = props.model.append() }
+  let locEntity = utility.findEntityUuid(props.model.UUID(), props.form)
+    let parentEntity = utility.findEntityByPath(props.form, locEntity[0].slice(0, locEntity.length))
+  let fsWidth = parseInt((document.getElementById(parentEntity.UUID()).clientWidth / parentEntity.width()), 10)
+  const grid = parseInt(Math.abs(resize.init - event.screenX) / fsWidth + 1)
+  if (resize.grids != grid) {
+    resize.grids = grid
+    props.removeformentity(locEntity[0])
+    console.log('yolo, ', resize)
+    // console.log('yolo, ', {
+    //   width: (props.model.width() + resize.grids),
+    //   append: (props.model.append() - resize.grids),
+    // })
+    props.addformentity(utility.resurrectEntity(
+      Object.assign({},
+        locEntity[1].properties(), {
+          width: (resize.init_grids + resize.grids),
+          append: (resize.init_append - resize.grids),
+        })
+    ), locEntity[0])
+  }
 }
 
 let dragstart_handler = (event, props) => {
@@ -84,14 +112,14 @@ let dragend_handler = function (event, props) {
     }
   }
 }
-
+// onDragStart = {(event) => dragstart_handler(event, props)}
+// onDragEnd = {(event) => dragend_handler(event, props)}
 let Resizer = (props) =>
   <div
     data-action={`resizer.${props.uuid}.${props.element}`}
     id={props.uuid}
     style={resizeStyle}
-    onDragStart={(event) => dragstart_handler(event, props)}
-    onDragEnd={(event) => dragend_handler(event, props)}
+    onDrag = {(event) => drag_handler(event, props)}
     draggable='true'
   >↔
   </div>

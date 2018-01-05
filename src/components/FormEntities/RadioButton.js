@@ -9,6 +9,13 @@ import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 import { Resizable, ResizableBox } from 'react-resizable';
 
+let resize_handler = function (event) {
+  // event.preventDefault()
+  // event.stopPropagation()
+  console.log(event.target, this.props)
+  // aux.dragStart_handler(event, props.model, props.form)
+}
+
 const RadioButtonComponent = (props) => {
 
   let handleChange = (event, props) => {
@@ -26,12 +33,8 @@ const RadioButtonComponent = (props) => {
   }
 
   let dragstart_handler_draggable = function (event) {
-    console.log('dragstart_handler_draggable - prior')
     event.preventDefault()
-    console.log('dragstart_handler_draggable - middle')
-    event.stopPropagation()
-    console.log('dragstart_handler_draggable')
-    // aux.dragStart_handler(event, props.model, props.form)
+    event.stopPropagation()    // aux.dragStart_handler(event, props.model, props.form)
   }
 
   let dragstart_handler = function (event) {
@@ -40,6 +43,8 @@ const RadioButtonComponent = (props) => {
     console.log('dragstart_handler')
     aux.dragStart_handler(event, props.model, props.form)
   }
+
+
 
   let dragleave_handler = function (event) {
     // console.log(document.getElementById(props.model.UUID()))
@@ -106,6 +111,8 @@ const RadioButtonComponent = (props) => {
     height: '100px',
   }
 
+  const width = ''
+
 
   // return actual style values
   // 1. # of grid columns the CheckBox and Append will fill
@@ -127,7 +134,7 @@ const RadioButtonComponent = (props) => {
           addformentity={props.addformentity} /> :
         null
       }
-      <ResizableBox
+      {/* <ResizableBox
         // style={rbStyle}
         // data-action={`mover.${props.model.UUID()}.RadioButton`}
         // id={props.model.UUID()}
@@ -138,8 +145,9 @@ const RadioButtonComponent = (props) => {
         // draggable="true"
 
         width={45 * props.model.width()} height={100} draggableOpts={{ axis: 'x', grid: [45] }}
-        minConstraints={[45, 100]} maxConstraints={[1080, 100]}
-        draggable="true">
+        minConstraints={[45, 100]} maxConstraints={[1080, 100]} onResize={resize_handler}
+        draggable="true"> */}
+
       <div
         style={rbStyle}
         data-action={`mover.${props.model.UUID()}.RadioButton`}
@@ -150,7 +158,7 @@ const RadioButtonComponent = (props) => {
         onDragOver={dragover_handler}
         draggable="true"
       >
-        {/* <input type={props.model.type()} onChange={(e) => handleChange(e, props)} >
+      {/* <input type={props.model.type()} onChange={(e) => handleChange(e, props)} >
         </input> */}
 
 
@@ -173,17 +181,17 @@ const RadioButtonComponent = (props) => {
           removeformentity={props.removeformentity}
           addformentity={props.addformentity}
         /> */}
-        {/* <Resizer
+        <Resizer
           element='FormEntity'
           model={props.model}
           form={props.form}
           removeformentity={props.removeformentity}
           addformentity={props.addformentity}
-        /> */}
+        />
 
 
       </div>
-      </ResizableBox>
+      {/* </ResizableBox> */}
       {(props.model.append() > 0) ?
         <Append
           append={props.model.append()}
