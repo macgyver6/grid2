@@ -6,8 +6,6 @@ import { aux } from '../../../constants/aux';
 const Append = (props) => {
   const drop_handler = (event) => {
     aux.dropAppend_handler(event, props.model, props.form, props.addformentity, props.removeformentity)
-    let data = JSON.parse(event.dataTransfer.getData("address"));
-    console.log(data)
     // console.log('yolo')
     // event.stopPropagation();
     // console.log(event.dataTransfer.getData("address"))

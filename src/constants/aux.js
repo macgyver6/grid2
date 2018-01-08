@@ -11,6 +11,7 @@ import { TextArea } from '../data/TextArea';
 import { CheckBox } from '../data/CheckBox';
 import { RadioButton } from '../data/RadioButton';
 import { utility } from '../utility';
+import { defaultPropsFE } from './defaultPropsFE';
 
 export const aux = {
   /**
@@ -22,7 +23,6 @@ export const aux = {
    */
 
   dragStart_handler: (event, model, form) => {
-    console.log(event.target)
     event.stopPropagation();
     event.dataTransfer.setData("address", JSON.stringify({
       action: 'move',
@@ -30,13 +30,80 @@ export const aux = {
     }));
   },
 
+  dragEnd_handler: (event, props, resize) => {
+    event.stopPropagation();
+    props.mutateformentity(resize.address, {
+      prepend: (resize.init_prepend - resize.grids),
+      append: (resize.init_append + resize.grids),
+    })
+  },
+
+  drag_handler: (event, model, form, resize, props) => {
+    event.stopPropagation();
+    const can_move = (minWidth, maxWidth) => {
+      if (resize.init_grids - resize.grids - 1 < maxWidth && resize.init_grids - resize.grids > minWidth) {
+        console.log(minWidth, maxWidth, '867, valid move')
+        return true
+      } else {
+        console.log(minWidth, maxWidth, '867, invalid move')
+        return false
+      }
+    }
+    const mutate2 = (locEntity, props) => {
+      props.removeformentity(locEntity[0])
+      props.addformentity(utility.resurrectEntity(
+        Object.assign({},
+          locEntity[1].properties(), {
+            width: (resize.init_grids),
+            append: (resize.init_append),
+          })
+      ), locEntity[0])
+    }
+
+    resize.reset = false
+    let locEntity = utility.findEntityUuid(props.model.UUID(), props.form)
+    let parentEntity = utility.findEntityByPath(props.form, locEntity[0].slice(0, locEntity.length))
+    const minWidth = defaultPropsFE[props.model.type()].render.minWidth
+    const maxWidth = parentEntity.width();
+    if (resize.init === null) {
+      resize.init = event.pageX, resize.init_grids = props.model.width(), resize.init_append = props.model.append(),
+        resize.init_prepend = props.model.prepend(),
+        resize.address = locEntity[0]
+    }
+
+    let fsWidth = parseInt((document.getElementById(parentEntity.UUID()).clientWidth / parentEntity.width()), 10)
+    const grid = (parseInt((resize.init - event.pageX) / fsWidth) - 1)
+    if (resize.grids != grid && event.pageX != 0) {
+      resize.grids = grid
+      if (!can_move(minWidth, maxWidth)) {
+        resize.reset = null
+        document.getElementById(props.model.UUID()).style.backgroundColor = 'red'
+        let timer = setTimeout(function () {
+          resize.reset != null ? mutate2(locEntity, props) : null
+        }, 600)
+      } else {
+        document.getElementById(
+          props.model.UUID()).style.backgroundColor = 'lightgreen'
+        console.log(locEntity[1])
+        console.log({
+          prepend: (resize.init_prepend - resize.grids),
+          append: (resize.init_append + resize.grids),
+        })
+
+        // props.mutateformentity(locEntity[0], {
+        //   prepend: (resize.init_prepend - resize.grids),
+        //   append: (resize.init_append + resize.grids),
+        // })
+      }
+    }
+  },
+
   dropAppend_handler: (event, model, form, addformentity, removeformentity) => {
     // always place at destinationEnity[0] + 1
     event.stopPropagation();
     let data = JSON.parse(event.dataTransfer.getData("address"));
     // console.log(event, model, form, addformentity, removeformentity)
-    console.log(data)
-    const totalWidthNewEntity = () => data.model.prepend + data.model.width + data.model.append
+
     let draggedEntity = utility.findEntityByPath(form, data.address)
     let destinationEntity = utility.findEntityUuid(model.UUID(), form)
     let draggedEntityNewAddress = [...destinationEntity[0]]
@@ -47,7 +114,8 @@ export const aux = {
     loc[loc.length - 1] = (destinationEntity[0][destinationEntity[0].length - 1] + 1)
 
 
-    if (data.action === 'move') {
+    if (data.action === 'move' && draggedEntity.UUID() != model.UUID() ) {
+      'append drop'
       removeformentity(destinationEntity[0])
 
       addformentity(utility.resurrectEntity((Object.assign({}, destinationEntity[1].properties(), { append: 0 }))), destinationEntity[0])
@@ -58,6 +126,8 @@ export const aux = {
     }
     event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)'
   },
+
+
 
   // for dropping on an entity
   drop_handler: (event, model, form, addformentity, removeformentity) => {

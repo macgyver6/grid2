@@ -9,78 +9,28 @@ import Prepend from './subentities/Prepend.js';
 import MovePrior from './subentities/MovePrior.js';
 
 const TextInputComponent = (props) => {
-
-  let handleChange = (event, props) => {
-    let result = utility.findNode(props.model, props.form)
-    props.removeformentity(result)
-    props.addformentity(
-      props.model.mutate({ defaultContent: event.target.value }), result)
-  }
-
-  let dragend_handler = function (event) {
-    event.stopPropagation();
-    resize.changed = event.screenX;
-    console.log(props)
-    let locEntity = utility.findEntityUuid(props.model.UUID(), props.form)
-    let parentEntity = utility.findEntityByPath(props.form, locEntity[0].slice(0, locEntity.length))
-    resize.changed = event.screenX;
-    let initGrid = {
-      width: null,
-      append: null,
-      prepend: null
-    }
-    if (props.model._type === 'FormSection') {
-      initGrid.width = parentEntity.width()
-      initGrid.prepend = parentEntity.prepend()
-      initGrid.append = parentEntity.append()
-      console.log(initGrid)
-    } else {
-      initGrid.width = locEntity[1].width(),
-        initGrid.append = locEntity[1].append(),
-        initGrid.prepend = locEntity[1].prepend()
-    }
-
-    let initDiff = resize.changed - resize.init
-    let fsWidth = parseInt((document.getElementById(parentEntity.UUID()).clientWidth / parentEntity.width()), 10)
-    let diffGrid = (parseInt(((Math.abs(initDiff)) / fsWidth), 10) + 1)
-    if (Math.abs(initDiff) > 20) {
-      var calcOpp = {
-        '+': (a, b) => Object.assign({}, { prepend: initGrid.prepend + diffGrid, append: initGrid.append - diffGrid }),
-        '-': (a, b) => Object.assign({}, { prepend: initGrid.prepend - diffGrid, append: initGrid.append + diffGrid }),
-      }
-      const calcMover = ((newWidth) => {
-        console.log(newWidth)
-        let entityToChange = locEntity[1]
-        props.removeformentity(locEntity[0])
-        console.log(newWidth)
-        console.log((utility.resurrectEntity(
-          Object.assign({},
-            entityToChange.properties(), newWidth)
-        ), locEntity[0])
-        )
-        return props.addformentity(utility.resurrectEntity(
-          Object.assign({},
-            entityToChange.properties(), newWidth)
-        ), locEntity[0])
-      })
-      if (initDiff > 0) {
-        calcMover(calcOpp['+'](initGrid, diffGrid))
-      } else {
-        calcMover(calcOpp['-'](initGrid, diffGrid))
-      }
-    }
-    // document.getElementById('FormComponent').removeEventListener('mouseup', mouseUpHandler);
-    // document.getElementById('FormComponent').removeEventListener('mousedown', mouseUpHandler);
-  }
-
   let source = null
   const resize = {
     init: null,
-    changed: null
+    init_grids: null,
+    init_append: null,
+    init_prepend: null,
+    changed: null,
+    grids: null,
+    reset: null,
+    address: null
   }
 
   let dragstart_handler = function (event) {
     aux.dragStart_handler(event, props.model, props.form)
+  }
+
+  let dragend_handler = function (event) {
+    aux.dragEnd_handler(event, props, resize)
+  }
+
+  let drag_handler = function (event) {
+    aux.drag_handler(event, props.model, props.form, resize, props)
   }
 
   const tiStyle = {
@@ -116,12 +66,14 @@ const TextInputComponent = (props) => {
         data-action={`mover.${props.model.UUID()}.TextInput`}
         id={props.model.UUID()}
         onDragStart={dragstart_handler}
+        onDragEnd={dragend_handler}
+        onDrag={drag_handler}
         draggable="true"
         >
         {/* onDragEnd={dragend_handler} */}
         <input className="form-control" type={props.model.type()}
           value={props.model.defaultContent()}
-          onChange={(e) => handleChange(e, props)} />
+          />
         <MovePrior
           element='FormEntity'
           model={props.model}

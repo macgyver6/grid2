@@ -171,7 +171,7 @@ let dragend_handler = function (event, props) {
 let Resizer = (props) =>
   <div
     data-action={`resizer.${props.uuid}.${props.element}`}
-    id={props.uuid}
+    id={'resizer'}
     style={resizeStyle}
     onDrag = {(event) => drag_handler(event, props)}
     onDragStart={(event) => dragstart_handler(event, props)}
