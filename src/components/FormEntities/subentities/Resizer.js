@@ -28,12 +28,12 @@ let drag_handler = (event, props) => {
   let parentEntity = utility.findEntityByPath(props.form, locEntity[0].slice(0, locEntity.length))
   const minWidth = defaultPropsFE[props.model.type()].render.minWidth
   const maxWidth = parentEntity.width();
-  if (resize.init === null) { resize.init = event.screenX, resize.init_grids = props.model.width(), resize.init_append = props.model.append()
+  if (resize.init === null) { resize.init = event.pageX, resize.init_grids = props.model.width(), resize.init_append = props.model.append()
    }
 
   let fsWidth = parseInt((document.getElementById(parentEntity.UUID()).clientWidth / parentEntity.width()), 10)
-  const grid = (parseInt((resize.init - event.screenX) / fsWidth) - 1)
-  if (resize.grids != grid && event.screenX != 0) {
+  const grid = (parseInt((resize.init - event.pageX) / fsWidth) - 1)
+  if (resize.grids != grid && event.pageX != 0) {
     resize.grids = grid
     if (!can_resize(minWidth, maxWidth)) {
       resize.reset = null
@@ -93,8 +93,8 @@ let dragstart_handler = (event, props) => {
   //   model: props.model.properties()
   // }));
 
-  // console.log(event.screenX)
-  // resize.init = event.screenX
+  // console.log(event.pageX)
+  // resize.init = event.pageX
 }
 
 let dragend_handler = function (event, props) {
@@ -113,11 +113,11 @@ let dragend_handler = function (event, props) {
   // document.getElementById(props.model.UUID()).style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor
 
   // event.stopPropagation();
-  // resize.changed = event.screenX;
+  // resize.changed = event.pageX;
   // console.log(resize)
   // let locEntity = utility.findEntityUuid(props.model.UUID(), props.form)
   // let parentEntity = utility.findEntityByPath(props.form, locEntity[0].slice(0, locEntity.length))
-  // resize.changed = event.screenX;
+  // resize.changed = event.pageX;
   // let initGrid = {
   //   width: null,
   //   append: null,
