@@ -142,6 +142,7 @@ const TextAreaComponent = (props) => {
           form={props.form}
           removeformentity={props.removeformentity}
           addformentity={props.addformentity}
+          mutateformentity={props.mutateformentity}
         />
       </div>
       {(props.model.append() > 0) ?

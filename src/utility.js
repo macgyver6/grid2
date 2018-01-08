@@ -165,7 +165,16 @@ export const utility = {
         return new RadioButton({ ...formEntitySerialized })
       default: throw new Error('Unexpected Entity Type')
     }
-  }
+  },
+
+  mutate: function (address, properties) {
+    const entity = utility.findEntityByPath(address)
+    utility.remove(address)
+    utility.add(utility.resurrectEntity(
+      Object.assign({},
+        entity.properties(), properties)
+    ), address)
+  },
 }
 
 export const components = {

@@ -30,7 +30,7 @@ const formReducer = (state, action) => {
     let result =
       utility.add (
         action.formEntity,
-        state.form,
+        action.section || state.form,
         action.path )
     return Object.assign({}, state, {
       form: result
@@ -41,8 +41,30 @@ const formReducer = (state, action) => {
     let update = utility.remove (
       state.form,
       action.path )
+      console.log(update)
     return Object.assign({}, state, {
       form: update
+    })
+  }
+
+  if (action.type === 'MUTATEFORMENTITY') {
+    const initEntity = utility.findEntityByPath(state.form, action.path)
+    let update = utility.remove (
+      action.section || state.form,
+      action.path )
+    const removedUpdate = Object.assign({}, state, {
+      form: update
+    })
+    let mutatedEntity = Object.assign({}, initEntity.properties(),
+      action.properties
+    )
+    let result =
+      utility.add(
+        utility.resurrectEntity(mutatedEntity),
+        removedUpdate.form,
+        action.path)
+    return Object.assign({}, state, {
+      form: result
     })
   }
 
@@ -53,6 +75,7 @@ const formReducer = (state, action) => {
       lastSaved: Date.now()
     })
   }
+
   if (action.type === 'LOADSTATE') {
     if (localStorage.getItem('model')) {
       let resurrectedEntities =

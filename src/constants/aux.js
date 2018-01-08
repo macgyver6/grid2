@@ -22,6 +22,7 @@ export const aux = {
    */
 
   dragStart_handler: (event, model, form) => {
+    console.log(event.target)
     event.stopPropagation();
     event.dataTransfer.setData("address", JSON.stringify({
       action: 'move',

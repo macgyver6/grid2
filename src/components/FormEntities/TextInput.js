@@ -100,7 +100,6 @@ const TextInputComponent = (props) => {
   return (
     <div
       style={styles.defaultEntity}
-      onDragEnd={dragend_handler}
     >
       {(props.model.prepend() > 0) ?
         <Prepend
@@ -115,10 +114,11 @@ const TextInputComponent = (props) => {
       }
       <div style={tiStyle}
         data-action={`mover.${props.model.UUID()}.TextInput`}
-        className={props.model.UUID()}
-        draggable="true"
+        id={props.model.UUID()}
         onDragStart={dragstart_handler}
-      >
+        draggable="true"
+        >
+        {/* onDragEnd={dragend_handler} */}
         <input className="form-control" type={props.model.type()}
           value={props.model.defaultContent()}
           onChange={(e) => handleChange(e, props)} />
@@ -142,6 +142,7 @@ const TextInputComponent = (props) => {
           form={props.form}
           removeformentity={props.removeformentity}
           addformentity={props.addformentity}
+          mutateformentity={props.mutateformentity}
         />
       </div>
       {(props.model.append() > 0) ?

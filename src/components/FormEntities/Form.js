@@ -166,11 +166,11 @@ const FormComponent = (props) => {
       className='wrapper'
       id="FormComponent"
       style={divStyle}
-      onDrop={drop_handler}
-      onDragOver={dragover_handler}
-      onDragLeave={dragleave_handler}
-
     >
+      {/* onDrop={drop_handler}
+      onDragOver={dragover_handler}
+      onDragLeave={dragleave_handler} */}
+
       <div className="grid" >
         {/* if sectionTabs are turned on - map through and render the FormSection */}
 
@@ -182,6 +182,7 @@ const FormComponent = (props) => {
               form={props.form}
               removeformentity={props.removeformentity}
               addformentity={props.addformentity}
+              mutateformentity={props.mutateformentity}
             />
           })
           // if sectionTabs are turned off - map through and render the element

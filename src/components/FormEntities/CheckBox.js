@@ -118,9 +118,9 @@ const CheckBoxComponent = (props) => {
         data-action={`mover.${props.model.UUID()}.CheckBox`}
         id={props.model.UUID()}
         onDragStart={dragstart_handler}
-        onDragEnd={dragend_handler}
         draggable="true"
-      >
+        >
+        {/* onDragEnd={dragend_handler} */}
         <input type={props.model.type()} onChange={(e) => handleChange(e, props)} >
         </input>
         <MovePrior
@@ -143,6 +143,7 @@ const CheckBoxComponent = (props) => {
           form={props.form}
           removeformentity={props.removeformentity}
           addformentity={props.addformentity}
+          mutateformentity={props.mutateformentity}
         />
       </div>
       {(props.model.append() > 0) ?
@@ -152,7 +153,7 @@ const CheckBoxComponent = (props) => {
           model={props.model}
           form={props.form}
           removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
+          mutateformentity={props.addformentity}
         /> :
         null
       }

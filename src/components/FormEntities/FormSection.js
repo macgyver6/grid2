@@ -7,16 +7,14 @@ import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 import MovePrior from './subentities/MovePrior.js';
+import { aux } from '../../constants/aux';
 
 let FormSectionComponent = (props) => {
 
   let dragstart_handler = (event) => {
     console.log(event.target)
     event.stopPropagation();
-    event.dataTransfer.setData("text/plain", JSON.stringify({
-      action: 'move',
-      model: Object.assign({}, props.model.properties(), { children: props.model.children().map((child) => child.properties()) })
-    }));
+    aux.dragStart_handler(event, props.model, props.form)
   }
   let data = '';
   let drop_handler = (event) => {
@@ -60,6 +58,7 @@ let FormSectionComponent = (props) => {
   let dragEnterHandler = (event) => {
     event.preventDefault();
     event.stopPropagation();
+    console.log('dragEnter')
     // @hack hard coded width
     if (props.model.width() >= 5) {
       const div = document.getElementById(props.model.UUID());
@@ -91,8 +90,6 @@ let FormSectionComponent = (props) => {
       id="FormSectionComponent"
       style={styles.formSection}
       // style={styles.defaultEntity}
-      draggable="true"
-      onDragStart={dragstart_handler}
     >
       {(props.model.prepend() > 0) ?
         <Prepend
@@ -105,13 +102,16 @@ let FormSectionComponent = (props) => {
         /> :
         null
       }
+      {/* onDragEnter={dragEnterHandler} */}
       <div
         className="form-group FS"
         style={fsStyle}
         onDrop={drop_handler}
-        onDragEnter={dragEnterHandler}
+
         id={props.model.UUID()}
         data-action={`mover.${props.model.UUID()}.FormSection`}
+        draggable="true"
+        onDragStart={dragstart_handler}
       >
         <MovePrior
           element='FormEntity'
@@ -121,7 +121,7 @@ let FormSectionComponent = (props) => {
           addformentity={props.addformentity}
         />
         {props.model.children().map((element, i) => {
-          return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity })
+          return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity, mutateformentity: props.mutateformentity })
         })}
         <Mover
           element='FormSection'

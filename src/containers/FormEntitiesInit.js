@@ -90,6 +90,7 @@ const BackgroundPanel = (props) =>
       form={props.form}
       removeformentity={props.removeformentity}
       addformentity={props.addformentity}
+      mutateformentity={props.mutateformentity}
       changetab={props.changetab}
       activeTab={props.activeTab} />
     <RightPanel />
@@ -154,8 +155,8 @@ let dragleave_handler = (event) => {
 
 const DeleteBtn = (props) => {
   let drop_handler = (event) => {
-    let entityModel = utility.resurrectEntity(JSON.parse(event.dataTransfer.getData("text")).model)
-    props.removeformentity(utility.findNode(entityModel, props.form))
+    let test = JSON.parse(event.dataTransfer.getData("address"))
+    props.removeformentity(test.address)
   }
   return <div
     style={selectionStyles.Remove}
@@ -213,8 +214,10 @@ const MiddlePanel = (props) => {
       form={props.form}
       removeformentity={props.removeformentity}
       addformentity={props.addformentity}
+      mutateformentity={props.mutateformentity}
       activeTab={props.activeTab}
     />
+    {console.log(props.form.children())}
   </div>
 }
 
@@ -235,6 +238,7 @@ class FormEntityInit extends Component {
           form={this.props.store.model.form}
           removeformentity={this.props.removeformentity}
           addformentity={this.props.addformentity}
+          mutateformentity={this.props.mutateformentity}
           changetab={this.props.changetab}
           activeTab={this.props.store.model.app.activeTab}
         />

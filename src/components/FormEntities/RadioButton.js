@@ -40,8 +40,8 @@ const RadioButtonComponent = (props) => {
   let dragstart_handler = function (event) {
     // event.preventDefault()
     // event.stopPropagation()
-    console.log('dragstart_handler')
     aux.dragStart_handler(event, props.model, props.form)
+    console.log(aux.dragStart_handler(event, props.model, props.form))
   }
 
 
@@ -187,6 +187,7 @@ const RadioButtonComponent = (props) => {
           form={props.form}
           removeformentity={props.removeformentity}
           addformentity={props.addformentity}
+          mutateformentity={props.mutateformentity}
         />
 
 
