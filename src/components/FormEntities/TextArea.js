@@ -98,7 +98,7 @@ const TextAreaComponent = (props) => {
           form={props.form}
           removeformentity={props.removeformentity}
           addformentity={props.addformentity}
-          mutateformentity={props.addformentity}
+mutateformentity={props.mutateformentity}
         /> :
         null
       }
