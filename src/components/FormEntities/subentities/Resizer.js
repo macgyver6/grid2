@@ -100,7 +100,7 @@ let Resizer = (props) =>
     onDragStart={(event) => dragstart_handler(event, props)}
     onDragEnd={(event) => dragend_handler(event, props)}
     draggable='true'
-  >↔
+  >
   </div>
 
 export default Resizer;
