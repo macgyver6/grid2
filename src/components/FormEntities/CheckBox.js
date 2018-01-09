@@ -36,11 +36,19 @@ const CheckBoxComponent = (props) => {
   }
 
   let dragend_handler = function (event) {
-    aux.dragEnd_handler(event, props, resize)
+    aux.dropMove_handler(event, props, resize)
   }
 
   let drag_handler = function (event) {
     aux.drag_handler(event, props.model, props.form, resize, props)
+  }
+
+  let dragOver_handler = function (event) {
+    event.preventDefault();
+  }
+
+  let drop_handler = function (event) {
+    aux.dropMove_handler(event, props, resize)
   }
 
   const cbStyle = {
@@ -60,11 +68,14 @@ const CheckBoxComponent = (props) => {
   return (
     <div
       style={styles.defaultEntity}
+      onDragOver={dragOver_handler}
+      onDrop={drop_handler}
     >
       {(props.model.prepend() > 0) ?
         <Prepend
           prepend={props.model.prepend()}
           uuid={props.model.UUID()}
+          className='prepend'
           model={props.model}
           form={props.form}
           removeformentity={props.removeformentity}
@@ -74,32 +85,18 @@ const CheckBoxComponent = (props) => {
 
       <div
         style={cbStyle}
-        data-action={`mover.${props.model.UUID()}.CheckBox`}
+        className='CheckBox'
         id={props.model.UUID()}
         onDragStart={dragstart_handler}
-        onDragEnd={dragend_handler}
         onDrag={drag_handler}
         draggable="true"
       >
-        {/* onDragEnd={dragend_handler} */}
         <input type={props.model.type()} onChange={(e) => handleChange(e, props)} >
         </input>
-        <MovePrior
-          element='FormEntity'
-          model={props.model}
-          form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
-        />
-        {/* <Mover
-          element='FormEntity'
-          model={props.model}
-          form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
-        /> */}
         <Resizer
           element='FormEntity'
+          uuid={props.model.UUID()}
+          className='resizer'
           model={props.model}
           form={props.form}
           removeformentity={props.removeformentity}
@@ -111,9 +108,11 @@ const CheckBoxComponent = (props) => {
         <Append
           append={props.model.append()}
           uuid={props.model.UUID()}
+          className='append'
           model={props.model}
           form={props.form}
           removeformentity={props.removeformentity}
+          addformentity={props.addformentity}
           mutateformentity={props.addformentity}
         /> :
         null

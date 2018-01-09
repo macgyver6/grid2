@@ -22,20 +22,26 @@ export const aux = {
    * @returns {FormEntity}
    */
 
-  dragStart_handler: (event, model, form) => {
+  dragStart_handler: (event, model, form, action) => {
     event.stopPropagation();
     event.dataTransfer.setData("address", JSON.stringify({
-      action: 'move',
+      action: action || 'move',
       address: utility.findNode(model, form)
     }));
   },
 
-  dragEnd_handler: (event, props, resize) => {
+  dropMove_handler: (event, props, resize) => {
     event.stopPropagation();
-    props.mutateformentity(resize.address, {
-      prepend: (resize.init_prepend - resize.grids),
-      append: (resize.init_append + resize.grids),
-    })
+    let data = JSON.parse(event.dataTransfer.getData('address'))
+    let entityUUID = utility.findEntityByPath(props.form, data.address).UUID()
+    if (data.action === 'move' && entityUUID === props.model.UUID()) {
+      props.mutateformentity(resize.address,
+        {
+        prepend: (resize.init_prepend - resize.grids),
+        append: (resize.init_append + resize.grids),
+      }
+    )
+    }
   },
 
   drag_handler: (event, model, form, resize, props) => {
@@ -98,14 +104,12 @@ export const aux = {
     }
   },
 
-  dropAppend_handler: (event, model, form, addformentity, removeformentity) => {
-    // always place at destinationEnity[0] + 1
-    event.stopPropagation();
+  dropAppend_handler: (event, props) => {
     let data = JSON.parse(event.dataTransfer.getData("address"));
-    // console.log(event, model, form, addformentity, removeformentity)
+    console.log(props.model, props.form, props.addformentity, props.removeformentity)
 
-    let draggedEntity = utility.findEntityByPath(form, data.address)
-    let destinationEntity = utility.findEntityUuid(model.UUID(), form)
+    let draggedEntity = utility.findEntityByPath(props.form, data.address)
+    let destinationEntity = utility.findEntityUuid(props.model.UUID(), props.form)
     let draggedEntityNewAddress = [...destinationEntity[0]]
     draggedEntityNewAddress[draggedEntityNewAddress.length - 1] = draggedEntityNewAddress[draggedEntityNewAddress.length - 1] + 1
     console.log(draggedEntityNewAddress)
@@ -114,26 +118,24 @@ export const aux = {
     loc[loc.length - 1] = (destinationEntity[0][destinationEntity[0].length - 1] + 1)
 
 
-    if (data.action === 'move' && draggedEntity.UUID() != model.UUID() ) {
+    if (data.action === 'move' && draggedEntity.UUID() != props.model.UUID()) {
       'append drop'
-      removeformentity(destinationEntity[0])
+      props.removeformentity(destinationEntity[0])
 
-      addformentity(utility.resurrectEntity((Object.assign({}, destinationEntity[1].properties(), { append: 0 }))), destinationEntity[0])
-      removeformentity(data.address)
+      props.addformentity(utility.resurrectEntity((Object.assign({}, destinationEntity[1].properties(), { append: 0 }))), destinationEntity[0])
+      props.removeformentity(data.address)
       //  @hack - need to make append grow to end of row
-      addformentity(utility.resurrectEntity((Object.assign({}, draggedEntity.properties(), { append: 0 }))), draggedEntityNewAddress)
+      props.addformentity(utility.resurrectEntity((Object.assign({}, draggedEntity.properties(), { append: 0 }))), draggedEntityNewAddress)
       // { append: destinationEntity[1].append() - draggedEntity.width() }
     }
     event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)'
   },
 
-
-
   // for dropping on an entity
   drop_handler: (event, model, form, addformentity, removeformentity) => {
     // remove from old address
     // add to new address
-      // new address is detirmined if dropped on  or movePrior=0 or Append=1
+    // new address is detirmined if dropped on  or movePrior=0 or Append=1
     event.stopPropagation();
     let data = JSON.parse(event.dataTransfer.getData("address"));
     // console.log(event, model, form, addformentity, removeformentity)

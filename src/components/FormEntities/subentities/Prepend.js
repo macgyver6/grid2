@@ -86,7 +86,7 @@ const Prepend = (props) => {
   return (
     <div
       style={prependStyle}
-      onDrop={drop_handler}
+      // onDrop={drop_handler}
 
     >
       {/* onDragEnter={dragEnterHandler} */}

@@ -25,8 +25,12 @@ const RadioButtonComponent = (props) => {
     aux.dragStart_handler(event, props.model, props.form)
   }
 
-  let dragend_handler = function (event) {
-    aux.dragEnd_handler(event, props, resize)
+  let dragOver_handler = function (event) {
+    event.preventDefault();
+  }
+
+  let drop_handler = function (event) {
+    aux.dropMove_handler(event, props, resize)
   }
 
   let drag_handler = function (event) {
@@ -51,11 +55,14 @@ const RadioButtonComponent = (props) => {
   return (
     <div
       style={styles.defaultEntity}
+      onDragOver={dragOver_handler}
+      onDrop={drop_handler}
     >
       {(props.model.prepend() > 0) ?
         <Prepend
           prepend={props.model.prepend()}
           uuid={props.model.UUID()}
+          className='prepend'
           model={props.model}
           form={props.form}
           removeformentity={props.removeformentity}
@@ -65,10 +72,9 @@ const RadioButtonComponent = (props) => {
 
       <div
         style={rbStyle}
-        data-action={`mover.${props.model.UUID()}.RadioButton`}
         id={props.model.UUID()}
+        className='RadioButton'
         onDragStart={dragstart_handler}
-        onDragEnd={dragend_handler}
         onDrag={drag_handler}
         draggable="true"
       >
@@ -76,27 +82,28 @@ const RadioButtonComponent = (props) => {
           <input type="radio" name="_value" value="yes" /> Yes<br />
           <input type="radio" name="_value" value="no" /> No<br />
           <input type="radio" name="_value" value="other" /> Other
-</form>
+        </form>
         <Resizer
           element='FormEntity'
+          uuid={props.model.UUID()}
+          className='resizer'
           model={props.model}
           form={props.form}
           removeformentity={props.removeformentity}
           addformentity={props.addformentity}
           mutateformentity={props.mutateformentity}
         />
-
-
       </div>
-      {/* </ResizableBox> */}
       {(props.model.append() > 0) ?
         <Append
           append={props.model.append()}
           uuid={props.model.UUID()}
+          className='append'
           model={props.model}
           form={props.form}
           removeformentity={props.removeformentity}
           addformentity={props.addformentity}
+          mutateformentity={props.addformentity}
         /> :
         null
       }
