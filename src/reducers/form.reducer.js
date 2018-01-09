@@ -41,7 +41,6 @@ const formReducer = (state, action) => {
     let update = utility.remove (
       state.form,
       action.path )
-      console.log(update)
     return Object.assign({}, state, {
       form: update
     })
@@ -63,7 +62,6 @@ const formReducer = (state, action) => {
         utility.resurrectEntity(mutatedEntity),
         removedUpdate.form,
         action.path)
-        console.log(result)
     return Object.assign({}, state, {
       form: result
     })

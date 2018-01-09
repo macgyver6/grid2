@@ -217,7 +217,6 @@ const MiddlePanel = (props) => {
       mutateformentity={props.mutateformentity}
       activeTab={props.activeTab}
     />
-    {console.log(props.form.children())}
   </div>
 }
 

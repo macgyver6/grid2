@@ -73,7 +73,7 @@ export const aux = {
 
     resize.reset = false
     let locEntity = utility.findEntityUuid(props.model.UUID(), props.form)
-    let parentEntity = utility.findEntityByPath(props.form, locEntity[0].slice(0, locEntity.length))
+    let parentEntity = utility.findEntityByPath(props.form, locEntity[0].slice(0, locEntity[0].length - 1))
     const minWidth = defaultPropsFE[props.model.type()].render.minWidth
     const maxWidth = parentEntity.width();
     if (resize.init === null) {
@@ -115,21 +115,30 @@ export const aux = {
 
     let draggedEntity = utility.findEntityByPath(props.form, data.address)
     let destinationEntity = utility.findEntityUuid(props.model.UUID(), props.form)
+
+    let parentEntity = utility.findEntityByPath(props.form, data.address.slice(0, data.address.length - 1))
+    let parentPx = document.getElementById(parentEntity.UUID()).clientWidth
+    let fsWidth = ((parentPx / parentEntity.width()), 10)
+    // # grids from event to end of FS row
+    const appendGrids = Math.abs(parseInt((parentPx - event.pageX) / fsWidth) + 1)
     let draggedEntityNewAddress = [...destinationEntity[0]]
     draggedEntityNewAddress[draggedEntityNewAddress.length - 1] = draggedEntityNewAddress[draggedEntityNewAddress.length - 1] + 1
     let loc = [...destinationEntity[0]]
     loc[loc.length - 1] = (destinationEntity[0][destinationEntity[0].length - 1] + 1)
 
-
     if (data.action === 'move' && draggedEntity.UUID() != props.model.UUID()) {
-      'append drop'
-      props.removeformentity(destinationEntity[0])
-
-      props.addformentity(utility.resurrectEntity((Object.assign({}, destinationEntity[1].properties(), { append: 0 }))), destinationEntity[0])
+      props.mutateformentity(destinationEntity[0], { append: appendGrids} )
       props.removeformentity(data.address)
-      //  @hack - need to make append grow to end of row
-      props.addformentity(utility.resurrectEntity((Object.assign({}, draggedEntity.properties(), { append: 0 }))), draggedEntityNewAddress)
-      // { append: destinationEntity[1].append() - draggedEntity.width() }
+      props.addformentity(utility.resurrectEntity(
+        Object.assign({},
+          draggedEntity.properties(), {
+            prepend: 0,
+            append: (parentEntity.width() - props.model.prepend() - props.model.width() - appendGrids - draggedEntity.width())
+          })
+      ), draggedEntityNewAddress)
+      // props.mutateformentity(draggedEntityNewAddress,
+      //   { prepend: 0,
+      //     append: (parentEntity.width() - props.model.prepend() - props.model.width() - appendGrids - draggedEntity.width())  })
     }
     event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)'
   },
