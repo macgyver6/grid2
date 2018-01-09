@@ -39,7 +39,7 @@ export var defaultPropsFE = {
                 render: { backgroundColor: 'lightgrey', minWidth: 3 }
               }),
               new CheckBox({
-                uuid: undefined, prepend: 0, width: 5, append: 11, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'CheckBox', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', defaultState: true,
+                uuid: undefined, prepend: 5, width: 5, append: 6, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'CheckBox', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', defaultState: true,
                 render: { backgroundColor: 'lightgrey', minWidth: 3 }
               })
             ], legend: 'string', prepend: 4, append: 4

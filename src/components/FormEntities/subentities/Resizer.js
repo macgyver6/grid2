@@ -64,17 +64,6 @@ const can_resize = (minWidth, maxWidth) => {
 return false}
 }
 
-const XmutateX = (locEntity, props) => {
-  props.removeformentity(locEntity[0])
-  props.addformentity(utility.resurrectEntity(
-    Object.assign({},
-      locEntity[1].properties(), {
-        width: (resize.init_grids - resize.grids),
-        append: (resize.init_append + resize.grids),
-      })
-  ), locEntity[0])
-}
-
 const mutate2 = (locEntity, props) => {
   props.removeformentity(locEntity[0])
   props.addformentity(utility.resurrectEntity(

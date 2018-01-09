@@ -35,6 +35,10 @@ export const aux = {
     let data = JSON.parse(event.dataTransfer.getData('address'))
     let entityUUID = utility.findEntityByPath(props.form, data.address).UUID()
     if (data.action === 'move' && entityUUID === props.model.UUID()) {
+      console.log({
+        prepend: (resize.init_prepend - resize.grids),
+        append: (resize.init_append + resize.grids),
+      })
       props.mutateformentity(resize.address,
         {
         prepend: (resize.init_prepend - resize.grids),
@@ -47,13 +51,14 @@ export const aux = {
   drag_handler: (event, model, form, resize, props) => {
     event.stopPropagation();
     const can_move = (minWidth, maxWidth) => {
-      if (resize.init_grids - resize.grids - 1 < maxWidth && resize.init_grids - resize.grids > minWidth) {
-        console.log(minWidth, maxWidth, '867, valid move')
-        return true
-      } else {
-        console.log(minWidth, maxWidth, '867, invalid move')
-        return false
-      }
+      return true
+      // if (resize.init_grids - resize.grids - 1 < maxWidth && resize.init_grids - resize.grids > minWidth) {
+      //   // console.log(minWidth, maxWidth, '867, valid move')
+      //   return true
+      // } else {
+      //   // console.log(minWidth, maxWidth, '867, invalid move')
+      //   return false
+      // }
     }
     const mutate2 = (locEntity, props) => {
       props.removeformentity(locEntity[0])
@@ -82,6 +87,7 @@ export const aux = {
     if (resize.grids != grid && event.pageX != 0) {
       resize.grids = grid
       if (!can_move(minWidth, maxWidth)) {
+        console.log('invalid')
         resize.reset = null
         document.getElementById(props.model.UUID()).style.backgroundColor = 'red'
         let timer = setTimeout(function () {
@@ -90,11 +96,11 @@ export const aux = {
       } else {
         document.getElementById(
           props.model.UUID()).style.backgroundColor = 'lightgreen'
-        console.log(locEntity[1])
-        console.log({
-          prepend: (resize.init_prepend - resize.grids),
-          append: (resize.init_append + resize.grids),
-        })
+        // console.log(locEntity[1])
+        // console.log({
+        //   prepend: (resize.init_prepend - resize.grids),
+        //   append: (resize.init_append + resize.grids),
+        // })
 
         // props.mutateformentity(locEntity[0], {
         //   prepend: (resize.init_prepend - resize.grids),
@@ -106,14 +112,11 @@ export const aux = {
 
   dropAppend_handler: (event, props) => {
     let data = JSON.parse(event.dataTransfer.getData("address"));
-    console.log(props.model, props.form, props.addformentity, props.removeformentity)
 
     let draggedEntity = utility.findEntityByPath(props.form, data.address)
     let destinationEntity = utility.findEntityUuid(props.model.UUID(), props.form)
     let draggedEntityNewAddress = [...destinationEntity[0]]
     draggedEntityNewAddress[draggedEntityNewAddress.length - 1] = draggedEntityNewAddress[draggedEntityNewAddress.length - 1] + 1
-    console.log(draggedEntityNewAddress)
-
     let loc = [...destinationEntity[0]]
     loc[loc.length - 1] = (destinationEntity[0][destinationEntity[0].length - 1] + 1)
 

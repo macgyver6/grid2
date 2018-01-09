@@ -35,10 +35,6 @@ const CheckBoxComponent = (props) => {
     aux.dragStart_handler(event, props.model, props.form)
   }
 
-  let dragend_handler = function (event) {
-    aux.dropMove_handler(event, props, resize)
-  }
-
   let drag_handler = function (event) {
     aux.drag_handler(event, props.model, props.form, resize, props)
   }
