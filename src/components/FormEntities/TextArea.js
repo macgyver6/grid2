@@ -2,7 +2,6 @@ import React from 'react';
 import { utility } from '../../utility';
 import { aux } from '../../constants/aux';
 import Resizer from './subentities/Resizer';
-import Mover from './subentities/Mover';
 import Append from './subentities/Append';
 import MovePrior from './subentities/MovePrior';
 import { styles } from './feStyles';
@@ -58,6 +57,7 @@ const TextAreaComponent = (props) => {
       onDrop={drop_handler}    >
       {(props.model.prepend() > 0) ?
         <Prepend
+          id={`${props.model.UUID()} + '.prepend'`}
           prepend={props.model.prepend()}
           uuid={props.model.UUID()}
           className='prepend'
@@ -68,9 +68,9 @@ const TextAreaComponent = (props) => {
         null
       }
       <div
+        id={`${props.model.UUID()}.${props.model.type()}`}
         style={taStyle}
         className="TextArea"
-        id={props.model.UUID()}
         onDragStart={dragstart_handler}
         onDrag={drag_handler}
         draggable="true"
@@ -79,6 +79,7 @@ const TextAreaComponent = (props) => {
         </textarea>
 
         <Resizer
+          id={`${props.model.UUID()} + '.resizer'`}
           element='FormEntity'
           uuid={props.model.UUID()}
           className='resizer'
@@ -91,6 +92,7 @@ const TextAreaComponent = (props) => {
       </div>
       {(props.model.append() > 0) ?
         <Append
+          id={`${props.model.UUID()} + '.append'`}
           append={props.model.append()}
           uuid={props.model.UUID()}
           className='append'
@@ -98,7 +100,7 @@ const TextAreaComponent = (props) => {
           form={props.form}
           removeformentity={props.removeformentity}
           addformentity={props.addformentity}
-mutateformentity={props.mutateformentity}
+          mutateformentity={props.mutateformentity}
         /> :
         null
       }

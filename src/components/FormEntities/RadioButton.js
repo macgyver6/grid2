@@ -2,7 +2,6 @@ import React from 'react';
 import { utility } from '../../utility';
 import { aux } from '../../constants/aux';
 import Resizer from './subentities/Resizer';
-import Mover from './subentities/Mover';
 import Append from './subentities/Append';
 import MovePrior from './subentities/MovePrior';
 import { styles } from './feStyles';
@@ -60,6 +59,7 @@ const RadioButtonComponent = (props) => {
     >
       {(props.model.prepend() > 0) ?
         <Prepend
+          id={`${props.model.UUID()} + '.prepend'`}
           prepend={props.model.prepend()}
           uuid={props.model.UUID()}
           className='prepend'
@@ -71,8 +71,8 @@ const RadioButtonComponent = (props) => {
       }
 
       <div
+        id={`${props.model.UUID()}.${props.model.type()}`}
         style={rbStyle}
-        id={props.model.UUID()}
         className='RadioButton'
         onDragStart={dragstart_handler}
         onDrag={drag_handler}
@@ -84,6 +84,7 @@ const RadioButtonComponent = (props) => {
           <input type="radio" name="_value" value="other" /> Other
         </form>
         <Resizer
+          id={`${props.model.UUID()} + '.resizer'`}
           element='FormEntity'
           uuid={props.model.UUID()}
           className='resizer'
@@ -96,6 +97,7 @@ const RadioButtonComponent = (props) => {
       </div>
       {(props.model.append() > 0) ?
         <Append
+          id={`${props.model.UUID()} + '.append'`}
           append={props.model.append()}
           uuid={props.model.UUID()}
           className='append'
@@ -103,7 +105,7 @@ const RadioButtonComponent = (props) => {
           form={props.form}
           removeformentity={props.removeformentity}
           addformentity={props.addformentity}
-mutateformentity={props.mutateformentity}
+          mutateformentity={props.mutateformentity}
         /> :
         null
       }

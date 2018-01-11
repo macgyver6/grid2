@@ -2,7 +2,6 @@ import React from 'react';
 import { utility } from '../../utility';
 import { aux } from '../../constants/aux';
 import Resizer from './subentities/Resizer';
-import Mover from './subentities/Mover';
 import Append from './subentities/Append';
 import MovePrior from './subentities/MovePrior';
 import { styles } from './feStyles';
@@ -69,6 +68,7 @@ const CheckBoxComponent = (props) => {
     >
       {(props.model.prepend() > 0) ?
         <Prepend
+          id={`${props.model.UUID()} + '.prepend'`}
           prepend={props.model.prepend()}
           uuid={props.model.UUID()}
           className='prepend'
@@ -80,10 +80,10 @@ const CheckBoxComponent = (props) => {
       }
 
       <div
+        id={props.model.UUID() + '.CheckBox'}
         style={cbStyle}
         className='CheckBox'
         data-type='CheckBox'
-        id={props.model.UUID() + '.CheckBox'}
         onDragStart={dragstart_handler}
         onDrag={drag_handler}
         draggable="true"
@@ -91,6 +91,7 @@ const CheckBoxComponent = (props) => {
         <input type={props.model.type()} onChange={(e) => handleChange(e, props)} >
         </input>
         <Resizer
+          id={`${props.model.UUID()}.${props.model.type()}`}
           element='FormEntity'
           uuid={props.model.UUID()}
           className='resizer'
@@ -103,6 +104,7 @@ const CheckBoxComponent = (props) => {
       </div>
       {(props.model.append() > 0) ?
         <Append
+          id={`${props.model.UUID()} + '.append'`}
           append={props.model.append()}
           uuid={props.model.UUID()}
           className='append'

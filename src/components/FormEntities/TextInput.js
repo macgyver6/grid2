@@ -2,7 +2,6 @@ import React from 'react';
 import { utility } from '../../utility';
 import { aux } from '../../constants/aux';
 import Resizer from './subentities/Resizer.js';
-import Mover from './subentities/Mover.js';
 import { styles } from './feStyles';
 import Append from './subentities/Append.js';
 import Prepend from './subentities/Prepend.js';
@@ -59,6 +58,7 @@ const TextInputComponent = (props) => {
     >
       {(props.model.prepend() > 0) ?
         <Prepend
+          id={`${props.model.UUID()} + '.prepend'`}
           prepend={props.model.prepend()}
           uuid={props.model.UUID()}
           className='prepend'
@@ -69,7 +69,7 @@ const TextInputComponent = (props) => {
         null
       }
       <div style={tiStyle}
-        id={props.model.UUID()}
+        id={`${props.model.UUID()}.${props.model.type()}`}
         className='TextInput'
         onDragStart={dragstart_handler}
         onDrag={drag_handler}
@@ -80,6 +80,7 @@ const TextInputComponent = (props) => {
         />
         <Resizer
           element='FormEntity'
+          id={`${props.model.UUID()} + '.resizer'`}
           uuid={props.model.UUID()}
           className='resizer'
           model={props.model}
@@ -91,8 +92,8 @@ const TextInputComponent = (props) => {
       </div>
       {(props.model.append() > 0) ?
         <Append
+          id={`${props.model.UUID()} + '.append'`}
           append={props.model.append()}
-          uuid={props.model.UUID()}
           className='append'
           model={props.model}
           form={props.form}

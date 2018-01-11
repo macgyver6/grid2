@@ -28,10 +28,11 @@ export const aux = {
 
   dragStart_handler: (event, model, form, action) => {
     event.stopPropagation();
+    console.log(`${model.UUID()}.${model.type()}`)
     event.dataTransfer.setData("address", JSON.stringify({
       action: action || 'move',
       address: utility.findNode(model, form),
-      dragInit: round((event.clientX - document.getElementById(`${model.UUID()}.CheckBox`).getBoundingClientRect().left), 3)
+      dragInit: round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3)
     }));
   },
 
@@ -87,14 +88,14 @@ export const aux = {
         resize.address = locEntity[0]
     }
 
-    const fsWidth = parseInt((document.getElementById(parentEntity.UUID()).clientWidth / parentEntity.width()), 10)
+    const fsWidth = parseInt((document.getElementById(`${parentEntity.UUID()}.${parentEntity.type()}`).clientWidth / parentEntity.width()), 10)
     const grid = (parseInt((resize.init - event.pageX) / fsWidth) - 1)
     if (resize.grids != grid && event.pageX != 0) {
       resize.grids = grid
       if (!can_move(minWidth, maxWidth)) {
         console.log('invalid')
         resize.reset = null
-        document.getElementById(props.model.UUID()).style.backgroundColor = 'red'
+        document.getElementById(`${props.model.UUID()}.${props.model.type()}`.UUID()).style.backgroundColor = 'red'
         let timer = setTimeout(function () {
           resize.reset != null ? mutate2(locEntity, props) : null
         }, 600)
@@ -122,16 +123,13 @@ export const aux = {
     let destinationEntity = utility.findEntityUuid(props.model.UUID(), props.form)
 
     let parentEntity = utility.findEntityByPath(props.form, data.address.slice(0, data.address.length - 1))
-    let parentPx = document.getElementById(parentEntity.UUID()).clientWidth
+    let parentPx = document.getElementById(`${parentEntity.UUID()}.${parentEntity.type()}`).clientWidth
     let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
-    console.log(bgrndGrdWidth)
+
     let fsWidth = (parseInt((parentPx / parentEntity.width()), 10))
     // # grids from event to end of FS row
     const offsetE1 = data.dragInit;
-    console.log(offsetE1)
-    console.log(event.clientX, event.target.getBoundingClientRect().left, bgrndGrdWidth)
     const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left + offsetE1) / bgrndGrdWidth), 0) - 1
-    console.log(offsetE1, appendGrids, offsetE1 + appendGrids)
     // console.log(fsWidth, appendGrids, parentEntity)
     let draggedEntityNewAddress = [...destinationEntity[0]]
     draggedEntityNewAddress[draggedEntityNewAddress.length - 1] = draggedEntityNewAddress[draggedEntityNewAddress.length - 1] + 1

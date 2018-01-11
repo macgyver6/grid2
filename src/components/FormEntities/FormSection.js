@@ -2,7 +2,6 @@ import React from 'react';
 import { utility } from '../../utility';
 import { defaultPropsFE } from '../../constants/defaultPropsFE';
 import Resizer from './subentities/Resizer.js';
-import Mover from './subentities/Mover.js';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
@@ -55,17 +54,6 @@ let FormSectionComponent = (props) => {
   //   }
   }
 
-  let dragEnterHandler = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    console.log('dragEnter')
-    // @hack hard coded width
-    if (props.model.width() >= 5) {
-      const div = document.getElementById(props.model.UUID());
-      // div.style.backgroundColor = 'rgba(63, 191, 63, 0.8)';
-    }
-  }
-
   const fsStyle = {
     display: "grid",
     position: 'relative',
@@ -93,6 +81,7 @@ let FormSectionComponent = (props) => {
     >
       {(props.model.prepend() > 0) ?
         <Prepend
+          id={`${props.model.UUID()} + '.prepend'`}
           prepend={props.model.prepend()}
           uuid={props.model.UUID()}
           model={props.model}
@@ -102,35 +91,27 @@ let FormSectionComponent = (props) => {
         /> :
         null
       }
-      {/* onDragEnter={dragEnterHandler} */}
       <div
+        id={`${props.model.UUID()}.${props.model.type()}`}
         className="form-group FS"
         style={fsStyle}
         onDrop={drop_handler}
-
-        id={props.model.UUID()}
         data-action={`mover.${props.model.UUID()}.FormSection`}
         draggable="true"
         onDragStart={dragstart_handler}
       >
-        <MovePrior
+        {/* <MovePrior
           element='FormEntity'
           model={props.model}
           form={props.form}
           removeformentity={props.removeformentity}
           addformentity={props.addformentity}
-        />
+        /> */}
         {props.model.children().map((element, i) => {
           return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity, mutateformentity: props.mutateformentity })
         })}
-        <Mover
-          element='FormSection'
-          model={props.model}
-          form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
-        />
         <Resizer
+          id={`${props.model.UUID()} + '.resizer'`}
           element='FormSection'
           model={props.model}
           form={props.form}
@@ -140,6 +121,7 @@ let FormSectionComponent = (props) => {
       </div>
       {(props.model.append() > 0) ?
         <Append
+          id={`${props.model.UUID()} + '.append'`}
           append={props.model.append()}
           uuid={props.model.UUID()}
           model={props.model}

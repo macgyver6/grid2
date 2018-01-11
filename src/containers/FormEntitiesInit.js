@@ -60,26 +60,6 @@ let dragstart_handler = function (event) {
   event.dataTransfer.setDragImage(div, 0, 0);
 }
 
-
-
-//   var p = document.getElementById("FormSectionComponent");
-
-//   var p_prime = p.cloneNode(true);
-//   p_prime.style.position = "fixed";
-//   p_prime.id = "dmg";
-//   p_prime.style.top = "-1000px";
-//   p_prime.style.left = "-1000px";
-//   console.log(p_prime)
-//   document.body.appendChild(p_prime);
-
-//   event.dataTransfer.setDragImage(p_prime, 0, 0);
-// }
-
-let dragend_handler = function (event) {
-  //event.preventDefault();
-  // document.getElementById("dmg").remove();
-}
-
 const BackgroundPanel = (props) =>
   <div style={backgroundPanelStyle}>
     <LeftPanel
@@ -177,7 +157,6 @@ const LeftPanel = (props) =>
         <div
           key={index}
           draggable="true"
-          onDragEnd={dragend_handler}
           onDragStart={dragstart_handler}
           style={selectionStyles[entity]}
           data-type={entity}>
