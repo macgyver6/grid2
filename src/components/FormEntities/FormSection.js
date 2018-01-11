@@ -111,7 +111,7 @@ let FormSectionComponent = (props) => {
           return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity, mutateformentity: props.mutateformentity })
         })}
         <Resizer
-          id={`${props.model.UUID()} + '.resizer'`}
+          id={`${props.model.UUID()}.resizer`}
           element='FormSection'
           model={props.model}
           form={props.form}
@@ -121,7 +121,7 @@ let FormSectionComponent = (props) => {
       </div>
       {(props.model.append() > 0) ?
         <Append
-          id={`${props.model.UUID()} + '.append'`}
+          id={`${props.model.UUID()}.append`}
           append={props.model.append()}
           uuid={props.model.UUID()}
           model={props.model}

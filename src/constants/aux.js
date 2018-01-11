@@ -28,7 +28,6 @@ export const aux = {
 
   dragStart_handler: (event, model, form, action) => {
     event.stopPropagation();
-    console.log(`${model.UUID()}.${model.type()}`)
     event.dataTransfer.setData("address", JSON.stringify({
       action: action || 'move',
       address: utility.findNode(model, form),
@@ -39,18 +38,19 @@ export const aux = {
   dropMove_handler: (event, props, resize) => {
     event.stopPropagation();
     let data = JSON.parse(event.dataTransfer.getData('address'))
+    console.log('dropmove: ', data)
     let entityUUID = utility.findEntityByPath(props.form, data.address).UUID()
     if (data.action === 'move' && entityUUID === props.model.UUID()) {
       console.log({
         prepend: (resize.init_prepend - resize.grids),
         append: (resize.init_append + resize.grids),
       })
-      props.mutateformentity(resize.address,
-        {
-        prepend: (resize.init_prepend - resize.grids),
-        append: (resize.init_append + resize.grids),
-      }
-    )
+    //   props.mutateformentity(resize.address,
+    //     {
+    //     prepend: (resize.init_prepend - resize.grids),
+    //     append: (resize.init_append + resize.grids),
+    //   }
+    // )
     }
   },
 

@@ -104,7 +104,7 @@ const CheckBoxComponent = (props) => {
       </div>
       {(props.model.append() > 0) ?
         <Append
-          id={`${props.model.UUID()} + '.append'`}
+          id={`${props.model.UUID()}.append`}
           append={props.model.append()}
           uuid={props.model.UUID()}
           className='append'

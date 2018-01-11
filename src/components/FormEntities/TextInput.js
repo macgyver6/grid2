@@ -80,7 +80,7 @@ const TextInputComponent = (props) => {
         />
         <Resizer
           element='FormEntity'
-          id={`${props.model.UUID()} + '.resizer'`}
+          id={`${props.model.UUID()}.resizer`}
           uuid={props.model.UUID()}
           className='resizer'
           model={props.model}
@@ -92,7 +92,7 @@ const TextInputComponent = (props) => {
       </div>
       {(props.model.append() > 0) ?
         <Append
-          id={`${props.model.UUID()} + '.append'`}
+          id={`${props.model.UUID()}.append`}
           append={props.model.append()}
           className='append'
           model={props.model}

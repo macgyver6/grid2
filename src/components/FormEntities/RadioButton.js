@@ -84,7 +84,7 @@ const RadioButtonComponent = (props) => {
           <input type="radio" name="_value" value="other" /> Other
         </form>
         <Resizer
-          id={`${props.model.UUID()} + '.resizer'`}
+          id={`${props.model.UUID()}.resizer`}
           element='FormEntity'
           uuid={props.model.UUID()}
           className='resizer'
@@ -97,7 +97,7 @@ const RadioButtonComponent = (props) => {
       </div>
       {(props.model.append() > 0) ?
         <Append
-          id={`${props.model.UUID()} + '.append'`}
+          id={`${props.model.UUID()}.append`}
           append={props.model.append()}
           uuid={props.model.UUID()}
           className='append'

@@ -3,6 +3,10 @@ import { utility } from '../../../utility';
 import { defaultPropsFE } from '../../../constants/defaultPropsFE';
 import { aux } from '../../../constants/aux';
 
+const round = (value, decimals) => {
+  return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+}
+
 const resizeStyle = {
   width: '20px',
   height: '20px',
@@ -32,21 +36,25 @@ let drag_handler = (event, props) => {
   const maxWidth = parentEntity.width();
   if (resize.init === null) { resize.init = event.pageX, resize.init_grids = props.model.width(), resize.init_append = props.model.append()
    }
+  let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
 
-  let fsWidth = parseInt((document.getElementById(parentEntity.UUID()).clientWidth / parentEntity.width()), 10)
-  const grid = (parseInt((resize.init - event.pageX) / fsWidth) - 1)
+  // const fsWidth = parseInt((document.getElementById(`${parentEntity.UUID()}.${parentEntity.type()}`).clientWidth / parentEntity.width()), 10)
+
+  const grid = round((((resize.init - event.pageX) / bgrndGrdWidth) - 1), 0)
+  console.log(resize, grid)
   if (resize.grids != grid && event.pageX != 0) {
     resize.grids = grid
     if (!can_resize(minWidth, maxWidth)) {
       resize.reset = null
-      document.getElementById(props.model.UUID()).style.backgroundColor = 'red'
+      console.log(resize.init_grids, resize.grids, maxWidth, minWidth)
+      document.getElementById(`${props.model.UUID()}.${props.model.type()}`).style.backgroundColor = 'red'
      let timer =  setTimeout(function () {
         resize.reset != null ? mutate2(locEntity, props) : null
         }, 600)
     } else
     {
       document.getElementById(
-      props.model.UUID()).style.backgroundColor = 'lightgreen'
+        `${props.model.UUID()}.${props.model.type()}`).style.backgroundColor = 'lightgreen'
       props.mutateformentity(locEntity[0], {
         width: (resize.init_grids - resize.grids),
         append: (resize.init_append + resize.grids),
@@ -86,7 +94,16 @@ let dragstart_handler = (event, props) => {
 
 let dragend_handler = function (event, props) {
   event.preventDefault();
-  const element = document.getElementById(props.model.UUID())
+
+    resize.init = null
+    resize.init_grids = null
+    resize.init_append = null
+    resize.changed = null
+    resize.grids = null
+    resize.reset = null
+
+  const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}`)
+  console.log(defaultPropsFE[props.model.type()].render.backgroundColor)
   setTimeout(function () { element.style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor }, 1200);
 }
 
