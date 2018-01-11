@@ -58,7 +58,7 @@ const TextInputComponent = (props) => {
     >
       {(props.model.prepend() > 0) ?
         <Prepend
-          id={`${props.model.UUID()} + '.prepend'`}
+          id={`${props.model.UUID()}.prepend`}
           prepend={props.model.prepend()}
           uuid={props.model.UUID()}
           className='prepend'

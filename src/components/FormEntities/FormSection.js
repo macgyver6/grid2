@@ -31,7 +31,7 @@ let FormSectionComponent = (props) => {
     event.stopPropagation();
     data = JSON.parse(event.dataTransfer.getData("address"));
 
-    let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
+    let bgrndGrdWidth = (document.getElementById('0.bgrndGrd').clientWidth + 8)
     const offsetE1 = data.dragInit;
     const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
     if (data && data.action === 'addEntity') {
@@ -44,9 +44,10 @@ let FormSectionComponent = (props) => {
         Object.assign({},
           data.model, {
             prepend: appendGrids,
-            append: (props.model.width() - (data.model.prepend + data.model.width))
+            append: (props.model.width() - (appendGrids + data.model.width))
           })
       )
+      console.log(entityToAdd)
       // @hack - only adds to position 0 at this point
       location.push(0)
       props.addformentity(entityToAdd, location)
@@ -101,7 +102,7 @@ let FormSectionComponent = (props) => {
     >
       {(props.model.prepend() > 0) ?
         <Prepend
-          id={`${props.model.UUID()} + '.prepend'`}
+          id={`${props.model.UUID()}.prepend`}
           prepend={props.model.prepend()}
           uuid={props.model.UUID()}
           model={props.model}

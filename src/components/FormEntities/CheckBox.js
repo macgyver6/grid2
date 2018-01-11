@@ -59,7 +59,6 @@ const CheckBoxComponent = (props) => {
   styles.defaultEntity['gridColumn'] = 'span ' + (props.model.prepend() + props.model.width() + props.model.append())
   // 2. # of grid columns within the CheckBox
   styles.defaultEntity['gridTemplateColumns'] = 'repeat(' + (props.model.prepend() + props.model.width() + props.model.append()) + ', [col] 1fr)'
-
   return (
     <div
       style={styles.defaultEntity}
@@ -68,7 +67,7 @@ const CheckBoxComponent = (props) => {
     >
       {(props.model.prepend() > 0) ?
         <Prepend
-          id={`${props.model.UUID()} + '.prepend'`}
+          id={`${props.model.UUID()}.prepend`}
           prepend={props.model.prepend()}
           uuid={props.model.UUID()}
           className='prepend'
