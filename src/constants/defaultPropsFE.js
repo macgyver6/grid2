@@ -17,10 +17,10 @@ export var defaultPropsFE = {
                 //   render: { backgroundColor: 'lightgrey', minWidth: 3 }
                 // }
                 // ),
-              new TextInput({
-                uuid: undefined, prepend: 0, width: 5, append: 6, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content',
-                render: { backgroundColor: 'lightgrey', minWidth: 3 }
-              }),
+              // new TextInput({
+              //   uuid: undefined, prepend: 0, width: 5, append: 6, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content',
+              //   render: { backgroundColor: 'lightgrey', minWidth: 3 }
+              // }),
 
             ], legend: 'string', prepend: 4, append: 4
           }),

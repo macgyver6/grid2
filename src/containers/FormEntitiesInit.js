@@ -5,6 +5,7 @@ import FormComponent from '../components/FormEntities/Form';
 import { utility } from '../utility';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
 import CheckBox from '../components/FormEntities/CheckBox.js'
+import { aux } from '../constants/aux';
 import {
   backgroundPanelStyle,
   leftPanelStyle,
@@ -13,52 +14,6 @@ import {
   headerPanelStyle,
 } from '../components/layout/styles/Layout';
 import DesignBoxHeader from '../components/layout/design/DesignBoxHeader';
-
-let dragstart_handler = function (event) {
-  // event.preventDefault();
-  //event.stopPropagation();
-  console.log({
-    action: 'addEntity',
-    model: defaultPropsFE[event.target.dataset.type]
-  })
-  event.dataTransfer.setData("text/plain",
-    JSON.stringify({
-      action: 'addEntity',
-      model: defaultPropsFE[event.target.dataset.type]
-    }));
-  // var test = document.createElement('div');
-  // test.style.width = '100px';
-  // test.style.height = '100px';
-  // // test.style.position = 'fixed';
-  // // test.style.top = '-1000000px';
-  // // test.style.left = '-1000000px';
-  // test.style.border = '2px solid red';
-  // document.body.appendChild(test);
-  // event.dataTransfer.setDragImage(test, 0, 0)
-
-  const type = event.target.dataset.type
-  const div = document.createElement('div');
-  div.id = "dmg";
-  div.style.width = `${defaultPropsFE[type].width * 46}px`;
-  div.style.height = '100px';
-  div.style.backgroundColor = defaultPropsFE[type].render.backgroundColor
-  div.style.position = "fixed";
-  div.style.top = "-1000px";
-  div.style.left = "-1000px";
-  document.body.appendChild(div);
-
-  // var p = document.getElementById("FormSectionComponent");
-
-  // var p_prime = p.cloneNode(true);
-  // p_prime.style.position = "fixed";
-  // p_prime.id = "dmg";
-  // p_prime.style.top = "-1000px";
-  // p_prime.style.left = "-1000px";
-  // console.log(p_prime)
-  // document.body.appendChild(p_prime);
-
-  event.dataTransfer.setDragImage(div, 0, 0);
-}
 
 const BackgroundPanel = (props) =>
   <div style={backgroundPanelStyle}>
@@ -149,7 +104,51 @@ const DeleteBtn = (props) => {
 }
 
 const LeftPanel = (props) =>
-  <div style={leftPanelStyle}
+  {
+    console.log(props.form)
+    const dragstart_handler = (event) => {
+  aux.dragStart_handler(event, defaultPropsFE[event.target.dataset.type], props.form, 'addEntity')
+
+  // event.dataTransfer.setData("text/plain",
+  //   JSON.stringify({
+  //     action: 'addEntity',
+  //     model: defaultPropsFE[event.target.dataset.type]
+  //   }));
+  // var test = document.createElement('div');
+  // test.style.width = '100px';
+  // test.style.height = '100px';
+  // // test.style.position = 'fixed';
+  // // test.style.top = '-1000000px';
+  // // test.style.left = '-1000000px';
+  // test.style.border = '2px solid red';
+  // document.body.appendChild(test);
+  // event.dataTransfer.setDragImage(test, 0, 0)
+
+  const type = event.target.dataset.type
+  const div = document.createElement('div');
+  div.id = "dmg";
+  div.style.width = `${defaultPropsFE[type].width * 46}px`;
+  div.style.height = '100px';
+  div.style.backgroundColor = defaultPropsFE[type].render.backgroundColor
+  div.style.position = "fixed";
+  div.style.top = "-1000px";
+  div.style.left = "-1000px";
+  document.body.appendChild(div);
+
+  // var p = document.getElementById("FormSectionComponent");
+
+  // var p_prime = p.cloneNode(true);
+  // p_prime.style.position = "fixed";
+  // p_prime.id = "dmg";
+  // p_prime.style.top = "-1000px";
+  // p_prime.style.left = "-1000px";
+  // console.log(p_prime)
+  // document.body.appendChild(p_prime);
+
+  event.dataTransfer.setDragImage(div, 0, 0);
+}
+
+    return <div style={leftPanelStyle}
     form={props.form}
   >
     {entityTypes.map((entity, index) => {
@@ -157,6 +156,7 @@ const LeftPanel = (props) =>
         <div
           key={index}
           draggable="true"
+          form={props.form}
           onDragStart={dragstart_handler}
           style={selectionStyles[entity]}
           data-type={entity}>
@@ -168,7 +168,7 @@ const LeftPanel = (props) =>
       form={props.form}
       removeformentity={props.removeformentity}
     />
-  </div>
+  </div>}
 
 const MiddlePanel = (props) => {
   return <div

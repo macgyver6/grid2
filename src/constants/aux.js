@@ -27,12 +27,27 @@ export const aux = {
    */
 
   dragStart_handler: (event, model, form, action) => {
+    console.log('dragStart: ', event, model, form, action)
     event.stopPropagation();
-    event.dataTransfer.setData("address", JSON.stringify({
-      action: action || 'move',
-      address: utility.findNode(model, form),
-      dragInit: round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3)
-    }));
+    // console.log(JSON.stringify({
+    //   action: action || 'move',
+    //   address: utility.findNode(model, form),
+    //   dragInit: round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3)
+    // }))
+    if (action === "move") {
+      event.dataTransfer.setData("address", JSON.stringify({
+        action: action,
+        address: utility.findNode(model, form),
+        dragInit: action === 'move' ? round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3) : null
+      }));
+    }
+    if (action === "addEntity") {
+      event.dataTransfer.setData("address", JSON.stringify({
+        action: action,
+        model: model,
+        dragInit: null
+      }));
+    }
   },
 
   dropMove_handler: (event, props, resize) => {
@@ -117,7 +132,6 @@ export const aux = {
   },
 
   dropAppend_handler: (event, props) => {
-    console.log(event.target)
     let data = JSON.parse(event.dataTransfer.getData("address"));
 
     let draggedEntity = utility.findEntityByPath(props.form, data.address)

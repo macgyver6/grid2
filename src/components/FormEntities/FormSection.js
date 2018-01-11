@@ -26,19 +26,25 @@ let FormSectionComponent = (props) => {
   }
 
   const drop_handler = (event) => {
+    console.log('drop_handler')
     // event.preventDefault();
     event.stopPropagation();
     data = JSON.parse(event.dataTransfer.getData("address"));
-    let draggedEntity = utility.findEntityByPath(props.form, data.address)
+
     let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
     const offsetE1 = data.dragInit;
     const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
     if (data && data.action === 'addEntity') {
       let location = utility.findNode(props.model, props.form)
+      let parentPx = document.getElementById(`${props.model.UUID()}.${props.model.type()}`).clientWidth
+      let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
+      const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left) / bgrndGrdWidth), 0)
+      console.log(appendGrids)
       let entityToAdd = utility.resurrectEntity(
         Object.assign({},
-          draggedEntity, {
-            append: (props.model.width() - (data.model.prepend + draggedEntity.width()))
+          data.model, {
+            prepend: appendGrids,
+            append: (props.model.width() - (data.model.prepend + data.model.width))
           })
       )
       // @hack - only adds to position 0 at this point
@@ -51,6 +57,7 @@ let FormSectionComponent = (props) => {
   }
 
     if (data && data.action === 'move') {
+      let draggedEntity = utility.findEntityByPath(props.form, data.address)
       let location = utility.findNode(props.model, props.form)
       let entityToAdd = utility.resurrectEntity(
         Object.assign({},
