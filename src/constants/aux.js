@@ -152,6 +152,7 @@ export const aux = {
 
   // for dropping on an entity
   drop_handler: (event, model, form, addformentity, removeformentity) => {
+    console.log(event.target)
     // remove from old address
     // add to new address
     // new address is detirmined if dropped on  or movePrior=0 or Append=1

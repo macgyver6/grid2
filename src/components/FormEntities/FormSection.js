@@ -10,48 +10,61 @@ import { aux } from '../../constants/aux';
 
 let FormSectionComponent = (props) => {
 
+  const round = (value, decimals) => {
+    return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+  }
+
   let dragstart_handler = (event) => {
     console.log(event.target)
     event.stopPropagation();
     aux.dragStart_handler(event, props.model, props.form)
   }
   let data = '';
-  let drop_handler = (event) => {
-  //   event.preventDefault();
-  //   event.stopPropagation();
-  //   data = JSON.parse(event.dataTransfer.getData("text"));
-  //   console.log(data)
-  //   if (data && data.action === 'addEntity') {
-  //     let location = utility.findNode(props.model, props.form)
-  //     let entityToAdd = utility.resurrectEntity(
-  //       Object.assign({},
-  //         data.model, {
-  //           append: (props.model.width() - (data.model.prepend + data.model.width))
-  //         })
-  //     )
-  //     // @hack - only adds to position 0 at this point
-  //     location.push(0)
-  //     props.addformentity(entityToAdd, location)
 
-  //   const div = document.getElementById(props.model.UUID());
-  //   // div.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
-  //   // event.target.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
-  // }
+  let dragOver_handler = function (event) {
+    event.preventDefault();
+  }
 
-  //   if (data && data.action === 'move') {
-  //     let location = utility.findNode(props.model, props.form)
-  //     let entityToAdd = utility.resurrectEntity(
-  //       Object.assign({},
-  //         data.model, {
-  //           append: (props.model.width() - (data.model.prepend + data.model.width))
-  //         })
-  //     )
-  //     // @hack - only adds to position 0 at this point
-  //     location.push(0)
-  //     props.addformentity(entityToAdd, location)
-  //     let initLocation = utility.findNode(utility.resurrectEntity(data.model), props.form)
-  //         props.removeformentity(initLocation)
-  //   }
+  const drop_handler = (event) => {
+    // event.preventDefault();
+    event.stopPropagation();
+    data = JSON.parse(event.dataTransfer.getData("address"));
+    let draggedEntity = utility.findEntityByPath(props.form, data.address)
+    let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
+    const offsetE1 = data.dragInit;
+    const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
+    if (data && data.action === 'addEntity') {
+      let location = utility.findNode(props.model, props.form)
+      let entityToAdd = utility.resurrectEntity(
+        Object.assign({},
+          draggedEntity, {
+            append: (props.model.width() - (data.model.prepend + draggedEntity.width()))
+          })
+      )
+      // @hack - only adds to position 0 at this point
+      location.push(0)
+      props.addformentity(entityToAdd, location)
+
+    const div = document.getElementById(props.model.UUID());
+    // div.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
+    // event.target.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
+  }
+
+    if (data && data.action === 'move') {
+      let location = utility.findNode(props.model, props.form)
+      let entityToAdd = utility.resurrectEntity(
+        Object.assign({},
+          draggedEntity.properties(), {
+            prepend: appendGrids,
+            append: (props.model.width() - (draggedEntity.prepend() + draggedEntity.width() + appendGrids))
+          })
+      )
+      // @hack - only adds to position 0 at this point
+      location.push(0)
+      props.addformentity(entityToAdd, location)
+      // let initLocation = utility.findNode(utility.resurrectEntity(data.model), props.form)
+          props.removeformentity(data.address)
+    }
   }
 
   const fsStyle = {
@@ -96,6 +109,7 @@ let FormSectionComponent = (props) => {
         className="form-group FS"
         style={fsStyle}
         onDrop={drop_handler}
+        onDragOver={dragOver_handler}
         data-action={`mover.${props.model.UUID()}.FormSection`}
         draggable="true"
         onDragStart={dragstart_handler}
