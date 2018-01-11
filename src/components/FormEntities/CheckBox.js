@@ -82,7 +82,8 @@ const CheckBoxComponent = (props) => {
       <div
         style={cbStyle}
         className='CheckBox'
-        id={props.model.UUID()}
+        data-type='CheckBox'
+        id={props.model.UUID() + '.CheckBox'}
         onDragStart={dragstart_handler}
         onDrag={drag_handler}
         draggable="true"

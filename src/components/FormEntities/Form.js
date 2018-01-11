@@ -158,7 +158,9 @@ const FormComponent = (props) => {
   const bgColumns = []
 
   for (var i = 0; i < 24; i++) {
-    bgColumns.push(<div style={bgrndGrd}>{i + 1}</div>)
+    bgColumns.push(<div
+      id={i+'.'+'bgrndGrd'}
+      style={bgrndGrd}>{i + 1}</div>)
   }
   // onMouseDown = {(e) => mouseDownHandler(e, props)}
   return (

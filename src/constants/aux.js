@@ -13,6 +13,10 @@ import { RadioButton } from '../data/RadioButton';
 import { utility } from '../utility';
 import { defaultPropsFE } from './defaultPropsFE';
 
+const round = (value, decimals) => {
+  return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+}
+
 export const aux = {
   /**
    *
@@ -26,7 +30,8 @@ export const aux = {
     event.stopPropagation();
     event.dataTransfer.setData("address", JSON.stringify({
       action: action || 'move',
-      address: utility.findNode(model, form)
+      address: utility.findNode(model, form),
+      dragInit: round((event.clientX - document.getElementById(`${model.UUID()}.CheckBox`).getBoundingClientRect().left), 3)
     }));
   },
 
@@ -82,7 +87,7 @@ export const aux = {
         resize.address = locEntity[0]
     }
 
-    let fsWidth = parseInt((document.getElementById(parentEntity.UUID()).clientWidth / parentEntity.width()), 10)
+    const fsWidth = parseInt((document.getElementById(parentEntity.UUID()).clientWidth / parentEntity.width()), 10)
     const grid = (parseInt((resize.init - event.pageX) / fsWidth) - 1)
     if (resize.grids != grid && event.pageX != 0) {
       resize.grids = grid
@@ -118,9 +123,16 @@ export const aux = {
 
     let parentEntity = utility.findEntityByPath(props.form, data.address.slice(0, data.address.length - 1))
     let parentPx = document.getElementById(parentEntity.UUID()).clientWidth
-    let fsWidth = ((parentPx / parentEntity.width()), 10)
+    let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
+    console.log(bgrndGrdWidth)
+    let fsWidth = (parseInt((parentPx / parentEntity.width()), 10))
     // # grids from event to end of FS row
-    const appendGrids = Math.abs(parseInt((parentPx - event.pageX) / fsWidth) + 1)
+    const offsetE1 = data.dragInit;
+    console.log(offsetE1)
+    console.log(event.clientX, event.target.getBoundingClientRect().left, bgrndGrdWidth)
+    const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left + offsetE1) / bgrndGrdWidth), 0) - 1
+    console.log(offsetE1, appendGrids, offsetE1 + appendGrids)
+    // console.log(fsWidth, appendGrids, parentEntity)
     let draggedEntityNewAddress = [...destinationEntity[0]]
     draggedEntityNewAddress[draggedEntityNewAddress.length - 1] = draggedEntityNewAddress[draggedEntityNewAddress.length - 1] + 1
     let loc = [...destinationEntity[0]]
