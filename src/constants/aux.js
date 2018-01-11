@@ -27,7 +27,6 @@ export const aux = {
    */
 
   dragStart_handler: (event, model, form, action) => {
-    console.log('dragStart: ', event, model, form, action)
     event.stopPropagation();
     // console.log(JSON.stringify({
     //   action: action || 'move',
@@ -35,6 +34,11 @@ export const aux = {
     //   dragInit: round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3)
     // }))
     if (action === "move") {
+      console.log({
+        action: action || 'move',
+        address: utility.findNode(model, form),
+        dragInit: action === 'move' ? round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3) : null
+      })
       event.dataTransfer.setData("address", JSON.stringify({
         action: action,
         address: utility.findNode(model, form),

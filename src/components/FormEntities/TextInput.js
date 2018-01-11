@@ -21,7 +21,7 @@ const TextInputComponent = (props) => {
   }
 
   let dragstart_handler = function (event) {
-    aux.dragStart_handler(event, props.model, props.form)
+    aux.dragStart_handler(event, props.model, props.form, 'move')
   }
 
   let dragOver_handler = function (event) {
@@ -99,7 +99,7 @@ const TextInputComponent = (props) => {
           form={props.form}
           removeformentity={props.removeformentity}
           addformentity={props.addformentity}
-mutateformentity={props.mutateformentity}
+          mutateformentity={props.mutateformentity}
         /> :
         null
       }

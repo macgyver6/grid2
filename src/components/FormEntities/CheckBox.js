@@ -31,7 +31,7 @@ const CheckBoxComponent = (props) => {
   }
 
   let dragstart_handler = function (event) {
-    aux.dragStart_handler(event, props.model, props.form)
+    aux.dragStart_handler(event, props.model, props.form, 'move')
   }
 
   let drag_handler = function (event) {
