@@ -45,12 +45,12 @@ export const aux = {
         prepend: (resize.init_prepend - resize.grids),
         append: (resize.init_append + resize.grids),
       })
-    //   props.mutateformentity(resize.address,
-    //     {
-    //     prepend: (resize.init_prepend - resize.grids),
-    //     append: (resize.init_append + resize.grids),
-    //   }
-    // )
+      props.mutateformentity(resize.address,
+        {
+        prepend: (resize.init_prepend - resize.grids),
+        append: (resize.init_append + resize.grids),
+      }
+    )
     }
   },
 
@@ -117,6 +117,7 @@ export const aux = {
   },
 
   dropAppend_handler: (event, props) => {
+    console.log(event.target)
     let data = JSON.parse(event.dataTransfer.getData("address"));
 
     let draggedEntity = utility.findEntityByPath(props.form, data.address)
@@ -129,8 +130,7 @@ export const aux = {
     let fsWidth = (parseInt((parentPx / parentEntity.width()), 10))
     // # grids from event to end of FS row
     const offsetE1 = data.dragInit;
-    const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left + offsetE1) / bgrndGrdWidth), 0) - 1
-    // console.log(fsWidth, appendGrids, parentEntity)
+    const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
     let draggedEntityNewAddress = [...destinationEntity[0]]
     draggedEntityNewAddress[draggedEntityNewAddress.length - 1] = draggedEntityNewAddress[draggedEntityNewAddress.length - 1] + 1
     let loc = [...destinationEntity[0]]
@@ -146,9 +146,6 @@ export const aux = {
             append: (parentEntity.width() - props.model.prepend() - props.model.width() - appendGrids - draggedEntity.width())
           })
       ), draggedEntityNewAddress)
-      // props.mutateformentity(draggedEntityNewAddress,
-      //   { prepend: 0,
-      //     append: (parentEntity.width() - props.model.prepend() - props.model.width() - appendGrids - draggedEntity.width())  })
     }
     event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)'
   },
@@ -160,8 +157,6 @@ export const aux = {
     // new address is detirmined if dropped on  or movePrior=0 or Append=1
     event.stopPropagation();
     let data = JSON.parse(event.dataTransfer.getData("address"));
-    // console.log(event, model, form, addformentity, removeformentity)
-    console.log(data)
     const totalWidthNewEntity = () => data.model.prepend + data.model.width + data.model.append
     let draggedEntity = utility.findEntityByPath(form, data.address)
     let destinationEntity = utility.findEntityUuid(model.UUID(), form)

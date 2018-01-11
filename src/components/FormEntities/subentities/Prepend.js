@@ -86,6 +86,7 @@ const Prepend = (props) => {
   return (
     <div
       style={prependStyle}
+      id={`${props.model.UUID()}.prepend`}
       // onDrop={drop_handler}
 
     >

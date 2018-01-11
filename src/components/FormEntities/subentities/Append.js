@@ -27,6 +27,7 @@ const Append = (props) => {
 
   return (
     <div
+      id={`${props.model.UUID()}.append`}
       style={appendStyle}
       onDrop={drop_handler}
       onDragOver={dragover_handler}
