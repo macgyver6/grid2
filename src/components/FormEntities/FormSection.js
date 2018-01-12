@@ -44,7 +44,9 @@ let FormSectionComponent = (props) => {
     let bgrndGrdWidth = (document.getElementById('0.bgrndGrd').clientWidth + 8)
     const offsetE1 = data.dragInit;
     const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
+
     if (data && data.action === 'addEntity') {
+      console.log('drop FS: ')
       let location = utility.findNode(props.model, props.form)
       let parentPx = document.getElementById(`${props.model.UUID()}.${props.model.type()}`).clientWidth
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
@@ -58,8 +60,9 @@ let FormSectionComponent = (props) => {
       )
       console.log(entityToAdd)
       // @hack - only adds to position 0 at this point
-      location.push(0)
-      props.addformentity(entityToAdd, location)
+      let addressNewEntity = [...location]
+      addressNewEntity[addressNewEntity.length] = props.model.children().length
+      props.addformentity(entityToAdd, addressNewEntity)
 
     const div = document.getElementById(props.model.UUID());
     // div.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
