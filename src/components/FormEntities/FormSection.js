@@ -79,15 +79,13 @@ let FormSectionComponent = (props) => {
             append: (props.model.width() - (draggedEntity.prepend() + draggedEntity.width() + appendGrids))
           })
       )
-      console.log(draggedEntity)
-      console.log(appendGrids, resize)
       // for moving a FormSection
-      console.log(event.target.id)
+      console.log(resize.init_prepend, resize.init_append, appendGrids)
       if (draggedEntity.UUID() === entityToAdd.UUID()) {
-        // console.log({
-        //     prepend: (resize.init_prepend + appendGrids),
-        //     append: (resize.init_append - appendGrids),
-        //   })
+        console.log({
+            prepend: (resize.init_prepend + appendGrids),
+            append: (resize.init_append - appendGrids),
+          })
 
         props.mutateformentity(location,
           {
@@ -183,6 +181,7 @@ let FormSectionComponent = (props) => {
           form={props.form}
           removeformentity={props.removeformentity}
           addformentity={props.addformentity}
+          mutateformentity={props.mutateformentity}
         /> :
         null
       }

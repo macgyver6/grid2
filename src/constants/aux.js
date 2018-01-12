@@ -181,6 +181,7 @@ export const aux = {
   },
 
   dropAppend_handler: (event, props) => {
+    console.log('1yes')
     let data = JSON.parse(event.dataTransfer.getData("address"));
     let draggedEntity = ''
     if (data.action != 'addEntity') {
@@ -190,6 +191,7 @@ export const aux = {
     console.log(destinationEntity)
 
     if (data.action === 'move' && draggedEntity.UUID() != props.model.UUID() && draggedEntity.type() != 'FormSection') {
+      console.log('2yes')
       let parentEntity = utility.findEntityByPath(props.form, data.address.slice(0, data.address.length - 1))
       console.log(parentEntity)
       let parentPx = document.getElementById(`${parentEntity.UUID()}.${parentEntity.type()}`).clientWidth
@@ -214,8 +216,7 @@ export const aux = {
           })
       ), draggedEntityNewAddress)
     }
-
-    if (data.action === 'move' && draggedEntity.UUID() != props.model.UUID() && draggedEntity.type() === 'FormSection') {
+    if (data.action === 'move' && draggedEntity.UUID() === props.model.UUID() && draggedEntity.type() === 'FormSection') {
       console.log('its a form section')
       let bgrndGrdWidth = (document.getElementById('0.bgrndGrd').clientWidth + 8)
       const offsetE1 = data.dragInit;
@@ -231,12 +232,12 @@ export const aux = {
               append: (props.model.width() - (draggedEntity.prepend() + draggedEntity.width() + appendGrids))
             })
         )
+        // below mutates for a FormSection dropped onto append - race condition with line 90 in FormSection
         if (draggedEntity.UUID() === entityToAdd.UUID()) {
-
           props.mutateformentity(data.address,
             {
-              prepend: (draggedEntity.prepend() + appendGrids),
-              append: (draggedEntity.append() - appendGrids),
+              prepend: draggedEntity.prepend() + appendGrids,
+              append: ((props.model.width() + props.model.prepend() + props.model.append()) - (props.model.prepend() + props.model.width() + appendGrids))
             })
         }
         // @hack - only adds to position 0 at this point
@@ -280,7 +281,6 @@ export const aux = {
 
   // for dropping on an entity
   drop_handler: (event, model, form, addformentity, removeformentity) => {
-    console.log(event.target)
     // remove from old address
     // add to new address
     // new address is detirmined if dropped on  or movePrior=0 or Append=1
