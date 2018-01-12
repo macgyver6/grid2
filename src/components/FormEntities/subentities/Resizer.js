@@ -53,6 +53,7 @@ let drag_handler = (event, props) => {
         }, 600)
     } else
     {
+      console.log(locEntity[1])
       document.getElementById(
         `${props.model.UUID()}.${props.model.type()}`).style.backgroundColor = 'lightgreen'
       props.mutateformentity(locEntity[0], {
@@ -103,14 +104,13 @@ let dragend_handler = function (event, props) {
     resize.reset = null
 
   const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}`)
-  console.log(defaultPropsFE[props.model.type()].render.backgroundColor)
-  setTimeout(function () { element.style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor }, 1200);
+  // setTimeout(function () { element.style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor }, 120);
+  element.style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor
 }
 
 let Resizer = (props) =>
   <div
-    // data-action={`resizer.${props.uuid}.${props.element}`}
-    id={props.model.UUID()}
+    id={`${props.model.UUID()}.resizer`}
     className='resizer'
     style={resizeStyle}
     onDrag = {(event) => drag_handler(event, props)}

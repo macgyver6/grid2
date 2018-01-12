@@ -33,6 +33,18 @@ export const aux = {
     //   address: utility.findNode(model, form),
     //   dragInit: round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3)
     // }))
+    if (action === "resize") {
+      console.log({
+        action: action,
+        address: utility.findNode(model, form),
+        dragInit: round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3)
+      })
+      event.dataTransfer.setData("address", JSON.stringify({
+        action: action,
+        address: utility.findNode(model, form),
+        dragInit: action === 'move' ? round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3) : null
+      }));
+    }
     if (action === "move") {
       console.log({
         action: action || 'move',
@@ -56,8 +68,8 @@ export const aux = {
 
   dropMove_handler: (event, props, resize) => {
     event.stopPropagation();
+    console.log(event.dataTransfer.getData('address'))
     let data = JSON.parse(event.dataTransfer.getData('address'))
-    console.log('dropmove: ', data)
     let entityUUID = utility.findEntityByPath(props.form, data.address).UUID()
     if (data.action === 'move' && entityUUID === props.model.UUID()) {
       console.log({
@@ -120,7 +132,7 @@ export const aux = {
         }, 600)
       } else {
         document.getElementById(
-          props.model.UUID()).style.backgroundColor = 'lightgreen'
+          `${props.model.UUID()}.${props.model.type()}`).style.backgroundColor = 'lightgreen'
         // console.log(locEntity[1])
         // console.log({
         //   prepend: (resize.init_prepend - resize.grids),
@@ -142,6 +154,7 @@ export const aux = {
     let destinationEntity = utility.findEntityUuid(props.model.UUID(), props.form)
 
     let parentEntity = utility.findEntityByPath(props.form, data.address.slice(0, data.address.length - 1))
+    console.log('draggedEntity: ', draggedEntity, 'destinationEntity: ', destinationEntity, 'parentEntity: ', parentEntity)
     let parentPx = document.getElementById(`${parentEntity.UUID()}.${parentEntity.type()}`).clientWidth
     let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
 

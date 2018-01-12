@@ -79,7 +79,7 @@ const CheckBoxComponent = (props) => {
       }
 
       <div
-        id={props.model.UUID() + '.CheckBox'}
+        id={`${props.model.UUID()}.${props.model.type()}`}
         style={cbStyle}
         className='CheckBox'
         data-type='CheckBox'
@@ -90,7 +90,7 @@ const CheckBoxComponent = (props) => {
         <input type={props.model.type()} onChange={(e) => handleChange(e, props)} >
         </input>
         <Resizer
-          id={`${props.model.UUID()}.${props.model.type()}`}
+          id={`${props.model.UUID()}.resizer`}
           element='FormEntity'
           uuid={props.model.UUID()}
           className='resizer'
