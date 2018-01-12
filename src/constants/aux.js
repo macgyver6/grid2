@@ -69,20 +69,16 @@ export const aux = {
 
   dropMove_handler: (event, props, resize) => {
     event.stopPropagation();
-    console.log(event.dataTransfer.getData('address'))
     let data = JSON.parse(event.dataTransfer.getData('address'))
-    let entityUUID = utility.findEntityByPath(props.form, data.address).UUID()
-    if (data.action === 'move' && entityUUID === props.model.UUID()) {
-      console.log({
-        prepend: (resize.init_prepend - resize.grids),
-        append: (resize.init_append + resize.grids),
-      })
-      props.mutateformentity(resize.address,
-        {
-        prepend: (resize.init_prepend - resize.grids),
-        append: (resize.init_append + resize.grids),
+    if (data.action === 'move') {
+      let entityUUID = utility.findEntityByPath(props.form, data.address).UUID()
+      if (entityUUID === props.model.UUID() ) {
+        props.mutateformentity(resize.address,
+          {
+          prepend: (resize.init_prepend - resize.grids),
+          append: (resize.init_append + resize.grids),
+        })
       }
-    )
     }
   },
 
@@ -150,14 +146,14 @@ export const aux = {
 
   dropAppend_handler: (event, props) => {
     let data = JSON.parse(event.dataTransfer.getData("address"));
-
-
-    let draggedEntity = utility.findEntityByPath(props.form, data.address)
+    let draggedEntity = ''
+    if (data.action != 'addEntity') {
+      draggedEntity = utility.findEntityByPath(props.form, data.address)
+    }
     let destinationEntity = utility.findEntityUuid(props.model.UUID(), props.form)
 
     if (data.action === 'move' && draggedEntity.UUID() != props.model.UUID()) {
       let parentEntity = utility.findEntityByPath(props.form, data.address.slice(0, data.address.length - 1))
-      console.log('draggedEntity: ', draggedEntity, 'destinationEntity: ', destinationEntity, 'parentEntity: ', parentEntity)
       let parentPx = document.getElementById(`${parentEntity.UUID()}.${parentEntity.type()}`).clientWidth
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
 
@@ -179,6 +175,33 @@ export const aux = {
             append: (parentEntity.width() - props.model.prepend() - props.model.width() - appendGrids - draggedEntity.width())
           })
       ), draggedEntityNewAddress)
+    }
+
+    if (data.action === 'addEntity') {
+      // let parentEntity = utility.findEntityByPath(props.form, data.address.slice(0, data.address.length - 1))
+      let parentPx = document.getElementById(`${props.model.UUID()}.append`).clientWidth
+      let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
+
+      let fsWidth = (parseInt((parentPx / props.model.width()), 10))
+      // # grids from event to end of FS row
+      const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left) / bgrndGrdWidth), 0)
+      let draggedEntityNewAddress = [...destinationEntity[0]]
+      draggedEntityNewAddress[draggedEntityNewAddress.length - 1] = draggedEntityNewAddress[draggedEntityNewAddress.length - 1] + 1
+      let loc = [...destinationEntity[0]]
+      loc[loc.length - 1] = (destinationEntity[0][destinationEntity[0].length - 1])
+
+      const newAddress = [...destinationEntity[0]]
+
+      newAddress[destinationEntity[0].length - 1] = newAddress[destinationEntity[0].length - 1] + 1
+      props.addformentity(utility.resurrectEntity(
+        Object.assign({},
+          data.model, {
+            append: (props.model.append() - appendGrids - data.model.width)
+          })
+      ), newAddress)
+
+      props.mutateformentity(destinationEntity[0], { append: appendGrids })
+
     }
     event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)'
   },

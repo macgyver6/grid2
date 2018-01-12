@@ -44,6 +44,11 @@ export var defaultPropsFE = {
               //   render: { backgroundColor: 'lightgrey', minWidth: 3 }
               // })
             ], legend: 'string', prepend: 4, append: 4, render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
+          }),
+          new FormSection({
+            uuid: undefined, type: 'FormSection', width: 16, children: [
+
+            ], legend: 'string', prepend: 4, append: 4, render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
           })
         ], legend: 'string', prepend: 0, append: 0
       }),
