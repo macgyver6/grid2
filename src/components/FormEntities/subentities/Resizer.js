@@ -31,8 +31,9 @@ let drag_handler = (event, props) => {
   event.stopPropagation();
   resize.reset = false
   let locEntity = utility.findEntityUuid(props.model.UUID(), props.form)
-  let parentEntity = utility.findEntityByPath(props.form, locEntity[0].slice(0, locEntity.length))
+  let parentEntity = utility.findEntityByPath(props.form, locEntity[0].slice(0, locEntity[0].length - 1))
   const minWidth = defaultPropsFE[props.model.type()].render.minWidth
+  console.log(locEntity[0], props.form, locEntity[0].slice(0, locEntity.length))
   const maxWidth = parentEntity.width();
   if (resize.init === null) { resize.init = event.pageX, resize.init_grids = props.model.width(), resize.init_append = props.model.append()
    }
@@ -56,6 +57,10 @@ let drag_handler = (event, props) => {
       console.log(locEntity[1])
       document.getElementById(
         `${props.model.UUID()}.${props.model.type()}`).style.backgroundColor = 'lightgreen'
+      console.log(resize, locEntity[1], {
+        width: (resize.init_grids - resize.grids),
+        append: (resize.init_append + resize.grids),
+      })
       props.mutateformentity(locEntity[0], {
         width: (resize.init_grids - resize.grids),
         append: (resize.init_append + resize.grids),
