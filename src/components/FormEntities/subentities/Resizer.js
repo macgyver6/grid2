@@ -39,10 +39,17 @@ let drag_handler = (event, props) => {
    }
   let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
 
-  const grid = round((((resize.init - event.pageX) / bgrndGrdWidth) - 1), 0)
+  const grid = () => {
+    var calc = event.pageX - resize.init;
+    if (calc > 0) {
+      return round(((calc / bgrndGrdWidth)), 0)
+    } else {
+      return round(((calc / bgrndGrdWidth)), 0)
+    }
+  }
 
-  if (resize.grids != grid && event.pageX != 0) {
-    resize.grids = grid
+  if (resize.grids != grid() && event.pageX != 0) {
+    resize.grids = grid()
     if (!can_resize(minWidth, maxWidth)) {
       resize.reset = null
       document.getElementById(`${props.model.UUID()}.${props.model.type()}`).style.backgroundColor = 'red'
@@ -67,15 +74,15 @@ let drag_handler = (event, props) => {
 
         }
       props.mutateformentity(locEntity[0], {
-        width: (resize.init_grids - resize.grids),
-        append: (resize.init_append + resize.grids),
+        width: (resize.init_grids + resize.grids),
+        append: (resize.init_append - resize.grids),
       })
     }
   }
 }
 
 const can_resize = (minWidth, maxWidth) => {
-  if (resize.init_grids - resize.grids - 1 < maxWidth && resize.init_grids - resize.grids > minWidth) {
+  if (resize.init_grids + resize.grids - 1 < maxWidth && resize.init_grids + resize.grids > minWidth) {
     console.log(minWidth, maxWidth, '867, valid resize')
     return true
   } else {

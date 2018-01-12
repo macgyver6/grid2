@@ -69,14 +69,44 @@ export const aux = {
 
   dropMove_handler: (event, props, resize) => {
     event.stopPropagation();
+
     let data = JSON.parse(event.dataTransfer.getData('address'))
     if (data.action === 'move') {
       let entityUUID = utility.findEntityByPath(props.form, data.address).UUID()
       if (entityUUID === props.model.UUID() ) {
+        // console.log(resize.grids)
+        // const calc = ((newWidth) => {
+        //   return props.addformentity(utility.resurrectEntity(
+        //       Object.assign({},
+        //         props.model.properties(), newWidth)
+        //     ), locEntity[0])
+        //   })
+
+        // is change in grids positive or negative?
+        // if (resize.grids > 0) {
+        //   calc(calcOpp[source[2]]['+'](initGrid, diffGrid))
+        // } else {
+        //   calc(calcOpp[source[2]]['-'](initGrid, diffGrid))
+        // }
+
+        // var calcOpp = {
+        //   '+': (a, b) => Object.assign({}, { prepend: initGrid.prepend + diffGrid, append: initGrid.append - diffGrid }),
+        //   '-': (a, b) => Object.assign({}, { prepend: initGrid.prepend - diffGrid, append: initGrid.append + diffGrid }),
+        // }
+
+        // const calcMover = ((newWidth) => {
+        //   let entityToChange = locEntity[1]
+        //   props.removeformentity(locEntity[0])
+        //   return props.addformentity(utility.resurrectEntity(
+        //     Object.assign({},
+        //       entityToChange.properties(), newWidth)
+        //   ), locEntity[0])
+        // })
+
         props.mutateformentity(resize.address,
           {
-          prepend: (resize.init_prepend - resize.grids),
-          append: (resize.init_append + resize.grids),
+          prepend: (resize.init_prepend + resize.grids),
+          append: (resize.init_append - resize.grids),
         })
       }
     }
@@ -116,10 +146,19 @@ export const aux = {
         resize.address = locEntity[0]
     }
 
-    const fsWidth = parseInt((document.getElementById(`${parentEntity.UUID()}.${parentEntity.type()}`).clientWidth / parentEntity.width()), 10)
-    const grid = (parseInt((resize.init - event.pageX) / fsWidth) - 1)
-    if (resize.grids != grid && event.pageX != 0) {
-      resize.grids = grid
+    const fsWidth = round((document.getElementById(`${parentEntity.UUID()}.${parentEntity.type()}`).clientWidth / parentEntity.width()), 0)
+
+    const grid = () => {
+      var calc = event.pageX - resize.init;
+      if (calc > 0) {
+        return round(((calc / fsWidth) ), 0)
+      } else {
+        return round(((calc / fsWidth)), 0)
+      }
+    }
+
+    if (resize.grids != grid() && event.pageX != 0) {
+      resize.grids = grid()
       if (!can_move(minWidth, maxWidth)) {
         console.log('invalid')
         resize.reset = null
