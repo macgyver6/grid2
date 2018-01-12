@@ -32,7 +32,7 @@ const RadioButtonComponent = (props) => {
     aux.dropMove_handler(event, props, resize)
   }
 
-  let drag_handler = function (event) {
+ let drag_handler = function (event) {
     aux.drag_handler(event, props.model, props.form, resize, props)
   }
   const rbStyle = {

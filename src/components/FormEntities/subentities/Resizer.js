@@ -64,11 +64,11 @@ let drag_handler = (event, props) => {
         if (locEntity[1].type() === 'FormSection') {
           resize.init_children === null ?
           resize.init_children = locEntity[1].children() :
-           null
+          null
           resize.init_children.map((child, index) => {
             let childAddress = [...locEntity[0]]
             childAddress[childAddress.length] = index
-            props.mutateformentity(childAddress, {append: resize.init_children[index].append() - resize.grids})
+            props.mutateformentity(childAddress, {append: resize.init_children[index].append() + resize.grids})
           })
         } else {
 

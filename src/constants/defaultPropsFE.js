@@ -53,7 +53,7 @@ export var defaultPropsFE = {
         ], legend: 'string', prepend: 0, append: 0
       }),
       new FormSection({
-        uuid: undefined, type: 'FormSection', width: 16, children: [
+        uuid: undefined, type: 'FormSection', width: 24, children: [
           new FormSection({
             uuid: undefined, type: 'FormSection', width: 16, children: [
 
@@ -61,7 +61,7 @@ export var defaultPropsFE = {
 
             ], legend: 'string', prepend: 4, append: 4, render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
           })
-        ], legend: 'string', prepend: 4, append: 4
+        ], legend: 'string', prepend: 0, append: 0
       }),
 
     ]
@@ -69,7 +69,7 @@ export var defaultPropsFE = {
   },
 
   FormSection: {
-    uuid: undefined, prepend: 4, width: 16, append: 4, type: 'FormSection', children: [
+    uuid: undefined, prepend: 0, width: 24, append: 0, type: 'FormSection', children: [
 
 
     ], legend: 'string',

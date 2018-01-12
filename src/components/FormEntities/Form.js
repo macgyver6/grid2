@@ -1,130 +1,77 @@
 import React from 'react';
 import FormSectionComponent from './FormSection'
 import { utility } from '../../utility';
+import { aux } from '../../constants/aux';
 import { defaultPropsFE } from '../../constants/defaultPropsFE';
 
 const FormComponent = (props) => {
+  const round = (value, decimals) => {
+    return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+  }
+
   let source = null
   const resize = {
     init: null,
     changed: null
   }
-  let mouseDownHandler = (event) => {
-    // event.preventDefault();
-    event.stopPropagation();
-    source = (event.target.getAttribute('data-action')).split('.');
-    if (source[0] === 'resizer' || source[0] === 'mover') {
-      console.log(source, event.screenX)
-      // document.getElementById(source[1]).removeEventListener('dragstart', mouseUpHandler);
-      document.getElementById('FormComponent').addEventListener('mouseup', mouseUpHandler);
-    }
-  }
 
-  function mouseUpHandler(event) {
-    console.log('Form mouseUp: ', event.screenX)
-    event.stopPropagation();
-    let locEntity = utility.findEntityUuid(source[1], props.form)
-    let parentEntity = utility.findEntityByPath(props.form, locEntity[0].slice(0, locEntity.length))
-    resize.changed = event.screenX;
-    let initGrid = {
-      width: null,
-      append: null,
-      prepend: null
-    }
-    console.log(source)
-    if (source[2] === 'FormSection') {
-      initGrid.width = parentEntity.width()
-      initGrid.prepend = parentEntity.prepend()
-      initGrid.append = parentEntity.append()
-    } else {
-      initGrid.width = locEntity[1].width(),
-        initGrid.append = locEntity[1].append(),
-        initGrid.prepend = locEntity[1].prepend()
-    }
+  let drag_handler = function (event) {
+    const model = utility.findEntityByPath(props.form, [0, props.activeTab])
 
-    let initDiff = resize.changed - resize.init
-    let fsWidth = parseInt((document.getElementById(parentEntity.UUID()).clientWidth / parentEntity.width()), 10)
-    let diffGrid = (parseInt(((Math.abs(initDiff)) / fsWidth), 10) + 1)
-    console.log(initGrid)
-    if (source[0] === 'resizer' & (Math.abs(initDiff)) > 20) {
-      var calcOpp = {
-        FormEntity: {
-          '+': (a, b) => Object.assign({}, { width: initGrid.width + diffGrid, append: initGrid.append - diffGrid }),
-          '-': (a, b) => Object.assign({}, { width: initGrid.width - diffGrid, append: initGrid.append + diffGrid })
-        },
-        FormSection: {
-          '+': (a, b) => Object.assign({}, { width: initGrid.width + diffGrid }),
-          '-': (a, b) => Object.assign({}, { width: initGrid.width - diffGrid })
-        }
-      }
-      const calc = ((newWidth) => {
-        let entityToChange = null
-        source[2] === 'FormSection' ?
-          entityToChange = parentEntity :
-          entityToChange = locEntity[1]
-        props.removeformentity(locEntity[0])
-        return props.addformentity(utility.resurrectEntity(
-          Object.assign({},
-            entityToChange.properties(), newWidth)
-        ), locEntity[0])
-      })
-      if (initDiff > 0) {
-        calc(calcOpp[source[2]]['+'](initGrid, diffGrid))
-      } else {
-        calc(calcOpp[source[2]]['-'](initGrid, diffGrid))
-      }
-    }
-    if (source[0] === 'mover' & (Math.abs(initDiff)) > 20) {
-      var calcOpp = {
-        '+': (a, b) => Object.assign({}, { prepend: initGrid.prepend + diffGrid, append: initGrid.append - diffGrid }),
-        '-': (a, b) => Object.assign({}, { prepend: initGrid.prepend - diffGrid, append: initGrid.append + diffGrid }),
-      }
-      const calcMover = ((newWidth) => {
-        let entityToChange = locEntity[1]
-        props.removeformentity(locEntity[0])
-        return props.addformentity(utility.resurrectEntity(
-          Object.assign({},
-            entityToChange.properties(), newWidth)
-        ), locEntity[0])
-      })
-      if (initDiff > 0) {
-        calcMover(calcOpp['+'](initGrid, diffGrid))
-      } else {
-        calcMover(calcOpp['-'](initGrid, diffGrid))
-      }
-    }
-    document.getElementById('FormComponent').removeEventListener('mouseup', mouseUpHandler);
-    document.getElementById('FormComponent').removeEventListener('mousedown', mouseUpHandler);
+    console.log(event, model, props.form, resize, props)
+    // aux.drag_handler(event, props.model, props.form, resize, props)
   }
 
   const drop_handler = (event) => {
     // event.preventDefault();
     // event.stopPropagation();
-    // let data = JSON.parse(event.dataTransfer.getData("text"));
-    // console.log(data)
-    // if (data.action === 'addEntity') {
-    //   let entityToAdd = utility.resurrectEntity(defaultPropsFE[data.model.type])
-    //   const location = [(props.activeTab - 1), props.form.children()[0].children().length]
-    //   props.addformentity(entityToAdd, location)
-    // }
+    // aux.dropMove_handler(event, props, resize)
 
-    // if (data && data.action === 'move') {
-    //   const location = [(props.activeTab - 1), props.form.children()[0].children().length]
-    //   console.log(data.model)
-    //   // props.addformentity(entityToAdd, location)
-    //   let entityToAdd = utility.resurrectEntity(
-    //     Object.assign({},
-    //       data.model,
-    //       { children: data.model.children.map((child) => utility.resurrectEntity(child)) }
-    //     )
-    //   )
-    //   // @hack - only adds to position 0 at this point
-    //   // location.push(0)
-    //   console.log(entityToAdd, location)
-    //   props.addformentity(entityToAdd, location)
-    //   let initLocation = utility.findNode(utility.resurrectEntity(data.model), props.form)
-    //   props.removeformentity(initLocation)
-    // }
+    let data = JSON.parse(event.dataTransfer.getData("address"));
+    console.log(data)
+
+    let bgrndGrdWidth = (document.getElementById('0.bgrndGrd').clientWidth + 8)
+    const offsetE1 = data.dragInit;
+    const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
+    if (data && data.action === 'addEntity') {
+      let location = utility.findNode(props.model, props.form)
+      let parentPx = document.getElementById(`${props.model.UUID()}.${props.model.type()}`).clientWidth
+      let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
+      const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left) / bgrndGrdWidth), 0)
+      console.log(appendGrids)
+      let entityToAdd = utility.resurrectEntity(
+        Object.assign({},
+          data.model, {
+            prepend: appendGrids,
+            append: (props.model.width() - (appendGrids + data.model.width))
+          })
+      )
+      console.log(entityToAdd)
+      // @hack - only adds to position 0 at this point
+      location.push(0)
+      props.addformentity(entityToAdd, location)
+
+      const div = document.getElementById(props.model.UUID());
+      // div.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
+      // event.target.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
+    }
+
+    if (data && data.action === 'move') {
+      let draggedEntity = utility.findEntityByPath(props.form, data.address)
+      let location = utility.findNode(props.model, props.form)
+      let entityToAdd = utility.resurrectEntity(
+        Object.assign({},
+          draggedEntity.properties(), {
+            prepend: appendGrids,
+            append: (props.model.width() - (draggedEntity.prepend() + draggedEntity.width() + appendGrids))
+          })
+      )
+      // @hack - only adds to position 0 at this point
+      location.push(0)
+      props.addformentity(entityToAdd, location)
+      // let initLocation = utility.findNode(utility.resurrectEntity(data.model), props.form)
+      props.removeformentity(data.address)
+    }
   }
 
   const dragover_handler = (event) => {
@@ -135,7 +82,12 @@ const FormComponent = (props) => {
     event.preventDefault();
   }
 
+  const click_handler = (event) => {
+    console.log('click')
+  }
+
   const divStyle = {
+    // backgroundColor: 'blue',
     margin: '20px',
     position: 'relative',
     gridTemplateColumns: `repeat(24, [col] 1fr)`,
@@ -168,9 +120,13 @@ const FormComponent = (props) => {
       className='wrapper'
       id="FormComponent"
       style={divStyle}
-    >
-      {/* onDrop={drop_handler}
+      onClick={click_handler}
+      onDrop={drop_handler}
+      onDrag={drag_handler}
       onDragOver={dragover_handler}
+    >
+      {/*
+
       onDragLeave={dragleave_handler} */}
 
       <div className="grid" >

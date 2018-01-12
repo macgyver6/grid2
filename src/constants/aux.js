@@ -47,11 +47,6 @@ export const aux = {
       }));
     }
     if (action === "move") {
-      console.log({
-        action: action || 'move',
-        address: utility.findNode(model, form),
-        dragInit: action === 'move' ? round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3) : null
-      })
       event.dataTransfer.setData("address", JSON.stringify({
         action: action,
         address: utility.findNode(model, form),
@@ -110,6 +105,8 @@ export const aux = {
         })
       }
     }
+    const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}`)
+    element.style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor
   },
 
   drag_handler: (event, model, form, resize, props) => {
@@ -146,14 +143,14 @@ export const aux = {
         resize.address = locEntity[0]
     }
 
-    const fsWidth = round((document.getElementById(`${parentEntity.UUID()}.${parentEntity.type()}`).clientWidth / parentEntity.width()), 0)
+    let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
 
     const grid = () => {
       var calc = event.pageX - resize.init;
       if (calc > 0) {
-        return round(((calc / fsWidth) ), 0)
+        return round(((calc / bgrndGrdWidth) ), 0)
       } else {
-        return round(((calc / fsWidth)), 0)
+        return round(((calc / bgrndGrdWidth)), 0)
       }
     }
 
@@ -190,9 +187,11 @@ export const aux = {
       draggedEntity = utility.findEntityByPath(props.form, data.address)
     }
     let destinationEntity = utility.findEntityUuid(props.model.UUID(), props.form)
+    console.log(destinationEntity)
 
-    if (data.action === 'move' && draggedEntity.UUID() != props.model.UUID()) {
+    if (data.action === 'move' && draggedEntity.UUID() != props.model.UUID() && draggedEntity.type() != 'FormSection') {
       let parentEntity = utility.findEntityByPath(props.form, data.address.slice(0, data.address.length - 1))
+      console.log(parentEntity)
       let parentPx = document.getElementById(`${parentEntity.UUID()}.${parentEntity.type()}`).clientWidth
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
 
@@ -214,6 +213,38 @@ export const aux = {
             append: (parentEntity.width() - props.model.prepend() - props.model.width() - appendGrids - draggedEntity.width())
           })
       ), draggedEntityNewAddress)
+    }
+
+    if (data.action === 'move' && draggedEntity.UUID() != props.model.UUID() && draggedEntity.type() === 'FormSection') {
+      console.log('its a form section')
+      let bgrndGrdWidth = (document.getElementById('0.bgrndGrd').clientWidth + 8)
+      const offsetE1 = data.dragInit;
+      const appendGrids = round(((event.clientX - document.getElementById(`${draggedEntity.UUID()}.${draggedEntity.type()}`).getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
+
+      if (data && data.action === 'move') {
+        let draggedEntity = utility.findEntityByPath(props.form, data.address)
+        let location = utility.findNode(props.model, props.form)
+        let entityToAdd = utility.resurrectEntity(
+          Object.assign({},
+            draggedEntity.properties(), {
+              prepend: appendGrids,
+              append: (props.model.width() - (draggedEntity.prepend() + draggedEntity.width() + appendGrids))
+            })
+        )
+        if (draggedEntity.UUID() === entityToAdd.UUID()) {
+
+          props.mutateformentity(data.address,
+            {
+              prepend: (draggedEntity.prepend() + appendGrids),
+              append: (draggedEntity.append() - appendGrids),
+            })
+        }
+        // @hack - only adds to position 0 at this point
+        location.push(0)
+        // props.addformentity(entityToAdd, location)
+        // let initLocation = utility.findNode(utility.resurrectEntity(data.model), props.form)
+        // props.removeformentity(data.address)
+      }
     }
 
     if (data.action === 'addEntity') {
@@ -242,7 +273,9 @@ export const aux = {
       props.mutateformentity(destinationEntity[0], { append: appendGrids })
 
     }
-    event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)'
+    // event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)'
+    const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}`)
+    element.style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor
   },
 
   // for dropping on an entity

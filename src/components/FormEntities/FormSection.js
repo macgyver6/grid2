@@ -14,10 +14,20 @@ let FormSectionComponent = (props) => {
     return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
   }
 
+  const resize = {
+    init: null,
+    init_grids: null,
+    init_append: null,
+    init_prepend: null,
+    changed: null,
+    grids: null,
+    reset: null,
+    address: null
+  }
+
   let dragstart_handler = (event) => {
-    console.log(event.target)
     event.stopPropagation();
-    aux.dragStart_handler(event, props.model, props.form)
+    aux.dragStart_handler(event, props.model, props.form, 'move')
   }
   let data = '';
 
@@ -39,7 +49,6 @@ let FormSectionComponent = (props) => {
       let parentPx = document.getElementById(`${props.model.UUID()}.${props.model.type()}`).clientWidth
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
       const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left) / bgrndGrdWidth), 0)
-      console.log(appendGrids)
       let entityToAdd = utility.resurrectEntity(
         Object.assign({},
           data.model, {
@@ -67,12 +76,31 @@ let FormSectionComponent = (props) => {
             append: (props.model.width() - (draggedEntity.prepend() + draggedEntity.width() + appendGrids))
           })
       )
+      console.log(draggedEntity)
+      console.log(appendGrids, resize)
+      // for moving a FormSection
+      console.log(event.target.id)
+      if (draggedEntity.UUID() === entityToAdd.UUID()) {
+        // console.log({
+        //     prepend: (resize.init_prepend + appendGrids),
+        //     append: (resize.init_append - appendGrids),
+        //   })
+
+        props.mutateformentity(location,
+          {
+            prepend: (resize.init_prepend + appendGrids),
+            append: (resize.init_append - appendGrids),
+          })
+      }
       // @hack - only adds to position 0 at this point
-      location.push(0)
-      props.addformentity(entityToAdd, location)
-      // let initLocation = utility.findNode(utility.resurrectEntity(data.model), props.form)
-          props.removeformentity(data.address)
+      const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}`)
+      element.style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor
     }
+  }
+
+  let drag_handler = function (event) {
+    console.log(event.target)
+    aux.drag_handler(event, props.model, props.form, resize, props)
   }
 
   const fsStyle = {
@@ -98,6 +126,8 @@ let FormSectionComponent = (props) => {
     <div
       id="FormSectionComponent"
       style={styles.formSection}
+      onDrop={drop_handler}
+      onDragOver={dragOver_handler}
       // style={styles.defaultEntity}
     >
       {(props.model.prepend() > 0) ?
@@ -116,8 +146,7 @@ let FormSectionComponent = (props) => {
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="form-group FS"
         style={fsStyle}
-        onDrop={drop_handler}
-        onDragOver={dragOver_handler}
+        onDrag={drag_handler}
         data-action={`mover.${props.model.UUID()}.FormSection`}
         draggable="true"
         onDragStart={dragstart_handler}
