@@ -58,7 +58,7 @@ let FormSectionComponent = (props) => {
             append: (props.model.width() - (appendGrids + data.model.width))  // addressNewEntity[addressNewEntity.length] = props.model.children().length
           })
       )
-      console.log(entityToAdd)
+      console.log('here')
       // @hack - only adds to position 0 at this point
       let addressNewEntity = [...location]
       addressNewEntity[addressNewEntity.length] = props.model.children().length
@@ -82,11 +82,15 @@ let FormSectionComponent = (props) => {
       let test = utility.findEntityUuid(props.model.UUID(), props.form)[0]
       let _test = [...test]
       _test[test.length] = props.model.children().length
-      props.addformentity(entityToAdd, _test)
-      props.removeformentity(data.address)
+      console.log('here')
+      if (draggedEntity.UUID() != props.model.UUID()) {
+        props.addformentity(entityToAdd, _test)
+        props.removeformentity(data.address)
+      }
       // for moving a FormSection
       if (draggedEntity.UUID() === props.model.UUID()) {
-        console.log({
+        console.log(draggedEntity.UUID() , utility.findNode(props.model, props.form),
+          {
             prepend: (resize.init_prepend + appendGrids),
             append: (resize.init_append - appendGrids),
           })

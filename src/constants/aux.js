@@ -204,6 +204,7 @@ export const aux = {
       draggedEntityNewAddress[draggedEntityNewAddress.length - 1] = draggedEntityNewAddress[draggedEntityNewAddress.length - 1] + 1
       let loc = [...destinationEntity[0]]
       loc[loc.length - 1] = (destinationEntity[0][destinationEntity[0].length - 1] + 1)
+      console.log('here')
       props.mutateformentity(destinationEntity[0], { append: appendGrids} )
       props.removeformentity(data.address)
       props.addformentity(utility.resurrectEntity(
@@ -262,6 +263,7 @@ export const aux = {
       const newAddress = [...destinationEntity[0]]
 
       newAddress[destinationEntity[0].length - 1] = newAddress[destinationEntity[0].length - 1] + 1
+      console.log('here')
       props.addformentity(utility.resurrectEntity(
         Object.assign({},
           data.model, {
