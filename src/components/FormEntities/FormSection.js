@@ -43,7 +43,7 @@ let FormSectionComponent = (props) => {
 
     let bgrndGrdWidth = (document.getElementById('0.bgrndGrd').clientWidth + 8)
     const offsetE1 = data.dragInit;
-    const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
+    const appendGrids = round(((event.clientX - document.getElementById(`${props.model.UUID()}.${props.model.type()}`).getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
 
     if (data && data.action === 'addEntity') {
       console.log('drop FS: ')
@@ -55,7 +55,7 @@ let FormSectionComponent = (props) => {
         Object.assign({},
           data.model, {
             prepend: appendGrids,
-            append: (props.model.width() - (appendGrids + data.model.width))
+            append: (props.model.width() - (appendGrids + data.model.width))  // addressNewEntity[addressNewEntity.length] = props.model.children().length
           })
       )
       console.log(entityToAdd)
@@ -71,23 +71,27 @@ let FormSectionComponent = (props) => {
 
     if (data && data.action === 'move') {
       let draggedEntity = utility.findEntityByPath(props.form, data.address)
-      let location = utility.findNode(props.model, props.form)
       let entityToAdd = utility.resurrectEntity(
         Object.assign({},
           draggedEntity.properties(), {
             prepend: appendGrids,
-            append: (props.model.width() - (draggedEntity.prepend() + draggedEntity.width() + appendGrids))
+            append: (props.model.width() - appendGrids - draggedEntity.width()  )
           })
       )
+      console.log(entityToAdd.prepend(), entityToAdd.width(), entityToAdd.append())
+      let test = utility.findEntityUuid(props.model.UUID(), props.form)[0]
+      let _test = [...test]
+      _test[test.length] = props.model.children().length
+      props.addformentity(entityToAdd, _test)
+      props.removeformentity(data.address)
       // for moving a FormSection
-      console.log(resize.init_prepend, resize.init_append, appendGrids)
-      if (draggedEntity.UUID() === entityToAdd.UUID()) {
+      if (draggedEntity.UUID() === props.model.UUID()) {
         console.log({
             prepend: (resize.init_prepend + appendGrids),
             append: (resize.init_append - appendGrids),
           })
 
-        props.mutateformentity(location,
+        props.mutateformentity(utility.findNode(props.model, props.form),
           {
             prepend: (resize.init_prepend + appendGrids),
             append: (resize.init_append - appendGrids),

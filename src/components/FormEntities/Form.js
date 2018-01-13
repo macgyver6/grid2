@@ -121,7 +121,7 @@ const FormComponent = (props) => {
       id="FormComponent"
       style={divStyle}
       onClick={click_handler}
-      onDrop={drop_handler}
+      // onDrop={drop_handler}
       onDrag={drag_handler}
       onDragOver={dragover_handler}
     >
