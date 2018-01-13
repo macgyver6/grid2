@@ -1,6 +1,7 @@
 import React from 'react';
 import Resizer from './Resizer';
 import { utility } from '../../../utility';
+import { aux } from '../../../constants/aux';
 import { defaultPropsFE } from '../../../constants/defaultPropsFE';
 
 const Prepend = (props) => {
@@ -52,25 +53,11 @@ const Prepend = (props) => {
   }
 
   const drop_handler = (event) => {
-    event.stopPropagation();
-    console.log(event)
-    let data = JSON.parse(event.dataTransfer.getData("text"));
-    console.log(data)
-    const totalWidthNewEntity = () => data.model.prepend + data.model.width + data.model.append
-    let locEntity = utility.findEntityUuid(props.model.UUID(), props.form)
+    aux.dropPrepend_handler(event, props)
+  }
 
-    let loc = [...locEntity[0]]
-    loc[loc.length - 1] = (locEntity[0][locEntity[0].length - 1] + 1)
-
-
-    if (data.action === 'move') {
-      // console.log(utility.findNode(utility.resurrectEntity(data.model), props.form))
-      // console.log(loc)
-      props.removeformentity(utility.findNode(utility.resurrectEntity(data.model), props.form))
-      // props.removeformentity(utility.findEntityByPath(data.model.uuid))
-    }
-    props.addformentity(utility.resurrectEntity(Object.assign({}, data.model)), locEntity[0])
-    event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)'
+  let dragover_handler = (event) => {
+    event.preventDefault();
   }
 
   let dragEnterHandler
@@ -87,8 +74,8 @@ const Prepend = (props) => {
     <div
       style={prependStyle}
       id={`${props.model.UUID()}.prepend`}
-      // onDrop={drop_handler}
-
+      onDrop={drop_handler}
+      onDragOver ={dragover_handler}
     >
       {/* onDragEnter={dragEnterHandler} */}
     </div>

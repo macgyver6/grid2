@@ -28,7 +28,7 @@ export var defaultPropsFE = {
           new FormSection({
             uuid: undefined, type: 'FormSection', width: 16, children: [
               new TextInput({
-                uuid: undefined, width: 5, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', prepend: 0, autoNumber: 'SEQUENTIAL', append: 11, length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content',
+                uuid: undefined, width: 5, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', prepend: 6, autoNumber: 'SEQUENTIAL', append: 5, length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content',
                 render: { backgroundColor: 'lightgrey', minWidth: 3 }
               }),
               // new TextArea({

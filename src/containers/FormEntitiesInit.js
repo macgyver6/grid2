@@ -20,7 +20,7 @@ const BackgroundPanel = (props) =>
     <LeftPanel
       form={props.form}
       removeformentity={props.removeformentity}
-      addformentity={props.addformentity} />
+      addformentity={props.addformentity}            mutateformentity={props.mutateformentity}            />
     <MiddlePanel
       form={props.form}
       removeformentity={props.removeformentity}

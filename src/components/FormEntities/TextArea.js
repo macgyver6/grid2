@@ -64,7 +64,7 @@ const TextAreaComponent = (props) => {
           model={props.model}
           form={props.form}
           removeformentity={props.removeformentity}
-          addformentity={props.addformentity} /> :
+          addformentity={props.addformentity}            mutateformentity={props.mutateformentity}            /> :
         null
       }
       <div
