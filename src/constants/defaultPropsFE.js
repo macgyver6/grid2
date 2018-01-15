@@ -12,15 +12,15 @@ export var defaultPropsFE = {
 
           new FormSection({
             uuid: undefined, type: 'FormSection', width: 16, children: [
+              new TextInput({
+                uuid: undefined, prepend: 5, width: 5, append: 0, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content',
+                render: { backgroundColor: 'lightgrey', minWidth: 3 }
+              }),
               new CheckBox({
-                uuid: undefined, width: 5, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'CheckBox', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', prepend: 0, autoNumber: 'SEQUENTIAL', append: 0, defaultState: true,
+                uuid: undefined, width: 5, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'CheckBox', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', prepend: 0, autoNumber: 'SEQUENTIAL', append: 1, defaultState: true,
                 render: { backgroundColor: 'lightgrey', minWidth: 3 }
               }
               ),
-              new TextInput({
-                uuid: undefined, prepend: 0, width: 5, append: 6, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content',
-                render: { backgroundColor: 'lightgrey', minWidth: 3 }
-              }),
 
             ], legend: 'string', prepend: 4, append: 4
             , render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }

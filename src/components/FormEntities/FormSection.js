@@ -78,14 +78,74 @@ let FormSectionComponent = (props) => {
             append: (props.model.width() - appendGrids - draggedEntity.width()  )
           })
       )
-      console.log(entityToAdd.prepend(), entityToAdd.width(), entityToAdd.append())
+
       let test = utility.findEntityUuid(props.model.UUID(), props.form)[0]
       let _test = [...test]
       _test[test.length] = props.model.children().length
-      console.log('here')
+      // for dropping entity other than form section onto this form section
       if (draggedEntity.UUID() != props.model.UUID()) {
         props.addformentity(entityToAdd, _test)
         props.removeformentity(data.address)
+        /*
+        start restore donor
+        */
+        const restoreDonorSiblingAddress = (arr) => {
+          // get donor's parent
+          const donorParent = utility.findEntityByPath(props.form, arr.slice(0, arr.length - 1))
+
+          if (donorParent.children().length === 1) {
+            console.log('entity being removed from formSection is the last child')
+            return false
+          } else {
+            console.log('donor formSection is not an empty nester')
+            const toLeft = (arr) => {
+              const _toLeft = [...arr]
+              if (_toLeft[arr.length - 1] < 1) {
+                return false
+              } else {
+                _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1
+                return ({ address: _toLeft, entity: utility.findEntityByPath(props.form, _toLeft) })
+              }
+            }
+            const toRight = (arr) => {
+              const _toRight = [...arr]
+              _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1
+              return ({
+                address: arr,
+                entity: utility.findEntityByPath(props.form, _toRight)
+              })
+            }
+
+            if (toLeft(arr)) {
+              console.log('previous entity exists, adding to append: ', toLeft(arr).address)
+              return ({
+                address: toLeft(arr).address,
+                properties: {
+                  append: toLeft(arr).entity.append() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append()
+                }
+              })
+            } else {
+              console.log('no previous entity exists, adding to prepend, ', utility.findEntityByPath(props.form, toRight(arr).address), {
+                address: toRight(arr).address,
+                properties:
+                  { prepend: toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append() }
+              })
+              return ({
+                address: toRight(arr).address,
+                properties:
+                  { prepend: toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append() }
+              })
+            }
+          }
+        }
+        if (restoreDonorSiblingAddress(data.address)) {
+          console.log(restoreDonorSiblingAddress(data.address).address, restoreDonorSiblingAddress(data.address).properties)
+
+          props.mutateformentity([0, 0, 0], restoreDonorSiblingAddress(data.address).properties)
+        }
+        /*
+        end restore donor
+        */
       }
       // for moving a FormSection
       if (draggedEntity.UUID() === props.model.UUID()) {
