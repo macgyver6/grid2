@@ -227,9 +227,13 @@ let FormSectionComponent = (props) => {
           removeformentity={props.removeformentity}
           addformentity={props.addformentity}
         /> */}
-        {props.model.children().map((element, i) => {
+        {/* generalize to map through any type entity*/}
+        {props.model.type() === 'FormSection' ?
+        props.model.children().map((element, i) => {
           return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity, mutateformentity: props.mutateformentity })
-        })}
+        }) : null
+        }
+
         <Resizer
           id={`${props.model.UUID()}.resizer`}
           element='FormSection'

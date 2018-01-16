@@ -28,22 +28,21 @@ const FormComponent = (props) => {
     // aux.dropMove_handler(event, props, resize)
 
     let data = JSON.parse(event.dataTransfer.getData("address"));
-    console.log(data)
 
     let bgrndGrdWidth = (document.getElementById('0.bgrndGrd').clientWidth + 8)
     const offsetE1 = data.dragInit;
-    const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
+    const appendGrids = round(((event.clientX - document.getElementById('form').getBoundingClientRect().left) / bgrndGrdWidth), 0)
     if (data && data.action === 'addEntity') {
-      let location = utility.findNode(props.form, props.form)
+      console.log('addEntity to top level formsection: ', data)
+      let formEntity = utility.findNode(props.form, props.form)
       // adding to tab FormSection
       // let parentPx = document.getElementById(`${props.model.UUID()}.${props.model.type()}`).clientWidth
-      let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
-      const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left) / bgrndGrdWidth), 0)
-      console.log(appendGrids)
+      console.log(bgrndGrdWidth, event.clientX, appendGrids)
+      // const appendGrids = round(((event.clientX - document.getElementById('form').left) / bgrndGrdWidth), 0)
       let entityToAdd = utility.resurrectEntity(
         Object.assign({},
           data.model, {
-            prepend: defaultPropsFE[data.model.type].prepend,
+            prepend: appendGrids,
             width: defaultPropsFE[data.model.type].width,
             append: defaultPropsFE[data.model.type].append
           })
@@ -52,7 +51,8 @@ const FormComponent = (props) => {
       // whereToAdd.concat(props.activeTab)
       console.log(whereToAdd, entityToAdd)
       // @hack - only adds to position 0 at this point
-      // location.push(0)
+      // formEntity.push(0)
+
       props.addformentity(entityToAdd, whereToAdd)
 
       // const div = document.getElementById(props.model.UUID());
@@ -62,7 +62,7 @@ const FormComponent = (props) => {
 
     if (data && data.action === 'move') {
       let draggedEntity = utility.findEntityByPath(props.form, data.address)
-      let location = utility.findNode(props.model, props.form)
+      let formEntity = utility.findNode(props.model, props.form)
       let entityToAdd = utility.resurrectEntity(
         Object.assign({},
           draggedEntity.properties(), {
@@ -71,23 +71,15 @@ const FormComponent = (props) => {
           })
       )
       // @hack - only adds to position 0 at this point
-      location.push(0)
-      props.addformentity(entityToAdd, location)
-      // let initLocation = utility.findNode(utility.resurrectEntity(data.model), props.form)
+      formEntity.push(0)
+      props.addformentity(entityToAdd, formEntity)
+      // let initformEntity = utility.findNode(utility.resurrectEntity(data.model), props.form)
       props.removeformentity(data.address)
     }
   }
 
   const dragover_handler = (event) => {
     event.preventDefault();
-  }
-
-  const dragleave_handler = (event) => {
-    event.preventDefault();
-  }
-
-  const click_handler = (event) => {
-    console.log('click')
   }
 
   const divStyle = {
@@ -116,42 +108,35 @@ const FormComponent = (props) => {
 
   for (var i = 0; i < 24; i++) {
     bgColumns.push(<div
-      id={i+'.'+'bgrndGrd'}
+      id={i + '.' + 'bgrndGrd'}
       style={bgrndGrd}>{i + 1}</div>)
   }
-  // onMouseDown = {(e) => mouseDownHandler(e, props)}
+
   return (
     <div
       className='wrapper'
-      id="FormComponent"
+      id={`form`}
       style={divStyle}
-      onClick={click_handler}
       onDrop={drop_handler}
       onDrag={drag_handler}
       onDragOver={dragover_handler}
     >
-      {/*
-
-      onDragLeave={dragleave_handler} */}
 
       <div className="grid" >
-        {/* if sectionTabs are turned on - map through and render the FormSection */}
-
-        {props.form.sectionTabs() === true ?
-          props.form.children()[props.activeTab - 1].children().map((formSection, i) => {
-            return <FormSectionComponent
-              key={i}
-              model={formSection}
-              form={props.form}
-              removeformentity={props.removeformentity}
-              addformentity={props.addformentity}
-              mutateformentity={props.mutateformentity}
-            />
+        {
+          props.form.children()[props.activeTab - 1].children().map((element, i) => {
+            return React.createElement(utility.lookupComponent(element),
+              {
+                key: i,
+                model: element,
+                form: props.form,
+                removeformentity: props.removeformentity,
+                addformentity: props.addformentity,
+                mutateformentity: props.mutateformentity
+              }
+            )
           })
-          // if sectionTabs are turned off - map through and render the element
-          : props.form.children().map((element, i) => {
-            return React.createElement(FormSectionComponent, { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity })
-          })}
+        }
       </div>
       <div className="grid grid_background">
         {bgColumns}

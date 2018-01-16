@@ -21,6 +21,7 @@ let DesignBoxHeader = (props) => {
     props.addformentity(new FormSection({
       uuid: undefined, type: 'FormSection', width: 24, children: [], legend: 'string', prepend: 3, append: 4
     }), [props.topLevelFormSections.length])
+    props.changetab(props.topLevelFormSections.length + 1)
   }
 
   return (
