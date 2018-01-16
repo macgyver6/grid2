@@ -36,7 +36,15 @@ const TextAreaComponent = (props) => {
     aux.dropMove_handler(event, props, resize)
   }
 
+  const marginCalc = () => {
+    const _margin = [0, 0, 0, 0]
+    props.model.append() > 0 ? _margin[1] = 4 : 0
+    props.model.prepend() > 0 ? _margin[3] = 4 : 0
+    return (((_margin.map((el) => `${el}px`)).toString().replace(/\,/g, ' ')))
+  }
+
   const taStyle = {
+    margin: marginCalc(),
     backgroundColor: 'lightgrey',
     opacity: '1',
     gridColumn: `span ${props.model.width()}`,

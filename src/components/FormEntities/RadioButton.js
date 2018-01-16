@@ -35,11 +35,19 @@ const RadioButtonComponent = (props) => {
  let drag_handler = function (event) {
     aux.drag_handler(event, props.model, props.form, resize, props)
   }
+
+  const marginCalc = () => {
+    const _margin = [0, 0, 0, 0]
+    props.model.append() > 0 ? _margin[1] = 4 : 0
+    props.model.prepend() > 0 ? _margin[3] = 4 : 0
+    return (((_margin.map((el) => `${el}px`)).toString().replace(/\,/g, ' ')))
+  }
   const rbStyle = {
     backgroundColor: 'lightgrey',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
     height: '100px',
+    margin: marginCalc()
   }
 
   const width = ''

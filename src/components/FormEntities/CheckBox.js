@@ -46,11 +46,19 @@ const CheckBoxComponent = (props) => {
     aux.dropMove_handler(event, props, resize)
   }
 
+  const marginCalc = () => {
+    const _margin = [0, 0, 0, 0]
+    props.model.append() > 0 ? _margin[1] = 4 : 0
+    props.model.prepend() > 0 ? _margin[3] = 4 : 0
+    return (((_margin.map((el) => `${el}px`)).toString().replace(/\,/g, ' ')))
+  }
+
   const cbStyle = {
     backgroundColor: 'lightgrey',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
     height: '100px',
+    margin: marginCalc()
   }
 
 

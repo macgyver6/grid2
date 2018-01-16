@@ -36,7 +36,15 @@ const TextInputComponent = (props) => {
     aux.drag_handler(event, props.model, props.form, resize, props)
   }
 
+  const marginCalc = () => {
+    const _margin = [0, 0, 0, 0]
+    props.model.append() > 0 ? _margin[1] = 4 : 0
+    props.model.prepend() > 0 ? _margin[3] = 4 : 0
+    return (((_margin.map((el) => `${el}px`)).toString().replace(/\,/g, ' ')))
+  }
+
   const tiStyle = {
+    margin: marginCalc(),
     backgroundColor: 'lightgrey',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
@@ -70,6 +78,7 @@ const TextInputComponent = (props) => {
           /> :
         null
       }
+      {console.log(tiStyle)}
       <div style={tiStyle}
         id={`${props.model.UUID()}.${props.model.type()}`}
         className='TextInput'
