@@ -245,7 +245,7 @@ export const aux = {
           // get donor's parent
           const donorParent = utility.findEntityByPath(props.form, arr.slice(0, arr.length - 1))
 
-          if (donorParent.children().length === 0) {
+          if (donorParent.children().length === 1) {
             return false
           } else {
           console.log(arr)
@@ -287,17 +287,22 @@ export const aux = {
           }
         }
       }
+      console.log(restoreDonorSiblingAddress(data.address))
       if (restoreDonorSiblingAddress(data.address)) {
-        console.log(restoreDonorSiblingAddress(data.address))
 
         props.mutateformentity(restoreDonorSiblingAddress(data.address).address, restoreDonorSiblingAddress(data.address).properties)
         }
+        // console.log('add this entity: ', Object.assign({},
+        //   draggedEntity.properties(), {
+        //     prepend: 0,
+        //     append: (destinationEntity[1].width() - 0 - draggedEntity.width() - appendGrids)
+        //   }))
 
         props.addformentity(utility.resurrectEntity(
           Object.assign({},
             draggedEntity.properties(), {
               prepend: 0,
-              append: (parentEntity.width() - props.model.prepend() - props.model.width() - appendGrids - draggedEntity.width())
+              append: (destinationEntity[1].width() - 0 - draggedEntity.width() - appendGrids)
             })
         ), draggedEntityNewAddress)
         props.removeformentity(data.address)
