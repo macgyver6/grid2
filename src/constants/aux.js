@@ -45,6 +45,9 @@ export const aux = {
         address: utility.findNode(model, form),
         dragInit: action === 'move' ? round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3) : null
       }));
+      var img = new Image();
+      img.src = '';
+      event.dataTransfer.setDragImage(img, 10, 10);
     }
     if (action === "move") {
       event.dataTransfer.setData("address", JSON.stringify({
