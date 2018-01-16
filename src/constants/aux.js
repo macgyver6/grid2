@@ -550,6 +550,7 @@ export const aux = {
     }
 
     if (data.action === 'addEntity') {
+      console.log('add entity on prepend')
       // let parentEntity = utility.findEntityByPath(props.form, data.address.slice(0, data.address.length - 1))
       let parentPx = document.getElementById(`${props.model.UUID()}.append`).clientWidth
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
@@ -557,22 +558,21 @@ export const aux = {
       let fsWidth = (parseInt((parentPx / props.model.width()), 10))
       // # grids from event to end of FS row
       const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left) / bgrndGrdWidth), 0)
-      let draggedEntityNewAddress = [...destinationEntity[0]]
-      draggedEntityNewAddress[draggedEntityNewAddress.length - 1] = draggedEntityNewAddress[draggedEntityNewAddress.length - 1] + 1
-      let loc = [...destinationEntity[0]]
-      loc[loc.length - 1] = (destinationEntity[0][destinationEntity[0].length - 1])
-
-      const newAddress = [...destinationEntity[0]]
-
-      newAddress[destinationEntity[0].length - 1] = newAddress[destinationEntity[0].length - 1] + 1
+      console.log('apendGrids: ', appendGrids)
       props.addformentity(utility.resurrectEntity(
         Object.assign({},
           data.model, {
-            append: (props.model.append() - appendGrids - data.model.width)
+            prepend: appendGrids,
+            append: (props.model.prepend() - appendGrids - data.model.width)
           })
-      ), newAddress)
+      ), destinationEntity[0])
 
-      props.mutateformentity(destinationEntity[0], { append: appendGrids })
+      const removeEntityAddress = [...destinationEntity[0]]
+      removeEntityAddress[destinationEntity[0].length - 1] = removeEntityAddress[destinationEntity[0].length - 1] + 1
+      // props.removeformentity(removeEntityAddress)
+
+
+      props.mutateformentity(removeEntityAddress, { prepend: 0 })
 
     }
     // event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)'
