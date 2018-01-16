@@ -46,7 +46,7 @@ let FormSectionComponent = (props) => {
     const appendGrids = round(((event.clientX - document.getElementById(`${props.model.UUID()}.${props.model.type()}`).getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
 
     if (data && data.action === 'addEntity') {
-      console.log('drop FS: ')
+      console.log('drop FS add: ')
       let location = utility.findNode(props.model, props.form)
       let parentPx = document.getElementById(`${props.model.UUID()}.${props.model.type()}`).clientWidth
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8

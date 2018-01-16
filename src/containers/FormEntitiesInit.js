@@ -123,11 +123,12 @@ const LeftPanel = (props) =>
   // test.style.border = '2px solid red';
   // document.body.appendChild(test);
   // event.dataTransfer.setDragImage(test, 0, 0)
-
+  let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
+  console.log(bgrndGrdWidth)
   const type = event.target.dataset.type
   const div = document.createElement('div');
   div.id = "dmg";
-  div.style.width = `${defaultPropsFE[type].width * 46}px`;
+      div.style.width = `${defaultPropsFE[type].width * bgrndGrdWidth}px`;
   div.style.height = '100px';
   div.style.backgroundColor = defaultPropsFE[type].render.backgroundColor
   div.style.position = "fixed";

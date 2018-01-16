@@ -34,24 +34,28 @@ const FormComponent = (props) => {
     const offsetE1 = data.dragInit;
     const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
     if (data && data.action === 'addEntity') {
-      let location = utility.findNode(props.model, props.form)
-      let parentPx = document.getElementById(`${props.model.UUID()}.${props.model.type()}`).clientWidth
+      let location = utility.findNode(props.form, props.form)
+      // adding to tab FormSection
+      // let parentPx = document.getElementById(`${props.model.UUID()}.${props.model.type()}`).clientWidth
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
       const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left) / bgrndGrdWidth), 0)
       console.log(appendGrids)
       let entityToAdd = utility.resurrectEntity(
         Object.assign({},
           data.model, {
-            prepend: appendGrids,
-            append: (props.model.width() - (appendGrids + data.model.width))
+            prepend: defaultPropsFE[data.model.type].prepend,
+            width: defaultPropsFE[data.model.type].width,
+            append: defaultPropsFE[data.model.type].append
           })
       )
-      console.log(entityToAdd)
+      const whereToAdd = [0, props.form.children()[props.activeTab - 1].children().length]
+      // whereToAdd.concat(props.activeTab)
+      console.log(whereToAdd, entityToAdd)
       // @hack - only adds to position 0 at this point
-      location.push(0)
-      props.addformentity(entityToAdd, location)
+      // location.push(0)
+      props.addformentity(entityToAdd, whereToAdd)
 
-      const div = document.getElementById(props.model.UUID());
+      // const div = document.getElementById(props.model.UUID());
       // div.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
       // event.target.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
     }
@@ -94,6 +98,7 @@ const FormComponent = (props) => {
     gridTemplateRows: `[row] auto`,
     gridGap: '8px',
     zIndex: '10',
+    minHeight: '800px'
   }
 
   const bgrndGrd = {
@@ -121,7 +126,7 @@ const FormComponent = (props) => {
       id="FormComponent"
       style={divStyle}
       onClick={click_handler}
-      // onDrop={drop_handler}
+      onDrop={drop_handler}
       onDrag={drag_handler}
       onDragOver={dragover_handler}
     >
