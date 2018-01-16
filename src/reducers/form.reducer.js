@@ -9,7 +9,7 @@ const formReducer = (state, action) => {
       value: 0,
       form: new Form(defaultPropsFE.Form),
       app: {
-        activeTab: 1
+        activeTab: 0
       }
     }
   }

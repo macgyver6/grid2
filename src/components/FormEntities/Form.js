@@ -44,10 +44,10 @@ const FormComponent = (props) => {
           data.model, {
             prepend: appendGrids,
             width: defaultPropsFE[data.model.type].width,
-            append: props.form.children()[props.activeTab - 1].width() - appendGrids - defaultPropsFE[data.model.type].width
+            append: props.form.children()[props.activeTab].width() - appendGrids - defaultPropsFE[data.model.type].width
           })
       )
-      const whereToAdd = [props.activeTab - 1, props.form.children()[props.activeTab - 1].children().length]
+      const whereToAdd = [props.activeTab, props.form.children()[props.activeTab].children().length]
       // whereToAdd.concat(props.activeTab)
       console.log(whereToAdd, entityToAdd)
       // @hack - only adds to position 0 at this point
@@ -123,8 +123,10 @@ const FormComponent = (props) => {
     >
 
       <div className="grid" >
+      {/* loop through and render all children entities of top level section */}
+      {console.log(props.form.children())}
         {
-          props.form.children()[props.activeTab - 1].children().map((element, i) => {
+          props.form.children()[props.activeTab].children().map((element, i) => {
             return React.createElement(utility.lookupComponent(element),
               {
                 key: i,

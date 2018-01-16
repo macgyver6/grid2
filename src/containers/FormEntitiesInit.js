@@ -226,15 +226,17 @@ const LeftPanel = (props) =>
 const MiddlePanel = (props) => {
   return <div
     style={middlePanelStyle}
-    addformentity={props.addformentity} >
+    addformentity={props.addformentity}
+    removeformentity={props.removeformentity} >
     <div style={{
       ...headerPanelStyle, backgroundColor: "lightgrey", border: '0px dashed #f3ea5f', margin: '0px 20px 0px'
     }}>
       {props.form.sectionTabs() ?
         <DesignBoxHeader
           form={props.form}
-          topLevelFormSections={props.form.children()}
+          activeTab={props.form.children()}
           addformentity={props.addformentity}
+          removeformentity={props.removeformentity}
           changetab={props.changetab}
           activeTab={props.activeTab}
         />
