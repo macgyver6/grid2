@@ -44,7 +44,7 @@ const FormComponent = (props) => {
           data.model, {
             prepend: appendGrids,
             width: defaultPropsFE[data.model.type].width,
-            append: defaultPropsFE[data.model.type].append
+            append: props.form.children()[props.activeTab - 1].width() - appendGrids - defaultPropsFE[data.model.type].width
           })
       )
       const whereToAdd = [props.activeTab - 1, props.form.children()[props.activeTab - 1].children().length]
