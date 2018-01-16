@@ -141,7 +141,7 @@ let FormSectionComponent = (props) => {
         if (restoreDonorSiblingAddress(data.address)) {
           console.log(restoreDonorSiblingAddress(data.address).address, restoreDonorSiblingAddress(data.address).properties)
 
-          props.mutateformentity([0, 0, 0], restoreDonorSiblingAddress(data.address).properties)
+          props.mutateformentity(restoreDonorSiblingAddress(data.address).address, restoreDonorSiblingAddress(data.address).properties)
         }
         /*
         end restore donor
