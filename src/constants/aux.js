@@ -50,7 +50,8 @@ export const aux = {
       event.dataTransfer.setData("address", JSON.stringify({
         action: action,
         address: utility.findNode(model, form),
-        dragInit: action === 'move' ? round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3) : null
+        // define initial click position to offset grids if not a topLevelFormSection, or if adding a new entity
+        dragInit: action === 'move' && utility.findNode(model, form).length > 1 ? round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3) : null
       }));
     }
     if (action === "addEntity") {
@@ -445,6 +446,10 @@ export const aux = {
         console.log('mutate this one: ', mutateMe, {
           prepend: 0,
           append: total(draggedEntity.prepend(), draggedEntity.width(), draggedEntity.append())})
+        console.log((mutateMe, {
+          prepend: 0,
+          append: total(draggedEntity.prepend(), draggedEntity.width(), draggedEntity.append())
+        }))
         props.mutateformentity(mutateMe, {
           prepend: 0,
           append: total(draggedEntity.prepend(), draggedEntity.width(), draggedEntity.append())})

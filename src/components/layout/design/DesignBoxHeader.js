@@ -13,24 +13,33 @@ import { FormSection } from '../../../data/FormSection';
 import Tab from './Tab';
 
 let DesignBoxHeader = (props) => {
-// console.log(props.tabs.length)
+// console.log(props.topLevelFormSections.length)
   let onClickHandler = (event) => {
     event.preventDefault();
     event.stopPropagation();
     // adds new FormSection at the end
     props.addformentity(new FormSection({
       uuid: undefined, type: 'FormSection', width: 24, children: [], legend: 'string', prepend: 3, append: 4
-    }), [props.tabs.length])
+    }), [props.topLevelFormSections.length])
   }
 
   return (
-    <div style={DesignBoxHeaderStyle}>
+    <div
+      style={DesignBoxHeaderStyle}
+      model={props.model}
+      form={props.form}
+      >
 
-      <div style={TabContainerStyle}>
+      <div style={TabContainerStyle}
+        model={props.model}
+        form={props.form}>
 
-        {props.tabs ?
-          props.tabs.map((tab, index) =>
+        {props.topLevelFormSections ?
+          props.topLevelFormSections.map((tab, index) =>
             <Tab
+              id={`${props.activeTab}.tab`}
+              model={props.form.children()[index]}
+              form={props.form}
               tab={index + 1}
               key={index}
               changetab={props.changetab}

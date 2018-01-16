@@ -48,7 +48,7 @@ const FormComponent = (props) => {
             append: defaultPropsFE[data.model.type].append
           })
       )
-      const whereToAdd = [0, props.form.children()[props.activeTab - 1].children().length]
+      const whereToAdd = [props.activeTab - 1, props.form.children()[props.activeTab - 1].children().length]
       // whereToAdd.concat(props.activeTab)
       console.log(whereToAdd, entityToAdd)
       // @hack - only adds to position 0 at this point

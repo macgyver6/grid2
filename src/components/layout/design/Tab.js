@@ -4,6 +4,8 @@ import {
   TabStyle,
   TabButtonStyle
 } from '../styles/DesignBox'
+import { aux } from '../../../constants/aux';
+
 
 // import {
 //   addTab,
@@ -16,6 +18,12 @@ const Tab = (props) => {
     event.preventDefault();
     event.stopPropagation();
     props.changetab(props.tab)  }
+
+  let dragstart_handler = function (event) {
+    console.log(event, props.model, props.form, 'move')
+    aux.dragStart_handler(event, props.model, props.form, 'move')
+  }
+
   let onDragEnterHandler = (event) => {
     // event.preventDefault();
     event.stopPropagation();
@@ -26,6 +34,8 @@ const Tab = (props) => {
     <div
       style={{ ...TabStyle, backgroundColor: (props.tab === props.activeTab) ? "white" : TabStyle.backgroundColor }}
       onClick={onClickHandler}
+      draggable="true"
+      onDragStart={dragstart_handler}
       onDragEnter={onDragEnterHandler}
     >
       Tab # {props.tab}

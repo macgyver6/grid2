@@ -20,7 +20,10 @@ import EditorBox from './editor/EditorBox'
 const BackgroundPanel = () =>
   <div style={backgroundPanelStyle}>
     <LeftPanel />
-    <MiddlePanel />
+    <MiddlePanel
+      model={props.model}
+      form={props.form}
+    />
     <RightPanel />
   </div>
 
@@ -33,10 +36,13 @@ const HeaderPanel = () =>
   </div>
 
 const MiddlePanel = (props) =>
-  <div style={middlePanelStyle}>
-
-      <DesignBoxHeader />
-
+  <div
+  style={middlePanelStyle}
+    model={props.model}
+    form={props.form}>
+    <DesignBoxHeader
+      model={props.model}
+      form={props.form} />
   </div>
 
 const RightPanel = () =>

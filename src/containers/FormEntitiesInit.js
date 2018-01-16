@@ -90,8 +90,59 @@ let dragleave_handler = (event) => {
 
 const DeleteBtn = (props) => {
   let drop_handler = (event) => {
-    let test = JSON.parse(event.dataTransfer.getData("address"))
-    props.removeformentity(test.address)
+    let data = JSON.parse(event.dataTransfer.getData("address"))
+    const draggedEntity = utility.findEntityByPath(props.form, data.address)
+    const restoreDonorSiblingAddress = (arr) => {
+      // get donor's parent
+      const donorParent = utility.findEntityByPath(props.form, arr.slice(0, arr.length - 1))
+      if (arr.length < 2) {return false}
+      if (donorParent.children().length === 1) {
+        return false
+      } else {
+        const toLeft = (arr) => {
+          const _toLeft = [...arr]
+          if (_toLeft[arr.length - 1] < 1) {
+            return false
+          }
+          _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1
+          return ({ address: _toLeft, entity: utility.findEntityByPath(props.form, _toLeft) })
+        }
+        const toRight = (arr) => {
+          const _toRight = [...arr]
+          _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1
+          return ({
+            address: _toRight,
+            entity: utility.findEntityByPath(props.form, _toRight)
+          })
+        }
+
+        if (toLeft(arr)) {
+          console.log('previous entity exists, adding to append: ', toLeft(arr).address)
+          return ({
+            address: toLeft(arr).address,
+            properties: {
+              append: toLeft(arr).entity.append() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append()
+            }
+          })
+        } else {
+          console.log('no previous entity exists, adding to prepend')
+          return ({
+            address: toRight(arr).address,
+            properties:
+              { prepend: toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append() }
+          })
+        }
+      }
+
+    }
+
+
+    if (restoreDonorSiblingAddress(data.address)) {
+      console.log('mutate this donor: ', utility.findEntityByPath(props.form, restoreDonorSiblingAddress(data.address).address), restoreDonorSiblingAddress(data.address).address, restoreDonorSiblingAddress(data.address).properties)
+
+      props.mutateformentity(restoreDonorSiblingAddress(data.address).address, restoreDonorSiblingAddress(data.address).properties)
+    }
+    props.removeformentity(data.address)
   }
   return <div
     style={selectionStyles.Remove}
@@ -168,6 +219,7 @@ const LeftPanel = (props) =>
     < DeleteBtn
       form={props.form}
       removeformentity={props.removeformentity}
+      mutateformentity={props.mutateformentity}
     />
   </div>}
 
@@ -180,7 +232,8 @@ const MiddlePanel = (props) => {
     }}>
       {props.form.sectionTabs() ?
         <DesignBoxHeader
-          tabs={props.form.children()}
+          form={props.form}
+          topLevelFormSections={props.form.children()}
           addformentity={props.addformentity}
           changetab={props.changetab}
           activeTab={props.activeTab}
