@@ -38,7 +38,7 @@ let FormSectionComponent = (props) => {
   const drop_handler = (event) => {
     console.log('drop_handler')
     // event.preventDefault();
-    event.stopPropagation();
+    // event.stopPropagation();
     data = JSON.parse(event.dataTransfer.getData("address"));
 
     let bgrndGrdWidth = (document.getElementById('0.bgrndGrd').clientWidth + 8)

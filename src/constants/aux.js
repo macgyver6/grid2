@@ -557,13 +557,72 @@ export const aux = {
       }
     }
 
+    /**
+     beginning of formsectionmove
+     */
+
+    if (data.action === 'move' && draggedEntity.UUID() != props.model.UUID() && draggedEntity.type() === 'FormSection') {
+      console.log('moving formsection onto itself')
+      let parentEntity = utility.findEntityByPath(props.form, data.address.slice(0, data.address.length - 1))
+      console.log(parentEntity)
+      // let parentPx = document.getElementById(`${parentEntity.UUID()}.${parentEntity.type()}`).clientWidth
+      let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
+
+      // let fsWidth = (parseInt((parentPx / parentEntity.width()), 10))
+      // # grids from event to end of FS row
+      const offsetE1 = data.dragInit;
+      const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
+
+        const total = (prepend, append, width) => { return (prepend + append + width) }
+        const newArr = [...destinationEntity[0]]
+        newArr[newArr.length - 1] = newArr[newArr.length - 1]
+        console.log('add this one: ', newArr,
+          Object.assign({},
+            draggedEntity.properties(), {
+              prepend: draggedEntity.prepend() + appendGrids,
+              append: (draggedEntity.append() - appendGrids)
+            }))
+
+        // props.addformentity(utility.resurrectEntity(
+        //   Object.assign({},
+        //     draggedEntity.properties(), {
+        //       prepend: appendGrids,
+        //       append: (props.model.prepend() - 0 - draggedEntity.width() - appendGrids)
+        //     })
+        // ), newArr)
+
+        // let mutateMe = [...data.address]
+        // mutateMe[data.address.length - 1] = data.address[data.address.length - 1]
+        // console.log('mutate this one: ', mutateMe, {
+        //   prepend: 0,
+        //   append: total(draggedEntity.prepend(), draggedEntity.width(), draggedEntity.append())
+        // })
+
+      props.mutateformentity(data.address, {
+        prepend: draggedEntity.prepend() + appendGrids,
+        append: (draggedEntity.append() - appendGrids)
+      })
+
+        // let removeMe = [...data.address]
+        // removeMe[data.address.length - 1] = data.address[data.address.length - 1] + 1
+        // console.log('remove this one; ', removeMe, utility.findEntityByPath(props.form, removeMe))
+
+        // props.removeformentity(removeMe)
+      const element = document.getElementById(`${draggedEntity.UUID()}.${draggedEntity.type()}`)
+      element.style.backgroundColor = defaultPropsFE[draggedEntity.type()].render.backgroundColor
+  }
+
+    /**
+     end of formsectionmove
+     */
+
     if (data.action === 'addEntity') {
       console.log('add entity on prepend')
       // let parentEntity = utility.findEntityByPath(props.form, data.address.slice(0, data.address.length - 1))
-      let parentPx = document.getElementById(`${props.model.UUID()}.append`).clientWidth
+      // let parentPx = document.getElementById(`${props.model.UUID()}.append`).clientWidth
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
 
-      let fsWidth = (parseInt((parentPx / props.model.width()), 10))
+      let fsWidth = (parseInt((bgrndGrdWidth / props.model.width()), 10))
       // # grids from event to end of FS row
       const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left) / bgrndGrdWidth), 0)
       console.log('apendGrids: ', appendGrids)

@@ -133,15 +133,14 @@ const DeleteBtn = (props) => {
           })
         }
       }
-
     }
-
 
     if (restoreDonorSiblingAddress(data.address)) {
       console.log('mutate this donor: ', utility.findEntityByPath(props.form, restoreDonorSiblingAddress(data.address).address), restoreDonorSiblingAddress(data.address).address, restoreDonorSiblingAddress(data.address).properties)
 
       props.mutateformentity(restoreDonorSiblingAddress(data.address).address, restoreDonorSiblingAddress(data.address).properties)
     }
+    console.log(data.address)
     props.removeformentity(data.address)
   }
   return <div

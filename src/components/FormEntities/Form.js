@@ -61,19 +61,20 @@ const FormComponent = (props) => {
     }
 
     if (data && data.action === 'move') {
+      const appendGridsEOffset = round(((event.clientX - document.getElementById('form').getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
+
       let draggedEntity = utility.findEntityByPath(props.form, data.address)
-      let formEntity = utility.findNode(props.model, props.form)
+
       let entityToAdd = utility.resurrectEntity(
         Object.assign({},
           draggedEntity.properties(), {
-            prepend: appendGrids,
-            append: (props.model.width() - (draggedEntity.prepend() + draggedEntity.width() + appendGrids))
+            prepend: appendGridsEOffset,
+            append: (24 - appendGridsEOffset - draggedEntity.width())
           })
       )
-      // @hack - only adds to position 0 at this point
-      formEntity.push(0)
-      props.addformentity(entityToAdd, formEntity)
-      // let initformEntity = utility.findNode(utility.resurrectEntity(data.model), props.form)
+      const whereToAdd = [props.activeTab, props.form.children().length]
+
+      props.addformentity(entityToAdd, whereToAdd)
       props.removeformentity(data.address)
     }
   }
