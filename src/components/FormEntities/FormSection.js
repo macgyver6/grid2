@@ -168,7 +168,6 @@ let FormSectionComponent = (props) => {
   }
 
   let drag_handler = function (event) {
-    console.log(event.target)
     aux.drag_handler(event, props.model, props.form, resize, props)
   }
 

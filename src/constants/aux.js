@@ -465,8 +465,7 @@ export const aux = {
         // mutate sibling entity origin
         const sisterAddress = [...destinationEntity[0]]
         sisterAddress[destinationEntity[0].length - 1] = destinationEntity[0][destinationEntity[0].length - 1] + 1
-        console.log('other')
-        console.log('mutate this one: ', destinationEntity[0], utility.findEntityByPath(props.form, destinationEntity[0]), { prepend: total(draggedEntity.prepend(), draggedEntity.width(), draggedEntity.append()) })
+        console.log('mutate dropPrepend: ', destinationEntity[0], utility.findEntityByPath(props.form, destinationEntity[0]), { prepend: total(draggedEntity.prepend(), draggedEntity.width(), draggedEntity.append()) })
 
         // restore append of previous sibling.
         // if no previous sibling, restore prepend
@@ -528,7 +527,7 @@ export const aux = {
               append: (destinationEntity[1].prepend() - appendGrids - draggedEntity.width())
             })
         ), destinationEntity[0])
-
+        console.log('dropPrepend add: ')
         props.addformentity(utility.resurrectEntity(
           Object.assign({},
             draggedEntity.properties(), {
