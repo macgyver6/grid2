@@ -95,7 +95,7 @@ const DeleteBtn = (props) => {
     const restoreDonorSiblingAddress = (arr) => {
       // get donor's parent
       const donorParent = utility.findEntityByPath(props.form, arr.slice(0, arr.length - 1))
-      if (arr.length < 2) {return false}
+      if (arr.length <= 2) {return false}
       if (donorParent.children().length === 1) {
         return false
       } else {
@@ -140,8 +140,6 @@ const DeleteBtn = (props) => {
 
       props.mutateformentity(restoreDonorSiblingAddress(data.address).address, restoreDonorSiblingAddress(data.address).properties)
     }
-    console.log(data.address)
-    props.removeformentity(data.address)
   }
   return <div
     style={selectionStyles.Remove}
