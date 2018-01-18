@@ -231,14 +231,17 @@ export const aux = {
         newArr[newArr.length - 1] = newArr[newArr.length - 1] + 1
         console.log(appendGrids)
         const addEntityAppend = (props.model.append() - 0 - draggedEntity.width() )
-        console.log(addEntityAppend, appendGrids)
         props.addformentity(utility.resurrectEntity(
           Object.assign({},
             draggedEntity.properties(), {
               prepend: 0,
               append: addEntityAppend - appendGrids
             })
-        ), newArr)
+          ), newArr)
+        console.log('mutate dropAppend', (destinationEntity[0], {
+          append: appendGrids,
+          prepend: total(draggedEntity.prepend(), draggedEntity.width(), draggedEntity.append())
+        }))
         props.mutateformentity(destinationEntity[0], {
           append: appendGrids,
           prepend: total(draggedEntity.prepend(), draggedEntity.width(), draggedEntity.append())
@@ -306,7 +309,7 @@ export const aux = {
           Object.assign({},
             draggedEntity.properties(), {
               prepend: 0,
-              append: (destinationEntity[1].width() - 0 - draggedEntity.width() - appendGrids)
+              append: (destinationEntity[1].append() - 0 - draggedEntity.width() - appendGrids)
             })
         ), draggedEntityNewAddress)
         props.removeformentity(data.address)

@@ -47,7 +47,14 @@ export var defaultPropsFE = {
           }),
           new FormSection({
             uuid: undefined, type: 'FormSection', width: 16, children: [
-
+              new TextInput({
+                uuid: undefined, width: 5, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', prepend: 3, autoNumber: 'SEQUENTIAL', append: 0, length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content',
+                render: { backgroundColor: 'lightgrey', minWidth: 3 }
+              }),
+              new TextInput({
+                uuid: undefined, width: 5, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', prepend: 0, autoNumber: 'SEQUENTIAL', append: 3, length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content',
+                render: { backgroundColor: 'lightgrey', minWidth: 3 }
+              }),
             ], legend: 'string', prepend: 4, append: 4, render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
           })
         ], legend: 'string', prepend: 0, append: 0
