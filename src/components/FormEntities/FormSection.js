@@ -36,7 +36,7 @@ let FormSectionComponent = (props) => {
   }
 
   const drop_handler = (event) => {
-    console.log('drop_handler')
+    console.log('formSection drop_handler')
     // event.preventDefault();
     // event.stopPropagation();
     data = JSON.parse(event.dataTransfer.getData("address"));

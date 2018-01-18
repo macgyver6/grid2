@@ -318,37 +318,24 @@ export const aux = {
 
       }
     }
-    // if (data.action === 'move' && draggedEntity.UUID() === props.model.UUID() && draggedEntity.type() === 'FormSection') {
-    //   console.log('its a form section')
-    //   let bgrndGrdWidth = (document.getElementById('0.bgrndGrd').clientWidth + 8)
-    //   const offsetE1 = data.dragInit;
-    //   const appendGrids = round(((event.clientX - document.getElementById(`${draggedEntity.UUID()}.${draggedEntity.type()}`).getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
 
-    //   if (data && data.action === 'move') {
-    //     let draggedEntity = utility.findEntityByPath(props.form, data.address)
-    //     let location = utility.findNode(props.model, props.form)
-    //     let entityToAdd = utility.resurrectEntity(
-    //       Object.assign({},
-    //         draggedEntity.properties(), {
-    //           prepend: appendGrids,
-    //           append: (props.model.width() - (draggedEntity.prepend() + draggedEntity.width() + appendGrids))
-    //         })
-    //     )
-    //     // below mutates for a FormSection dropped onto append - race condition with line 90 in FormSection
-    //     if (draggedEntity.UUID() === entityToAdd.UUID()) {
-    //       props.mutateformentity(data.address,
-    //         {
-    //           prepend: draggedEntity.prepend() + appendGrids,
-    //           append: ((props.model.width() + props.model.prepend() + props.model.append()) - (props.model.prepend() + props.model.width() + appendGrids))
-    //         })
-    //     }
-    //     // @hack - only adds to position 0 at this point
-    //     location.push(0)
-    //     // props.addformentity(entityToAdd, location)
-    //     // let initLocation = utility.findNode(utility.resurrectEntity(data.model), props.form)
-    //     // props.removeformentity(data.address)
-    //   }
-    // }
+    if (data.action === 'move' && draggedEntity.type() === 'FormSection') {
+      console.log('its a form section')
+      let bgrndGrdWidth = (document.getElementById('0.bgrndGrd').clientWidth + 8)
+      const offsetE1 = data.dragInit;
+      const formSectionElement = document.getElementById(`${draggedEntity.UUID()}.${draggedEntity.type()}`)
+      const appendGrids = round(((event.clientX - formSectionElement.getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
+      if (data && data.action === 'move') {
+        let draggedEntity = utility.findEntityByPath(props.form, data.address)
+
+          props.mutateformentity(data.address,
+            {
+              prepend: draggedEntity.prepend() + appendGrids,
+              append: (draggedEntity.append() - appendGrids)
+            })
+        formSectionElement.style.backgroundColor = defaultPropsFE[draggedEntity.type()].render.backgroundColor
+      }
+    }
 
     if (data.action === 'addEntity') {
       // let parentEntity = utility.findEntityByPath(props.form, data.address.slice(0, data.address.length - 1))
@@ -560,7 +547,7 @@ export const aux = {
     }
 
     /**
-     beginning of formsectionmove
+     beginning of formsection move
      */
 
     if (data.action === 'move' && draggedEntity.UUID() != props.model.UUID() && draggedEntity.type() === 'FormSection') {
