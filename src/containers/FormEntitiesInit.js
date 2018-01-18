@@ -140,6 +140,9 @@ const DeleteBtn = (props) => {
 
       props.mutateformentity(restoreDonorSiblingAddress(data.address).address, restoreDonorSiblingAddress(data.address).properties)
     }
+
+    console.log(utility.findEntityByPath(props.form, data.address))
+    props.removeformentity(data.address)
   }
   return <div
     style={selectionStyles.Remove}
