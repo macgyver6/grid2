@@ -64,7 +64,7 @@ let drag_handler = (event, props) => {
     } else {
       document.getElementById(
         `${props.model.UUID()}.${props.model.type()}`).style.backgroundColor = 'lightgreen'
-
+      console.log(`changing ${props.model.UUID()}.${props.model.type()}color to 'lightgreen`)
       if (locEntity[1].type() === 'FormSection') {
         resize.init_children === null ?
           resize.init_children = locEntity[1].children() :
@@ -244,6 +244,7 @@ let dragend_handler = function (event, props) {
 
   const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}`)
   // setTimeout(function () { element.style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor }, 120);
+  console.log('change this: ', element.id + 'to: ' + defaultPropsFE[props.model.type()].render.backgroundColor)
   element.style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor
 }
 

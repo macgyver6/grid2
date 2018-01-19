@@ -32,13 +32,14 @@ let FormSectionComponent = (props) => {
   let data = '';
 
   let dragOver_handler = function (event) {
+    // event.stopPropagation();
     event.preventDefault();
   }
 
   const drop_handler = (event) => {
+    // event.stopPropagation();
     console.log('formSection drop_handler')
     // event.preventDefault();
-    // event.stopPropagation();
     data = JSON.parse(event.dataTransfer.getData("address"));
 
     let bgrndGrdWidth = (document.getElementById('0.bgrndGrd').clientWidth + 8)
@@ -70,7 +71,7 @@ let FormSectionComponent = (props) => {
   }
 
     if (data && data.action === 'move') {
-      console.log('FormSection drop')
+      console.log('FormSection drop move')
       let draggedEntity = utility.findEntityByPath(props.form, data.address)
       let entityToAdd = utility.resurrectEntity(
         Object.assign({},
@@ -85,6 +86,7 @@ let FormSectionComponent = (props) => {
       _test[test.length] = props.model.children().length
       // for dropping entity other than form section onto this form section
       if (draggedEntity.UUID() != props.model.UUID()) {
+        console.log('FormSection drop move, entity dropped on FS')
         props.addformentity(entityToAdd, _test)
         props.removeformentity(data.address)
         /*
@@ -150,7 +152,7 @@ let FormSectionComponent = (props) => {
       }
       // for changing prepend/append of a formsection
       if (draggedEntity.UUID() === props.model.UUID()) {
-        console.log('dropped on FormSection, moving form sectoin: ', draggedEntity.UUID() , utility.findNode(props.model, props.form),
+        console.log('dropped on FormSection, moving form section: ', draggedEntity.UUID() , utility.findNode(props.model, props.form),
           {
             prepend: (resize.init_prepend + appendGrids),
             append: (resize.init_append - appendGrids),
@@ -168,6 +170,7 @@ let FormSectionComponent = (props) => {
       }
       // @hack - only adds to position 0 at this point
       const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}`)
+      console.log('change this: ', element.id + 'to: ' + defaultPropsFE[props.model.type()].render.backgroundColor)
       element.style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor
     }
   }

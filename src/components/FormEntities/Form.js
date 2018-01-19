@@ -17,8 +17,6 @@ const FormComponent = (props) => {
 
   let drag_handler = function (event) {
     const model = utility.findEntityByPath(props.form, [0, props.activeTab])
-
-    console.log(event, model, props.form, resize, props)
     // aux.drag_handler(event, props.model, props.form, resize, props)
   }
 

@@ -27,7 +27,7 @@ export const aux = {
    */
 
   dragStart_handler: (event, model, form, action) => {
-    // event.stopPropagation();
+    event.stopPropagation();
     // console.log(JSON.stringify({
     //   action: action || 'move',
     //   address: utility.findNode(model, form),
@@ -67,7 +67,7 @@ export const aux = {
   },
 
   dropMove_handler: (event, props, resize) => {
-    // event.stopPropagation();
+    event.stopPropagation();
 
     let data = JSON.parse(event.dataTransfer.getData('address'))
     if (data.action === 'move') {
@@ -101,7 +101,7 @@ export const aux = {
         //       entityToChange.properties(), newWidth)
         //   ), locEntity[0])
         // })
-
+        console.log('dropMove on: ', props.model.type())
         props.mutateformentity(resize.address,
           {
           prepend: (resize.init_prepend + resize.grids),
@@ -110,11 +110,13 @@ export const aux = {
       }
     }
     const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}`)
+    // OK
+    console.log('change this: ', element.id + 'to: '+ defaultPropsFE[props.model.type()].render.backgroundColor)
     element.style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor
   },
 
   drag_handler: (event, model, form, resize, props) => {
-    // event.stopPropagation();
+    event.stopPropagation();
     const can_move = (minWidth, maxWidth) => {
       return true
       // if (resize.init_grids - resize.grids - 1 < maxWidth && resize.init_grids - resize.grids > minWidth) {
@@ -168,6 +170,7 @@ export const aux = {
           resize.reset != null ? mutate2(locEntity, props) : null
         }, 600)
       } else {
+        console.log(`changing ${props.model.UUID()}.${props.model.type()}color to 'lightgreen`)
         document.getElementById(
           `${props.model.UUID()}.${props.model.type()}`).style.backgroundColor = 'lightgreen'
         // console.log(locEntity[1])
@@ -348,6 +351,7 @@ export const aux = {
     }
     // event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)'
     const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}`)
+    console.log('change this: ', element.id + 'to: ' + defaultPropsFE[props.model.type()].render.backgroundColor)
     element.style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor
   },
 
@@ -556,6 +560,7 @@ export const aux = {
     }
     // event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)'
     const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}`)
+    console.log('change this: ', element.id + 'to: ' + defaultPropsFE[props.model.type()].render.backgroundColor)
     element.style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor
   },
 
