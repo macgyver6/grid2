@@ -78,7 +78,6 @@ const TextInputComponent = (props) => {
           /> :
         null
       }
-      {console.log(tiStyle)}
       <div style={tiStyle}
         id={`${props.model.UUID()}.${props.model.type()}`}
         className='TextInput'
