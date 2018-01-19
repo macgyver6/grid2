@@ -1,12 +1,9 @@
 import React from 'react';
-import { utility } from '../../utility';
 import { aux } from '../../constants/aux';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
-import MovePrior from './subentities/MovePrior';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
-import { Resizable, ResizableBox } from 'react-resizable';
 
 const RadioButtonComponent = (props) => {
   const resize = {
@@ -40,7 +37,7 @@ const RadioButtonComponent = (props) => {
     const _margin = [0, 0, 0, 0]
     props.model.append() > 0 ? _margin[1] = 4 : 0
     props.model.prepend() > 0 ? _margin[3] = 4 : 0
-    return (((_margin.map((el) => `${el}px`)).toString().replace(/\,/g, ' ')))
+    return (((_margin.map((el) => `${el}px`)).toString().replace(/,/g, ' ')))
   }
   const rbStyle = {
     backgroundColor: 'lightgrey',
@@ -49,9 +46,6 @@ const RadioButtonComponent = (props) => {
     height: '100px',
     margin: marginCalc()
   }
-
-  const width = ''
-
 
   // return actual style values
   // 1. # of grid columns the CheckBox and Append will fill

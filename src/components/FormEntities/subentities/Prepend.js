@@ -1,8 +1,5 @@
 import React from 'react';
-import Resizer from './Resizer';
-import { utility } from '../../../utility';
 import { aux } from '../../../constants/aux';
-import { defaultPropsFE } from '../../../constants/defaultPropsFE';
 
 const Prepend = (props) => {
   // let drop_handler = (event) => {
@@ -60,15 +57,15 @@ const Prepend = (props) => {
     event.preventDefault();
   }
 
-  let dragEnterHandler
-  dragEnterHandler = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    // @hack hard coded width
-    if (props.model.width() >= 5) {
-      event.target.style.backgroundColor = 'rgba(63, 191, 63, 0.8)'
-    }
-  }
+  // let dragEnterHandler
+  // dragEnterHandler = (event) => {
+  //   event.preventDefault();
+  //   event.stopPropagation();
+  //   // @hack hard coded width
+  //   if (props.model.width() >= 5) {
+  //     event.target.style.backgroundColor = 'rgba(63, 191, 63, 0.8)'
+  //   }
+  // }
 
   return (
     <div

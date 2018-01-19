@@ -1,7 +1,7 @@
 import React from 'react';
-import Resizer from './Resizer';
+// import Resizer from './Resizer';
 import { utility } from '../../../utility';
-import { defaultPropsFE } from '../../../constants/defaultPropsFE';
+// import { defaultPropsFE } from '../../../constants/defaultPropsFE';
 
 const MovePrior = (props) => {
   // let drop_handler = (event) => {
@@ -42,13 +42,13 @@ const MovePrior = (props) => {
   //   console.log('dragstart_handler')
   // }
 
-  const MovePrior = {
-    width: '30px',
-    height: '100px',
-    position: 'absolute',
-    top: '-100px',
-    left: '0px'
-  }
+  // const MovePrior = {
+  //   width: '30px',
+  //   height: '100px',
+  //   position: 'absolute',
+  //   top: '-100px',
+  //   left: '0px'
+  // }
   const wrapper = {
     width: '30px',
     height: '110px',
@@ -61,7 +61,7 @@ const MovePrior = (props) => {
     event.stopPropagation();
     let data = JSON.parse(event.dataTransfer.getData("text"));
     console.log(data)
-    const totalWidthNewEntity = () => data.model.prepend + data.model.width + data.model.append
+    // const totalWidthNewEntity = () => data.model.prepend + data.model.width + data.model.append
     let locEntity = utility.findEntityUuid(props.model.UUID(), props.form)
 
     let loc = [...locEntity[0]]

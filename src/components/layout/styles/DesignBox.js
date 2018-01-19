@@ -21,6 +21,9 @@ export const DesignBoxHeaderButtonStyle = {
 };
 
 export const TabStyle = {
+  textAlign: 'center',
+  padding: '10px',
+  // verticalAlign: 'middle',
   width: "10%",
   height: "40%",
   marginTop: "2%",
@@ -34,7 +37,7 @@ export const TabButtonStyle = {
   width: "20%",
   height: "100%",
   border: "none",
-  backgroundColor: "red",
+  backgroundColor: "#ff5f56",
   color: "white"
 };
 

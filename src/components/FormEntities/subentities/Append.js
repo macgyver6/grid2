@@ -1,6 +1,4 @@
 import React from 'react';
-import Resizer from './Resizer';
-import { utility } from '../../../utility';
 import { aux } from '../../../constants/aux';
 
 const Append = (props) => {
@@ -31,7 +29,6 @@ const Append = (props) => {
       style={appendStyle}
       onDrop={drop_handler}
       onDragOver={dragover_handler}
-      onDragLeave={dragLeaveHandler}
       onDragLeave={dragLeaveHandler}
     >
     </div>

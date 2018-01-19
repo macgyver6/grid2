@@ -3,10 +3,8 @@ import { utility } from '../../utility';
 import { aux } from '../../constants/aux';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
-import MovePrior from './subentities/MovePrior';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
-import { defaultPropsFE } from '../../constants/defaultPropsFE';
 
 const CheckBoxComponent = (props) => {
 
@@ -18,7 +16,6 @@ const CheckBoxComponent = (props) => {
       props.model.mutate({ defaultState: event.target.value }), result)
   }
 
-  let source = null
   const resize = {
     init: null,
     init_grids: null,
@@ -50,7 +47,7 @@ const CheckBoxComponent = (props) => {
     const _margin = [0, 0, 0, 0]
     props.model.append() > 0 ? _margin[1] = 4 : 0
     props.model.prepend() > 0 ? _margin[3] = 4 : 0
-    return (((_margin.map((el) => `${el}px`)).toString().replace(/\,/g, ' ')))
+    return (((_margin.map((el) => `${el}px`)).toString().replace(/,/g, ' ')))
   }
 
   const cbStyle = {

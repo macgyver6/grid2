@@ -1,15 +1,3 @@
-import FormComponent from '../components/FormEntities/Form';
-import FormSectionComponent from '../components/FormEntities/FormSection';
-import TextInputComponent from '../components/FormEntities/TextInput';
-import TextAreaComponent from '../components/FormEntities/TextArea';
-import CheckBoxComponent from '../components/FormEntities/CheckBox';
-import RadioButtonComponent from '../components/FormEntities/RadioButton';
-import { Form } from '../data/Form';
-import { FormSection } from '../data/FormSection';
-import { TextInput } from '../data/TextInput';
-import { TextArea } from '../data/TextArea';
-import { CheckBox } from '../data/CheckBox';
-import { RadioButton } from '../data/RadioButton';
 import { utility } from '../utility';
 import { defaultPropsFE } from './defaultPropsFE';
 
@@ -127,16 +115,6 @@ export const aux = {
       //   return false
       // }
     }
-    const mutate2 = (locEntity, props) => {
-      props.removeformentity(locEntity[0])
-      props.addformentity(utility.resurrectEntity(
-        Object.assign({},
-          locEntity[1].properties(), {
-            width: (resize.init_grids),
-            append: (resize.init_append),
-          })
-      ), locEntity[0])
-    }
 
     resize.reset = false
     let locEntity = utility.findEntityUuid(props.model.UUID(), props.form)
@@ -160,15 +138,15 @@ export const aux = {
       }
     }
 
-    if (resize.grids != grid() && event.pageX != 0) {
+    if (resize.grids !== grid() && event.pageX !== 0) {
       resize.grids = grid()
       if (!can_move(minWidth, maxWidth)) {
         console.log('invalid')
         resize.reset = null
         document.getElementById(`${props.model.UUID()}.${props.model.type()}`.UUID()).style.backgroundColor = 'red'
-        let timer = setTimeout(function () {
-          resize.reset != null ? mutate2(locEntity, props) : null
-        }, 600)
+        // let timer = setTimeout(function () {
+        //   resize.reset !== null ? mutate2(locEntity, props) : null
+        // }, 600)
       } else {
         // console.log(`changing ${props.model.UUID()}.${props.model.type()}color to 'lightgreen`)
         // document.getElementById(
@@ -181,12 +159,10 @@ export const aux = {
     console.log('Append drop')
     let data = JSON.parse(event.dataTransfer.getData("address"));
     let draggedEntity = ''
-    if (data.action != 'addEntity') {
+    if (data.action !== 'addEntity') {
       draggedEntity = utility.findEntityByPath(props.form, data.address)
     }
     let destinationEntity = utility.findEntityUuid(props.model.UUID(), props.form)
-
-    const total = (prepend, append, width) => { return (prepend + append + width) }
 
     const destinationIsSibling = (destinationEntity, draggedEntityAddress) => {
       if (destinationEntity.length > 2) {
@@ -202,14 +178,13 @@ export const aux = {
     }
 
     // move entity that isn't a formEntity move
-    if (data.action === 'move' && draggedEntity.UUID() != props.model.UUID() && draggedEntity.type() != 'FormSection') {
+    if (data.action === 'move' && draggedEntity.UUID() !== props.model.UUID() && draggedEntity.type() !== 'FormSection') {
       console.log('dropped UUID different than props')
       let parentEntity = utility.findEntityByPath(props.form, data.address.slice(0, data.address.length - 1))
       console.log(parentEntity)
-      let parentPx = document.getElementById(`${parentEntity.UUID()}.${parentEntity.type()}`).clientWidth
+
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
 
-      let fsWidth = (parseInt((parentPx / parentEntity.width()), 10))
       // # grids from event to end of FS row
       const offsetE1 = data.dragInit;
       const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
@@ -314,10 +289,9 @@ export const aux = {
 
     if (data.action === 'addEntity') {
       // let parentEntity = utility.findEntityByPath(props.form, data.address.slice(0, data.address.length - 1))
-      let parentPx = document.getElementById(`${props.model.UUID()}.append`).clientWidth
+
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
 
-      let fsWidth = (parseInt((parentPx / props.model.width()), 10))
       // # grids from event to end of FS row
       const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left) / bgrndGrdWidth), 0)
       let draggedEntityNewAddress = [...destinationEntity[0]]
@@ -366,19 +340,16 @@ export const aux = {
 
     let data = JSON.parse(event.dataTransfer.getData("address"));
     let draggedEntity = ''
-    if (data.action != 'addEntity') {
+    if (data.action !== 'addEntity') {
       draggedEntity = utility.findEntityByPath(props.form, data.address)
     }
     let destinationEntity = utility.findEntityUuid(props.model.UUID(), props.form)
 
-    if (data.action === 'move' && draggedEntity.UUID() != props.model.UUID() && draggedEntity.type() != 'FormSection') {
+    if (data.action === 'move' && draggedEntity.UUID() !== props.model.UUID() && draggedEntity.type() !== 'FormSection') {
       console.log('dropped UUID different than props')
-      let parentEntity = utility.findEntityByPath(props.form, data.address.slice(0, data.address.length - 1))
-      console.log(parentEntity)
-      let parentPx = document.getElementById(`${parentEntity.UUID()}.${parentEntity.type()}`).clientWidth
+
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
 
-      let fsWidth = (parseInt((parentPx / parentEntity.width()), 10))
       // # grids from event to end of FS row
       const offsetE1 = data.dragInit;
       const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
@@ -502,12 +473,12 @@ export const aux = {
             })
         ), destinationEntity[0])
         // console.log('total existing: ', total(destinationEntity[1].width(), 0, destinationEntity[1].append()))
-        let mutateEntity = utility.resurrectEntity(
-          Object.assign({},
-            destinationEntity[1].properties(), {
-              prepend: 0,
-              append: destinationEntity[1].append()
-            }))
+        // let mutateEntity = utility.resurrectEntity(
+        //   Object.assign({},
+        //     destinationEntity[1].properties(), {
+        //       prepend: 0,
+        //       append: destinationEntity[1].append()
+        //     }))
         // mutate sibling entity destination
         console.log('mutate this one: ', draggedEntityNewAddress, {
           prepend: 0,
@@ -528,7 +499,6 @@ export const aux = {
       // let parentPx = document.getElementById(`${props.model.UUID()}.append`).clientWidth
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
 
-      let fsWidth = (parseInt((bgrndGrdWidth / props.model.width()), 10))
       // # grids from event to end of FS row
       const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left) / bgrndGrdWidth), 0)
       console.log('apendGrids: ', appendGrids)
@@ -561,7 +531,7 @@ export const aux = {
     // new address is detirmined if dropped on  or movePrior=0 or Append=1
     // event.stopPropagation();
     let data = JSON.parse(event.dataTransfer.getData("address"));
-    const totalWidthNewEntity = () => data.model.prepend + data.model.width + data.model.append
+
     let draggedEntity = utility.findEntityByPath(form, data.address)
     let destinationEntity = utility.findEntityUuid(model.UUID(), form)
 

@@ -1,7 +1,5 @@
 import React from 'react';
-import FormSectionComponent from './FormSection'
 import { utility } from '../../utility';
-import { aux } from '../../constants/aux';
 import { defaultPropsFE } from '../../constants/defaultPropsFE';
 
 const FormComponent = (props) => {
@@ -9,16 +7,10 @@ const FormComponent = (props) => {
     return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
   }
 
-  let source = null
-  const resize = {
-    init: null,
-    changed: null
-  }
-
-  let drag_handler = function (event) {
-    const model = utility.findEntityByPath(props.form, [0, props.activeTab])
-    // aux.drag_handler(event, props.model, props.form, resize, props)
-  }
+  // let drag_handler = function (event) {
+  //   const model = utility.findEntityByPath(props.form, [0, props.activeTab])
+  //   // aux.drag_handler(event, props.model, props.form, resize, props)
+  // }
 
   const drop_handler = (event) => {
     // event.preventDefault();
@@ -28,11 +20,9 @@ const FormComponent = (props) => {
     let data = JSON.parse(event.dataTransfer.getData("address"));
 
     let bgrndGrdWidth = (document.getElementById('0.bgrndGrd').clientWidth + 8)
-    const offsetE1 = data.dragInit;
     const appendGrids = round(((event.clientX - document.getElementById('form').getBoundingClientRect().left) / bgrndGrdWidth), 0)
     if (data && data.action === 'addEntity') {
       console.log('addEntity to top level formsection: ', data)
-      let formEntity = utility.findNode(props.form, props.form)
       // adding to tab FormSection
       // let parentPx = document.getElementById(`${props.model.UUID()}.${props.model.type()}`).clientWidth
       console.log(bgrndGrdWidth, event.clientX, appendGrids)
@@ -97,7 +87,7 @@ const FormComponent = (props) => {
   const bgrndGrd = {
     "padding": "0px",
     "margin": "0px",
-    "fontSize": "12",
+    "fontSize": "12px",
     "color": "grey",
     "textAlign": "center",
     "backgroundColor": "lightgrey",
@@ -109,7 +99,8 @@ const FormComponent = (props) => {
 
   for (var i = 0; i < 24; i++) {
     bgColumns.push(<div
-      id={i + '.' + 'bgrndGrd'}
+      id={`${i}.bgrndGrd`}
+      key={i}
       style={bgrndGrd}>{i + 1}</div>)
   }
 
@@ -119,13 +110,14 @@ const FormComponent = (props) => {
       id={`form`}
       style={divStyle}
       onDrop={drop_handler}
-      onDrag={drag_handler}
+      // onDrag={drag_handler}
       onDragOver={dragover_handler}
     >
 
       <div className="grid" >
       {/* loop through and render all children entities of top level section */}
-        {
+        {console.log(props.activeTab, props.form.children())
+}        {
           props.form.children()[props.activeTab].children().map((element, i) => {
             return React.createElement(utility.lookupComponent(element),
               {

@@ -1,14 +1,11 @@
 import React from 'react';
-import { utility } from '../../utility';
 import { aux } from '../../constants/aux';
 import Resizer from './subentities/Resizer.js';
 import { styles } from './feStyles';
 import Append from './subentities/Append.js';
 import Prepend from './subentities/Prepend.js';
-import MovePrior from './subentities/MovePrior.js';
 
 const TextInputComponent = (props) => {
-  let source = null
   const resize = {
     init: null,
     init_grids: null,
@@ -40,7 +37,7 @@ const TextInputComponent = (props) => {
     const _margin = [0, 0, 0, 0]
     props.model.append() > 0 ? _margin[1] = 4 : 0
     props.model.prepend() > 0 ? _margin[3] = 4 : 0
-    return (((_margin.map((el) => `${el}px`)).toString().replace(/\,/g, ' ')))
+    return (((_margin.map((el) => `${el}px`)).toString().replace(/,/g, ' ')))
   }
 
   const tiStyle = {
@@ -86,7 +83,7 @@ const TextInputComponent = (props) => {
         draggable="true"
       >
         <input className="form-control" type={props.model.type()}
-          value={props.model.defaultContent()}
+          defaultValue={props.model.defaultContent()}
         />
         <Resizer
           element='FormEntity'

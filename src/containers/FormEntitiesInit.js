@@ -4,7 +4,6 @@ import * as actions from '../actions/index';
 import FormComponent from '../components/FormEntities/Form';
 import { utility } from '../utility';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
-import CheckBox from '../components/FormEntities/CheckBox.js'
 import { aux } from '../constants/aux';
 import {
   backgroundPanelStyle,
@@ -20,7 +19,11 @@ const BackgroundPanel = (props) =>
     <LeftPanel
       form={props.form}
       removeformentity={props.removeformentity}
-      addformentity={props.addformentity}            mutateformentity={props.mutateformentity}            />
+      addformentity={props.addformentity}
+      mutateformentity={props.mutateformentity}
+      changetab={props.changetab}
+      activeTab={props.activeTab}
+    />
     <MiddlePanel
       form={props.form}
       removeformentity={props.removeformentity}
@@ -33,28 +36,28 @@ const BackgroundPanel = (props) =>
 
 const selectionStyles = {
   TextInput: {
-    background: "lightgrey",
+    background: "#6C788F",
     padding: "20px",
     margin: "20px",
     textAlign: 'center'
   },
 
   TextArea: {
-    background: "lightgrey",
+    background: "#205EE2",
     padding: "20px",
     margin: "20px",
     textAlign: 'center'
   },
 
   CheckBox: {
-    background: "lightgrey",
+    background: "#00C5EC",
     padding: "20px",
     margin: "20px",
     textAlign: 'center'
   },
 
   RadioButton: {
-    background: "lightgrey",
+    background: "#304061",
     padding: "20px",
     margin: "20px",
     textAlign: 'center'
@@ -68,10 +71,9 @@ const selectionStyles = {
   },
 
   Remove: {
-    background: "red",
+    background: "#ff5f56",
     padding: "20px",
     margin: "20px",
-    textAlign: 'center',
     textAlign: 'center'
   }
 }
@@ -95,7 +97,7 @@ const DeleteBtn = (props) => {
     const restoreDonorSiblingAddress = (arr) => {
       // get donor's parent
       const donorParent = utility.findEntityByPath(props.form, arr.slice(0, arr.length - 1))
-      if (arr.length <= 2) {return false}
+      if (arr.length <= 2) { return false }
       if (donorParent.children().length === 1) {
         return false
       } else {
@@ -134,6 +136,7 @@ const DeleteBtn = (props) => {
         }
       }
     }
+    // console.log(props.activeTab)
 
     if (restoreDonorSiblingAddress(data.address)) {
       console.log('mutate this donor: ', utility.findEntityByPath(props.form, restoreDonorSiblingAddress(data.address).address), restoreDonorSiblingAddress(data.address).address, restoreDonorSiblingAddress(data.address).properties)
@@ -141,8 +144,41 @@ const DeleteBtn = (props) => {
       props.mutateformentity(restoreDonorSiblingAddress(data.address).address, restoreDonorSiblingAddress(data.address).properties)
     }
 
-    console.log(utility.findEntityByPath(props.form, data.address))
+    console.log('remove entity at this address: ', data.address, utility.findEntityByPath(props.form, data.address))
+    console.log(JSON.parse(event.dataTransfer.getData('address')).address)
     props.removeformentity(data.address)
+    const currentTab = JSON.parse(event.dataTransfer.getData('address')).address;
+    console.log(currentTab[0])
+
+    if (currentTab.length === 1) {
+      const whichTab = () => {
+        if (props.activeTab === 0) {
+          console.log('here')
+          return 0
+        }
+        if (props.activeTab === currentTab[0] && props.form.children().length - 1 !== currentTab[0]) {
+          console.log('here')
+          return props.form.children().length
+        }
+        console.log(props.activeTab, currentTab[0], props.form.children().length - 1)
+        if (props.activeTab === currentTab[0] && props.form.children().length - 1 === currentTab[0]) {
+          console.log('here')
+          return props.form.children().length - 1
+        }
+        if (props.activeTab !== currentTab[0]) {
+          console.log('here: ', props.form.children().length)
+          return props.form.children().length - 1
+        }
+        // return currentTab[0]
+      }
+      console.log(event.target, currentTab[0])
+      console.log('change current tab to: ', whichTab() - 1)
+      props.changetab(whichTab() - 1)
+    }
+
+    // console.log(props.activeTab)
+    // console.log((props.activeTab - 1 >= 0 ? props.activeTab - 1 : currentTab[0] - 1))
+    // props.changetab(props.activeTab - 1 >= 0 ? props.activeTab - 1 : currentTab[0] - 1)
   }
   return <div
     style={selectionStyles.Remove}
@@ -154,53 +190,53 @@ const DeleteBtn = (props) => {
   </div>
 }
 
-const LeftPanel = (props) =>
-  {
-    console.log(props.form)
-    const dragstart_handler = (event) => {
-  aux.dragStart_handler(event, defaultPropsFE[event.target.dataset.type], props.form, 'addEntity')
+const LeftPanel = (props) => {
+  console.log(props.form)
+  const dragstart_handler = (event) => {
+    aux.dragStart_handler(event, defaultPropsFE[event.target.dataset.type], props.form, 'addEntity')
 
-  // event.dataTransfer.setData("text/plain",
-  //   JSON.stringify({
-  //     action: 'addEntity',
-  //     model: defaultPropsFE[event.target.dataset.type]
-  //   }));
-  // var test = document.createElement('div');
-  // test.style.width = '100px';
-  // test.style.height = '100px';
-  // // test.style.position = 'fixed';
-  // // test.style.top = '-1000000px';
-  // // test.style.left = '-1000000px';
-  // test.style.border = '2px solid red';
-  // document.body.appendChild(test);
-  // event.dataTransfer.setDragImage(test, 0, 0)
-  let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
-  console.log(bgrndGrdWidth)
-  const type = event.target.dataset.type
-  const div = document.createElement('div');
-  div.id = "dmg";
-      div.style.width = `${defaultPropsFE[type].width * bgrndGrdWidth}px`;
-  div.style.height = '100px';
-  div.style.backgroundColor = defaultPropsFE[type].render.backgroundColor
-  div.style.position = "fixed";
-  div.style.top = "-1000px";
-  div.style.left = "-1000px";
-  document.body.appendChild(div);
+    // event.dataTransfer.setData("text/plain",
+    //   JSON.stringify({
+    //     action: 'addEntity',
+    //     model: defaultPropsFE[event.target.dataset.type]
+    //   }));
+    // var test = document.createElement('div');
+    // test.style.width = '100px';
+    // test.style.height = '100px';
+    // // test.style.position = 'fixed';
+    // // test.style.top = '-1000000px';
+    // // test.style.left = '-1000000px';
+    // test.style.border = '2px solid red';
+    // document.body.appendChild(test);
+    // event.dataTransfer.setDragImage(test, 0, 0)
+    let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
+    console.log(bgrndGrdWidth)
+    const type = event.target.dataset.type
+    const div = document.createElement('div');
+    div.id = "dmg";
+    div.style.width = `${defaultPropsFE[type].width * bgrndGrdWidth}px`;
+    div.style.height = '100px';
+    div.style.backgroundColor = defaultPropsFE[type].render.backgroundColor
+    div.style.position = "fixed";
+    div.style.top = "-1000px";
+    div.style.left = "-1000px";
+    document.body.appendChild(div);
 
-  // var p = document.getElementById("FormSectionComponent");
+    // var p = document.getElementById("FormSectionComponent");
 
-  // var p_prime = p.cloneNode(true);
-  // p_prime.style.position = "fixed";
-  // p_prime.id = "dmg";
-  // p_prime.style.top = "-1000px";
-  // p_prime.style.left = "-1000px";
-  // console.log(p_prime)
-  // document.body.appendChild(p_prime);
+    // var p_prime = p.cloneNode(true);
+    // p_prime.style.position = "fixed";
+    // p_prime.id = "dmg";
+    // p_prime.style.top = "-1000px";
+    // p_prime.style.left = "-1000px";
+    // console.log(p_prime)
+    // document.body.appendChild(p_prime);
 
-  event.dataTransfer.setDragImage(div, 0, 0);
-}
+    event.dataTransfer.setDragImage(div, 0, 0);
+  }
 
-    return <div style={leftPanelStyle}
+  return <div
+    style={leftPanelStyle}
     form={props.form}
   >
     {entityTypes.map((entity, index) => {
@@ -221,20 +257,19 @@ const LeftPanel = (props) =>
       removeformentity={props.removeformentity}
       mutateformentity={props.mutateformentity}
     />
-  </div>}
+  </div>
+}
 
 const MiddlePanel = (props) => {
   return <div
     style={middlePanelStyle}
-    addformentity={props.addformentity}
-    removeformentity={props.removeformentity} >
+    >
     <div style={{
       ...headerPanelStyle, backgroundColor: "lightgrey", border: '0px dashed #f3ea5f', margin: '0px 20px 0px'
     }}>
       {props.form.sectionTabs() ?
         <DesignBoxHeader
           form={props.form}
-          activeTab={props.form.children()}
           addformentity={props.addformentity}
           removeformentity={props.removeformentity}
           changetab={props.changetab}

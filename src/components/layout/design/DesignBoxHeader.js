@@ -28,14 +28,10 @@ let DesignBoxHeader = (props) => {
   return (
     <div
       style={DesignBoxHeaderStyle}
-      model={props.model}
-      form={props.form}
-      removeformentity={props.removeformentity}
       >
 
       <div style={TabContainerStyle}
-        model={props.model}
-        form={props.form}>
+       >
 
          { props.form.children().map((tab, index) =>
             <Tab

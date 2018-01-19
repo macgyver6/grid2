@@ -5,7 +5,6 @@ import Resizer from './subentities/Resizer.js';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
-import MovePrior from './subentities/MovePrior.js';
 import { aux } from '../../constants/aux';
 
 let FormSectionComponent = (props) => {
@@ -49,7 +48,7 @@ let FormSectionComponent = (props) => {
   }
 
   const drop_handler = (event) => {
-    // event.stopPropagation();
+    event.stopPropagation();
     console.log('formSection drop_handler')
     // event.preventDefault();
     data = JSON.parse(event.dataTransfer.getData("address"));
@@ -61,7 +60,6 @@ let FormSectionComponent = (props) => {
     if (data && data.action === 'addEntity') {
       console.log('drop FS add: ')
       let location = utility.findNode(props.model, props.form)
-      let parentPx = document.getElementById(`${props.model.UUID()}.${props.model.type()}`).clientWidth
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
       const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left) / bgrndGrdWidth), 0)
       let entityToAdd = utility.resurrectEntity(
@@ -97,7 +95,7 @@ let FormSectionComponent = (props) => {
       let _test = [...test]
       _test[test.length] = props.model.children().length
       // for dropping entity other than itself onto this form section
-      if (draggedEntity.UUID() != props.model.UUID()) {
+      if (draggedEntity.UUID() !== props.model.UUID()) {
         console.log('FormSection drop move, entity dropped on FS')
         console.log('add this: ', entityToAdd, _test)
         console.log('remove this: ', (data.address))
@@ -206,6 +204,7 @@ let FormSectionComponent = (props) => {
   const fsStyle = {
     display: "grid",
     position: 'relative',
+    border: '2px dotted',
     gridTemplateColumns: `repeat(${props.model.width()}, [col] 1fr)`,
     backgroundColor: "rgba(243, 234, 95, 0.7)",
     minHeight: "120px",
