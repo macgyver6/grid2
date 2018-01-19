@@ -33,7 +33,19 @@ let FormSectionComponent = (props) => {
 
   let dragOver_handler = function (event) {
     // event.stopPropagation();
-    event.preventDefault();
+    // event.preventDefault();
+    // document.getElementById(
+    //   `${props.model.UUID()}.${props.model.type()}`).style.backgroundColor = 'ightgreen'
+  }
+
+  let dragLeave_handler = function (event) {
+    // event.stopPropagation();
+    // event.preventDefault();
+
+    // if(event.target.className != 'resizer'){
+    //   document.getElementById(
+    //     `${props.model.UUID()}.${props.model.type()}`).style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor
+    // }
   }
 
   const drop_handler = (event) => {
@@ -84,19 +96,31 @@ let FormSectionComponent = (props) => {
       let test = utility.findEntityUuid(props.model.UUID(), props.form)[0]
       let _test = [...test]
       _test[test.length] = props.model.children().length
-      // for dropping entity other than form section onto this form section
+      // for dropping entity other than itself onto this form section
       if (draggedEntity.UUID() != props.model.UUID()) {
         console.log('FormSection drop move, entity dropped on FS')
+        console.log('add this: ', entityToAdd, _test)
+        console.log('remove this: ', (data.address))
         props.addformentity(entityToAdd, _test)
         props.removeformentity(data.address)
-        /*
-        start restore donor
-        */
+      //   /*
+      //   start restore donor
+      //   */
         const restoreDonorSiblingAddress = (arr) => {
+          const total = (prepend, width, append) => prepend + width + append;
           // get donor's parent
           const donorParent = utility.findEntityByPath(props.form, arr.slice(0, arr.length - 1))
-
-          if (donorParent.children().length === 1) {
+          const entitySelf = utility.findEntityByPath(props.form, arr)
+          // console.log(total(0, 8, 0))
+          // console.log(typeof(entitySelf.prepend()), typeof(entitySelf.width()), typeof(entitySelf.append()))
+          // console.log(total(entitySelf.prepend(), entitySelf.width(), entitySelf.append()),
+          //   total(donorParent.prepend() + donorParent.width() + donorParent.append()))
+          console.log(total(entitySelf.prepend(), entitySelf.width(), entitySelf.append()),
+            total(donorParent.prepend(), donorParent.width(), donorParent.append()))
+          if (donorParent.children().length === 1 ||
+          total(entitySelf.prepend(), entitySelf.width(), entitySelf.append()) ===
+          total(donorParent.prepend(), donorParent.width(), donorParent.append())
+        ) {
             console.log('entity being removed from formSection is the last child')
             return false
           } else {
@@ -204,6 +228,7 @@ let FormSectionComponent = (props) => {
       style={styles.formSection}
       onDrop={drop_handler}
       onDragOver={dragOver_handler}
+      onDragLeave={dragLeave_handler}
       // style={styles.defaultEntity}
     >
       {(props.model.prepend() > 0) ?

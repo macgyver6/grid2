@@ -65,7 +65,9 @@ let drag_handler = (event, props) => {
       document.getElementById(
         `${props.model.UUID()}.${props.model.type()}`).style.backgroundColor = 'lightgreen'
       console.log(`changing ${props.model.UUID()}.${props.model.type()}color to 'lightgreen`)
+      console.log('resize check which type')
       if (locEntity[1].type() === 'FormSection') {
+        console.log('resize FormSection')
         resize.init_children === null ?
           resize.init_children = locEntity[1].children() :
           null
@@ -190,13 +192,13 @@ let drag_handler = (event, props) => {
               :
               updatedChildren.map(child => utility.resurrectEntity(child, props.form))
           })
-        } else {
-          props.mutateformentity(locEntity[0], {
-            width: (resize.init_grids + resize.grids),
-            append: (resize.init_append - resize.grids)
-          })
         }
       }
+      console.log('resize entity other than FormSection')
+      props.mutateformentity(locEntity[0], {
+        width: (resize.init_grids + resize.grids),
+        append: (resize.init_append - resize.grids)
+      })
     }
   }
 }

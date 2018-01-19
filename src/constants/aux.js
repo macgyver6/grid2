@@ -170,19 +170,9 @@ export const aux = {
           resize.reset != null ? mutate2(locEntity, props) : null
         }, 600)
       } else {
-        console.log(`changing ${props.model.UUID()}.${props.model.type()}color to 'lightgreen`)
-        document.getElementById(
-          `${props.model.UUID()}.${props.model.type()}`).style.backgroundColor = 'lightgreen'
-        // console.log(locEntity[1])
-        // console.log({
-        //   prepend: (resize.init_prepend - resize.grids),
-        //   append: (resize.init_append + resize.grids),
-        // })
-
-        // props.mutateformentity(locEntity[0], {
-        //   prepend: (resize.init_prepend - resize.grids),
-        //   append: (resize.init_append + resize.grids),
-        // })
+        // console.log(`changing ${props.model.UUID()}.${props.model.type()}color to 'lightgreen`)
+        // document.getElementById(
+        //   `${props.model.UUID()}.${props.model.type()}`).style.backgroundColor = 'lightgreen'
       }
     }
   },
