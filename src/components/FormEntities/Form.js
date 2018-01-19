@@ -127,7 +127,6 @@ const FormComponent = (props) => {
 
       <div className="grid" >
       {/* loop through and render all children entities of top level section */}
-      {console.log(props.form.children())}
         {
           props.form.children()[props.activeTab].children().map((element, i) => {
             return React.createElement(utility.lookupComponent(element),

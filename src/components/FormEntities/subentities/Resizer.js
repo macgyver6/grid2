@@ -29,9 +29,11 @@ const resize = {
 }
 
 let drag_handler = (event, props) => {
+  console.log('dragHandler resizer')
   event.stopPropagation();
   resize.reset = false
   let locEntity = utility.findEntityUuid(props.model.UUID(), props.form)
+  console.log(locEntity[1].type())
   let parentEntity = utility.findEntityByPath(props.form, locEntity[0].slice(0, locEntity[0].length - 1))
   const minWidth = defaultPropsFE[props.model.type()].render.minWidth
   const maxWidth = parentEntity.width();
@@ -47,6 +49,8 @@ let drag_handler = (event, props) => {
       return round(((calc / bgrndGrdWidth)), 0)
     }
   }
+
+  console.log(grid())
 
   if (resize.grids != grid() && event.pageX != 0) {
     resize.grids = grid()
@@ -65,18 +69,114 @@ let drag_handler = (event, props) => {
           resize.init_children === null ?
           resize.init_children = locEntity[1].children() :
           null
-          resize.init_children.map((child, index) => {
-            let childAddress = [...locEntity[0]]
-            childAddress[childAddress.length] = index
-            props.mutateformentity(childAddress, {append: resize.init_children[index].append() + resize.grids})
-          })
-        } else {
 
+          // map through children starting here
+          const total = (prepend, width, append) => prepend + width + append;
+          const _children = resize.init_children.map(child => {return Object.assign({}, child.properties(), {
+            total: total(child.prepend(), child.width(), child.append()),
+            row: null,
+            index: null
+          })})
+          const sectionWidth = resize.init_grids + grid()
+
+          var counter = 0;
+          const reducer = (accumulator, currentValue, currentIndex) => {
+            console.log('current index: ', currentIndex)
+            console.log('counter: ', counter)
+            console.log('accumulator: ', accumulator)
+            if (!Array.isArray(accumulator)) { accumulator = [].concat(accumulator) }
+            // return last entity in section
+            if ((_children.length - 1) === currentIndex) {
+              console.log('last');
+
+              if ((
+                total(accumulator[accumulator.length - 1].prepend, accumulator[accumulator.length - 1].width, accumulator[accumulator.length - 1].append) +
+
+                total(_children[_children.length - 1].prepend, accumulator[accumulator.length - 1].width, accumulator[accumulator.length - 1].append)
+              ) > sectionWidth) {
+                counter++;
+                console.log('last and cant add new row: ')
+                accumulator[accumulator.length] = (Object.assign({}, _children[currentIndex], { index: 0, row: counter }));
+                return accumulator
+              } else {
+                console.log(accumulator)
+                console.log('last and both can be same row: ', accumulator[accumulator.length - 1])
+                accumulator.map((entity, index) => {
+                  Object.assign({}, entity, {row: 0})})
+                const remainingGrids = (entities, prop) => {
+                  return entities.reduce((a, b) => {
+                    // console.log('yes, yes: ', b.row, accumulator[accumulator.length - 1].row)
+                    if (b.row === accumulator[accumulator.length - 1].row) {
+                      return a + b[prop];
+                    } else {
+                      return a
+                    }
+                  }, 0)
+                }
+                console.log(accumulator)
+                console.log(sectionWidth)
+                console.log('here, here: ', _children[currentIndex].append+ (sectionWidth - remainingGrids(_children, 'total')))
+                accumulator[accumulator.length] = (Object.assign({}, _children[currentIndex], {
+                  // prepend: sectionWidth + remainingGrids(_children, 'total'),
+                  append: _children[currentIndex].append + (sectionWidth - remainingGrids(_children, 'total')),
+                  index: (accumulator[currentIndex - 1].index + 1),
+                  row: accumulator[currentIndex - 1].row
+                }));
+                return accumulator
+              }
+              counter = 0;
+            }
+            // return sum of each entity < section.width
+            console.log('is ' + total(accumulator[accumulator.length - 1].prepend, accumulator[accumulator.length - 1].width, accumulator[accumulator.length - 1].append) + ' plus ' + total(_children[currentIndex].prepend, _children[currentIndex].width, _children[currentIndex].append) + ' less than or equal to sectionWidth ');
+
+            if ((total(accumulator[accumulator.length - 1].prepend, accumulator[accumulator.length - 1].width, accumulator[accumulator.length - 1].append) + total(_children[currentIndex].prepend, _children[currentIndex].width, _children[currentIndex].append)) <= sectionWidth) {
+              // (counter++);
+              console.log('yes')
+              accumulator[accumulator.length - 1] = (Object.assign({}, _children[currentIndex - 1], { index: 0, row: counter }));
+
+              accumulator[accumulator.length] = Object.assign({}, _children[currentIndex], {
+                index: currentIndex - 1,
+                row: counter
+              })
+              return accumulator
+            } else {
+              (counter++);
+              console.log('no')
+              console.log('counter: ', counter)
+
+              const remainingGrids = (entities, prop) => {
+                return entities.reduce((a, b) => {
+                  if (b.row === accumulator[accumulator.length - 1].row) {
+                    return a + b[prop];
+                  } else {
+                    return a
+                  }
+                }, 0)
+              }
+
+
+              accumulator[accumulator.length - 1] = Object.assign({}, accumulator[accumulator.length - 1], {
+                total:
+                  total(accumulator[accumulator.length - 1].prepend, accumulator[accumulator.length - 1].width, accumulator[accumulator.length - 1].append) + (sectionWidth - remainingGrids(accumulator, 'total')),
+                index: ((accumulator.length - 2) + 1),
+                row: counter - 1
+              })
+
+              accumulator[accumulator.length] = { total: total(_children[currentIndex].prepend, _children[currentIndex].width, _children[currentIndex].append), index: 0, row: counter };
+              return accumulator
+            }
+          };
+          const updatedChildren = _children.reduce(reducer)
+
+          // locEntity[1].setChildren
+          // map through children finishing here
+
+          props.mutateformentity(locEntity[0], {
+            width: (resize.init_grids + resize.grids),
+            append: (resize.init_append - resize.grids),
+            children: updatedChildren.map(child => utility.resurrectEntity(child, props.form))
+          })
         }
-      props.mutateformentity(locEntity[0], {
-        width: (resize.init_grids + resize.grids),
-        append: (resize.init_append - resize.grids),
-      })
     }
   }
 }

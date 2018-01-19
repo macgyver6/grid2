@@ -26,7 +26,7 @@ let FormSectionComponent = (props) => {
   }
 
   let dragstart_handler = (event) => {
-    event.stopPropagation();
+    // event.stopPropagation();
     aux.dragStart_handler(event, props.model, props.form, 'move')
   }
   let data = '';
@@ -70,6 +70,7 @@ let FormSectionComponent = (props) => {
   }
 
     if (data && data.action === 'move') {
+      console.log('FormSection drop')
       let draggedEntity = utility.findEntityByPath(props.form, data.address)
       let entityToAdd = utility.resurrectEntity(
         Object.assign({},
@@ -147,14 +148,18 @@ let FormSectionComponent = (props) => {
         end restore donor
         */
       }
-      // for moving a FormSection
+      // for changing prepend/append of a formsection
       if (draggedEntity.UUID() === props.model.UUID()) {
-        console.log(draggedEntity.UUID() , utility.findNode(props.model, props.form),
+        console.log('dropped on FormSection, moving form sectoin: ', draggedEntity.UUID() , utility.findNode(props.model, props.form),
           {
             prepend: (resize.init_prepend + appendGrids),
             append: (resize.init_append - appendGrids),
           })
-
+        console.log(utility.findNode(props.model, props.form),
+          {
+            prepend: (resize.init_prepend + appendGrids),
+            append: (resize.init_append - appendGrids),
+          })
         props.mutateformentity(utility.findNode(props.model, props.form),
           {
             prepend: (resize.init_prepend + appendGrids),
