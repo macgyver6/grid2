@@ -125,17 +125,10 @@ let drag_handler = (event, props) => {
                       }
                     }, 0)
                   }
-
-                  accumulator[accumulator.length] = ((Object.assign({}, _children[currentIndex], {
-                    // prepend: sectionWidth + occupiedColumnsInRow(_children, 'total'),
-                    append: _children[currentIndex].append + (sectionWidth - occupiedColumnsInRow(_children, 'total'))
-                    // append: _children[currentIndex].append + (sectionWidth - occupiedColumnsInRow(accumulator, 'total')),
-                    // index: (accumulator[currentIndex - 1].index + 1),
-                    // row: accumulator[currentIndex - 1].row
-                  })));
-                  // console.log(_children[currentIndex].append, sectionWidth, occupiedColumnsInRow(_children, 'total'))
-                  // console.log('sectionWidth: ', sectionWidth)
-                  // console.log(accumulator)
+                  accumulator[accumulator.length] = Object.assign({}, _children[currentIndex],
+                    {
+                      append: _children[currentIndex].append + (sectionWidth - occupiedColumnsInRow(_children, 'total'))
+                    });
                   return accumulator
                 }
                 counter = 0;
