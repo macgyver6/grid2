@@ -51,7 +51,7 @@ const CheckBoxComponent = (props) => {
   }
 
   const cbStyle = {
-    backgroundColor: 'lightgrey',
+    backgroundColor: '#00C5EC',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
     height: '100px',

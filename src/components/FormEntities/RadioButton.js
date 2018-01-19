@@ -40,7 +40,7 @@ const RadioButtonComponent = (props) => {
     return (((_margin.map((el) => `${el}px`)).toString().replace(/,/g, ' ')))
   }
   const rbStyle = {
-    backgroundColor: 'lightgrey',
+    backgroundColor: '#304061',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
     height: '100px',

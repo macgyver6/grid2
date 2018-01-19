@@ -14,11 +14,11 @@ export var defaultPropsFE = {
             uuid: undefined, type: 'FormSection', width: 16, children: [
               new TextInput({
                 uuid: undefined, prepend: 5, width: 5, append: 0, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content',
-                render: { backgroundColor: 'lightgrey', minWidth: 3 }
+                render: { backgroundColor: '#6C788F', minWidth: 3 }
               }),
               new CheckBox({
                 uuid: undefined, width: 5, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'CheckBox', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', prepend: 0, autoNumber: 'SEQUENTIAL', append: 1, defaultState: true,
-                render: { backgroundColor: 'lightgrey', minWidth: 3 }
+                render: { backgroundColor: '#00C5EC', minWidth: 3 }
               }
               ),
 
@@ -42,11 +42,11 @@ export var defaultPropsFE = {
             uuid: undefined, type: 'FormSection', width: 24, children: [
               new TextInput({
                 uuid: undefined, width: 5, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', prepend: 0, autoNumber: 'SEQUENTIAL', append: 0, length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content',
-                render: { backgroundColor: 'lightgrey', minWidth: 3 }
+                render: { backgroundColor: '#6C788F', minWidth: 3 }
               }),
               new TextArea({
                 uuid: undefined, prepend: 0, width: 5, append: 0, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'TextArea', tabOrder: [1, 2, 3], inputWidth: 12, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', numColumns: 20, numRows: 2, defaultContent: 'Default Content',
-                render: { backgroundColor: 'lightgrey', minWidth: 3 }
+                render: { backgroundColor: '#205EE2', minWidth: 3 }
               }),
               // new CheckBox({
               //   uuid: undefined, prepend: 5, width: 5, append: 6, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'CheckBox', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', defaultState: true,
@@ -54,7 +54,7 @@ export var defaultPropsFE = {
               // }),
               new RadioButton({
                 uuid: undefined, prepend: 0, width: 5, append: 9, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'RadioButton', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', defaultState: true,
-                render: { backgroundColor: 'lightgrey', minWidth: 3 }
+                render: { backgroundColor: '#304061', minWidth: 3 }
               })
             ], legend: 'string', prepend: 0, append: 0, render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
           })
@@ -85,22 +85,22 @@ export var defaultPropsFE = {
 
   TextInput: {
     uuid: undefined, prepend: 0, width: 5, append: 1, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content',
-    render: { backgroundColor: 'lightgrey', minWidth: 3 }
+    render: { backgroundColor: '#6C788F', minWidth: 3 }
   },
 
   TextArea: {
     uuid: undefined, prepend: 0, width: 5, append: 1, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'TextArea', tabOrder: [1, 2, 3], inputWidth: 12, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', numColumns: 20, numRows: 2, defaultContent: 'Default Content',
-    render: { backgroundColor: 'lightgrey', minWidth: 3 }
+    render: { backgroundColor: '#205EE2', minWidth: 3 }
   },
 
   CheckBox: {
     uuid: undefined, prepend: 0, width: 5, append: 1, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'CheckBox', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', defaultState: true,
-    render: { backgroundColor: 'lightgrey', minWidth: 3 }
+    render: { backgroundColor: '#00C5EC', minWidth: 3 }
   },
 
   RadioButton: {
     uuid: undefined, prepend: 0, width: 5, append: 0, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'RadioButton', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', defaultState: true,
-    render: { backgroundColor: 'lightgrey', minWidth: 3 }
+    render: { backgroundColor: '#304061', minWidth: 3 }
   }
 }
 

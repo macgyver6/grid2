@@ -42,7 +42,7 @@ const TextInputComponent = (props) => {
 
   const tiStyle = {
     margin: marginCalc(),
-    backgroundColor: 'lightgrey',
+    backgroundColor: '#6C788F',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
     height: '100px',
