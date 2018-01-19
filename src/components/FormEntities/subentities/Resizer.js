@@ -17,7 +17,7 @@ const resizeStyle = {
   cursor: 'w-resize'
 }
 
-let source = null
+// let source = null
 const resize = {
   init: null,
   init_grids: null,
@@ -38,7 +38,9 @@ let drag_handler = (event, props) => {
   const minWidth = defaultPropsFE[props.model.type()].render.minWidth
   const maxWidth = parentEntity.width();
   if (resize.init === null) {
-    resize.init = event.pageX, resize.init_grids = props.model.width(), resize.init_append = props.model.append()
+    resize.init = event.pageX
+    resize.init_grids = props.model.width()
+    resize.init_append = props.model.append()
   }
   let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
 
@@ -53,7 +55,7 @@ let drag_handler = (event, props) => {
 
   console.log(grid())
 
-  if (resize.grids != grid() && event.pageX != 0) {
+  if (resize.grids !== grid() && event.pageX !== 0) {
     resize.grids = grid()
     if (!can_resize(minWidth, maxWidth)) {
       resize.reset = null
@@ -108,29 +110,32 @@ let drag_handler = (event, props) => {
                   return accumulator
                 } else {
                   console.log(accumulator)
-                  console.log('last and both can be same row: ', accumulator[accumulator.length - 1])
-                  accumulator.map((entity, index) => {
+                  console.log('last and all can be same row: ', accumulator[accumulator.length - 1])
+                  _children.map((entity, index) => {
                     Object.assign({}, entity, { row: 0 })
                   })
-                  const remainingGrids = (entities, prop) => {
+                  const occupiedColumnsInRow = (entities, prop) => {
                     return entities.reduce((a, b) => {
-                      // console.log('yes, yes: ', b.row, accumulator[accumulator.length - 1].row)
-                      if (b.row === accumulator[accumulator.length - 1].row) {
+                      // console.log(a, b)
+                      console.log('yes, yes: ', a, b)
+                      if (b.row === _children[_children.length - 1].row) {
                         return a + b[prop];
                       } else {
                         return a
                       }
                     }, 0)
                   }
-                  console.log(accumulator)
-                  console.log(sectionWidth)
-                  console.log('here, here: ', _children[currentIndex].append + (sectionWidth - remainingGrids(_children, 'total')))
-                  accumulator[accumulator.length] = (Object.assign({}, _children[currentIndex], {
-                    // prepend: sectionWidth + remainingGrids(_children, 'total'),
-                    append: _children[currentIndex].append + (sectionWidth - remainingGrids(_children, 'total')),
-                    index: (accumulator[currentIndex - 1].index + 1),
-                    row: accumulator[currentIndex - 1].row
-                  }));
+
+                  accumulator[accumulator.length] = ((Object.assign({}, _children[currentIndex], {
+                    // prepend: sectionWidth + occupiedColumnsInRow(_children, 'total'),
+                    append: _children[currentIndex].append + (sectionWidth - occupiedColumnsInRow(_children, 'total'))
+                    // append: _children[currentIndex].append + (sectionWidth - occupiedColumnsInRow(accumulator, 'total')),
+                    // index: (accumulator[currentIndex - 1].index + 1),
+                    // row: accumulator[currentIndex - 1].row
+                  })));
+                  // console.log(_children[currentIndex].append, sectionWidth, occupiedColumnsInRow(_children, 'total'))
+                  // console.log('sectionWidth: ', sectionWidth)
+                  // console.log(accumulator)
                   return accumulator
                 }
                 counter = 0;
@@ -153,7 +158,7 @@ let drag_handler = (event, props) => {
               console.log('no')
               console.log('counter: ', counter)
 
-              const remainingGrids = (entities, prop) => {
+              const occupiedColumnsInRow = (entities, prop) => {
                 return entities.reduce((a, b) => {
                   if (b.row === accumulator[accumulator.length - 1].row) {
                     return a + b[prop];
@@ -166,7 +171,7 @@ let drag_handler = (event, props) => {
 
               accumulator[accumulator.length - 1] = Object.assign({}, accumulator[accumulator.length - 1], {
                 total:
-                  total(accumulator[accumulator.length - 1].prepend, accumulator[accumulator.length - 1].width, accumulator[accumulator.length - 1].append) + (sectionWidth - remainingGrids(accumulator, 'total')),
+                  total(accumulator[accumulator.length - 1].prepend, accumulator[accumulator.length - 1].width, accumulator[accumulator.length - 1].append) + (sectionWidth - occupiedColumnsInRow(accumulator, 'total')),
                 index: ((accumulator.length - 2) + 1),
                 row: counter - 1
               })
@@ -192,6 +197,7 @@ let drag_handler = (event, props) => {
               :
               updatedChildren.map(child => utility.resurrectEntity(child, props.form))
           })
+          console.log(updatedChildren)
         }
       }
       console.log('resize entity other than FormSection')
@@ -213,16 +219,16 @@ const can_resize = (minWidth, maxWidth) => {
   }
 }
 
-const mutate2 = (locEntity, props) => {
-  props.removeformentity(locEntity[0])
-  props.addformentity(utility.resurrectEntity(
-    Object.assign({},
-      locEntity[1].properties(), {
-        width: (resize.init_grids),
-        append: (resize.init_append),
-      })
-  ), locEntity[0])
-}
+// const mutate2 = (locEntity, props) => {
+//   props.removeformentity(locEntity[0])
+//   props.addformentity(utility.resurrectEntity(
+//     Object.assign({},
+//       locEntity[1].properties(), {
+//         width: (resize.init_grids),
+//         append: (resize.init_append),
+//       })
+//   ), locEntity[0])
+// }
 
 let dragstart_handler = (event, props) => {
   event.stopPropagation();

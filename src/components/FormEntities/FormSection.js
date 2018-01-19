@@ -224,6 +224,7 @@ let FormSectionComponent = (props) => {
   return (
     <div
       id="FormSectionComponent"
+      className="FS"
       style={styles.formSection}
       onDrop={drop_handler}
       onDragOver={dragOver_handler}

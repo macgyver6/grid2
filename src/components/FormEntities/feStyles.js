@@ -17,7 +17,7 @@ export const styles = {
     // gridColumn: null,
     // gridTemplateColumns: null,
     draggable: "true",
-    margin: '10px 0px 10px 0px',
+    margin: '20px 0px 0px 0px',
     "minHeight": "120px",
     // "maxHeight": "120px",
     "zIndex": "40",
