@@ -1,5 +1,5 @@
 import React from 'react';
-import { aux } from '../../../constants/aux';
+import { helpers } from '../../../helpers';
 
 const Prepend = (props) => {
   // let drop_handler = (event) => {
@@ -50,7 +50,7 @@ const Prepend = (props) => {
   }
 
   const drop_handler = (event) => {
-    aux.dropPrepend_handler(event, props)
+    helpers.dropPrepend_handler(event, props)
   }
 
   let dragover_handler = (event) => {

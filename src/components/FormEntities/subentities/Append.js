@@ -1,9 +1,9 @@
 import React from 'react';
-import { aux } from '../../../constants/aux';
+import { helpers } from '../../../helpers';
 
 const Append = (props) => {
   const drop_handler = (event) => {
-    aux.dropAppend_handler(event, props)
+    helpers.dropAppend_handler(event, props)
   }
 
   let dragover_handler = (event) => {

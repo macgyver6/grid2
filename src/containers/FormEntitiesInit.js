@@ -4,7 +4,7 @@ import * as actions from '../actions/index';
 import FormComponent from '../components/FormEntities/Form';
 import { utility } from '../utility';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
-import { aux } from '../constants/aux';
+import { helpers } from '../helpers';
 import {
   backgroundPanelStyle,
   leftPanelStyle,
@@ -193,7 +193,7 @@ const DeleteBtn = (props) => {
 const LeftPanel = (props) => {
   console.log(props.form)
   const dragstart_handler = (event) => {
-    aux.dragStart_handler(event, defaultPropsFE[event.target.dataset.type], props.form, 'addEntity')
+    helpers.dragStart_handler(event, defaultPropsFE[event.target.dataset.type], props.form, 'addEntity')
 
     // event.dataTransfer.setData("text/plain",
     //   JSON.stringify({

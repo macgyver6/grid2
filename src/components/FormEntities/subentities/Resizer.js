@@ -1,7 +1,7 @@
 import React from 'react';
 import { utility } from '../../../utility';
 import { defaultPropsFE } from '../../../constants/defaultPropsFE';
-import { aux } from '../../../constants/aux';
+import { helpers } from '../../../helpers';
 
 const round = (value, decimals) => {
   return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
@@ -229,7 +229,7 @@ let dragstart_handler = (event, props) => {
   //   action: 'move',
   //   address: utility.findNode(props.model, props.form)
   // }))
-  aux.dragStart_handler(event, props.model, props.form, 'resize')
+  helpers.dragStart_handler(event, props.model, props.form, 'resize')
 }
 
 let dragend_handler = function (event, props) {

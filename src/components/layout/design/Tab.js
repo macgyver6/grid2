@@ -4,7 +4,7 @@ import {
   TabStyle,
   TabButtonStyle
 } from '../styles/DesignBox'
-import { aux } from '../../../constants/aux';
+import { helpers } from '../../../helpers';
 
 
 // import {
@@ -49,7 +49,7 @@ const Tab = (props) => {
 
   let dragstart_handler = function (event) {
     console.log(event, props.model, props.form, 'move')
-    aux.dragStart_handler(event, props.model, props.form, 'move')
+    helpers.dragStart_handler(event, props.model, props.form, 'move')
   }
 
   let onDragOverHandler = (event) => {

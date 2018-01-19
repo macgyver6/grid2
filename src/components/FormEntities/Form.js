@@ -9,13 +9,13 @@ const FormComponent = (props) => {
 
   // let drag_handler = function (event) {
   //   const model = utility.findEntityByPath(props.form, [0, props.activeTab])
-  //   // aux.drag_handler(event, props.model, props.form, resize, props)
+  //   // helpers.drag_handler(event, props.model, props.form, resize, props)
   // }
 
   const drop_handler = (event) => {
     // event.preventDefault();
     // event.stopPropagation();
-    // aux.dropMove_handler(event, props, resize)
+    // helpers.dropMove_handler(event, props, resize)
 
     let data = JSON.parse(event.dataTransfer.getData("address"));
 

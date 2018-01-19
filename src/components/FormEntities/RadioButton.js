@@ -1,5 +1,5 @@
 import React from 'react';
-import { aux } from '../../constants/aux';
+import { helpers } from '../../helpers';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
@@ -18,7 +18,7 @@ const RadioButtonComponent = (props) => {
   }
 
   let dragstart_handler = function (event) {
-    aux.dragStart_handler(event, props.model, props.form, 'move')
+    helpers.dragStart_handler(event, props.model, props.form, 'move')
   }
 
   let dragOver_handler = function (event) {
@@ -26,11 +26,11 @@ const RadioButtonComponent = (props) => {
   }
 
   let drop_handler = function (event) {
-    aux.dropMove_handler(event, props, resize)
+    helpers.dropMove_handler(event, props, resize)
   }
 
  let drag_handler = function (event) {
-    aux.drag_handler(event, props.model, props.form, resize, props)
+    helpers.drag_handler(event, props.model, props.form, resize, props)
   }
 
   const marginCalc = () => {

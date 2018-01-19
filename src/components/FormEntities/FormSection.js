@@ -5,7 +5,7 @@ import Resizer from './subentities/Resizer.js';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
-import { aux } from '../../constants/aux';
+import { helpers } from '../../helpers';
 
 let FormSectionComponent = (props) => {
 
@@ -26,7 +26,7 @@ let FormSectionComponent = (props) => {
 
   let dragstart_handler = (event) => {
     // event.stopPropagation();
-    aux.dragStart_handler(event, props.model, props.form, 'move')
+    helpers.dragStart_handler(event, props.model, props.form, 'move')
   }
   let data = '';
 
@@ -198,7 +198,7 @@ let FormSectionComponent = (props) => {
   }
 
   let drag_handler = function (event) {
-    aux.drag_handler(event, props.model, props.form, resize, props)
+    helpers.drag_handler(event, props.model, props.form, resize, props)
   }
 
   const fsStyle = {

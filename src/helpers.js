@@ -1,11 +1,11 @@
-import { utility } from '../utility';
-import { defaultPropsFE } from './defaultPropsFE';
+import { utility } from './utility';
+import { defaultPropsFE } from './constants/defaultPropsFE';
 
 const round = (value, decimals) => {
   return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 }
 
-export const aux = {
+export const helpers = {
   /**
    *
    * @param {FormEntity} entity
