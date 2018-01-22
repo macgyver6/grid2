@@ -101,7 +101,7 @@ const CheckBoxComponent = (props) => {
         data-type='CheckBox'
         onDragStart={dragstart_handler}
         onDrag={drag_handler}
-      draggable="true"
+        draggable="true"
       >
       {/* onChange={(e) => handleChange(e, props)} */}
         <input type={props.model.type()}  >

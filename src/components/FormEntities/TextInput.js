@@ -1,6 +1,7 @@
 import React from 'react';
 import { helpers } from '../../helpers';
 import Resizer from './subentities/Resizer.js';
+import Resizer2 from './subentities/Resizer2.js';
 import { styles } from './feStyles';
 import Append from './subentities/Append.js';
 import Prepend from './subentities/Prepend.js';
@@ -57,6 +58,7 @@ const TextInputComponent = (props) => {
 
   return (
     <div
+      id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       style={styles.defaultEntity}
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
@@ -85,9 +87,9 @@ const TextInputComponent = (props) => {
         <input className="form-control" type={props.model.type()}
           defaultValue={props.model.defaultContent()}
         />
-        <Resizer
-          element='FormEntity'
+        <Resizer2
           id={`${props.model.UUID()}.resizer`}
+          element='FormEntity'
           uuid={props.model.UUID()}
           className='resizer'
           model={props.model}

@@ -100,15 +100,15 @@ let Resizer2 = (props) => {
         console.log('resize check which type')
         if (locEntity[1].type() === 'FormSection') {
           console.log('resize FormSection')
-          resize._mouseMoveStartX_children === null ?
-            resize._mouseMoveStartX_children = locEntity[1].children() :
+          resize.init_children === null ?
+            resize.init_children = locEntity[1].children() :
             null
 
           // map through children starting here
           if (locEntity[1].children().length > 0) {
 
             const total = (prepend, width, append) => prepend + width + append;
-            const _children = resize._mouseMoveStartX_children.map(child => {
+            const _children = resize.init_children.map(child => {
               return Object.assign({}, child.properties(), {
                 total: total(child.prepend(), child.width(), child.append()),
                 row: null,
@@ -206,16 +206,16 @@ let Resizer2 = (props) => {
             console.log(updatedChildren)
 
             // map through children finishing here
-            // console.log(resize._mouseMoveStartX_children[0].UUID(), Object.assign({}, resize._mouseMoveStartX_children[0], { append: resize._mouseMoveStartX_children[0].append() + resize.grids }))
-            console.log(resize._mouseMoveStartX_children[0].prepend(), locEntity[1].setChildren(
-              [utility.resurrectEntity(Object.assign({}, resize._mouseMoveStartX_children[0].properties(), { append: resize._mouseMoveStartX_children[0].append() + resize.grids }))
+            // console.log(resize.init_children[0].UUID(), Object.assign({}, resize.init_children[0], { append: resize.init_children[0].append() + resize.grids }))
+            console.log(resize.init_children[0].prepend(), locEntity[1].setChildren(
+              [utility.resurrectEntity(Object.assign({}, resize.init_children[0].properties(), { append: resize.init_children[0].append() + resize.grids }))
               ]))
 
             props.mutateformentity(locEntity[0], {
               width: (resize.init_grids + resize.grids),
               append: (resize.init_append - resize.grids),
               children: props.model.children().length === 1 ?
-                [utility.resurrectEntity(Object.assign({}, resize._mouseMoveStartX_children[0].properties(), { append: resize._mouseMoveStartX_children[0].append() + resize.grids }))]
+                [utility.resurrectEntity(Object.assign({}, resize.init_children[0].properties(), { append: resize.init_children[0].append() + resize.grids }))]
                 :
                 updatedChildren.map(child => utility.resurrectEntity(child, props.form))
             })

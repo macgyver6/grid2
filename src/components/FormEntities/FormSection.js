@@ -2,6 +2,7 @@ import React from 'react';
 import { utility } from '../../utility';
 import { defaultPropsFE } from '../../constants/defaultPropsFE';
 import Resizer from './subentities/Resizer.js';
+import Resizer2 from './subentities/Resizer2.js';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
@@ -214,7 +215,7 @@ let FormSectionComponent = (props) => {
 
   return (
     <div
-      id="FormSectionComponent"
+      id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       className="FS"
       style={styles.formSection}
       onDrop={drop_handler}
@@ -256,9 +257,11 @@ let FormSectionComponent = (props) => {
         }) : null
         }
 
-        <Resizer
+        <Resizer2
           id={`${props.model.UUID()}.resizer`}
-          element='FormSection'
+          element='FormEntity'
+          uuid={props.model.UUID()}
+          className='resizer'
           model={props.model}
           form={props.form}
           removeformentity={props.removeformentity}
