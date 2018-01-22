@@ -55,6 +55,7 @@ const RadioButtonComponent = (props) => {
 
   return (
     <div
+      id={`${props.model.UUID()}.${props.model.type()}`}
       style={styles.defaultEntity}
       onDragOver={dragOver_handler}
       onDrop={drop_handler}

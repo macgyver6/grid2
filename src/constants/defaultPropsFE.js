@@ -49,13 +49,13 @@ export var defaultPropsFE = {
               //   render: { backgroundColor: '#205EE2', minWidth: 3 }
               // }),
               new CheckBox({
-                uuid: undefined, prepend: 0, width: 5, append: 0, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'CheckBox', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', defaultState: true,
+                uuid: undefined, prepend: 0, width: 5, append: 11, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'CheckBox', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', defaultState: true,
                 render: { backgroundColor: 'lightgrey', minWidth: 3 }
               }),
-              new RadioButton({
-                uuid: undefined, prepend: 0, width: 5, append: 6, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'RadioButton', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', defaultState: true,
-                render: { backgroundColor: '#304061', minWidth: 3 }
-              })
+              // new RadioButton({
+              //   uuid: undefined, prepend: 0, width: 5, append: 6, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'RadioButton', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', defaultState: true,
+              //   render: { backgroundColor: '#304061', minWidth: 3 }
+              // })
             ], legend: 'string', prepend: 0, append: 1, render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
           })
         ], legend: 'string', prepend: 0, append: 0

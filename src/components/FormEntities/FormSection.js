@@ -27,6 +27,7 @@ let FormSectionComponent = (props) => {
   let dragstart_handler = (event) => {
     // event.stopPropagation();
     helpers.dragStart_handler(event, props.model, props.form, 'move')
+    console.log('FS DragStart')
   }
   let data = '';
 
@@ -35,16 +36,6 @@ let FormSectionComponent = (props) => {
     // event.preventDefault();
     // document.getElementById(
     //   `${props.model.UUID()}.${props.model.type()}`).style.backgroundColor = 'ightgreen'
-  }
-
-  let dragLeave_handler = function (event) {
-    // event.stopPropagation();
-    // event.preventDefault();
-
-    // if(event.target.className != 'resizer'){
-    //   document.getElementById(
-    //     `${props.model.UUID()}.${props.model.type()}`).style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor
-    // }
   }
 
   const drop_handler = (event) => {
@@ -223,12 +214,11 @@ let FormSectionComponent = (props) => {
 
   return (
     <div
-      id="FormSectionComponent"
+      id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       className="FS"
       style={styles.formSection}
       onDrop={drop_handler}
       onDragOver={dragOver_handler}
-      onDragLeave={dragLeave_handler}
       // style={styles.defaultEntity}
     >
       {(props.model.prepend() > 0) ?
@@ -268,7 +258,9 @@ let FormSectionComponent = (props) => {
 
         <Resizer
           id={`${props.model.UUID()}.resizer`}
-          element='FormSection'
+          element='FormEntity'
+          uuid={props.model.UUID()}
+          className='resizer'
           model={props.model}
           form={props.form}
           removeformentity={props.removeformentity}
