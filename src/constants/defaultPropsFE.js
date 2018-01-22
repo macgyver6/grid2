@@ -11,6 +11,18 @@ export var defaultPropsFE = {
         uuid: undefined, type: 'FormSection', width: 24, children: [
 
           new FormSection({
+            uuid: undefined, type: 'FormSection', width: 18, children: [
+              // new FormSection({
+              //   uuid: undefined, type: 'FormSection', width: 16, children: [
+
+
+
+              //   ], legend: 'string', prepend: 4, append: 4, render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
+              // })
+            ], legend: 'string', prepend: 3, append: 3
+          }),
+
+          new FormSection({
             uuid: undefined, type: 'FormSection', width: 16, children: [
               new TextInput({
                 uuid: undefined, prepend: 5, width: 5, append: 0, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content',
@@ -26,17 +38,7 @@ export var defaultPropsFE = {
             , render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
           }),
 
-          new FormSection({
-            uuid: undefined, type: 'FormSection', width: 18, children: [
-              // new FormSection({
-              //   uuid: undefined, type: 'FormSection', width: 16, children: [
 
-
-
-              //   ], legend: 'string', prepend: 4, append: 4, render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
-              // })
-            ], legend: 'string', prepend: 3, append: 3
-          }),
 
           new FormSection({
             uuid: undefined, type: 'FormSection', width: 23, children: [
@@ -76,7 +78,7 @@ export var defaultPropsFE = {
   },
 
   FormSection: {
-    uuid: undefined, prepend: 0, width: 24, append: 0, type: 'FormSection', children: [
+    uuid: undefined, prepend: 4, width: 16, append: 4, type: 'FormSection', children: [
 
 
     ], legend: 'string',

@@ -18,8 +18,8 @@ const FormComponent = (props) => {
     // helpers.dropMove_handler(event, props, resize)
 
     let data = JSON.parse(event.dataTransfer.getData("address"));
-
     let bgrndGrdWidth = (document.getElementById('0.bgrndGrd').clientWidth + 8)
+    const offsetE1 = data.dragInit;
     const appendGrids = round(((event.clientX - document.getElementById('form').getBoundingClientRect().left) / bgrndGrdWidth), 0)
     if (data && data.action === 'addEntity') {
       console.log('addEntity to top level formsection: ', data)
@@ -47,26 +47,26 @@ const FormComponent = (props) => {
       // div.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
       // event.target.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
     }
+    /* Only to move an entity to top level section */
+    if (data && data.action === 'move') {
+      console.log('dropped on form, move action')
+      const appendGridsEOffset = round(((event.clientX - document.getElementById('form').getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
 
-    // if (data && data.action === 'move') {
-    //   console.log('dropped on form')
-    //   const appendGridsEOffset = round(((event.clientX - document.getElementById('form').getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
+      let draggedEntity = utility.findEntityByPath(props.form, data.address)
 
-    //   let draggedEntity = utility.findEntityByPath(props.form, data.address)
-
-    //   let entityToAdd = utility.resurrectEntity(
-    //     Object.assign({},
-    //       draggedEntity.properties(), {
-    //         prepend: appendGridsEOffset,
-    //         append: (24 - appendGridsEOffset - draggedEntity.width())
-    //       })
-    //   )
-    //   const whereToAdd = [props.activeTab, props.form.children().length]
-    //   console.log('add entity at form: ', entityToAdd, whereToAdd)
-    //   props.addformentity(entityToAdd, whereToAdd)
-    //   console.log('remove entity at form: ', data.address)
-    //   props.removeformentity(data.address)
-    // }
+      let entityToAdd = utility.resurrectEntity(
+        Object.assign({},
+          draggedEntity.properties(), {
+            prepend: appendGridsEOffset,
+            append: (24 - appendGridsEOffset - draggedEntity.width())
+          })
+      )
+      const whereToAdd = [props.activeTab, props.form.children().length]
+      console.log('add entity at form: ', entityToAdd, whereToAdd)
+      props.addformentity(entityToAdd, whereToAdd)
+      console.log('remove entity at form: ', data.address)
+      props.removeformentity(data.address)
+    }
   }
 
   const dragover_handler = (event) => {
