@@ -2,12 +2,12 @@ const deepFreeze = require('deep-freeze');
 const { FormInput } = require('./FormInput.js');
 
 /**
- * Class representing a Checkbox.
+ * Class representing a CheckBox.
  * @extends FormInput
  */
-class Checkbox extends FormInput {
+class RadioButton extends FormInput {
   /**
-   * Create a Checkbox.
+   * Create a RadioButton.
     * Create a FormEntity.
       * @param {Object} properties - Properties of FormEntity
       * @property {number} properties.uuid - UUID of form entity.
@@ -25,7 +25,7 @@ class Checkbox extends FormInput {
       * @property {number} properties.prepend - Get the number of grid units prepended to rendered representations of the form entity.
       * @property {number} properties.append - Get the number of grid units appended to rendered representations of the form entity.
       * @property {string} properties.autoNumber - The expression used to determine how to automatically number inputs after this one in a form hierarchy.
-      * @property {boolean} properties.defaultState - Default state of the checkbox.
+      * @property {boolean} properties.defaultState - Default state of the RadioButton.
      */
   constructor(properties) {
 
@@ -41,28 +41,28 @@ class Checkbox extends FormInput {
    *
    * Clone the text area.
    * @param {Object} props
-   * @returns {Checkbox}
-   * @memberof Checkbox
+   * @returns {RadioButton}
+   * @memberof RadioButton
    */
   clone(props) {
-    return new Checkbox(props === undefined ? this.properties() : props);
+    return new RadioButton(props === undefined ? this.properties() : props);
   }
 
   /**
    *
    * Get the defaultState.
-   * @returns {Checkbox}
-   * @memberof Checkbox
+   * @returns {RadioButton}
+   * @memberof RadioButton
    */
   defaultState() {
     return this._defaultState;
   }
 
- /**
-     *
-     * Returns public properties of a form input.
-     * @returns {Object}
-     */
+  /**
+      *
+      * Returns public properties of a form input.
+      * @returns {Object}
+      */
   properties() {
     return {
       uuid: this.UUID(),
@@ -87,11 +87,11 @@ class Checkbox extends FormInput {
 
 }
 
-deepFreeze(Checkbox);
+deepFreeze(RadioButton);
 
-// let x = new Checkbox({uuid: 1, width: 2, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'type', tabOrder: [1, 2, 3], inputWidth: 7, promptNumber: 'promptNumber',  prepend: 88, autoNumber: 'SEQUENTIAL', append: 4, defaultState: true});
+// let x = new RadioButton({uuid: 1, width: 2, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'type', tabOrder: [1, 2, 3], inputWidth: 7, promptNumber: 'promptNumber',  prepend: 88, autoNumber: 'SEQUENTIAL', append: 4, defaultState: true});
 
 // console.log(x.mutate({uuid: 234}))
 
 
-module.exports = { Checkbox: Checkbox }
+module.exports = { RadioButton: RadioButton }

@@ -26,7 +26,7 @@ class PaletteBarBody extends React.Component {
         <PaletteEntity
           backgroundColor="#FF851B"
           title="CheckBox Input"
-          type="checkBoxInput" />
+          type="CheckBoxInput" />
         <PaletteEntity
           backgroundColor="#0074D9"
           title="Date Time Input"

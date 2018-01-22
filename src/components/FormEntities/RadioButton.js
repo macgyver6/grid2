@@ -5,8 +5,7 @@ import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 
-const TextAreaComponent = (props) => {
-
+const RadioButtonComponent = (props) => {
   const resize = {
     init: null,
     init_grids: null,
@@ -22,10 +21,6 @@ const TextAreaComponent = (props) => {
     helpers.dragStart_handler(event, props.model, props.form, 'move')
   }
 
-  let drag_handler = function (event) {
-    helpers.drag_handler(event, props.model, props.form, resize, props)
-  }
-
   let dragOver_handler = function (event) {
     event.preventDefault();
   }
@@ -34,33 +29,36 @@ const TextAreaComponent = (props) => {
     helpers.dropMove_handler(event, props, resize)
   }
 
+ let drag_handler = function (event) {
+    helpers.drag_handler(event, props.model, props.form, resize, props)
+  }
+
   const marginCalc = () => {
     const _margin = [0, 0, 0, 0]
     props.model.append() > 0 ? _margin[1] = 4 : 0
     props.model.prepend() > 0 ? _margin[3] = 4 : 0
     return (((_margin.map((el) => `${el}px`)).toString().replace(/,/g, ' ')))
   }
-
-  const taStyle = {
-    margin: marginCalc(),
-    backgroundColor: '#205EE2',
-    opacity: '1',
-    gridColumn: `span ${props.model.width()}`,
+  const rbStyle = {
+    backgroundColor: '#304061',
     position: 'relative',
-    height: '100px'
+    gridColumn: `span ${props.model.width()}`,
+    height: '100px',
+    margin: marginCalc()
   }
 
   // return actual style values
-  // 1. # of grid columns the TextArea and Append will fill
+  // 1. # of grid columns the CheckBox and Append will fill
   styles.defaultEntity['gridColumn'] = 'span ' + (props.model.prepend() + props.model.width() + props.model.append())
-  // 2. # of grid columns within the TextArea
+  // 2. # of grid columns within the CheckBox
   styles.defaultEntity['gridTemplateColumns'] = 'repeat(' + (props.model.prepend() + props.model.width() + props.model.append()) + ', [col] 1fr)'
 
   return (
     <div
       style={styles.defaultEntity}
       onDragOver={dragOver_handler}
-      onDrop={drop_handler}    >
+      onDrop={drop_handler}
+    >
       {(props.model.prepend() > 0) ?
         <Prepend
           id={`${props.model.UUID()}.prepend`}
@@ -73,17 +71,20 @@ const TextAreaComponent = (props) => {
           addformentity={props.addformentity}            mutateformentity={props.mutateformentity}            /> :
         null
       }
+
       <div
         id={`${props.model.UUID()}.${props.model.type()}`}
-        style={taStyle}
-        className="TextArea"
+        style={rbStyle}
+        className='RadioButton'
         onDragStart={dragstart_handler}
         onDrag={drag_handler}
         draggable="true"
       >
-        <textarea className="form-control" placeholder="Write something in text area" name={props.model.name()} rows={props.model.numRows()} cols={props.model.numColumns()} type={props.model.type()}>
-        </textarea>
-
+        <form action="">
+          <input type="radio" name="_value" value="yes" /> Yes<br />
+          <input type="radio" name="_value" value="no" /> No<br />
+          <input type="radio" name="_value" value="other" /> Other
+        </form>
         <Resizer
           id={`${props.model.UUID()}.resizer`}
           element='FormEntity'
@@ -111,7 +112,7 @@ const TextAreaComponent = (props) => {
         null
       }
     </div>
-  )
+  );
 }
 
-export default TextAreaComponent;
+export default RadioButtonComponent;

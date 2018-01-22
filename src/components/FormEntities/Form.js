@@ -1,59 +1,142 @@
-import React, { Component } from 'react';
-import FormSectionComponent from './FormSection'
+import React from 'react';
 import { utility } from '../../utility';
 import { defaultPropsFE } from '../../constants/defaultPropsFE';
 
-class FormComponent extends Component {
-  constructor(props) {
-    super();
-    this.drop_handler = this.drop_handler.bind(this);
-    this.dragleave_handler = this.dragleave_handler.bind(this);
-    this.dragover_handler = this.dragover_handler.bind(this);
+const FormComponent = (props) => {
+  const round = (value, decimals) => {
+    return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
   }
 
-  drop_handler(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    let data = event.dataTransfer.getData("text");
-    let entityToAdd = utility.resurrectEntity(defaultPropsFE[data])
-    let location = utility.findNode(this.props.form, this.props.form)
-    // @hack - only adds to position 0 at this point
-    location.push(0)
-    this.props.addformentity(entityToAdd, location)
-  }
+  // let drag_handler = function (event) {
+  //   const model = utility.findEntityByPath(props.form, [0, props.activeTab])
+  //   // helpers.drag_handler(event, props.model, props.form, resize, props)
+  // }
 
-  dragover_handler(event) {
-    event.preventDefault();
-  }
+  const drop_handler = (event) => {
+    // event.preventDefault();
+    // event.stopPropagation();
+    // helpers.dropMove_handler(event, props, resize)
 
-  dragleave_handler(event) {
-    event.preventDefault();
-  }
+    let data = JSON.parse(event.dataTransfer.getData("address"));
 
-  render() {
-    const divStyle = {
-      border: '6px dashed #c04df9',
-      margin: '20px'
+    let bgrndGrdWidth = (document.getElementById('0.bgrndGrd').clientWidth + 8)
+    const appendGrids = round(((event.clientX - document.getElementById('form').getBoundingClientRect().left) / bgrndGrdWidth), 0)
+    if (data && data.action === 'addEntity') {
+      console.log('addEntity to top level formsection: ', data)
+      // adding to tab FormSection
+      // let parentPx = document.getElementById(`${props.model.UUID()}.${props.model.type()}`).clientWidth
+      console.log(bgrndGrdWidth, event.clientX, appendGrids)
+      // const appendGrids = round(((event.clientX - document.getElementById('form').left) / bgrndGrdWidth), 0)
+      let entityToAdd = utility.resurrectEntity(
+        Object.assign({},
+          data.model, {
+            prepend: appendGrids,
+            width: defaultPropsFE[data.model.type].width,
+            append: props.form.children()[props.activeTab].width() - appendGrids - defaultPropsFE[data.model.type].width
+          })
+      )
+      const whereToAdd = [props.activeTab, props.form.children()[props.activeTab].children().length]
+      // whereToAdd.concat(props.activeTab)
+      console.log(whereToAdd, entityToAdd)
+      // @hack - only adds to position 0 at this point
+      // formEntity.push(0)
+
+      props.addformentity(entityToAdd, whereToAdd)
+
+      // const div = document.getElementById(props.model.UUID());
+      // div.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
+      // event.target.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
     }
 
-    return (
-      <div style={divStyle}
-        onDrop={this.drop_handler}
-        onDragOver={this.dragover_handler}
-        onDragLeave={this.dragleave_handler}
-      >
-        <p>Form Component</p>
+    // if (data && data.action === 'move') {
+    //   console.log('dropped on form')
+    //   const appendGridsEOffset = round(((event.clientX - document.getElementById('form').getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
 
-        {this.props.form.sectionTabs() ?
-        this.props.form.children().map(child => child.children().map((formSection, i) => {return <FormSectionComponent
-             key= {i} model= {formSection} form= {this.props.form} removeformentity= {this.props.removeformentity} addformentity= {this.props.addformentity }
-        />}))
-        : this.props.form.children().map((element, i) => {
-          return React.createElement(FormSectionComponent, { key: i, model: element, form: this.props.form, removeformentity: this.props.removeformentity, addformentity: this.props.addformentity })
-        })}
-      </div>
-    );
+    //   let draggedEntity = utility.findEntityByPath(props.form, data.address)
+
+    //   let entityToAdd = utility.resurrectEntity(
+    //     Object.assign({},
+    //       draggedEntity.properties(), {
+    //         prepend: appendGridsEOffset,
+    //         append: (24 - appendGridsEOffset - draggedEntity.width())
+    //       })
+    //   )
+    //   const whereToAdd = [props.activeTab, props.form.children().length]
+    //   console.log('add entity at form: ', entityToAdd, whereToAdd)
+    //   props.addformentity(entityToAdd, whereToAdd)
+    //   console.log('remove entity at form: ', data.address)
+    //   props.removeformentity(data.address)
+    // }
   }
+
+  const dragover_handler = (event) => {
+    event.preventDefault();
+  }
+
+  const divStyle = {
+    // backgroundColor: 'blue',
+    margin: '20px',
+    position: 'relative',
+    gridTemplateColumns: `repeat(24, [col] 1fr)`,
+    gridTemplateRows: `[row] auto`,
+    gridGap: '8px',
+    zIndex: '10',
+    minHeight: '800px'
+  }
+
+  const bgrndGrd = {
+    "padding": "0px",
+    "margin": "0px",
+    "fontSize": "12px",
+    "color": "grey",
+    "textAlign": "center",
+    "backgroundColor": "lightgrey",
+    "zIndex": "15",
+    "height": "100vh"
+  }
+
+  const bgColumns = []
+
+  for (var i = 0; i < 24; i++) {
+    bgColumns.push(<div
+      id={`${i}.bgrndGrd`}
+      key={i}
+      style={bgrndGrd}>{i + 1}</div>)
+  }
+
+  return (
+    <div
+      className='wrapper'
+      id={`form`}
+      style={divStyle}
+      onDrop={drop_handler}
+      // onDrag={drag_handler}
+      onDragOver={dragover_handler}
+    >
+
+      <div className="grid" >
+      {/* loop through and render all children entities of top level section */}
+        {console.log(props.activeTab, props.form.children())
+}        {
+          props.form.children()[props.activeTab].children().map((element, i) => {
+            return React.createElement(utility.lookupComponent(element),
+              {
+                key: i,
+                model: element,
+                form: props.form,
+                removeformentity: props.removeformentity,
+                addformentity: props.addformentity,
+                mutateformentity: props.mutateformentity
+              }
+            )
+          })
+        }
+      </div>
+      <div className="grid grid_background">
+        {bgColumns}
+      </div>
+    </div>
+  );
 }
 
 export default FormComponent;

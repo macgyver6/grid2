@@ -1,11 +1,20 @@
 import React from 'react';
+import { utility } from '../../utility';
 import { helpers } from '../../helpers';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 
-const TextAreaComponent = (props) => {
+const CheckBoxComponent = (props) => {
+
+  let handleChange = (event, props) => {
+    console.log(event.target.value)
+    let result = utility.findNode(props.model, props.form)
+    props.removeformentity(result)
+    props.addformentity(
+      props.model.mutate({ defaultState: event.target.value }), result)
+  }
 
   const resize = {
     init: null,
@@ -41,26 +50,26 @@ const TextAreaComponent = (props) => {
     return (((_margin.map((el) => `${el}px`)).toString().replace(/,/g, ' ')))
   }
 
-  const taStyle = {
-    margin: marginCalc(),
-    backgroundColor: '#205EE2',
-    opacity: '1',
-    gridColumn: `span ${props.model.width()}`,
+  const cbStyle = {
+    backgroundColor: '#00C5EC',
     position: 'relative',
-    height: '100px'
+    gridColumn: `span ${props.model.width()}`,
+    height: '100px',
+    margin: marginCalc()
   }
 
-  // return actual style values
-  // 1. # of grid columns the TextArea and Append will fill
-  styles.defaultEntity['gridColumn'] = 'span ' + (props.model.prepend() + props.model.width() + props.model.append())
-  // 2. # of grid columns within the TextArea
-  styles.defaultEntity['gridTemplateColumns'] = 'repeat(' + (props.model.prepend() + props.model.width() + props.model.append()) + ', [col] 1fr)'
 
+  // return actual style values
+  // 1. # of grid columns the CheckBox and Append will fill
+  styles.defaultEntity['gridColumn'] = 'span ' + (props.model.prepend() + props.model.width() + props.model.append())
+  // 2. # of grid columns within the CheckBox
+  styles.defaultEntity['gridTemplateColumns'] = 'repeat(' + (props.model.prepend() + props.model.width() + props.model.append()) + ', [col] 1fr)'
   return (
     <div
       style={styles.defaultEntity}
       onDragOver={dragOver_handler}
-      onDrop={drop_handler}    >
+      onDrop={drop_handler}
+    >
       {(props.model.prepend() > 0) ?
         <Prepend
           id={`${props.model.UUID()}.prepend`}
@@ -73,17 +82,18 @@ const TextAreaComponent = (props) => {
           addformentity={props.addformentity}            mutateformentity={props.mutateformentity}            /> :
         null
       }
+
       <div
         id={`${props.model.UUID()}.${props.model.type()}`}
-        style={taStyle}
-        className="TextArea"
+        style={cbStyle}
+        className='CheckBox'
+        data-type='CheckBox'
         onDragStart={dragstart_handler}
         onDrag={drag_handler}
         draggable="true"
       >
-        <textarea className="form-control" placeholder="Write something in text area" name={props.model.name()} rows={props.model.numRows()} cols={props.model.numColumns()} type={props.model.type()}>
-        </textarea>
-
+        <input type={props.model.type()} onChange={(e) => handleChange(e, props)} >
+        </input>
         <Resizer
           id={`${props.model.UUID()}.resizer`}
           element='FormEntity'
@@ -111,7 +121,7 @@ const TextAreaComponent = (props) => {
         null
       }
     </div>
-  )
+  );
 }
 
-export default TextAreaComponent;
+export default CheckBoxComponent;

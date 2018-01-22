@@ -3,12 +3,14 @@ import FormComponent from './components/FormEntities/Form';
 import FormSectionComponent from './components/FormEntities/FormSection';
 import TextInputComponent from './components/FormEntities/TextInput';
 import TextAreaComponent from './components/FormEntities/TextArea';
-import CheckboxComponent from './components/FormEntities/Checkbox';
+import CheckBoxComponent from './components/FormEntities/CheckBox';
+import RadioButtonComponent from './components/FormEntities/RadioButton';
 import { Form } from './data/Form';
 import { FormSection } from './data/FormSection';
 import { TextInput } from './data/TextInput';
 import { TextArea } from './data/TextArea';
-import { Checkbox } from './data/Checkbox';
+import { CheckBox } from './data/CheckBox';
+import { RadioButton } from './data/RadioButton';
 
 export const utility = {
   /**
@@ -64,7 +66,6 @@ export const utility = {
     } else {
       newChildren.splice(path[0], 1);
     }
-
     return section.setChildren(newChildren);
   },
 
@@ -80,6 +81,28 @@ export const utility = {
     }
 
     return null;
+  },
+
+  findEntityUuid: (uuid, node, path = [], entity) => {
+    if (node.UUID() === uuid) {
+      return [path, node];
+    }
+
+    if (node.children) {
+      return node.children().reduce((acc, child, index) => {
+        return acc || utility.findEntityUuid(uuid, child, [...path, index]);
+      }, null);
+    }
+
+    return null;
+  },
+
+  findEntityByPath: (section, path, entity) => {
+    if (path.length > 1) {
+      return utility.findEntityByPath(section.children()[path[0]], path.slice(1));
+    } else {
+      return section.children()[path]
+    }
   },
 
   serialize: (node) => {
@@ -117,8 +140,11 @@ export const utility = {
     else if (modelInstance instanceof TextArea) {
       return TextAreaComponent;
     }
-    else if (modelInstance instanceof Checkbox) {
-      return CheckboxComponent;
+    else if (modelInstance instanceof CheckBox) {
+      return CheckBoxComponent;
+    }
+    else if (modelInstance instanceof RadioButton) {
+      return RadioButtonComponent;
     }
   },
 
@@ -133,11 +159,22 @@ export const utility = {
         return new TextInput({ ...formEntitySerialized })
       case 'TextArea':
         return new TextArea({ ...formEntitySerialized })
-      case 'Checkbox':
-        return new Checkbox({ ...formEntitySerialized })
+      case 'CheckBox':
+        return new CheckBox({ ...formEntitySerialized })
+      case 'RadioButton':
+        return new RadioButton({ ...formEntitySerialized })
       default: throw new Error('Unexpected Entity Type')
     }
-  }
+  },
+
+  mutate: function (address, properties) {
+    const entity = utility.findEntityByPath(address)
+    utility.remove(address)
+    utility.add(utility.resurrectEntity(
+      Object.assign({},
+        entity.properties(), properties)
+    ), address)
+  },
 }
 
 export const components = {

@@ -2,11 +2,15 @@ import { utility } from '../utility';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
 import { Form } from '../data/Form';
 
+// initialize the store
 const formReducer = (state, action) => {
   if (typeof state === 'undefined') {
     state = {
       value: 0,
-      form: new Form(defaultPropsFE.Form)
+      form: new Form(defaultPropsFE.Form),
+      app: {
+        activeTab: 0
+      }
     }
   }
 
@@ -26,7 +30,7 @@ const formReducer = (state, action) => {
     let result =
       utility.add (
         action.formEntity,
-        state.form,
+        action.section || state.form,
         action.path )
     return Object.assign({}, state, {
       form: result
@@ -42,6 +46,27 @@ const formReducer = (state, action) => {
     })
   }
 
+  if (action.type === 'MUTATEFORMENTITY') {
+    const initEntity = utility.findEntityByPath(state.form, action.path)
+    let update = utility.remove (
+      action.section || state.form,
+      action.path )
+    const removedUpdate = Object.assign({}, state, {
+      form: update
+    })
+    let mutatedEntity = Object.assign({}, initEntity.properties(),
+      action.properties
+    )
+    let result =
+      utility.add(
+        utility.resurrectEntity(mutatedEntity),
+        removedUpdate.form,
+        action.path)
+    return Object.assign({}, state, {
+      form: result
+    })
+  }
+
   if (action.type === 'SAVESTATE') {
     let serialized = utility.serialize(state.form);
     localStorage.setItem('model', JSON.stringify(serialized))
@@ -49,6 +74,7 @@ const formReducer = (state, action) => {
       lastSaved: Date.now()
     })
   }
+
   if (action.type === 'LOADSTATE') {
     if (localStorage.getItem('model')) {
       let resurrectedEntities =
@@ -57,6 +83,9 @@ const formReducer = (state, action) => {
     } else {
       throw new Error('No items saved in local storage')
     }
+  }
+  if (action.type === 'CHANGETAB') {
+    return Object.assign({}, state, { app: { activeTab: action.tab}})
   }
   return state;
 }

@@ -4,7 +4,7 @@ import * as actions from '../actions/index';
 import FormComponent from '../components/FormEntities/Form';
 import { utility } from '../utility';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
-
+import { helpers } from '../helpers';
 import {
   backgroundPanelStyle,
   leftPanelStyle,
@@ -12,71 +12,73 @@ import {
   rightPanelStyle,
   headerPanelStyle,
 } from '../components/layout/styles/Layout';
-
 import DesignBoxHeader from '../components/layout/design/DesignBoxHeader';
-
-// let dragover_handler = function (event) {
-//   event.preventDefault();
-// }
-
-let dragstart_handler = function (event) {
-  event.dataTransfer.setData("text/plain", event.target.dataset.type);
-}
-
-let dragend_handler = function (event) {
-  event.preventDefault();
-}
-
-// let dragleave_handler = function (event) {
-//   event.preventDefault();
-// }
 
 const BackgroundPanel = (props) =>
   <div style={backgroundPanelStyle}>
     <LeftPanel
       form={props.form}
       removeformentity={props.removeformentity}
-      addformentity={props.addformentity} />
+      addformentity={props.addformentity}
+      mutateformentity={props.mutateformentity}
+      changetab={props.changetab}
+      activeTab={props.activeTab}
+    />
     <MiddlePanel
       form={props.form}
       removeformentity={props.removeformentity}
-      addformentity={props.addformentity} />
+      addformentity={props.addformentity}
+      mutateformentity={props.mutateformentity}
+      changetab={props.changetab}
+      activeTab={props.activeTab} />
     <RightPanel />
   </div>
 
 const selectionStyles = {
   TextInput: {
-    background: "#ff3f3f",
+    background: "#6C788F",
     padding: "20px",
-    margin: "20px"
+    margin: "20px",
+    textAlign: 'center'
   },
 
   TextArea: {
-    background: "#2bd1fc",
+    background: "#205EE2",
     padding: "20px",
-    margin: "20px"
+    margin: "20px",
+    textAlign: 'center'
   },
 
-  Checkbox: {
-    background: "#ff48c4",
+  CheckBox: {
+    background: "#00C5EC",
     padding: "20px",
-    margin: "20px"
+    margin: "20px",
+    textAlign: 'center'
+  },
+
+  RadioButton: {
+    background: "#304061",
+    padding: "20px",
+    margin: "20px",
+    textAlign: 'center'
   },
 
   FormSection: {
     background: "#f3ea5f",
     padding: "20px",
-    margin: "20px"
+    margin: "20px",
+    textAlign: 'center'
   },
 
   Remove: {
-    background: "red",
+    background: "#ff5f56",
     padding: "20px",
-    margin: "20px"
+    margin: "20px",
+    textAlign: 'center'
   }
 }
 
-let entityTypes = ['FormSection', 'Checkbox', 'TextArea', 'TextInput']
+let entityTypes = ['FormSection', 'CheckBox', 'TextArea', 'TextInput', 'RadioButton']
 
 
 
@@ -90,10 +92,93 @@ let dragleave_handler = (event) => {
 
 const DeleteBtn = (props) => {
   let drop_handler = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    let entityModel = utility.resurrectEntity(JSON.parse(event.dataTransfer.getData("text")))
-    props.removeformentity(utility.findNode(entityModel, props.form))
+    let data = JSON.parse(event.dataTransfer.getData("address"))
+    const draggedEntity = utility.findEntityByPath(props.form, data.address)
+    const restoreDonorSiblingAddress = (arr) => {
+      // get donor's parent
+      const donorParent = utility.findEntityByPath(props.form, arr.slice(0, arr.length - 1))
+      if (arr.length <= 2) { return false }
+      if (donorParent.children().length === 1) {
+        return false
+      } else {
+        const toLeft = (arr) => {
+          const _toLeft = [...arr]
+          if (_toLeft[arr.length - 1] < 1) {
+            return false
+          }
+          _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1
+          return ({ address: _toLeft, entity: utility.findEntityByPath(props.form, _toLeft) })
+        }
+        const toRight = (arr) => {
+          const _toRight = [...arr]
+          _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1
+          return ({
+            address: _toRight,
+            entity: utility.findEntityByPath(props.form, _toRight)
+          })
+        }
+
+        if (toLeft(arr)) {
+          console.log('previous entity exists, adding to append: ', toLeft(arr).address)
+          return ({
+            address: toLeft(arr).address,
+            properties: {
+              append: toLeft(arr).entity.append() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append()
+            }
+          })
+        } else {
+          console.log('no previous entity exists, adding to prepend')
+          return ({
+            address: toRight(arr).address,
+            properties:
+              { prepend: toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append() }
+          })
+        }
+      }
+    }
+    // console.log(props.activeTab)
+
+    if (restoreDonorSiblingAddress(data.address)) {
+      console.log('mutate this donor: ', utility.findEntityByPath(props.form, restoreDonorSiblingAddress(data.address).address), restoreDonorSiblingAddress(data.address).address, restoreDonorSiblingAddress(data.address).properties)
+
+      props.mutateformentity(restoreDonorSiblingAddress(data.address).address, restoreDonorSiblingAddress(data.address).properties)
+    }
+
+    console.log('remove entity at this address: ', data.address, utility.findEntityByPath(props.form, data.address))
+    console.log(JSON.parse(event.dataTransfer.getData('address')).address)
+    props.removeformentity(data.address)
+    const currentTab = JSON.parse(event.dataTransfer.getData('address')).address;
+    console.log(currentTab[0])
+
+    if (currentTab.length === 1) {
+      const whichTab = () => {
+        if (props.activeTab === 0) {
+          console.log('here')
+          return 0
+        }
+        if (props.activeTab === currentTab[0] && props.form.children().length - 1 !== currentTab[0]) {
+          console.log('here')
+          return props.form.children().length
+        }
+        console.log(props.activeTab, currentTab[0], props.form.children().length - 1)
+        if (props.activeTab === currentTab[0] && props.form.children().length - 1 === currentTab[0]) {
+          console.log('here')
+          return props.form.children().length - 1
+        }
+        if (props.activeTab !== currentTab[0]) {
+          console.log('here: ', props.form.children().length)
+          return props.form.children().length - 1
+        }
+        // return currentTab[0]
+      }
+      console.log(event.target, currentTab[0])
+      console.log('change current tab to: ', whichTab() - 1)
+      props.changetab(whichTab() - 1)
+    }
+
+    // console.log(props.activeTab)
+    // console.log((props.activeTab - 1 >= 0 ? props.activeTab - 1 : currentTab[0] - 1))
+    // props.changetab(props.activeTab - 1 >= 0 ? props.activeTab - 1 : currentTab[0] - 1)
   }
   return <div
     style={selectionStyles.Remove}
@@ -101,17 +186,57 @@ const DeleteBtn = (props) => {
     onDragOver={dragover_handler}
     onDragLeave={dragleave_handler}
   >
-    <p>Delete -</p>
-    {/* <button
-      type="button"
-      className="btn btn-danger"
-      onClick={(e) => this.handleDelete(e, this.props)}
-    >-</button> */}
+    <h1>🗑</h1>
   </div>
 }
 
-const LeftPanel = (props) =>
-  <div style={leftPanelStyle}
+const LeftPanel = (props) => {
+  console.log(props.form)
+  const dragstart_handler = (event) => {
+    helpers.dragStart_handler(event, defaultPropsFE[event.target.dataset.type], props.form, 'addEntity')
+
+    // event.dataTransfer.setData("text/plain",
+    //   JSON.stringify({
+    //     action: 'addEntity',
+    //     model: defaultPropsFE[event.target.dataset.type]
+    //   }));
+    // var test = document.createElement('div');
+    // test.style.width = '100px';
+    // test.style.height = '100px';
+    // // test.style.position = 'fixed';
+    // // test.style.top = '-1000000px';
+    // // test.style.left = '-1000000px';
+    // test.style.border = '2px solid red';
+    // document.body.appendChild(test);
+    // event.dataTransfer.setDragImage(test, 0, 0)
+    let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
+    console.log(bgrndGrdWidth)
+    const type = event.target.dataset.type
+    const div = document.createElement('div');
+    div.id = "dmg";
+    div.style.width = `${defaultPropsFE[type].width * bgrndGrdWidth}px`;
+    div.style.height = '100px';
+    div.style.backgroundColor = defaultPropsFE[type].render.backgroundColor
+    div.style.position = "fixed";
+    div.style.top = "-1000px";
+    div.style.left = "-1000px";
+    document.body.appendChild(div);
+
+    // var p = document.getElementById("FormSectionComponent");
+
+    // var p_prime = p.cloneNode(true);
+    // p_prime.style.position = "fixed";
+    // p_prime.id = "dmg";
+    // p_prime.style.top = "-1000px";
+    // p_prime.style.left = "-1000px";
+    // console.log(p_prime)
+    // document.body.appendChild(p_prime);
+
+    event.dataTransfer.setDragImage(div, 0, 0);
+  }
+
+  return <div
+    style={leftPanelStyle}
     form={props.form}
   >
     {entityTypes.map((entity, index) => {
@@ -119,7 +244,7 @@ const LeftPanel = (props) =>
         <div
           key={index}
           draggable="true"
-          onDragEnd={dragend_handler}
+          form={props.form}
           onDragStart={dragstart_handler}
           style={selectionStyles[entity]}
           data-type={entity}>
@@ -130,18 +255,25 @@ const LeftPanel = (props) =>
     < DeleteBtn
       form={props.form}
       removeformentity={props.removeformentity}
+      mutateformentity={props.mutateformentity}
     />
   </div>
+}
 
 const MiddlePanel = (props) => {
   return <div
-    style={middlePanelStyle}>
+    style={middlePanelStyle}
+    >
     <div style={{
-      ...headerPanelStyle, backgroundColor: "#EB7265", border: '6px dashed #f3ea5f', margin: '0px 20px 0px'
+      ...headerPanelStyle, backgroundColor: "lightgrey", border: '0px dashed #f3ea5f', margin: '0px 20px 0px'
     }}>
       {props.form.sectionTabs() ?
         <DesignBoxHeader
-          tabs={props.form.children()}
+          form={props.form}
+          addformentity={props.addformentity}
+          removeformentity={props.removeformentity}
+          changetab={props.changetab}
+          activeTab={props.activeTab}
         />
         : <DesignBoxHeader
         />
@@ -152,6 +284,8 @@ const MiddlePanel = (props) => {
       form={props.form}
       removeformentity={props.removeformentity}
       addformentity={props.addformentity}
+      mutateformentity={props.mutateformentity}
+      activeTab={props.activeTab}
     />
   </div>
 }
@@ -169,12 +303,13 @@ class FormEntityInit extends Component {
   render() {
     return (
       <div>
-        <h1>FormEntitiesInit</h1>
-
         <BackgroundPanel
           form={this.props.store.model.form}
           removeformentity={this.props.removeformentity}
           addformentity={this.props.addformentity}
+          mutateformentity={this.props.mutateformentity}
+          changetab={this.props.changetab}
+          activeTab={this.props.store.model.app.activeTab}
         />
       </div>
     )
