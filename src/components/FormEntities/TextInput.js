@@ -1,7 +1,6 @@
 import React from 'react';
 import { helpers } from '../../helpers';
-import Resizer from './subentities/Resizer.js';
-import Resizer2 from './subentities/Resizer2.js';
+import Resizer from './subentities/Resizer';
 import { styles } from './feStyles';
 import Append from './subentities/Append.js';
 import Prepend from './subentities/Prepend.js';
@@ -87,7 +86,7 @@ const TextInputComponent = (props) => {
         <input className="form-control" type={props.model.type()}
           defaultValue={props.model.defaultContent()}
         />
-        <Resizer2
+        <Resizer
           id={`${props.model.UUID()}.resizer`}
           element='FormEntity'
           uuid={props.model.UUID()}

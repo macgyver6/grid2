@@ -2,7 +2,6 @@ import React from 'react';
 import { utility } from '../../utility';
 import { defaultPropsFE } from '../../constants/defaultPropsFE';
 import Resizer from './subentities/Resizer.js';
-import Resizer2 from './subentities/Resizer2.js';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
@@ -257,7 +256,7 @@ let FormSectionComponent = (props) => {
         }) : null
         }
 
-        <Resizer2
+        <Resizer
           id={`${props.model.UUID()}.resizer`}
           element='FormEntity'
           uuid={props.model.UUID()}

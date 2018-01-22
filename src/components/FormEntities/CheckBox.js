@@ -1,7 +1,7 @@
 import React from 'react';
 import { utility } from '../../utility';
 import { helpers } from '../../helpers';
-import Resizer2 from './subentities/Resizer2';
+import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
@@ -106,7 +106,7 @@ const CheckBoxComponent = (props) => {
       {/* onChange={(e) => handleChange(e, props)} */}
         <input type={props.model.type()}  >
         </input>
-        <Resizer2
+        <Resizer
           id={`${props.model.UUID()}.resizer`}
           element='FormEntity'
           uuid={props.model.UUID()}

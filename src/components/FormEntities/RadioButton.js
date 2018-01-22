@@ -1,7 +1,6 @@
 import React from 'react';
 import { helpers } from '../../helpers';
 import Resizer from './subentities/Resizer';
-import Resizer2 from './subentities/Resizer2';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
@@ -87,7 +86,7 @@ const RadioButtonComponent = (props) => {
           <input type="radio" name="_value" value="no" /> No<br />
           <input type="radio" name="_value" value="other" /> Other
         </form>
-        <Resizer2
+        <Resizer
           id={`${props.model.UUID()}.resizer`}
           element='FormEntity'
           uuid={props.model.UUID()}
