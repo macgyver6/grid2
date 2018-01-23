@@ -22,29 +22,29 @@ export const helpers = {
     //   dragInit: round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3)
     // }))
     console.log(event, model, form, action)
-    if (action === "resize") {
-      console.log({
-        action: action,
-        address: utility.findNode(model, form),
-        dragInit: round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3)
-      })
-      event.dataTransfer.setData("address", JSON.stringify({
-        action: action,
-        address: utility.findNode(model, form),
-        dragInit: action === 'move' ? round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3) : null
-      }));
-      var img = new Image();
-      img.src = '';
-      event.dataTransfer.setDragImage(img, 10, 10);
-    }
-    if (action === "move") {
-      event.dataTransfer.setData("address", JSON.stringify({
-        action: action,
-        address: utility.findNode(model, form),
-        // define initial click position to offset grids if not a topLevelFormSection, or if adding a new entity
-        dragInit: action === 'move' && utility.findNode(model, form).length > 1 ? round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3) : null
-      }));
-    }
+    // if (action === "resize") {
+    //   console.log({
+    //     action: action,
+    //     address: utility.findNode(model, form),
+    //     dragInit: round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3)
+    //   })
+    //   event.dataTransfer.setData("address", JSON.stringify({
+    //     action: action,
+    //     address: utility.findNode(model, form),
+    //     dragInit: action === 'move' ? round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3) : null
+    //   }));
+    //   var img = new Image();
+    //   img.src = '';
+    //   event.dataTransfer.setDragImage(img, 10, 10);
+    // }
+    // if (action === "move") {
+    //   event.dataTransfer.setData("address", JSON.stringify({
+    //     action: action,
+    //     address: utility.findNode(model, form),
+    //     // define initial click position to offset grids if not a topLevelFormSection, or if adding a new entity
+    //     dragInit: action === 'move' && utility.findNode(model, form).length > 1 ? round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3) : null
+    //   }));
+    // }
     if (action === "addEntity") {
       event.dataTransfer.setData("address", JSON.stringify({
         action: action,

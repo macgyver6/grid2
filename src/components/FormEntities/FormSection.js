@@ -195,7 +195,7 @@ let FormSectionComponent = (props) => {
   const fsStyle = {
     display: "grid",
     position: 'relative',
-    border: '2px dotted',
+    // border: '2px dotted',
     gridTemplateColumns: `repeat(${props.model.width()}, [col] 1fr)`,
     backgroundColor: "rgba(243, 234, 95, 0.7)",
     minHeight: "120px",
@@ -217,8 +217,8 @@ let FormSectionComponent = (props) => {
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       className="FS"
       style={styles.formSection}
-      onDrop={drop_handler}
-      onDragOver={dragOver_handler}
+      // onDrop={drop_handler}
+      // onDragOver={dragOver_handler}
       // style={styles.defaultEntity}
     >
       {(props.model.prepend() > 0) ?
@@ -237,10 +237,10 @@ let FormSectionComponent = (props) => {
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="form-group FS"
         style={fsStyle}
-        onDrag={drag_handler}
+        // onDrag={drag_handler}
         data-action={`mover.${props.model.UUID()}.FormSection`}
-        draggable="true"
-        onDragStart={dragstart_handler}
+        // draggable="true"
+        // onDragStart={dragstart_handler}
       >
         {/* <MovePrior
           element='FormEntity'
