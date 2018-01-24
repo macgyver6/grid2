@@ -96,6 +96,7 @@ export const movers = {
     console.log(event.target)
     event.stopPropagation();
     const data = JSON.parse(event.dataTransfer.getData('address'));
+    if (data.action != 'addEntity') {
     const previousSibling = [...move.source_address]
     previousSibling[previousSibling.length - 1] = previousSibling[previousSibling.length - 1] - 1 > 0 ? previousSibling[previousSibling.length - 1] - 1 : 0
     let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
@@ -152,5 +153,5 @@ export const movers = {
   //   }
   // )
   //   props.removeformsection()
-  }
+  }}
 }

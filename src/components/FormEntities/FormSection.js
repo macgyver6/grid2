@@ -74,6 +74,7 @@ let FormSectionComponent = (props) => {
 
     if (data && data.action === 'move') {
       console.log('FormSection drop move')
+      console.log(data.address)
       let draggedEntity = utility.findEntityByPath(props.form, data.address)
       let entityToAdd = utility.resurrectEntity(
         Object.assign({},
@@ -256,6 +257,7 @@ let FormSectionComponent = (props) => {
           addformentity={props.addformentity}
         /> */}
         {/* generalize to map through any type entity*/}
+
         {props.model.type() === 'FormSection' ?
         props.model.children().map((element, i) => {
           return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity, mutateformentity: props.mutateformentity })
