@@ -1,5 +1,6 @@
 import React from 'react';
 import { helpers } from '../../helpers';
+import { movers } from '../../movers';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
@@ -17,21 +18,30 @@ const RadioButtonComponent = (props) => {
     address: null
   }
 
+  /** Handle adding/subtracing prepend or append */
+  const mouseDown_handler = (event) => {
+    movers.mouseDownToMove_handler(event, props, 'move');
+  }
+
+  /** Set dataTransfer in the case the entity is dropped on target:
+   * 1. Moving to different form section
+   * 2. Deleting a form section
+   */
   let dragstart_handler = function (event) {
     helpers.dragStart_handler(event, props.model, props.form, 'move')
   }
 
-  let dragOver_handler = function (event) {
-    event.preventDefault();
-  }
+//   let dragOver_handler = function (event) {
+//     event.preventDefault();
+//   }
 
-  let drop_handler = function (event) {
-    helpers.dropMove_handler(event, props, resize)
-  }
+//   let drop_handler = function (event) {
+//     helpers.dropMove_handler(event, props, resize)
+//   }
 
- let drag_handler = function (event) {
-    helpers.drag_handler(event, props.model, props.form, resize, props)
-  }
+//  let drag_handler = function (event) {
+//     helpers.drag_handler(event, props.model, props.form, resize, props)
+//   }
 
   const marginCalc = () => {
     const _margin = [0, 0, 0, 0]
@@ -55,10 +65,10 @@ const RadioButtonComponent = (props) => {
 
   return (
     <div
-      id={`${props.model.UUID()}.${props.model.type()}`}
+      id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       style={styles.defaultEntity}
-      onDragOver={dragOver_handler}
-      onDrop={drop_handler}
+      // onDragOver={dragOver_handler}
+      // onDrop={drop_handler}
     >
       {(props.model.prepend() > 0) ?
         <Prepend
@@ -77,8 +87,8 @@ const RadioButtonComponent = (props) => {
         id={`${props.model.UUID()}.${props.model.type()}`}
         style={rbStyle}
         className='RadioButton'
+        onMouseDown={mouseDown_handler}
         onDragStart={dragstart_handler}
-        onDrag={drag_handler}
         draggable="true"
       >
         <form action="">

@@ -1,6 +1,7 @@
 import React from 'react';
 import { utility } from '../../utility';
 import { helpers } from '../../helpers';
+import { movers } from '../../movers';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
@@ -27,30 +28,20 @@ const CheckBoxComponent = (props) => {
     address: null
   }
 
-  // let handleChange = (event) => {
-  //   console.log(event.target.value)
-  //   let result = utility.findNode(props.model, props.form)
-  //   props.removeformentity(result)
-  //   props.addformentity(
-  //     props.model.mutate({ defaultState: event.target.value }), result)
-  // }
-
-  let drag_handler = function (event) {
-    helpers.drag_handler(event, props.model, props.form, resize, props)
+  /** Handle adding/subtracing prepend or append */
+  const mouseDown_handler = (event) => {
+    movers.mouseDownToMove_handler(event, props, 'move');
   }
 
-  let dragOver_handler = function (event) {
-    event.preventDefault();
-  }
-
+    /** Handle adding/subtracing prepend or append */
   let dragstart_handler = function (event) {
     event.stopPropagation();
     helpers.dragStart_handler(event, props.model, props.form, 'move')
   }
 
-  let drop_handler = function (event) {
-    helpers.dropMove_handler(event, props, resize)
-  }
+  // let drop_handler = function (event) {
+  //   helpers.dropMove_handler(event, props, resize)
+  // }
 
   const marginCalc = () => {
     const _margin = [0, 0, 0, 0]
@@ -77,9 +68,9 @@ const CheckBoxComponent = (props) => {
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       style={styles.defaultEntity}
-      onDragStart={dragstart_handler}
-      onDragOver={dragOver_handler}
-      onDrop={drop_handler}
+      // onDragStart={dragstart_handler}
+      // onDragOver={dragOver_handler}
+      // onDrop={drop_handler}
     >
       {(props.model.prepend() > 0) ?
         <Prepend
@@ -99,8 +90,9 @@ const CheckBoxComponent = (props) => {
         style={cbStyle}
         className='CheckBox'
         data-type='CheckBox'
+        onMouseDown={mouseDown_handler}
         onDragStart={dragstart_handler}
-        onDrag={drag_handler}
+        // onDrag={drag_handler}
         draggable="true"
       >
       {/* onChange={(e) => handleChange(e, props)} */}

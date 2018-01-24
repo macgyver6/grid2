@@ -183,7 +183,7 @@ export const helpers = {
       }
     }
 
-    // move entity that isn't a formEntity move
+    // move entity that isn't a formSection move
     if (data.action === 'move' && draggedEntity.UUID() !== props.model.UUID() && draggedEntity.type() !== 'FormSection') {
       console.log('dropped UUID different than props')
       let parentEntity = utility.findEntityByPath(props.form, data.address.slice(0, data.address.length - 1))
@@ -259,7 +259,7 @@ export const helpers = {
               }
             })
           } else {
-            console.log('no previous entity exists, adding to prepend')
+            console.log('no previous entity exists, adding to prepend', { prepend: toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append() })
             return ({
               address: toRight(arr).address,
               properties:
@@ -268,26 +268,26 @@ export const helpers = {
           }
         }
       }
-      console.log(restoreDonorSiblingAddress(data.address))
-      if (restoreDonorSiblingAddress(data.address)) {
+      // console.log(restoreDonorSiblingAddress(data.address))
+      // if (restoreDonorSiblingAddress(data.address)) {
 
-        props.mutateformentity(restoreDonorSiblingAddress(data.address).address, restoreDonorSiblingAddress(data.address).properties)
-        }
-        // console.log('add this entity: ', Object.assign({},
-        //   draggedEntity.properties(), {
-        //     prepend: 0,
-        //     append: (destinationEntity[1].width() - 0 - draggedEntity.width() - appendGrids)
-        //   }))
+      //   props.mutateformentity(restoreDonorSiblingAddress(data.address).address, restoreDonorSiblingAddress(data.address).properties)
+      //   }
+      //   // console.log('add this entity: ', Object.assign({},
+      //   //   draggedEntity.properties(), {
+      //   //     prepend: 0,
+      //   //     append: (destinationEntity[1].width() - 0 - draggedEntity.width() - appendGrids)
+      //   //   }))
 
-        props.addformentity(utility.resurrectEntity(
-          Object.assign({},
-            draggedEntity.properties(), {
-              prepend: 0,
-              append: (destinationEntity[1].append() - 0 - draggedEntity.width() - appendGrids)
-            })
-        ), draggedEntityNewAddress)
-        props.removeformentity(data.address)
-        props.mutateformentity(destinationEntity[0], { append: appendGrids} )
+      //   props.addformentity(utility.resurrectEntity(
+      //     Object.assign({},
+      //       draggedEntity.properties(), {
+      //         prepend: 0,
+      //         append: (destinationEntity[1].append() - 0 - draggedEntity.width() - appendGrids)
+      //       })
+      //   ), draggedEntityNewAddress)
+      //   props.removeformentity(data.address)
+      //   props.mutateformentity(destinationEntity[0], { append: appendGrids} )
 
 
       }

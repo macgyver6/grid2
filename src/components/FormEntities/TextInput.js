@@ -23,31 +23,27 @@ const TextInputComponent = (props) => {
     address: null
   }
 
-  const mouseDownToMove_handler = (event) => {
+  /** Handle adding/subtracing prepend or append */
+  const mouseDown_handler = (event) => {
     movers.mouseDownToMove_handler(event, props, 'move');
   }
 
-  let dragLeave_handler = (event) => {
-    event.stopPropagation();
-   movers.dragLeave_handler(event)
-  }
-
+  /** Set dataTransfer in the case the entity is dropped on target:
+   * 1. Moving to different form section
+   * 2. Deleting a form section
+   */
   let dragstart_handler = (event) => {
-    event.stopPropagation();
+    // event.stopPropagation();
     helpers.dragStart_handler(event, props.model, props.form, 'move')
   }
 
-  // let dragOver_handler = function (event) {
-  //   event.preventDefault();
-  // }
+  let dragOver_handler = (event) => {
+    event.preventDefault()
+  }
 
-  // let drop_handler = function (event) {
-  //   helpers.dropMove_handler(event, props, resize)
-  // }
-
-  // let drag_handler = function (event) {
-  //   helpers.drag_handler(event, props.model, props.form, resize, props)
-  // }
+  let drop_handler = (event) => {
+    movers.drop_handler(event, props)
+  }
 
   const marginCalc = () => {
     const _margin = [0, 0, 0, 0]
@@ -65,33 +61,18 @@ const TextInputComponent = (props) => {
     cursor: 'move'
   }
 
-  const clickParent_handler = (event) => {
-    console.log('parent clicked')
-  }
-
-  const clickChild_handler = (event) => {
-    console.log('child clicked')
-  }
-
   // return actual style values
   // 1. # of grid columns the TextArea and Append will fill
   styles.defaultEntity['gridColumn'] = 'span ' + (props.model.prepend() + props.model.width() + props.model.append())
   // 2. # of grid columns within the TextArea
   styles.defaultEntity['gridTemplateColumns'] = 'repeat(' + (props.model.prepend() + props.model.width() + props.model.append()) + ', [col] 1fr)'
 
-  console.log(props.model)
-
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       style={styles.defaultEntity}
-      onDragLeave ={dragLeave_handler}
-      // onClick={clickParent_handler}
-      // onMouseMove={mouseMove_handler}
-      // onMouseUp={mouseUpToMove_handler}
-
-      // onDragOver={dragOver_handler}
-      // onDrop={drop_handler}
+      onDragOver={dragOver_handler}
+      onDrop={drop_handler}
       >
       {(props.model.prepend() > 0) ?
         <Prepend
@@ -110,11 +91,10 @@ const TextInputComponent = (props) => {
       <div style={tiStyle}
         id={`${props.model.UUID()}.${props.model.type()}`}
         className='TextInput'
-        onClick={clickChild_handler}
-        // onMouseDown={mouseDownToMove_handler}
+        // onMouseDown={mouseDown_handler}
         // onMouseMove={helpers.mouseMove_handler}
         // onDrag={drag_handler}
-        onMouseDown={mouseDownToMove_handler}
+        onMouseDown={mouseDown_handler}
         onDragStart={dragstart_handler}
         draggable="true"
       >

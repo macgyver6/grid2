@@ -1,9 +1,15 @@
 import React from 'react';
 import { helpers } from '../../../helpers';
+import { utility } from '../../../utility';
+import { rearrangers } from '../../../rearrangers';
 
 const Append = (props) => {
   const drop_handler = (event) => {
-    helpers.dropAppend_handler(event, props)
+    // helpers.dropAppend_handler(event, props)
+  }
+
+  const drop_handler2 = (event) => {
+    rearrangers.drop_handler(event, props)
   }
 
   let dragover_handler = (event) => {
@@ -27,9 +33,9 @@ const Append = (props) => {
     <div
       id={`${props.model.UUID()}.append`}
       style={appendStyle}
-      onDrop={drop_handler}
-      onDragOver={dragover_handler}
-      // onDragLeave={dragLeaveHandler}
+      onDrop={drop_handler2}
+    // onDragOver={dragover_handler}
+    // onDragLeave={dragLeaveHandler}
     >
     </div>
   )
