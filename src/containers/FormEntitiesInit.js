@@ -92,6 +92,7 @@ let dragleave_handler = (event) => {
 
 const DeleteBtn = (props) => {
   let drop_handler = (event) => {
+    console.log(event.dataTransfer.getData("address"))
     let data = JSON.parse(event.dataTransfer.getData("address"))
     const draggedEntity = utility.findEntityByPath(props.form, data.address)
     const restoreDonorSiblingAddress = (arr) => {

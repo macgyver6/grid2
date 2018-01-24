@@ -16,6 +16,12 @@ export const helpers = {
 
   dragStart_handler: (event, model, form, action) => {
     event.stopPropagation();
+
+      event.dataTransfer.setData("address", JSON.stringify({
+            action: action,
+            address: utility.findNode(model, form),
+            dragInit: action === 'move' ? round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3) : null
+          }));
     // console.log(JSON.stringify({
     //   action: action || 'move',
     //   address: utility.findNode(model, form),

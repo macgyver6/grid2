@@ -1,5 +1,6 @@
 import React from 'react';
 import { helpers } from '../../helpers';
+import { movers } from '../../movers';
 import Resizer from './subentities/Resizer';
 import { styles } from './feStyles';
 import Append from './subentities/Append.js';
@@ -22,123 +23,31 @@ const TextInputComponent = (props) => {
     address: null
   }
 
-  const move = {
-    mouseDownStartX: null,
-    dX: null,
-    mouseDownStopX: null,
-    offsetInit: null,
-    init_prepend: null,
-    init_append: null,
-    address: null
+  const mouseDownToMove_handler = (event) => {
+    movers.mouseDownToMove_handler(event, props, 'move');
   }
 
-  const mouseDownToMove_handler = (event, model, form, action) => {
-    console.log(event, model, form, action)
-    move.mouseDownStartX = event.clientX;
-
-    const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`)
-    element.addEventListener('mousemove', mouseMove_handler)
-    element.addEventListener('dragend', mouseUp_handler)
-
-    move.init_prepend = props.model.prepend()
-    move.init_append = props.model.append()
-    move.address = utility.findNode(props.model, props.form)
-
-    move.offsetInit = utility.findNode(props.model, props.form).length > 1 ?
-      round((event.clientX - document.getElementById(`${props.model.UUID()}.${props.model.type()}`).getBoundingClientRect().left), 3) :
-      null
-
-    // if (action === "move") {
-    //   event.dataTransfer.setData("address", JSON.stringify({
-    //     action: action,
-    //     address: utility.findNode(model, form),
-    // define initial click position to offset grids if not a topLevelFormSection, or if adding a new entity
-    //   dragInit: action === 'move' && utility.findNode(model, form).length > 1 ? round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3) : null
-    // }));
-    // }
+  let dragLeave_handler = (event) => {
+    event.stopPropagation();
+   movers.dragLeave_handler(event)
   }
-
-  let mouseMove_handler = (event) => {
-    const canMove = () => true;
-    console.log('mouseMove')
-    move.dX = canMove() ? event.clientX - move.mouseDownStartX : null;
-    // if (action === "move") {
-    //   event.dataTransfer.setData("address", JSON.stringify({
-    //     action: action,
-    //     address: utility.findNode(model, form),
-    //     // define initial click position to offset grids if not a topLevelFormSection, or if adding a new entity
-    //     dragInit: action === 'move' && utility.findNode(model, form).length > 1 ? round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3) : null
-    //   }));
-    // }
-
-  }
-
-  let mouseUp_handler = (event) => {
-    // console.log(event, model, form, action)
-    move.mouseDownStopX = event.clientX;
-    console.log('mouseUp: ', move)
-
-    let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
-
-    const grid = () => {
-      console.log(event.clientX, move.mouseDownStartX)
-      var calc = event.clientX - move.mouseDownStartX;
-      if (calc > 0) {
-        return round(((calc / bgrndGrdWidth)), 0)
-      } else {
-        return round(((calc / bgrndGrdWidth)), 0)
-      }
-    }
-    console.log(move, bgrndGrdWidth)
-    console.log(grid())
-
-    console.log({
-      prepend: move.init_prepend + grid(),
-      append: move.init_append - grid()
-    })
-    props.mutateformentity(move.address, {
-      prepend: move.init_prepend + grid(),
-      append: move.init_append - grid()
-    })
-
-    const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`)
-    element.removeEventListener('mousemove', mouseMove_handler)
-    element.removeEventListener('dragend', mouseUp_handler)
-
-    // const element = document.getElementById(`${model.UUID()}.${model.type()}.wrapper`)
-
-    // element.removeEventListener('mousemove', helpers.mouseMove_handler)
-    // element.removeEventListener('mouseup', helpers.mouseUp_handler)
-    // if (action === "move") {
-    //   event.dataTransfer.setData("address", JSON.stringify({
-    //     action: action,
-    //     address: utility.findNode(model, form),
-    //     // define initial click position to offset grids if not a topLevelFormSection, or if adding a new entity
-    //     dragInit: action === 'move' && utility.findNode(model, form).length > 1 ? round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3) : null
-    //   }));
-    // }
-  }
-
-  // let mousedown_handler = function (event) {
-  //   helpers.mouseDownToMove_handler(event, props.model, props.form, 'move')
-  // }
 
   let dragstart_handler = (event) => {
     event.stopPropagation();
-    // event.preventDefault();
+    helpers.dragStart_handler(event, props.model, props.form, 'move')
   }
 
-  let dragOver_handler = function (event) {
-    event.preventDefault();
-  }
+  // let dragOver_handler = function (event) {
+  //   event.preventDefault();
+  // }
 
-  let drop_handler = function (event) {
-    helpers.dropMove_handler(event, props, resize)
-  }
+  // let drop_handler = function (event) {
+  //   helpers.dropMove_handler(event, props, resize)
+  // }
 
-  let drag_handler = function (event) {
-    helpers.drag_handler(event, props.model, props.form, resize, props)
-  }
+  // let drag_handler = function (event) {
+  //   helpers.drag_handler(event, props.model, props.form, resize, props)
+  // }
 
   const marginCalc = () => {
     const _margin = [0, 0, 0, 0]
@@ -176,7 +85,8 @@ const TextInputComponent = (props) => {
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       style={styles.defaultEntity}
-      onClick={clickParent_handler}
+      onDragLeave ={dragLeave_handler}
+      // onClick={clickParent_handler}
       // onMouseMove={mouseMove_handler}
       // onMouseUp={mouseUpToMove_handler}
 
