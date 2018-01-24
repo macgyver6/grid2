@@ -33,31 +33,32 @@ let FormSectionComponent = (props) => {
 
   let dragOver_handler = function (event) {
     // event.stopPropagation();
-    // event.preventDefault();
+    event.preventDefault();
     // document.getElementById(
     //   `${props.model.UUID()}.${props.model.type()}`).style.backgroundColor = 'ightgreen'
   }
 
   const drop_handler = (event) => {
-    event.stopPropagation();
+    // event.stopPropagation();
     console.log('formSection drop_handler')
     // event.preventDefault();
     data = JSON.parse(event.dataTransfer.getData("address"));
+    console.log(data)
 
     let bgrndGrdWidth = (document.getElementById('0.bgrndGrd').clientWidth + 8)
     const offsetE1 = data.dragInit;
-    const appendGrids = round(((event.clientX - document.getElementById(`${props.model.UUID()}.${props.model.type()}`).getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
+    const offsetGrids = round(((event.clientX - document.getElementById(`${props.model.UUID()}.${props.model.type()}`).getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
 
     if (data && data.action === 'addEntity') {
       console.log('drop FS add: ')
       let location = utility.findNode(props.model, props.form)
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
-      const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left) / bgrndGrdWidth), 0)
+      const offsetGrids = round(((event.clientX - event.target.getBoundingClientRect().left) / bgrndGrdWidth), 0)
       let entityToAdd = utility.resurrectEntity(
         Object.assign({},
           data.model, {
-            prepend: appendGrids,
-            append: (props.model.width() - (appendGrids + data.model.width))  // addressNewEntity[addressNewEntity.length] = props.model.children().length
+            prepend: offsetGrids,
+            append: (props.model.width() - (offsetGrids + data.model.width))  // addressNewEntity[addressNewEntity.length] = props.model.children().length
           })
       )
       console.log('here')
@@ -77,8 +78,8 @@ let FormSectionComponent = (props) => {
       let entityToAdd = utility.resurrectEntity(
         Object.assign({},
           draggedEntity.properties(), {
-            prepend: appendGrids,
-            append: (props.model.width() - appendGrids - draggedEntity.width()  )
+            prepend: offsetGrids,
+            append: (props.model.width() - offsetGrids - draggedEntity.width()  )
           })
       )
 
@@ -167,18 +168,18 @@ let FormSectionComponent = (props) => {
       if (draggedEntity.UUID() === props.model.UUID()) {
         console.log('dropped on FormSection, moving form section: ', draggedEntity.UUID() , utility.findNode(props.model, props.form),
           {
-            prepend: (resize.init_prepend + appendGrids),
-            append: (resize.init_append - appendGrids),
+            prepend: (resize.init_prepend + offsetGrids),
+            append: (resize.init_append - offsetGrids),
           })
         console.log(utility.findNode(props.model, props.form),
           {
-            prepend: (resize.init_prepend + appendGrids),
-            append: (resize.init_append - appendGrids),
+            prepend: (resize.init_prepend + offsetGrids),
+            append: (resize.init_append - offsetGrids),
           })
         props.mutateformentity(utility.findNode(props.model, props.form),
           {
-            prepend: (resize.init_prepend + appendGrids),
-            append: (resize.init_append - appendGrids),
+            prepend: (resize.init_prepend + offsetGrids),
+            append: (resize.init_append - offsetGrids),
           })
       }
       // @hack - only adds to position 0 at this point
@@ -190,6 +191,10 @@ let FormSectionComponent = (props) => {
 
   let drag_handler = function (event) {
     helpers.drag_handler(event, props.model, props.form, resize, props)
+  }
+
+  const click_handler = (event) => {
+    console.log('click')
   }
 
   const fsStyle = {
@@ -217,8 +222,9 @@ let FormSectionComponent = (props) => {
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       className="FS"
       style={styles.formSection}
-      // onDrop={drop_handler}
-      // onDragOver={dragOver_handler}
+      onDrop={drop_handler}
+      onDragOver={dragOver_handler}
+      onClick={click_handler}
       // style={styles.defaultEntity}
     >
       {(props.model.prepend() > 0) ?

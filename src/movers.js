@@ -93,6 +93,8 @@ export const movers = {
   // },
 
   drop_handler: (event, props) => {
+    console.log(event.target)
+    event.stopPropagation();
     const data = JSON.parse(event.dataTransfer.getData('address'));
     const previousSibling = [...move.source_address]
     previousSibling[previousSibling.length - 1] = previousSibling[previousSibling.length - 1] - 1 > 0 ? previousSibling[previousSibling.length - 1] - 1 : 0

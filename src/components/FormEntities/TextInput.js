@@ -34,6 +34,7 @@ const TextInputComponent = (props) => {
    */
   let dragstart_handler = (event) => {
     // event.stopPropagation();
+    console.log(event.target)
     helpers.dragStart_handler(event, props.model, props.form, 'move')
   }
 
