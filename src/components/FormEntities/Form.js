@@ -109,9 +109,9 @@ const FormComponent = (props) => {
       className='wrapper'
       id={`form`}
       style={divStyle}
-      // onDrop={drop_handler}
+      onDrop={drop_handler}
       // onDrag={drag_handler}
-      // onDragOver={dragover_handler}
+      onDragOver={dragover_handler}
     >
 
       <div className="grid" >
