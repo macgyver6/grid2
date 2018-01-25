@@ -2,6 +2,7 @@ import React from 'react';
 import { utility } from '../../utility';
 import { defaultPropsFE } from '../../constants/defaultPropsFE';
 import Resizer from './subentities/Resizer.js';
+import AddToEnd from './subentities/AddToEnd.js';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
@@ -67,10 +68,10 @@ let FormSectionComponent = (props) => {
       addressNewEntity[addressNewEntity.length] = props.model.children().length
       props.addformentity(entityToAdd, addressNewEntity)
 
-    const div = document.getElementById(props.model.UUID());
-    // div.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
-    // event.target.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
-  }
+      const div = document.getElementById(props.model.UUID());
+      // div.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
+      // event.target.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
+    }
 
     if (data && data.action === 'move') {
       console.log('FormSection drop move')
@@ -80,7 +81,7 @@ let FormSectionComponent = (props) => {
         Object.assign({},
           draggedEntity.properties(), {
             prepend: offsetGrids,
-            append: (props.model.width() - offsetGrids - draggedEntity.width()  )
+            append: (props.model.width() - offsetGrids - draggedEntity.width())
           })
       )
 
@@ -94,9 +95,9 @@ let FormSectionComponent = (props) => {
         console.log('remove this: ', (data.address))
         props.addformentity(entityToAdd, _test)
         props.removeformentity(data.address)
-      //   /*
-      //   start restore donor
-      //   */
+        //   /*
+        //   start restore donor
+        //   */
         const restoreDonorSiblingAddress = (arr) => {
           const total = (prepend, width, append) => prepend + width + append;
           // get donor's parent
@@ -109,9 +110,9 @@ let FormSectionComponent = (props) => {
           console.log(total(entitySelf.prepend(), entitySelf.width(), entitySelf.append()),
             total(donorParent.prepend(), donorParent.width(), donorParent.append()))
           if (donorParent.children().length === 1 ||
-          total(entitySelf.prepend(), entitySelf.width(), entitySelf.append()) ===
-          total(donorParent.prepend(), donorParent.width(), donorParent.append())
-        ) {
+            total(entitySelf.prepend(), entitySelf.width(), entitySelf.append()) ===
+            total(donorParent.prepend(), donorParent.width(), donorParent.append())
+          ) {
             console.log('entity being removed from formSection is the last child')
             return false
           } else {
@@ -167,7 +168,7 @@ let FormSectionComponent = (props) => {
       }
       // for changing prepend/append of a formsection
       if (draggedEntity.UUID() === props.model.UUID()) {
-        console.log('dropped on FormSection, moving form section: ', draggedEntity.UUID() , utility.findNode(props.model, props.form),
+        console.log('dropped on FormSection, moving form section: ', draggedEntity.UUID(), utility.findNode(props.model, props.form),
           {
             prepend: (resize.init_prepend + offsetGrids),
             append: (resize.init_append - offsetGrids),
@@ -226,7 +227,7 @@ let FormSectionComponent = (props) => {
       onDrop={drop_handler}
       onDragOver={dragOver_handler}
       onClick={click_handler}
-      // style={styles.defaultEntity}
+    // style={styles.defaultEntity}
     >
       {(props.model.prepend() > 0) ?
         <Prepend
@@ -259,9 +260,9 @@ let FormSectionComponent = (props) => {
         {/* generalize to map through any type entity*/}
 
         {props.model.type() === 'FormSection' ?
-        props.model.children().map((element, i) => {
-          return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity, mutateformentity: props.mutateformentity })
-        }) : null
+          props.model.children().map((element, i) => {
+            return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity, mutateformentity: props.mutateformentity })
+          }) : null
         }
 
         <Resizer
@@ -274,6 +275,11 @@ let FormSectionComponent = (props) => {
           removeformentity={props.removeformentity}
           addformentity={props.addformentity}
           mutateformentity={props.mutateformentity}
+        />
+        <AddToEnd
+          model={props.model}
+          form={props.form}
+          addformentity={props.addformentity}
         />
       </div>
       {(props.model.append() > 0) ?
@@ -289,6 +295,7 @@ let FormSectionComponent = (props) => {
         /> :
         null
       }
+
     </div>
   );
 }
