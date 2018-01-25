@@ -246,8 +246,8 @@ let FormSectionComponent = (props) => {
         style={fsStyle}
         // onDrag={drag_handler}
         data-action={`mover.${props.model.UUID()}.FormSection`}
-        // draggable="true"
-        // onDragStart={dragstart_handler}
+        draggable="true"
+        onDragStart={dragstart_handler}
       >
         {/* <MovePrior
           element='FormEntity'
