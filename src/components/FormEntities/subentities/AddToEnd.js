@@ -69,7 +69,7 @@ const AddToEnd = (props) => {
     let locEntity = utility.findEntityUuid(props.model.UUID(), props.form)
     let loc = [...locEntity[0]]
     loc.concat(1)
-    loc = loc.concat(1)
+    loc = loc.concat(locEntity[1].children().length)
     console.log(loc)
 
     props.addformentity(utility.resurrectEntity(Object.assign({}, data.model)), loc)
