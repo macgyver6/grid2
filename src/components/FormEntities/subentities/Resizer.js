@@ -106,7 +106,6 @@ let Resizer = (props) => {
 
           // map through children starting here
           if (locEntity[1].children().length > 0) {
-
             const total = (prepend, width, append) => prepend + width + append;
             const _children = resize.init_children.map(child => {
               return Object.assign({}, child.properties(), {
@@ -124,37 +123,49 @@ let Resizer = (props) => {
               console.log('accumulator: ', accumulator)
               if (!Array.isArray(accumulator)) { accumulator = [].concat(accumulator) }
               if (accumulator)
-                // return last entity in section
+              // return last entity in section
 
-                if ((_children.length - 1) === currentIndex) {
-                  console.log('last');
-
-                  if ((
+              if ((_children.length - 1) === currentIndex) {
+                console.log('last');
+                const occupiedColumnsInRow = (entities, prop) => {
+                  return entities.reduce((a, b) => {
+                    // console.log(a, b)
+                    console.log('yes, yes: ', a, b)
+                    if (b.row === _children[_children.length - 1].row) {
+                      return a + b[prop];
+                    } else {
+                      return a
+                    }
+                  }, 0)
+                }
+                const lastEntityToAdd = {append: _children[currentIndex].append + (sectionWidth - occupiedColumnsInRow(_children, 'total'))}
+                // console.log(lastEntityToAdd)
+                console.log(Object.assign({}, _children[_children.length - 1], lastEntityToAdd))
+                // console.log('test')
+              if ((
                     total(accumulator[accumulator.length - 1].prepend, accumulator[accumulator.length - 1].width, accumulator[accumulator.length - 1].append) +
 
-                    total(_children[_children.length - 1].prepend, accumulator[accumulator.length - 1].width, accumulator[accumulator.length - 1].append)
+                total(_children[_children.length - 1].prepend, accumulator[accumulator.length - 1].width, lastEntityToAdd)
                   ) > sectionWidth) {
                     counter++;
                     console.log('last and cant add new row: ')
                     accumulator[accumulator.length] = (Object.assign({}, _children[currentIndex], { index: 0, row: counter }));
+                    console.log('this')
                     return accumulator
                   } else {
                     console.log(accumulator)
                     console.log('last and all can be same row: ', accumulator[accumulator.length - 1])
+
                     _children.map((entity, index) => {
                       Object.assign({}, entity, { row: 0 })
                     })
-                    const occupiedColumnsInRow = (entities, prop) => {
-                      return entities.reduce((a, b) => {
-                        // console.log(a, b)
-                        console.log('yes, yes: ', a, b)
-                        if (b.row === _children[_children.length - 1].row) {
-                          return a + b[prop];
-                        } else {
-                          return a
-                        }
-                      }, 0)
-                    }
+
+                    console.log('this',
+                      {
+                        append: _children[currentIndex].append + (sectionWidth - occupiedColumnsInRow(_children, 'total'))
+                      }
+                      )
+
                     accumulator[accumulator.length] = Object.assign({}, _children[currentIndex],
                       {
                         append: _children[currentIndex].append + (sectionWidth - occupiedColumnsInRow(_children, 'total'))
