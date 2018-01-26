@@ -1,4 +1,5 @@
 import { utility } from './utility';
+import { formatter } from './formatter';
 import { defaultPropsFE } from './constants/defaultPropsFE';
 
 const round = (value, decimals) => {
@@ -137,30 +138,68 @@ export const movers = {
       /**mutate previous sibling if necessary*/
       // console.log('ff ',)
       // console.log(utility.findEntityByPath(props.form, previousSibling).UUID())
-      const previous_entity = utility.findEntityByPath(props.form, previousSibling())
+      let sectionEntity = utility.findEntityByPath(props.form, destination_address.slice(0, destination_address.length - 1))
+      console.log(sectionEntity, sectionEntity.children())
+      let sectionAddress = destination_address.slice(0, destination_address.length - 1)
+
+      const total = (entity) => entity.prepend() + entity.width() + entity.append();
+
+      const _sectionChildren = [...sectionEntity.children()]
+      // const firstInRow = (before) => {
+      //   // var runningTotal = 0;
+      //   if (before === -1) {return true} else
+      //   var runningTotal = 0;
+      //   {for (var i = 0; i < before; i++) {
+      //     console.log(i)
+      //      runningTotal += total(_sectionChildren[i])
+      //   }
+      //   return (runningTotal % sectionEntity.width() === 0) ? true : false}
+      // }
+
+      // function firstInRow(before) {
+      //   var runningTotal = 0;
+
+      //   for (var i = 0; i < before; ++i) {
+      //     runningTotal += total(_sectionChildren[i]);
+      //     console.log(runningTotal += total(_sectionChildren[i]), i, before)
+      //   }
+      //   console.log(runningTotal)
+      //   return (runningTotal % sectionEntity.width() === 0) ? true : false
+      // };
+
+      function firstInRow(before) {
+        var runningTotal = 0;
+
+        for (var i = 0; i <= before; ++i) {
+          console.log(_sectionChildren[i])
+          runningTotal += total(_sectionChildren[i]);
+        }
+        return (runningTotal % sectionEntity.width() === 0) ? true : false;
+      }
 
       if (arraysEqual(destination_address, previousSibling())) {
+        const previous_entity = utility.findEntityByPath(props.form, previousSibling())
         console.log('FF moved onto previous sibling')
 
         console.log(previous_entity.append())
         console.log('ff mutate previous sibling: ', previousSibling(), {
           append: previous_entity.append() + grid()
         })
+        props.mutateformentity(previousSibling(), {
+          append: previous_entity.append() + grid()
+        })
 
-        props.mutateformentity(previousSibling, {
-            append: previous_entity.append() + grid()
-          })
-
-          // /**mutate entity itself */
+        // /**mutate entity itself */
         console.log('ff mutate entity itself: ', move.source_address, {
           prepend: 0,
           append: move.init_append - grid()
         })
         props.mutateformentity(move.source_address, {
-          prepend: 0,
+        prepend: 0,
           append: move.init_append - grid()
-        })
+      })
       }
+
 
       /**mutate entity itself */
       console.log(utility.findEntityByPath(props.form, data.address).UUID(), props.model.UUID())
@@ -170,47 +209,33 @@ export const movers = {
       console.log(arraysEqual(source_address, destination_address))
       if (arraysEqual(source_address, destination_address)) {
         console.log('FF entity moved onto itself')
+
+
+
         /**mutate previous entity if necessary */
-        if (move.init_prepend === 0 && grid() > 0) {
-          console.log('ff previous entity: ',  {
-            // prepend: move.init_prepend + grid(),
+        if (!firstInRow((destination_address.slice(destination_address.length - 1, destination_address.length + 1) - 1))) {
+          // if (move.init_append - grid() === 0 && grid() > 0 && previousSibling()) {
+          const previous_entity = utility.findEntityByPath(props.form, previousSibling())
+          console.log('ff previous entity: ', previousSibling(), {
             append: previous_entity.append() + grid()
           })
           props.mutateformentity(previousSibling(), {
-            // prepend: move.init_prepend + grid(),
             append: previous_entity.append() + grid()
           })
         }
         /**mutate entity itself */
-        console.log('ff: entity itself', move.source_address, {
-          prepend: 0,
+        console.log(move.source_address, {
+          prepend: firstInRow(destination_address.slice(destination_address.length - 1, destination_address.length + 1) - 1) ? move.init_prepend + grid() : 0,
           append: move.init_append - grid()
         })
+
+        console.log('ff: entity itself', firstInRow(destination_address.slice(destination_address.length - 1, destination_address.length + 1) - 1) )
+
         props.mutateformentity(move.source_address, {
-          prepend: 0,
+          prepend: firstInRow(destination_address.slice(destination_address.length - 1, destination_address.length + 1) - 1) ? move.init_prepend + grid() : 0,
           append: move.init_append - grid()
         })
       }
-
-      //  console.log(destinationIsSibling())
-
-      /**mutate entity itself */
-      // const sourceAddress = [...data.address]
-      // const destinationAddress = utility.findNode(props.model, props.form)
-      // console.log(sourceAddress[sourceAddress.length - 2], destinationAddress[destinationAddress.length - 2])
-      // const originalProperties = utility.findEntityByPath(props.form, data.address)
-
-      //   if (sourceAddress[sourceAddress.length - 2] !== destinationAddress[destinationAddress.length - 2]) {
-      //     console.log('different section')
-      //     // props.mutateformentity(move.source_address, {
-      //     //   prepend: move.init_prepend + grid(),
-      //     //   append: move.init_append - grid()
-      //     // })
-      //     const entityToAdd = Object.assign({}, originalProperties.properties(), {
-      //     prepend
-      //   }
-      // )
-      //   props.removeformsection()
     }
   }
 }
