@@ -554,5 +554,74 @@ export const helpers = {
       // removeformentity(utility.findEntityByPath(data.model.uuid))
     }
     event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)'
+  },
+
+  marginCalc: (props) => {
+    // const _margin = [0, 0, 0, 0]
+    // props.model.append() > 0 ? _margin[1] = 4 : 0
+    // props.model.prepend() > 0 ? _margin[3] = 4 : 0
+    // return (((_margin.map((el) => `${el}px`)).toString().replace(/,/g, ' ')))
+    return null
+  },
+
+  restoreDonorSiblingAddress: (arr, props) => {
+    let draggedEntity = utility.findEntityByPath(props.form, arr)
+    const total = (prepend, width, append) => prepend + width + append;
+    // get donor's parent
+    const donorParent = utility.findEntityByPath(props.form, arr.slice(0, arr.length - 1))
+    const entitySelf = utility.findEntityByPath(props.form, arr)
+    // console.log(total(0, 8, 0))
+    // console.log(typeof(entitySelf.prepend()), typeof(entitySelf.width()), typeof(entitySelf.append()))
+    // console.log(total(entitySelf.prepend(), entitySelf.width(), entitySelf.append()),
+    //   total(donorParent.prepend() + donorParent.width() + donorParent.append()))
+    console.log(total(entitySelf.prepend(), entitySelf.width(), entitySelf.append()),
+      total(donorParent.prepend(), donorParent.width(), donorParent.append()))
+    if (donorParent.children().length === 1 ||
+      total(entitySelf.prepend(), entitySelf.width(), entitySelf.append()) ===
+      total(donorParent.prepend(), donorParent.width(), donorParent.append())
+    ) {
+      console.log('entity being removed from formSection is the last child')
+      return false
+    } else {
+      console.log('donor formSection is not an empty nester')
+      const toLeft = (arr) => {
+        const _toLeft = [...arr]
+        if (_toLeft[arr.length - 1] < 1) {
+          return false
+        } else {
+          _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1
+          return ({ address: _toLeft, entity: utility.findEntityByPath(props.form, _toLeft) })
+        }
+      }
+      const toRight = (arr) => {
+        const _toRight = [...arr]
+        _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1
+        return ({
+          address: arr,
+          entity: utility.findEntityByPath(props.form, _toRight)
+        })
+      }
+
+      if (toLeft(arr)) {
+        console.log('previous entity exists, adding to append: ', toLeft(arr).address)
+        return ({
+          address: toLeft(arr).address,
+          properties: {
+            append: toLeft(arr).entity.append() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append()
+          }
+        })
+      } else {
+        console.log('no previous entity exists, adding to prepend, ', utility.findEntityByPath(props.form, toRight(arr).address), {
+          address: toRight(arr).address,
+          properties:
+            { prepend: toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append() }
+        })
+        return ({
+          address: toRight(arr).address,
+          properties:
+            { prepend: toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append() }
+        })
+      }
+    }
   }
 }

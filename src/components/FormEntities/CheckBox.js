@@ -33,29 +33,31 @@ const CheckBoxComponent = (props) => {
     movers.mouseDownToMove_handler(event, props, 'move');
   }
 
-    /** Handle adding/subtracing prepend or append */
-  let dragstart_handler = function (event) {
-    event.stopPropagation();
+  /** Set dataTransfer in the case the entity is dropped on target:
+   * 1. Moving to different form section
+   * 2. Deleting a form section
+   */
+  let dragstart_handler = (event) => {
+    // event.stopPropagation();
+    console.log(event.target)
     helpers.dragStart_handler(event, props.model, props.form, 'move')
   }
 
-  // let drop_handler = function (event) {
-  //   helpers.dropMove_handler(event, props, resize)
-  // }
-
-  const marginCalc = () => {
-    const _margin = [0, 0, 0, 0]
-    props.model.append() > 0 ? _margin[1] = 4 : 0
-    props.model.prepend() > 0 ? _margin[3] = 4 : 0
-    return (((_margin.map((el) => `${el}px`)).toString().replace(/,/g, ' ')))
+  let dragOver_handler = (event) => {
+    event.preventDefault()
   }
+
+  let drop_handler = (event) => {
+    movers.drop_handler(event, props)
+  }
+
 
   const cbStyle = {
     backgroundColor: '#00C5EC',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
     height: '100px',
-    margin: marginCalc()
+    margin: helpers.marginCalc(props)
   }
 
 
@@ -68,9 +70,8 @@ const CheckBoxComponent = (props) => {
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       style={styles.defaultEntity}
-      // onDragStart={dragstart_handler}
-      // onDragOver={dragOver_handler}
-      // onDrop={drop_handler}
+      onDragOver={dragOver_handler}
+      onDrop={drop_handler}
     >
       {(props.model.prepend() > 0) ?
         <Prepend
@@ -92,7 +93,6 @@ const CheckBoxComponent = (props) => {
         data-type='CheckBox'
         onMouseDown={mouseDown_handler}
         onDragStart={dragstart_handler}
-        // onDrag={drag_handler}
         draggable="true"
       >
       {/* onChange={(e) => handleChange(e, props)} */}

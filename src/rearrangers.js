@@ -19,18 +19,18 @@ const move = {
   valid: null
 }
 
-// const destinationIsSibling = (destinationEntity, draggedEntityAddress) => {
-//   if (destinationEntity.length > 2) {
-//     const whichSection = (arr) => arr[arr.length - 2]
-//     const isSibling = (arr) => arr[arr.length - 1]
-//     if (whichSection(destinationEntity) === whichSection(draggedEntityAddress)) {
-//       if (isSibling(destinationEntity) === (isSibling(draggedEntityAddress) + 1
-//         || (isSibling(destinationEntity) === isSibling(draggedEntityAddress) - 1))) {
-//         return true
-//       }
-//     }
-//   }
-// }
+const destinationIsSibling = (destinationEntity, draggedEntityAddress) => {
+  if (destinationEntity.length > 2) {
+    const whichSection = (arr) => arr[arr.length - 2]
+    const isSibling = (arr) => arr[arr.length - 1]
+    if (whichSection(destinationEntity) === whichSection(draggedEntityAddress)) {
+      if (isSibling(destinationEntity) === (isSibling(draggedEntityAddress) + 1
+        || (isSibling(destinationEntity) === isSibling(draggedEntityAddress) - 1))) {
+        return true
+      }
+    }
+  }
+}
 
 export const rearrangers = {
   drop_handler: (event, props) => {
@@ -52,8 +52,13 @@ export const rearrangers = {
       const offsetE1 = data.dragInit;
       const offsetGrids = round(((event.clientX - document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`).getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
 
-      if (sourceAddress[sourceAddress.length - 2] !== destinationAddress[destinationAddress.length - 2]) {
-        /** valid drop on prepend */
+      // console.log(props.model, draggedEntity)
+      console.log((destinationAddress, data.address))
+
+      console.log(sourceAddress, destinationAddress)
+
+      if (sourceAddress[sourceAddress.length - 2] !== destinationAddress[destinationAddress.length - 2])  {
+        /** valid drop on entity in different section */
         console.log(offsetGrids)
         if (offsetGrids <= props.model.prepend()) {
           console.log('entity from different section dropped on prepend')

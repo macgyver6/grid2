@@ -97,61 +97,120 @@ export const movers = {
     event.stopPropagation();
     const data = JSON.parse(event.dataTransfer.getData('address'));
     if (data.action != 'addEntity') {
-    const previousSibling = [...move.source_address]
-    previousSibling[previousSibling.length - 1] = previousSibling[previousSibling.length - 1] - 1 > 0 ? previousSibling[previousSibling.length - 1] - 1 : 0
-    let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
-
-    const grid = () => {
-      var calc = event.clientX - move.mouseDownStartX;
-      if (calc > 0) {
-        return round(((calc / bgrndGrdWidth)), 0)
-      } else {
-        return round(((calc / bgrndGrdWidth)), 0)
+      const previousSibling = () => {
+        const _source_address = [...move.source_address]
+        if (move.source_address[move.source_address.length - 1] > 0) {
+          _source_address.splice(move.source_address.length - 1, 1, _source_address[move.source_address.length - 1] - 1)
+          return _source_address
+        } else {
+          return null
+        }
       }
-    }
-    /**mutate previous sibling if necessary*/
-    console.log(previousSibling)
-    // console.log(utility.findEntityByPath(props.form, previousSibling).UUID())
-    if (props.model.UUID() === utility.findEntityByPath(props.form, previousSibling).UUID()) {
-      console.log(move.source_address)
 
-      props.mutateformentity(previousSibling, {
-        append: utility.findEntityByPath(props.form, previousSibling).append() + grid()
-      })
+      const destination_address = utility.findNode(props.model, props.form)
+      const source_address = move.source_address
+      console.log(previousSibling(), props.form)
+
+
+      let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
+
+      const grid = () => {
+        var calc = event.clientX - move.mouseDownStartX;
+        if (calc > 0) {
+          return round(((calc / bgrndGrdWidth)), 0)
+        } else {
+          return round(((calc / bgrndGrdWidth)), 0)
+        }
+      }
+
+      const arraysEqual = (a, b) => {
+        if (a === b) return true;
+        if (a == null || b == null) return false;
+        if (a.length != b.length) return false;
+
+        for (var i = 0; i < a.length; ++i) {
+          if (a[i] !== b[i]) return false;
+        }
+        return true;
+      }
+
+      /**mutate previous sibling if necessary*/
+      // console.log('ff ',)
+      // console.log(utility.findEntityByPath(props.form, previousSibling).UUID())
+      const previous_entity = utility.findEntityByPath(props.form, previousSibling())
+
+      if (arraysEqual(destination_address, previousSibling())) {
+        console.log('FF moved onto previous sibling')
+
+        console.log(previous_entity.append())
+        console.log('ff mutate previous sibling: ', previousSibling(), {
+          append: previous_entity.append() + grid()
+        })
+
+        props.mutateformentity(previousSibling, {
+            append: previous_entity.append() + grid()
+          })
+
+          // /**mutate entity itself */
+        console.log('ff mutate entity itself: ', move.source_address, {
+          prepend: 0,
+          append: move.init_append - grid()
+        })
+        props.mutateformentity(move.source_address, {
+          prepend: 0,
+          append: move.init_append - grid()
+        })
+      }
+
       /**mutate entity itself */
-      props.mutateformentity(move.source_address, {
-        prepend: 0,
-        append: move.init_append - grid()
-      })
+      console.log(utility.findEntityByPath(props.form, data.address).UUID(), props.model.UUID())
+
+
+
+      console.log(arraysEqual(source_address, destination_address))
+      if (arraysEqual(source_address, destination_address)) {
+        console.log('FF entity moved onto itself')
+        /**mutate previous entity if necessary */
+        if (move.init_prepend === 0 && grid() > 0) {
+          console.log('ff previous entity: ',  {
+            // prepend: move.init_prepend + grid(),
+            append: previous_entity.append() + grid()
+          })
+          props.mutateformentity(previousSibling(), {
+            // prepend: move.init_prepend + grid(),
+            append: previous_entity.append() + grid()
+          })
+        }
+        /**mutate entity itself */
+        console.log('ff: entity itself', move.source_address, {
+          prepend: 0,
+          append: move.init_append - grid()
+        })
+        props.mutateformentity(move.source_address, {
+          prepend: 0,
+          append: move.init_append - grid()
+        })
+      }
+
+      //  console.log(destinationIsSibling())
+
+      /**mutate entity itself */
+      // const sourceAddress = [...data.address]
+      // const destinationAddress = utility.findNode(props.model, props.form)
+      // console.log(sourceAddress[sourceAddress.length - 2], destinationAddress[destinationAddress.length - 2])
+      // const originalProperties = utility.findEntityByPath(props.form, data.address)
+
+      //   if (sourceAddress[sourceAddress.length - 2] !== destinationAddress[destinationAddress.length - 2]) {
+      //     console.log('different section')
+      //     // props.mutateformentity(move.source_address, {
+      //     //   prepend: move.init_prepend + grid(),
+      //     //   append: move.init_append - grid()
+      //     // })
+      //     const entityToAdd = Object.assign({}, originalProperties.properties(), {
+      //     prepend
+      //   }
+      // )
+      //   props.removeformsection()
     }
-
-    /**mutate entity itself */
-    if (utility.findEntityByPath(props.form, data.address).UUID() === props.model.UUID()) {
-      console.log(move.source_address)
-      props.mutateformentity(move.source_address, {
-        prepend: move.init_prepend + grid(),
-        append: move.init_append - grid()
-      })
-    }
-
-    //  console.log(destinationIsSibling())
-
-    /**mutate entity itself */
-    // const sourceAddress = [...data.address]
-    // const destinationAddress = utility.findNode(props.model, props.form)
-    // console.log(sourceAddress[sourceAddress.length - 2], destinationAddress[destinationAddress.length - 2])
-    // const originalProperties = utility.findEntityByPath(props.form, data.address)
-
-  //   if (sourceAddress[sourceAddress.length - 2] !== destinationAddress[destinationAddress.length - 2]) {
-  //     console.log('different section')
-  //     // props.mutateformentity(move.source_address, {
-  //     //   prepend: move.init_prepend + grid(),
-  //     //   append: move.init_append - grid()
-  //     // })
-  //     const entityToAdd = Object.assign({}, originalProperties.properties(), {
-  //     prepend
-  //   }
-  // )
-  //   props.removeformsection()
-  }}
+  }
 }

@@ -27,34 +27,26 @@ const RadioButtonComponent = (props) => {
    * 1. Moving to different form section
    * 2. Deleting a form section
    */
-  let dragstart_handler = function (event) {
+  let dragstart_handler = (event) => {
+    // event.stopPropagation();
+    console.log(event.target)
     helpers.dragStart_handler(event, props.model, props.form, 'move')
   }
 
-//   let dragOver_handler = function (event) {
-//     event.preventDefault();
-//   }
-
-//   let drop_handler = function (event) {
-//     helpers.dropMove_handler(event, props, resize)
-//   }
-
-//  let drag_handler = function (event) {
-//     helpers.drag_handler(event, props.model, props.form, resize, props)
-//   }
-
-  const marginCalc = () => {
-    const _margin = [0, 0, 0, 0]
-    props.model.append() > 0 ? _margin[1] = 4 : 0
-    props.model.prepend() > 0 ? _margin[3] = 4 : 0
-    return (((_margin.map((el) => `${el}px`)).toString().replace(/,/g, ' ')))
+  let dragOver_handler = (event) => {
+    event.preventDefault()
   }
+
+  let drop_handler = (event) => {
+    movers.drop_handler(event, props)
+  }
+
   const rbStyle = {
     backgroundColor: '#304061',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
     height: '100px',
-    margin: marginCalc()
+    margin: helpers.marginCalc(props)
   }
 
   // return actual style values
@@ -67,8 +59,8 @@ const RadioButtonComponent = (props) => {
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       style={styles.defaultEntity}
-      // onDragOver={dragOver_handler}
-      // onDrop={drop_handler}
+      onDragOver={dragOver_handler}
+      onDrop={drop_handler}
     >
       {(props.model.prepend() > 0) ?
         <Prepend
@@ -79,7 +71,7 @@ const RadioButtonComponent = (props) => {
           model={props.model}
           form={props.form}
           removeformentity={props.removeformentity}
-          addformentity={props.addformentity}            mutateformentity={props.mutateformentity}            /> :
+          addformentity={props.addformentity} mutateformentity={props.mutateformentity} /> :
         null
       }
 
