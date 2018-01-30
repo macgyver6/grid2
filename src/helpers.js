@@ -16,7 +16,6 @@ export const helpers = {
 
   dragStart_handler: (event, model, form, action) => {
     event.stopPropagation();
-      console.log(model.uuid)
       event.dataTransfer.setData("address", JSON.stringify({
             action: action,
         address: action === 'addEntity' ? null : utility.findNode(model, form),

@@ -72,9 +72,9 @@ let FormSectionComponent = (props) => {
       // div.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
       // event.target.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
     }
-
-    if (data && data.action === 'move') {
-      console.log('FormSection drop move')
+    // rearranging by moving one entity from one section to another
+    if (data && data.action === 'rearrange') {
+      console.log('FormSection drop rearrange')
       console.log(data.address)
       let draggedEntity = utility.findEntityByPath(props.form, data.address)
       let entityToAdd = utility.resurrectEntity(
@@ -167,7 +167,7 @@ let FormSectionComponent = (props) => {
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       className="FS"
       style={styles.formSection}
-      onDrop={drop_handler}
+      onDrop={drop_handler} // adding a new entity to section
       onDragOver={dragOver_handler}
       onClick={click_handler}
     // style={styles.defaultEntity}

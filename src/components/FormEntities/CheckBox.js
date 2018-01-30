@@ -30,7 +30,7 @@ const CheckBoxComponent = (props) => {
 
   /** Handle adding/subtracing prepend or append */
   const mouseDown_handler = (event) => {
-    movers.mouseDownToMove_handler(event, props, 'move');
+    movers.mouseDown_handler(event, props, 'move');
   }
 
   /** Set dataTransfer in the case the entity is dropped on target:

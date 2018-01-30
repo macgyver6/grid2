@@ -25,7 +25,7 @@ const TextInputComponent = (props) => {
 
   /** Handle adding/subtracing prepend or append */
   const mouseDown_handler = (event) => {
-    movers.mouseDownToMove_handler(event, props, 'move');
+    movers.mouseDown_handler(event, props, 'move');
   }
 
   /** Set dataTransfer in the case the entity is dropped on target:
@@ -45,6 +45,15 @@ const TextInputComponent = (props) => {
   let drop_handler = (event) => {
     movers.drop_handler(event, props)
   }
+
+  let dragleave_handler = (event) => {
+    event.stopPropagation();
+    console.log('test')
+  //   console.log(event.target.id)
+  // if (event.target.id === `${props.model.UUID()}.${props.model.type()}.wrapper`) {
+  //   console.log('event.currentTarget')
+  // }
+}
 
   const tiStyle = {
     margin: helpers.marginCalc(props),
@@ -66,7 +75,8 @@ const TextInputComponent = (props) => {
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       style={styles.defaultEntity}
       onDragOver={dragOver_handler}
-      onDrop={drop_handler}
+      // onDrop={drop_handler}
+      onDragLeave={dragleave_handler}
     >
       {(props.model.prepend() > 0) ?
         <Prepend

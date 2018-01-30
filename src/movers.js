@@ -31,22 +31,28 @@ const destinationIsSibling = (destinationEntity, draggedEntityAddress) => {
   }
 }
 
+/** all event handlers within this object are for handling an entity mutating the prepend and append sizes of itself */
 export const movers = {
-  mouseDownToMove_handler: (event, props) => {
-    move.mouseDownStartX = event.clientX;
+  /**mouseDown_handler  kicks off the event pattern for an entity mutating the prepend and append sizes of itself
+   * mouseMove and drop handlers are added only to the wrapper for the said entity. This was done in an attempt to reduce the event complexity on ther entities so that all other drop events other than the events they handle would not be accounted for
+  */
+  mouseDown_handler: (event, props) => {
     const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`)
     element.addEventListener('mousemove', event => movers.mouseMove_handler(event, props))
-    element.addEventListener('dragend', event => movers.dragEnd_handler(event, props))
-
+    element.addEventListener('drop', event => movers.drop_handler(event, props))
+    /**set initial properties to compute mutations against */
+    move.mouseDownStartX = event.clientX;
     move.init_prepend = props.model.prepend()
     move.init_append = props.model.append()
     move.source_address = utility.findNode(props.model, props.form)
-
     move.offsetInit = utility.findNode(props.model, props.form).length > 1 ?
       round((event.clientX - document.getElementById(`${props.model.UUID()}.${props.model.type()}`).getBoundingClientRect().left), 3) :
       null
   },
-
+  /**Give the user feedback while they are dragged.
+   * If the user were to drop at the clientX of mouseMove, would it be valid?
+   * Eg: Make the target drop green if valid, red if not.
+   *    */
   mouseMove_handler: (event, props) => {
     const canMove = () => {
       move.valid = true;
@@ -55,49 +61,11 @@ export const movers = {
     move.dX = canMove() ? event.clientX - move.mouseDownStartX : null;
   },
 
-  dragEnd_handler: (event, props) => {
-    console.log(event.target)
-    if (move.valid) {
-      move.mouseDownStopX = event.clientX;
-
-      // const grid = () => {
-      //   var calc = event.clientX - move.mouseDownStartX;
-      //   if (calc > 0) {
-      //     return round(((calc / bgrndGrdWidth)), 0)
-      //   } else {
-      //     return round(((calc / bgrndGrdWidth)), 0)
-      //   }
-      // }
-      const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`)
-      if (element !== null) {
-        element.removeEventListener('mousemove', movers.mouseMove_handler)
-        element.removeEventListener('dragend', movers.dragEnd_handler)
-        /**mutate previous sibling if necessary*/
-        // if (move.source_address[move.source_address.length - 1] > 0) {
-        //   const previousSibling = [...move.source_address]
-        //   previousSibling[previousSibling.length - 1] = previousSibling[previousSibling.length - 1] - 1
-        //   props.mutateformentity(previousSibling, {
-        //     append: utility.findEntityByPath(props.form, previousSibling).append() + grid()
-        //   })
-        // }
-
-        /**mutate entity itself */
-        // props.mutateformentity(move.source_address, {
-        //   // prepend: move.init_prepend + grid(),
-        //   append: move.init_append - grid()
-        // })
-      }
-    }
-  },
-  // dragOver_handler: (event) => {
-  //   event.preventDefault()
-  // },
-
   drop_handler: (event, props) => {
     console.log(event.target)
     event.stopPropagation();
     const data = JSON.parse(event.dataTransfer.getData('address'));
-    if (data.action != 'addEntity') {
+    if (data.action === 'move') {
       const previousSibling = () => {
         const _source_address = [...move.source_address]
         if (move.source_address[move.source_address.length - 1] > 0) {
@@ -136,8 +104,7 @@ export const movers = {
       }
 
       /**mutate previous sibling if necessary*/
-      // console.log('ff ',)
-      // console.log(utility.findEntityByPath(props.form, previousSibling).UUID())
+
       let sectionEntity = utility.findEntityByPath(props.form, destination_address.slice(0, destination_address.length - 1))
       console.log(sectionEntity, sectionEntity.children())
       let sectionAddress = destination_address.slice(0, destination_address.length - 1)
@@ -145,32 +112,15 @@ export const movers = {
       const total = (entity) => entity.prepend() + entity.width() + entity.append();
 
       const _sectionChildren = [...sectionEntity.children()]
-      // const firstInRow = (before) => {
-      //   // var runningTotal = 0;
-      //   if (before === -1) {return true} else
-      //   var runningTotal = 0;
-      //   {for (var i = 0; i < before; i++) {
-      //     console.log(i)
-      //      runningTotal += total(_sectionChildren[i])
-      //   }
-      //   return (runningTotal % sectionEntity.width() === 0) ? true : false}
-      // }
-
-      // function firstInRow(before) {
-      //   var runningTotal = 0;
-
-      //   for (var i = 0; i < before; ++i) {
-      //     runningTotal += total(_sectionChildren[i]);
-      //     console.log(runningTotal += total(_sectionChildren[i]), i, before)
-      //   }
-      //   console.log(runningTotal)
-      //   return (runningTotal % sectionEntity.width() === 0) ? true : false
-      // };
-
-      function firstInRow(before) {
+      /**returns true if entity path provided is firstInRow; false if not
+       * * @param {array} before - Path of the current entity
+      */
+      const firstInRow = (entity_address) => {
+        console.log(entity_address)
+        const _entity_address = (entity_address.slice(entity_address.length - 1, entity_address.length + 1) - 1)
         var runningTotal = 0;
 
-        for (var i = 0; i <= before; ++i) {
+        for (var i = 0; i <= _entity_address; ++i) {
           console.log(_sectionChildren[i])
           runningTotal += total(_sectionChildren[i]);
         }
@@ -195,9 +145,9 @@ export const movers = {
           append: move.init_append - grid()
         })
         props.mutateformentity(move.source_address, {
-        prepend: 0,
+          prepend: 0,
           append: move.init_append - grid()
-      })
+        })
       }
 
 
@@ -210,11 +160,11 @@ export const movers = {
       if (arraysEqual(source_address, destination_address)) {
         console.log('FF entity moved onto itself')
 
-
+        console.log(event.clientX)
 
         /**mutate previous entity if necessary */
-        if (!firstInRow((destination_address.slice(destination_address.length - 1, destination_address.length + 1) - 1))) {
-          // if (move.init_append - grid() === 0 && grid() > 0 && previousSibling()) {
+        console.log(firstInRow(destination_address))
+        if (!firstInRow(destination_address)) {
           const previous_entity = utility.findEntityByPath(props.form, previousSibling())
           console.log('ff previous entity: ', previousSibling(), {
             append: previous_entity.append() + grid()
@@ -223,19 +173,28 @@ export const movers = {
             append: previous_entity.append() + grid()
           })
         }
+        console.log(data.action)
         /**mutate entity itself */
         console.log(move.source_address, {
-          prepend: firstInRow(destination_address.slice(destination_address.length - 1, destination_address.length + 1) - 1) ? move.init_prepend + grid() : 0,
+          prepend: firstInRow(destination_address) ? move.init_prepend + grid() : 0,
           append: move.init_append - grid()
         })
 
-        console.log('ff: entity itself', firstInRow(destination_address.slice(destination_address.length - 1, destination_address.length + 1) - 1) )
+        console.log('ff: entity itself', firstInRow(destination_address))
 
         props.mutateformentity(move.source_address, {
-          prepend: firstInRow(destination_address.slice(destination_address.length - 1, destination_address.length + 1) - 1) ? move.init_prepend + grid() : 0,
+          prepend: firstInRow(destination_address) ? move.init_prepend + grid() : 0,
           append: move.init_append - grid()
         })
       }
+    }
+    /** still within the drop handler
+     * remove event listeners attached onMouseDown
+     */
+    const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`)
+    if (element !== null) {
+      element.removeEventListener('mousemove', movers.mouseMove_handler)
+      element.removeEventListener('drop', movers.drop_handler)
     }
   }
 }

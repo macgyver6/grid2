@@ -19,6 +19,22 @@ const move = {
   valid: null
 }
 
+
+
+const firstInRow = (entity_address, props) => {
+  console.log(entity_address)
+  let sectionEntity = utility.findEntityByPath(props.form, entity_address.slice(0, entity_address.length - 1))
+  const _sectionChildren = [...sectionEntity.children()]
+  const _entity_address = (entity_address.slice(entity_address.length - 1, entity_address.length + 1) - 1)
+  var runningTotal = 0;
+
+  for (var i = 0; i <= _entity_address; ++i) {
+    console.log(_sectionChildren[i])
+    runningTotal += total(_sectionChildren[i]);
+  }
+  return (runningTotal % sectionEntity.width() === 0) ? true : false;
+}
+
 const destinationIsSibling = (destinationEntity, draggedEntityAddress) => {
   if (destinationEntity.length > 2) {
     const whichSection = (arr) => arr[arr.length - 2]
@@ -34,10 +50,13 @@ const destinationIsSibling = (destinationEntity, draggedEntityAddress) => {
 
 export const rearrangers = {
   drop_handler: (event, props) => {
-    // helpers.dropAppend_handler(event, props)
-    // rearrange
+    event.stopPropagation()
     let data = JSON.parse(event.dataTransfer.getData("address"));
     console.log(data.action)
+    move.init_prepend = props.model.prepend()
+    move.init_append = props.model.append()
+    move.source_address = utility.findNode(props.model, props.form)
+
     if (data.action === 'move') {
       const sourceAddress = [...data.address]
       const destinationAddress = utility.findNode(props.model, props.form)
@@ -57,7 +76,7 @@ export const rearrangers = {
 
       console.log(sourceAddress, destinationAddress)
 
-      if (sourceAddress[sourceAddress.length - 2] !== destinationAddress[destinationAddress.length - 2])  {
+      if (sourceAddress[sourceAddress.length - 2] !== destinationAddress[destinationAddress.length - 2]) {
         /** valid drop on entity in different section */
         console.log(offsetGrids)
         if (offsetGrids <= props.model.prepend()) {
@@ -144,9 +163,46 @@ export const rearrangers = {
 
           // remove rearranged origin entity
           props.removeformentity(data.address)
-
-          console.log(offsetGrids)
         }
+      } else {
+        console.log('entity rearrange from same section')
+        console.log(data.address, destinationAddress)
+        /*
+          1. mutate
+          2. add
+          3. delete
+        */
+        console.log(move.init_append)
+        const entityToMutate = Object.assign({},
+          props.model.properties(),
+          {
+            prepend: move.init_prepend + total(draggedEntity),
+            append: move.init_append - draggedEntity.width()
+          })
+        console.log('entityToMutate: ', destinationAddress, entityToMutate)
+
+        console.log(offsetGrids)
+        /**
+         *
+         * START @@@ HERE
+         * evaluate if firstInRow should be refactored to be last in row. way to make dynamic?
+         */
+
+        const addressToAdd = [...destinationAddress]
+        addressToAdd[destinationAddress.length - 1] = destinationAddress[destinationAddress.length - 1] + 1
+        console.log(firstInRow(destinationAddress, props))
+        const entityToAdd = Object.assign({},
+          data.model,
+          {
+            prepend: 0,
+            append: move.init_append - draggedEntity.width()
+          })
+        console.log('entityToAdd: ', addressToAdd, entityToAdd)
+
+
+        console.log('entityToRemove: ', destinationAddress)
+
+
       }
     }
 
@@ -168,7 +224,7 @@ export const rearrangers = {
         const newAddress = [...destinationAddress]
 
         newAddress[destinationAddress.length - 1] = newAddress[destinationAddress.length - 1] + 1
-        console.log('add this entity: ', destinationAddress,  utility.resurrectEntity(
+        console.log('add this entity: ', destinationAddress, utility.resurrectEntity(
           Object.assign({},
             data.model, {
               prepend: offsetGrids,
@@ -182,13 +238,13 @@ export const rearrangers = {
               prepend: offsetGrids,
               append: (props.model.prepend() - offsetGrids - data.model.width)
             })
-          ), destinationAddress)
+        ), destinationAddress)
 
-          console.log('mutate this entity: ', newAddress, { append: offsetGrids })
+        console.log('mutate this entity: ', newAddress, { append: offsetGrids })
         props.mutateformentity(newAddress, {
           prepend: 0,
           append: offsetGrids
-          })
+        })
       }
 
       if (offsetGrids >= props.model.prepend() + props.model.width()) {
@@ -196,7 +252,7 @@ export const rearrangers = {
         const newAddress = [...destinationAddress]
 
         newAddress[destinationAddress.length - 1] = newAddress[destinationAddress.length - 1] + 1
-        console.log('add this entity: ', destinationAddress,  utility.resurrectEntity(
+        console.log('add this entity: ', destinationAddress, utility.resurrectEntity(
           Object.assign({},
             data.model, {
               prepend: 0,
@@ -210,9 +266,9 @@ export const rearrangers = {
               prepend: 0,
               append: (total(props.model) - offsetGrids - data.model.width)
             })
-          ), newAddress)
+        ), newAddress)
         const modifyAppend = (offsetGrids - (props.model.prepend() + props.model.width()))
-          console.log('mutate this entity: ', newAddress, { append: modifyAppend })
+        console.log('mutate this entity: ', newAddress, { append: modifyAppend })
         props.mutateformentity(destinationAddress, { append: modifyAppend })
       }
 
