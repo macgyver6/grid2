@@ -41,7 +41,7 @@ const Tab = (props) => {
         return props.form.children().length - 2
       }
     }
-    props.removeformentity([props.currentTab])
+    props.remove([props.currentTab])
     console.log('remove this one: ', [props.currentTab], 'change active tab to: ', whichTab())
     props.changetab(whichTab())
   }

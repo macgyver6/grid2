@@ -1,11 +1,12 @@
 import React from 'react';
 import { helpers } from '../../helpers';
-import { movers } from '../../movers';
+import { drop } from '../../drop';
 import Resizer from './subentities/Resizer';
 import { styles } from './feStyles';
 import Append from './subentities/Append.js';
 import Prepend from './subentities/Prepend.js';
 import { utility } from '../../utility';
+import { address } from '../../address';
 
 const round = (value, decimals) => {
   return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
@@ -25,7 +26,7 @@ const TextInputComponent = (props) => {
 
   /** Handle adding/subtracing prepend or append */
   const mouseDown_handler = (event) => {
-    movers.mouseDown_handler(event, props, 'move');
+    drop.mouseDown_handler(event, props, 'move');
   }
 
   /** Set dataTransfer in the case the entity is dropped on target:
@@ -43,7 +44,7 @@ const TextInputComponent = (props) => {
   }
 
   let drop_handler = (event) => {
-    movers.drop_handler(event, props)
+    drop.drop_handler(event, props)
   }
 
   let dragleave_handler = (event) => {
@@ -75,7 +76,7 @@ const TextInputComponent = (props) => {
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       style={styles.defaultEntity}
       onDragOver={dragOver_handler}
-      // onDrop={drop_handler}
+      onDrop={drop_handler}
       onDragLeave={dragleave_handler}
     >
       {(props.model.prepend() > 0) ?
@@ -86,9 +87,9 @@ const TextInputComponent = (props) => {
           className='prepend'
           model={props.model}
           form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
-          mutateformentity={props.mutateformentity}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
         /> :
         null
       }
@@ -109,9 +110,9 @@ const TextInputComponent = (props) => {
           className='resizer'
           model={props.model}
           form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
-          mutateformentity={props.mutateformentity}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
         />
       </div>
       {(props.model.append() > 0) ?
@@ -121,9 +122,9 @@ const TextInputComponent = (props) => {
           className='append'
           model={props.model}
           form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
-          mutateformentity={props.mutateformentity}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
         /> :
         null
       }

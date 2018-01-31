@@ -1,6 +1,6 @@
 import React from 'react';
 import { helpers } from '../../helpers';
-import { movers } from '../../movers';
+import { drop } from '../../drop';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
@@ -21,7 +21,7 @@ const TextAreaComponent = (props) => {
 
   /** Handle adding/subtracing prepend or append */
   const mouseDown_handler = (event) => {
-    movers.mouseDown_handler(event, props, 'move');
+    drop.mouseDown_handler(event, props, 'move');
   }
 
   /** Set dataTransfer in the case the entity is dropped on target:
@@ -37,7 +37,7 @@ const TextAreaComponent = (props) => {
   }
 
   let drop_handler = (event) => {
-    movers.drop_handler(event, props)
+    drop.drop_handler(event, props)
   }
 
   const taStyle = {
@@ -70,8 +70,8 @@ const TextAreaComponent = (props) => {
           className='prepend'
           model={props.model}
           form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity} mutateformentity={props.mutateformentity} /> :
+          remove={props.remove}
+          add={props.add} mutate={props.mutate} /> :
         null
       }
       <div
@@ -92,9 +92,9 @@ const TextAreaComponent = (props) => {
           className='resizer'
           model={props.model}
           form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
-          mutateformentity={props.mutateformentity}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
         />
       </div>
       {(props.model.append() > 0) ?
@@ -105,9 +105,9 @@ const TextAreaComponent = (props) => {
           className='append'
           model={props.model}
           form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
-          mutateformentity={props.mutateformentity}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
         /> :
         null
       }

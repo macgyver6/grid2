@@ -1,5 +1,6 @@
 import React from 'react';
 import { utility } from '../../utility';
+import { address } from '../../address';
 import { defaultPropsFE } from '../../constants/defaultPropsFE';
 
 const FormComponent = (props) => {
@@ -8,7 +9,7 @@ const FormComponent = (props) => {
   }
 
   // let drag_handler = function (event) {
-  //   const model = utility.findEntityByPath(props.form, [0, props.activeTab])
+  //   const model = address.byPath(props.form, [0, props.activeTab])
   //   // helpers.drag_handler(event, props.model, props.form, resize, props)
   // }
 
@@ -27,7 +28,7 @@ const FormComponent = (props) => {
       // let parentPx = document.getElementById(`${props.model.UUID()}.${props.model.type()}`).clientWidth
       console.log(bgrndGrdWidth, event.clientX, appendGrids)
       // const appendGrids = round(((event.clientX - document.getElementById('form').left) / bgrndGrdWidth), 0)
-      let entityToAdd = utility.resurrectEntity(
+      let entityToAdd = address.resurrectEntity(
         Object.assign({},
           data.model, {
             prepend: appendGrids,
@@ -41,7 +42,7 @@ const FormComponent = (props) => {
       // @hack - only adds to position 0 at this point
       // formEntity.push(0)
 
-      props.addformentity(entityToAdd, whereToAdd)
+      props.add(whereToAdd, entityToAdd)
 
       // const div = document.getElementById(props.model.UUID());
       // div.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
@@ -52,9 +53,9 @@ const FormComponent = (props) => {
       console.log('dropped on form, move action')
       const appendGridsEOffset = round(((event.clientX - document.getElementById('form').getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
 
-      let draggedEntity = utility.findEntityByPath(props.form, data.address)
+      let draggedEntity = address.byPath(props.form, data.address)
 
-      let entityToAdd = utility.resurrectEntity(
+      let entityToAdd = address.resurrectEntity(
         Object.assign({},
           draggedEntity.properties(), {
             prepend: appendGridsEOffset,
@@ -63,9 +64,9 @@ const FormComponent = (props) => {
       )
       const whereToAdd = [props.activeTab, props.form.children().length]
       console.log('add entity at form: ', entityToAdd, whereToAdd)
-      props.addformentity(entityToAdd, whereToAdd)
+      props.add(whereToAdd, entityToAdd)
       console.log('remove entity at form: ', data.address)
-      props.removeformentity(data.address)
+      props.remove(data.address)
     }
   }
 
@@ -113,19 +114,19 @@ const FormComponent = (props) => {
       // onDrag={drag_handler}
       onDragOver={dragover_handler}
     >
-
+  {  console.log(props.form.children())}
       <div className="grid" >
       {/* loop through and render all children entities of top level section */}
            {
           props.form.children()[props.activeTab].children().map((element, i) => {
-            return React.createElement(utility.lookupComponent(element),
+            return React.createElement(address.lookupComponent(element),
               {
                 key: i,
                 model: element,
                 form: props.form,
-                removeformentity: props.removeformentity,
-                addformentity: props.addformentity,
-                mutateformentity: props.mutateformentity
+                remove: props.remove,
+                add: props.add,
+                mutate: props.mutate
               }
             )
           })

@@ -41,7 +41,7 @@ const Prepend = (props) => {
     <div
       style={prependStyle}
       id={`${props.model.UUID()}.prepend`}
-      onDrop={drop_handler}
+      // onDrop={drop_handler}
       // onDragOver ={dragover_handler}
     >
       {/* onDragEnter={dragEnterHandler} */}

@@ -4,25 +4,25 @@ export const increment = () => {
   }
 }
 
-export const addformentity = (formEntity, path, section) => {
+export const add = (path, entity, section) => {
   return {
-    type: 'ADDFORMENTITY',
-    formEntity: formEntity,
+    type: 'ADD',
+    entity: entity,
     path,
     section
   }
 }
 
-export const removeformentity = (path) => {
+export const remove = (path) => {
   return {
-    type: 'REMOVEFORMENTITY',
+    type: 'REMOVE',
     path
   }
 }
 
-export const mutateformentity = (path, properties, section) => {
+export const mutate = (path, properties, section) => {
   return {
-    type: 'MUTATEFORMENTITY',
+    type: 'MUTATE',
     path,
     properties,
     section

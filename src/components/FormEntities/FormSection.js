@@ -1,5 +1,6 @@
 import React from 'react';
 import { utility } from '../../utility';
+import { address } from '../../address';
 import { defaultPropsFE } from '../../constants/defaultPropsFE';
 import Resizer from './subentities/Resizer.js';
 import AddToEnd from './subentities/AddToEnd.js';
@@ -52,10 +53,10 @@ let FormSectionComponent = (props) => {
 
     if (data && data.action === 'addEntity') {
       console.log('drop FS add: ')
-      let location = utility.findNode(props.model, props.form)
+      let location = address.bySample(props.model, props.form)
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
       const offsetGrids = round(((event.clientX - event.target.getBoundingClientRect().left) / bgrndGrdWidth), 0)
-      let entityToAdd = utility.resurrectEntity(
+      let entityToAdd = address.resurrectEntity(
         Object.assign({},
           data.model, {
             prepend: offsetGrids,
@@ -66,7 +67,8 @@ let FormSectionComponent = (props) => {
       // @hack - only adds to position 0 at this point
       let addressNewEntity = [...location]
       addressNewEntity[addressNewEntity.length] = props.model.children().length
-      props.addformentity(entityToAdd, addressNewEntity)
+      console.log(location)
+      props.add(addressNewEntity, entityToAdd)
 
       const div = document.getElementById(props.model.UUID());
       // div.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
@@ -76,8 +78,8 @@ let FormSectionComponent = (props) => {
     if (data && data.action === 'rearrange') {
       console.log('FormSection drop rearrange')
       console.log(data.address)
-      let draggedEntity = utility.findEntityByPath(props.form, data.address)
-      let entityToAdd = utility.resurrectEntity(
+      let draggedEntity = address.byPath(props.form, data.address)
+      let entityToAdd = address.resurrectEntity(
         Object.assign({},
           draggedEntity.properties(), {
             prepend: offsetGrids,
@@ -85,7 +87,7 @@ let FormSectionComponent = (props) => {
           })
       )
 
-      let test = utility.findEntityUuid(props.model.UUID(), props.form)[0]
+      let test = address.byUuid(props.model.UUID(), props.form)[0]
       let _test = [...test]
       _test[test.length] = props.model.children().length
       // for dropping entity other than itself onto this form section
@@ -93,8 +95,8 @@ let FormSectionComponent = (props) => {
         console.log('FormSection drop move, entity dropped on FS')
         console.log('add this: ', entityToAdd, _test)
         console.log('remove this: ', (data.address))
-        props.addformentity(entityToAdd, _test)
-        props.removeformentity(data.address)
+        props.add(_test, entityToAdd)
+        props.remove(data.address)
         //   /*
         //   start restore donor
         //   */
@@ -103,7 +105,7 @@ let FormSectionComponent = (props) => {
         if (helpers.restoreDonorSiblingAddress(data.address, props)) {
           console.log(helpers.restoreDonorSiblingAddress(data.address, props).address, helpers.restoreDonorSiblingAddress(data.address, props).properties)
 
-          props.mutateformentity(helpers.restoreDonorSiblingAddress(data.address, props).address, helpers.restoreDonorSiblingAddress(data.address, props).properties)
+          props.mutate(helpers.restoreDonorSiblingAddress(data.address, props).address, helpers.restoreDonorSiblingAddress(data.address, props).properties)
         }
         /*
         end restore donor
@@ -111,17 +113,17 @@ let FormSectionComponent = (props) => {
       }
       // for changing prepend/append of a formsection
       if (draggedEntity.UUID() === props.model.UUID()) {
-        console.log('dropped on FormSection, moving form section: ', draggedEntity.UUID(), utility.findNode(props.model, props.form),
+        console.log('dropped on FormSection, moving form section: ', draggedEntity.UUID(), address.bySample(props.model, props.form),
           {
             prepend: (resize.init_prepend + offsetGrids),
             append: (resize.init_append - offsetGrids),
           })
-        console.log(utility.findNode(props.model, props.form),
+        console.log(address.bySample(props.model, props.form),
           {
             prepend: (resize.init_prepend + offsetGrids),
             append: (resize.init_append - offsetGrids),
           })
-        props.mutateformentity(utility.findNode(props.model, props.form),
+        props.mutate(address.bySample(props.model, props.form),
           {
             prepend: (resize.init_prepend + offsetGrids),
             append: (resize.init_append - offsetGrids),
@@ -179,8 +181,8 @@ let FormSectionComponent = (props) => {
           uuid={props.model.UUID()}
           model={props.model}
           form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
+          remove={props.remove}
+          add={props.add}
         /> :
         null
       }
@@ -195,7 +197,7 @@ let FormSectionComponent = (props) => {
 
         {props.model.type() === 'FormSection' ?
           props.model.children().map((element, i) => {
-            return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity, mutateformentity: props.mutateformentity })
+            return React.createElement(address.lookupComponent(element), { key: i, model: element, form: props.form, remove: props.remove, add: props.add, mutate: props.mutate })
           }) : null
         }
 
@@ -206,14 +208,14 @@ let FormSectionComponent = (props) => {
           className='resizer'
           model={props.model}
           form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
-          mutateformentity={props.mutateformentity}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
         />
         <AddToEnd
           model={props.model}
           form={props.form}
-          addformentity={props.addformentity}
+          add={props.add}
         />
       </div>
       {(props.model.append() > 0) ?
@@ -223,9 +225,9 @@ let FormSectionComponent = (props) => {
           uuid={props.model.UUID()}
           model={props.model}
           form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
-          mutateformentity={props.mutateformentity}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
         /> :
         null
       }

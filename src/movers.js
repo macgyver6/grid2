@@ -1,4 +1,5 @@
 import { utility } from './utility';
+import { address } from './address';
 import { formatter } from './formatter';
 import { defaultPropsFE } from './constants/defaultPropsFE';
 
@@ -38,14 +39,14 @@ export const movers = {
   */
   mouseDown_handler: (event, props) => {
     const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`)
-    element.addEventListener('mousemove', event => movers.mouseMove_handler(event, props))
-    element.addEventListener('drop', event => movers.drop_handler(event, props))
+    element.addEventListener('mousemove', event => drop.mouseMove_handler(event, props))
+    element.addEventListener('drop', event => drop.drop_handler(event, props))
     /**set initial properties to compute mutations against */
     move.mouseDownStartX = event.clientX;
     move.init_prepend = props.model.prepend()
     move.init_append = props.model.append()
-    move.source_address = utility.findNode(props.model, props.form)
-    move.offsetInit = utility.findNode(props.model, props.form).length > 1 ?
+    move.source_address = address.bySample(props.model, props.form)
+    move.offsetInit = address.bySample(props.model, props.form).length > 1 ?
       round((event.clientX - document.getElementById(`${props.model.UUID()}.${props.model.type()}`).getBoundingClientRect().left), 3) :
       null
   },
@@ -76,7 +77,7 @@ export const movers = {
         }
       }
 
-      const destination_address = utility.findNode(props.model, props.form)
+      const destination_address = address.bySample(props.model, props.form)
       const source_address = move.source_address
       console.log(previousSibling(), props.form)
 
@@ -105,7 +106,7 @@ export const movers = {
 
       /**mutate previous sibling if necessary*/
 
-      let sectionEntity = utility.findEntityByPath(props.form, destination_address.slice(0, destination_address.length - 1))
+      let sectionEntity = address.byPath(props.form, destination_address.slice(0, destination_address.length - 1))
       console.log(sectionEntity, sectionEntity.children())
       let sectionAddress = destination_address.slice(0, destination_address.length - 1)
 
@@ -128,14 +129,14 @@ export const movers = {
       }
 
       if (arraysEqual(destination_address, previousSibling())) {
-        const previous_entity = utility.findEntityByPath(props.form, previousSibling())
+        const previous_entity = address.byPath(props.form, previousSibling())
         console.log('FF moved onto previous sibling')
 
         console.log(previous_entity.append())
         console.log('ff mutate previous sibling: ', previousSibling(), {
           append: previous_entity.append() + grid()
         })
-        props.mutateformentity(previousSibling(), {
+        props.mutate(previousSibling(), {
           append: previous_entity.append() + grid()
         })
 
@@ -144,7 +145,7 @@ export const movers = {
           prepend: 0,
           append: move.init_append - grid()
         })
-        props.mutateformentity(move.source_address, {
+        props.mutate(move.source_address, {
           prepend: 0,
           append: move.init_append - grid()
         })
@@ -152,7 +153,7 @@ export const movers = {
 
 
       /**mutate entity itself */
-      console.log(utility.findEntityByPath(props.form, data.address).UUID(), props.model.UUID())
+      console.log(address.byPath(props.form, data.address).UUID(), props.model.UUID())
 
 
 
@@ -165,11 +166,11 @@ export const movers = {
         /**mutate previous entity if necessary */
         console.log(firstInRow(destination_address))
         if (!firstInRow(destination_address)) {
-          const previous_entity = utility.findEntityByPath(props.form, previousSibling())
+          const previous_entity = address.byPath(props.form, previousSibling())
           console.log('ff previous entity: ', previousSibling(), {
             append: previous_entity.append() + grid()
           })
-          props.mutateformentity(previousSibling(), {
+          props.mutate(previousSibling(), {
             append: previous_entity.append() + grid()
           })
         }
@@ -182,7 +183,7 @@ export const movers = {
 
         console.log('ff: entity itself', firstInRow(destination_address))
 
-        props.mutateformentity(move.source_address, {
+        props.mutate(move.source_address, {
           prepend: firstInRow(destination_address) ? move.init_prepend + grid() : 0,
           append: move.init_append - grid()
         })
@@ -193,8 +194,8 @@ export const movers = {
      */
     const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`)
     if (element !== null) {
-      element.removeEventListener('mousemove', movers.mouseMove_handler)
-      element.removeEventListener('drop', movers.drop_handler)
+      element.removeEventListener('mousemove', drop.mouseMove_handler)
+      element.removeEventListener('drop', drop.drop_handler)
     }
   }
 }

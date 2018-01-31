@@ -1,5 +1,6 @@
 import React from 'react';
 import { utility } from '../../../utility';
+import { address } from '../../../address';
 import { defaultPropsFE } from '../../../constants/defaultPropsFE';
 import { helpers } from '../../../helpers';
 
@@ -41,7 +42,7 @@ let Resizer = (props) => {
     element.addEventListener('mouseup', mouseUp_handler)
     // event.dataTransfer.setData("address", JSON.stringify({
     //   action: 'move',
-    //   address: utility.findNode(props.model, props.form)
+    //   address: address.bySample(props.model, props.form)
     // }))
     // helpers.dragStart_handler(event, props.model, props.form, 'resize')
   }
@@ -58,9 +59,9 @@ let Resizer = (props) => {
     console.log('mousemove')
     // event.stopPropagation();
     resize.reset = false
-    let locEntity = utility.findEntityUuid(props.model.UUID(), props.form)
+    let locEntity = address.byUuid(props.model.UUID(), props.form)
     console.log(locEntity[1].type())
-    let parentEntity = utility.findEntityByPath(props.form, locEntity[0].slice(0, locEntity[0].length - 1))
+    let parentEntity = address.byPath(props.form, locEntity[0].slice(0, locEntity[0].length - 1))
     const minWidth = defaultPropsFE[props.model.type()].render.minWidth
     const maxWidth = parentEntity.width();
     resize.dx = event.clientX - resize.mouseMoveStartX;
@@ -219,16 +220,16 @@ let Resizer = (props) => {
             // map through children finishing here
             // console.log(resize.init_children[0].UUID(), Object.assign({}, resize.init_children[0], { append: resize.init_children[0].append() + resize.grids }))
             console.log(resize.init_children[0].prepend(), locEntity[1].setChildren(
-              [utility.resurrectEntity(Object.assign({}, resize.init_children[0].properties(), { append: resize.init_children[0].append() + resize.grids }))
+              [address.resurrectEntity(Object.assign({}, resize.init_children[0].properties(), { append: resize.init_children[0].append() + resize.grids }))
               ]))
 
-            props.mutateformentity(locEntity[0], {
+            props.mutate(locEntity[0], {
               width: (resize.init_grids + resize.grids),
               append: (resize.init_append - resize.grids),
               children: props.model.children().length === 1 ?
-                [utility.resurrectEntity(Object.assign({}, resize.init_children[0].properties(), { append: resize.init_children[0].append() + resize.grids }))]
+                [address.resurrectEntity(Object.assign({}, resize.init_children[0].properties(), { append: resize.init_children[0].append() + resize.grids }))]
                 :
-                updatedChildren.map(child => utility.resurrectEntity(child, props.form))
+                updatedChildren.map(child => address.resurrectEntity(child, props.form))
             })
             console.log(updatedChildren)
           }
@@ -237,7 +238,7 @@ let Resizer = (props) => {
           width: (resize.init_grids + resize.grids),
           append: (resize.init_append - resize.grids)
         })
-        props.mutateformentity(locEntity[0], {
+        props.mutate(locEntity[0], {
           width: (resize.init_grids + resize.grids),
           append: (resize.init_append - resize.grids)
         })

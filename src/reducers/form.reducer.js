@@ -1,4 +1,6 @@
 import { utility } from '../utility';
+import { address } from '../address';
+import { comm } from '../comm';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
 import { Form } from '../data/Form';
 
@@ -26,49 +28,55 @@ const formReducer = (state, action) => {
     })
   }
 
-  if (action.type === 'ADDFORMENTITY') {
+  if (action.type === 'ADD') {
     let result =
       utility.add (
-        action.formEntity,
-        action.section || state.form,
-        action.path )
+        action.path,
+        action.entity,
+        state.form
+        )
     return Object.assign({}, state, {
       form: result
     })
   }
 
-  if (action.type === 'REMOVEFORMENTITY') {
+  if (action.type === 'REMOVE') {
+    console.log(state.form,
+      action.path)
     let update = utility.remove (
-      state.form,
-      action.path )
+      action.path,
+      state.form
+    )
     return Object.assign({}, state, {
       form: update
     })
   }
 
-  if (action.type === 'MUTATEFORMENTITY') {
-    const initEntity = utility.findEntityByPath(state.form, action.path)
+  if (action.type === 'MUTATE') {
+    const initEntity = address.byPath(state.form, action.path)
     let update = utility.remove (
-      action.section || state.form,
-      action.path )
+      action.path,
+      state.form )
     const removedUpdate = Object.assign({}, state, {
       form: update
     })
     let mutatedEntity = Object.assign({}, initEntity.properties(),
       action.properties
     )
+    console.log(action.path)
     let result =
       utility.add(
-        utility.resurrectEntity(mutatedEntity),
-        removedUpdate.form,
-        action.path)
+        action.path,
+        address.resurrectEntity(mutatedEntity),
+          removedUpdate.form
+      )
     return Object.assign({}, state, {
       form: result
     })
   }
 
   if (action.type === 'SAVESTATE') {
-    let serialized = utility.serialize(state.form);
+    let serialized = comm.serialize(state.form);
     localStorage.setItem('model', JSON.stringify(serialized))
     return Object.assign({}, state, {
       lastSaved: Date.now()
@@ -78,7 +86,7 @@ const formReducer = (state, action) => {
   if (action.type === 'LOADSTATE') {
     if (localStorage.getItem('model')) {
       let resurrectedEntities =
-        utility.unserialize((JSON.parse(localStorage.getItem('model'))))
+        comm.unserialize((JSON.parse(localStorage.getItem('model'))))
       return { ...state, form: (resurrectedEntities) };
     } else {
       throw new Error('No items saved in local storage')

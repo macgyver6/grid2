@@ -23,13 +23,13 @@ export const utility = {
 
   // handleChange: function handleChange(event) {
   //   console.log(event.target.value)
-  //   actions.removeformentity([0, 0])
-  //   actions.addformentity(
+  //   actions.remove([0, 0])
+  //   actions.add(
   //     this.mutate({ defaultContent: event.target.value }
   //     ), [0, 0])
   // },
 
-  add: function add(entity, section, path) {
+  add: (path, entity, section) => {
     // if (path[0] < 0 || path[0] === undefined && (!(entity instanceof FormSection))) {
     //   throw new Error("path OOB");
     // }
@@ -40,13 +40,13 @@ export const utility = {
     //      {
     //   throw new Error("section was not FormSection");
     // }
-
     let e = entity;
     if (path.length > 1) {
-      e = add(entity, section.children()[path[0]], path.slice(1));
+      e = utility.add(path.slice(1), entity, section.children()[path[0]]);
     }
     let newChildren = section.children().slice(0);
     newChildren.splice(path[0], path.length > 1 ? 1 : 0, e);
+    console.log(path, entity, section)
     return section.setChildren(newChildren);
   },
 
@@ -55,122 +55,24 @@ export const utility = {
    * @param {number[]} path
    * @returns {FormEntity}
    */
-  remove: function remove(section, path) {
+  remove: (path, section) => {
     // if (path.length === 1 && section.children()[path[0]] === undefined) {
     //   throw new Error("path OOB");
     // }
     let newChildren = section.children().slice(0);
     if (path.length > 1)
     {
-      newChildren[path[0]] = remove(section.children()[path[0]], path.slice(1));
+      newChildren[path[0]] = utility.remove(path.slice(1), section.children()[path[0]]);
     } else {
       newChildren.splice(path[0], 1);
     }
     return section.setChildren(newChildren);
   },
 
-  findNode: (target, node, path = []) => {
-    if (node.UUID() === target.UUID()) {
-      return path;
-    }
-
-    if (node.children) {
-      return node.children().reduce((acc, child, index) => {
-        return acc || utility.findNode(target, child, [...path, index]);
-      }, null);
-    }
-
-    return null;
-  },
-
-  findEntityUuid: (uuid, node, path = [], entity) => {
-    if (node.UUID() === uuid) {
-      return [path, node];
-    }
-
-    if (node.children) {
-      return node.children().reduce((acc, child, index) => {
-        return acc || utility.findEntityUuid(uuid, child, [...path, index]);
-      }, null);
-    }
-
-    return null;
-  },
-
-  findEntityByPath: (section, path, entity) => {
-    if (path.length > 1) {
-      return utility.findEntityByPath(section.children()[path[0]], path.slice(1));
-    } else {
-      return section.children()[path]
-    }
-  },
-
-  serialize: (node) => {
-    // process this node and return public copy with props
-    const props = node.properties()
-    let children;
-    if (props && props.children) {
-      // process any children
-      (children = props.children.map(child => utility.serialize(child)));
-    }
-    return { ...props, children }
-  },
-
-  unserialize: (node) => {
-    // process this node and return public copy with props
-    const props = utility.resurrectEntity(node)
-    if (node && (props instanceof Form || props instanceof FormSection)) {
-      // process any children
-      return props.setChildren(props.children().map(child => utility.unserialize(child)
-      ))
-    }
-    return props
-  },
-
-  lookupComponent: function (modelInstance) {
-    if (modelInstance instanceof Form) {
-      return FormComponent;
-    }
-    else if (modelInstance instanceof FormSection) {
-      return FormSectionComponent;
-    }
-    else if (modelInstance instanceof TextInput) {
-      return TextInputComponent;
-    }
-    else if (modelInstance instanceof TextArea) {
-      return TextAreaComponent;
-    }
-    else if (modelInstance instanceof CheckBox) {
-      return CheckBoxComponent;
-    }
-    else if (modelInstance instanceof RadioButton) {
-      return RadioButtonComponent;
-    }
-  },
-
-  resurrectEntity: function (formEntitySerialized) {
-    // @hack
-    switch (formEntitySerialized.type || formEntitySerialized._type || formEntitySerialized.type()) {
-      case 'Form':
-        return new Form({ ...formEntitySerialized })
-      case 'FormSection':
-        return new FormSection({ ...formEntitySerialized })
-      case 'TextInput':
-        return new TextInput({ ...formEntitySerialized })
-      case 'TextArea':
-        return new TextArea({ ...formEntitySerialized })
-      case 'CheckBox':
-        return new CheckBox({ ...formEntitySerialized })
-      case 'RadioButton':
-        return new RadioButton({ ...formEntitySerialized })
-      default: throw new Error('Unexpected Entity Type')
-    }
-  },
-
-  mutate: function (address, properties) {
-    const entity = utility.findEntityByPath(address)
+  mutate:(address, properties) => {
+    const entity = address.byPath(address)
     utility.remove(address)
-    utility.add(utility.resurrectEntity(
+    utility.add(address.resurrectEntity(
       Object.assign({},
         entity.properties(), properties)
     ), address)

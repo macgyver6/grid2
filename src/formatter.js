@@ -1,4 +1,5 @@
 import { utility } from './utility';
+import { address } from './address';
 import { defaultPropsFE } from './constants/defaultPropsFE';
 
 const round = (value, decimals) => {
@@ -27,7 +28,7 @@ let bgrndGrdWidth = 44
  */
 export const formatter = {
 
-  // let locEntity = utility.findEntityUuid(props.model.UUID(), props.form)
+  // let locEntity = address.byUuid(props.model.UUID(), props.form)
 
   main: (sectionEntity) => {
     resize.init_children = sectionEntity.children()

@@ -1,5 +1,6 @@
 import React from 'react';
 import { utility } from '../../../utility';
+import { address } from '../../../address';
 import { defaultPropsFE } from '../../../constants/defaultPropsFE';
 
 const AddToEnd = (props) => {
@@ -15,15 +16,15 @@ const AddToEnd = (props) => {
   const drop_handler = (event) => {
     event.stopPropagation();
     let data = JSON.parse(event.dataTransfer.getData("address"));
-    let locEntity = utility.findEntityUuid(props.model.UUID(), props.form)
+    let locEntity = address.byUuid(props.model.UUID(), props.form)
     let loc = [...locEntity[0]]
     loc = loc.concat(locEntity[1].children().length)
     const parentEntity = [...locEntity[0]].slice(0, locEntity.length - 1)
     console.log([...locEntity[0]])
-    props.addformentity(utility.resurrectEntity(
+    props.add(loc, address.resurrectEntity(
       Object.assign({}, data.model, {
         append: locEntity[1].width() - data.model.width
-      })), loc)
+      })))
     event.target.style.backgroundColor = ''
   }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { helpers } from '../../helpers';
-import { movers } from '../../movers';
+import { drop } from '../../drop';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
@@ -20,7 +20,7 @@ const RadioButtonComponent = (props) => {
 
   /** Handle adding/subtracing prepend or append */
   const mouseDown_handler = (event) => {
-    movers.mouseDownToMove_handler(event, props, 'move');
+    drop.mouseDownToMove_handler(event, props, 'move');
   }
 
   /** Set dataTransfer in the case the entity is dropped on target:
@@ -38,7 +38,7 @@ const RadioButtonComponent = (props) => {
   }
 
   let drop_handler = (event) => {
-    movers.drop_handler(event, props)
+    drop.drop_handler(event, props)
   }
 
   const rbStyle = {
@@ -70,8 +70,8 @@ const RadioButtonComponent = (props) => {
           className='prepend'
           model={props.model}
           form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity} mutateformentity={props.mutateformentity} /> :
+          remove={props.remove}
+          add={props.add} mutate={props.mutate} /> :
         null
       }
 
@@ -95,9 +95,9 @@ const RadioButtonComponent = (props) => {
           className='resizer'
           model={props.model}
           form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
-          mutateformentity={props.mutateformentity}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
         />
       </div>
       {(props.model.append() > 0) ?
@@ -108,9 +108,9 @@ const RadioButtonComponent = (props) => {
           className='append'
           model={props.model}
           form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
-          mutateformentity={props.mutateformentity}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
         /> :
         null
       }

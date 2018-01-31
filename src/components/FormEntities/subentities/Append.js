@@ -1,6 +1,7 @@
 import React from 'react';
 import { helpers } from '../../../helpers';
 import { utility } from '../../../utility';
+import { address } from '../../../address';
 import { rearrangers } from '../../../rearrangers';
 
 const Append = (props) => {
@@ -33,7 +34,7 @@ const Append = (props) => {
     <div
       id={`${props.model.UUID()}.append`}
       style={appendStyle}
-      onDrop={drop_handler2}
+      // onDrop={drop_handler2}
     // onDragOver={dragover_handler}
     // onDragLeave={dragLeaveHandler}
     >
