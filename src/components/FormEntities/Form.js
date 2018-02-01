@@ -114,7 +114,7 @@ const FormComponent = (props) => {
       // onDrag={drag_handler}
       onDragOver={dragover_handler}
     >
-  {  console.log(props.form.children())}
+  {/* {  console.log(props.form.children())} */}
       <div className="grid" >
       {/* loop through and render all children entities of top level section */}
            {

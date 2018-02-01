@@ -35,7 +35,6 @@ const TextInputComponent = (props) => {
    */
   let dragstart_handler = (event) => {
     // event.stopPropagation();
-    console.log(event.target)
     helpers.dragStart_handler(event, props.model, props.form, 'move')
   }
 
@@ -49,7 +48,6 @@ const TextInputComponent = (props) => {
 
   let dragleave_handler = (event) => {
     event.stopPropagation();
-    console.log('test')
   //   console.log(event.target.id)
   // if (event.target.id === `${props.model.UUID()}.${props.model.type()}.wrapper`) {
   //   console.log('event.currentTarget')

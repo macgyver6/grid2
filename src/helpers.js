@@ -27,7 +27,7 @@ export const helpers = {
     //   address: address.bySample(model, form),
     //   dragInit: round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3)
     // }))
-    console.log(event, model, form, action)
+    // console.log(event, model, form, action)
     // if (action === "resize") {
     //   console.log({
     //     action: action,

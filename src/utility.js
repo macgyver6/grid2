@@ -46,7 +46,7 @@ export const utility = {
     }
     let newChildren = section.children().slice(0);
     newChildren.splice(path[0], path.length > 1 ? 1 : 0, e);
-    console.log(path, entity, section)
+    // console.log(path, entity, section)
     return section.setChildren(newChildren);
   },
 
