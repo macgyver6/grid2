@@ -60,10 +60,10 @@ const formReducer = (state, action) => {
     const removedUpdate = Object.assign({}, state, {
       form: update
     })
+    console.log(initEntity)
     let mutatedEntity = Object.assign({}, initEntity.properties(),
       action.properties
     )
-    console.log(action.path)
     let result =
       utility.add(
         action.path,
