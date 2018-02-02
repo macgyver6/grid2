@@ -51,7 +51,7 @@ export const drop = {
     dropObj.initAppend = props.model.append()
     dropObj.sourceAddress = address.bySample(props.model, props.form)
     dropObj.offsetInit = address.bySample(props.model, props.form).length > 1 ?
-      round((event.clientX - document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`).getBoundingClientRect().left), 3) :
+      round((event.clientX - document.getElementById(`${props.model.UUID()}.${props.model.type()}`).getBoundingClientRect().left), 3) :
       null
   },
   /**Give the user feedback while they are dragged.
@@ -98,46 +98,39 @@ export const drop = {
       // get donor's parent
       const donorParent = address.byPath(props.form, arr.slice(0, arr.length - 1))
       console.log(arr, props, draggedEntity)
-      if (donorParent.children().length === 1) {
+      const toLeft = (arr) => {
+        const _toLeft = [...arr]
+        console.log({ address: _toLeft, entity: address.byPath(props.form, _toLeft) })
+          _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1
+          return ({ address: _toLeft, entity: address.byPath(props.form, _toLeft) })
+      }
+      const toRight = (arr) => {
+        const _toRight = [...arr]
+        _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1
+        return ({
+          address: _toRight,
+          entity: address.byPath(props.form, _toRight)
+        })
+      }
+      console.log(donorParent.children().length === 1, (donorParent.children().length - 1 === arr[arr.length - 1]))
+      /** if only 1 child in section or the donor entity is the last entity in section */
+      if (donorParent.children().length === 1 || (donorParent.children().length - 1 === arr[arr.length - 1]) && firstInRow(arr)) {
+      // if (donorParent.children().length === 1 || (donorParent.children().length - 1 === arr[arr.length - 1])) {
         return false
+      } else if (firstInRow(arr)) {
+        console.log('firstInRow: ', toRight(arr))
+        return ({
+          address: toRight(arr).address,
+          properties:
+            { prepend: toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append() }
+        })
       } else {
-        // console.log(arr)
-        const toLeft = (arr) => {
-          const _toLeft = [...arr]
-          if (_toLeft[arr.length - 1] < 1) {
-            return false
-          } else {
-            _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1
-            return ({ address: _toLeft, entity: address.byPath(props.form, _toLeft) })
+        return ({
+          address: toLeft(arr).address,
+          properties: {
+            append: toLeft(arr).entity.append() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append()
           }
-        }
-        const toRight = (arr) => {
-          const _toRight = [...arr]
-          _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1
-          return ({
-            address: _toRight,
-            entity: address.byPath(props.form, _toRight)
-          })
-        }
-
-        // console.log(toLeft(arr))
-
-        if (toLeft(arr)) {
-          // console.log('previous entity exists, adding to append: ', toLeft(arr).address)
-          return ({
-            address: toLeft(arr).address,
-            properties: {
-              append: toLeft(arr).entity.append() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append()
-            }
-          })
-        } else {
-          // console.log('no previous entity exists, adding to prepend', { prepend: toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append() })
-          return ({
-            address: toRight(arr).address,
-            properties:
-              { prepend: toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append() }
-          })
-        }
+        })
       }
     }
 
@@ -246,14 +239,41 @@ export const drop = {
         }
       }
       // console.log('change of addresses')
-      // 1. delete
+      // 1. mutate destination
       // 2. add
-      // 3. mutate
-      // console.log(gridOffsetLocChange())
+      // 3. mutate origin sibling for vacancy
+      // 4. remove
+      const toBeMutated = {
+        prepend: event.target.id === `${props.model.UUID()}.append` ? props.model.prepend() :
+          0,
+        append: event.target.id === `${props.model.UUID()}.append` ? gridOffsetLocChange() - props.model.prepend() - props.model.width() :
+          props.model.append()
+      }
+      console.log(event.clientX,
+        document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`).getBoundingClientRect().left,
+
+        dropObj.offsetInit,
+
+
+        gridOffsetLocChange(), props.model.prepend(), props.model.width())
+
+      const updatedAddress = dropObj.destinationAddress.map((val, index, array) => index === array.length - 1 ? val -= 1 : val);
+      console.log('destination sibling toBeMutated: ', dropObj.destinationAddress, toBeMutated)
+      props.mutate(dropObj.destinationAddress, toBeMutated)
+
+      const updatedAddress2 = dropObj.destinationAddress.map((val, index, array) => index === array.length - 1 ? val -= 1 : val);
+      const toBeMutatedRestore = restoreDonorSiblingAddress(dropObj.sourceAddress, props, dropObj.sourceEntity)
+      // if (!arraysEqual(toBeMutatedRestore.address, dropObj.destinationAddress)) {
+        console.log('restore sibling: ', toBeMutatedRestore)
+
+      if (toBeMutatedRestore) {
+        props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties)
+      }
+
+      console.log(dropObj.sourceAddress, dropObj.destinationAddress)
       const toBeDeleted = dropObj.sourceAddress
       console.log('toBeDeleted: ', toBeDeleted)
       props.remove(toBeDeleted)
-
 
       const _destinationAddress = [...dropObj.destinationAddress]
       _destinationAddress[dropObj.destinationAddress.length - 1] = dropObj.destinationAddress[dropObj.destinationAddress.length - 1] + 1
@@ -267,24 +287,7 @@ export const drop = {
       console.log('whereToAdd: ', whereToAdd(dropObj.destinationAddress), toBeAdded)
 
       props.add(whereToAdd(dropObj.destinationAddress), toBeAdded)
-      const toBeMutated = {
-        prepend: event.target.id === `${props.model.UUID()}.append` ? props.model.prepend() :
-          0,
-        append: event.target.id === `${props.model.UUID()}.append` ? gridOffsetLocChange() - props.model.prepend() - props.model.width() :
-          props.model.append() + total(dropObj.sourceEntity)
-      }
-      const updatedAddress = dropObj.destinationAddress.map((val, index, array) => index === array.length - 1 ? val += 1 : val);
-      console.log('toBeMutated: ', event.target.id === `${props.model.UUID()}.append` ? dropObj.destinationAddress : updatedAddress, toBeMutated)
-      props.mutate(event.target.id === `${props.model.UUID()}.append` ? dropObj.destinationAddress : updatedAddress, toBeMutated)
 
-
-      const updatedAddress2 = dropObj.destinationAddress.map((val, index, array) => index === array.length - 1 ? val -= 1 : val);
-      const toBeMutatedRestore = restoreDonorSiblingAddress(dropObj.sourceAddress, props, dropObj.sourceEntity)
-      console.log('restore sibling: ', toBeMutatedRestore.address, toBeMutatedRestore)
-      if (!arraysEqual(toBeMutatedRestore.address, dropObj.destinationAddress)) {
-        console.log('mutate')
-        props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties)
-      }
     }
 
     /**
@@ -299,6 +302,8 @@ export const drop = {
     //   }
 
     /**create a function to handle restoring vacancy */
+
+
 
   }
 }
