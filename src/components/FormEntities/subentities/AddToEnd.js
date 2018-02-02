@@ -23,9 +23,10 @@ const AddToEnd = (props) => {
     console.log([...locEntity[0]])
     props.add(loc, address.resurrectEntity(
       Object.assign({}, data.model, {
+        // @hack data.model.width below assumes that it is a new entity. Doesn't allow an existing entity to be added
         append: locEntity[1].width() - data.model.width
       })))
-    event.target.style.backgroundColor = ''
+    // event.target.style.backgroundColor = ''
   }
 
   let dragEnter_handler = (event) => {
