@@ -183,20 +183,16 @@ let FormSectionComponent = (props) => {
       }
       // for changing prepend/append of a formsection
       if (draggedEntity.UUID() === props.model.UUID()) {
-        console.log('dropped on FormSection, moving form section: ', draggedEntity.UUID(), address.bySample(props.model, props.form),
+        console.log('dropped on FormSection, moving form section: ', offsetGrids,
           {
-            prepend: (resize.init_prepend + offsetGrids),
-            append: (resize.init_append - offsetGrids),
+            prepend: (props.model.prepend() + offsetGrids),
+            append: (props.model.append() - offsetGrids),
           })
-        console.log(address.bySample(props.model, props.form),
-          {
-            prepend: (resize.init_prepend + offsetGrids),
-            append: (resize.init_append - offsetGrids),
-          })
+
         props.mutate(address.bySample(props.model, props.form),
           {
-            prepend: (resize.init_prepend + offsetGrids),
-            append: (resize.init_append - offsetGrids),
+            prepend: (props.model.prepend() + offsetGrids),
+            append: (props.model.append() - offsetGrids),
           })
       }
       // @hack - only adds to position 0 at this point
