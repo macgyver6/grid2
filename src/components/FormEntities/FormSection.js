@@ -1,6 +1,7 @@
 import React from 'react';
 import { utility } from '../../utility';
 import { address } from '../../address';
+import { drop } from '../../drop';
 import { defaultPropsFE } from '../../constants/defaultPropsFE';
 import Resizer from './subentities/Resizer.js';
 import AddToEnd from './subentities/AddToEnd.js';
@@ -43,9 +44,10 @@ let FormSectionComponent = (props) => {
   const drop_handler = (event) => {
     event.stopPropagation();
     console.log('formSection drop_handler')
+    console.log(data)
     // event.preventDefault();
     data = JSON.parse(event.dataTransfer.getData("address"));
-    console.log(data)
+    console.log(event.dataTransfer.getData("address"), data)
 
     let bgrndGrdWidth = (document.getElementById('0.bgrndGrd').clientWidth + 8)
     const offsetE1 = data.dragInit;
@@ -75,8 +77,8 @@ let FormSectionComponent = (props) => {
       // event.target.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
     }
     // rearranging by moving one entity from one section to another
-    if (data && data.action === 'rearrange') {
-      console.log('FormSection drop rearrange')
+    if (data && data.action === 'move') {
+      console.log('FormSection drop move')
       console.log(data.address)
       let draggedEntity = address.byPath(props.form, data.address)
       let entityToAdd = address.resurrectEntity(
@@ -86,6 +88,74 @@ let FormSectionComponent = (props) => {
             append: (props.model.width() - offsetGrids - draggedEntity.width())
           })
       )
+
+      const total = (entity) => entity.prepend() + entity.width() + entity.append();
+
+      // const _parentChildren = [...parentEntity.children()]
+      /**returns true if entity path provided is firstInRow; false if not
+       * * @param {array} before - Path of the current entity
+      */
+      const firstInRow = (entityAddress) => {
+        const section = address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1))
+        // console.log(entityAddress )
+        const _entityAddress = (entityAddress.slice(entityAddress.length - 1, entityAddress.length + 1) - 1)
+        var runningTotal = 0;
+        // console.log(_entityAddress, section.children())
+        for (var i = 0; i <= _entityAddress; ++i) {
+          // console.log(section)
+          runningTotal += total(section.children()[i]);
+        }
+        return (runningTotal % section.width() === 0) ? true : false;
+      }
+
+
+      const restoreDonorSiblingAddress = (arr, props, draggedEntity) => {
+        // get donor's parent
+        const donorParent = address.byPath(props.form, arr.slice(0, arr.length - 1))
+        console.log(arr, props, draggedEntity)
+        const toLeft = (arr) => {
+          const _toLeft = [...arr]
+          console.log({ address: _toLeft, entity: address.byPath(props.form, _toLeft) })
+          _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1
+          return ({ address: _toLeft, entity: address.byPath(props.form, _toLeft) })
+        }
+        const toRight = (arr) => {
+          const _toRight = [...arr]
+          _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1
+          return ({
+            address: _toRight,
+            entity: address.byPath(props.form, _toRight)
+          })
+        }
+        console.log((donorParent.children().length - 1 === arr[arr.length - 1]) && firstInRow(arr))
+        /** if only 1 child in section or the donor entity is the last entity in section */
+        if (donorParent.children().length === 1 || (donorParent.children().length - 1 === arr[arr.length - 1]) && firstInRow(arr)) {
+          // if (donorParent.children().length === 1 || (donorParent.children().length - 1 === arr[arr.length - 1])) {
+          return false
+        } else if (firstInRow(arr)) {
+          console.log('firstInRow: ', toRight(arr))
+          return ({
+            address: toRight(arr).address,
+            properties:
+              { prepend: toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append() }
+          })
+        } else {
+          return ({
+            address: toLeft(arr).address,
+            properties: {
+              append: toLeft(arr).entity.append() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append()
+            }
+          })
+        }
+      }
+
+      console.log(restoreDonorSiblingAddress(data.address, props, draggedEntity))
+
+      const toBeMutatedRestore = restoreDonorSiblingAddress(data.address, props, draggedEntity);
+
+      if (toBeMutatedRestore) {
+        props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties)
+      }
 
       let test = address.byUuid(props.model.UUID(), props.form)[0]
       let _test = [...test]
@@ -105,7 +175,7 @@ let FormSectionComponent = (props) => {
         if (helpers.restoreDonorSiblingAddress(data.address, props)) {
           console.log(helpers.restoreDonorSiblingAddress(data.address, props).address, helpers.restoreDonorSiblingAddress(data.address, props).properties)
 
-          props.mutate(helpers.restoreDonorSiblingAddress(data.address, props).address, helpers.restoreDonorSiblingAddress(data.address, props).properties)
+          // props.mutate(helpers.restoreDonorSiblingAddress(data.address, props).address, helpers.restoreDonorSiblingAddress(data.address, props).properties)
         }
         /*
         end restore donor

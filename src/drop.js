@@ -42,6 +42,7 @@ export const drop = {
    * mouseMove and drop handlers are added only to the wrapper for the said entity. This was done in an attempt to reduce the event complexity on ther entities so that all other drop events other than the events they handle would not be accounted for
   */
   mouseDown_handler: (event, props) => {
+    console.log('mouseDown')
     const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`)
     // element.addEventListener('mousemove', event => drop.mouseMove_handler(event, props))
     // element.addEventListener('drop', event => drop.drop_handler(event, props))
@@ -68,6 +69,7 @@ export const drop = {
 
   drop_handler: (event, props) => {
     event.stopPropagation();
+    console.log(dropObj.offsetInit)
     const dropData = JSON.parse(event.dataTransfer.getData('address'));
     const previousSibling = () => {
       const _sourceAddress = [...dropObj.sourceAddress]
@@ -78,10 +80,9 @@ export const drop = {
         return null
       }
     }
-
     dropObj.destinationAddress = address.bySample(props.model, props.form)
     dropObj.destinationEntity = address.byPath(props.form, dropObj.destinationAddress)
-    dropObj.sourceEntity = address.byPath(props.form, dropData.address)
+    dropObj.sourceEntity = dropData.model ? address.resurrectEntity(dropData.model) : address.byPath(props.form, dropData.address)
 
     const colWidthPx = document.getElementById('0.bgrndGrd').clientWidth + 8
 
@@ -112,7 +113,7 @@ export const drop = {
           entity: address.byPath(props.form, _toRight)
         })
       }
-      console.log(donorParent.children().length === 1, (donorParent.children().length - 1 === arr[arr.length - 1]))
+      console.log((donorParent.children().length - 1 === arr[arr.length - 1]) && firstInRow(arr))
       /** if only 1 child in section or the donor entity is the last entity in section */
       if (donorParent.children().length === 1 || (donorParent.children().length - 1 === arr[arr.length - 1]) && firstInRow(arr)) {
       // if (donorParent.children().length === 1 || (donorParent.children().length - 1 === arr[arr.length - 1])) {
@@ -170,9 +171,50 @@ export const drop = {
       return (runningTotal % section.width() === 0) ? true : false;
     }
 
+    const gridOffsetLocChange = () => {
+      const leftBound = document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`).getBoundingClientRect().left
+
+      // @hack - this is detecting if this is a addEntity. If so, it is not offsetting basedon where the entity was selected because the drag image is always 0. If it is a move of an existing object, it will grab the offsetInitin PX units.
+      var calc = event.clientX - leftBound - (dropData.model ? 0 : dropObj.offsetInit);
+      if (calc > 0) {
+        console.log( round(((calc / colWidthPx)), 0))
+        return round(((calc / colWidthPx)), 0)
+      } else {
+        return round(((calc / colWidthPx)), 0)
+      }
+    }
+
     /**
      * sourceAddress and destinationAddress ===
      * */
+    if (dropData.model) {
+      console.log('addEntity')
+
+      const toBeMutated = {
+        prepend: event.target.id === `${props.model.UUID()}.append` ? props.model.prepend() :
+          0,
+        append: event.target.id === `${props.model.UUID()}.append` ? gridOffsetLocChange() - props.model.prepend() - props.model.width() :
+          props.model.append()
+      }
+      console.log(gridOffsetLocChange())
+
+      const updatedAddress = dropObj.destinationAddress.map((val, index, array) => index === array.length - 1 ? val -= 1 : val);
+      console.log('destination sibling toBeMutated: ', dropObj.destinationAddress, toBeMutated)
+      props.mutate(dropObj.destinationAddress, toBeMutated)
+
+      const _destinationAddress = [...dropObj.destinationAddress]
+      _destinationAddress[dropObj.destinationAddress.length - 1] = dropObj.destinationAddress[dropObj.destinationAddress.length - 1] + 1
+      const whereToAdd = destinationAddress => event.target.id === `${props.model.UUID()}.prepend` ? destinationAddress : _destinationAddress
+      const toBeAdded = address.resurrectEntity(Object.assign({}, dropObj.sourceEntity.properties(), {
+        prepend: event.target.id === `${props.model.UUID()}.prepend` ? gridOffsetLocChange() : 0,
+        append: event.target.id === `${props.model.UUID()}.append` ? total(props.model) - gridOffsetLocChange() - dropObj.sourceEntity.width() : props.model.prepend() - dropObj.sourceEntity.width() - gridOffsetLocChange()
+        // append: 1
+      }))
+
+      console.log('whereToAdd: ', whereToAdd(dropObj.destinationAddress), toBeAdded)
+
+      props.add(whereToAdd(dropObj.destinationAddress), toBeAdded)
+    } else
     if (arraysEqual(dropObj.sourceAddress, dropObj.destinationAddress)) {
       // console.log('FF entity moved onto itself')
 
@@ -229,15 +271,7 @@ export const drop = {
       })
     } else {
 
-      const gridOffsetLocChange = () => {
-        const leftBound = document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`).getBoundingClientRect().left
-        var calc = event.clientX - leftBound - dropObj.offsetInit;
-        if (calc > 0) {
-          return round(((calc / colWidthPx)), 0)
-        } else {
-          return round(((calc / colWidthPx)), 0)
-        }
-      }
+
       // console.log('change of addresses')
       // 1. mutate destination
       // 2. add

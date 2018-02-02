@@ -27,6 +27,7 @@ const TextInputComponent = (props) => {
   /** Handle adding/subtracing prepend or append */
   const mouseDown_handler = (event) => {
     drop.mouseDown_handler(event, props, 'move');
+
   }
 
   /** Set dataTransfer in the case the entity is dropped on target:
