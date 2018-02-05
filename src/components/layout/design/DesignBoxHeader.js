@@ -45,7 +45,9 @@ let DesignBoxHeader = (props) => {
               changetab={props.changetab}
               activeTab={props.activeTab}
               remove={props.remove}
+              add={props.add}
               mutate={props.mutate}
+              formmutate={props.formmutate}
               />
           )}
 

@@ -75,6 +75,16 @@ const formReducer = (state, action) => {
     })
   }
 
+  if (action.type === 'FORMMUTATE') {
+    const initEntity = state.form
+
+    let mutatedEntity = state.form.setChildren(action.properties)
+
+    return Object.assign({}, state, {
+      form: mutatedEntity
+    })
+  }
+
   if (action.type === 'SAVESTATE') {
     let serialized = comm.serialize(state.form);
     localStorage.setItem('model', JSON.stringify(serialized))

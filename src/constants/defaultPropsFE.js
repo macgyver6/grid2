@@ -59,7 +59,7 @@ export var defaultPropsFE = {
               }),
             ], legend: 'legend', prepend: 0, append: 0, render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
           })
-        ], legend: 'legend', prepend: 0, append: 0
+        ], legend: '1', prepend: 0, append: 0
       }),
       new FormSection({
         uuid: undefined, type: 'FormSection', width: 24, children: [
@@ -68,9 +68,31 @@ export var defaultPropsFE = {
 
 
 
-            ], legend: 'legend', prepend: 4, append: 4, render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
+            ], legend: 'legend', prepend: 0, append: 0, render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
           })
-        ], legend: 'legend', prepend: 0, append: 0
+        ], legend: '2', prepend: 0, append: 0
+      }),
+      new FormSection({
+        uuid: undefined, type: 'FormSection', width: 24, children: [
+          new FormSection({
+            uuid: undefined, type: 'FormSection', width: 16, children: [
+
+
+
+            ], legend: 'legend', prepend: 0, append: 0, render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
+          })
+        ], legend: '3', prepend: 0, append: 0
+      }),
+      new FormSection({
+        uuid: undefined, type: 'FormSection', width: 24, children: [
+          new FormSection({
+            uuid: undefined, type: 'FormSection', width: 16, children: [
+
+
+
+            ], legend: 'legend', prepend: 0, append: 0, render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
+          })
+        ], legend: '4', prepend: 0, append: 0
       }),
     ]
     , crf: 'crf', inputs: ['input1', 'input2'], remoteValidatorCondition: { 0: 'zero', 1: 'one' }, sectionTabs: true, versionDescription: 'version description'

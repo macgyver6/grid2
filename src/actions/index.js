@@ -29,6 +29,15 @@ export const mutate = (path, properties, section) => {
   }
 }
 
+export const formmutate = (path, properties, section) => {
+  return {
+    type: 'FORMMUTATE',
+    path,
+    properties,
+    section
+  }
+}
+
 export const decrement = () => {
   return {
     type: 'DECREMENT'
