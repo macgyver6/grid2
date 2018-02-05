@@ -274,6 +274,7 @@ const MiddlePanel = (props) => {
           form={props.form}
           add={props.add}
           remove={props.remove}
+          mutate={props.mutate}
           changetab={props.changetab}
           activeTab={props.activeTab}
         />

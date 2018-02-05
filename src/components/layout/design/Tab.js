@@ -5,6 +5,7 @@ import {
   TabButtonStyle
 } from '../styles/DesignBox'
 import { helpers } from '../../../helpers';
+import { address } from '../../../address';
 
 
 // import {
@@ -55,7 +56,31 @@ const Tab = (props) => {
   let onDragOverHandler = (event) => {
     // event.preventDefault();
     event.stopPropagation();
-    setTimeout(function () { props.changetab(props.currentTab) }, 1000);
+    let element = event.target.style.backgroundColor
+    const alternateInterval = (event) => setInterval(alternate(event, 1000));
+    const alternate = (event) => {
+      // console.log(event.target)
+      element === 'grey' ? event.target.style.backgroundColor = 'rgb(2, 117, 216)' : event.target.style.backgroundColor = 'grey'
+    }
+    console.log(event.target.style.backgroundColor)
+    alternateInterval(event)
+    setTimeout(() => {
+      clearInterval(alternateInterval);
+      props.changetab(props.currentTab)
+    }, 1000);
+  }
+
+  let dragLeave_handler = (event) => {
+    event.target.style.backgroundColor = 'rgb(2, 117, 216)';
+  }
+
+  let change_handler = (event) => {
+    // event.target.style.backgroundColor = 'rgb(2, 117, 216)';
+    const location = address.bySample(props.model, props.form)
+    props.mutate(location,
+      {
+        legend: event.target.value
+      })
   }
   return (
 
@@ -65,12 +90,22 @@ const Tab = (props) => {
         backgroundColor: (props.currentTab === props.activeTab) ? "#0275D8" : TabStyle.backgroundColor,
         fontWeight: (props.currentTab === props.activeTab) ? '900' : '100'
       }}
+      id={props.form.children()[props.currentTab].UUID()}
       onClick={onClickHandler}
       // draggable="true"
       onDragStart={dragstart_handler}
       onDragOver={onDragOverHandler}
+      onDragLeave={dragLeave_handler}
     >
-      Tab # {props.currentTab + 1}
+      {/* {props.form.children()[props.currentTab].UUID().slice(props.form.children()[props.currentTab].UUID().length - 4, props.form.children()[props.currentTab].UUID().length)} */}
+      <input
+        className="form-control"
+        type={props.model.type()}
+        onChange={change_handler}
+        value={props.model.legend()}
+        size={'6'}
+        // maxlength={"4"}
+      />
       <button
         style={TabButtonStyle}
         onClick={deleteTab_handler}

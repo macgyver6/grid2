@@ -28,9 +28,11 @@ let DesignBoxHeader = (props) => {
   return (
     <div
       style={DesignBoxHeaderStyle}
+      mutate={props.mutate}
       >
 
       <div style={TabContainerStyle}
+        mutate={props.mutate}
        >
 
          { props.form.children().map((tab, index) =>
@@ -43,6 +45,7 @@ let DesignBoxHeader = (props) => {
               changetab={props.changetab}
               activeTab={props.activeTab}
               remove={props.remove}
+              mutate={props.mutate}
               />
           )}
 

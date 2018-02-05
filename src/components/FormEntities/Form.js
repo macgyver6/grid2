@@ -110,26 +110,29 @@ const FormComponent = (props) => {
       className='wrapper'
       id={`form`}
       style={divStyle}
-      onDrop={drop_handler}
+      // onDrop={drop_handler}
       // onDrag={drag_handler}
-      onDragOver={dragover_handler}
+      // onDragOver={dragover_handler}
     >
   {/* {  console.log(props.form.children())} */}
       <div className="grid" >
       {/* loop through and render all children entities of top level section */}
+      {/* instead of looping through the first form section's children, and rendering those, the top level form sections should be rendered, which then would render their own children */}
            {
-          props.form.children()[props.activeTab].children().map((element, i) => {
-            return React.createElement(address.lookupComponent(element),
+          // props.form.children()[props.activeTab]((element, i) => {
+
+          // props.form.children()[props.activeTab].children().map((element, i) => {
+          React.createElement(address.lookupComponent(props.form.children()[props.activeTab]),
               {
-                key: i,
-                model: element,
+                // key: i,
+                model: props.form.children()[props.activeTab],
                 form: props.form,
                 remove: props.remove,
                 add: props.add,
                 mutate: props.mutate
               }
             )
-          })
+          // })
         }
       </div>
       <div className="grid grid_background">

@@ -19,7 +19,7 @@ export var defaultPropsFE = {
                 uuid: undefined, prepend: 0, width: 5, append: 6, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content',
                 render: { backgroundColor: '#6C788F', minWidth: 3 }
               }),
-            ], legend: 'string', prepend: 3, append: 3
+            ], legend: 'legend', prepend: 3, append: 3
           }),
 
           new FormSection({
@@ -43,7 +43,7 @@ export var defaultPropsFE = {
               // }
               // ),
 
-            ], legend: 'string', prepend: 4, append: 4
+            ], legend: 'legend', prepend: 4, append: 4
             , render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
           }),
 
@@ -57,9 +57,9 @@ export var defaultPropsFE = {
                 uuid: undefined, prepend: 0, width: 5, append: 5, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'text input name', sasCodeLabel: 'sasCodeLabel', type: 'TextInput', tabOrder: [1, 2, 3], inputWidth: 8, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', length: 'DEFAULT', autoTab: true, doubleEntry: true, defaultContent: 'Default Content',
                 render: { backgroundColor: '#6C788F', minWidth: 3 }
               }),
-            ], legend: 'string', prepend: 0, append: 0, render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
+            ], legend: 'legend', prepend: 0, append: 0, render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
           })
-        ], legend: 'string', prepend: 0, append: 0
+        ], legend: 'legend', prepend: 0, append: 0
       }),
       new FormSection({
         uuid: undefined, type: 'FormSection', width: 24, children: [
@@ -68,19 +68,19 @@ export var defaultPropsFE = {
 
 
 
-            ], legend: 'string', prepend: 4, append: 4, render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
+            ], legend: 'legend', prepend: 4, append: 4, render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
           })
-        ], legend: 'string', prepend: 0, append: 0
+        ], legend: 'legend', prepend: 0, append: 0
       }),
     ]
     , crf: 'crf', inputs: ['input1', 'input2'], remoteValidatorCondition: { 0: 'zero', 1: 'one' }, sectionTabs: true, versionDescription: 'version description'
   },
 
   FormSection: {
-    uuid: undefined, prepend: 4, width: 16, append: 4, type: 'FormSection', children: [
+    uuid: undefined, prepend: 0, width: 24, append: 0, type: 'FormSection', children: [
 
 
-    ], legend: 'string',
+    ], legend: 'legend',
     render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
   },
 

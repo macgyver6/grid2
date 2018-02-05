@@ -42,7 +42,9 @@ const MiddlePanel = (props) =>
     form={props.form}>
     <DesignBoxHeader
       model={props.model}
-      form={props.form} />
+      form={props.form}
+      mutate={props.mutate}
+      />
   </div>
 
 const RightPanel = () =>
