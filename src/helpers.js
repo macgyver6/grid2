@@ -558,11 +558,11 @@ export const helpers = {
   },
 
   marginCalc: (props) => {
-    // const _margin = [0, 0, 0, 0]
-    // props.model.append() > 0 ? _margin[1] = 4 : 0
-    // props.model.prepend() > 0 ? _margin[3] = 4 : 0
-    // return (((_margin.map((el) => `${el}px`)).toString().replace(/,/g, ' ')))
-    return null
+    const _margin = [0, 0, 0, 0]
+    props.model.append() > 0 ? _margin[1] = 4 : 0
+    props.model.prepend() > 0 ? _margin[3] = 4 : 0
+    return (((_margin.map((el) => `${el}px`)).toString().replace(/,/g, ' ')))
+    // return null
   },
 
   restoreDonorSiblingAddress: (arr, props) => {

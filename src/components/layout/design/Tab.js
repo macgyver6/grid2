@@ -55,6 +55,7 @@ const Tab = (props) => {
     origin: null,
     destination: null
   }
+  var dragSrcEl = props.model.UUID();
 
   let dragstart_handler = (event) => {
     // helpers.dragStart_handler(event, props.model, props.form)
@@ -62,7 +63,11 @@ const Tab = (props) => {
       // action: action,
       address: address.bySample(props.model, props.form),
     }));
-    dragSrcEl = event.target.id.split('.')[0]
+
+    event.dataTransfer.setData(address.bySample(props.model, props.form), address.bySample(props.model, props.form))
+    // console.log(event.target.id.split('.')[0])
+    // dragSrcEl = event.target.id.split('.')[0]
+    console.log(dragSrcEl)
     // obj.origin = address.bySample(props.model, props.form)
     // event.target.parentNode.children[1].removeEventListener("dragover", onDragOverHandler)
     // ((tab) => { tab.removeEventListener("dragover", onDragOverHandler)})
@@ -72,12 +77,12 @@ const Tab = (props) => {
     }))
   }
 
-  var dragSrcEl = null;
 
   let onDragOverHandler = (event) => {
     // event.preventDefault();
     event.stopPropagation();
     // console.log(event.target.currentTarget)
+    // console.log(event.dataTransfer.types)
     if (event.dataTransfer.types[0] !== 'tab') {
 
       let element = event.target.style.backgroundColor
@@ -114,12 +119,13 @@ const Tab = (props) => {
           }
         }
       }
-      console.log(test())
+      // console.log(test())
       // return node.id === event.target.id
 
 
-
-      if (dragSrcEl !== event.target.id.split('.')[0]) {
+      // console.log(siblings[event.dataTransfer.types[1]].id.split('.')[0], event.target.id.split('.')[0])
+      // console.log(address.byPath(event.dataTransfer.types[1], props.form) !== event.target.id.split('.')[0])
+      if (siblings[event.dataTransfer.types[1]].id.split('.')[0] !== event.target.id.split('.')[0]) {
         document.getElementById(
           `${event.target.id.split('.')[0]}.tab.wrapper`).style.borderLeft = '120px solid lightgreen'
       }

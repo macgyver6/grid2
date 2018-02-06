@@ -92,59 +92,86 @@ let dragleave_handler = (event) => {
   event.preventDefault();
 }
 
+
+
 const DeleteBtn = (props) => {
   let drop_handler = (event) => {
     console.log(event.dataTransfer.getData("address"))
     let data = JSON.parse(event.dataTransfer.getData("address"))
     const draggedEntity = address.byPath(props.form, data.address)
-    const restoreDonorSiblingAddress = (arr) => {
+
+
+
+
+
+
+    /* Begin */
+
+    const total = (entity) => entity.prepend() + entity.width() + entity.append();
+
+    // const _parentChildren = [...parentEntity.children()]
+    /**returns true if entity path provided is firstInRow; false if not
+     * * @param {array} before - Path of the current entity
+    */
+    const firstInRow = (entityAddress) => {
+      const section = address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1))
+      // console.log(entityAddress )
+      const _entityAddress = (entityAddress.slice(entityAddress.length - 1, entityAddress.length + 1) - 1)
+      var runningTotal = 0;
+      // console.log(_entityAddress, section.children())
+      for (var i = 0; i <= _entityAddress; ++i) {
+        // console.log(section)
+        runningTotal += total(section.children()[i]);
+      }
+      return (runningTotal % section.width() === 0) ? true : false;
+    }
+
+
+    const restoreDonorSiblingAddress = (arr, props, draggedEntity) => {
       // get donor's parent
       const donorParent = address.byPath(props.form, arr.slice(0, arr.length - 1))
-      if (arr.length <= 2) { return false }
-      if (donorParent.children().length === 1) {
+      console.log(arr, props, draggedEntity)
+      const toLeft = (arr) => {
+        const _toLeft = [...arr]
+        console.log({ address: _toLeft, entity: address.byPath(props.form, _toLeft) })
+        _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1
+        return ({ address: _toLeft, entity: address.byPath(props.form, _toLeft) })
+      }
+      const toRight = (arr) => {
+        const _toRight = [...arr]
+        _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1
+        return ({
+          address: _toRight,
+          entity: address.byPath(props.form, _toRight)
+        })
+      }
+      console.log((donorParent.children().length - 1 === arr[arr.length - 1]) && firstInRow(arr))
+      /** if only 1 child in section or the donor entity is the last entity in section */
+      if (donorParent.children().length === 1 || (donorParent.children().length - 1 === arr[arr.length - 1]) && firstInRow(arr)) {
+        // if (donorParent.children().length === 1 || (donorParent.children().length - 1 === arr[arr.length - 1])) {
         return false
+      } else if (firstInRow(arr)) {
+        console.log('firstInRow: ', toRight(arr))
+        return ({
+          address: toRight(arr).address,
+          properties:
+            { prepend: toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append() }
+        })
       } else {
-        const toLeft = (arr) => {
-          const _toLeft = [...arr]
-          if (_toLeft[arr.length - 1] < 1) {
-            return false
+        return ({
+          address: toLeft(arr).address,
+          properties: {
+            append: toLeft(arr).entity.append() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append()
           }
-          _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1
-          return ({ address: _toLeft, entity: address.byPath(props.form, _toLeft) })
-        }
-        const toRight = (arr) => {
-          const _toRight = [...arr]
-          _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1
-          return ({
-            address: _toRight,
-            entity: address.byPath(props.form, _toRight)
-          })
-        }
-
-        if (toLeft(arr)) {
-          console.log('previous entity exists, adding to append: ', toLeft(arr).address)
-          return ({
-            address: toLeft(arr).address,
-            properties: {
-              append: toLeft(arr).entity.append() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append()
-            }
-          })
-        } else {
-          console.log('no previous entity exists, adding to prepend')
-          return ({
-            address: toRight(arr).address,
-            properties:
-              { prepend: toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append() }
-          })
-        }
+        })
       }
     }
-    // console.log(props.activeTab)
 
-    if (restoreDonorSiblingAddress(data.address)) {
-      console.log('mutate this donor: ', address.byPath(props.form, restoreDonorSiblingAddress(data.address).address), restoreDonorSiblingAddress(data.address).address, restoreDonorSiblingAddress(data.address).properties)
+    /* End */
+    const toBeMutatedRestore = restoreDonorSiblingAddress(data.address, props, draggedEntity);
 
-      props.mutate(restoreDonorSiblingAddress(data.address).address, restoreDonorSiblingAddress(data.address).properties)
+    if (toBeMutatedRestore) {
+      props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties)
     }
 
     console.log('remove entity at this address: ', data.address, address.byPath(props.form, data.address))
