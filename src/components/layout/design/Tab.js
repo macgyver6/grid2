@@ -55,16 +55,21 @@ const Tab = (props) => {
   }
 
   let dragstart_handler = (event) => {
-    console.log(props.model.UUID())
-    helpers.dragStart_handler(event, props.model, props.form)
-    obj.origin = address.bySample(props.model, props.form)
-    console.log(obj)
+    // helpers.dragStart_handler(event, props.model, props.form)
+    event.dataTransfer.setData("tab", JSON.stringify({
+      // action: action,
+      address: address.bySample(props.model, props.form),
+    }));
+    // obj.origin = address.bySample(props.model, props.form)
+    // event.target.parentNode.children[1].removeEventListener("dragover", onDragOverHandler)
+    // ((tab) => { tab.removeEventListener("dragover", onDragOverHandler)})
   }
 
   let onDragOverHandler = (event) => {
     // event.preventDefault();
     event.stopPropagation();
-    if (event.target.id.split('.')[1] !== 'tab') {
+    // console.log(event.target.currentTarget)
+    if (event.dataTransfer.types[0] !== 'tab') {
 
       let element = event.target.style.backgroundColor
       const alternateInterval = (event) => setInterval(alternate(event, 1000));
@@ -72,19 +77,17 @@ const Tab = (props) => {
         // console.log(event.target)
         element === 'grey' ? event.target.style.backgroundColor = 'rgb(2, 117, 216)' : event.target.style.backgroundColor = 'grey'
       }
-      console.log(event.target.style.backgroundColor)
-      // alternateInterval(event)
-      // setTimeout(() => {
-      //   clearInterval(alternateInterval);
-      //   props.changetab(props.currentTab)
-      // }, 1000);
+      alternateInterval(event)
+      setTimeout(() => {
+        clearInterval(alternateInterval);
+        props.changetab(props.currentTab)
+      }, 1000);
     } else {
       // rearrange the tabs
       event.preventDefault()
       const destination = address.bySample(props.model, props.form)
       const origin = address.bySample(props.model, props.form)
 
-      console.log(event.currentTarget, event.target)
       const div = document.createElement('div');
       // // div.style = AddToEnd;
       // div.style.width = '20px',
@@ -94,7 +97,6 @@ const Tab = (props) => {
       //       div.backgroundColor = 'red'
       // event.target.appendChild(div)
       obj.destination = address.bySample(props.model, props.form)
-      console.log(obj)
 
       // destinationAddress[0] > dropData.address[0] ? destinationAddress[0] - 1 : destinationAddress[0]
         event.target.style.backgroundColor = 'lightgreen'
@@ -111,7 +113,7 @@ const Tab = (props) => {
 
   let drop_handler = (event) => {
     event.stopPropagation();
-    const dropData = JSON.parse(event.dataTransfer.getData('address'));
+    const dropData = JSON.parse(event.dataTransfer.getData('tab'));
     const droppedEntity = address.byPath(props.form, dropData.address)
     event.target.style.removeProperty('border')
     const _children = [...props.form.children()]
@@ -141,6 +143,14 @@ const Tab = (props) => {
     event.target.style.backgroundColor = 'lightgrey'
   }
 
+  let dragEnter_handler = (event) => {
+    console.log(event.dataTransfer.getData('address'))
+  }
+
+  let mouseDown_handler = (event) => {
+    console.log(event.target)
+  }
+
   let change_handler = (event) => {
     // event.target.style.backgroundColor = 'rgb(2, 117, 216)';
     const location = address.bySample(props.model, props.form)
@@ -164,6 +174,8 @@ const Tab = (props) => {
       draggable="true"
       onDragStart={dragstart_handler}
       onDragOver={onDragOverHandler}
+      onDragEnter = {dragEnter_handler}
+      onMouseDown = {mouseDown_handler}
       onDragLeave={dragLeave_handler}
       onDrop={drop_handler}
 

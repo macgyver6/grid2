@@ -282,6 +282,8 @@ let FormSectionComponent = (props) => {
           model={props.model}
           form={props.form}
           add={props.add}
+          remove={props.remove}
+          mutate={props.mutate}
         />
       </div>
       {(props.model.append() > 0) ?
