@@ -6,6 +6,7 @@ import {
 } from '../styles/DesignBox'
 import { helpers } from '../../../helpers';
 import { address } from '../../../address';
+import { FormSection } from '../../../data/FormSection';
 
 
 // import {
@@ -13,9 +14,10 @@ import { address } from '../../../address';
 //   selectTab,
 //   deleteTab
 // } from '../auxillary/actions/design'
-var dragged = null;
 
 const Tab = (props) => {
+  const dragged = null;
+
   let onClickHandler = (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -60,10 +62,17 @@ const Tab = (props) => {
       // action: action,
       address: address.bySample(props.model, props.form),
     }));
+    dragSrcEl = event.target.id.split('.')[0]
     // obj.origin = address.bySample(props.model, props.form)
     // event.target.parentNode.children[1].removeEventListener("dragover", onDragOverHandler)
     // ((tab) => { tab.removeEventListener("dragover", onDragOverHandler)})
+
+    props.add([props.form.children().length], new FormSection({
+      uuid: undefined, type: 'FormSection', width: 24, children: [], legend: '', prepend: 0, append: 0
+    }))
   }
+
+  var dragSrcEl = null;
 
   let onDragOverHandler = (event) => {
     // event.preventDefault();
@@ -97,16 +106,29 @@ const Tab = (props) => {
       //       div.backgroundColor = 'red'
       // event.target.appendChild(div)
       obj.destination = address.bySample(props.model, props.form)
+      let siblings = event.target.parentNode.children
+      const test = () => {
+        for (var i = 0; i < siblings.length; i++) {
+          if (siblings[i].id === event.target.id) {
+            return i;
+          }
+        }
+      }
+      console.log(test())
+      // return node.id === event.target.id
 
-      // destinationAddress[0] > dropData.address[0] ? destinationAddress[0] - 1 : destinationAddress[0]
-        event.target.style.backgroundColor = 'lightgreen'
-        // event.target.style.borderRight = '10px solid lightgreen'
-        // event.target.style.borderLeft = '6px solid blue'
+
+
+      if (dragSrcEl !== event.target.id.split('.')[0]) {
+        document.getElementById(
+          `${event.target.id.split('.')[0]}.tab.wrapper`).style.borderLeft = '120px solid lightgreen'
+      }
     }
   }
 
   let dragLeave_handler = (event) => {
-    event.target.style.backgroundColor = 'grey';
+    // event.target.style.backgroundColor = 'grey';
+    document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`).style.backgroundColor = 'grey';
     // event.target.style.backgroundColor = 'rgb(2, 117, 216)';
     event.target.style.removeProperty('border')
   }
@@ -134,13 +156,17 @@ const Tab = (props) => {
 
       return reorderedItems;
     }
+    props.changetab(destinationAddress[0] > dropData.address[0] ? destinationAddress[0] - 1 : destinationAddress[0])
+    // console.log(destinationAddress[0] > dropData.address[0] ? destinationAddress[0] - 1 : destinationAddress[0])
     props.formmutate([], reorderArray(
       {
         newIndex: destinationAddress[0] > dropData.address[0] ? destinationAddress[0] - 1 : destinationAddress[0]
         , oldIndex: dropData.address[0]
       }, _children))
-    props.changetab(destinationAddress[0])
-    event.target.style.backgroundColor = 'lightgrey'
+
+    // event.target.style.backgroundColor = 'grey'
+    document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`).style.backgroundColor = 'grey';
+    props.remove([props.form.children().length - 1])
   }
 
   let dragEnter_handler = (event) => {
@@ -149,6 +175,13 @@ const Tab = (props) => {
 
   let mouseDown_handler = (event) => {
     console.log(event.target)
+  }
+
+  let destinationStyle = {
+    minWidth: '100px',
+    maxHeight: '60px',
+    float: "left",
+    backgroundColor: 'red'
   }
 
   let change_handler = (event) => {
@@ -162,27 +195,31 @@ const Tab = (props) => {
   { console.log(props.model) }
 
   return (
+
     <div
       style={{
         ...TabStyle,
         backgroundColor: (props.currentTab === props.activeTab) ? "#0275D8" : TabStyle.backgroundColor,
         fontWeight: (props.currentTab === props.activeTab) ? '900' : '100'
       }}
-      id={`${props.form.children()[props.currentTab].UUID()}.tab`}
+      id={`${props.form.children()[props.currentTab].UUID()}.tab.wrapper`}
       className='tab'
       onClick={onClickHandler}
       draggable="true"
       onDragStart={dragstart_handler}
       onDragOver={onDragOverHandler}
-      onDragEnter = {dragEnter_handler}
-      onMouseDown = {mouseDown_handler}
+      onDragEnter={dragEnter_handler}
+      onMouseDown={mouseDown_handler}
       onDragLeave={dragLeave_handler}
       onDrop={drop_handler}
 
     >
+
+
       {/* {props.form.children()[props.currentTab].UUID().slice(props.form.children()[props.currentTab].UUID().length - 4, props.form.children()[props.currentTab].UUID().length)} */}
       {/* {props.activeTab === props.currentTab ? 'yes': 'no'} */}
       <input
+        id={`${props.form.children()[props.currentTab].UUID()}.input`}
         className="form-control"
         type={props.model.type()}
         onChange={change_handler}
@@ -191,6 +228,7 @@ const Tab = (props) => {
       // maxlength={"4"}
       />
       <button
+        id={`${props.form.children()[props.currentTab].UUID()}.tab.button`}
         style={TabButtonStyle}
         onClick={deleteTab_handler}
       >
@@ -200,6 +238,7 @@ const Tab = (props) => {
         X
         </button>
     </div>
+
   );
 };
 

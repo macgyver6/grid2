@@ -97,11 +97,10 @@ const AddToEnd = (props) => {
       } else {
         props.add(loc, address.resurrectEntity(
           Object.assign({}, dropData.model, {
-            // @hack dropData.model.width below assumes that it is a new entity. Doesn't allow an existing entity to be added
             append: destination[1].width() - dropData.model.width
           })))
       }
-    // event.target.style.backgroundColor = ''
+    event.target.style.backgroundColor = ''
   }
 
   let dragEnter_handler = (event) => {
