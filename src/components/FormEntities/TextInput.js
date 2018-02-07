@@ -102,7 +102,7 @@ const TextInputComponent = (props) => {
         <input className="form-control" type={props.model.type()}
           defaultValue={props.model.defaultContent()}
         />
-        {props.model.UUID()}
+        {props.model.name()}
         <Resizer
           id={`${props.model.UUID()}.resizer`}
           element='FormEntity'
