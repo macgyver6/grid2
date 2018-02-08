@@ -16,18 +16,20 @@ const dropObj = {
   destinationAddress: null,
   valid: null
 }
-const destinationIsSibling = (destinationEntity, draggedEntityAddress) => {
-  // console.log(destinationEntity, draggedEntityAddress)
-  if (destinationEntity.length > 2) {
-    // console.log('larger')
+const destinationIsSibling = (destinationAddress, draggedEntityAddress) => {
+  console.log(destinationAddress, draggedEntityAddress)
+  if (destinationAddress.length >= 2) {
+    console.log('larger')
     const whichSection = (arr) => arr[arr.length - 2]
     const isSibling = (arr) => arr[arr.length - 1]
-    if (whichSection(destinationEntity) === whichSection(draggedEntityAddress)) {
-      // console.log('sameSection')
-      if (isSibling(destinationEntity) === (isSibling(draggedEntityAddress) + 1
-        || (isSibling(destinationEntity) === isSibling(draggedEntityAddress) - 1))) {
-        // console.log('sibling')
+    if (whichSection(destinationAddress) === whichSection(draggedEntityAddress)) {
+      console.log('sameSection')
+      if (isSibling(destinationAddress) === (isSibling(draggedEntityAddress) + 1
+        || (isSibling(destinationAddress) === isSibling(draggedEntityAddress) - 1))) {
+        console.log('sibling')
         return true
+      } else {
+        return false
       }
     }
   }
@@ -245,7 +247,22 @@ export const drop = {
         })
         console.log('test')
       } else {
-        // console.log('change of addresses')
+        const reorderArray = (event, originalArray) => {
+          console.log(event, originalArray)
+          const movedItem = originalArray.filter((item, index) => index === event.oldIndex);
+          const remainingItems = originalArray.filter((item, index) => index !== event.oldIndex);
+
+          const reorderedItems = [
+            ...remainingItems.slice(0, event.newIndex),
+            movedItem[0],
+            ...remainingItems.slice(event.newIndex)
+          ];
+
+          return reorderedItems;
+        }
+        const sourceParentEntity = address.byPath(props.form, dropObj.sourceAddress.slice(0, dropObj.sourceAddress.length - 1))
+        const _children = [...sourceParentEntity.children()]
+
         // 1. mutate destination
         // 2. add
         // 3. mutate origin sibling for vacancy
@@ -273,7 +290,6 @@ export const drop = {
         console.log(dropObj.sourceAddress, dropObj.destinationAddress)
         const toBeDeleted = dropObj.sourceAddress
         console.log('toBeDeleted: ', toBeDeleted)
-        props.remove(toBeDeleted)
         const _destinationAddress = [...dropObj.destinationAddress]
         _destinationAddress[dropObj.destinationAddress.length - 1] = dropObj.destinationAddress[dropObj.destinationAddress.length - 1] + 1
         const whereToAdd = destinationAddress => event.target.id === `${props.model.UUID()}.prepend` ? destinationAddress : _destinationAddress
@@ -283,8 +299,63 @@ export const drop = {
           // append: 1
         }))
         console.log('whereToAdd: ', whereToAdd(dropObj.destinationAddress), toBeAdded)
-        props.add(whereToAdd(dropObj.destinationAddress), toBeAdded)
-        console.log('test')
+
+
+        /* if the entity is changing addresses, but is still being moved in the same section  */
+        /* handle the source entity */
+        if (dropObj.sourceAddress[dropObj.sourceAddress.length - 2] === dropObj.destinationAddress[dropObj.destinationAddress.length - 2]) {
+          /* mutate the destination to acces new entity */
+          console.log('sameSection')
+
+          const toBeMutatedRestore = restoreDonorSiblingAddress(dropObj.sourceAddress, props, dropObj.sourceEntity)
+          // if (!arraysEqual(toBeMutatedRestore.address, dropObj.destinationAddress)) {
+
+          /* remove the source entity */
+          _children.splice(whereToAdd(dropObj.destinationAddress)[whereToAdd(dropObj.destinationAddress).length - 1], 0, toBeAdded)
+          _children.splice(_children.findIndex(e => e === dropObj.sourceEntity), 1)
+
+          /* end remove the source entity */
+
+          /* accomodate entity at new address  */
+          const toBeMutated2 = address.resurrectEntity(Object.assign({}, dropObj.destinationEntity.properties(), toBeMutated))
+
+          _children.splice(dropObj.destinationAddress[dropObj.destinationAddress.length - 1], 1, toBeMutated2)
+
+          /* end accomodate entity at new address  */
+
+
+          /* restore neighbor at origin  */
+
+          if (toBeMutatedRestore) {
+            // props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties)
+            const findRestoreEntity = address.byPath(props.form, toBeMutatedRestore.address)
+            const toBeMutated3 = address.resurrectEntity(Object.assign({}, findRestoreEntity.properties(), toBeMutatedRestore.properties))
+
+            _children.splice(toBeMutatedRestore.address[toBeMutatedRestore.address.length - 1], 1, toBeMutated3)
+          }
+
+          /* end restore neighbor at origin  */
+
+
+          console.log(_children)
+          // reorderArray({ newIndex: dropObj.destinationAddress[dropObj.destinationAddress.length - 1], oldIndex: dropObj.sourceAddress[dropObj.sourceAddress.length - 1] }, _children)
+
+          console.log(_children)
+          /* mutate origin section - can be same as destination */
+          props.mutate(dropObj.sourceAddress.slice(0, dropObj.sourceAddress.length - 1),
+            { children: _children })
+
+          /* end mutate origin section - can be same as destination */
+
+        }
+        // else {
+        //   console.log('move in different section')
+        //   props.mutate(dropObj.sourceAddress.slice(0, dropObj.sourceAddress.length - 1),
+        //     { children: reorderArray({ newIndex: dropObj.destinationAddress[dropObj.destinationAddress.length - 1], oldIndex: dropObj.sourceAddress[dropObj.sourceAddress.length - 1] }, _children) })
+        //   props.remove(toBeDeleted)
+        //   props.add(whereToAdd(dropObj.destinationAddress), toBeAdded)
+        //   console.log('test')
+        // }
       }
     /**
      * Handle sourceAddress and destinationAddress !==
