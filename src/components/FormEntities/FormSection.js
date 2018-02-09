@@ -154,6 +154,7 @@ let FormSectionComponent = (props) => {
       const toBeMutatedRestore = restoreDonorSiblingAddress(data.address, props, draggedEntity);
 
       if (toBeMutatedRestore) {
+        console.log('here')
         props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties)
       }
 
@@ -174,7 +175,6 @@ let FormSectionComponent = (props) => {
         console.log(helpers.restoreDonorSiblingAddress(data.address, props))
         if (helpers.restoreDonorSiblingAddress(data.address, props)) {
           console.log(helpers.restoreDonorSiblingAddress(data.address, props).address, helpers.restoreDonorSiblingAddress(data.address, props).properties)
-
           // props.mutate(helpers.restoreDonorSiblingAddress(data.address, props).address, helpers.restoreDonorSiblingAddress(data.address, props).properties)
         }
         /*
@@ -183,7 +183,7 @@ let FormSectionComponent = (props) => {
       }
       // for changing prepend/append of a formsection
       if (draggedEntity.UUID() === props.model.UUID()) {
-        console.log('dropped on FormSection, moving form section: ', offsetGrids,
+        console.log('here dropped on FormSection, moving form section: ', offsetGrids,
           {
             prepend: (props.model.prepend() + offsetGrids),
             append: (props.model.append() - offsetGrids),

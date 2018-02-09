@@ -112,6 +112,8 @@ export const drop = {
       if (donorParent.children().length === 1 || (donorParent.children().length - 1 === arr[arr.length - 1]) && firstInRow(arr)) {
         // if (donorParent.children().length === 1 || (donorParent.children().length - 1 === arr[arr.length - 1])) {
         return false
+      } else if (total(draggedEntity) >= donorParent.width()) {
+        return false
       } else if (firstInRow(arr)) {
         console.log('firstInRow: ', toRight(arr))
         return ({
@@ -181,7 +183,7 @@ export const drop = {
           props.model.append()
       }
       console.log(gridOffsetLocChange())
-      const updatedAddress = dropObj.destinationAddress.map((val, index, array) => index === array.length - 1 ? val -= 1 : val);
+
       console.log('destination sibling toBeMutated: ', dropObj.destinationAddress, toBeMutated)
       props.mutate(dropObj.destinationAddress, toBeMutated)
       const _destinationAddress = [...dropObj.destinationAddress]
@@ -247,6 +249,7 @@ export const drop = {
         })
         console.log('test')
       } else {
+        console.log('here')
         const reorderArray = (event, originalArray) => {
           console.log(event, originalArray)
           const movedItem = originalArray.filter((item, index) => index === event.oldIndex);
@@ -261,111 +264,60 @@ export const drop = {
           return reorderedItems;
         }
         const sourceParentEntity = address.byPath(props.form, dropObj.sourceAddress.slice(0, dropObj.sourceAddress.length - 1))
+
         const _children = [...sourceParentEntity.children()]
 
-        // 1. mutate destination
-        // 2. add
-        // 3. mutate origin sibling for vacancy
-        // 4. remove
-        const toBeMutated = {
+        const whereToAccommodate = () => {
+          const destinationSection = address.byPath(props.form, [...dropObj.destinationAddress].slice(0, dropObj.destinationAddress.length - 1))
+          // console.log(section)
+          const whichIndex = [...destinationSection.children()].findIndex(e => e === dropObj.destinationEntity)
+
+
+          const updatedAddress = dropObj.destinationAddress.map((val, index, array) => index === array.length - 1 ? val = whichIndex : val);
+
+          return updatedAddress
+        }
+        console.log('YYY accommodate entity for move', whereToAccommodate(), {
           prepend: event.target.id === `${props.model.UUID()}.append` ? props.model.prepend() :
             0,
           append: event.target.id === `${props.model.UUID()}.append` ? gridOffsetLocChange() - props.model.prepend() - props.model.width() :
             props.model.append()
-        }
-        console.log(event.clientX,
-          document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`).getBoundingClientRect().left,
-          dropObj.offsetInit,
-          gridOffsetLocChange(), props.model.prepend(), props.model.width())
-        const updatedAddress = dropObj.destinationAddress.map((val, index, array) => index === array.length - 1 ? val -= 1 : val);
-        console.log('destination sibling toBeMutated: ', dropObj.destinationAddress, toBeMutated)
-        props.mutate(dropObj.destinationAddress, toBeMutated)
-        const updatedAddress2 = dropObj.destinationAddress.map((val, index, array) => index === array.length - 1 ? val -= 1 : val);
-        const toBeMutatedRestore = restoreDonorSiblingAddress(dropObj.sourceAddress, props, dropObj.sourceEntity)
-        // if (!arraysEqual(toBeMutatedRestore.address, dropObj.destinationAddress)) {
-        console.log('restore sibling: ', toBeMutatedRestore)
+        })
+        props.mutate(whereToAccommodate(), {
+          prepend: event.target.id === `${props.model.UUID()}.append` ? props.model.prepend() :
+            0,
+          append: event.target.id === `${props.model.UUID()}.append` ? gridOffsetLocChange() - props.model.prepend() - props.model.width() :
+            props.model.append()
+        })
+
+        const toBeMutatedRestore = restoreDonorSiblingAddress([...dropObj.sourceAddress], props, dropObj.sourceEntity)
         if (toBeMutatedRestore) {
+          console.log('YYY restore sibling: ', toBeMutatedRestore.address, toBeMutatedRestore.properties)
           props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties)
         }
-        console.log(dropObj.sourceAddress, dropObj.destinationAddress)
-        const toBeDeleted = dropObj.sourceAddress
-        console.log('toBeDeleted: ', toBeDeleted)
-        const _destinationAddress = [...dropObj.destinationAddress]
-        _destinationAddress[dropObj.destinationAddress.length - 1] = dropObj.destinationAddress[dropObj.destinationAddress.length - 1] + 1
-        const whereToAdd = destinationAddress => event.target.id === `${props.model.UUID()}.prepend` ? destinationAddress : _destinationAddress
+
+        console.log('YYY remove: ', [...dropObj.sourceAddress])
+        props.remove([...dropObj.sourceAddress])
+
         const toBeAdded = address.resurrectEntity(Object.assign({}, dropObj.sourceEntity.properties(), {
           prepend: event.target.id === `${props.model.UUID()}.prepend` ? gridOffsetLocChange() : 0,
           append: event.target.id === `${props.model.UUID()}.append` ? total(props.model) - gridOffsetLocChange() - dropObj.sourceEntity.width() : props.model.prepend() - dropObj.sourceEntity.width() - gridOffsetLocChange()
-          // append: 1
         }))
-        console.log('whereToAdd: ', whereToAdd(dropObj.destinationAddress), toBeAdded)
 
-
-        /* if the entity is changing addresses, but is still being moved in the same section  */
-        /* handle the source entity */
-        if (dropObj.sourceAddress[dropObj.sourceAddress.length - 2] === dropObj.destinationAddress[dropObj.destinationAddress.length - 2]) {
-          /* mutate the destination to acces new entity */
-          console.log('sameSection')
-
-          const toBeMutatedRestore = restoreDonorSiblingAddress(dropObj.sourceAddress, props, dropObj.sourceEntity)
-          // if (!arraysEqual(toBeMutatedRestore.address, dropObj.destinationAddress)) {
-
-          /* remove the source entity */
-          _children.splice(whereToAdd(dropObj.destinationAddress)[whereToAdd(dropObj.destinationAddress).length - 1], 0, toBeAdded)
-          _children.splice(_children.findIndex(e => e === dropObj.sourceEntity), 1)
-
-          /* end remove the source entity */
-
-          /* accomodate entity at new address  */
-          const toBeMutated2 = address.resurrectEntity(Object.assign({}, dropObj.destinationEntity.properties(), toBeMutated))
-
-          _children.splice(dropObj.destinationAddress[dropObj.destinationAddress.length - 1], 1, toBeMutated2)
-
-          /* end accomodate entity at new address  */
-
-
-          /* restore neighbor at origin  */
-
-          if (toBeMutatedRestore) {
-            // props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties)
-            const findRestoreEntity = address.byPath(props.form, toBeMutatedRestore.address)
-            const toBeMutated3 = address.resurrectEntity(Object.assign({}, findRestoreEntity.properties(), toBeMutatedRestore.properties))
-
-            _children.splice(toBeMutatedRestore.address[toBeMutatedRestore.address.length - 1], 1, toBeMutated3)
+        const whereToAdd = () => {
+          if (dropObj.sourceAddress[dropObj.sourceAddress.length - 2] === dropObj.destinationAddress[dropObj.destinationAddress.length - 2]) {
+            if (!firstInRow([...dropObj.destinationAddress])) {
+              return event.target.id === `${props.model.UUID()}.append` ? [...dropObj.destinationAddress].map((val, index, array) => index === array.length - 1 ? val += 1 : val) : [...dropObj.destinationAddress].map((val, index, array) => index === array.length - 1 ? val -= 1 : val)
+            } else {
+              return event.target.id === `${props.model.UUID()}.append` ? [...dropObj.destinationAddress].map((val, index, array) => index === array.length - 1 ? val += 1 : val) : [...dropObj.destinationAddress]
+            }
           }
-
-          /* end restore neighbor at origin  */
-
-
-          console.log(_children)
-          // reorderArray({ newIndex: dropObj.destinationAddress[dropObj.destinationAddress.length - 1], oldIndex: dropObj.sourceAddress[dropObj.sourceAddress.length - 1] }, _children)
-
-          console.log(_children)
-          /* mutate origin section - can be same as destination */
-          props.mutate(dropObj.sourceAddress.slice(0, dropObj.sourceAddress.length - 1),
-            { children: _children })
-
-          /* end mutate origin section - can be same as destination */
-
+          else {
+            return event.target.id === `${props.model.UUID()}.append` ? [...dropObj.destinationAddress].map((val, index, array) => index === array.length - 1 ? val += 1 : val) : [...dropObj.destinationAddress]
+          }
         }
-        // else {
-        //   console.log('move in different section')
-        //   props.mutate(dropObj.sourceAddress.slice(0, dropObj.sourceAddress.length - 1),
-        //     { children: reorderArray({ newIndex: dropObj.destinationAddress[dropObj.destinationAddress.length - 1], oldIndex: dropObj.sourceAddress[dropObj.sourceAddress.length - 1] }, _children) })
-        //   props.remove(toBeDeleted)
-        //   props.add(whereToAdd(dropObj.destinationAddress), toBeAdded)
-        //   console.log('test')
-        // }
+        console.log('YYY add: ', whereToAdd(), toBeAdded)
+        props.add(whereToAdd(), toBeAdded)
       }
-    /**
-     * Handle sourceAddress and destinationAddress !==
-     */
-    // if (dropObj.sourceAddress !== dropObj.destinationAddress && event.target.id !== `${data.model.uuid}.${data.model.uuid.type}.append` )
-    //   {
-    //     console.log('addreses dont match')
-    //    console.log(dropObj.destinationAddress, dropObj.sourceAddress)
-    //     console.log(destinationIsSibling(dropObj.destinationAddress, dropObj.sourceAddress))
-    //   }
-    /**create a function to handle restoring vacancy */
   }
 }

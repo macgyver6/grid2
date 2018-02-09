@@ -49,11 +49,11 @@ const TextInputComponent = (props) => {
 
   let dragleave_handler = (event) => {
     event.stopPropagation();
-  //   console.log(event.target.id)
-  // if (event.target.id === `${props.model.UUID()}.${props.model.type()}.wrapper`) {
-  //   console.log('event.currentTarget')
-  // }
-}
+    //   console.log(event.target.id)
+    // if (event.target.id === `${props.model.UUID()}.${props.model.type()}.wrapper`) {
+    //   console.log('event.currentTarget')
+    // }
+  }
 
   const tiStyle = {
     margin: helpers.marginCalc(props),
@@ -92,7 +92,8 @@ const TextInputComponent = (props) => {
         /> :
         null
       }
-      <div style={tiStyle}
+      <div
+        style={tiStyle}
         id={`${props.model.UUID()}.${props.model.type()}`}
         className='TextInput'
         onMouseDown={mouseDown_handler}
