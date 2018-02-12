@@ -1,6 +1,8 @@
 import React from 'react';
 import { utility } from '../../utility';
+import { address } from '../../address';
 import { helpers } from '../../helpers';
+import { drop } from '../../drop';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
@@ -27,44 +29,36 @@ const CheckBoxComponent = (props) => {
     address: null
   }
 
-  // let handleChange = (event) => {
-  //   console.log(event.target.value)
-  //   let result = utility.findNode(props.model, props.form)
-  //   props.removeformentity(result)
-  //   props.addformentity(
-  //     props.model.mutate({ defaultState: event.target.value }), result)
-  // }
-
-  let drag_handler = function (event) {
-    helpers.drag_handler(event, props.model, props.form, resize, props)
+  /** Handle adding/subtracing prepend or append */
+  const mouseDown_handler = (event) => {
+    drop.mouseDown_handler(event, props, 'move');
   }
 
-  let dragOver_handler = function (event) {
-    event.preventDefault();
-  }
-
-  let dragstart_handler = function (event) {
-    event.stopPropagation();
+  /** Set dataTransfer in the case the entity is dropped on target:
+   * 1. Moving to different form section
+   * 2. Deleting a form section
+   */
+  let dragstart_handler = (event) => {
+    // event.stopPropagation();
+    console.log(event.target)
     helpers.dragStart_handler(event, props.model, props.form, 'move')
   }
 
-  let drop_handler = function (event) {
-    helpers.dropMove_handler(event, props, resize)
+  let dragOver_handler = (event) => {
+    event.preventDefault()
   }
 
-  const marginCalc = () => {
-    const _margin = [0, 0, 0, 0]
-    props.model.append() > 0 ? _margin[1] = 4 : 0
-    props.model.prepend() > 0 ? _margin[3] = 4 : 0
-    return (((_margin.map((el) => `${el}px`)).toString().replace(/,/g, ' ')))
+  let drop_handler = (event) => {
+    drop.drop_handler(event, props)
   }
+
 
   const cbStyle = {
     backgroundColor: '#00C5EC',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
     height: '100px',
-    margin: marginCalc()
+    margin: helpers.marginCalc(props)
   }
 
 
@@ -77,7 +71,6 @@ const CheckBoxComponent = (props) => {
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       style={styles.defaultEntity}
-      onDragStart={dragstart_handler}
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
     >
@@ -89,8 +82,8 @@ const CheckBoxComponent = (props) => {
           className='prepend'
           model={props.model}
           form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity} mutateformentity={props.mutateformentity} /> :
+          remove={props.remove}
+          add={props.add} mutate={props.mutate} /> :
         null
       }
 
@@ -99,8 +92,8 @@ const CheckBoxComponent = (props) => {
         style={cbStyle}
         className='CheckBox'
         data-type='CheckBox'
+        onMouseDown={mouseDown_handler}
         onDragStart={dragstart_handler}
-        onDrag={drag_handler}
         draggable="true"
       >
       {/* onChange={(e) => handleChange(e, props)} */}
@@ -113,9 +106,9 @@ const CheckBoxComponent = (props) => {
           className='resizer'
           model={props.model}
           form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
-          mutateformentity={props.mutateformentity}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
         />
       </div>
       {(props.model.append() > 0) ?
@@ -126,9 +119,9 @@ const CheckBoxComponent = (props) => {
           className='append'
           model={props.model}
           form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
-          mutateformentity={props.mutateformentity}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
         /> :
         null
       }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { helpers } from '../../helpers';
+import { drop } from '../../drop';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
@@ -18,31 +19,29 @@ const TextAreaComponent = (props) => {
     address: null
   }
 
+  /** Handle adding/subtracing prepend or append */
+  const mouseDown_handler = (event) => {
+    drop.mouseDown_handler(event, props, 'move');
+  }
+
+  /** Set dataTransfer in the case the entity is dropped on target:
+   * 1. Moving to different form section
+   * 2. Deleting a form section
+   */
   let dragstart_handler = function (event) {
     helpers.dragStart_handler(event, props.model, props.form, 'move')
   }
 
-  let drag_handler = function (event) {
-    helpers.drag_handler(event, props.model, props.form, resize, props)
+  let dragOver_handler = (event) => {
+    event.preventDefault()
   }
 
-  let dragOver_handler = function (event) {
-    event.preventDefault();
-  }
-
-  let drop_handler = function (event) {
-    helpers.dropMove_handler(event, props, resize)
-  }
-
-  const marginCalc = () => {
-    const _margin = [0, 0, 0, 0]
-    props.model.append() > 0 ? _margin[1] = 4 : 0
-    props.model.prepend() > 0 ? _margin[3] = 4 : 0
-    return (((_margin.map((el) => `${el}px`)).toString().replace(/,/g, ' ')))
+  let drop_handler = (event) => {
+    drop.drop_handler(event, props)
   }
 
   const taStyle = {
-    margin: marginCalc(),
+    margin: helpers.marginCalc(props),
     backgroundColor: '#205EE2',
     opacity: '1',
     gridColumn: `span ${props.model.width()}`,
@@ -61,7 +60,8 @@ const TextAreaComponent = (props) => {
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       style={styles.defaultEntity}
       onDragOver={dragOver_handler}
-      onDrop={drop_handler}    >
+      onDrop={drop_handler}
+    >
       {(props.model.prepend() > 0) ?
         <Prepend
           id={`${props.model.UUID()}.prepend`}
@@ -70,16 +70,16 @@ const TextAreaComponent = (props) => {
           className='prepend'
           model={props.model}
           form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}            mutateformentity={props.mutateformentity}            /> :
+          remove={props.remove}
+          add={props.add} mutate={props.mutate} /> :
         null
       }
       <div
         id={`${props.model.UUID()}.${props.model.type()}`}
         style={taStyle}
         className="TextArea"
+        onMouseDown={mouseDown_handler}
         onDragStart={dragstart_handler}
-        onDrag={drag_handler}
         draggable="true"
       >
         <textarea className="form-control" placeholder="Write something in text area" name={props.model.name()} rows={props.model.numRows()} cols={props.model.numColumns()} type={props.model.type()}>
@@ -92,9 +92,9 @@ const TextAreaComponent = (props) => {
           className='resizer'
           model={props.model}
           form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
-          mutateformentity={props.mutateformentity}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
         />
       </div>
       {(props.model.append() > 0) ?
@@ -105,9 +105,9 @@ const TextAreaComponent = (props) => {
           className='append'
           model={props.model}
           form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
-          mutateformentity={props.mutateformentity}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
         /> :
         null
       }

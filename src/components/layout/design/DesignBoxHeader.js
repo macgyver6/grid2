@@ -19,18 +19,20 @@ let DesignBoxHeader = (props) => {
     event.stopPropagation();
     // adds new FormSection at the end
     console.log('add new tab here: ', [props.form.children().length])
-    props.addformentity(new FormSection({
+    props.add([props.form.children().length], new FormSection({
       uuid: undefined, type: 'FormSection', width: 24, children: [], legend: 'string', prepend: 3, append: 4
-    }), [props.form.children().length ])
+    }))
     props.changetab(props.form.children().length)
   }
 
   return (
     <div
       style={DesignBoxHeaderStyle}
+      mutate={props.mutate}
       >
 
       <div style={TabContainerStyle}
+        mutate={props.mutate}
        >
 
          { props.form.children().map((tab, index) =>
@@ -42,7 +44,10 @@ let DesignBoxHeader = (props) => {
               key={index}
               changetab={props.changetab}
               activeTab={props.activeTab}
-              removeformentity={props.removeformentity}
+              remove={props.remove}
+              add={props.add}
+              mutate={props.mutate}
+              formmutate={props.formmutate}
               />
           )}
 

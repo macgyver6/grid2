@@ -1,7 +1,10 @@
 import React from 'react';
 import { utility } from '../../utility';
+import { address } from '../../address';
+import { drop } from '../../drop';
 import { defaultPropsFE } from '../../constants/defaultPropsFE';
 import Resizer from './subentities/Resizer.js';
+import AddToEnd from './subentities/AddToEnd.js';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
@@ -33,7 +36,7 @@ let FormSectionComponent = (props) => {
 
   let dragOver_handler = function (event) {
     // event.stopPropagation();
-    // event.preventDefault();
+    event.preventDefault();
     // document.getElementById(
     //   `${props.model.UUID()}.${props.model.type()}`).style.backgroundColor = 'ightgreen'
   }
@@ -41,48 +44,121 @@ let FormSectionComponent = (props) => {
   const drop_handler = (event) => {
     event.stopPropagation();
     console.log('formSection drop_handler')
+    console.log(data)
     // event.preventDefault();
     data = JSON.parse(event.dataTransfer.getData("address"));
+    console.log(event.dataTransfer.getData("address"), data)
 
     let bgrndGrdWidth = (document.getElementById('0.bgrndGrd').clientWidth + 8)
     const offsetE1 = data.dragInit;
-    const appendGrids = round(((event.clientX - document.getElementById(`${props.model.UUID()}.${props.model.type()}`).getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
+    const offsetGrids = round(((event.clientX - document.getElementById(`${props.model.UUID()}.${props.model.type()}`).getBoundingClientRect().left - offsetE1) / bgrndGrdWidth), 0)
 
     if (data && data.action === 'addEntity') {
       console.log('drop FS add: ')
-      let location = utility.findNode(props.model, props.form)
+      let location = address.bySample(props.model, props.form)
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8
-      const appendGrids = round(((event.clientX - event.target.getBoundingClientRect().left) / bgrndGrdWidth), 0)
-      let entityToAdd = utility.resurrectEntity(
+      const offsetGrids = round(((event.clientX - event.target.getBoundingClientRect().left) / bgrndGrdWidth), 0)
+      let entityToAdd = address.resurrectEntity(
         Object.assign({},
           data.model, {
-            prepend: appendGrids,
-            append: (props.model.width() - (appendGrids + data.model.width))  // addressNewEntity[addressNewEntity.length] = props.model.children().length
+            prepend: offsetGrids,
+            append: (props.model.width() - (offsetGrids + data.model.width))  // addressNewEntity[addressNewEntity.length] = props.model.children().length
           })
       )
       console.log('here')
       // @hack - only adds to position 0 at this point
       let addressNewEntity = [...location]
       addressNewEntity[addressNewEntity.length] = props.model.children().length
-      props.addformentity(entityToAdd, addressNewEntity)
+      console.log(location)
+      props.add(addressNewEntity, entityToAdd)
 
-    const div = document.getElementById(props.model.UUID());
-    // div.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
-    // event.target.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
-  }
-
+      const div = document.getElementById(props.model.UUID());
+      // div.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
+      // event.target.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
+    }
+    // rearranging by moving one entity from one section to another
     if (data && data.action === 'move') {
       console.log('FormSection drop move')
-      let draggedEntity = utility.findEntityByPath(props.form, data.address)
-      let entityToAdd = utility.resurrectEntity(
+      console.log(data.address)
+      let draggedEntity = address.byPath(props.form, data.address)
+      let entityToAdd = address.resurrectEntity(
         Object.assign({},
           draggedEntity.properties(), {
-            prepend: appendGrids,
-            append: (props.model.width() - appendGrids - draggedEntity.width()  )
+            prepend: offsetGrids,
+            append: (props.model.width() - offsetGrids - draggedEntity.width())
           })
       )
 
-      let test = utility.findEntityUuid(props.model.UUID(), props.form)[0]
+      const total = (entity) => entity.prepend() + entity.width() + entity.append();
+
+      // const _parentChildren = [...parentEntity.children()]
+      /**returns true if entity path provided is firstInRow; false if not
+       * * @param {array} before - Path of the current entity
+      */
+      const firstInRow = (entityAddress) => {
+        const section = address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1))
+        // console.log(entityAddress )
+        const _entityAddress = (entityAddress.slice(entityAddress.length - 1, entityAddress.length + 1) - 1)
+        var runningTotal = 0;
+        // console.log(_entityAddress, section.children())
+        for (var i = 0; i <= _entityAddress; ++i) {
+          // console.log(section)
+          runningTotal += total(section.children()[i]);
+        }
+        return (runningTotal % section.width() === 0) ? true : false;
+      }
+
+
+      const restoreDonorSiblingAddress = (arr, props, draggedEntity) => {
+        // get donor's parent
+        const donorParent = address.byPath(props.form, arr.slice(0, arr.length - 1))
+        console.log(arr, props, draggedEntity)
+        const toLeft = (arr) => {
+          const _toLeft = [...arr]
+          console.log({ address: _toLeft, entity: address.byPath(props.form, _toLeft) })
+          _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1
+          return ({ address: _toLeft, entity: address.byPath(props.form, _toLeft) })
+        }
+        const toRight = (arr) => {
+          const _toRight = [...arr]
+          _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1
+          return ({
+            address: _toRight,
+            entity: address.byPath(props.form, _toRight)
+          })
+        }
+        console.log((donorParent.children().length - 1 === arr[arr.length - 1]) && firstInRow(arr))
+        /** if only 1 child in section or the donor entity is the last entity in section */
+        if (donorParent.children().length === 1 || (donorParent.children().length - 1 === arr[arr.length - 1]) && firstInRow(arr)) {
+          // if (donorParent.children().length === 1 || (donorParent.children().length - 1 === arr[arr.length - 1])) {
+          return false
+        } else if (firstInRow(arr)) {
+          console.log('firstInRow: ', toRight(arr))
+          return ({
+            address: toRight(arr).address,
+            properties:
+              { prepend: toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append() }
+          })
+        } else {
+          return ({
+            address: toLeft(arr).address,
+            properties: {
+              append: toLeft(arr).entity.append() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append()
+            }
+          })
+        }
+      }
+
+      console.log(restoreDonorSiblingAddress(data.address, props, draggedEntity))
+
+      const toBeMutatedRestore = restoreDonorSiblingAddress(data.address, props, draggedEntity);
+
+      if (toBeMutatedRestore) {
+        console.log('here')
+        props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties)
+      }
+
+      let test = address.byUuid(props.model.UUID(), props.form)[0]
       let _test = [...test]
       _test[test.length] = props.model.children().length
       // for dropping entity other than itself onto this form section
@@ -90,74 +166,16 @@ let FormSectionComponent = (props) => {
         console.log('FormSection drop move, entity dropped on FS')
         console.log('add this: ', entityToAdd, _test)
         console.log('remove this: ', (data.address))
-        props.addformentity(entityToAdd, _test)
-        props.removeformentity(data.address)
-      //   /*
-      //   start restore donor
-      //   */
-        const restoreDonorSiblingAddress = (arr) => {
-          const total = (prepend, width, append) => prepend + width + append;
-          // get donor's parent
-          const donorParent = utility.findEntityByPath(props.form, arr.slice(0, arr.length - 1))
-          const entitySelf = utility.findEntityByPath(props.form, arr)
-          // console.log(total(0, 8, 0))
-          // console.log(typeof(entitySelf.prepend()), typeof(entitySelf.width()), typeof(entitySelf.append()))
-          // console.log(total(entitySelf.prepend(), entitySelf.width(), entitySelf.append()),
-          //   total(donorParent.prepend() + donorParent.width() + donorParent.append()))
-          console.log(total(entitySelf.prepend(), entitySelf.width(), entitySelf.append()),
-            total(donorParent.prepend(), donorParent.width(), donorParent.append()))
-          if (donorParent.children().length === 1 ||
-          total(entitySelf.prepend(), entitySelf.width(), entitySelf.append()) ===
-          total(donorParent.prepend(), donorParent.width(), donorParent.append())
-        ) {
-            console.log('entity being removed from formSection is the last child')
-            return false
-          } else {
-            console.log('donor formSection is not an empty nester')
-            const toLeft = (arr) => {
-              const _toLeft = [...arr]
-              if (_toLeft[arr.length - 1] < 1) {
-                return false
-              } else {
-                _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1
-                return ({ address: _toLeft, entity: utility.findEntityByPath(props.form, _toLeft) })
-              }
-            }
-            const toRight = (arr) => {
-              const _toRight = [...arr]
-              _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1
-              return ({
-                address: arr,
-                entity: utility.findEntityByPath(props.form, _toRight)
-              })
-            }
+        props.add(_test, entityToAdd)
+        props.remove(data.address)
+        //   /*
+        //   start restore donor
+        //   */
 
-            if (toLeft(arr)) {
-              console.log('previous entity exists, adding to append: ', toLeft(arr).address)
-              return ({
-                address: toLeft(arr).address,
-                properties: {
-                  append: toLeft(arr).entity.append() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append()
-                }
-              })
-            } else {
-              console.log('no previous entity exists, adding to prepend, ', utility.findEntityByPath(props.form, toRight(arr).address), {
-                address: toRight(arr).address,
-                properties:
-                  { prepend: toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append() }
-              })
-              return ({
-                address: toRight(arr).address,
-                properties:
-                  { prepend: toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append() }
-              })
-            }
-          }
-        }
-        if (restoreDonorSiblingAddress(data.address)) {
-          console.log(restoreDonorSiblingAddress(data.address).address, restoreDonorSiblingAddress(data.address).properties)
-
-          props.mutateformentity(restoreDonorSiblingAddress(data.address).address, restoreDonorSiblingAddress(data.address).properties)
+        console.log(helpers.restoreDonorSiblingAddress(data.address, props))
+        if (helpers.restoreDonorSiblingAddress(data.address, props)) {
+          console.log(helpers.restoreDonorSiblingAddress(data.address, props).address, helpers.restoreDonorSiblingAddress(data.address, props).properties)
+          // props.mutate(helpers.restoreDonorSiblingAddress(data.address, props).address, helpers.restoreDonorSiblingAddress(data.address, props).properties)
         }
         /*
         end restore donor
@@ -165,20 +183,16 @@ let FormSectionComponent = (props) => {
       }
       // for changing prepend/append of a formsection
       if (draggedEntity.UUID() === props.model.UUID()) {
-        console.log('dropped on FormSection, moving form section: ', draggedEntity.UUID() , utility.findNode(props.model, props.form),
+        console.log('here dropped on FormSection, moving form section: ', offsetGrids,
           {
-            prepend: (resize.init_prepend + appendGrids),
-            append: (resize.init_append - appendGrids),
+            prepend: (props.model.prepend() + offsetGrids),
+            append: (props.model.append() - offsetGrids),
           })
-        console.log(utility.findNode(props.model, props.form),
+
+        props.mutate(address.bySample(props.model, props.form),
           {
-            prepend: (resize.init_prepend + appendGrids),
-            append: (resize.init_append - appendGrids),
-          })
-        props.mutateformentity(utility.findNode(props.model, props.form),
-          {
-            prepend: (resize.init_prepend + appendGrids),
-            append: (resize.init_append - appendGrids),
+            prepend: (props.model.prepend() + offsetGrids),
+            append: (props.model.append() - offsetGrids),
           })
       }
       // @hack - only adds to position 0 at this point
@@ -192,10 +206,14 @@ let FormSectionComponent = (props) => {
     helpers.drag_handler(event, props.model, props.form, resize, props)
   }
 
+  const click_handler = (event) => {
+    console.log('click')
+  }
+
   const fsStyle = {
     display: "grid",
     position: 'relative',
-    border: '2px dotted',
+    // border: '2px dotted',
     gridTemplateColumns: `repeat(${props.model.width()}, [col] 1fr)`,
     backgroundColor: "rgba(243, 234, 95, 0.7)",
     minHeight: "120px",
@@ -217,9 +235,10 @@ let FormSectionComponent = (props) => {
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       className="FS"
       style={styles.formSection}
-      onDrop={drop_handler}
+      onDrop={drop_handler} // adding a new entity to section
       onDragOver={dragOver_handler}
-      // style={styles.defaultEntity}
+      onClick={click_handler}
+    // style={styles.defaultEntity}
     >
       {(props.model.prepend() > 0) ?
         <Prepend
@@ -228,8 +247,8 @@ let FormSectionComponent = (props) => {
           uuid={props.model.UUID()}
           model={props.model}
           form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
+          remove={props.remove}
+          add={props.add}
         /> :
         null
       }
@@ -237,23 +256,15 @@ let FormSectionComponent = (props) => {
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="form-group FS"
         style={fsStyle}
-        onDrag={drag_handler}
         data-action={`mover.${props.model.UUID()}.FormSection`}
         draggable="true"
         onDragStart={dragstart_handler}
       >
-        {/* <MovePrior
-          element='FormEntity'
-          model={props.model}
-          form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
-        /> */}
-        {/* generalize to map through any type entity*/}
+
         {props.model.type() === 'FormSection' ?
-        props.model.children().map((element, i) => {
-          return React.createElement(utility.lookupComponent(element), { key: i, model: element, form: props.form, removeformentity: props.removeformentity, addformentity: props.addformentity, mutateformentity: props.mutateformentity })
-        }) : null
+          props.model.children().map((element, i) => {
+            return React.createElement(address.lookupComponent(element), { key: i, model: element, form: props.form, remove: props.remove, add: props.add, mutate: props.mutate })
+          }) : null
         }
 
         <Resizer
@@ -263,9 +274,16 @@ let FormSectionComponent = (props) => {
           className='resizer'
           model={props.model}
           form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
-          mutateformentity={props.mutateformentity}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
+        />
+        <AddToEnd
+          model={props.model}
+          form={props.form}
+          add={props.add}
+          remove={props.remove}
+          mutate={props.mutate}
         />
       </div>
       {(props.model.append() > 0) ?
@@ -275,12 +293,13 @@ let FormSectionComponent = (props) => {
           uuid={props.model.UUID()}
           model={props.model}
           form={props.form}
-          removeformentity={props.removeformentity}
-          addformentity={props.addformentity}
-          mutateformentity={props.mutateformentity}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
         /> :
         null
       }
+
     </div>
   );
 }
