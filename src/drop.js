@@ -307,12 +307,19 @@ export const drop = {
         const whereToAdd = () => {
           if (dropObj.sourceAddress[dropObj.sourceAddress.length - 2] === dropObj.destinationAddress[dropObj.destinationAddress.length - 2]) {
             if (!firstInRow([...dropObj.destinationAddress])) {
-              return event.target.id === `${props.model.UUID()}.append` ? [...dropObj.destinationAddress].map((val, index, array) => index === array.length - 1 ? val += 1 : val) : [...dropObj.destinationAddress].map((val, index, array) => index === array.length - 1 ? val -= 1 : val)
+              console.log('YYY here: ', [...dropObj.destinationAddress].map((val, index, array) => index === array.length - 1 ? val += 1 : val))
+              return event.target.id === `${props.model.UUID()}.append` ?
+              [...dropObj.destinationAddress] :
+              // [...dropObj.destinationAddress].map((val, index, array) => index === array.length - 1 ? val += 1 : val) :
+
+              [...dropObj.destinationAddress].map((val, index, array) => index === array.length - 1 ? val -= 1 : val)
             } else {
+              console.log('YYY here')
               return event.target.id === `${props.model.UUID()}.append` ? [...dropObj.destinationAddress].map((val, index, array) => index === array.length - 1 ? val += 1 : val) : [...dropObj.destinationAddress]
             }
           }
           else {
+            console.log('YYY here')
             return event.target.id === `${props.model.UUID()}.append` ? [...dropObj.destinationAddress].map((val, index, array) => index === array.length - 1 ? val += 1 : val) : [...dropObj.destinationAddress]
           }
         }

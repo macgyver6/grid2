@@ -22,15 +22,15 @@ class App extends Component {
           <h4><span className="badge badge-danger">Unsaved Changes</span></h4>
         } */}
 
-        {/* <p>Value: <span>{this.props.store.model.value}</span></p>
-        <button
+        {/* <p>Value: <span>{this.props.store.model.value}</span></p> */}
+        {/* <button
           className="btn btn-success"
           onClick={this.props.increment}
         >+</button>
         <button
           className="btn btn-success"
           onClick={this.props.decrement}
-        >-</button>
+        >-</button> */}
         <button
           type="button"
           className="btn btn-primary btn-lg btn-block"
@@ -42,7 +42,7 @@ class App extends Component {
           className="btn btn-success btn-lg btn-block"
           onClick={this.props.loadstate}>
           Load Model State
-          </button> */}
+          </button>
         <FormEntityInit />
         {/* <FormEntityInit /> */}
       </div>
