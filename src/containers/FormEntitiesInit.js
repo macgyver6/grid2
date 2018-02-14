@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { File } from '../data/File';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import FormComponent from '../components/FormEntities/Form';
@@ -293,7 +294,7 @@ const LeftPanel = (props) => {
 const MiddlePanel = (props) => {
   return <div
     style={middlePanelStyle}
-    >
+  >
     <div style={{
       ...headerPanelStyle, backgroundColor: "lightgrey", border: '0px dashed #f3ea5f', margin: '0px 20px 0px'
     }}>
@@ -322,9 +323,50 @@ const MiddlePanel = (props) => {
   </div>
 }
 
+const dragOverFile_handler = (event) => {
+  event.preventDefault()
+}
+
+const dropFile_handler = (event) => {
+  console.log("Drop");
+  event.preventDefault();
+  // If dropped items aren't files, reject them
+  var dt = event.dataTransfer;
+  if (dt.items) {
+    // Use DataTransferItemList interface to access the file(s)
+    console.log(dt.items[0].getAsFile())
+    // for (var i = 0; i < dt.items.length; i++) {
+    //   if (dt.items[i].kind == "file") {
+    //     var f = dt.items[i].getAsFile();
+    //     console.log("... file[" + i + "].name = " + f.name);
+    //   }
+    // }
+
+    const handleFiles = (files) => {
+
+      var reader = new FileReader();
+      var file = files;
+      const test = new File(file)
+      console.log(test)
+
+      reader.onload = (function (uploadedFile) {
+        return function (e) {
+        const bin = e.target.result; //binary string
+        };
+      })(file);
+      reader.readAsDataURL(file);
+    }
+    handleFiles(dt.items[0].getAsFile())
+  }
+}
+
 const RightPanel = () =>
   <div
-    style={rightPanelStyle}>
+    style={rightPanelStyle}
+    onDragOver={dragOverFile_handler}
+    onDrop={dropFile_handler}>
+
+    {/* onDrop={dropFile_handler} */}
   </div>
 
 class FormEntityInit extends Component {
