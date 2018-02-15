@@ -4,7 +4,7 @@ const uuidv4 = require('uuid/v4');
 /** Class representing a FormEntity.
  * See {@link http://csccjenk.cscc.unc.edu:8080/job/cdart2-model/javadoc/edu/unc/tcrdms/model/form/FormSection.html}
 */
-class File {
+class FileData {
   /**
    * Create a File.
    * @param {Object} properties
@@ -149,5 +149,5 @@ class File {
 
 module.exports =
   {
-    File: File
+    FileData: FileData
   };

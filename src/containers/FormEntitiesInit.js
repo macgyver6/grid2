@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { File } from '../data/File';
+import { FileData } from '../data/FileData';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import FormComponent from '../components/FormEntities/Form';
@@ -327,6 +327,53 @@ const dragOverFile_handler = (event) => {
   event.preventDefault()
 }
 
+const saveFileToLocal = (file, name) => {
+  var fileReader = new FileReader();
+  const existing = localStorage.getItem('FILE')
+  if (existing === null) {
+    fileReader.onload = (evt) => {
+      var result = evt.target.result;
+      try {
+        console.log('yes')
+        localStorage.setItem('FILE', JSON.stringify({ name: result }))
+      } catch (e) {
+        console.log("Storage failed: " + e);
+      }
+    }
+    fileReader.readAsDataURL(file);
+  } else {
+    console.log('else')
+    localStorage.setItem('FILE', existing.concat(JSON.stringify({ name: file })))
+  }
+}
+
+const handleFiles = (files) => {
+  const item = files.getAsFile()
+
+  // Create XHR, Blob and FileReader objects
+  var xhr = new XMLHttpRequest()
+  var blob
+  var fileReader = new FileReader();
+
+  xhr.open("GET", "/pdf/download?id=");
+  xhr.responseType = "blob";
+  xhr.onload = () => {
+    console.log(files) // response as a blob
+    if (xhr.status && xhr.status === 200) {
+      console.log(20)
+      saveFileToLocal(xhr.response, item.name);
+      // console.log({ [item.name]: xhr.response })
+      // return { [item.name]: xhr.response }
+    }
+  }
+
+  xhr.send();
+}
+
+// const handleArray = (item) => {
+
+// }
+
 const dropFile_handler = (event) => {
   console.log("Drop");
   event.preventDefault();
@@ -335,36 +382,35 @@ const dropFile_handler = (event) => {
   if (dt.items) {
     // Use DataTransferItemList interface to access the file(s)
     console.log(dt.items[0].getAsFile())
-    // for (var i = 0; i < dt.items.length; i++) {
-    //   if (dt.items[i].kind == "file") {
-    //     var f = dt.items[i].getAsFile();
-    //     console.log("... file[" + i + "].name = " + f.name);
-    //   }
-    // }
-
-    const handleFiles = (files) => {
-
-      var reader = new FileReader();
-      var file = files;
-      const test = new File(file)
-      console.log(test)
-
-      reader.onload = (function (uploadedFile) {
-        return function (e) {
-        const bin = e.target.result; //binary string
-        };
-      })(file);
-      reader.readAsDataURL(file);
+    const f = []
+    for (var i = 0; i < dt.items.length; i++) {
+      if (dt.items[i].kind == "file") {
+        console.log(handleFiles(dt.items[i]))
+        f.push(handleFiles(dt.items[i]));
+        // f.push(dt.items[i].getAsFile());
+        console.log("... file[" + i + "].name = " + f.name);
+        // handleFiles(dt.items)
+      }
     }
-    handleFiles(dt.items[0].getAsFile())
+    console.log(f)
+
+
+
   }
 }
-
+const files = localStorage.getItem('Vacation.pdf');
+console.log(files)
+const renderFile = new File([files], "Vacation.pdf")
 const RightPanel = () =>
   <div
     style={rightPanelStyle}
     onDragOver={dragOverFile_handler}
     onDrop={dropFile_handler}>
+    <h1>Uploaded Files</h1>
+    <ul>
+      <li>{renderFile.name}</li>
+    </ul>
+    {/* {    files ? files.map(file =>  file.name)  : null } */}
 
     {/* onDrop={dropFile_handler} */}
   </div>

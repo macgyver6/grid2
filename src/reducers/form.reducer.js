@@ -21,14 +21,13 @@ const formReducer = (state, action) => {
   // }
 
   if (typeof state === 'undefined') {
-    let resurrectedEntities =
-      comm.unserialize((JSON.parse(localStorage.getItem('model'))))
-    // return { ...state, form: (resurrectedEntities) };
-    console.log(resurrectedEntities)
+    // let resurrectedEntities =
+    //   comm.unserialize((JSON.parse(localStorage.getItem('model'))))
+    // console.log(resurrectedEntities)
 
     state = {
       value: 0,
-      form: resurrectedEntities || new Form(defaultPropsFE.Form),
+      form: new Form(defaultPropsFE.Form),
       app: {
         activeTab: 0
       }
