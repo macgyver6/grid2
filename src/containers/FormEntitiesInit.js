@@ -330,20 +330,21 @@ const dragOverFile_handler = (event) => {
 const saveFileToLocal = (file, name) => {
   var fileReader = new FileReader();
   const existing = localStorage.getItem('FILE')
-  if (existing === null) {
-    fileReader.onload = (evt) => {
-      var result = evt.target.result;
+  fileReader.readAsDataURL(file);
+  fileReader.onload = (evt) => {
+    var result = evt.target.result;
+    if (existing === null) {
       try {
-        console.log('yes')
-        localStorage.setItem('FILE', JSON.stringify({ name: result }))
+        console.log([{ [name]: result }])
+        localStorage.setItem('FILE', JSON.stringify([{ [name]: result }]))
       } catch (e) {
         console.log("Storage failed: " + e);
       }
+    } else {
+      // console.log(JSON.parse(existing).concat([{ [name]: result }]))
+      // console.log(existing)
+      localStorage.setItem('FILE', JSON.stringify(JSON.parse(existing).concat([{ [name]: result }])))
     }
-    fileReader.readAsDataURL(file);
-  } else {
-    console.log('else')
-    localStorage.setItem('FILE', existing.concat(JSON.stringify({ name: file })))
   }
 }
 
@@ -398,9 +399,9 @@ const dropFile_handler = (event) => {
 
   }
 }
-const files = localStorage.getItem('Vacation.pdf');
-console.log(files)
-const renderFile = new File([files], "Vacation.pdf")
+const fileNames = JSON.parse(localStorage.getItem('FILE')).map(file => { return Object.keys(file)[0] });
+console.log(fileNames)
+// const renderFile = new File([files], "Vacation.pdf")
 const RightPanel = () =>
   <div
     style={rightPanelStyle}
@@ -408,7 +409,7 @@ const RightPanel = () =>
     onDrop={dropFile_handler}>
     <h1>Uploaded Files</h1>
     <ul>
-      <li>{renderFile.name}</li>
+      {fileNames.map(name => `<li>${name}</li>`)}
     </ul>
     {/* {    files ? files.map(file =>  file.name)  : null } */}
 
