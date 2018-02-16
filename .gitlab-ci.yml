@@ -14,7 +14,6 @@ services:
 install-deps:
   stage: prepare
   script:
-    - npm cache verify
     - npm install
 
 
