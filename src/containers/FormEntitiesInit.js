@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FileData } from '../data/FileData';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import FormComponent from '../components/FormEntities/Form';
@@ -291,27 +292,11 @@ const LeftPanel = (props) => {
 }
 
 const MiddlePanel = (props) => {
-  return <div
+  return
+  <div
     style={middlePanelStyle}
-    >
-    <div style={{
-      ...headerPanelStyle, backgroundColor: "lightgrey", border: '0px dashed #f3ea5f', margin: '0px 20px 0px'
-    }}>
-      {props.form.sectionTabs() ?
-        <DesignBoxHeader
-          form={props.form}
-          add={props.add}
-          remove={props.remove}
-          mutate={props.mutate}
-          formmutate={props.formmutate}
-          changetab={props.changetab}
-          activeTab={props.activeTab}
-        />
-        : <DesignBoxHeader
-        />
-      }
+  >
 
-    </div>
     <FormComponent
       form={props.form}
       remove={props.remove}
@@ -322,9 +307,94 @@ const MiddlePanel = (props) => {
   </div>
 }
 
+const dragOverFile_handler = (event) => {
+  event.preventDefault()
+}
+
+const saveFileToLocal = (file, name) => {
+  var fileReader = new FileReader();
+  const existing = localStorage.getItem('FILE')
+  fileReader.readAsDataURL(file);
+  fileReader.onload = (evt) => {
+    var result = evt.target.result;
+    if (existing === null) {
+      try {
+        console.log([{ [name]: result }])
+        localStorage.setItem('FILE', JSON.stringify([{ [name]: result }]))
+      } catch (e) {
+        console.log("Storage failed: " + e);
+      }
+    } else {
+      // console.log(JSON.parse(existing).concat([{ [name]: result }]))
+      // console.log(existing)
+      localStorage.setItem('FILE', JSON.stringify(JSON.parse(existing).concat([{ [name]: result }])))
+    }
+  }
+}
+
+const handleFiles = (files) => {
+  const item = files.getAsFile()
+
+  // Create XHR, Blob and FileReader objects
+  var xhr = new XMLHttpRequest()
+  var blob
+  var fileReader = new FileReader();
+
+  xhr.open("GET", "/pdf/download?id=");
+  xhr.responseType = "blob";
+  xhr.onload = () => {
+    console.log(files) // response as a blob
+    if (xhr.status && xhr.status === 200) {
+      console.log(20)
+      saveFileToLocal(xhr.response, item.name);
+      // console.log({ [item.name]: xhr.response })
+      // return { [item.name]: xhr.response }
+    }
+  }
+
+  xhr.send();
+}
+
+// const handleArray = (item) => {
+
+// }
+
+const dropFile_handler = (event) => {
+  console.log("Drop");
+  event.preventDefault();
+  // If dropped items aren't files, reject them
+  var dt = event.dataTransfer;
+  if (dt.items) {
+    // Use DataTransferItemList interface to access the file(s)
+    console.log(dt.items[0].getAsFile())
+    const f = []
+    for (var i = 0; i < dt.items.length; i++) {
+      if (dt.items[i].kind == "file") {
+        console.log(handleFiles(dt.items[i]))
+        f.push(handleFiles(dt.items[i]));
+        // f.push(dt.items[i].getAsFile());
+        console.log("... file[" + i + "].name = " + f.name);
+        // handleFiles(dt.items)
+      }
+    }
+    console.log(f)
+
+
+
+  }
+}
+const stringOfFiles = localStorage.getItem('FILE')
+const fileNames = stringOfFiles ? JSON.parse(stringOfFiles).map(file => { return Object.keys(file)[0] }) : null;
+console.log(fileNames)
 const RightPanel = () =>
   <div
-    style={rightPanelStyle}>
+    style={rightPanelStyle}
+    onDragOver={dragOverFile_handler}
+    onDrop={dropFile_handler}>
+    <h1>Uploaded Files</h1>
+    <ul>
+      {fileNames ? fileNames.map(name => <li>{name}</li>) : null}
+    </ul>
   </div>
 
 class FormEntityInit extends Component {

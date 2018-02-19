@@ -6,7 +6,25 @@ import { Form } from '../data/Form';
 
 // initialize the store
 const formReducer = (state, action) => {
+  // if (localStorage.getItem('model')) {
+  //   let resurrectedEntities =
+  //     comm.unserialize((JSON.parse(localStorage.getItem('model'))))
+  //   return { ...state, form: (resurrectedEntities) };
+
+  //   state = {
+  //     value: 0,
+  //     form: new Form(defaultPropsFE.Form),
+  //     app: {
+  //       activeTab: 0
+  //     }
+  //   }
+  // }
+
   if (typeof state === 'undefined') {
+    // let resurrectedEntities =
+    //   comm.unserialize((JSON.parse(localStorage.getItem('model'))))
+    // console.log(resurrectedEntities)
+
     state = {
       value: 0,
       form: new Form(defaultPropsFE.Form),
@@ -14,6 +32,7 @@ const formReducer = (state, action) => {
         activeTab: 0
       }
     }
+    return state
   }
 
   if (action.type === 'INCREMENT') {
