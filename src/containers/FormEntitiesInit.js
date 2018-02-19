@@ -401,7 +401,6 @@ const dropFile_handler = (event) => {
 }
 const fileNames = JSON.parse(localStorage.getItem('FILE')).map(file => { return Object.keys(file)[0] });
 console.log(fileNames)
-// const renderFile = new File([files], "Vacation.pdf")
 const RightPanel = () =>
   <div
     style={rightPanelStyle}
@@ -409,11 +408,8 @@ const RightPanel = () =>
     onDrop={dropFile_handler}>
     <h1>Uploaded Files</h1>
     <ul>
-      {fileNames.map(name => `<li>${name}</li>`)}
+      {fileNames.map(name => <li>{name}</li>)}
     </ul>
-    {/* {    files ? files.map(file =>  file.name)  : null } */}
-
-    {/* onDrop={dropFile_handler} */}
   </div>
 
 class FormEntityInit extends Component {
