@@ -1,5 +1,5 @@
 const deepFreeze = require('deep-freeze');
-/** Class representing a Form. 
+/** Class representing a Form.
  * See {@link http://csccjenk.cscc.unc.edu:8080/job/cdart2-model/javadoc/edu/unc/tcrdms/model/form/Form.html}
 */
 class Form {
@@ -67,8 +67,8 @@ class Form {
 
     /**
    * Set the children of the form.
-   * 
-   * @param {FormSection[]} children 
+   *
+   * @param {FormSection[]} children
    * @returns {Form} - copy of the form section with the given children
    * set
    */
@@ -141,7 +141,7 @@ class Form {
   };
 
   /**
-   * 
+   *
    * Returns public properties of a form entity.
    * @returns {Object}
    */
@@ -161,9 +161,9 @@ class Form {
   }
 
   /**
-   * 
+   *
    * Clone the form entity.
-   * @param {Object} props 
+   * @param {Object} props
    * @returns {Form}
    * @memberof Form
    */
@@ -173,9 +173,9 @@ class Form {
   }
 
   /**
-   * 
+   *
    * Mutate the form.
-   * @param {Object} newProperties 
+   * @param {Object} newProperties
    * @returns {Form}
    * @memberof Form
    */
