@@ -292,27 +292,11 @@ const LeftPanel = (props) => {
 }
 
 const MiddlePanel = (props) => {
-  return <div
+  return
+  <div
     style={middlePanelStyle}
   >
-    <div style={{
-      ...headerPanelStyle, backgroundColor: "lightgrey", border: '0px dashed #f3ea5f', margin: '0px 20px 0px'
-    }}>
-      {props.form.sectionTabs() ?
-        <DesignBoxHeader
-          form={props.form}
-          add={props.add}
-          remove={props.remove}
-          mutate={props.mutate}
-          formmutate={props.formmutate}
-          changetab={props.changetab}
-          activeTab={props.activeTab}
-        />
-        : <DesignBoxHeader
-        />
-      }
 
-    </div>
     <FormComponent
       form={props.form}
       remove={props.remove}
@@ -399,7 +383,8 @@ const dropFile_handler = (event) => {
 
   }
 }
-const fileNames = JSON.parse(localStorage.getItem('FILE')).map(file => { return Object.keys(file)[0] });
+const stringOfFiles = localStorage.getItem('FILE')
+const fileNames = stringOfFiles ? JSON.parse(stringOfFiles).map(file => { return Object.keys(file)[0] }) : null;
 console.log(fileNames)
 const RightPanel = () =>
   <div
@@ -408,7 +393,7 @@ const RightPanel = () =>
     onDrop={dropFile_handler}>
     <h1>Uploaded Files</h1>
     <ul>
-      {fileNames.map(name => <li>{name}</li>)}
+      {fileNames ? fileNames.map(name => <li>{name}</li>) : null}
     </ul>
   </div>
 
