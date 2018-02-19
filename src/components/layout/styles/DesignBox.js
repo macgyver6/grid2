@@ -1,12 +1,14 @@
 export const DesignBoxHeaderStyle = {
   width: "1112px",
   height: "100%",
+  // backgroundColor: 'darkgrey'
 };
 
 export const TabContainerStyle = {
   width: "90%",
   height: "100%",
   display: "inline-flex",
+  backgroundColor: 'darkgrey'
   //Make it scrollable soon
 };
 
@@ -14,7 +16,7 @@ export const DesignBoxHeaderButtonStyle = {
   width: "10%",
   height: "100%",
   border: "none",
-  backgroundColor: "grey",
+  backgroundColor: "darkgrey",
   // color: "grey",
   float: "right",
   fontSize: 50
@@ -28,7 +30,7 @@ export const TabStyle = {
   height: "40%",
   marginTop: "2%",
   marginLeft: "1%",
-  backgroundColor: "grey",
+  backgroundColor: "darkgrey",
   border: "0.25px solid white",
 };
 

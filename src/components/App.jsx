@@ -22,15 +22,7 @@ class App extends Component {
           <h4><span className="badge badge-danger">Unsaved Changes</span></h4>
         } */}
 
-        {/* <p>Value: <span>{this.props.store.model.value}</span></p> */}
-        {/* <button
-          className="btn btn-success"
-          onClick={this.props.increment}
-        >+</button>
-        <button
-          className="btn btn-success"
-          onClick={this.props.decrement}
-        >-</button> */}
+
         <button
           type="button"
           className="btn btn-primary btn-lg btn-block"

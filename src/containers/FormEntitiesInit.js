@@ -292,11 +292,22 @@ const LeftPanel = (props) => {
 }
 
 const MiddlePanel = (props) => {
-  return
-  <div
+  return <div
     style={middlePanelStyle}
   >
+    <div >
 
+      <DesignBoxHeader
+        form={props.form}
+        add={props.add}
+        remove={props.remove}
+        mutate={props.mutate}
+        formmutate={props.formmutate}
+        changetab={props.changetab}
+        activeTab={props.activeTab}
+      />
+
+    </div>
     <FormComponent
       form={props.form}
       remove={props.remove}

@@ -103,13 +103,7 @@ const Tab = (props) => {
       const origin = address.bySample(props.model, props.form)
 
       const div = document.createElement('div');
-      // // div.style = AddToEnd;
-      // div.style.width = '20px',
-      // div.style.height = '100px',
-      // div.style.position = 'absolute',
-      // div.style.left = '-20px',
-      //       div.backgroundColor = 'red'
-      // event.target.appendChild(div)
+
       obj.destination = address.bySample(props.model, props.form)
       let siblings = event.target.parentNode.children
       const test = () => {
@@ -119,12 +113,6 @@ const Tab = (props) => {
           }
         }
       }
-      // console.log(test())
-      // return node.id === event.target.id
-
-
-      // console.log(siblings[event.dataTransfer.types[1]].id.split('.')[0], event.target.id.split('.')[0])
-      // console.log(address.byPath(event.dataTransfer.types[1], props.form) !== event.target.id.split('.')[0])
       if (siblings[event.dataTransfer.types[1]].id.split('.')[0] !== event.target.id.split('.')[0]) {
         document.getElementById(
           `${event.target.id.split('.')[0]}.tab.wrapper`).style.borderLeft = '120px solid lightgreen'
@@ -199,14 +187,18 @@ const Tab = (props) => {
       })
   }
   { console.log(props.model) }
-
+  const currentTab = props.currentTab === props.activeTab
   return (
 
     <div
       style={{
         ...TabStyle,
-        backgroundColor: (props.currentTab === props.activeTab) ? "#0275D8" : TabStyle.backgroundColor,
-        fontWeight: (props.currentTab === props.activeTab) ? '900' : '100'
+        backgroundColor: currentTab ? "white" : TabStyle.backgroundColor,
+        fontWeight: currentTab ? '900' : '100',
+        borderTop: currentTab ? '4px solid white' : TabStyle.border,
+        borderLeft: currentTab ? '4px solid white' : TabStyle.border,
+        borderRight: currentTab ? '4px solid white' : TabStyle.border,
+        bordeLeft: currentTab ? '0' : TabStyle.border
       }}
       id={`${props.form.children()[props.currentTab].UUID()}.tab.wrapper`}
       className='tab'

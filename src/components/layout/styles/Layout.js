@@ -22,11 +22,12 @@ export const rightPanelStyle = {
   backgroundColor: "lightgrey",
   border: '0px solid black'
 };
-export const headerPanelStyle = {
-  width: "1112px",
-  height: "11%",
-  backgroundColor: "darkGreen"
-};
+// export const headerPanelStyle = {
+//   width: "1112px",
+//   height: "11%",
+//   backgroundColor: "darkGreen"
+// };
+
 export const bodyPanelStyle = {
   width: "100%",
   height: "89%",
