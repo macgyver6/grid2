@@ -12,7 +12,7 @@ export const leftPanelStyle = {
   border: '0px solid black'
 };
 export const middlePanelStyle = {
-  width: "1112px",
+  width: "70%",
   height: "100%",
   backgroundColor: "white"
 };

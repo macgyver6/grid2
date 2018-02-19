@@ -72,9 +72,10 @@ const Tab = (props) => {
     // event.target.parentNode.children[1].removeEventListener("dragover", onDragOverHandler)
     // ((tab) => { tab.removeEventListener("dragover", onDragOverHandler)})
 
-    props.add([props.form.children().length], new FormSection({
-      uuid: undefined, type: 'FormSection', width: 24, children: [], legend: '', prepend: 0, append: 0
-    }))
+    /* add an additional tab at the end */
+    // props.add([props.form.children().length], new FormSection({
+    //   uuid: undefined, type: 'FormSection', width: 24, children: [], legend: '', prepend: 0, append: 0
+    // }))
   }
 
 
@@ -195,10 +196,12 @@ const Tab = (props) => {
         ...TabStyle,
         backgroundColor: currentTab ? "white" : TabStyle.backgroundColor,
         fontWeight: currentTab ? '900' : '100',
-        borderTop: currentTab ? '4px solid white' : TabStyle.border,
-        borderLeft: currentTab ? '4px solid white' : TabStyle.border,
-        borderRight: currentTab ? '4px solid white' : TabStyle.border,
-        bordeLeft: currentTab ? '0' : TabStyle.border
+        // borderLeft: currentTab ? '4px solid darkgrey' : '4px solid darkgrey',
+        // borderRight: currentTab ? '4px solid white' : '4px solid darkgrey',
+        // borderTop: '4px solid darkgrey'
+
+        // borderRight: '4px solid white'
+        // borderBottom: '4px solid white'
       }}
       id={`${props.form.children()[props.currentTab].UUID()}.tab.wrapper`}
       className='tab'
