@@ -15,15 +15,12 @@ install-deps:
   stage: prepare
   script:
     - npm install
-    - ls -la
 
 
 build-image:
   image: docker:latest
   stage: build
   script:
-    - pwd
-    - ls -la
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker build --pull -t "$CI_REGISTRY_IMAGE" .
     - docker push "$CI_REGISTRY_IMAGE"
