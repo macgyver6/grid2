@@ -25,6 +25,7 @@ const Tab = (props) => {
   }
 
   let deleteTab_handler = (event) => {
+    console.log(event.type)
     event.preventDefault();
     event.stopPropagation();
     console.log('remove this tab: ', props.activeTab)
@@ -49,7 +50,6 @@ const Tab = (props) => {
     console.log('remove this one: ', [props.currentTab], 'change active tab to: ', whichTab())
     props.changetab(whichTab())
   }
-  // props.changetab(props.activeTab - 1 >= 0 ? props.activeTab : props.currentTab - 1)  }
 
   let obj = {
     origin: null,
@@ -164,8 +164,32 @@ const Tab = (props) => {
     props.remove([props.form.children().length - 1])
   }
 
-  let dragEnter_handler = (event) => {
-    console.log(event.dataTransfer.getData('address'))
+  let mouseEnter_handler = (event) => {
+    const tabWrapper = document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`)
+    tabWrapper.style.backgroundColor = 'white'
+    tabWrapper.style.borderTop = '0.25px solid rgb(32, 94, 226)'
+    const deleteBtn = document.createElement('button')
+    deleteBtn.style.border = 'none'
+    deleteBtn.style.color = 'white'
+    deleteBtn.style.marginLeft = '2px'
+    deleteBtn.style.textAlign = 'center'
+    deleteBtn.style.textDecoration = 'none'
+    deleteBtn.style.fontSize = '16px'
+    deleteBtn.style.cursor = 'pointer'
+    deleteBtn.style.backgroundColor = "#ff5f56"
+    deleteBtn.innerHTML = 'X'
+    deleteBtn.id = 'deleteBtn'
+    tabWrapper.appendChild(deleteBtn)
+    deleteBtn.addEventListener('click', event => deleteTab_handler(event))
+  }
+
+  let mouseLeave_handler = (event) => {
+    const tabWrapper = document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`)
+    if (!currentTab) {
+      tabWrapper.style.backgroundColor = TabStyle.backgroundColor
+      tabWrapper.style.borderTop = ''
+    }
+    tabWrapper ? tabWrapper.removeChild(document.getElementById('deleteBtn')) : null
   }
 
   let mouseDown_handler = (event) => {
@@ -196,12 +220,9 @@ const Tab = (props) => {
         ...TabStyle,
         backgroundColor: currentTab ? "white" : TabStyle.backgroundColor,
         fontWeight: currentTab ? '900' : '100',
-        // borderLeft: currentTab ? '4px solid darkgrey' : '4px solid darkgrey',
-        // borderRight: currentTab ? '4px solid white' : '4px solid darkgrey',
-        // borderTop: '4px solid darkgrey'
-
-        // borderRight: '4px solid white'
-        // borderBottom: '4px solid white'
+        borderLeft: currentTab ? '0.25px solid darkgrey' : null,
+        borderRight: currentTab ? '0.25px solid darkgrey' : null,
+        borderTop: currentTab ? '0.25px solid rgb(32, 94, 226)' : null
       }}
       id={`${props.form.children()[props.currentTab].UUID()}.tab.wrapper`}
       className='tab'
@@ -209,11 +230,11 @@ const Tab = (props) => {
       draggable="true"
       onDragStart={dragstart_handler}
       onDragOver={onDragOverHandler}
-      onDragEnter={dragEnter_handler}
+      onMouseEnter={mouseEnter_handler}
+      onMouseLeave={mouseLeave_handler}
       onMouseDown={mouseDown_handler}
       onDragLeave={dragLeave_handler}
       onDrop={drop_handler}
-
     >
 
 
@@ -225,19 +246,9 @@ const Tab = (props) => {
         type={props.model.type()}
         onChange={change_handler}
         value={props.model.legend()}
-        size={'6'}
-      // maxlength={"4"}
+        size={'18'}
+        maxlength={'18'}
       />
-      <button
-        id={`${props.form.children()[props.currentTab].UUID()}.tab.button`}
-        style={TabButtonStyle}
-        onClick={deleteTab_handler}
-      >
-        {/* <button
-          style={TabButtonStyle}
-          onClick={(e) => { e.stopPropagation(); handleApplicationAction(deleteTab(tab)) }}> */}
-        X
-        </button>
     </div>
 
   );

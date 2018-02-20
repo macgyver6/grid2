@@ -46,7 +46,9 @@ const TextAreaComponent = (props) => {
     opacity: '1',
     gridColumn: `span ${props.model.width()}`,
     position: 'relative',
-    height: '100px'
+    height: '100px',
+    borderRadius: '2px',
+    padding: '4px'
   }
 
   // return actual style values

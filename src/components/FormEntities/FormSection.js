@@ -214,6 +214,7 @@ let FormSectionComponent = (props) => {
     display: "grid",
     position: 'relative',
     // border: '2px dotted',
+    // borderRadius: '2px',
     gridTemplateColumns: `repeat(${props.model.width()}, [col] 1fr)`,
     backgroundColor: "rgba(243, 234, 95, 0.7)",
     minHeight: "120px",
@@ -221,7 +222,9 @@ let FormSectionComponent = (props) => {
     gridColumn: `span ${props.model.width()}`,
     gridGap: "8px",
     zIndex: "30",
-    cursor: 'move'
+    cursor: 'move',
+    borderRadius: '2px',
+    padding: '4px'
   }
 
   // return actual style values
@@ -229,7 +232,8 @@ let FormSectionComponent = (props) => {
   styles.formSection['gridColumn'] = 'span ' + (props.model.prepend() + props.model.width() + props.model.append())
   // 2. # of grid columns within the CheckBox
   styles.formSection['gridTemplateColumns'] = 'repeat(' + (props.model.prepend() + props.model.width() + props.model.append()) + ', [col] 1fr)'
-
+  const whichBackground = address.bySample(props.model, props.form).length < 2 ? '' : fsStyle.backgroundColor
+  console.log(whichBackground)
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
@@ -255,7 +259,7 @@ let FormSectionComponent = (props) => {
       <div
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="form-group FS"
-        style={fsStyle}
+        style={{ ...fsStyle, backgroundColor: whichBackground}}
         data-action={`mover.${props.model.UUID()}.FormSection`}
         draggable="true"
         onDragStart={dragstart_handler}

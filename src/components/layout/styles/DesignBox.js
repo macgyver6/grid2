@@ -6,10 +6,10 @@ export const DesignBoxHeaderStyle = {
 
 export const TabContainerStyle = {
   width: "96.5%",
-  // height: "100%",
+  minHeight: "46px",
   paddingLeft: '4px',
   display: "inline-flex",
-  backgroundColor: 'darkgrey',
+  // backgroundColor: 'white',
   marginLeft: '20px',
   marginRight: '20px'
   //Make it scrollable soon
@@ -29,7 +29,7 @@ export const TabStyle = {
   textAlign: 'center',
   padding: '10px',
   // verticalAlign: 'middle',
-  width: "10%",
+  width: "15%",
   height: "100%",
   marginTop: '4px',
   // margin: '4px',
@@ -41,13 +41,23 @@ export const TabStyle = {
 };
 
 export const TabButtonStyle = {
-  float: "right",
-  width: "20%",
-  height: "100%",
-  border: "none",
+  border: 'none',
+  color: 'white',
+  marginLeft: '2px',
+  textAlign: 'center',
+  textDecoration: 'none',
+  fontSize: '16px',
+  cursor: 'pointer',
   backgroundColor: "#ff5f56",
-  color: "white"
 };
+// export const TabButtonStyle = {
+//   float: "right",
+//   width: "20%",
+//   height: "100%",
+//   border: "none",
+//   backgroundColor: "#ff5f56",
+//   color: "white"
+// };
 
 export const DesignBoxGridStyle = {
   width: "100%",

@@ -46,7 +46,9 @@ const RadioButtonComponent = (props) => {
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
     height: '100px',
-    margin: helpers.marginCalc(props)
+    margin: helpers.marginCalc(props),
+    borderRadius: '2px',
+    padding: '4px'
   }
 
   // return actual style values

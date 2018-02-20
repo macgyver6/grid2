@@ -58,7 +58,14 @@ const CheckBoxComponent = (props) => {
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
     height: '100px',
-    margin: helpers.marginCalc(props)
+    // margin: helpers.marginCalc(props),
+    padding: '4px',
+    borderRadius: '2px'
+  }
+
+  const cbInputStyle = {
+    height: '25px',
+    width: '25px'
   }
 
 
@@ -97,7 +104,7 @@ const CheckBoxComponent = (props) => {
         draggable="true"
       >
       {/* onChange={(e) => handleChange(e, props)} */}
-        <input type={props.model.type()}  >
+        <input type={props.model.type()}  style={cbInputStyle}>
         </input>
         <Resizer
           id={`${props.model.UUID()}.resizer`}

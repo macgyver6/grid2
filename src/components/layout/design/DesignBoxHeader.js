@@ -26,7 +26,7 @@ let DesignBoxHeader = (props) => {
     props.changetab(props.form.children().length)
   }
 
-  const allowAddTab = (props) => props.form.children().length < 7 ? true : false
+  const allowAddTab = (props) => props.form.children().length < 5 ? true : false
 
   const mouseEnter_handler = (event) => {
     /*
@@ -41,17 +41,17 @@ let DesignBoxHeader = (props) => {
       tab.style.height = "40%",
       tab.style.marginTop = '4px',
       tab.style.marginLeft = '4px',
-      tab.style.borderTop = '.25px solid darkgrey',
-      tab.style.borderLeft = '.25px solid darkgrey',
-      tab.style.borderRight = '.25px solid darkgrey',
-      tab.style.borderBottom = props.form.children().length < 7 ? '3px solid white' : '3px solid red',
+      // tab.style.borderTop = '.25px solid darkgrey',
+      // tab.style.borderLeft = '.25px solid darkgrey',
+      // tab.style.borderRight = '.25px solid darkgrey',
+      tab.style.borderBottom = props.form.children().length < 5 ? '3px solid white' : '3px solid red',
       tab.style.backgroundColor = allowAddTab(props) ? 'white' : 'red',
       // tab.style.border = "0.25px solid white",
       tab.innerHTML = allowAddTab(props) ? 'click to add' : '<strong>max tabs</strong>'
 
     document.getElementById(
       'tabcontainer').appendChild(tab)
-    allowAddTab(props) ? document.getElementById('tabcontainer').style.backgroundColor = 'rgb(243, 234, 95)' : null
+    props.form.children().length > 4 ? document.getElementById('tabcontainer').style.backgroundColor = 'red' : 'rgb(243, 234, 95)'
   }
 
   const mouseLeave_handler = (event) => {
@@ -59,7 +59,7 @@ let DesignBoxHeader = (props) => {
     const tabContainer = document.getElementById(
       'tabcontainer')
     tabContainer.removeChild(tabContainer.children[tabContainer.children.length - 1])
-    document.getElementById('tabcontainer').style.backgroundColor = 'darkgrey'
+    document.getElementById('tabcontainer').style.backgroundColor = props.form.children().length > 1 ? 'darkgrey' : 'white'
   }
 
 
@@ -75,7 +75,7 @@ let DesignBoxHeader = (props) => {
       props.changetab(props.form.children().length)
     }
 
-    if (props.form.children().length > 5) {
+    if (props.form.children().length > 3) {
       console.log('too many')
       const myTimer =
         setInterval(function () {
@@ -99,6 +99,8 @@ let DesignBoxHeader = (props) => {
         dummyTab.style.borderBottom = '4px solid red'
       }, 1800);
     }
+
+    props.form.children().length > 3 ? document.getElementById('tabcontainer').style.backgroundColor = 'red' : 'rgb(243, 234, 95)'
     // if (props.form.children().length > 6) {
     //   dummyTab.style.backgroundColor = 'white'
     // } else {
@@ -127,7 +129,7 @@ let DesignBoxHeader = (props) => {
   return (
 
     <div
-      style={TabContainerStyle}
+      style={{...TabContainerStyle, backgroundColor: props.form.children().length > 1 ? 'darkgrey' : 'white'}}
       mutate={props.mutate}
       id='tabcontainer'
       mutate={props.mutate}
