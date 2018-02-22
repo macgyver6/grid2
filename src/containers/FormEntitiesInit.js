@@ -292,7 +292,8 @@ const LeftPanel = (props) => {
 }
 
 const MiddlePanel = (props) => {
-  return <div
+  return
+  <div
     style={middlePanelStyle}
   >
 
