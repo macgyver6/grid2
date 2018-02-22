@@ -1,4 +1,4 @@
-// import {defaultPropsFE} from './constants/defaultPropsFE';
+import { defaultPropsFE } from './constants/defaultPropsFE';
 import FormComponent from './components/FormEntities/Form';
 import FormSectionComponent from './components/FormEntities/FormSection';
 import TextInputComponent from './components/FormEntities/TextInput';
@@ -12,7 +12,7 @@ import { TextArea } from './data/TextArea';
 import { CheckBox } from './data/CheckBox';
 import { RadioButton } from './data/RadioButton';
 import { utility } from './utility';
-import { address } from './address'
+import { address } from './address';
 
 export const validateLogic = {
   // negativePrepend: (form) => {
@@ -33,11 +33,14 @@ export const validateLogic = {
   //   return 'no issues'
   // },
 
-  searchTree: (element) => {
-    const node = element.properties()
-    console.log(element)
-    if (element.type() !== 'Form' && (element.prepend() < 0 || element.append() < 0)) {
-      console.log(element)
+  searchTree: element => {
+    const node = element.properties();
+    console.log(element);
+    if (
+      element.type() !== 'Form' &&
+      (element.prepend() < 0 || element.append() < 0)
+    ) {
+      console.log(element);
       return true;
     } else if (node.children != null) {
       var i;
@@ -50,10 +53,13 @@ export const validateLogic = {
     return null;
   },
 
-  negativePrependPostpend: (element) => {
-    console.log(element)
-    const node = element.properties()
-    if (element.type() !== 'Form' && (element.prepend() < 0 || element.append() < 0)) {
+  negativePrependPostpend: element => {
+    console.log(element);
+    const node = element.properties();
+    if (
+      element.type() !== 'Form' &&
+      (element.prepend() < 0 || element.append() < 0)
+    ) {
       return element;
     } else if (node.children != null) {
       var i;
@@ -67,13 +73,16 @@ export const validateLogic = {
   },
 
   largerThanParent: (element, form) => {
-    console.log(element)
-    const total = (element) => element.prepend + element.width + element.append
-    const node = element.properties()
-    if (element.type() !== 'Form' && (element.prepend() < 0 || element.append() < 0)) {
+    console.log(element);
+    const total = element => element.prepend + element.width + element.append;
+    const node = element.properties();
+    if (
+      element.type() !== 'Form' &&
+      (element.prepend() < 0 || element.append() < 0)
+    ) {
       return element;
     } else if (node.children != null) {
-      console.log(node.children)
+      console.log(node.children);
       var i;
       var result = null;
       for (i = 0; i < node.children.length; i++) {
@@ -83,25 +92,4 @@ export const validateLogic = {
     }
     return false;
   },
-
-  // largerThanParent: (element, form) => {
-  //   console.log(element)
-  //   const total = (element) => element.prepend + element.width + element.append
-  //   const elementAddress = address.bySample(element, form)
-  //   console.log(elementAddress)
-  //   console.log(address.byPath(elementAddress, elementAddress))
-  //   console.log(element)
-  //   if (element.type() !== 'Form' && (element.prepend() < 0 || element.append() < 0)) {
-  //     return true;
-  //   } else if (element instanceof Form || element instanceof FormSection) {
-  //     var i;
-  //     var result = null;
-  //     for (i = 0; i < element.children().length; i++) {
-  //       console.log(element.children()[i])
-  //       result = validateLogic.largerThanParent(element.children()[i], form);
-  //     }
-  //     return result;
-  //   }
-  //   return false;
-  // },
-}
+};
