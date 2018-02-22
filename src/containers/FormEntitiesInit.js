@@ -393,7 +393,6 @@ const dropFile_handler = (event) => {
 }
 const stringOfFiles = localStorage.getItem('FILE')
 const fileNames = stringOfFiles ? JSON.parse(stringOfFiles).map(file => { return Object.keys(file)[0] }) : null;
-console.log(fileNames)
 const RightPanel = () =>
   <div
     style={rightPanelStyle}

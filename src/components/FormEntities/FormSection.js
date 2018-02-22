@@ -233,7 +233,6 @@ let FormSectionComponent = (props) => {
   // 2. # of grid columns within the CheckBox
   styles.formSection['gridTemplateColumns'] = 'repeat(' + (props.model.prepend() + props.model.width() + props.model.append()) + ', [col] 1fr)'
   const whichBackground = address.bySample(props.model, props.form).length < 2 ? '' : fsStyle.backgroundColor
-  console.log(whichBackground)
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}

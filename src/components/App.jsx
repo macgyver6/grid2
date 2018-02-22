@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import FormEntityInit from '../containers/FormEntitiesInit.js';
+import { validator } from '../form_validator';
 
 class App extends Component {
 
@@ -41,8 +42,8 @@ class App extends Component {
     )
   }
 }
-
 const mapStateToProps = (state) => {
+  console.log(validator.drop(state.model.form))
   return { store: state };
 }
 

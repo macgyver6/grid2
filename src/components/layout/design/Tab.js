@@ -211,7 +211,6 @@ const Tab = (props) => {
         legend: event.target.value
       })
   }
-  { console.log(props.model) }
   const currentTab = props.currentTab === props.activeTab
   return (
 

@@ -104,7 +104,6 @@ const FormComponent = (props) => {
       key={i}
       style={bgrndGrd}>{i + 1}</div>)
   }
-
   return (
     <div
       className='wrapper'
