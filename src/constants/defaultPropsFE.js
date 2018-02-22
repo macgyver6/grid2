@@ -111,7 +111,7 @@ export var defaultPropsFE = {
   },
 
   TextArea: {
-    uuid: undefined, prepend: 0, width: 5, append: 0, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'TextArea', tabOrder: [1, 2, 3], inputWidth: 12, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', numColumns: 20, numRows: 2, defaultContent: 'Default Content',
+    uuid: undefined, prepend: 0, width: 5, append: 0, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'TextArea', tabOrder: [1, 2, 3], inputWidth: 12, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL', numColumns: 24, numRows: 5, defaultContent: 'Default Content',
     render: { backgroundColor: '#205EE2', minWidth: 3 }
   },
 

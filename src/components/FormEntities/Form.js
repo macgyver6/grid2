@@ -91,7 +91,7 @@ const FormComponent = (props) => {
     "fontSize": "12px",
     "color": "grey",
     "textAlign": "center",
-    "backgroundColor": "lightgrey",
+    "backgroundColor": "rgba(75,156,211, 0.18)",
     "zIndex": "15",
     "height": "100vh"
   }
@@ -104,7 +104,6 @@ const FormComponent = (props) => {
       key={i}
       style={bgrndGrd}>{i + 1}</div>)
   }
-
   return (
     <div
       className='wrapper'

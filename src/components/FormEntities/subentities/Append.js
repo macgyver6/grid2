@@ -22,7 +22,7 @@ const Append = (props) => {
   }
 
   const appendStyle = {
-    border: '1px dashed black',
+    // border: '1px dashed black',
     gridColumn: `span ${props.append}`,
     // position: 'relative',
     backgroundColor: 'rgba(0, 0, 0, 0)'

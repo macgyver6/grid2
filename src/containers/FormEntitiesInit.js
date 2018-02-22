@@ -292,11 +292,19 @@ const LeftPanel = (props) => {
 }
 
 const MiddlePanel = (props) => {
-  return
-  <div
+  return <div
     style={middlePanelStyle}
   >
 
+    <DesignBoxHeader
+      form={props.form}
+      add={props.add}
+      remove={props.remove}
+      mutate={props.mutate}
+      formmutate={props.formmutate}
+      changetab={props.changetab}
+      activeTab={props.activeTab}
+    />
     <FormComponent
       form={props.form}
       remove={props.remove}
@@ -385,7 +393,6 @@ const dropFile_handler = (event) => {
 }
 const stringOfFiles = localStorage.getItem('FILE')
 const fileNames = stringOfFiles ? JSON.parse(stringOfFiles).map(file => { return Object.keys(file)[0] }) : null;
-console.log(fileNames)
 const RightPanel = () =>
   <div
     style={rightPanelStyle}

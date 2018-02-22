@@ -13,9 +13,10 @@ const resizeStyle = {
   height: '20px',
   backgroundColor: 'yellow',
   position: 'absolute',
-  right: 0,
-  bottom: 0,
-  cursor: 'w-resize'
+  right: 4,
+  bottom: 4,
+  cursor: 'w-resize',
+  borderRadius: '2px'
 }
 
 let Resizer = (props) => {

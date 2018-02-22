@@ -61,7 +61,14 @@ const TextInputComponent = (props) => {
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
     height: '100px',
-    cursor: 'move'
+    cursor: 'move',
+    // border: '1px solid red',
+    padding: '4px',
+    borderRadius: '2px'
+  }
+
+  const tiInputStyle = {
+    height: '40px'
   }
 
   // return actual style values
@@ -100,10 +107,13 @@ const TextInputComponent = (props) => {
         onDragStart={dragstart_handler}
         draggable="true"
       >
+          {props.model.name()}
+          <br>
+          </br>
         <input className="form-control" type={props.model.type()}
           defaultValue={props.model.defaultContent()}
+          style={tiInputStyle}
         />
-        {props.model.name()}
         <Resizer
           id={`${props.model.UUID()}.resizer`}
           element='FormEntity'
