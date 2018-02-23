@@ -6,8 +6,7 @@ import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 
-const TextAreaComponent = (props) => {
-
+const TextAreaComponent = props => {
   const resize = {
     init: null,
     init_grids: null,
@@ -16,29 +15,29 @@ const TextAreaComponent = (props) => {
     changed: null,
     grids: null,
     reset: null,
-    address: null
-  }
+    address: null,
+  };
 
   /** Handle adding/subtracing prepend or append */
-  const mouseDown_handler = (event) => {
+  const mouseDown_handler = event => {
     drop.mouseDown_handler(event, props, 'move');
-  }
+  };
 
   /** Set dataTransfer in the case the entity is dropped on target:
    * 1. Moving to different form section
    * 2. Deleting a form section
    */
-  let dragstart_handler = function (event) {
-    helpers.dragStart_handler(event, props.model, props.form, 'move')
-  }
+  let dragstart_handler = function(event) {
+    helpers.dragStart_handler(event, props.model, props.form, 'move');
+  };
 
-  let dragOver_handler = (event) => {
-    event.preventDefault()
-  }
+  let dragOver_handler = event => {
+    event.preventDefault();
+  };
 
-  let drop_handler = (event) => {
-    drop.drop_handler(event, props)
-  }
+  let drop_handler = event => {
+    drop.drop_handler(event, props);
+  };
 
   const taStyle = {
     margin: helpers.marginCalc(props),
@@ -48,14 +47,19 @@ const TextAreaComponent = (props) => {
     position: 'relative',
     height: '100px',
     borderRadius: '2px',
-    padding: '4px'
-  }
+    padding: '4px',
+  };
 
   // return actual style values
   // 1. # of grid columns the TextArea and Append will fill
-  styles.defaultEntity['gridColumn'] = 'span ' + (props.model.prepend() + props.model.width() + props.model.append())
+  styles.defaultEntity['gridColumn'] =
+    'span ' +
+    (props.model.prepend() + props.model.width() + props.model.append());
   // 2. # of grid columns within the TextArea
-  styles.defaultEntity['gridTemplateColumns'] = 'repeat(' + (props.model.prepend() + props.model.width() + props.model.append()) + ', [col] 1fr)'
+  styles.defaultEntity['gridTemplateColumns'] =
+    'repeat(' +
+    (props.model.prepend() + props.model.width() + props.model.append()) +
+    ', [col] 1fr)';
 
   return (
     <div
@@ -64,18 +68,19 @@ const TextAreaComponent = (props) => {
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
     >
-      {(props.model.prepend() > 0) ?
+      {props.model.prepend() > 0 ? (
         <Prepend
           id={`${props.model.UUID()}.prepend`}
           prepend={props.model.prepend()}
           uuid={props.model.UUID()}
-          className='prepend'
+          className="prepend"
           model={props.model}
           form={props.form}
           remove={props.remove}
-          add={props.add} mutate={props.mutate} /> :
-        null
-      }
+          add={props.add}
+          mutate={props.mutate}
+        />
+      ) : null}
       <div
         id={`${props.model.UUID()}.${props.model.type()}`}
         style={taStyle}
@@ -84,14 +89,20 @@ const TextAreaComponent = (props) => {
         onDragStart={dragstart_handler}
         draggable="true"
       >
-        <textarea className="form-control" placeholder="Write something in text area" name={props.model.name()} rows={props.model.numRows()} cols={props.model.numColumns()} type={props.model.type()}>
-        </textarea>
+        <textarea
+          className="form-control"
+          placeholder="Write something in text area"
+          name={props.model.name()}
+          rows={props.model.numRows()}
+          cols={props.model.numColumns()}
+          type={props.model.type()}
+        />
 
         <Resizer
           id={`${props.model.UUID()}.resizer`}
-          element='FormEntity'
+          element="FormEntity"
           uuid={props.model.UUID()}
-          className='resizer'
+          className="resizer"
           model={props.model}
           form={props.form}
           remove={props.remove}
@@ -99,22 +110,21 @@ const TextAreaComponent = (props) => {
           mutate={props.mutate}
         />
       </div>
-      {(props.model.append() > 0) ?
+      {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}
           append={props.model.append()}
           uuid={props.model.UUID()}
-          className='append'
+          className="append"
           model={props.model}
           form={props.form}
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
-        /> :
-        null
-      }
+        />
+      ) : null}
     </div>
-  )
-}
+  );
+};
 
 export default TextAreaComponent;

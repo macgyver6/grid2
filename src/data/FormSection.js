@@ -8,24 +8,23 @@ const { FormEntity } = require('./FormEntity.js');
  */
 class FormSection extends FormEntity {
   /**
-     * Create a FormSection.
-     * @param {Object} properties 
-     * @param @property {string} properties.type
-     * @param @property {number} properties.uuid
-     * @param @property {number} properties.width Description of width
-     * @param @property {array} properties.children
-     * @param @property {string} properties.legend
-     * @param @property {number} properties.prepend
-     * @param @property {number} properties.append
-     */
+   * Create a FormSection.
+   * @param {Object} properties
+   * @param @property {string} properties.type
+   * @param @property {number} properties.uuid
+   * @param @property {number} properties.width Description of width
+   * @param @property {array} properties.children
+   * @param @property {string} properties.legend
+   * @param @property {number} properties.prepend
+   * @param @property {number} properties.append
+   */
   constructor(properties) {
-    super(properties)
+    super(properties);
     this._children = properties.children;
     this._legend = properties.legend;
 
     deepFreeze(this);
-
-  };
+  }
 
   /**
     * The children of the form section
@@ -33,46 +32,44 @@ class FormSection extends FormEntity {
     * @returns {FormEntity[]}
     * @memberof FormSection
     */
-  children() 
-  {
+  children() {
     return this._children;
-  };
-
-  /**
-   * Set the children of the form section.
-   * 
-   * @param {FormEntity[]} children 
-   * @returns {FormSection} copy of the form section with the given children
-   * set
-   */
-  setChildren(children)
-  {
-    return this.mutate({children : children});
   }
 
   /**
-    * 
-    * Get the legend of the form section.
-    * @returns {FormSection}
-    * @memberof FormSection
-    */
-  legend() {
-    return this._legend;
-  };
+   * Set the children of the form section.
+   *
+   * @param {FormEntity[]} children
+   * @returns {FormSection} copy of the form section with the given children
+   * set
+   */
+  setChildren(children) {
+    return this.mutate({ children: children });
+  }
 
   /**
-     * 
-     * Clone the form section.
-     * @param {Object} props 
-     * @returns {FormSection}
-     * @memberof FormSection
-     */
+   *
+   * Get the legend of the form section.
+   * @returns {FormSection}
+   * @memberof FormSection
+   */
+  legend() {
+    return this._legend;
+  }
+
+  /**
+   *
+   * Clone the form section.
+   * @param {Object} props
+   * @returns {FormSection}
+   * @memberof FormSection
+   */
   clone(props) {
     return new FormSection(props === undefined ? this.properties() : props);
   }
 
   /**
-   * 
+   *
    * Returns public properties of a form section.
    * @returns {Object}
    */
@@ -84,10 +81,10 @@ class FormSection extends FormEntity {
       prepend: this.prepend(),
       append: this.append(),
       children: this.children(),
-      legend: this.legend()
+      legend: this.legend(),
     };
   }
-};
+}
 
 deepFreeze(FormSection);
 

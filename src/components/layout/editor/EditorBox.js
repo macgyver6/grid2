@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 // import EditorHeader from './EditorHeader'
 // import EditorTabs from './EditorTabs'
 // import EditorView from './EditorView'
@@ -6,8 +6,8 @@ import React from 'react'
 class EditorBox extends React.Component {
   render() {
     const style = {
-      width: ((window.screen.availWidth * 0.98) * 0.195),
-      height: (window.screen.availHeight * 0.876),
+      width: window.screen.availWidth * 0.98 * 0.195,
+      height: window.screen.availHeight * 0.876,
       border: '5px solid black',
       display: 'inline-block',
     };
@@ -16,7 +16,7 @@ class EditorBox extends React.Component {
 
     return (
       <div style={style}>
-{/* 
+        {/* 
         <EditorHeader
           editorViewId={this.props.editorViewId}
           handleApplicationAction={this.props.handleApplicationAction} />
@@ -29,10 +29,9 @@ class EditorBox extends React.Component {
           validators={validators}
           composite={this.props.composite}
           handleApplicationAction={this.props.handleApplicationAction} /> */}
-
       </div>
     );
   }
-};
+}
 
 export default EditorBox;

@@ -1,7 +1,7 @@
 const deepFreeze = require('deep-freeze');
 /** Class representing a Form.
  * See {@link http://csccjenk.cscc.unc.edu:8080/job/cdart2-model/javadoc/edu/unc/tcrdms/model/form/Form.html}
-*/
+ */
 class Form {
   /**
    * Create a Form.
@@ -18,7 +18,6 @@ class Form {
    * @param {string} properties.versionDescription - The version description of the form.
    */
   constructor(properties) {
-
     this._type = properties.type;
     this._uuid = properties.uuid;
     this._version = properties.version || Form.DEFAULT_VERSION;
@@ -34,9 +33,8 @@ class Form {
 
     if (this.constructor === Form) {
       deepFreeze(this);
-    };
-
-  };
+    }
+  }
 
   /**
    * Get the type of the form.
@@ -45,7 +43,7 @@ class Form {
    */
   type() {
     return this._type;
-  };
+  }
 
   /**
    * Get the major version of the form.
@@ -54,7 +52,7 @@ class Form {
    */
   version() {
     return this._version;
-  };
+  }
 
   /**
    * Get whether children inputs have their external IDs generated automatically.
@@ -63,18 +61,17 @@ class Form {
    */
   children() {
     return this._children;
-  };
+  }
 
-    /**
+  /**
    * Set the children of the form.
    *
    * @param {FormSection[]} children
    * @returns {Form} - copy of the form section with the given children
    * set
    */
-  setChildren(children)
-  {
-    return this.mutate({children : children});
+  setChildren(children) {
+    return this.mutate({ children: children });
   }
 
   /**
@@ -84,7 +81,7 @@ class Form {
    */
   crf() {
     return this._crf;
-  };
+  }
 
   /**
    * Get the UUID of the form.
@@ -93,7 +90,7 @@ class Form {
    */
   UUID() {
     return this._uuid;
-  };
+  }
 
   /**
    * Produce a list of the inputs in the given list, descending into form sections contained in the list as required (depth-first search).
@@ -102,7 +99,7 @@ class Form {
    */
   inputs() {
     return this._inputs;
-  };
+  }
 
   /**
    * Get the remote validator conditions contained within the given composite condition.
@@ -111,7 +108,7 @@ class Form {
    */
   remoteValidatorCondition() {
     return this._remoteValidatorCondition;
-  };
+  }
 
   /**
    * Get whether top-level FormSection entities should be considered as tabs.
@@ -120,7 +117,7 @@ class Form {
    */
   sectionTabs() {
     return this._sectionTabs;
-  };
+  }
 
   /**
    * Get the version description of the form.
@@ -129,7 +126,7 @@ class Form {
    */
   versionDescription() {
     return this._versionDescription;
-  };
+  }
 
   /**
    * Whether children inputs have their external IDs generated automatically.
@@ -138,7 +135,7 @@ class Form {
    */
   autoId() {
     return this._autoId;
-  };
+  }
 
   /**
    *
@@ -156,7 +153,7 @@ class Form {
       inputs: this.inputs(),
       remoteValidatorCondition: this.remoteValidatorCondition(),
       sectionTabs: this.sectionTabs(),
-      versionDescription: this.versionDescription()
+      versionDescription: this.versionDescription(),
     };
   }
 
@@ -185,12 +182,12 @@ class Form {
     // if key exists in new props, use, if not, use existing
     for (var key in properties) {
       if (newProperties.hasOwnProperty(key)) {
-        properties[key] = newProperties[key]
+        properties[key] = newProperties[key];
       }
     }
     return this.clone(properties);
-  };
-};
+  }
+}
 
 Form.DEFAULT_VERSION = 1;
 
@@ -203,7 +200,6 @@ Form.DEFAULT_VERSION = 1;
 // console.log(test)
 // console.log(test.mutate({ versionDescription: 'test description' }))
 
-module.exports =
-  {
-    Form: Form
-  };
+module.exports = {
+  Form: Form,
+};

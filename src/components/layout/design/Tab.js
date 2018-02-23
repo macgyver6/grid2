@@ -1,13 +1,9 @@
 import React from 'react';
 
-import {
-  TabStyle,
-  TabButtonStyle
-} from '../styles/DesignBox'
+import { TabStyle, TabButtonStyle } from '../styles/DesignBox';
 import { helpers } from '../../../helpers';
 import { address } from '../../../address';
 import { FormSection } from '../../../data/FormSection';
-
 
 // import {
 //   addTab,
@@ -15,59 +11,76 @@ import { FormSection } from '../../../data/FormSection';
 //   deleteTab
 // } from '../auxillary/actions/design'
 
-const Tab = (props) => {
+const Tab = props => {
   const dragged = null;
 
-  let onClickHandler = (event) => {
+  let onClickHandler = event => {
     event.preventDefault();
     event.stopPropagation();
-    props.changetab(props.currentTab)
-  }
+    props.changetab(props.currentTab);
+  };
 
-  let deleteTab_handler = (event) => {
-    console.log(event.type)
+  let deleteTab_handler = event => {
+    console.log(event.type);
     event.preventDefault();
     event.stopPropagation();
-    console.log('remove this tab: ', props.activeTab)
+    console.log('remove this tab: ', props.activeTab);
 
-    console.log(props.currentTab)
+    console.log(props.currentTab);
     const whichTab = () => {
       if (props.activeTab === 0) {
-        return 0
+        return 0;
       }
-      if (props.activeTab === props.currentTab && props.form.children().length - 1 !== props.currentTab) {
-        return props.currentTab
+      if (
+        props.activeTab === props.currentTab &&
+        props.form.children().length - 1 !== props.currentTab
+      ) {
+        return props.currentTab;
       }
-      if (props.activeTab === props.currentTab && props.form.children().length - 1 === props.currentTab) {
-        return props.currentTab - 1
+      if (
+        props.activeTab === props.currentTab &&
+        props.form.children().length - 1 === props.currentTab
+      ) {
+        return props.currentTab - 1;
       }
       if (props.activeTab !== props.currentTab) {
-        console.log('here: ', props.form.children().length)
-        return props.form.children().length - 2
+        console.log('here: ', props.form.children().length);
+        return props.form.children().length - 2;
       }
-    }
-    props.remove([props.currentTab])
-    console.log('remove this one: ', [props.currentTab], 'change active tab to: ', whichTab())
-    props.changetab(whichTab())
-  }
+    };
+    props.remove([props.currentTab]);
+    console.log(
+      'remove this one: ',
+      [props.currentTab],
+      'change active tab to: ',
+      whichTab()
+    );
+    props.changetab(whichTab());
+  };
 
   let obj = {
     origin: null,
-    destination: null
-  }
+    destination: null,
+  };
   var dragSrcEl = props.model.UUID();
 
-  let dragstart_handler = (event) => {
+  let dragstart_handler = event => {
     // helpers.dragStart_handler(event, props.model, props.form)
-    event.dataTransfer.setData("tab", JSON.stringify({
-      // action: action,
-      address: address.bySample(props.model, props.form),
-    }));
+    event.dataTransfer.setData(
+      'tab',
+      JSON.stringify({
+        // action: action,
+        address: address.bySample(props.model, props.form),
+      })
+    );
 
-    event.dataTransfer.setData(address.bySample(props.model, props.form), address.bySample(props.model, props.form))
+    event.dataTransfer.setData(
+      address.bySample(props.model, props.form),
+      address.bySample(props.model, props.form)
+    );
     // console.log(event.target.id.split('.')[0])
     // dragSrcEl = event.target.id.split('.')[0]
-    console.log(dragSrcEl)
+    console.log(dragSrcEl);
     // obj.origin = address.bySample(props.model, props.form)
     // event.target.parentNode.children[1].removeEventListener("dragover", onDragOverHandler)
     // ((tab) => { tab.removeEventListener("dragover", onDragOverHandler)})
@@ -76,155 +89,184 @@ const Tab = (props) => {
     // props.add([props.form.children().length], new FormSection({
     //   uuid: undefined, type: 'FormSection', width: 24, children: [], legend: '', prepend: 0, append: 0
     // }))
-  }
+  };
 
-
-  let onDragOverHandler = (event) => {
+  let onDragOverHandler = event => {
     // event.preventDefault();
     event.stopPropagation();
     // console.log(event.target.currentTarget)
     // console.log(event.dataTransfer.types)
     if (event.dataTransfer.types[0] !== 'tab') {
-
-      let element = event.target.style.backgroundColor
-      const alternateInterval = (event) => setInterval(alternate(event, 1000));
-      const alternate = (event) => {
+      let element = event.target.style.backgroundColor;
+      const alternateInterval = event => setInterval(alternate(event, 1000));
+      const alternate = event => {
         // console.log(event.target)
-        element === 'grey' ? event.target.style.backgroundColor = 'rgb(2, 117, 216)' : event.target.style.backgroundColor = 'grey'
-      }
-      alternateInterval(event)
+        element === 'grey'
+          ? (event.target.style.backgroundColor = 'rgb(2, 117, 216)')
+          : (event.target.style.backgroundColor = 'grey');
+      };
+      alternateInterval(event);
       setTimeout(() => {
         clearInterval(alternateInterval);
-        props.changetab(props.currentTab)
+        props.changetab(props.currentTab);
       }, 1000);
     } else {
       // rearrange the tabs
-      event.preventDefault()
-      const destination = address.bySample(props.model, props.form)
-      const origin = address.bySample(props.model, props.form)
+      event.preventDefault();
+      const destination = address.bySample(props.model, props.form);
+      const origin = address.bySample(props.model, props.form);
 
       const div = document.createElement('div');
 
-      obj.destination = address.bySample(props.model, props.form)
-      let siblings = event.target.parentNode.children
+      obj.destination = address.bySample(props.model, props.form);
+      let siblings = event.target.parentNode.children;
       const test = () => {
         for (var i = 0; i < siblings.length; i++) {
           if (siblings[i].id === event.target.id) {
             return i;
           }
         }
-      }
-      if (siblings[event.dataTransfer.types[1]].id.split('.')[0] !== event.target.id.split('.')[0]) {
+      };
+      if (
+        siblings[event.dataTransfer.types[1]].id.split('.')[0] !==
+        event.target.id.split('.')[0]
+      ) {
         document.getElementById(
-          `${event.target.id.split('.')[0]}.tab.wrapper`).style.borderLeft = '120px solid lightgreen'
+          `${event.target.id.split('.')[0]}.tab.wrapper`
+        ).style.borderLeft =
+          '120px solid lightgreen';
       }
     }
-  }
+  };
 
-  let dragLeave_handler = (event) => {
+  let dragLeave_handler = event => {
     // event.target.style.backgroundColor = 'grey';
-    document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`).style.backgroundColor = 'grey';
+    document.getElementById(
+      `${event.target.id.split('.')[0]}.tab.wrapper`
+    ).style.backgroundColor =
+      'grey';
     // event.target.style.backgroundColor = 'rgb(2, 117, 216)';
-    event.target.style.removeProperty('border')
-  }
+    event.target.style.removeProperty('border');
+  };
 
-  let drop_handler = (event) => {
+  let drop_handler = event => {
     event.stopPropagation();
     const dropData = JSON.parse(event.dataTransfer.getData('tab'));
-    const droppedEntity = address.byPath(props.form, dropData.address)
-    event.target.style.removeProperty('border')
-    const _children = [...props.form.children()]
-    const destinationAddress = address.bySample(props.model, props.form)
-
-
+    const droppedEntity = address.byPath(props.form, dropData.address);
+    event.target.style.removeProperty('border');
+    const _children = [...props.form.children()];
+    const destinationAddress = address.bySample(props.model, props.form);
 
     const reorderArray = (event, originalArray) => {
-      console.log(event, originalArray)
-      const movedItem = originalArray.filter((item, index) => index === event.oldIndex);
-      const remainingItems = originalArray.filter((item, index) => index !== event.oldIndex);
+      console.log(event, originalArray);
+      const movedItem = originalArray.filter(
+        (item, index) => index === event.oldIndex
+      );
+      const remainingItems = originalArray.filter(
+        (item, index) => index !== event.oldIndex
+      );
 
       const reorderedItems = [
         ...remainingItems.slice(0, event.newIndex),
         movedItem[0],
-        ...remainingItems.slice(event.newIndex)
+        ...remainingItems.slice(event.newIndex),
       ];
 
       return reorderedItems;
-    }
-    props.changetab(destinationAddress[0] > dropData.address[0] ? destinationAddress[0] - 1 : destinationAddress[0])
+    };
+    props.changetab(
+      destinationAddress[0] > dropData.address[0]
+        ? destinationAddress[0] - 1
+        : destinationAddress[0]
+    );
     // console.log(destinationAddress[0] > dropData.address[0] ? destinationAddress[0] - 1 : destinationAddress[0])
-    props.formmutate([], reorderArray(
-      {
-        newIndex: destinationAddress[0] > dropData.address[0] ? destinationAddress[0] - 1 : destinationAddress[0]
-        , oldIndex: dropData.address[0]
-      }, _children))
+    props.formmutate(
+      [],
+      reorderArray(
+        {
+          newIndex:
+            destinationAddress[0] > dropData.address[0]
+              ? destinationAddress[0] - 1
+              : destinationAddress[0],
+          oldIndex: dropData.address[0],
+        },
+        _children
+      )
+    );
 
     // event.target.style.backgroundColor = 'grey'
-    document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`).style.backgroundColor = 'grey';
-    props.remove([props.form.children().length - 1])
-  }
+    document.getElementById(
+      `${event.target.id.split('.')[0]}.tab.wrapper`
+    ).style.backgroundColor =
+      'grey';
+    props.remove([props.form.children().length - 1]);
+  };
 
-  let mouseEnter_handler = (event) => {
-    const tabWrapper = document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`)
-    tabWrapper.style.backgroundColor = 'white'
-    tabWrapper.style.borderTop = '0.25px solid rgb(32, 94, 226)'
-    const deleteBtn = document.createElement('button')
-    deleteBtn.style.border = 'none'
-    deleteBtn.style.color = 'white'
-    deleteBtn.style.marginLeft = '2px'
-    deleteBtn.style.textAlign = 'center'
-    deleteBtn.style.textDecoration = 'none'
-    deleteBtn.style.fontSize = '16px'
-    deleteBtn.style.cursor = 'pointer'
-    deleteBtn.style.backgroundColor = "#ff5f56"
-    deleteBtn.innerHTML = 'X'
-    deleteBtn.id = 'deleteBtn'
-    tabWrapper.appendChild(deleteBtn)
-    deleteBtn.addEventListener('click', event => deleteTab_handler(event))
-  }
+  let mouseEnter_handler = event => {
+    const tabWrapper = document.getElementById(
+      `${event.target.id.split('.')[0]}.tab.wrapper`
+    );
+    tabWrapper.style.backgroundColor = 'white';
+    tabWrapper.style.borderTop = '0.25px solid rgb(32, 94, 226)';
+    const deleteBtn = document.createElement('button');
+    deleteBtn.style.border = 'none';
+    deleteBtn.style.color = 'white';
+    deleteBtn.style.marginLeft = '2px';
+    deleteBtn.style.textAlign = 'center';
+    deleteBtn.style.textDecoration = 'none';
+    deleteBtn.style.fontSize = '16px';
+    deleteBtn.style.cursor = 'pointer';
+    deleteBtn.style.backgroundColor = '#ff5f56';
+    deleteBtn.innerHTML = 'X';
+    deleteBtn.id = 'deleteBtn';
+    tabWrapper.appendChild(deleteBtn);
+    deleteBtn.addEventListener('click', event => deleteTab_handler(event));
+  };
 
-  let mouseLeave_handler = (event) => {
-    const tabWrapper = document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`)
+  let mouseLeave_handler = event => {
+    const tabWrapper = document.getElementById(
+      `${event.target.id.split('.')[0]}.tab.wrapper`
+    );
     if (!currentTab) {
-      tabWrapper.style.backgroundColor = TabStyle.backgroundColor
-      tabWrapper.style.borderTop = ''
+      tabWrapper.style.backgroundColor = TabStyle.backgroundColor;
+      tabWrapper.style.borderTop = '';
     }
-    tabWrapper ? tabWrapper.removeChild(document.getElementById('deleteBtn')) : null
-  }
+    tabWrapper
+      ? tabWrapper.removeChild(document.getElementById('deleteBtn'))
+      : null;
+  };
 
-  let mouseDown_handler = (event) => {
-    console.log(event.target)
-  }
+  let mouseDown_handler = event => {
+    console.log(event.target);
+  };
 
   let destinationStyle = {
     minWidth: '100px',
     maxHeight: '60px',
-    float: "left",
-    backgroundColor: 'red'
-  }
+    float: 'left',
+    backgroundColor: 'red',
+  };
 
-  let change_handler = (event) => {
+  let change_handler = event => {
     // event.target.style.backgroundColor = 'rgb(2, 117, 216)';
-    const location = address.bySample(props.model, props.form)
-    props.mutate(location,
-      {
-        legend: event.target.value
-      })
-  }
-  const currentTab = props.currentTab === props.activeTab
+    const location = address.bySample(props.model, props.form);
+    props.mutate(location, {
+      legend: event.target.value,
+    });
+  };
+  const currentTab = props.currentTab === props.activeTab;
   return (
-
     <div
       style={{
         ...TabStyle,
-        backgroundColor: currentTab ? "white" : TabStyle.backgroundColor,
+        backgroundColor: currentTab ? 'white' : TabStyle.backgroundColor,
         fontWeight: currentTab ? '900' : '100',
         borderLeft: currentTab ? '0.25px solid darkgrey' : null,
         borderRight: currentTab ? '0.25px solid darkgrey' : null,
-        borderTop: currentTab ? '0.25px solid rgb(32, 94, 226)' : null
+        borderTop: currentTab ? '0.25px solid rgb(32, 94, 226)' : null,
       }}
       id={`${props.form.children()[props.currentTab].UUID()}.tab.wrapper`}
-      className='tab'
+      className="tab"
       onClick={onClickHandler}
       draggable="true"
       onDragStart={dragstart_handler}
@@ -235,8 +277,6 @@ const Tab = (props) => {
       onDragLeave={dragLeave_handler}
       onDrop={drop_handler}
     >
-
-
       {/* {props.form.children()[props.currentTab].UUID().slice(props.form.children()[props.currentTab].UUID().length - 4, props.form.children()[props.currentTab].UUID().length)} */}
       {/* {props.activeTab === props.currentTab ? 'yes': 'no'} */}
       <input
@@ -249,7 +289,6 @@ const Tab = (props) => {
         maxlength={'18'}
       />
     </div>
-
   );
 };
 

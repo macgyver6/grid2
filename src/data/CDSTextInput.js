@@ -1,5 +1,5 @@
 const deepFreeze = require('deep-freeze');
-const { TextInput } = require('./TextInput.js')
+const { TextInput } = require('./TextInput.js');
 
 /**
  * Class representing a CDSTextInput.
@@ -36,36 +36,34 @@ class CDSTextInput extends TextInput {
 
     this._script = properties.script;
     this._editeable = properties.editeable;
-    
+
     deepFreeze(this);
-        
   }
 
   /**
-    * 
-    * Get the script which should be evaluated to produce the value of the input.
-    * @returns {string}
-    * @memberof CDSTextInput
-    */
+   *
+   * Get the script which should be evaluated to produce the value of the input.
+   * @returns {string}
+   * @memberof CDSTextInput
+   */
   script() {
     return this._script;
   }
 
   /**
-    * 
-    * Whether the input implementation may be made editable.
-    * @returns {boolean}
-    * @memberof CDSTextInput
-    */
+   *
+   * Whether the input implementation may be made editable.
+   * @returns {boolean}
+   * @memberof CDSTextInput
+   */
   editeable() {
     return this._editeable;
   }
 
-
   /**
-   * 
+   *
    * Clone the text input.
-   * @param {Object} props 
+   * @param {Object} props
    * @returns {CDSTextInput}
    * @memberof CDSTextInput
    */
@@ -73,11 +71,11 @@ class CDSTextInput extends TextInput {
     return new CDSTextInput(props === undefined ? this.properties() : props);
   }
 
-      /**
-     * 
-     * Returns public properties of a text input.
-     * @returns {Object}
-     */
+  /**
+   *
+   * Returns public properties of a text input.
+   * @returns {Object}
+   */
   properties() {
     return {
       uuid: this.UUID(),
@@ -100,15 +98,36 @@ class CDSTextInput extends TextInput {
       autoTab: this.autoTab(),
       doubleEntry: this.doubleEntry(),
       script: this.script(),
-      editing: this.editeable()
+      editing: this.editeable(),
     };
   }
 }
 
 deepFreeze(CDSTextInput);
 
-let x = new CDSTextInput({uuid: 1, width: 2, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'type', tabOrder: [1, 2, 3], inputWidth: 7, promptNumber: 'promptNumber',  prepend: 88, autoNumber: 'SEQUENTIAL', append: 4, length: 'DEFAULT', autoTab: true, doubleEntry: true, editeable: false, script: 'script'});
+let x = new CDSTextInput({
+  uuid: 1,
+  width: 2,
+  prePrompt: 'prePromptString',
+  prePromptWidth: 6,
+  postPrompt: 'postPromptString',
+  postPromptWidth: 6,
+  name: 'name',
+  sasCodeLabel: 'sasCodeLabel',
+  type: 'type',
+  tabOrder: [1, 2, 3],
+  inputWidth: 7,
+  promptNumber: 'promptNumber',
+  prepend: 88,
+  autoNumber: 'SEQUENTIAL',
+  append: 4,
+  length: 'DEFAULT',
+  autoTab: true,
+  doubleEntry: true,
+  editeable: false,
+  script: 'script',
+});
 
-console.log(x)
+console.log(x);
 
-module.exports = { CDSTextInput: CDSTextInput }
+module.exports = { CDSTextInput: CDSTextInput };

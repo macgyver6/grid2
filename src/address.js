@@ -14,14 +14,16 @@ import { RadioButton } from './data/RadioButton';
 import { utility } from './utility';
 
 export const address = {
-
   bySample: (target, node, path = []) => {
+    if (target.type() === 'Form') {
+      return [];
+    }
     if (node.UUID() === target.UUID()) {
       return path;
     }
 
     if (node.children) {
-      console.log()
+      console.log();
       return node.children().reduce((acc, child, index) => {
         return acc || address.bySample(target, child, [...path, index]);
       }, null);
@@ -29,7 +31,6 @@ export const address = {
 
     return null;
   },
-
 
   byUuid: (uuid, node, path = [], entity) => {
     if (node.UUID() === uuid) {
@@ -49,47 +50,45 @@ export const address = {
     if (path.length > 1) {
       return address.byPath(section.children()[path[0]], path.slice(1));
     } else {
-      return section.children()[path]
+      return section.children()[path];
     }
   },
 
-  lookupComponent: (modelInstance) => {
+  lookupComponent: modelInstance => {
     if (modelInstance instanceof Form) {
       return FormComponent;
-    }
-    else if (modelInstance instanceof FormSection) {
+    } else if (modelInstance instanceof FormSection) {
       return FormSectionComponent;
-    }
-    else if (modelInstance instanceof TextInput) {
+    } else if (modelInstance instanceof TextInput) {
       return TextInputComponent;
-    }
-    else if (modelInstance instanceof TextArea) {
+    } else if (modelInstance instanceof TextArea) {
       return TextAreaComponent;
-    }
-    else if (modelInstance instanceof CheckBox) {
+    } else if (modelInstance instanceof CheckBox) {
       return CheckBoxComponent;
-    }
-    else if (modelInstance instanceof RadioButton) {
+    } else if (modelInstance instanceof RadioButton) {
       return RadioButtonComponent;
     }
   },
 
-  resurrectEntity: (formEntitySerialized) => {
+  resurrectEntity: formEntitySerialized => {
     // @hack
-    switch (formEntitySerialized.type || formEntitySerialized._type || formEntitySerialized.type()) {
+    switch (formEntitySerialized.type ||
+      formEntitySerialized._type ||
+      formEntitySerialized.type()) {
       case 'Form':
-        return new Form({ ...formEntitySerialized })
+        return new Form({ ...formEntitySerialized });
       case 'FormSection':
-        return new FormSection({ ...formEntitySerialized })
+        return new FormSection({ ...formEntitySerialized });
       case 'TextInput':
-        return new TextInput({ ...formEntitySerialized })
+        return new TextInput({ ...formEntitySerialized });
       case 'TextArea':
-        return new TextArea({ ...formEntitySerialized })
+        return new TextArea({ ...formEntitySerialized });
       case 'CheckBox':
-        return new CheckBox({ ...formEntitySerialized })
+        return new CheckBox({ ...formEntitySerialized });
       case 'RadioButton':
-        return new RadioButton({ ...formEntitySerialized })
-      default: throw new Error('Unexpected Entity Type')
+        return new RadioButton({ ...formEntitySerialized });
+      default:
+        throw new Error('Unexpected Entity Type');
     }
-  }
-}
+  },
+};

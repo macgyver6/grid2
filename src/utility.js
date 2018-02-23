@@ -60,26 +60,30 @@ export const utility = {
     //   throw new Error("path OOB");
     // }
     let newChildren = section.children().slice(0);
-    if (path.length > 1)
-    {
-      newChildren[path[0]] = utility.remove(path.slice(1), section.children()[path[0]]);
+    if (path.length > 1) {
+      newChildren[path[0]] = utility.remove(
+        path.slice(1),
+        section.children()[path[0]]
+      );
     } else {
       newChildren.splice(path[0], 1);
     }
     return section.setChildren(newChildren);
   },
 
-  mutate:(address, properties) => {
-    const entity = address.byPath(address)
-    utility.remove(address)
-    utility.add(address.resurrectEntity(
-      Object.assign({},
-        entity.properties(), properties)
-    ), address)
+  mutate: (address, properties) => {
+    const entity = address.byPath(address);
+    utility.remove(address);
+    utility.add(
+      address.resurrectEntity(
+        Object.assign({}, entity.properties(), properties)
+      ),
+      address
+    );
   },
-}
+};
 
 export const components = {
   TextInput: TextInput,
-  TextArea: TextArea
-}
+  TextArea: TextArea,
+};

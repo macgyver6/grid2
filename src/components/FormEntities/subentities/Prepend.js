@@ -2,10 +2,10 @@ import React from 'react';
 import { helpers } from '../../../helpers';
 import { rearrangers } from '../../../rearrangers';
 
-const Prepend = (props) => {
-  let drop_handler = (event) => {
-   rearrangers.drop_handler(event, props)
-  }
+const Prepend = props => {
+  let drop_handler = event => {
+    rearrangers.drop_handler(event, props);
+  };
 
   const prependStyle = {
     // minWidth: '20px',
@@ -13,8 +13,8 @@ const Prepend = (props) => {
     gridColumn: `span ${props.prepend}`,
     // border: '1px dashed black',
     // position: 'relative',
-    backgroundColor: 'rgba(0, 0, 0, 0)'
-  }
+    backgroundColor: 'rgba(0, 0, 0, 0)',
+  };
 
   // const drop_handler = (event) => {
   //   console.log('Prepend drop')
@@ -23,9 +23,9 @@ const Prepend = (props) => {
   //   helpers.dropPrepend_handler(event, props)
   // }
 
-  let dragover_handler = (event) => {
+  let dragover_handler = event => {
     event.preventDefault();
-  }
+  };
 
   // let dragEnterHandler
   // dragEnterHandler = (event) => {
@@ -46,7 +46,7 @@ const Prepend = (props) => {
     >
       {/* onDragEnter={dragEnterHandler} */}
     </div>
-  )
-}
+  );
+};
 
 export default Prepend;

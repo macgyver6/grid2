@@ -15,26 +15,26 @@ import { utility } from './utility';
 import { address } from './address';
 
 export const comm = {
-
-  serialize: (node) => {
+  serialize: node => {
     // process this node and return public copy with props
-    const props = node.properties()
+    const props = node.properties();
     let children;
     if (props && props.children) {
       // process any children
-      (children = props.children.map(child => comm.serialize(child)));
+      children = props.children.map(child => comm.serialize(child));
     }
-    return { ...props, children }
+    return { ...props, children };
   },
 
-  unserialize: (node) => {
+  unserialize: node => {
     // process this node and return public copy with props
-    const props = address.resurrectEntity(node)
+    const props = address.resurrectEntity(node);
     if (node && (props instanceof Form || props instanceof FormSection)) {
       // process any children
-      return props.setChildren(props.children().map(child => comm.unserialize(child)
-      ))
+      return props.setChildren(
+        props.children().map(child => comm.unserialize(child))
+      );
     }
-    return props
-  }
-}
+    return props;
+  },
+};

@@ -29,102 +29,93 @@ const formReducer = (state, action) => {
       value: 0,
       form: new Form(defaultPropsFE.Form),
       app: {
-        activeTab: 0
-      }
-    }
-    return state
+        activeTab: 0,
+      },
+    };
+    return state;
   }
 
   if (action.type === 'INCREMENT') {
     return Object.assign({}, state, {
-      value: state.value + 1
-    })
+      value: state.value + 1,
+    });
   }
 
   if (action.type === 'DECREMENT') {
     return Object.assign({}, state, {
-      value: state.value - 1
-    })
+      value: state.value - 1,
+    });
   }
 
   if (action.type === 'ADD') {
-    let result =
-      utility.add (
-        action.path,
-        action.entity,
-        state.form
-        )
+    let result = utility.add(action.path, action.entity, state.form);
     return Object.assign({}, state, {
-      form: result
-    })
+      form: result,
+    });
   }
 
   if (action.type === 'REMOVE') {
-    console.log(state.form,
-      action.path)
-    let update = utility.remove (
-      action.path,
-      state.form
-    )
+    console.log(state.form, action.path);
+    let update = utility.remove(action.path, state.form);
     return Object.assign({}, state, {
-      form: update
-    })
+      form: update,
+    });
   }
 
   if (action.type === 'MUTATE') {
-    const initEntity = address.byPath(state.form, action.path)
-    let update = utility.remove (
-      action.path,
-      state.form )
+    const initEntity = address.byPath(state.form, action.path);
+    let update = utility.remove(action.path, state.form);
     const removedUpdate = Object.assign({}, state, {
-      form: update
-    })
-    console.log(initEntity)
-    let mutatedEntity = Object.assign({}, initEntity.properties(),
+      form: update,
+    });
+    console.log(initEntity);
+    let mutatedEntity = Object.assign(
+      {},
+      initEntity.properties(),
       action.properties
-    )
-    let result =
-      utility.add(
-        action.path,
-        address.resurrectEntity(mutatedEntity),
-          removedUpdate.form
-      )
+    );
+    let result = utility.add(
+      action.path,
+      address.resurrectEntity(mutatedEntity),
+      removedUpdate.form
+    );
     return Object.assign({}, state, {
-      form: result
-    })
+      form: result,
+    });
   }
 
   if (action.type === 'FORMMUTATE') {
-    const initEntity = state.form
+    const initEntity = state.form;
 
-    let mutatedEntity = state.form.setChildren(action.properties)
+    let mutatedEntity = state.form.setChildren(action.properties);
 
     return Object.assign({}, state, {
-      form: mutatedEntity
-    })
+      form: mutatedEntity,
+    });
   }
 
   if (action.type === 'SAVESTATE') {
     let serialized = comm.serialize(state.form);
-    localStorage.setItem('model', JSON.stringify(serialized))
+    localStorage.setItem('model', JSON.stringify(serialized));
     return Object.assign({}, state, {
-      lastSaved: Date.now()
-    })
+      lastSaved: Date.now(),
+    });
   }
 
   if (action.type === 'LOADSTATE') {
     if (localStorage.getItem('model')) {
-      let resurrectedEntities =
-        comm.unserialize((JSON.parse(localStorage.getItem('model'))))
-      return { ...state, form: (resurrectedEntities) };
+      let resurrectedEntities = comm.unserialize(
+        JSON.parse(localStorage.getItem('model'))
+      );
+      return { ...state, form: resurrectedEntities };
     } else {
-      throw new Error('No items saved in local storage')
+      throw new Error('No items saved in local storage');
     }
   }
   if (action.type === 'CHANGETAB') {
-    return Object.assign({}, state, { app: { activeTab: action.tab}})
+    return Object.assign({}, state, { app: { activeTab: action.tab } });
   }
   return state;
-}
+};
 
 export default formReducer;

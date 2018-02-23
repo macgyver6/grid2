@@ -1,5 +1,5 @@
 const deepFreeze = require('deep-freeze');
-const { TextInput } = require('./TextInput.js')
+const { TextInput } = require('./TextInput.js');
 
 /**
  * Class representing a EchoInput.
@@ -34,26 +34,24 @@ class EchoInput extends TextInput {
     super(properties);
 
     this._sourceInput = properties.sourceInput;
-    
+
     deepFreeze(this);
-        
   }
 
   /**
-    * 
-    * Form input which serves as the source for the echo input.
-    * @returns {string}
-    * @memberof EchoInput
-    */
+   *
+   * Form input which serves as the source for the echo input.
+   * @returns {string}
+   * @memberof EchoInput
+   */
   sourceInput() {
     return this._sourceInput;
   }
 
-
   /**
-   * 
+   *
    * Clone the text input.
-   * @param {Object} props 
+   * @param {Object} props
    * @returns {EchoInput}
    * @memberof EchoInput
    */
@@ -61,11 +59,11 @@ class EchoInput extends TextInput {
     return new EchoInput(props === undefined ? this.properties() : props);
   }
 
-      /**
-     * 
-     * Returns public properties of a text input.
-     * @returns {Object}
-     */
+  /**
+   *
+   * Returns public properties of a text input.
+   * @returns {Object}
+   */
   properties() {
     return {
       uuid: this.UUID(),
@@ -87,7 +85,7 @@ class EchoInput extends TextInput {
       defaultContent: this.defaultContent(),
       autoTab: this.autoTab(),
       doubleEntry: this.doubleEntry(),
-      sourceInput: this.sourceInput()
+      sourceInput: this.sourceInput(),
     };
   }
 }
@@ -98,4 +96,4 @@ deepFreeze(EchoInput);
 
 // console.log(x)
 
-module.exports = { EchoInput: EchoInput }
+module.exports = { EchoInput: EchoInput };

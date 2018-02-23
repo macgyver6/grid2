@@ -1,5 +1,5 @@
 const deepFreeze = require('deep-freeze');
-const { FormInput } = require('./FormInput.js')
+const { FormInput } = require('./FormInput.js');
 
 /**
  * Class representing a TextInput.
@@ -33,60 +33,60 @@ class TextInput extends FormInput {
     super(properties);
 
     this._length = TextInput.LENGTH[properties.length];
-    this._defaultContent = properties.defaultContent || TextInput.DEFAULT_CONTENT;
+    this._defaultContent =
+      properties.defaultContent || TextInput.DEFAULT_CONTENT;
     this._autoTab = properties.autoTab;
     this._doubleEntry = properties.doubleEntry;
 
     if (this.constructor === TextInput) {
       deepFreeze(this);
-    };
-
+    }
   }
 
   /**
-    * 
-    * Get whether the input is defined as permitting auto tab to the next field during data collection.
-    * @returns {boolean}
-    * @memberof TextInput
-    */
+   *
+   * Get whether the input is defined as permitting auto tab to the next field during data collection.
+   * @returns {boolean}
+   * @memberof TextInput
+   */
   autoTab() {
     return this._autoTab;
   }
 
   /**
-    * 
-    * Get the default content for the text input.
-    * @returns {string}
-    * @memberof TextInput
-    */
+   *
+   * Get the default content for the text input.
+   * @returns {string}
+   * @memberof TextInput
+   */
   defaultContent() {
     return this._defaultContent;
   }
 
   /**
-    * 
-    * Get the max length for the text input.
-    * @returns {number}
-    * @memberof TextInput
-    */
+   *
+   * Get the max length for the text input.
+   * @returns {number}
+   * @memberof TextInput
+   */
   length() {
     return this._length;
   }
 
   /**
-    * 
-    * Get whether the input is defined as requiring confirmation of the entered value at the time of collection.
-    * @returns {boolean}
-    * @memberof TextInput
-    */
+   *
+   * Get whether the input is defined as requiring confirmation of the entered value at the time of collection.
+   * @returns {boolean}
+   * @memberof TextInput
+   */
   doubleEntry() {
     return this._doubleEntry;
   }
 
   /**
-   * 
+   *
    * Clone the text input.
-   * @param {Object} props 
+   * @param {Object} props
    * @returns {TextInput}
    * @memberof TextInput
    */
@@ -96,10 +96,10 @@ class TextInput extends FormInput {
   }
 
   /**
- * 
- * Returns public properties of a text input.
- * @returns {Object}
- */
+   *
+   * Returns public properties of a text input.
+   * @returns {Object}
+   */
   properties() {
     return {
       uuid: this.UUID(),
@@ -127,8 +127,8 @@ class TextInput extends FormInput {
 
 TextInput.LENGTH = {
   DEFAULT: 60,
-  NO_MAX: 0
-}
+  NO_MAX: 0,
+};
 
 TextInput.DEFAULT_CONTENT = 'Default Content';
 
@@ -138,4 +138,4 @@ deepFreeze(TextInput);
 
 // console.log(x)
 
-module.exports = { TextInput: TextInput }
+module.exports = { TextInput: TextInput };

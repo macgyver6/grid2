@@ -8,9 +8,10 @@ import logger from 'redux-logger';
 
 // Implementation of Redux DevTools
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(reducer, /* preloadedState, */ composeEnhancers(
-  applyMiddleware(logger)
-));
+const store = createStore(
+  reducer,
+  /* preloadedState, */ composeEnhancers(applyMiddleware(logger))
+);
 
 ReactDOM.render(
   <Provider store={store}>

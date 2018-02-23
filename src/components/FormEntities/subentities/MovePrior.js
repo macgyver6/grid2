@@ -4,7 +4,7 @@ import { utility } from '../../../utility';
 import { address } from '../../../address';
 // import { defaultPropsFE } from '../../../constants/defaultPropsFE';
 
-const MovePrior = (props) => {
+const MovePrior = props => {
   // let drop_handler = (event) => {
   //   let data = event.dataTransfer.getData("text");
   //   event.preventDefault();
@@ -55,32 +55,36 @@ const MovePrior = (props) => {
     height: '110px',
     position: 'absolute',
     top: '-10px',
-    left: '0px'
-  }
+    left: '0px',
+  };
 
-  const drop_handler = (event) => {
+  const drop_handler = event => {
     event.stopPropagation();
-    let data = JSON.parse(event.dataTransfer.getData("text"));
-    console.log(data)
+    let data = JSON.parse(event.dataTransfer.getData('text'));
+    console.log(data);
     // const totalWidthNewEntity = () => data.model.prepend + data.model.width + data.model.append
-    let locEntity = address.byUuid(props.model.UUID(), props.form)
+    let locEntity = address.byUuid(props.model.UUID(), props.form);
 
-    let loc = [...locEntity[0]]
-    loc[loc.length - 1] = (locEntity[0][locEntity[0].length - 1] + 1)
-
+    let loc = [...locEntity[0]];
+    loc[loc.length - 1] = locEntity[0][locEntity[0].length - 1] + 1;
 
     if (data.action === 'move') {
       // console.log(address.bySample(address.resurrectEntity(data.model), props.form))
       // console.log(loc)
-      props.remove(address.bySample(address.resurrectEntity(data.model), props.form))
+      props.remove(
+        address.bySample(address.resurrectEntity(data.model), props.form)
+      );
       // props.remove(address.byPath(data.model.uuid))
     }
-    props.add(locEntity[0], address.resurrectEntity(Object.assign({}, data.model)))
-    event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)'
-  }
+    props.add(
+      locEntity[0],
+      address.resurrectEntity(Object.assign({}, data.model))
+    );
+    event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+  };
 
-  let dragEnter_handler = (event) => {
-    event.target.style.borderLeft = '30px solid lightgreen'
+  let dragEnter_handler = event => {
+    event.target.style.borderLeft = '30px solid lightgreen';
 
     const div = document.createElement('div');
     // div.style = MovePrior;
@@ -92,17 +96,17 @@ const MovePrior = (props) => {
 
     event.target.appendChild(div);
     // div.innerHTML = `<h4 class="logo">Move before <strong>${props.model._type}</strong></h1>`
-  }
+  };
 
-  let dragLeave_handler = (event) => {
-    event.target.removeChild(event.target.children[0])
-    event.target.style.borderLeft = ''
-  }
-  let clickHandler = (event) => {
+  let dragLeave_handler = event => {
+    event.target.removeChild(event.target.children[0]);
+    event.target.style.borderLeft = '';
+  };
+  let clickHandler = event => {
     event.preventDefault();
     event.stopPropagation();
-    console.log(event.target)
-  }
+    console.log(event.target);
+  };
 
   return (
     <div
@@ -113,10 +117,8 @@ const MovePrior = (props) => {
       onDragEnter={dragEnter_handler}
       onDragLeave={dragLeave_handler}
       onClick={clickHandler}
-    >
-
-    </div>
-  )
-}
+    />
+  );
+};
 
 export default MovePrior;

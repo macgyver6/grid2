@@ -1,5 +1,5 @@
 const deepFreeze = require('deep-freeze');
-const { TextInput } = require('./TextInput.js')
+const { TextInput } = require('./TextInput.js');
 
 /**
  * Class representing a DateTextInput.
@@ -38,34 +38,32 @@ class DateTextInput extends TextInput {
     this._startingDate = properties.startingDate;
 
     deepFreeze(this);
-        
   }
 
   /**
-    * 
-    * Whether rendered representations of the input should allow for a choice of time zone for entered dates.
-    * @returns {boolean}
-    * @memberof DateTextInput
-    */
+   *
+   * Whether rendered representations of the input should allow for a choice of time zone for entered dates.
+   * @returns {boolean}
+   * @memberof DateTextInput
+   */
   tzChoice() {
     return this._tzChoice;
   }
 
   /**
-    * 
-    * Get the starting date which should be used for calendar-like controls within a rendered representation of this input.
-    * @returns {string}
-    * @memberof DateTextInput
-    */
+   *
+   * Get the starting date which should be used for calendar-like controls within a rendered representation of this input.
+   * @returns {string}
+   * @memberof DateTextInput
+   */
   startingDate() {
     return this._startingDate;
   }
 
-
   /**
-   * 
+   *
    * Clone the text input.
-   * @param {Object} props 
+   * @param {Object} props
    * @returns {DateTextInput}
    * @memberof DateTextInput
    */
@@ -73,11 +71,11 @@ class DateTextInput extends TextInput {
     return new DateTextInput(props === undefined ? this.properties() : props);
   }
 
-      /**
-     * 
-     * Returns public properties of a text input.
-     * @returns {Object}
-     */
+  /**
+   *
+   * Returns public properties of a text input.
+   * @returns {Object}
+   */
   properties() {
     return {
       uuid: this.UUID(),
@@ -100,7 +98,7 @@ class DateTextInput extends TextInput {
       autoTab: this.autoTab(),
       doubleEntry: this.doubleEntry(),
       tzChoice: this.tzChoice(),
-      startingDate: this.startingDate()
+      startingDate: this.startingDate(),
     };
   }
 }
@@ -111,4 +109,4 @@ deepFreeze(DateTextInput);
 
 // console.log(x.mutate({uuid: 11}))
 
-module.exports = { DateTextInput: DateTextInput }
+module.exports = { DateTextInput: DateTextInput };

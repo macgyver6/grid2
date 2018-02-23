@@ -6,21 +6,21 @@ export const backgroundPanelStyle = {
   backgroundColor: '#DDDDDD',
 };
 export const leftPanelStyle = {
-  width: "10%",
-  height: "100%",
-  backgroundColor: "white",
-  border: '0px solid black'
+  width: '10%',
+  height: '100%',
+  backgroundColor: 'white',
+  border: '0px solid black',
 };
 export const middlePanelStyle = {
-  width: "70%",
-  height: "100%",
-  backgroundColor: "white"
+  width: '70%',
+  height: '100%',
+  backgroundColor: 'white',
 };
 export const rightPanelStyle = {
-  width: "20%",
-  height: "100%",
-  backgroundColor: "lightgrey",
-  border: '0px solid black'
+  width: '20%',
+  height: '100%',
+  backgroundColor: 'lightgrey',
+  border: '0px solid black',
 };
 // export const headerPanelStyle = {
 //   width: "1112px",
@@ -29,7 +29,7 @@ export const rightPanelStyle = {
 // };
 
 export const bodyPanelStyle = {
-  width: "100%",
-  height: "89%",
-  backgroundColor: "#a3a1a1"
+  width: '100%',
+  height: '89%',
+  backgroundColor: '#a3a1a1',
 };
