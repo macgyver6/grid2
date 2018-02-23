@@ -21,31 +21,30 @@ export const validateLogic = {
     }
     return null;
   },
-  negativePrependPostpend: element => {
-    console.log(element);
-    const node = element.properties();
-    if (
-      element.type() !== 'Form' &&
-      (element.prepend() < 0 || element.append() < 0)
-    ) {
-      return 'bang';
-    } else if (node.children != null) {
-      var i;
-      var result = null;
-      for (i = 0; i < node.children.length; i++) {
-        result = validateLogic.negativePrependPostpend(node.children[i]);
-      }
-      // return 'blooh';
+
+  negativePrependPostpend: (element) => {
+    const elementCheck = (element) => {
+      if (element.type() !== 'Form') {
+        return element.prepend() < 0 || element.append() < 0
+      } else { return false }
     }
-    return 'blah';
+    if (element.type() !== 'Form' &&
+      elementCheck(element)) {
+      return true;
+    } else if (element.type() === 'FormSection' || element.type() === 'Form') {
+      var i;
+      var result = undefined;
+      for (i = 0; result == undefined && i < element.children().length; i++) {
+        result = validateLogic.negativePrependPostpend(element.children()[i]);
+      }
+      return result;
+    }
+    return undefined;
   },
 
   largerThanParent: (element, form) => {
     const total = element =>
       element.prepend() + element.width() + element.append();
-    const _element = comm.serialize(element);
-    console.log(_element.children, form);
-
     const parentEntity = element => {
       if (address.bySample(element, form).length < 2) {
         return false;
@@ -59,64 +58,19 @@ export const validateLogic = {
           )
         );
         const elementTotal = total(element);
-        console.log(elementTotal, parentTotal);
         return elementTotal > parentTotal ? true : false;
       }
     };
-    console.log(parentEntity(element));
     if (parentEntity(element)) {
-      console.log('found it: ', 'element.uuid');
-      return 'element.uuid';
-    } else if (_element.children !== undefined) {
+      return true;
+    } else if (element.type() === 'FormSection' || element.type() === 'Form') {
       var i;
       var result = undefined;
-      for (i = 0; result == undefined && i < _element.children.length; i++) {
-        result = validateLogic.largerThanParent(_element.children[i], form);
-      }
-      console.log('deeper');
-      return result; // if nothing is found
-    }
-    console.log('final');
-    return undefined;
-  },
-
-  largerThanParent2: (element, form) => {
-    console.log(element, comm.serialize(element));
-    const _element = comm.serialize(element);
-    const total = element =>
-      element.prepend() + element.width() + element.append();
-    // const node = _element.properties();
-    const parentEntity = element => {
-      if (address.bySample(element, form).length < 2) {
-        return false;
-      } else {
-        const parentTotal = total(
-          address.byPath(
-            form,
-            address
-              .bySample(element, form)
-              .slice(0, address.bySample(element, form).length - 1)
-          )
-        );
-        const elementTotal = total(element);
-        console.log(elementTotal, parentTotal);
-        return elementTotal > parentTotal ? true : false;
-      }
-    };
-    console.log(parentEntity(element));
-    if (parentEntity(element)) {
-      console.log('ppp found it: ', _element);
-      return _element;
-    } else if (_element.children != null) {
-      var i;
-      var result = undefined;
-      for (i = 0; i < result == undefined && _element.children.length; i++) {
+      for (i = 0; result == undefined && i < element.children().length; i++) {
         result = validateLogic.largerThanParent(element.children()[i], form);
       }
-      console.log('ppp going deeper');
-      return result; // if nothing is found
+      return result;
     }
-    console.log('ppp last');
-    return 'undefined2';
+    return undefined;
   },
-};
+}
