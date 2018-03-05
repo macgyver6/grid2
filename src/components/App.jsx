@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import FormEntityInit from '../containers/FormEntitiesInit.js';
-import { validator } from '../form_validator';
 
 class App extends Component {
   render() {
@@ -42,15 +41,6 @@ class App extends Component {
   }
 }
 const mapStateToProps = state => {
-  const checkValidate = validator.findAll(
-    state.model.form,
-    e => e.type() === 'CheckBox'
-  );
-
-  // .map(check =>
-  //   console.log(validateLogic.negativePrependPostpend.bind(check))
-  // );
-  console.log(checkValidate);
   return { store: state };
 };
 
