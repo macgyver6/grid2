@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { FileData } from '../data/FileData';
+// import { FileData } from '../data/FileData';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import FormComponent from '../components/FormEntities/Form';
-import { utility } from '../utility';
+// import { utility } from '../utility';
 import { address } from '../address';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
 import { helpers } from '../helpers';
@@ -12,7 +12,7 @@ import {
   leftPanelStyle,
   middlePanelStyle,
   rightPanelStyle,
-  headerPanelStyle,
+  // headerPanelStyle,
 } from '../components/layout/styles/Layout';
 import DesignBoxHeader from '../components/layout/design/DesignBoxHeader';
 
@@ -403,27 +403,18 @@ const handleFiles = files => {
 
   // Create XHR, Blob and FileReader objects
   var xhr = new XMLHttpRequest();
-  var blob;
-  var fileReader = new FileReader();
 
   xhr.open('GET', '/pdf/download?id=');
   xhr.responseType = 'blob';
   xhr.onload = () => {
     console.log(files); // response as a blob
     if (xhr.status && xhr.status === 200) {
-      console.log(20);
       saveFileToLocal(xhr.response, item.name);
-      // console.log({ [item.name]: xhr.response })
-      // return { [item.name]: xhr.response }
     }
   };
 
   xhr.send();
 };
-
-// const handleArray = (item) => {
-
-// }
 
 const dropFile_handler = event => {
   console.log('Drop');
@@ -432,18 +423,12 @@ const dropFile_handler = event => {
   var dt = event.dataTransfer;
   if (dt.items) {
     // Use DataTransferItemList interface to access the file(s)
-    console.log(dt.items[0].getAsFile());
     const f = [];
     for (var i = 0; i < dt.items.length; i++) {
-      if (dt.items[i].kind == 'file') {
-        console.log(handleFiles(dt.items[i]));
+      if (dt.items[i].kind === 'file') {
         f.push(handleFiles(dt.items[i]));
-        // f.push(dt.items[i].getAsFile());
-        console.log('... file[' + i + '].name = ' + f.name);
-        // handleFiles(dt.items)
       }
     }
-    console.log(f);
   }
 };
 const stringOfFiles = localStorage.getItem('FILE');

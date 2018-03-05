@@ -11,7 +11,6 @@ import { TextInput } from './data/TextInput';
 import { TextArea } from './data/TextArea';
 import { CheckBox } from './data/CheckBox';
 import { RadioButton } from './data/RadioButton';
-import { utility } from './utility';
 
 export const address = {
   bySample: (target, node, path = []) => {

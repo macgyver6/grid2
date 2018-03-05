@@ -1,7 +1,5 @@
 import React from 'react';
-import { utility } from '../../utility';
 import { address } from '../../address';
-import { drop } from '../../drop';
 import { defaultPropsFE } from '../../constants/defaultPropsFE';
 import Resizer from './subentities/Resizer.js';
 import AddToEnd from './subentities/AddToEnd.js';
@@ -13,17 +11,6 @@ import { helpers } from '../../helpers';
 let FormSectionComponent = props => {
   const round = (value, decimals) => {
     return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
-  };
-
-  const resize = {
-    init: null,
-    init_grids: null,
-    init_append: null,
-    init_prepend: null,
-    changed: null,
-    grids: null,
-    reset: null,
-    address: null,
   };
 
   let dragstart_handler = event => {
@@ -79,12 +66,7 @@ let FormSectionComponent = props => {
       // @hack - only adds to position 0 at this point
       let addressNewEntity = [...location];
       addressNewEntity[addressNewEntity.length] = props.model.children().length;
-      console.log(location);
       props.add(addressNewEntity, entityToAdd);
-
-      const div = document.getElementById(props.model.UUID());
-      // div.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
-      // event.target.style.backgroundColor = 'rgba(243, 234, 95, 0.7)'
     }
     // rearranging by moving one entity from one section to another
     if (data && data.action === 'move') {
@@ -260,10 +242,6 @@ let FormSectionComponent = props => {
       element.style.backgroundColor =
         defaultPropsFE[props.model.type()].render.backgroundColor;
     }
-  };
-
-  let drag_handler = function(event) {
-    helpers.drag_handler(event, props.model, props.form, resize, props);
   };
 
   const click_handler = event => {

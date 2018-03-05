@@ -1,7 +1,5 @@
 import React from 'react';
-import { utility } from '../../../utility';
 import { address } from '../../../address';
-import { defaultPropsFE } from '../../../constants/defaultPropsFE';
 
 const AddToEnd = props => {
   const wrapperStyle = {

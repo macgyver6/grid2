@@ -1,7 +1,4 @@
-import { utility } from './utility';
 import { address } from './address';
-import { formatter } from './formatter';
-import { defaultPropsFE } from './constants/defaultPropsFE';
 const round = (value, decimals) => {
   return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 };
@@ -16,41 +13,13 @@ const dropObj = {
   destinationAddress: null,
   valid: null,
 };
-const destinationIsSibling = (destinationAddress, draggedEntityAddress) => {
-  console.log(destinationAddress, draggedEntityAddress);
-  if (destinationAddress.length >= 2) {
-    console.log('larger');
-    const whichSection = arr => arr[arr.length - 2];
-    const isSibling = arr => arr[arr.length - 1];
-    if (
-      whichSection(destinationAddress) === whichSection(draggedEntityAddress)
-    ) {
-      console.log('sameSection');
-      if (
-        isSibling(destinationAddress) ===
-        (isSibling(draggedEntityAddress) + 1 ||
-          isSibling(destinationAddress) === isSibling(draggedEntityAddress) - 1)
-      ) {
-        console.log('sibling');
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }
-};
+
 /** all event handlers within this object are for handling an entity mutating the prepend and append sizes of itself */
 export const drop = {
   /**mouseDown_handler  kicks off the event pattern for an entity mutating the prepend and append sizes of itself
    * mouseMove and drop handlers are added only to the wrapper for the said entity. This was done in an attempt to reduce the event complexity on ther entities so that all other drop events other than the events they handle would not be accounted for
    */
   mouseDown_handler: (event, props) => {
-    console.log('mouseDown');
-    const element = document.getElementById(
-      `${props.model.UUID()}.${props.model.type()}.wrapper`
-    );
-    // element.addEventListener('mousemove', event => drop.mouseMove_handler(event, props))
-    // element.addEventListener('drop', event => drop.drop_handler(event, props))
     /**set initial properties to compute mutations against */
     dropObj.mouseDownStartX = event.clientX;
     dropObj.initPrepend = props.model.prepend();
@@ -181,21 +150,15 @@ export const drop = {
     const arraysEqual = (a, b) => {
       if (a === b) return true;
       if (a == null || b == null) return false;
-      if (a.length != b.length) return false;
+      if (a.length !== b.length) return false;
       for (var i = 0; i < a.length; ++i) {
         if (a[i] !== b[i]) return false;
       }
       return true;
     };
     /**mutate previous sibling if necessary*/
-    // let parentEntity = address.byPath(props.form, dropObj.destinationAddress.slice(0, dropObj.destinationAddress.length - 1))
-    // console.log(parentEntity, parentEntity.children())
-    let parentAddress = dropObj.destinationAddress.slice(
-      0,
-      dropObj.destinationAddress.length - 1
-    );
+
     const total = entity => entity.prepend() + entity.width() + entity.append();
-    // const _parentChildren = [...parentEntity.children()]
     /**returns true if entity path provided is firstInRow; false if not
      * * @param {array} before - Path of the current entity
      */
@@ -204,16 +167,13 @@ export const drop = {
         props.form,
         entityAddress.slice(0, entityAddress.length - 1)
       );
-      // console.log(entityAddress )
       const _entityAddress =
         entityAddress.slice(
           entityAddress.length - 1,
           entityAddress.length + 1
         ) - 1;
       var runningTotal = 0;
-      // console.log(_entityAddress, section.children())
       for (var i = 0; i <= _entityAddress; ++i) {
-        // console.log(section)
         runningTotal += total(section.children()[i]);
       }
       return runningTotal % section.width() === 0 ? true : false;
@@ -346,29 +306,6 @@ export const drop = {
       console.log('test');
     } else {
       console.log('here');
-      const reorderArray = (event, originalArray) => {
-        console.log(event, originalArray);
-        const movedItem = originalArray.filter(
-          (item, index) => index === event.oldIndex
-        );
-        const remainingItems = originalArray.filter(
-          (item, index) => index !== event.oldIndex
-        );
-
-        const reorderedItems = [
-          ...remainingItems.slice(0, event.newIndex),
-          movedItem[0],
-          ...remainingItems.slice(event.newIndex),
-        ];
-
-        return reorderedItems;
-      };
-      const sourceParentEntity = address.byPath(
-        props.form,
-        dropObj.sourceAddress.slice(0, dropObj.sourceAddress.length - 1)
-      );
-
-      const _children = [...sourceParentEntity.children()];
 
       const whereToAccommodate = () => {
         const destinationSection = address.byPath(

@@ -85,8 +85,6 @@ const formReducer = (state, action) => {
   }
 
   if (action.type === 'FORMMUTATE') {
-    const initEntity = state.form;
-
     let mutatedEntity = state.form.setChildren(action.properties);
 
     return Object.assign({}, state, {

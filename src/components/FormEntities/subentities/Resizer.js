@@ -1,8 +1,8 @@
 import React from 'react';
-import { utility } from '../../../utility';
+// import { utility } from '../../../utility';
 import { address } from '../../../address';
 import { defaultPropsFE } from '../../../constants/defaultPropsFE';
-import { helpers } from '../../../helpers';
+// import { helpers } from '../../../helpers';
 
 const round = (value, decimals) => {
   return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
@@ -56,30 +56,14 @@ let Resizer = props => {
   };
 
   let mouseMove_handler = event => {
-    // event.stopPropagation();
-    // console.log('mouseMove: ', event.clientX)
-
-    console.log('mousemove');
-    // event.stopPropagation();
     resize.reset = false;
     let locEntity = address.byUuid(props.model.UUID(), props.form);
-    console.log(locEntity[1].type());
-    let parentEntity = address.byPath(
-      props.form,
-      locEntity[0].slice(0, locEntity[0].length - 1)
-    );
-    const minWidth = defaultPropsFE[props.model.type()].render.minWidth;
-    const maxWidth = parentEntity.width();
     resize.dx = event.clientX - resize.mouseMoveStartX;
     if (resize.init_grids === null) {
       resize.init_grids = props.model.width();
       resize.init_append = props.model.append();
     }
-    console.log(resize);
     let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8;
-
-    console.log(bgrndGrdWidth);
-
     const grid = () => {
       var calc = event.pageX - resize.mouseMoveStartX;
       if (calc > 0) {
@@ -88,8 +72,6 @@ let Resizer = props => {
         return round(calc / bgrndGrdWidth, 0);
       }
     };
-
-    console.log(grid());
 
     if (resize.grids !== grid() && event.pageX !== 0) {
       resize.grids = grid();
@@ -114,9 +96,9 @@ let Resizer = props => {
         console.log('resize check which type');
         if (locEntity[1].type() === 'FormSection') {
           console.log('resize FormSection');
-          resize.init_children === null
-            ? (resize.init_children = locEntity[1].children())
-            : null;
+          // resize.init_children === null
+          //   ? (resize.init_children = locEntity[1].children())
+          //   : null;
 
           // map through children starting here
           if (locEntity[1].children().length > 0) {
@@ -132,9 +114,6 @@ let Resizer = props => {
 
             var counter = 0;
             const reducer = (accumulator, currentValue, currentIndex) => {
-              console.log('current index: ', currentIndex);
-              console.log('counter: ', counter);
-              console.log('accumulator: ', accumulator);
               if (!Array.isArray(accumulator)) {
                 accumulator = [].concat(accumulator);
               }
@@ -142,11 +121,9 @@ let Resizer = props => {
                 if (_children.length - 1 === currentIndex) {
                   // return last entity in section
 
-                  console.log('last');
                   const occupiedColumnsInRow = (entities, prop) => {
                     return entities.reduce((a, b) => {
                       // console.log(a, b)
-                      console.log('yes, yes: ', a, b);
                       if (b.row === _children[_children.length - 1].row) {
                         return a + b[prop];
                       } else {
@@ -159,15 +136,6 @@ let Resizer = props => {
                       _children[currentIndex].append +
                       (sectionWidth - occupiedColumnsInRow(_children, 'total')),
                   };
-                  // console.log(lastEntityToAdd)
-                  console.log(
-                    Object.assign(
-                      {},
-                      _children[_children.length - 1],
-                      lastEntityToAdd
-                    )
-                  );
-                  // console.log('test')
                   if (
                     total(
                       accumulator[accumulator.length - 1].prepend,
@@ -188,26 +156,8 @@ let Resizer = props => {
                       _children[currentIndex],
                       { index: 0, row: counter }
                     );
-                    console.log('this');
                     return accumulator;
                   } else {
-                    console.log(accumulator);
-                    console.log(
-                      'last and all can be same row: ',
-                      accumulator[accumulator.length - 1]
-                    );
-
-                    _children.map((entity, index) => {
-                      Object.assign({}, entity, { row: 0 });
-                    });
-
-                    console.log('this', {
-                      append:
-                        _children[currentIndex].append +
-                        (sectionWidth -
-                          occupiedColumnsInRow(_children, 'total')),
-                    });
-
                     accumulator[accumulator.length] = Object.assign(
                       {},
                       _children[currentIndex],
@@ -220,25 +170,8 @@ let Resizer = props => {
                     );
                     return accumulator;
                   }
-                  counter = 0;
                 }
               // return sum of each entity < section.width
-              console.log(
-                'is ' +
-                  total(
-                    accumulator[accumulator.length - 1].prepend,
-                    accumulator[accumulator.length - 1].width,
-                    accumulator[accumulator.length - 1].append
-                  ) +
-                  ' plus ' +
-                  total(
-                    _children[currentIndex].prepend,
-                    _children[currentIndex].width,
-                    _children[currentIndex].append
-                  ) +
-                  ' less than or equal to sectionWidth '
-              );
-
               if (
                 total(
                   accumulator[accumulator.length - 1].prepend,
@@ -252,8 +185,6 @@ let Resizer = props => {
                   ) <=
                 sectionWidth
               ) {
-                // (counter++);
-                console.log('yes');
                 accumulator[accumulator.length - 1] = Object.assign(
                   {},
                   _children[currentIndex - 1],

@@ -5,7 +5,6 @@ import FormEntityInit from '../containers/FormEntitiesInit.js';
 import { validator } from '../form_validator';
 
 class App extends Component {
-
   render() {
     // let formStore = this.props.store.model.form.children();
     // let formLocal = (JSON.parse(localStorage.getItem('model')).children);
@@ -23,28 +22,36 @@ class App extends Component {
           <h4><span className="badge badge-danger">Unsaved Changes</span></h4>
         } */}
 
-
         <button
           type="button"
           className="btn btn-primary btn-lg btn-block"
-          onClick={this.props.savestate}>
+          onClick={this.props.savestate}
+        >
           Save Model State
-          </button>
+        </button>
         <button
           type="button"
           className="btn btn-success btn-lg btn-block"
-          onClick={this.props.loadstate}>
+          onClick={this.props.loadstate}
+        >
           Load Model State
-          </button>
+        </button>
         <FormEntityInit />
-        {/* <FormEntityInit /> */}
       </div>
-    )
+    );
   }
 }
-const mapStateToProps = (state) => {
-  console.log(validator.drop(state.model.form))
+const mapStateToProps = state => {
+  const checkValidate = validator.findAll(
+    state.model.form,
+    e => e.type() === 'CheckBox'
+  );
+
+  // .map(check =>
+  //   console.log(validateLogic.negativePrependPostpend.bind(check))
+  // );
+  console.log(checkValidate);
   return { store: state };
-}
+};
 
 export default connect(mapStateToProps, actions)(App);

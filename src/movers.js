@@ -1,6 +1,5 @@
 import { utility } from './utility';
 import { address } from './address';
-import { formatter } from './formatter';
 import { defaultPropsFE } from './constants/defaultPropsFE';
 
 const round = (value, decimals) => {

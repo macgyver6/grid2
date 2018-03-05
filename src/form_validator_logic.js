@@ -1,5 +1,4 @@
 import { address } from './address';
-import { comm } from './comm';
 
 export const validateLogic = {
   searchTree: element => {
@@ -22,19 +21,20 @@ export const validateLogic = {
     return null;
   },
 
-  negativePrependPostpend: (element) => {
-    const elementCheck = (element) => {
+  negativePrependPostpend: element => {
+    const elementCheck = element => {
       if (element.type() !== 'Form') {
-        return element.prepend() < 0 || element.append() < 0
-      } else { return false }
-    }
-    if (element.type() !== 'Form' &&
-      elementCheck(element)) {
+        return element.prepend() < 0 || element.append() < 0;
+      } else {
+        return false;
+      }
+    };
+    if (element.type() !== 'Form' && elementCheck(element)) {
       return true;
     } else if (element.type() === 'FormSection' || element.type() === 'Form') {
       var i;
       var result = undefined;
-      for (i = 0; result == undefined && i < element.children().length; i++) {
+      for (i = 0; result === undefined && i < element.children().length; i++) {
         result = validateLogic.negativePrependPostpend(element.children()[i]);
       }
       return result;
@@ -66,11 +66,11 @@ export const validateLogic = {
     } else if (element.type() === 'FormSection' || element.type() === 'Form') {
       var i;
       var result = undefined;
-      for (i = 0; result == undefined && i < element.children().length; i++) {
+      for (i = 0; result === undefined && i < element.children().length; i++) {
         result = validateLogic.largerThanParent(element.children()[i], form);
       }
       return result;
     }
     return undefined;
   },
-}
+};

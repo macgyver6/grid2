@@ -1,33 +1,12 @@
 import React from 'react';
-import { utility } from '../../utility';
-import { address } from '../../address';
 import { helpers } from '../../helpers';
 import { drop } from '../../drop';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
-import { defaultPropsFE } from '../../constants/defaultPropsFE';
 
 const CheckBoxComponent = props => {
-  const round = (value, decimals) => {
-    return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
-  };
-
-  const resize = {
-    mouseMoveStartX: null,
-    mouseMoveEndX: null,
-    dx: null,
-    init: null,
-    init_grids: null,
-    init_append: null,
-    init_prepend: null,
-    changed: null,
-    grids: null,
-    reset: null,
-    address: null,
-  };
-
   /** Handle adding/subtracing prepend or append */
   const mouseDown_handler = event => {
     drop.mouseDown_handler(event, props, 'move');
@@ -39,7 +18,6 @@ const CheckBoxComponent = props => {
    */
   let dragstart_handler = event => {
     // event.stopPropagation();
-    console.log(event.target);
     helpers.dragStart_handler(event, props.model, props.form, 'move');
   };
 

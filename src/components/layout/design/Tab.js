@@ -1,19 +1,9 @@
 import React from 'react';
 
-import { TabStyle, TabButtonStyle } from '../styles/DesignBox';
-import { helpers } from '../../../helpers';
+import { TabStyle } from '../styles/DesignBox';
 import { address } from '../../../address';
-import { FormSection } from '../../../data/FormSection';
-
-// import {
-//   addTab,
-//   selectTab,
-//   deleteTab
-// } from '../auxillary/actions/design'
 
 const Tab = props => {
-  const dragged = null;
-
   let onClickHandler = event => {
     event.preventDefault();
     event.stopPropagation();
@@ -21,12 +11,9 @@ const Tab = props => {
   };
 
   let deleteTab_handler = event => {
-    console.log(event.type);
     event.preventDefault();
     event.stopPropagation();
-    console.log('remove this tab: ', props.activeTab);
 
-    console.log(props.currentTab);
     const whichTab = () => {
       if (props.activeTab === 0) {
         return 0;
@@ -113,20 +100,9 @@ const Tab = props => {
     } else {
       // rearrange the tabs
       event.preventDefault();
-      const destination = address.bySample(props.model, props.form);
-      const origin = address.bySample(props.model, props.form);
-
-      const div = document.createElement('div');
 
       obj.destination = address.bySample(props.model, props.form);
       let siblings = event.target.parentNode.children;
-      const test = () => {
-        for (var i = 0; i < siblings.length; i++) {
-          if (siblings[i].id === event.target.id) {
-            return i;
-          }
-        }
-      };
       if (
         siblings[event.dataTransfer.types[1]].id.split('.')[0] !==
         event.target.id.split('.')[0]
@@ -152,7 +128,6 @@ const Tab = props => {
   let drop_handler = event => {
     event.stopPropagation();
     const dropData = JSON.parse(event.dataTransfer.getData('tab'));
-    const droppedEntity = address.byPath(props.form, dropData.address);
     event.target.style.removeProperty('border');
     const _children = [...props.form.children()];
     const destinationAddress = address.bySample(props.model, props.form);
@@ -179,7 +154,6 @@ const Tab = props => {
         ? destinationAddress[0] - 1
         : destinationAddress[0]
     );
-    // console.log(destinationAddress[0] > dropData.address[0] ? destinationAddress[0] - 1 : destinationAddress[0])
     props.formmutate(
       [],
       reorderArray(
@@ -194,7 +168,6 @@ const Tab = props => {
       )
     );
 
-    // event.target.style.backgroundColor = 'grey'
     document.getElementById(
       `${event.target.id.split('.')[0]}.tab.wrapper`
     ).style.backgroundColor =
@@ -231,20 +204,12 @@ const Tab = props => {
       tabWrapper.style.backgroundColor = TabStyle.backgroundColor;
       tabWrapper.style.borderTop = '';
     }
-    tabWrapper
-      ? tabWrapper.removeChild(document.getElementById('deleteBtn'))
-      : null;
+    if (tabWrapper)
+      tabWrapper.removeChild(document.getElementById('deleteBtn'));
   };
 
   let mouseDown_handler = event => {
     console.log(event.target);
-  };
-
-  let destinationStyle = {
-    minWidth: '100px',
-    maxHeight: '60px',
-    float: 'left',
-    backgroundColor: 'red',
   };
 
   let change_handler = event => {
@@ -277,8 +242,6 @@ const Tab = props => {
       onDragLeave={dragLeave_handler}
       onDrop={drop_handler}
     >
-      {/* {props.form.children()[props.currentTab].UUID().slice(props.form.children()[props.currentTab].UUID().length - 4, props.form.children()[props.currentTab].UUID().length)} */}
-      {/* {props.activeTab === props.currentTab ? 'yes': 'no'} */}
       <input
         id={`${props.form.children()[props.currentTab].UUID()}.input`}
         className="form-control"
@@ -286,7 +249,7 @@ const Tab = props => {
         onChange={change_handler}
         value={props.model.legend()}
         size={'18'}
-        maxlength={'18'}
+        maxLength={'18'}
       />
     </div>
   );

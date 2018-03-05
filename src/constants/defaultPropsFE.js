@@ -1,8 +1,5 @@
 import { FormSection } from '../data/FormSection';
-import { CheckBox } from '../data/CheckBox';
 import { TextInput } from '../data/TextInput';
-import { TextArea } from '../data/TextArea';
-import { RadioButton } from '../data/RadioButton';
 export var defaultPropsFE = {
   Form: {
     uuid: undefined,
@@ -123,7 +120,7 @@ export var defaultPropsFE = {
                 uuid: undefined,
                 prepend: 5,
                 width: 5,
-                append: 18,
+                append: 6,
                 prePrompt: 'prePromptString',
                 prePromptWidth: 6,
                 postPrompt: 'postPromptString',

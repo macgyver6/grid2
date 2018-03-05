@@ -1,4 +1,3 @@
-import { utility } from './utility';
 import { address } from './address';
 import { defaultPropsFE } from './constants/defaultPropsFE';
 
@@ -154,11 +153,11 @@ export const helpers = {
     const minWidth = defaultPropsFE[props.model.type()].render.minWidth;
     const maxWidth = parentEntity.width();
     if (resize.init === null) {
-      (resize.init = event.pageX),
-        (resize.init_grids = props.model.width()),
-        (resize.init_append = props.model.append()),
-        (resize.init_prepend = props.model.prepend()),
-        (resize.address = locEntity[0]);
+      resize.init = event.pageX;
+      resize.init_grids = props.model.width();
+      resize.init_append = props.model.append();
+      resize.init_prepend = props.model.prepend();
+      resize.address = locEntity[0];
     }
 
     let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8;
@@ -288,103 +287,10 @@ export const helpers = {
           ),
         });
         props.remove(data.address);
-      } else {
-        const restoreDonorSiblingAddress = arr => {
-          // get donor's parent
-          const donorParent = address.byPath(
-            props.form,
-            arr.slice(0, arr.length - 1)
-          );
-
-          if (donorParent.children().length === 1) {
-            return false;
-          } else {
-            console.log(arr);
-            const toLeft = arr => {
-              const _toLeft = [...arr];
-              if (_toLeft[arr.length - 1] < 1) {
-                return false;
-              } else {
-                _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1;
-                return {
-                  address: _toLeft,
-                  entity: address.byPath(props.form, _toLeft),
-                };
-              }
-            };
-            const toRight = arr => {
-              const _toRight = [...arr];
-              _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1;
-              return {
-                address: _toRight,
-                entity: address.byPath(props.form, _toRight),
-              };
-            };
-
-            console.log(toLeft(arr));
-
-            if (toLeft(arr)) {
-              console.log(
-                'previous entity exists, adding to append: ',
-                toLeft(arr).address
-              );
-              return {
-                address: toLeft(arr).address,
-                properties: {
-                  append:
-                    toLeft(arr).entity.append() +
-                    draggedEntity.prepend() +
-                    draggedEntity.width() +
-                    draggedEntity.append(),
-                },
-              };
-            } else {
-              console.log('no previous entity exists, adding to prepend', {
-                prepend:
-                  toRight(arr).entity.prepend() +
-                  draggedEntity.prepend() +
-                  draggedEntity.width() +
-                  draggedEntity.append(),
-              });
-              return {
-                address: toRight(arr).address,
-                properties: {
-                  prepend:
-                    toRight(arr).entity.prepend() +
-                    draggedEntity.prepend() +
-                    draggedEntity.width() +
-                    draggedEntity.append(),
-                },
-              };
-            }
-          }
-        };
-        // console.log(restoreDonorSiblingAddress(data.address))
-        // if (restoreDonorSiblingAddress(data.address)) {
-
-        //   props.mutate(restoreDonorSiblingAddress(data.address).address, restoreDonorSiblingAddress(data.address).properties)
-        //   }
-        //   // console.log('add this entity: ', Object.assign({},
-        //   //   draggedEntity.properties(), {
-        //   //     prepend: 0,
-        //   //     append: (destinationEntity[1].width() - 0 - draggedEntity.width() - appendGrids)
-        //   //   }))
-
-        //   props.add(address.resurrectEntity(
-        //     Object.assign({},
-        //       draggedEntity.properties(), {
-        //         prepend: 0,
-        //         append: (destinationEntity[1].append() - 0 - draggedEntity.width() - appendGrids)
-        //       })
-        //   ), draggedEntityNewAddress)
-        //   props.remove(data.address)
-        //   props.mutate(destinationEntity[0], { append: appendGrids} )
       }
     }
 
     if (data.action === 'addEntity') {
-      // let parentEntity = address.byPath(props.form, data.address.slice(0, data.address.length - 1))
-
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8;
 
       // # grids from event to end of FS row
@@ -774,13 +680,12 @@ export const helpers = {
 
   marginCalc: props => {
     const _margin = [0, 0, 0, 0];
-    props.model.append() > 0 ? (_margin[1] = 4) : 0;
-    props.model.prepend() > 0 ? (_margin[3] = 4) : 0;
+    _margin[1] = props.model.append() > 0 ? 4 : 0;
+    _margin[3] = props.model.prepend() > 0 ? 4 : 0;
     return _margin
       .map(el => `${el}px`)
       .toString()
       .replace(/,/g, ' ');
-    // return null
   },
 
   restoreDonorSiblingAddress: (arr, props) => {

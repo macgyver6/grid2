@@ -7,17 +7,6 @@ import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 
 const TextAreaComponent = props => {
-  const resize = {
-    init: null,
-    init_grids: null,
-    init_append: null,
-    init_prepend: null,
-    changed: null,
-    grids: null,
-    reset: null,
-    address: null,
-  };
-
   /** Handle adding/subtracing prepend or append */
   const mouseDown_handler = event => {
     drop.mouseDown_handler(event, props, 'move');

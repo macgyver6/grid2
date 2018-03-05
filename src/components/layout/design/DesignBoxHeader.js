@@ -1,33 +1,9 @@
 import React from 'react';
-import {
-  DesignBoxHeaderStyle,
-  TabContainerStyle,
-  DesignBoxHeaderButtonStyle,
-  TabStyle,
-} from '../styles/DesignBox';
+import { TabContainerStyle } from '../styles/DesignBox';
 import { FormSection } from '../../../data/FormSection';
-import { defaultPropsFE } from '../../../constants/defaultPropsFE';
-
-// import {
-//   addTab
-// } from '../auxillary/actions/design'
-
 import Tab from './Tab';
 
 let DesignBoxHeader = props => {
-  // console.log(props.activeTab.length)
-  let onClickHandler = event => {
-    event.preventDefault();
-    event.stopPropagation();
-    // adds new FormSection at the end
-    console.log('add new tab here: ', [props.form.children().length]);
-    props.add(
-      [props.form.children().length],
-      new FormSection(defaultPropsFE[FormSection])
-    );
-    props.changetab(props.form.children().length);
-  };
-
   const allowAddTab = props =>
     props.form.children().length < 5 ? true : false;
 
@@ -38,27 +14,28 @@ let DesignBoxHeader = props => {
     */
 
     var tab = document.createElement('div');
-    (tab.style.textAlign = 'center'),
-      (tab.style.padding = '10px'),
-      (tab.style.width = '10%'),
-      (tab.style.height = '40%'),
-      (tab.style.marginTop = '4px'),
-      (tab.style.marginLeft = '4px'),
-      // tab.style.borderTop = '.25px solid darkgrey',
-      // tab.style.borderLeft = '.25px solid darkgrey',
-      // tab.style.borderRight = '.25px solid darkgrey',
-      (tab.style.borderBottom =
-        props.form.children().length < 5 ? '3px solid white' : '3px solid red'),
-      (tab.style.backgroundColor = allowAddTab(props) ? 'white' : 'red'),
-      // tab.style.border = "0.25px solid white",
-      (tab.innerHTML = allowAddTab(props)
-        ? 'click to add'
-        : '<strong>max tabs</strong>');
+    tab.style.textAlign = 'center';
+    tab.style.textAlign = 'center';
+    tab.style.padding = '10px';
+    tab.style.padding = '10px';
+    tab.style.width = '10%';
+    tab.style.width = '10%';
+    tab.style.height = '40%';
+    tab.style.height = '40%';
+    tab.style.marginTop = '4px';
+    tab.style.marginTop = '4px';
+    tab.style.marginLeft = '4px';
+    tab.style.marginLeft = '4px';
+    tab.style.borderBottom =
+      props.form.children().length < 5 ? '3px solid white' : '3px solid red';
+    tab.style.backgroundColor = allowAddTab(props) ? 'white' : 'red';
+    tab.innerHTML = allowAddTab(props)
+      ? 'click to add'
+      : '<strong>max tabs</strong>';
 
     document.getElementById('tabcontainer').appendChild(tab);
-    props.form.children().length > 4
-      ? (document.getElementById('tabcontainer').style.backgroundColor = 'red')
-      : 'rgb(243, 234, 95)';
+    document.getElementById('tabcontainer').style.backgroundColor =
+      props.form.children().length > 4 ? 'red' : 'rgb(243, 234, 95)';
   };
 
   const mouseLeave_handler = event => {
@@ -115,14 +92,8 @@ let DesignBoxHeader = props => {
       }, 1800);
     }
 
-    props.form.children().length > 3
-      ? (document.getElementById('tabcontainer').style.backgroundColor = 'red')
-      : 'rgb(243, 234, 95)';
-    // if (props.form.children().length > 6) {
-    //   dummyTab.style.backgroundColor = 'white'
-    // } else {
-
-    // }
+    document.getElementById('tabcontainer').style.backgroundColor =
+      props.form.children().length > 3 ? 'red' : 'rgb(243, 234, 95)';
   };
 
   const renderTabs = props => {
@@ -154,7 +125,6 @@ let DesignBoxHeader = props => {
       }}
       mutate={props.mutate}
       id="tabcontainer"
-      mutate={props.mutate}
       onMouseEnter={mouseEnter_handler}
       onMouseLeave={mouseLeave_handler}
       onClick={click_handler}

@@ -5,25 +5,8 @@ import Resizer from './subentities/Resizer';
 import { styles } from './feStyles';
 import Append from './subentities/Append.js';
 import Prepend from './subentities/Prepend.js';
-import { utility } from '../../utility';
-import { address } from '../../address';
-
-const round = (value, decimals) => {
-  return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
-};
 
 const TextInputComponent = props => {
-  const resize = {
-    init: null,
-    init_grids: null,
-    init_append: null,
-    init_prepend: null,
-    changed: null,
-    grids: null,
-    reset: null,
-    address: null,
-  };
-
   /** Handle adding/subtracing prepend or append */
   const mouseDown_handler = event => {
     drop.mouseDown_handler(event, props, 'move');

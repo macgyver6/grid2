@@ -1,6 +1,4 @@
-import { utility } from './utility';
 import { address } from './address';
-import { defaultPropsFE } from './constants/defaultPropsFE';
 
 const round = (value, decimals) => {
   return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
@@ -21,7 +19,6 @@ const move = {
 };
 
 const firstInRow = (entity_address, props) => {
-  console.log(entity_address);
   let sectionEntity = address.byPath(
     props.form,
     entity_address.slice(0, entity_address.length - 1)
@@ -33,28 +30,9 @@ const firstInRow = (entity_address, props) => {
   var runningTotal = 0;
 
   for (var i = 0; i <= _entity_address; ++i) {
-    console.log(_sectionChildren[i]);
     runningTotal += total(_sectionChildren[i]);
   }
   return runningTotal % sectionEntity.width() === 0 ? true : false;
-};
-
-const destinationIsSibling = (destinationEntity, draggedEntityAddress) => {
-  if (destinationEntity.length > 2) {
-    const whichSection = arr => arr[arr.length - 2];
-    const isSibling = arr => arr[arr.length - 1];
-    if (
-      whichSection(destinationEntity) === whichSection(draggedEntityAddress)
-    ) {
-      if (
-        isSibling(destinationEntity) ===
-        (isSibling(draggedEntityAddress) + 1 ||
-          isSibling(destinationEntity) === isSibling(draggedEntityAddress) - 1)
-      ) {
-        return true;
-      }
-    }
-  }
 };
 
 export const rearrangers = {
@@ -74,11 +52,6 @@ export const rearrangers = {
         destinationAddress[destinationAddress.length - 2]
       );
       const draggedEntity = address.byPath(props.form, data.address);
-
-      let parentEntity = address.byPath(
-        props.form,
-        data.address.slice(0, data.address.length - 1)
-      );
 
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8;
 
@@ -112,12 +85,6 @@ export const rearrangers = {
           const newPrepend =
             props.model.prepend() - draggedEntity.width() - offsetGrids;
 
-          // if (props.model.prepend() < offsetGrids) {
-          const addEntityAppend =
-            props.model.append() -
-            offsetGrids -
-            props.model.width() -
-            draggedEntity.width();
           const newDestination = [...destinationAddress];
           newDestination[destinationAddress.length - 1] =
             destinationAddress[destinationAddress.length - 1];
@@ -166,16 +133,11 @@ export const rearrangers = {
 
         /** valid drop on append */
         if (offsetGrids >= draggedEntity.prepend() + draggedEntity.width()) {
-          console.log('entity from different section dropped on append');
+          console.log('entity from different section dropped on pappend');
           const newAppend =
             total(props.model) - offsetGrids - draggedEntity.width();
 
           // if (props.model.prepend() < offsetGrids) {
-          const addEntityAppend =
-            props.model.append() -
-            offsetGrids -
-            props.model.width() -
-            draggedEntity.width();
           const newDestination = [...destinationAddress];
           newDestination[destinationAddress.length - 1] =
             destinationAddress[destinationAddress.length - 1] + 1;
