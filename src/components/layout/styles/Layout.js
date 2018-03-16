@@ -3,7 +3,7 @@ export const backgroundPanelStyle = {
   justifyContent: 'flex-start',
   width: window.screen.availWidth * 0.98,
   height: window.screen.availHeight * 0.89,
-  backgroundColor: '#DDDDDD',
+  backgroundColor: 'white',
 };
 export const leftPanelStyle = {
   width: '10%',
@@ -15,6 +15,7 @@ export const middlePanelStyle = {
   width: '70%',
   height: '100%',
   backgroundColor: 'white',
+  margin: '20px 20px',
 };
 export const rightPanelStyle = {
   width: '20%',

@@ -14,7 +14,7 @@ import {
   rightPanelStyle,
   // headerPanelStyle,
 } from '../components/layout/styles/Layout';
-import DesignBoxHeader from '../components/layout/design/DesignBoxHeader';
+import TabContainer from '../components/layout/design/TabContainer';
 
 const BackgroundPanel = props => (
   <div style={backgroundPanelStyle}>
@@ -350,7 +350,7 @@ const LeftPanel = props => {
 const MiddlePanel = props => {
   return (
     <div style={middlePanelStyle}>
-      <DesignBoxHeader
+      <TabContainer
         form={props.form}
         add={props.add}
         remove={props.remove}

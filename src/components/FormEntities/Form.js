@@ -3,7 +3,7 @@ import { address } from '../../address';
 
 const FormComponent = props => {
   const divStyle = {
-    margin: '20px',
+    // margin: '20px',
     position: 'relative',
     gridTemplateColumns: `repeat(24, [col] 1fr)`,
     gridTemplateRows: `[row] auto`,

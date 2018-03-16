@@ -236,8 +236,8 @@ const Tab = props => {
       draggable="true"
       onDragStart={dragstart_handler}
       onDragOver={onDragOverHandler}
-      onMouseEnter={mouseEnter_handler}
-      onMouseLeave={mouseLeave_handler}
+      // onMouseEnter={mouseEnter_handler}
+      // onMouseLeave={mouseLeave_handler}
       onMouseDown={mouseDown_handler}
       onDragLeave={dragLeave_handler}
       onDrop={drop_handler}
@@ -248,8 +248,8 @@ const Tab = props => {
         type={props.model.type()}
         onChange={change_handler}
         value={props.model.legend()}
-        size={'18'}
-        maxLength={'18'}
+        // size={'18'}
+        // maxLength={'18'}
       />
     </div>
   );
