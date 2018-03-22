@@ -3,6 +3,7 @@ import { address } from '../address';
 import { comm } from '../comm';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
 import { Form } from '../data/Form';
+import { validateForm } from '../validation/val.index';
 
 // initialize the store
 const formReducer = (state, action) => {
@@ -33,6 +34,10 @@ const formReducer = (state, action) => {
       },
     };
     return state;
+  }
+
+  if (state !== 'undefined') {
+    console.log(validateForm(state.form, 0));
   }
 
   if (action.type === 'INCREMENT') {
@@ -68,7 +73,6 @@ const formReducer = (state, action) => {
     const removedUpdate = Object.assign({}, state, {
       form: update,
     });
-    console.log(initEntity);
     let mutatedEntity = Object.assign(
       {},
       initEntity.properties(),

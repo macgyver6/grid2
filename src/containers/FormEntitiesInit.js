@@ -273,7 +273,6 @@ const DeleteBtn = props => {
 };
 
 const LeftPanel = props => {
-  console.log(props.form);
   const dragstart_handler = event => {
     helpers.dragStart_handler(
       event,
