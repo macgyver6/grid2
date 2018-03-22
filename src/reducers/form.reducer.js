@@ -37,7 +37,7 @@ const formReducer = (state, action) => {
   }
 
   if (state !== 'undefined') {
-    console.log(validateForm(state.form, 0));
+    console.log(validateForm(state.form).validateImport());
   }
 
   if (action.type === 'INCREMENT') {

@@ -9,29 +9,26 @@ const types = ['Form', 'FormSection', 'TextInput'];
 
 /**
  * Generisized function that will automatically map through all possible entity types for a form, find each of the entities of that type and apply the suite of tests for that type of section
- * @param {String} type String of the entity type
- * @returns {Array} A flattened array of the result of all of the tests applied against that form
+ * @param {Object} form memberof Form
+ * @returns {Array{}} A flattened array of the result of all of the tests applied against that form
+ * @returns {Boolean} A Boolea of the result of all of the tests applied against that form
  */
-const dynamic = form =>
-  types.map(type =>
-    utility
-      .findAll(form, e => e.type() === type)
-      .map(entity =>
-        Object.keys(validations[type]).map(fn => validations[type][fn](entity))
+export const validateForm = form => {
+  let result = {
+    result: utility.flatten(
+      types.map(type =>
+        utility
+          .findAll(form, e => e.type() === type)
+          .map(entity =>
+            Object.keys(validations[type]).map(fn =>
+              validations[type][fn](entity)
+            )
+          )
       )
-  );
+    ),
 
-const importValid = form =>
-  utility.flatten(dynamic(form)).filter(e => e !== undefined);
-
-const stateChangeValid = form =>
-  utility.flatten(dynamic(form)).every(e => e === undefined);
-
-/**
- *
- * @param {Array} dynamic Output of dynamic()
- * @param {integer} [mode=0] Operation mode formInput || UI action validation
- * @returns {}
- */
-export const validateForm = (form, mode) =>
-  mode === 0 ? importValid(form) : stateChangeValid(form);
+    validateImport: () => result.result.filter(e => e !== undefined),
+    validateFormState: () => result.result.every(e => e === undefined),
+  };
+  return result;
+};
