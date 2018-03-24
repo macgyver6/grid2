@@ -5,6 +5,8 @@ import Resizer from './subentities/Resizer';
 import { styles } from './feStyles';
 import Append from './subentities/Append.js';
 import Prepend from './subentities/Prepend.js';
+import { log } from 'util';
+import { address } from '../../address';
 
 const TextInputComponent = props => {
   /** Handle adding/subtracing prepend or append */
@@ -37,6 +39,11 @@ const TextInputComponent = props => {
     // }
   };
 
+  const click_handler = event => {
+    event.stopPropagation();
+    props.changeentity(props.model);
+  };
+
   const tiStyle = {
     margin: helpers.marginCalc(props),
     backgroundColor: '#6C788F',
@@ -46,11 +53,11 @@ const TextInputComponent = props => {
     cursor: 'move',
     // border: '1px solid red',
     padding: '4px',
-    borderRadius: '2px',
+    borderRadius: '2px'
   };
 
   const tiInputStyle = {
-    height: '40px',
+    height: '40px'
   };
 
   // return actual style values
@@ -71,6 +78,7 @@ const TextInputComponent = props => {
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
       onDragLeave={dragleave_handler}
+      onClick={click_handler}
     >
       {props.model.prepend() > 0 ? (
         <Prepend

@@ -1,6 +1,6 @@
 export const increment = () => {
   return {
-    type: 'INCREMENT',
+    type: 'INCREMENT'
   };
 };
 
@@ -9,14 +9,14 @@ export const add = (path, entity, section) => {
     type: 'ADD',
     entity: entity,
     path,
-    section,
+    section
   };
 };
 
 export const remove = path => {
   return {
     type: 'REMOVE',
-    path,
+    path
   };
 };
 
@@ -25,7 +25,7 @@ export const mutate = (path, properties, section) => {
     type: 'MUTATE',
     path,
     properties,
-    section,
+    section
   };
 };
 
@@ -34,38 +34,44 @@ export const formmutate = (path, properties, section) => {
     type: 'FORMMUTATE',
     path,
     properties,
-    section,
+    section
   };
 };
 
 export const decrement = () => {
   return {
-    type: 'DECREMENT',
+    type: 'DECREMENT'
   };
 };
 
 export const initformentity = () => {
   return {
-    type: 'INITFORMENTITY',
+    type: 'INITFORMENTITY'
   };
 };
 
 export const savestate = () => {
   return {
-    type: 'SAVESTATE',
+    type: 'SAVESTATE'
   };
 };
 
 export const loadstate = () => {
   return {
-    type: 'LOADSTATE',
+    type: 'LOADSTATE'
   };
 };
 
 export const changetab = tab => {
-  console.log(tab);
   return {
     type: 'CHANGETAB',
-    tab,
+    tab
+  };
+};
+
+export const changeentity = entity => {
+  return {
+    type: 'CHANGEENTITY',
+    entity
   };
 };

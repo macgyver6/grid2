@@ -35,17 +35,12 @@ let TabContainer = props => {
     backgroundColor: 'white',
     position: 'absolute',
     right: 4,
-    bottom: 4,
+    bottom: 4
   };
 
   const Add_Tab = () => {
     return (
-      <div
-        style={divStyle}
-        className="add_tab"
-        onClick={click_handler}
-        onmouseenter={mouse_enter_handler}
-      >
+      <div style={divStyle} className="add_tab" onClick={click_handler}>
         <p>Add Tab</p>
       </div>
     );
@@ -77,7 +72,7 @@ let TabContainer = props => {
           children: [],
           legend: 'new Tab',
           prepend: 0,
-          append: 0,
+          append: 0
         })
       );
       props.changetab(props.form.children().length);
@@ -125,7 +120,7 @@ let TabContainer = props => {
     // position: 'relative',
     // marginLeft: '20px', // backgroundColor: 'white',
     // marginRight: '20px',
-    overflow: 'auto',
+    overflow: 'auto'
   };
   // border: 'solid blue',
 
@@ -149,21 +144,17 @@ let TabContainer = props => {
       ));
   };
 
-  const mouse_enter_handler = e => console.log('tolo');
-
   return (
     <div style={metaTabContainerStyle}>
       <div
         style={{
           ...TabContainerStyle,
           backgroundColor:
-            props.form.children().length > 1 ? 'darkgrey' : 'white',
+            props.form.children().length > 1 ? 'darkgrey' : 'white'
         }}
         mutate={props.mutate}
         id="tabcontainer"
       >
-        {/* // onMouseEnter={mouseEnter_handler}
-        // onMouseLeave={mouseLeave_handler} */}
         {/* if there is only 1 formSection - collapse the tab bar */}
         {props.form.children().length > 1 ? renderTabs(props) : null}
       </div>

@@ -17,12 +17,7 @@ export const middlePanelStyle = {
   backgroundColor: 'white',
   margin: '20px 20px',
 };
-export const rightPanelStyle = {
-  width: '20%',
-  height: '100%',
-  backgroundColor: 'lightgrey',
-  border: '0px solid black',
-};
+
 // export const headerPanelStyle = {
 //   width: "1112px",
 //   height: "11%",

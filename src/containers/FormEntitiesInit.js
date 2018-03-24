@@ -11,10 +11,11 @@ import {
   backgroundPanelStyle,
   leftPanelStyle,
   middlePanelStyle,
-  rightPanelStyle,
+  PropertiesPanelStyle
   // headerPanelStyle,
 } from '../components/layout/styles/Layout';
 import TabContainer from '../components/layout/design/TabContainer';
+import { PropertiesPanel } from './PropertiesPanel';
 
 const BackgroundPanel = props => (
   <div style={backgroundPanelStyle}>
@@ -34,8 +35,13 @@ const BackgroundPanel = props => (
       formmutate={props.formmutate}
       changetab={props.changetab}
       activeTab={props.activeTab}
+      changeentity={props.changeentity}
+      currententity={props.currententity}
     />
-    <RightPanel />
+    <PropertiesPanel
+      changeentity={props.changeentity}
+      currententity={props.currententity}
+    />
   </div>
 );
 
@@ -44,43 +50,43 @@ const selectionStyles = {
     background: '#6C788F',
     padding: '20px',
     margin: '20px',
-    textAlign: 'center',
+    textAlign: 'center'
   },
 
   TextArea: {
     background: '#205EE2',
     padding: '20px',
     margin: '20px',
-    textAlign: 'center',
+    textAlign: 'center'
   },
 
   CheckBox: {
     background: '#00C5EC',
     padding: '20px',
     margin: '20px',
-    textAlign: 'center',
+    textAlign: 'center'
   },
 
   RadioButton: {
     background: '#304061',
     padding: '20px',
     margin: '20px',
-    textAlign: 'center',
+    textAlign: 'center'
   },
 
   FormSection: {
     background: '#f3ea5f',
     padding: '20px',
     margin: '20px',
-    textAlign: 'center',
+    textAlign: 'center'
   },
 
   Remove: {
     background: '#ff5f56',
     padding: '20px',
     margin: '20px',
-    textAlign: 'center',
-  },
+    textAlign: 'center'
+  }
 };
 
 let entityTypes = [
@@ -88,7 +94,7 @@ let entityTypes = [
   'CheckBox',
   'TextArea',
   'TextInput',
-  'RadioButton',
+  'RadioButton'
 ];
 
 let dragover_handler = event => {
@@ -144,12 +150,12 @@ const DeleteBtn = props => {
         const _toLeft = [...arr];
         console.log({
           address: _toLeft,
-          entity: address.byPath(props.form, _toLeft),
+          entity: address.byPath(props.form, _toLeft)
         });
         _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1;
         return {
           address: _toLeft,
-          entity: address.byPath(props.form, _toLeft),
+          entity: address.byPath(props.form, _toLeft)
         };
       };
       const toRight = arr => {
@@ -157,7 +163,7 @@ const DeleteBtn = props => {
         _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1;
         return {
           address: _toRight,
-          entity: address.byPath(props.form, _toRight),
+          entity: address.byPath(props.form, _toRight)
         };
       };
       console.log(
@@ -181,8 +187,8 @@ const DeleteBtn = props => {
               toRight(arr).entity.prepend() +
               draggedEntity.prepend() +
               draggedEntity.width() +
-              draggedEntity.append(),
-          },
+              draggedEntity.append()
+          }
         };
       } else {
         return {
@@ -192,8 +198,8 @@ const DeleteBtn = props => {
               toLeft(arr).entity.append() +
               draggedEntity.prepend() +
               draggedEntity.width() +
-              draggedEntity.append(),
-          },
+              draggedEntity.append()
+          }
         };
       }
     };
@@ -364,6 +370,7 @@ const MiddlePanel = props => {
         add={props.add}
         mutate={props.mutate}
         activeTab={props.activeTab}
+        changeentity={props.changeentity}
       />
     </div>
   );
@@ -436,16 +443,6 @@ const fileNames = stringOfFiles
       return Object.keys(file)[0];
     })
   : null;
-const RightPanel = () => (
-  <div
-    style={rightPanelStyle}
-    onDragOver={dragOverFile_handler}
-    onDrop={dropFile_handler}
-  >
-    <h1>Uploaded Files</h1>
-    <ul>{fileNames ? fileNames.map(name => <li>{name}</li>) : null}</ul>
-  </div>
-);
 
 class FormEntityInit extends Component {
   constructor(props) {
@@ -463,7 +460,10 @@ class FormEntityInit extends Component {
           mutate={this.props.mutate}
           changetab={this.props.changetab}
           activeTab={this.props.store.model.app.activeTab}
+          changeentity={this.props.changeentity}
+          currententity={this.props.store.model.app.currententity}
         />
+        {console.log(this.props.store.model.app.currententity)}
       </div>
     );
   }
