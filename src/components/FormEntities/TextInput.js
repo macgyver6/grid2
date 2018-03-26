@@ -41,7 +41,7 @@ const TextInputComponent = props => {
 
   const click_handler = event => {
     event.stopPropagation();
-    props.changeentity(props.model);
+    props.changeentity(address.bySample(props.model, props.form));
   };
 
   const tiStyle = {

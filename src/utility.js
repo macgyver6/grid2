@@ -72,6 +72,7 @@ export const utility = {
   },
 
   mutate: (address, properties) => {
+    console.log(address, properties);
     const entity = address.byPath(address);
     utility.remove(address);
     utility.add(
@@ -80,10 +81,10 @@ export const utility = {
       ),
       address
     );
-  },
+  }
 };
 
 export const components = {
   TextInput: TextInput,
-  TextArea: TextArea,
+  TextArea: TextArea
 };

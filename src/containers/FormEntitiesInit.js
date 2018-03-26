@@ -39,8 +39,10 @@ const BackgroundPanel = props => (
       currententity={props.currententity}
     />
     <PropertiesPanel
+      form={props.form}
       changeentity={props.changeentity}
       currententity={props.currententity}
+      mutate={props.mutate}
     />
   </div>
 );
