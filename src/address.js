@@ -11,6 +11,8 @@ import { TextInput } from './data/TextInput';
 import { TextArea } from './data/TextArea';
 import { CheckBox } from './data/CheckBox';
 import { RadioButton } from './data/RadioButton';
+import { TextInputProperty } from './containers/TextInputProperty';
+import { TextAreaProperty } from './containers/TextAreaProperty';
 
 export const address = {
   bySample: (target, node, path = []) => {
@@ -53,7 +55,7 @@ export const address = {
     }
   },
 
-  lookupComponent: modelInstance => {
+  whichEntity: modelInstance => {
     if (modelInstance instanceof Form) {
       return FormComponent;
     } else if (modelInstance instanceof FormSection) {
@@ -62,6 +64,22 @@ export const address = {
       return TextInputComponent;
     } else if (modelInstance instanceof TextArea) {
       return TextAreaComponent;
+    } else if (modelInstance instanceof CheckBox) {
+      return CheckBoxComponent;
+    } else if (modelInstance instanceof RadioButton) {
+      return RadioButtonComponent;
+    }
+  },
+
+  lookupComponent: modelInstance => {
+    if (modelInstance instanceof Form) {
+      return FormComponent;
+    } else if (modelInstance instanceof FormSection) {
+      return FormSectionComponent;
+    } else if (modelInstance instanceof TextInput) {
+      return TextInputProperty;
+    } else if (modelInstance instanceof TextArea) {
+      return TextAreaProperty;
     } else if (modelInstance instanceof CheckBox) {
       return CheckBoxComponent;
     } else if (modelInstance instanceof RadioButton) {

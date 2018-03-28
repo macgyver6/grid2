@@ -5,6 +5,9 @@ import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
+import PrePrompt from './subentities/PrePrompt.js';
+import PostPrompt from './subentities/PostPrompt.js';
+import { address } from '../../address';
 
 const TextAreaComponent = props => {
   /** Handle adding/subtracing prepend or append */
@@ -39,15 +42,28 @@ const TextAreaComponent = props => {
     padding: '4px',
   };
 
+  const click_handler = event => {
+    event.stopPropagation();
+    props.changeentity(address.bySample(props.model, props.form));
+  };
+
   // return actual style values
   // 1. # of grid columns the TextArea and Append will fill
   styles.defaultEntity['gridColumn'] =
     'span ' +
-    (props.model.prepend() + props.model.width() + props.model.append());
+    (props.model.prepend() +
+      props.model.prePromptWidth() +
+      props.model.width() +
+      props.model.postPromptWidth() +
+      props.model.append());
   // 2. # of grid columns within the TextArea
   styles.defaultEntity['gridTemplateColumns'] =
     'repeat(' +
-    (props.model.prepend() + props.model.width() + props.model.append()) +
+    (props.model.prepend() +
+      props.model.prePromptWidth() +
+      props.model.width() +
+      props.model.postPromptWidth() +
+      props.model.append()) +
     ', [col] 1fr)';
 
   return (
@@ -56,6 +72,7 @@ const TextAreaComponent = props => {
       style={styles.defaultEntity}
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
+      onClick={click_handler}
     >
       {props.model.prepend() > 0 ? (
         <Prepend
@@ -70,6 +87,19 @@ const TextAreaComponent = props => {
           mutate={props.mutate}
         />
       ) : null}
+
+      <PrePrompt
+        id={`${props.model.UUID()}.prepend`}
+        prePromptWidth={props.model.prePromptWidth()}
+        uuid={props.model.UUID()}
+        className="prepend"
+        model={props.model}
+        form={props.form}
+        remove={props.remove}
+        add={props.add}
+        mutate={props.mutate}
+      />
+
       <div
         id={`${props.model.UUID()}.${props.model.type()}`}
         style={taStyle}
@@ -99,6 +129,18 @@ const TextAreaComponent = props => {
           mutate={props.mutate}
         />
       </div>
+
+      <PostPrompt
+        id={`${props.model.UUID()}.prepend`}
+        postPromptWidth={props.model.postPromptWidth()}
+        uuid={props.model.UUID()}
+        className="prepend"
+        model={props.model}
+        form={props.form}
+        remove={props.remove}
+        add={props.add}
+        mutate={props.mutate}
+      />
       {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}

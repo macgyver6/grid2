@@ -45,6 +45,7 @@ class TextInput extends FormInput {
 
   /**
    *
+   *
    * Get whether the input is defined as permitting auto tab to the next field during data collection.
    * @returns {boolean}
    * @memberof TextInput
@@ -108,7 +109,7 @@ class TextInput extends FormInput {
       append: this.append(),
       prePrompt: this.prePrompt(),
       prePromptWidth: this.prePromptWidth(),
-      postPrompt: this.postPromptWidth(),
+      postPrompt: this.postPrompt(),
       postPromptWidth: this.postPromptWidth(),
       name: this.name(),
       sasCodeLabel: this.sasCodeLabel(),
@@ -126,7 +127,7 @@ class TextInput extends FormInput {
 }
 
 TextInput.LENGTH = {
-  DEFAULT: 60,
+  DEFAULT: 80,
   NO_MAX: 0,
 };
 

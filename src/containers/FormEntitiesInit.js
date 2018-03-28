@@ -6,12 +6,13 @@ import FormComponent from '../components/FormEntities/Form';
 // import { utility } from '../utility';
 import { address } from '../address';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
+import { initFE } from '../constants/defaultPropsFE';
 import { helpers } from '../helpers';
 import {
   backgroundPanelStyle,
   leftPanelStyle,
   middlePanelStyle,
-  PropertiesPanelStyle
+  PropertiesPanelStyle,
   // headerPanelStyle,
 } from '../components/layout/styles/Layout';
 import TabContainer from '../components/layout/design/TabContainer';
@@ -52,43 +53,43 @@ const selectionStyles = {
     background: '#6C788F',
     padding: '20px',
     margin: '20px',
-    textAlign: 'center'
+    textAlign: 'center',
   },
 
   TextArea: {
     background: '#205EE2',
     padding: '20px',
     margin: '20px',
-    textAlign: 'center'
+    textAlign: 'center',
   },
 
   CheckBox: {
     background: '#00C5EC',
     padding: '20px',
     margin: '20px',
-    textAlign: 'center'
+    textAlign: 'center',
   },
 
   RadioButton: {
     background: '#304061',
     padding: '20px',
     margin: '20px',
-    textAlign: 'center'
+    textAlign: 'center',
   },
 
   FormSection: {
     background: '#f3ea5f',
     padding: '20px',
     margin: '20px',
-    textAlign: 'center'
+    textAlign: 'center',
   },
 
   Remove: {
     background: '#ff5f56',
     padding: '20px',
     margin: '20px',
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 };
 
 let entityTypes = [
@@ -96,7 +97,7 @@ let entityTypes = [
   'CheckBox',
   'TextArea',
   'TextInput',
-  'RadioButton'
+  'RadioButton',
 ];
 
 let dragover_handler = event => {
@@ -152,12 +153,12 @@ const DeleteBtn = props => {
         const _toLeft = [...arr];
         console.log({
           address: _toLeft,
-          entity: address.byPath(props.form, _toLeft)
+          entity: address.byPath(props.form, _toLeft),
         });
         _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1;
         return {
           address: _toLeft,
-          entity: address.byPath(props.form, _toLeft)
+          entity: address.byPath(props.form, _toLeft),
         };
       };
       const toRight = arr => {
@@ -165,7 +166,7 @@ const DeleteBtn = props => {
         _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1;
         return {
           address: _toRight,
-          entity: address.byPath(props.form, _toRight)
+          entity: address.byPath(props.form, _toRight),
         };
       };
       console.log(
@@ -189,8 +190,8 @@ const DeleteBtn = props => {
               toRight(arr).entity.prepend() +
               draggedEntity.prepend() +
               draggedEntity.width() +
-              draggedEntity.append()
-          }
+              draggedEntity.append(),
+          },
         };
       } else {
         return {
@@ -200,8 +201,8 @@ const DeleteBtn = props => {
               toLeft(arr).entity.append() +
               draggedEntity.prepend() +
               draggedEntity.width() +
-              draggedEntity.append()
-          }
+              draggedEntity.append(),
+          },
         };
       }
     };
@@ -284,7 +285,7 @@ const LeftPanel = props => {
   const dragstart_handler = event => {
     helpers.dragStart_handler(
       event,
-      defaultPropsFE[event.target.dataset.type],
+      initFE[event.target.dataset.type],
       props.form,
       'addEntity'
     );
@@ -308,9 +309,9 @@ const LeftPanel = props => {
     const type = event.target.dataset.type;
     const div = document.createElement('div');
     div.id = 'dmg';
-    div.style.width = `${defaultPropsFE[type].width * bgrndGrdWidth}px`;
+    div.style.width = `${initFE[type].width * bgrndGrdWidth}px`;
     div.style.height = '100px';
-    div.style.backgroundColor = defaultPropsFE[type].render.backgroundColor;
+    div.style.backgroundColor = initFE[type].render.backgroundColor;
     div.style.position = 'fixed';
     div.style.top = '-1000px';
     div.style.left = '-1000px';

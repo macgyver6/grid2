@@ -9,12 +9,10 @@ const PropertiesPanelStyle = {
   width: '20%',
   height: '100%',
   backgroundColor: 'lightgrey',
-  border: '0px solid black'
+  border: '0px solid black',
 };
 
 export const PropertiesPanel = props => {
-  console.log(props.currententity);
-
   return (
     <div style={PropertiesPanelStyle}>
       <Tabs>

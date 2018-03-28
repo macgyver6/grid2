@@ -44,11 +44,19 @@ const RadioButtonComponent = props => {
   // 1. # of grid columns the CheckBox and Append will fill
   styles.defaultEntity['gridColumn'] =
     'span ' +
-    (props.model.prepend() + props.model.width() + props.model.append());
-  // 2. # of grid columns within the CheckBox
+    (props.model.prepend() +
+      props.model.prePromptWidth() +
+      props.model.width() +
+      props.model.postPromptWidth() +
+      props.model.append());
+  // 2. # of grid columns within the TextArea
   styles.defaultEntity['gridTemplateColumns'] =
     'repeat(' +
-    (props.model.prepend() + props.model.width() + props.model.append()) +
+    (props.model.prepend() +
+      props.model.prePromptWidth() +
+      props.model.width() +
+      props.model.postPromptWidth() +
+      props.model.append()) +
     ', [col] 1fr)';
 
   return (

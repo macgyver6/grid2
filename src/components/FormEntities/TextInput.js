@@ -5,6 +5,8 @@ import Resizer from './subentities/Resizer';
 import { styles } from './feStyles';
 import Append from './subentities/Append.js';
 import Prepend from './subentities/Prepend.js';
+import PrePrompt from './subentities/PrePrompt.js';
+import PostPrompt from './subentities/PostPrompt.js';
 import { log } from 'util';
 import { address } from '../../address';
 
@@ -53,22 +55,30 @@ const TextInputComponent = props => {
     cursor: 'move',
     // border: '1px solid red',
     padding: '4px',
-    borderRadius: '2px'
+    borderRadius: '2px',
   };
 
   const tiInputStyle = {
-    height: '40px'
+    height: '40px',
   };
 
   // return actual style values
   // 1. # of grid columns the TextArea and Append will fill
   styles.defaultEntity['gridColumn'] =
     'span ' +
-    (props.model.prepend() + props.model.width() + props.model.append());
+    (props.model.prepend() +
+      props.model.prePromptWidth() +
+      props.model.width() +
+      props.model.postPromptWidth() +
+      props.model.append());
   // 2. # of grid columns within the TextArea
   styles.defaultEntity['gridTemplateColumns'] =
     'repeat(' +
-    (props.model.prepend() + props.model.width() + props.model.append()) +
+    (props.model.prepend() +
+      props.model.prePromptWidth() +
+      props.model.width() +
+      props.model.postPromptWidth() +
+      props.model.append()) +
     ', [col] 1fr)';
 
   return (
@@ -93,6 +103,18 @@ const TextInputComponent = props => {
           mutate={props.mutate}
         />
       ) : null}
+      <PrePrompt
+        id={`${props.model.UUID()}.prepend`}
+        prePromptWidth={props.model.prePromptWidth()}
+        uuid={props.model.UUID()}
+        className="prepend"
+        model={props.model}
+        form={props.form}
+        remove={props.remove}
+        add={props.add}
+        mutate={props.mutate}
+      />
+
       <div
         style={tiStyle}
         id={`${props.model.UUID()}.${props.model.type()}`}
@@ -104,10 +126,11 @@ const TextInputComponent = props => {
         {props.model.name()}
         <br />
         <input
+          style={tiInputStyle}
           className="form-control"
           type={props.model.type()}
-          defaultValue={props.model.defaultContent()}
-          style={tiInputStyle}
+          maxLength={props.model.length()}
+          value={props.model.defaultContent()}
         />
         <Resizer
           id={`${props.model.UUID()}.resizer`}
@@ -121,6 +144,17 @@ const TextInputComponent = props => {
           mutate={props.mutate}
         />
       </div>
+      <PostPrompt
+        id={`${props.model.UUID()}.prepend`}
+        postPromptWidth={props.model.postPromptWidth()}
+        uuid={props.model.UUID()}
+        className="prepend"
+        model={props.model}
+        form={props.form}
+        remove={props.remove}
+        add={props.add}
+        mutate={props.mutate}
+      />
       {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}
