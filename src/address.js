@@ -55,7 +55,7 @@ export const address = {
     }
   },
 
-  whichEntity: modelInstance => {
+  lookupComponent: modelInstance => {
     if (modelInstance instanceof Form) {
       return FormComponent;
     } else if (modelInstance instanceof FormSection) {
@@ -71,7 +71,7 @@ export const address = {
     }
   },
 
-  lookupComponent: modelInstance => {
+  whichEntity: modelInstance => {
     if (modelInstance instanceof Form) {
       return FormComponent;
     } else if (modelInstance instanceof FormSection) {
