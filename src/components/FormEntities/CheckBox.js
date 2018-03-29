@@ -5,6 +5,8 @@ import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
+import PrePrompt from './subentities/PrePrompt.js';
+import PostPrompt from './subentities/PostPrompt.js';
 import { address } from '../../address';
 
 const CheckBoxComponent = props => {
@@ -82,6 +84,18 @@ const CheckBoxComponent = props => {
         />
       ) : null}
 
+      <PrePrompt
+        id={`${props.model.UUID()}.prepend`}
+        prePromptWidth={props.model.prePromptWidth()}
+        uuid={props.model.UUID()}
+        className="prepend"
+        model={props.model}
+        form={props.form}
+        remove={props.remove}
+        add={props.add}
+        mutate={props.mutate}
+      />
+
       <div
         id={`${props.model.UUID()}.${props.model.type()}`}
         style={cbStyle}
@@ -105,6 +119,17 @@ const CheckBoxComponent = props => {
           mutate={props.mutate}
         />
       </div>
+      <PostPrompt
+        id={`${props.model.UUID()}.prepend`}
+        postPromptWidth={props.model.postPromptWidth()}
+        uuid={props.model.UUID()}
+        className="prepend"
+        model={props.model}
+        form={props.form}
+        remove={props.remove}
+        add={props.add}
+        mutate={props.mutate}
+      />
       {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}

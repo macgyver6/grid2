@@ -6,6 +6,8 @@ import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 import { address } from '../../address';
+import PrePrompt from './subentities/PrePrompt.js';
+import PostPrompt from './subentities/PostPrompt.js';
 
 const RadioButtonComponent = props => {
   /** Handle adding/subtracing prepend or append */
@@ -86,6 +88,17 @@ const RadioButtonComponent = props => {
           mutate={props.mutate}
         />
       ) : null}
+      <PrePrompt
+        id={`${props.model.UUID()}.prepend`}
+        prePromptWidth={props.model.prePromptWidth()}
+        uuid={props.model.UUID()}
+        className="prepend"
+        model={props.model}
+        form={props.form}
+        remove={props.remove}
+        add={props.add}
+        mutate={props.mutate}
+      />
 
       <div
         id={`${props.model.UUID()}.${props.model.type()}`}
@@ -112,6 +125,17 @@ const RadioButtonComponent = props => {
           mutate={props.mutate}
         />
       </div>
+      <PostPrompt
+        id={`${props.model.UUID()}.prepend`}
+        postPromptWidth={props.model.postPromptWidth()}
+        uuid={props.model.UUID()}
+        className="prepend"
+        model={props.model}
+        form={props.form}
+        remove={props.remove}
+        add={props.add}
+        mutate={props.mutate}
+      />
       {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}
