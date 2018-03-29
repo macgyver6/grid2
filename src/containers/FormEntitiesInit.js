@@ -77,6 +77,13 @@ const selectionStyles = {
     textAlign: 'center',
   },
 
+  SelectionInput: {
+    background: 'red',
+    padding: '20px',
+    margin: '20px',
+    textAlign: 'center',
+  },
+
   FormSection: {
     background: '#f3ea5f',
     padding: '20px',
@@ -98,6 +105,7 @@ let entityTypes = [
   'TextArea',
   'TextInput',
   'RadioButton',
+  'SelectionInput',
 ];
 
 let dragover_handler = event => {

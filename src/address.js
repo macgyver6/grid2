@@ -5,17 +5,21 @@ import TextInputComponent from './components/FormEntities/TextInput';
 import TextAreaComponent from './components/FormEntities/TextArea';
 import CheckBoxComponent from './components/FormEntities/CheckBox';
 import RadioButtonComponent from './components/FormEntities/RadioButton';
+import SelectionInputComponent from './components/FormEntities/SelectionInput';
 import { Form } from './data/Form';
 import { FormSection } from './data/FormSection';
 import { TextInput } from './data/TextInput';
 import { TextArea } from './data/TextArea';
 import { CheckBox } from './data/CheckBox';
+import { SelectionInput } from './data/SelectionInput';
 import { RadioButton } from './data/RadioButton';
 import { TextInputProperty } from './containers/TextInputProperty';
 import { TextAreaProperty } from './containers/TextAreaProperty';
 import { CheckBoxProperty } from './containers/CheckBoxProperty';
 import { RadioButtonProperty } from './containers/RadioButtonProperty';
-
+import { SelectionInputProperty } from './containers/SelectionInputProperty';
+import { initFE } from './constants/defaultPropsFE';
+console.log(SelectionInput);
 export const address = {
   bySample: (target, node, path = []) => {
     if (target.type() === 'Form') {
@@ -70,6 +74,8 @@ export const address = {
       return CheckBoxComponent;
     } else if (modelInstance instanceof RadioButton) {
       return RadioButtonComponent;
+    } else if (modelInstance instanceof SelectionInput) {
+      return SelectionInputComponent;
     }
   },
 
@@ -87,11 +93,14 @@ export const address = {
       return CheckBoxProperty;
     } else if (modelInstance instanceof RadioButton) {
       return RadioButtonProperty;
+    } else if (modelInstance instanceof SelectionInput) {
+      return SelectionInputProperty;
     }
   },
 
   resurrectEntity: formEntitySerialized => {
     // @hack
+    console.log(formEntitySerialized);
     switch (formEntitySerialized.type ||
       formEntitySerialized._type ||
       formEntitySerialized.type()) {
@@ -107,8 +116,10 @@ export const address = {
         return new CheckBox({ ...formEntitySerialized });
       case 'RadioButton':
         return new RadioButton({ ...formEntitySerialized });
+      case 'SelectionInput':
+        return new SelectionInput({ ...formEntitySerialized });
       default:
         throw new Error('Unexpected Entity Type');
     }
-  }
+  },
 };

@@ -16,6 +16,7 @@ export const helpers = {
 
   dragStart_handler: (event, model, form, action) => {
     event.stopPropagation();
+    console.log(event, model, form, action);
     // console.log(action === 'move' ? round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3) : null)
     event.dataTransfer.setData(
       'address',

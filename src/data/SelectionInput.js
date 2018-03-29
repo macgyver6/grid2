@@ -88,5 +88,25 @@ SelectionInput.RenderMode = {
 
 deepFreeze(SelectionInput);
 
-// var x = new SelectionInput({ uuid: 10, width: 10, options: ['true'], prepend: 10, append: 10, sasCodeLabel: 'sasCodeLabel', name: 'name', prePrompt: 'prePrompt', prePromptWidth: 12, postPrompt: 'postPrompt', postPromptWidth: 12, renderMode: 'MENU', type: 'selection', tabOrder: [1, 2, 3], inputWidth: 33, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL' })
-// console.log(x.mutate({ width: 2003 }))
+// var x = new SelectionInput({
+//   uuid: 10,
+//   width: 10,
+//   options: ['true'],
+//   prepend: 10,
+//   append: 10,
+//   sasCodeLabel: 'sasCodeLabel',
+//   name: 'name',
+//   prePrompt: 'prePrompt',
+//   prePromptWidth: 12,
+//   postPrompt: 'postPrompt',
+//   postPromptWidth: 12,
+//   renderMode: 'MENU',
+//   type: 'selection',
+//   tabOrder: [1, 2, 3],
+//   inputWidth: 33,
+//   promptNumber: 'promptNumber',
+//   autoNumber: 'SEQUENTIAL',
+// });
+// console.log(x.mutate({ width: 2003 }));
+
+module.exports = { SelectionInput: SelectionInput };

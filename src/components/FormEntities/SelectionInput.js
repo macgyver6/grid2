@@ -10,7 +10,7 @@ import PostPrompt from './subentities/PostPrompt.js';
 import { log } from 'util';
 import { address } from '../../address';
 
-const TextInputComponent = props => {
+const SelectionInputComponent = props => {
   /** Handle adding/subtracing prepend or append */
   const mouseDown_handler = event => {
     drop.mouseDown_handler(event, props, 'move');
@@ -46,7 +46,7 @@ const TextInputComponent = props => {
     props.changeentity(address.bySample(props.model, props.form));
   };
 
-  const tiStyle = {
+  const siStyle = {
     margin: helpers.marginCalc(props),
     backgroundColor: '#6C788F',
     position: 'relative',
@@ -58,7 +58,7 @@ const TextInputComponent = props => {
     borderRadius: '2px',
   };
 
-  const tiInputStyle = {
+  const siInputStyle = {
     height: '40px',
   };
 
@@ -116,22 +116,32 @@ const TextInputComponent = props => {
       />
 
       <div
-        style={tiStyle}
+        style={siStyle}
         id={`${props.model.UUID()}.${props.model.type()}`}
-        className="TextInput"
+        className="SelectionInput"
         onMouseDown={mouseDown_handler}
         onDragStart={dragstart_handler}
         draggable="true"
       >
         {props.model.name()}
         <br />
-        <input
-          style={tiInputStyle}
+        <select
+          style={siInputStyle}
           className="form-control"
           type={props.model.type()}
-          maxLength={props.model.length()}
-          value={props.model.defaultContent()}
-        />
+        >
+          {console.log(props.model.options())}
+          {props.model
+            .options()
+            .map(option => (
+              <option value={option.value}>{option.label}</option>
+            ))}
+          {/* <option value="value1">Value 1</option>
+          <option value="value2" selected>
+            Value 2
+          </option>
+          <option value="value3">Value 3</option> */}
+        </select>
         <Resizer
           id={`${props.model.UUID()}.resizer`}
           element="FormEntity"
@@ -171,4 +181,4 @@ const TextInputComponent = props => {
   );
 };
 
-export default TextInputComponent;
+export default SelectionInputComponent;

@@ -21,7 +21,7 @@ class App extends Component {
           <h4><span className="badge badge-danger">Unsaved Changes</span></h4>
         } */}
 
-        {/* <button
+        <button
           type="button"
           className="btn btn-primary btn-lg btn-block"
           onClick={this.props.savestate}
@@ -34,7 +34,7 @@ class App extends Component {
           onClick={this.props.loadstate}
         >
           Load Model State
-        </button> */}
+        </button>
         <FormEntityInit />
       </div>
     );

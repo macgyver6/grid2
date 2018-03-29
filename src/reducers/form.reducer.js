@@ -22,8 +22,9 @@ const formReducer = (state, action) => {
   // }
 
   if (typeof state === 'undefined') {
-    // let resurrectedEntities =
-    //   comm.unserialize((JSON.parse(localStorage.getItem('model'))))
+    let resurrectedEntities = comm.unserialize(
+      JSON.parse(localStorage.getItem('model'))
+    );
     // console.log(resurrectedEntities)
 
     state = {
