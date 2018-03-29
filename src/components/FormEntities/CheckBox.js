@@ -5,6 +5,7 @@ import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
+import { address } from '../../address';
 
 const CheckBoxComponent = props => {
   /** Handle adding/subtracing prepend or append */
@@ -36,12 +37,17 @@ const CheckBoxComponent = props => {
     height: '100px',
     // margin: helpers.marginCalc(props),
     padding: '4px',
-    borderRadius: '2px',
+    borderRadius: '2px'
   };
 
   const cbInputStyle = {
     height: '25px',
-    width: '25px',
+    width: '25px'
+  };
+
+  const click_handler = event => {
+    event.stopPropagation();
+    props.changeentity(address.bySample(props.model, props.form));
   };
 
   // return actual style values
@@ -60,6 +66,7 @@ const CheckBoxComponent = props => {
       style={styles.defaultEntity}
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
+      onClick={click_handler}
     >
       {props.model.prepend() > 0 ? (
         <Prepend

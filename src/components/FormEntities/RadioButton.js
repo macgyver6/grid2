@@ -5,6 +5,7 @@ import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
+import { address } from '../../address';
 
 const RadioButtonComponent = props => {
   /** Handle adding/subtracing prepend or append */
@@ -30,6 +31,11 @@ const RadioButtonComponent = props => {
     drop.drop_handler(event, props);
   };
 
+  const click_handler = event => {
+    event.stopPropagation();
+    props.changeentity(address.bySample(props.model, props.form));
+  };
+
   const rbStyle = {
     backgroundColor: '#304061',
     position: 'relative',
@@ -37,7 +43,7 @@ const RadioButtonComponent = props => {
     height: '100px',
     margin: helpers.marginCalc(props),
     borderRadius: '2px',
-    padding: '4px',
+    padding: '4px'
   };
 
   // return actual style values
@@ -65,6 +71,7 @@ const RadioButtonComponent = props => {
       style={styles.defaultEntity}
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
+      onClick={click_handler}
     >
       {props.model.prepend() > 0 ? (
         <Prepend

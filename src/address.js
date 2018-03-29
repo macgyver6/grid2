@@ -13,6 +13,8 @@ import { CheckBox } from './data/CheckBox';
 import { RadioButton } from './data/RadioButton';
 import { TextInputProperty } from './containers/TextInputProperty';
 import { TextAreaProperty } from './containers/TextAreaProperty';
+import { CheckBoxProperty } from './containers/CheckBoxProperty';
+import { RadioButtonProperty } from './containers/RadioButtonProperty';
 
 export const address = {
   bySample: (target, node, path = []) => {
@@ -72,18 +74,19 @@ export const address = {
   },
 
   whichEntity: modelInstance => {
+    console.log(modelInstance);
     if (modelInstance instanceof Form) {
       return FormComponent;
-    } else if (modelInstance instanceof FormSection) {
-      return FormSectionComponent;
+      // } else if (modelInstance instanceof FormSection) {
+      //   return FormSectionComponent;
     } else if (modelInstance instanceof TextInput) {
       return TextInputProperty;
     } else if (modelInstance instanceof TextArea) {
       return TextAreaProperty;
     } else if (modelInstance instanceof CheckBox) {
-      return CheckBoxComponent;
+      return CheckBoxProperty;
     } else if (modelInstance instanceof RadioButton) {
-      return RadioButtonComponent;
+      return RadioButtonProperty;
     }
   },
 
@@ -107,5 +110,5 @@ export const address = {
       default:
         throw new Error('Unexpected Entity Type');
     }
-  },
+  }
 };

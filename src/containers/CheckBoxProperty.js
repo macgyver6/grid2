@@ -1,7 +1,7 @@
 import React from 'react';
 import { address } from '../address';
 
-export const TextAreaProperty = props => {
+export const CheckBoxProperty = props => {
   const change_handler = event => {
     console.log(props.model.name());
 
@@ -11,26 +11,26 @@ export const TextAreaProperty = props => {
   };
   return (
     <div>
-      <h1>Text Area</h1>
+      <h1>Checkbox</h1>
       <p>{props.model.UUID()}</p>
 
       <div>
         <p>
-          <label for="textArea-name">Name</label>
+          <label for="checkBox-name">Name</label>
           <br />
           <input
             type="text"
             id="name"
-            name="textArea-name"
+            name="checkBox-name"
             onChange={change_handler}
             value={props.model.name()}
           />
         </p>
         <p>
-          <label for="textArea-prompt_pre">Pre Prompt (optional)</label>
+          <label for="checkBox-prompt_pre">Pre Prompt (optional)</label>
           <br />
           <input
-            name="textArea-prompt_pre"
+            name="checkBox-prompt_pre"
             type="text"
             id="prePrompt"
             onChange={change_handler}
@@ -38,10 +38,10 @@ export const TextAreaProperty = props => {
           />
         </p>
         <p>
-          <label for="textArea-prompt_post">Post Prompt (optional)</label>
+          <label for="checkBox-prompt_post">Post Prompt (optional)</label>
           <br />
           <input
-            name="textArea-prompt_post"
+            name="checkBox-prompt_post"
             type="text"
             id="postPrompt"
             onChange={change_handler}
@@ -49,18 +49,18 @@ export const TextAreaProperty = props => {
           />
         </p>
         {/* <p>
-          <label for="textArea-qbq">Q-by-Q (optional)</label>
+          <label for="checkBox-qbq">Q-by-Q (optional)</label>
           <br />
-          <textarea name="textArea-qbq" />
+          <textarea name="checkBox-qbq" />
         </p> */}
       </div>
       <div>
         <p>
-          <label for="textArea-tabOrder">Tab Order</label>
+          <label for="checkBox-tabOrder">Tab Order</label>
           <br />
           <input
             type="number"
-            name="textArea-tabOrder"
+            name="checkBox-tabOrder"
             id="tabOrder"
             size="2"
             onChange={change_handler}
@@ -69,11 +69,11 @@ export const TextAreaProperty = props => {
           // disabled="disabled"
         </p>
         <p>
-          <label for="textArea-sasCodeLabel">SAS Code Label</label>
+          <label for="checkBox-sasCodeLabel">SAS Code Label</label>
           <br />
           <input
             type="text"
-            name="textArea-sasCodeLabel"
+            name="checkBox-sasCodeLabel"
             id="sasCodeLabel"
             onChange={change_handler}
             value={props.model.sasCodeLabel()}

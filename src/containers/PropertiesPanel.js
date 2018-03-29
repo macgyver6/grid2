@@ -9,7 +9,7 @@ const PropertiesPanelStyle = {
   width: '20%',
   height: '100%',
   backgroundColor: 'lightgrey',
-  border: '0px solid black',
+  border: '0px solid black'
 };
 
 export const PropertiesPanel = props => {
@@ -21,14 +21,17 @@ export const PropertiesPanel = props => {
           <Tab>Dependencies</Tab>
         </TabList>
         <TabPanel>
-          {props.currententity ? (
-            <TextInputProperty
-              model={address.byPath(props.form, props.currententity)}
-              form={props.form}
-              currententity={props.currententity}
-              mutate={props.mutate}
-            />
-          ) : null}
+          {React.createElement(
+            address.whichEntity(
+              address.byPath(props.form, props.currententity)
+            ),
+            {
+              model: address.byPath(props.form, props.currententity),
+              form: props.form,
+              currententity: props.currententity,
+              mutate: props.mutate
+            }
+          )}
         </TabPanel>
         <TabPanel>
           <h2>Any content 2</h2>
