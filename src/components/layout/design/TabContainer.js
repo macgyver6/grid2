@@ -35,7 +35,7 @@ let TabContainer = props => {
     backgroundColor: 'white',
     position: 'absolute',
     right: 4,
-    bottom: 4
+    bottom: 4,
   };
 
   const Add_Tab = () => {
@@ -57,7 +57,6 @@ let TabContainer = props => {
   };
 
   const click_handler = event => {
-    console.log('hut');
     // const dummyTab = document.getElementById('tabcontainer').children[
     //   document.getElementById('tabcontainer').children.length - 1
     // ];
@@ -72,7 +71,7 @@ let TabContainer = props => {
           children: [],
           legend: 'new Tab',
           prepend: 0,
-          append: 0
+          append: 0,
         })
       );
       props.changetab(props.form.children().length);
@@ -120,7 +119,7 @@ let TabContainer = props => {
     // position: 'relative',
     // marginLeft: '20px', // backgroundColor: 'white',
     // marginRight: '20px',
-    overflow: 'auto'
+    overflow: 'auto',
   };
   // border: 'solid blue',
 
@@ -150,7 +149,7 @@ let TabContainer = props => {
         style={{
           ...TabContainerStyle,
           backgroundColor:
-            props.form.children().length > 1 ? 'darkgrey' : 'white'
+            props.form.children().length > 1 ? 'darkgrey' : 'white',
         }}
         mutate={props.mutate}
         id="tabcontainer"

@@ -32,7 +32,7 @@ class TextInput extends FormInput {
   constructor(properties) {
     super(properties);
 
-    this._length = TextInput.LENGTH[properties.length];
+    this._length = properties.length;
     this._defaultContent =
       properties.defaultContent || TextInput.DEFAULT_CONTENT;
     this._autoTab = properties.autoTab;

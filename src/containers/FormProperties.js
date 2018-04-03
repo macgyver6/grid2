@@ -1,7 +1,7 @@
 import React from 'react';
 import { address } from '../address';
 
-export const TextInputProperty = props => {
+export const FormProperty = props => {
   const change_handler = event => {
     // console.log(event.target.value);
     const value =
@@ -14,26 +14,24 @@ export const TextInputProperty = props => {
   };
   return (
     <div>
-      <h1>Text Input</h1>
-      <p>{props.model.UUID()}</p>
-
+      <h1>Form Properties</h1>
       <div>
         <p>
-          <label for="textInput-name">Name</label>
+          <label for="form-name">Name</label>
           <br />
           <input
             type="text"
             id="name"
-            name="textInput-name"
+            name="form-name"
             onChange={change_handler}
             value={props.model.name()}
           />
         </p>
         <p>
-          <label for="textInput-prompt_pre">Pre Prompt (optional)</label>
+          <label for="form-prompt_pre">Pre Prompt (optional)</label>
           <br />
           <input
-            name="textInput-prompt_pre"
+            name="form-prompt_pre"
             type="text"
             id="prePrompt"
             onChange={change_handler}
@@ -41,10 +39,10 @@ export const TextInputProperty = props => {
           />
         </p>
         <p>
-          <label for="textInput-prompt_post">Post Prompt (optional)</label>
+          <label for="form-prompt_post">Post Prompt (optional)</label>
           <br />
           <input
-            name="textInput-prompt_post"
+            name="form-prompt_post"
             type="text"
             id="postPrompt"
             onChange={change_handler}
@@ -52,18 +50,18 @@ export const TextInputProperty = props => {
           />
         </p>
         {/* <p>
-          <label for="textInput-qbq">Q-by-Q (optional)</label>
+          <label for="form-qbq">Q-by-Q (optional)</label>
           <br />
-          <textarea name="textInput-qbq" />
+          <textarea name="form-qbq" />
         </p> */}
       </div>
       <div>
         <p>
-          <label for="textInput-tabOrder">Tab Order</label>
+          <label for="form-tabOrder">Tab Order</label>
           <br />
           <input
             type="number"
-            name="textInput-tabOrder"
+            name="form-tabOrder"
             id="tabOrder"
             size="2"
             onChange={change_handler}
@@ -72,11 +70,11 @@ export const TextInputProperty = props => {
           // disabled="disabled"
         </p>
         <p>
-          <label for="textInput-sasCodeLabel">SAS Code Label</label>
+          <label for="form-sasCodeLabel">SAS Code Label</label>
           <br />
           <input
             type="text"
-            name="textInput-sasCodeLabel"
+            name="form-sasCodeLabel"
             id="sasCodeLabel"
             onChange={change_handler}
             value={props.model.sasCodeLabel()}
@@ -85,18 +83,18 @@ export const TextInputProperty = props => {
         <p>
           <input
             type="checkbox"
-            name="textInput-autoTab"
+            name="form-autoTab"
             id="autoTab"
             onChange={change_handler}
             checked={props.model.autoTab()}
           />
-          <label for="textInput-autoTab">Enable Auto Tabbing</label>
+          <label for="form-autoTab">Enable Auto Tabbing</label>
         </p>
         <div>
-          <label for="textInput-length">Max Length</label>
+          <label for="form-length">Max Length</label>
           <br />
           <input
-            name="textInput-length"
+            name="form-length"
             size="2"
             type="number"
             id="length"
@@ -104,11 +102,11 @@ export const TextInputProperty = props => {
             value={props.model.length()}
           />
           <br />
-          <label for="textInput-defaultContent">Default Content</label>
+          <label for="form-defaultContent">Default Content</label>
           <br />
           <input
             type="text"
-            name="textInput-defaultContent"
+            name="form-defaultContent"
             type="text"
             id="defaultContent"
             onChange={change_handler}

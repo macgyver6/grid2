@@ -51,49 +51,49 @@ const BackgroundPanel = props => (
 const selectionStyles = {
   TextInput: {
     background: '#6C788F',
-    padding: '20px',
+    padding: '12px',
     margin: '20px',
     textAlign: 'center',
   },
 
   TextArea: {
     background: '#205EE2',
-    padding: '20px',
+    padding: '12px',
     margin: '20px',
     textAlign: 'center',
   },
 
   CheckBox: {
     background: '#00C5EC',
-    padding: '20px',
+    padding: '12px',
     margin: '20px',
     textAlign: 'center',
   },
 
   RadioButton: {
     background: '#304061',
-    padding: '20px',
+    padding: '12px',
     margin: '20px',
     textAlign: 'center',
   },
 
   SelectionInput: {
     background: 'red',
-    padding: '20px',
+    padding: '12px',
     margin: '20px',
     textAlign: 'center',
   },
 
   FormSection: {
     background: '#f3ea5f',
-    padding: '20px',
+    padding: '12px',
     margin: '20px',
     textAlign: 'center',
   },
 
   Remove: {
     background: '#ff5f56',
-    padding: '20px',
+    padding: '12px',
     margin: '20px',
     textAlign: 'center',
   },
@@ -474,7 +474,6 @@ class FormEntityInit extends Component {
           changeentity={this.props.changeentity}
           currententity={this.props.store.model.app.currententity}
         />
-        {console.log(this.props.store.model.app.currententity)}
       </div>
     );
   }

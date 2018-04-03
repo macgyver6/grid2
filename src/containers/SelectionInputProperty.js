@@ -79,8 +79,8 @@ export const SelectionInputProperty = props => {
             size="2"
             onChange={change_handler}
             value={props.model.tabOrder()}
-            // disabled="disabled"
           />
+          // disabled="disabled"
         </p>
         <p>
           <label for="selectionInput-sasCodeLabel">SAS Code Label</label>
@@ -113,12 +113,19 @@ export const SelectionInputProperty = props => {
         <button id="addSi" onClick={addOption_handler}>
           +
         </button>
-
-        <ul id="selectionOptions" class="ui-sortable">
-          <li>
-            Label
-            <input type="text" value="" />Value<input type="text" />
-          </li>
+        <ul id="selectionOptions">
+          {props.model.options().map(option => (
+            <li className="flexbox-container">
+              <div>
+                <label for="input">Value</label>
+                <input name="input" type="text" value={option.label} />
+              </div>
+              <div>
+                <label for="value">Value</label>
+                <input name="value" type="text" value={option.value} />
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
     </div>

@@ -19,7 +19,6 @@ import { CheckBoxProperty } from './containers/CheckBoxProperty';
 import { RadioButtonProperty } from './containers/RadioButtonProperty';
 import { SelectionInputProperty } from './containers/SelectionInputProperty';
 import { initFE } from './constants/defaultPropsFE';
-console.log(SelectionInput);
 export const address = {
   bySample: (target, node, path = []) => {
     if (target.type() === 'Form') {
@@ -30,7 +29,6 @@ export const address = {
     }
 
     if (node.children) {
-      console.log();
       return node.children().reduce((acc, child, index) => {
         return acc || address.bySample(target, child, [...path, index]);
       }, null);
@@ -80,7 +78,6 @@ export const address = {
   },
 
   whichEntity: modelInstance => {
-    console.log(modelInstance);
     if (modelInstance instanceof Form) {
       return FormComponent;
       // } else if (modelInstance instanceof FormSection) {
@@ -100,7 +97,6 @@ export const address = {
 
   resurrectEntity: formEntitySerialized => {
     // @hack
-    console.log(formEntitySerialized);
     switch (formEntitySerialized.type ||
       formEntitySerialized._type ||
       formEntitySerialized.type()) {

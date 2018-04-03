@@ -80,7 +80,6 @@ const TextInputComponent = props => {
       props.model.postPromptWidth() +
       props.model.append()) +
     ', [col] 1fr)';
-
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}

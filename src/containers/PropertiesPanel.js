@@ -9,7 +9,7 @@ const PropertiesPanelStyle = {
   width: '20%',
   height: '100%',
   backgroundColor: 'lightgrey',
-  border: '0px solid black'
+  border: '0px solid black',
 };
 
 export const PropertiesPanel = props => {
@@ -19,6 +19,7 @@ export const PropertiesPanel = props => {
         <TabList>
           <Tab>Properties</Tab>
           <Tab>Dependencies</Tab>
+          <Tab>Form</Tab>
         </TabList>
         <TabPanel>
           {React.createElement(
@@ -29,12 +30,15 @@ export const PropertiesPanel = props => {
               model: address.byPath(props.form, props.currententity),
               form: props.form,
               currententity: props.currententity,
-              mutate: props.mutate
+              mutate: props.mutate,
             }
           )}
         </TabPanel>
         <TabPanel>
           <h2>Any content 2</h2>
+        </TabPanel>
+        <TabPanel>
+          <h2>Form Properties</h2>
         </TabPanel>
       </Tabs>
       {/* <h1>Uploaded Files</h1>

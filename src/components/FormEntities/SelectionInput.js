@@ -130,7 +130,6 @@ const SelectionInputComponent = props => {
           className="form-control"
           type={props.model.type()}
         >
-          {console.log(props.model.options())}
           {props.model
             .options()
             .map(option => (
