@@ -17,6 +17,7 @@ class ImageBlock extends FormEntity {
    */
   constructor(properties) {
     super(properties);
+    this._type = properties.type;
     this._alt = properties.alt;
     this._title = properties.title;
     this._url = properties.url;
@@ -45,6 +46,7 @@ class ImageBlock extends FormEntity {
   properties() {
     return {
       uuid: this.UUID(),
+      type: this.type(),
       width: this.width(),
       prepend: this.prepend(),
       append: this.append(),
@@ -72,6 +74,16 @@ class ImageBlock extends FormEntity {
    */
   title() {
     return this._title;
+  }
+
+  /**
+   *
+   *Get the title of the image block.
+   * @return {ImageBlock}
+   * @memberof ImageBlock
+   */
+  type() {
+    return this._type;
   }
 
   /**

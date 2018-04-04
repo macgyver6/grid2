@@ -7,6 +7,7 @@ import CheckBoxComponent from './components/FormEntities/CheckBox';
 import RadioButtonComponent from './components/FormEntities/RadioButton';
 import SelectionInputComponent from './components/FormEntities/SelectionInput';
 import TextBlockComponent from './components/FormEntities/TextBlock';
+import ImageBlockComponent from './components/FormEntities/ImageBlock';
 import AdverseeventComponent from './components/FormEntities/AdverseEvent';
 import EchoComponent from './components/FormEntities/Echo';
 import { Form } from './data/Form';
@@ -17,6 +18,7 @@ import { CheckBox } from './data/CheckBox';
 import { SelectionInput } from './data/SelectionInput';
 import { RadioButton } from './data/RadioButton';
 import { TextBlock } from './data/TextBlock';
+import { ImageBlock } from './data/ImageBlock';
 import { EchoInput } from './data/EchoInput';
 import { AdverseEventInput } from './data/AdverseEventInput';
 import { TextInputProperty } from './containers/TextInputProperty';
@@ -26,6 +28,7 @@ import { CheckBoxProperty } from './containers/CheckBoxProperty';
 import { RadioButtonProperty } from './containers/RadioButtonProperty';
 import { SelectionInputProperty } from './containers/SelectionInputProperty';
 import { TextBlockProperty } from './containers/TextBlockProperty';
+import { ImageBlockProperty } from './containers/ImageBlockProperty';
 import { EchoProperty } from './containers/EchoProperty';
 import { initFE } from './constants/defaultPropsFE';
 
@@ -87,6 +90,8 @@ export const address = {
       return SelectionInputComponent;
     } else if (modelInstance instanceof TextBlock) {
       return TextBlockComponent;
+    } else if (modelInstance instanceof ImageBlock) {
+      return ImageBlockComponent;
     } else if (modelInstance instanceof AdverseEventInput) {
       return AdverseeventComponent;
     } else if (modelInstance instanceof EchoInput) {
@@ -111,6 +116,8 @@ export const address = {
       return SelectionInputProperty;
     } else if (modelInstance instanceof TextBlock) {
       return TextBlockProperty;
+    } else if (modelInstance instanceof ImageBlock) {
+      return ImageBlockProperty;
     } else if (modelInstance instanceof AdverseEventInput) {
       return AdverseEventProperty;
     } else if (modelInstance instanceof EchoInput) {
@@ -140,6 +147,8 @@ export const address = {
         return new SelectionInput({ ...formEntitySerialized });
       case 'TextBlock':
         return new TextBlock({ ...formEntitySerialized });
+      case 'ImageBlock':
+        return new ImageBlock({ ...formEntitySerialized });
       case 'AdverseEvent':
         return new AdverseEventInput({ ...formEntitySerialized });
       case 'Echo':

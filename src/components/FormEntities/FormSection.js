@@ -62,7 +62,7 @@ let FormSectionComponent = props => {
           append: props.model.width() - (offsetGrids + data.model.width), // addressNewEntity[addressNewEntity.length] = props.model.children().length
         })
       );
-      console.log('here');
+      console.log('here: ', data.model);
       // @hack - only adds to position 0 at this point
       let addressNewEntity = [...location];
       addressNewEntity[addressNewEntity.length] = props.model.children().length;

@@ -81,6 +81,9 @@ const selectionStyles = {
   TextBlock: {
     background: 'purple',
   },
+  ImageBlock: {
+    background: 'brown',
+  },
   ASInput: {
     background: 'green',
   },
@@ -103,6 +106,7 @@ let entityTypes = [
   'RadioButton',
   'SelectionInput',
   'TextBlock',
+  'ImageBlock',
   'ASInput',
   'Echo',
   'CDS',
@@ -291,7 +295,7 @@ const DeleteBtn = props => {
 
 const LeftPanel = props => {
   const dragstart_handler = event => {
-    console.log(initFE[event.target.dataset.type]);
+    console.log(event.target.dataset.type, initFE[event.target.dataset.type]);
     helpers.dragStart_handler(
       event,
       initFE[event.target.dataset.type],

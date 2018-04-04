@@ -69,7 +69,6 @@ export const FormProperty = props => {
         return Object.keys(file)[0];
       })
     : null;
-
   const change_handler = event => {
     // console.log(event.target.value);
     const value =
@@ -80,9 +79,20 @@ export const FormProperty = props => {
       [event.target.id]: value,
     });
   };
+
+  const formPropertiesStyle = {
+    height: '900px',
+    border: '2px solid',
+  };
   return (
-    <div onDragOver={dragOverFile_handler} onDrop={dropFile_handler}>
+    <div
+      style={formPropertiesStyle}
+      onDragOver={dragOverFile_handler}
+      onDrop={dropFile_handler}
+    >
       <h1>Form Properties</h1>
+      <h2>File Uploaded</h2>
+      <ul>{fileNames.map(file => <li>{file}</li>)}</ul>
     </div>
   );
 };
