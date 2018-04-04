@@ -92,12 +92,21 @@ export const EchoProperty = props => {
             value={props.model.sasCodeLabel()}
           />
         </p>
-        <select className="form-control" type={props.model.type()}>
+        <label for="echo-sourceInput">Echo Source Field</label>
+        <br />
+        <select
+          className="form-control"
+          name="echo-sourceInput"
+          type={props.model.type()}
+          value={props.model.sourceInput()}
+          onChange={change_handler}
+          id="sourceInput"
+        >
           {utility
             .findAll(props.form, e => e instanceof FormInput)
             .map(formInput => (
               <option value={formInput.promptNumber()}>
-                {formInput.promptNumber()}
+                {`${formInput.promptNumber()} - ${formInput.type()}`}
               </option>
             ))}
         </select>

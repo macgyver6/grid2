@@ -150,6 +150,7 @@ export var initFE = {
     append: 2,
     type: 'Echo',
     render: { backgroundColor: 'khaki', minWidth: 1 },
+    sourceInput: '',
   },
 };
 
@@ -189,7 +190,7 @@ export var defaultPropsFE = {
                 length: 80,
                 autoTab: true,
                 doubleEntry: true,
-                defaultContent: 'Default Content',
+                defaultContent: 'this is default content',
                 render: {
                   backgroundColor: '#6C788F',
                   minWidth: 3,

@@ -9,6 +9,7 @@ import PrePrompt from './subentities/PrePrompt.js';
 import PostPrompt from './subentities/PostPrompt.js';
 import { log } from 'util';
 import { address } from '../../address';
+import { utility } from '../../validation/val.utility';
 
 const EchoComponent = props => {
   /** Handle adding/subtracing prepend or append */
@@ -108,7 +109,20 @@ const EchoComponent = props => {
           style={tBInputStyle}
           className="form-control"
           type={props.model.type()}
+          disabled="disabled"
         />
+        {/*console.log(
+          props.model.sourceInput() === ''
+            ? ''
+            : utility
+                .findAll(
+                  props.form,
+                  e =>
+                    typeof e.promptNumber === 'function' &&
+                    e.promptNumber() === props.model.sourceInput()
+                )[0]
+                .defaultContent()
+        )} */}
         <Resizer
           id={`${props.model.UUID()}.resizer`}
           element="FormEntity"

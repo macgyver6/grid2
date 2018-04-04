@@ -2,6 +2,74 @@ import React from 'react';
 import { address } from '../address';
 
 export const FormProperty = props => {
+  const dragOverFile_handler = event => {
+    event.preventDefault();
+  };
+
+  const saveFileToLocal = (file, name) => {
+    var fileReader = new FileReader();
+    const existing = localStorage.getItem('FILE');
+    fileReader.readAsDataURL(file);
+    fileReader.onload = evt => {
+      var result = evt.target.result;
+      if (existing === null) {
+        try {
+          console.log([{ [name]: result }]);
+          localStorage.setItem('FILE', JSON.stringify([{ [name]: result }]));
+        } catch (e) {
+          console.log('Storage failed: ' + e);
+        }
+      } else {
+        // console.log(JSON.parse(existing).concat([{ [name]: result }]))
+        // console.log(existing)
+        localStorage.setItem(
+          'FILE',
+          JSON.stringify(JSON.parse(existing).concat([{ [name]: result }]))
+        );
+      }
+    };
+  };
+
+  const handleFiles = files => {
+    const item = files.getAsFile();
+
+    // Create XHR, Blob and FileReader objects
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', '/pdf/download?id=');
+    xhr.responseType = 'blob';
+    xhr.onload = () => {
+      console.log(files); // response as a blob
+      if (xhr.status && xhr.status === 200) {
+        saveFileToLocal(xhr.response, item.name);
+      }
+    };
+
+    xhr.send();
+  };
+
+  const dropFile_handler = event => {
+    console.log('Drop');
+    event.preventDefault();
+    // If dropped items aren't files, reject them
+    var dt = event.dataTransfer;
+    if (dt.items) {
+      // Use DataTransferItemList interface to access the file(s)
+      const f = [];
+      for (var i = 0; i < dt.items.length; i++) {
+        if (dt.items[i].kind === 'file') {
+          f.push(handleFiles(dt.items[i]));
+        }
+      }
+    }
+  };
+  const stringOfFiles = localStorage.getItem('FILE');
+  const fileNames = stringOfFiles
+    ? JSON.parse(stringOfFiles).map(file => {
+        return Object.keys(file)[0];
+      })
+    : null;
+
   const change_handler = event => {
     // console.log(event.target.value);
     const value =
@@ -13,108 +81,8 @@ export const FormProperty = props => {
     });
   };
   return (
-    <div>
+    <div onDragOver={dragOverFile_handler} onDrop={dropFile_handler}>
       <h1>Form Properties</h1>
-      <div>
-        <p>
-          <label for="form-name">Name</label>
-          <br />
-          <input
-            type="text"
-            id="name"
-            name="form-name"
-            onChange={change_handler}
-            value={props.model.name()}
-          />
-        </p>
-        <p>
-          <label for="form-prompt_pre">Pre Prompt (optional)</label>
-          <br />
-          <input
-            name="form-prompt_pre"
-            type="text"
-            id="prePrompt"
-            onChange={change_handler}
-            value={props.model.prePrompt()}
-          />
-        </p>
-        <p>
-          <label for="form-prompt_post">Post Prompt (optional)</label>
-          <br />
-          <input
-            name="form-prompt_post"
-            type="text"
-            id="postPrompt"
-            onChange={change_handler}
-            value={props.model.postPrompt()}
-          />
-        </p>
-        {/* <p>
-          <label for="form-qbq">Q-by-Q (optional)</label>
-          <br />
-          <textarea name="form-qbq" />
-        </p> */}
-      </div>
-      <div>
-        <p>
-          <label for="form-tabOrder">Tab Order</label>
-          <br />
-          <input
-            type="number"
-            name="form-tabOrder"
-            id="tabOrder"
-            size="2"
-            onChange={change_handler}
-            value={props.model.tabOrder()}
-          />
-          // disabled="disabled"
-        </p>
-        <p>
-          <label for="form-sasCodeLabel">SAS Code Label</label>
-          <br />
-          <input
-            type="text"
-            name="form-sasCodeLabel"
-            id="sasCodeLabel"
-            onChange={change_handler}
-            value={props.model.sasCodeLabel()}
-          />
-        </p>
-        <p>
-          <input
-            type="checkbox"
-            name="form-autoTab"
-            id="autoTab"
-            onChange={change_handler}
-            checked={props.model.autoTab()}
-          />
-          <label for="form-autoTab">Enable Auto Tabbing</label>
-        </p>
-        <div>
-          <label for="form-length">Max Length</label>
-          <br />
-          <input
-            name="form-length"
-            size="2"
-            type="number"
-            id="length"
-            onChange={change_handler}
-            value={props.model.length()}
-          />
-          <br />
-          <label for="form-defaultContent">Default Content</label>
-          <br />
-          <input
-            type="text"
-            name="form-defaultContent"
-            type="text"
-            id="defaultContent"
-            onChange={change_handler}
-            value={props.model.defaultContent()}
-          />
-        </div>
-        <br />
-      </div>
     </div>
   );
 };

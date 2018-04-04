@@ -3,6 +3,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import '../../node_modules/react-tabs/style/react-tabs.css';
 import { properties } from './properties';
 import { TextInputProperty } from './TextInputProperty';
+import { FormProperty } from './FormProperties';
 import { address } from '../address';
 
 const PropertiesPanelStyle = {
@@ -38,7 +39,7 @@ export const PropertiesPanel = props => {
           <h2>Any content 2</h2>
         </TabPanel>
         <TabPanel>
-          <h2>Form Properties</h2>
+          <FormProperty model={props.form} />
         </TabPanel>
       </Tabs>
       {/* <h1>Uploaded Files</h1>

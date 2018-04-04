@@ -79,8 +79,6 @@ class EchoInput extends FormInput {
       inputWidth: this.inputWidth(),
       promptNumber: this.promptNumber(),
       autoNumber: this.autoNumber(),
-      length: this.length(),
-      autoTab: this.autoTab(),
       sourceInput: this.sourceInput(),
     };
   }

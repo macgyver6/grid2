@@ -11,6 +11,7 @@ import { log } from 'util';
 import { address } from '../../address';
 
 const TextInputComponent = props => {
+  console.log(props.model.defaultContent());
   /** Handle adding/subtracing prepend or append */
   const mouseDown_handler = event => {
     drop.mouseDown_handler(event, props, 'move');
