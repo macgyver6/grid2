@@ -48,54 +48,50 @@ const BackgroundPanel = props => (
   </div>
 );
 
+const entityStyle = {
+  padding: '6px',
+  margin: '20px',
+  textAlign: 'center',
+};
+
 const selectionStyles = {
   TextInput: {
     background: '#6C788F',
-    padding: '12px',
-    margin: '20px',
-    textAlign: 'center',
   },
 
   TextArea: {
     background: '#205EE2',
-    padding: '12px',
-    margin: '20px',
-    textAlign: 'center',
   },
 
   CheckBox: {
     background: '#00C5EC',
-    padding: '12px',
-    margin: '20px',
-    textAlign: 'center',
   },
 
   RadioButton: {
     background: '#304061',
-    padding: '12px',
-    margin: '20px',
-    textAlign: 'center',
   },
 
   SelectionInput: {
     background: 'red',
-    padding: '12px',
-    margin: '20px',
-    textAlign: 'center',
   },
 
   FormSection: {
     background: '#f3ea5f',
-    padding: '12px',
-    margin: '20px',
-    textAlign: 'center',
   },
-
+  TextBlock: {
+    background: 'purple',
+  },
+  ASInput: {
+    background: 'green',
+  },
+  Echo: {
+    background: 'khaki',
+  },
+  CDS: {
+    background: 'blue',
+  },
   Remove: {
     background: '#ff5f56',
-    padding: '12px',
-    margin: '20px',
-    textAlign: 'center',
   },
 };
 
@@ -106,6 +102,10 @@ let entityTypes = [
   'TextInput',
   'RadioButton',
   'SelectionInput',
+  'TextBlock',
+  'ASInput',
+  'Echo',
+  'CDS',
 ];
 
 let dragover_handler = event => {
@@ -291,6 +291,7 @@ const DeleteBtn = props => {
 
 const LeftPanel = props => {
   const dragstart_handler = event => {
+    console.log(initFE[event.target.dataset.type]);
     helpers.dragStart_handler(
       event,
       initFE[event.target.dataset.type],
@@ -317,6 +318,7 @@ const LeftPanel = props => {
     const type = event.target.dataset.type;
     const div = document.createElement('div');
     div.id = 'dmg';
+    console.log(type);
     div.style.width = `${initFE[type].width * bgrndGrdWidth}px`;
     div.style.height = '100px';
     div.style.backgroundColor = initFE[type].render.backgroundColor;
@@ -347,7 +349,10 @@ const LeftPanel = props => {
             draggable="true"
             form={props.form}
             onDragStart={dragstart_handler}
-            style={selectionStyles[entity]}
+            style={{
+              ...entityStyle,
+              backgroundColor: selectionStyles[entity].background,
+            }}
             data-type={entity}
           >
             <p>{entity}</p>

@@ -32,27 +32,23 @@ export const TextInputProperty = props => {
         <p>
           <label for="textInput-prompt_pre">Pre Prompt (optional)</label>
           <br />
-          <textarea
+          <input
             name="textInput-prompt_pre"
             type="text"
             id="prePrompt"
             onChange={change_handler}
             value={props.model.prePrompt()}
-            rows="3"
-            cols="50"
           />
         </p>
         <p>
           <label for="textInput-prompt_post">Post Prompt (optional)</label>
           <br />
-          <textarea
+          <input
             name="textInput-prompt_post"
             type="text"
             id="postPrompt"
             onChange={change_handler}
             value={props.model.postPrompt()}
-            rows="3"
-            cols="50"
           />
         </p>
         {/* <p>
@@ -73,7 +69,7 @@ export const TextInputProperty = props => {
             onChange={change_handler}
             value={props.model.tabOrder()}
           />
-          {/* disabled="disabled" */}
+          // disabled="disabled"
         </p>
         <p>
           <label for="textInput-sasCodeLabel">SAS Code Label</label>
@@ -110,15 +106,13 @@ export const TextInputProperty = props => {
           <br />
           <label for="textInput-defaultContent">Default Content</label>
           <br />
-          <textarea
+          <input
             type="text"
             name="textInput-defaultContent"
             type="text"
             id="defaultContent"
             onChange={change_handler}
             value={props.model.defaultContent()}
-            rows="10"
-            cols="50"
           />
         </div>
         <br />

@@ -10,7 +10,7 @@ import PostPrompt from './subentities/PostPrompt.js';
 import { log } from 'util';
 import { address } from '../../address';
 
-const TextInputComponent = props => {
+const AdverseEventComponent = props => {
   /** Handle adding/subtracing prepend or append */
   const mouseDown_handler = event => {
     drop.mouseDown_handler(event, props, 'move');
@@ -127,8 +127,6 @@ const TextInputComponent = props => {
           style={tiInputStyle}
           className="form-control"
           type={props.model.type()}
-          maxLength={props.model.length()}
-          value={props.model.defaultContent()}
         />
         <Resizer
           id={`${props.model.UUID()}.resizer`}
@@ -169,4 +167,4 @@ const TextInputComponent = props => {
   );
 };
 
-export default TextInputComponent;
+export default AdverseEventComponent;

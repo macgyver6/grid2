@@ -1,11 +1,11 @@
 const deepFreeze = require('deep-freeze');
-const { TextInput } = require('./TextInput.js');
+const { FormInput } = require('./FormInput.js');
 
 /**
  * Class representing a EchoInput.
  * @extends FormInput
  */
-class EchoInput extends TextInput {
+class EchoInput extends FormInput {
   /**
      * Create a EchoInput.
      * @param {Object} properties - Properties of FormInput
@@ -26,8 +26,6 @@ class EchoInput extends TextInput {
     * @property {autoNumber} properties.autoNumber - The expression used to determine how to automatically number inputs after this one in a form hierarchy.
     @property {number} properties.length - Max length for input. Default is 60, and if NO_MAX is passed in, no max length will be applied to this field.
     @property {boolean} properties.autoTab - Whether the input is defined as permitting auto tab to the next field during data collection.
-    @property {string} properties.defaultContent - The default contents of representations of this input item.
-    @property {boolean} properties.doubleEntry - The default contents of representations of this input item.
     @property {string} properties.sourceInput - Form input that serves as the source for the echo input.
      */
   constructor(properties) {
@@ -82,9 +80,7 @@ class EchoInput extends TextInput {
       promptNumber: this.promptNumber(),
       autoNumber: this.autoNumber(),
       length: this.length(),
-      defaultContent: this.defaultContent(),
       autoTab: this.autoTab(),
-      doubleEntry: this.doubleEntry(),
       sourceInput: this.sourceInput(),
     };
   }

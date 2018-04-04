@@ -325,6 +325,7 @@ let FormSectionComponent = props => {
       >
         {props.model.type() === 'FormSection'
           ? props.model.children().map((element, i) => {
+              console.log(element);
               return React.createElement(address.lookupComponent(element), {
                 key: i,
                 model: element,

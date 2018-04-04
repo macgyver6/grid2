@@ -1,7 +1,13 @@
 import React from 'react';
+import { defaultPropsFE } from '../constants/defaultPropsFE';
 import { address } from '../address';
+import { utility } from '../validation/val.utility';
+import { Form } from '../data/Form';
+import { FormInput } from '../data/FormInput';
 
-export const TextInputProperty = props => {
+// const form = new Form(defaultPropsFE.Form);
+
+export const EchoProperty = props => {
   const change_handler = event => {
     // console.log(event.target.value);
     const value =
@@ -14,7 +20,7 @@ export const TextInputProperty = props => {
   };
   return (
     <div>
-      <h1>Text Input</h1>
+      <h1>Echo Input</h1>
       <p>{props.model.UUID()}</p>
 
       <div>
@@ -86,41 +92,17 @@ export const TextInputProperty = props => {
             value={props.model.sasCodeLabel()}
           />
         </p>
-        <p>
-          <input
-            type="checkbox"
-            name="textInput-autoTab"
-            id="autoTab"
-            onChange={change_handler}
-            checked={props.model.autoTab()}
-          />
-          <label for="textInput-autoTab">Enable Auto Tabbing</label>
-        </p>
-        <div>
-          <label for="textInput-length">Max Length</label>
-          <br />
-          <input
-            name="textInput-length"
-            size="2"
-            type="number"
-            id="length"
-            onChange={change_handler}
-            value={props.model.length()}
-          />
-          <br />
-          <label for="textInput-defaultContent">Default Content</label>
-          <br />
-          <textarea
-            type="text"
-            name="textInput-defaultContent"
-            type="text"
-            id="defaultContent"
-            onChange={change_handler}
-            value={props.model.defaultContent()}
-            rows="10"
-            cols="50"
-          />
-        </div>
+        <select className="form-control" type={props.model.type()}>
+          {utility
+            .findAll(props.form, e => e instanceof FormInput)
+            .map(formInput => (
+              <option value={formInput.promptNumber()}>
+                {formInput.promptNumber()}
+              </option>
+            ))}
+        </select>
+
+        <div />
         <br />
       </div>
     </div>
