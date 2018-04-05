@@ -39,7 +39,7 @@ const TextAreaComponent = props => {
     position: 'relative',
     height: '100px',
     borderRadius: '2px',
-    padding: '4px',
+    padding: '4px'
   };
 
   const click_handler = event => {
