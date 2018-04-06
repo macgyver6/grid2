@@ -51,7 +51,7 @@ const ImageBlockComponent = props => {
     backgroundColor: 'brown',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
-    height: '100px',
+    minHeight: '100px',
     cursor: 'move',
     // border: '1px solid red',
     padding: '4px',
@@ -108,8 +108,6 @@ const ImageBlockComponent = props => {
         <img
           src={props.model.url() ? props.model.url() : ''}
           alt="Smiley face"
-          height="42"
-          width="42"
         />
         <Resizer
           id={`${props.model.UUID()}.resizer`}

@@ -251,27 +251,39 @@ let FormSectionComponent = props => {
   const fsStyle = {
     display: 'grid',
     position: 'relative',
-    // border: '2px dotted',
-    // borderRadius: '2px',
+    // border: '8px solid black',
+    borderRadius: '2px',
     gridTemplateColumns: `repeat(${props.model.width()}, [col] 1fr)`,
     backgroundColor: 'rgba(243, 234, 95, 0.7)',
     minHeight: '120px',
     minWidth: '100px',
     gridColumn: `span ${props.model.width()}`,
     gridGap: '8px',
+    gridAutoRows: 'min-content',
     zIndex: '30',
     cursor: 'move',
     borderRadius: '2px',
     // padding: '4px',
   };
 
+  const formSectionStyle = {
+    display: 'grid',
+    // gridColumn: null,
+    // gridTemplateColumns: null,
+    draggable: 'true',
+    margin: '20px 0px 0px 0px', // minHeight: '120px',
+    // "maxHeight": "120px",
+    zIndex: '40',
+    cursor: 'move',
+  };
+
   // return actual style values
   // 1. # of grid columns the CheckBox and Append will fill
-  styles.formSection['gridColumn'] =
+  formSectionStyle['gridColumn'] =
     'span ' +
     (props.model.prepend() + props.model.width() + props.model.append());
   // 2. # of grid columns within the CheckBox
-  styles.formSection['gridTemplateColumns'] =
+  formSectionStyle['gridTemplateColumns'] =
     'repeat(' +
     (props.model.prepend() + props.model.width() + props.model.append()) +
     ', [col] 1fr)';
@@ -297,13 +309,11 @@ let FormSectionComponent = props => {
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       className="FS"
-      style={styles.formSection}
+      style={formSectionStyle}
       onDrop={drop_handler} // adding a new entity to section
       onDragOver={dragOver_handler}
       onClick={click_handler}
-      // style={styles.defaultEntity}
     >
-      {/* <p>{props.model.width() - allChildrenSum(props.model)}</p> */}
       {props.model.prepend() > 0 ? (
         <Prepend
           id={`${props.model.UUID()}.prepend`}

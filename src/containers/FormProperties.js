@@ -6,17 +6,19 @@ export const FormProperty = props => {
     event.preventDefault();
   };
 
-  const saveToLocal = readFile => {
-    localStorage.setItem('Files', readFile);
+  const saveToLocal = (name, readFile) => {
+    localStorage.setItem(name, readFile);
   };
 
   const dropFile_handler = event => {
     event.preventDefault();
     var files = event.dataTransfer.files[0];
+    var name = event.dataTransfer.files[0].name;
     var reader = new FileReader();
     reader.readAsDataURL(files);
     reader.onload = function(readEvent) {
-      saveToLocal(readEvent.target.result);
+      console.log(name);
+      saveToLocal(name, readEvent.target.result);
     };
   };
 

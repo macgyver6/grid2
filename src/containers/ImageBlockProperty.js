@@ -18,30 +18,39 @@ export const ImageBlockProperty = props => {
     });
   };
 
-  const stringOfFiles = localStorage.getItem('FILE');
-  const filesJSON = JSON.parse(stringOfFiles);
-  const fileNames = stringOfFiles
-    ? JSON.parse(stringOfFiles).map(file => {
-        return Object.keys(file)[0];
-      })
-    : null;
+  // const stringOfFiles = localStorage.getItem('FILE');
+  // const filesJSON = JSON.parse(stringOfFiles);
+  // const fileNames = stringOfFiles
+  //   ? JSON.parse(stringOfFiles).map(file => {
+  //       return Object.keys(file)[0];
+  //     })
+  //   : null;
 
   return (
     <div>
       <h1>Image Block</h1>
       <p>{props.model.UUID()}</p>
       <select
+        value={props.model.url()}
         className="form-control"
-        name="echo-url"
+        name="url"
         type={props.model.type()}
-        onChange={
-          change_handler // value={props.model.url()}
-        }
+        onChange={change_handler}
         id="url"
       >
-        {filesJSON.map(file => (
-          <option value={Object.values(file)}>{Object.keys(file)}</option>
-        ))}
+        <option value="test">test</option>
+        <option
+          value={localStorage.getItem(
+            '25039085_879008932267581_1546704477334011904_n.jpg'
+          )}
+        >
+          smiley.gif
+        </option>
+        {/*filesJSON.map(file => (
+          <option value={localStorage.getItem('smiley.gif')}>
+            {'smiley.gif'}
+          </option>
+        ))*/}
       </select>
       <div />
       <div />

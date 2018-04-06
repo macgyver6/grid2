@@ -52,7 +52,7 @@ const TextInputComponent = props => {
     backgroundColor: '#6C788F',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
-    height: '100px',
+    minHeight: '100px',
     cursor: 'move',
     // border: '1px solid red',
     padding: '4px',
