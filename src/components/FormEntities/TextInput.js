@@ -9,6 +9,9 @@ import PrePrompt from './subentities/PrePrompt.js';
 import PostPrompt from './subentities/PostPrompt.js';
 import { log } from 'util';
 import { address } from '../../address';
+import RegexColorizer from 'regex-colorizer';
+
+RegexColorizer.colorizeAll();
 
 const TextInputComponent = props => {
   console.log(props.model.defaultContent());
@@ -90,6 +93,10 @@ const TextInputComponent = props => {
       onDragLeave={dragleave_handler}
       onClick={click_handler}
     >
+      <pre className="regex">
+        ^(?!000|666)(?:[0-6]\d{2}|7(?:[0-6]\d|7[012]))-(?!00)\d{2}-(?!0000)\d{4}$
+      </pre>
+
       {props.model.prepend() > 0 ? (
         <Prepend
           id={`${props.model.UUID()}.prepend`}

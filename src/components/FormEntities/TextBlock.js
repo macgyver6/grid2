@@ -58,9 +58,7 @@ const TextBlockComponent = props => {
     borderRadius: '2px',
   };
 
-  const tBInputStyle = {
-    height: '40px',
-  };
+  const tBInputStyle = { height: '40px' };
 
   // return actual style values
   // 1. # of grid columns the TextArea and Append will fill
@@ -104,11 +102,13 @@ const TextBlockComponent = props => {
         draggable="true"
       >
         <br />
-        <input
+        <textarea
           style={tBInputStyle}
           className="form-control"
           type={props.model.type()}
           value={props.model.content()}
+          cols="45"
+          rows="5"
         />
         <Resizer
           id={`${props.model.UUID()}.resizer`}

@@ -123,10 +123,10 @@ export var initFE = {
   TextBlock: {
     uuid: undefined,
     name: 'TextBlock Name',
-    width: 4,
+    width: 8,
     content: 'default text block content',
-    prepend: 2,
-    append: 2,
+    prepend: 0,
+    append: 0,
     type: 'TextBlock',
     render: { backgroundColor: 'purple', minWidth: 1 },
   },
