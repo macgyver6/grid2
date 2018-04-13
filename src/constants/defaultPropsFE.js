@@ -11,7 +11,7 @@ export var initFE = {
     type: 'FormSection',
     children: [],
     legend: 'legend',
-    render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 },
+    render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
   },
   TextInput: {
     uuid: undefined,
@@ -33,17 +33,17 @@ export var initFE = {
     autoTab: true,
     doubleEntry: true,
     defaultContent: 'Default Content',
-    render: { backgroundColor: '#6C788F', minWidth: 3 },
+    render: { backgroundColor: '#6C788F', minWidth: 3 }
   },
   SelectionInput: {
     uuid: undefined,
-    prepend: 0,
-    width: 5,
-    append: 0,
+    prepend: 1,
+    width: 6,
+    append: 1,
     prePrompt: 'prePromptString',
-    prePromptWidth: 6,
+    prePromptWidth: 1,
     postPrompt: 'postPromptString',
-    postPromptWidth: 6,
+    postPromptWidth: 1,
     name: 'Selection Input name',
     sasCodeLabel: 'sasCodeLabel',
     type: 'SelectionInput',
@@ -57,9 +57,9 @@ export var initFE = {
     options: [
       { label: 'dfgh', value: 'one' },
       { label: 'dfgh', value: 'two' },
-      { label: 'dfgh', value: 'three' },
+      { label: 'dfgh', value: 'three' }
     ],
-    render: { backgroundColor: '#6C788F', minWidth: 3 },
+    render: { backgroundColor: '#6C788F', minWidth: 3 }
   },
   TextArea: {
     uuid: undefined,
@@ -77,10 +77,10 @@ export var initFE = {
     inputWidth: 12,
     promptNumber: 'CIE494c',
     autoNumber: 'SEQUENTIAL',
-    numColumns: 24,
-    numRows: 5,
+    numColumns: 32,
+    numRows: 4,
     defaultContent: 'Default Content',
-    render: { backgroundColor: '#205EE2', minWidth: 3 },
+    render: { backgroundColor: '#205EE2', minWidth: 3 }
   },
   CheckBox: {
     uuid: undefined,
@@ -99,7 +99,7 @@ export var initFE = {
     promptNumber: 'CIE493g',
     autoNumber: 'SEQUENTIAL',
     defaultState: true,
-    render: { backgroundColor: '#00C5EC', minWidth: 1 },
+    render: { backgroundColor: '#00C5EC', minWidth: 1 }
   },
   RadioButton: {
     uuid: undefined,
@@ -118,7 +118,7 @@ export var initFE = {
     promptNumber: 'CIE49dfd5',
     autoNumber: 'SEQUENTIAL',
     defaultState: true,
-    render: { backgroundColor: '#304061', minWidth: 3 },
+    render: { backgroundColor: '#304061', minWidth: 3 }
   },
   TextBlock: {
     uuid: undefined,
@@ -128,7 +128,7 @@ export var initFE = {
     prepend: 0,
     append: 0,
     type: 'TextBlock',
-    render: { backgroundColor: 'purple', minWidth: 1 },
+    render: { backgroundColor: 'purple', minWidth: 1 }
   },
   ImageBlock: {
     alt: 'alt',
@@ -141,7 +141,7 @@ export var initFE = {
     prepend: 2,
     append: 2,
     type: 'ImageBlock',
-    render: { backgroundColor: 'purple', minWidth: 1 },
+    render: { backgroundColor: 'purple', minWidth: 1 }
   },
   ASInput: {
     uuid: undefined,
@@ -152,7 +152,7 @@ export var initFE = {
     prepend: 2,
     append: 2,
     type: 'AdverseEvent',
-    render: { backgroundColor: 'green', minWidth: 1 },
+    render: { backgroundColor: 'green', minWidth: 1 }
   },
   Echo: {
     uuid: undefined,
@@ -163,8 +163,8 @@ export var initFE = {
     append: 2,
     type: 'Echo',
     render: { backgroundColor: 'khaki', minWidth: 1 },
-    sourceInput: '',
-  },
+    sourceInput: ''
+  }
 };
 
 export var defaultPropsFE = {
@@ -187,17 +187,17 @@ export var defaultPropsFE = {
               new TextInput({
                 uuid: undefined,
                 prepend: 1,
-                width: 4,
+                width: 8,
                 append: 1,
                 prePrompt: 'prePromptString',
-                prePromptWidth: 6,
+                prePromptWidth: 1,
                 postPrompt: 'postPromptString',
-                postPromptWidth: 6,
+                postPromptWidth: 1,
                 name: 'text input name',
                 sasCodeLabel: 'sasCodeLabel',
                 type: 'TextInput',
                 tabOrder: 1,
-                inputWidth: 8,
+                inputWidth: 3,
                 promptNumber: 'CIE491a',
                 autoNumber: 'SEQUENTIAL',
                 length: 80,
@@ -206,14 +206,14 @@ export var defaultPropsFE = {
                 defaultContent: 'this is default content',
                 render: {
                   backgroundColor: '#6C788F',
-                  minWidth: 3,
-                },
-              }),
+                  minWidth: 3
+                }
+              })
             ],
             legend: 'legend',
             prepend: 3,
-            append: 3,
-          }),
+            append: 3
+          })
           // new FormSection({
           //   uuid: undefined,
           //   type: 'FormSection',
@@ -243,7 +243,7 @@ export var defaultPropsFE = {
         ],
         legend: '1',
         prepend: 0,
-        append: 0,
+        append: 0
       }),
       new FormSection({
         uuid: undefined,
@@ -260,13 +260,13 @@ export var defaultPropsFE = {
             append: 0,
             render: {
               backgroundColor: 'rgba(243, 234, 95, 0.7)',
-              minWidth: 3,
-            },
-          }),
+              minWidth: 3
+            }
+          })
         ],
         legend: '2',
         prepend: 0,
-        append: 0,
+        append: 0
       }),
       new FormSection({
         uuid: undefined,
@@ -283,13 +283,13 @@ export var defaultPropsFE = {
             append: 0,
             render: {
               backgroundColor: 'rgba(243, 234, 95, 0.7)',
-              minWidth: 3,
-            },
-          }),
+              minWidth: 3
+            }
+          })
         ],
         legend: '3',
         prepend: 0,
-        append: 0,
+        append: 0
       }),
       new FormSection({
         uuid: undefined,
@@ -306,19 +306,19 @@ export var defaultPropsFE = {
             append: 0,
             render: {
               backgroundColor: 'rgba(243, 234, 95, 0.7)',
-              minWidth: 3,
-            },
-          }),
+              minWidth: 3
+            }
+          })
         ],
         legend: '4',
         prepend: 0,
-        append: 0,
-      }),
+        append: 0
+      })
     ],
     crf: 'crf',
     inputs: ['input1', 'input2'],
     remoteValidatorCondition: { 0: 'zero', 1: 'one' },
     sectionTabs: true,
-    versionDescription: 'version description',
-  },
+    versionDescription: 'version description'
+  }
 };

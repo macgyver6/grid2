@@ -1,12 +1,10 @@
 import React from 'react';
 import { helpers } from '../../helpers';
 import { drop } from '../../drop';
+import { styleDefaultEntity } from './feStyles';
 import Resizer from './subentities/Resizer';
-import { styles } from './feStyles';
 import Append from './subentities/Append.js';
 import Prepend from './subentities/Prepend.js';
-import PrePrompt from './subentities/PrePrompt.js';
-import PostPrompt from './subentities/PostPrompt.js';
 import { log } from 'util';
 import { address } from '../../address';
 
@@ -46,8 +44,25 @@ const TextBlockComponent = props => {
     props.changeentity(address.bySample(props.model, props.form));
   };
 
+  const tBWrapperStyle = {
+    display: 'grid',
+    gridColumn:
+      'span ' +
+      (props.model.prepend() + props.model.width() + props.model.append()),
+    gridTemplateColumns:
+      'repeat(' +
+      (props.model.prepend() + props.model.width() + props.model.append()) +
+      ', [col] 1fr)',
+    gridGap: '8px',
+    draggable: 'true',
+    margin: '10px 0px 10px 0px',
+    minHeight: '100px',
+    zIndex: '40',
+    cursor: 'move'
+  };
+
   const tBStyle = {
-    margin: helpers.marginCalc(props),
+    //     margin: helpers.marginCalc(props),
     backgroundColor: 'purple',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
@@ -55,25 +70,15 @@ const TextBlockComponent = props => {
     cursor: 'move',
     // border: '1px solid red',
     padding: '4px',
-    borderRadius: '2px',
+    borderRadius: '2px'
   };
 
   const tBInputStyle = { height: '40px' };
 
-  // return actual style values
-  // 1. # of grid columns the TextArea and Append will fill
-  styles.defaultEntity['gridColumn'] =
-    'span ' +
-    (props.model.prepend() + props.model.width() + props.model.append());
-  // 2. # of grid columns within the TextArea
-  styles.defaultEntity['gridTemplateColumns'] =
-    'repeat(' +
-    (props.model.prepend() + props.model.width() + props.model.append()) +
-    ', [col] 1fr)';
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
-      style={styles.defaultEntity}
+      style={styleDefaultEntity(props.model)}
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
       onDragLeave={dragleave_handler}
@@ -107,7 +112,7 @@ const TextBlockComponent = props => {
           className="form-control"
           type={props.model.type()}
           value={props.model.content()}
-          cols="45"
+          cols="20"
           rows="5"
         />
         <Resizer

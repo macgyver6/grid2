@@ -14,7 +14,7 @@ export const ImageBlockProperty = props => {
         ? event.target.checked
         : event.target.value;
     return props.mutate(address.bySample(props.model, props.form), {
-      [event.target.id]: value,
+      [event.target.id]: value
     });
   };
 
@@ -39,13 +39,7 @@ export const ImageBlockProperty = props => {
         id="url"
       >
         <option value="test">test</option>
-        <option
-          value={localStorage.getItem(
-            '25039085_879008932267581_1546704477334011904_n.jpg'
-          )}
-        >
-          smiley.gif
-        </option>
+        <option value={localStorage.getItem('smiley.gif')}>smiley.gif</option>
         {/*filesJSON.map(file => (
           <option value={localStorage.getItem('smiley.gif')}>
             {'smiley.gif'}

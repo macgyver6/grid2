@@ -2,15 +2,14 @@ import React from 'react';
 import { helpers } from '../../helpers';
 import { drop } from '../../drop';
 import Resizer from './subentities/Resizer';
-import { styles } from './feStyles';
-import Append from './subentities/Append.js';
+import Append from './subentities/Append';
+import { styleDefaultEntity } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 import PrePrompt from './subentities/PrePrompt.js';
 import PostPrompt from './subentities/PostPrompt.js';
-import { log } from 'util';
 import { address } from '../../address';
 
-const AdverseEventComponent = props => {
+const CheckBoxComponent = props => {
   /** Handle adding/subtracing prepend or append */
   const mouseDown_handler = event => {
     drop.mouseDown_handler(event, props, 'move');
@@ -33,60 +32,31 @@ const AdverseEventComponent = props => {
     drop.drop_handler(event, props);
   };
 
-  let dragleave_handler = event => {
-    event.stopPropagation();
-    //   console.log(event.target.id)
-    // if (event.target.id === `${props.model.UUID()}.${props.model.type()}.wrapper`) {
-    //   console.log('event.currentTarget')
-    // }
+  const cbStyle = {
+    backgroundColor: '#00C5EC',
+    position: 'relative',
+    gridColumn: `span ${props.model.width()}`,
+    height: '100px',
+    // //     margin: helpers.marginCalc(props),
+    padding: '4px',
+    borderRadius: '2px'
+  };
+
+  const cbInputStyle = {
+    height: '25px',
+    width: '25px'
   };
 
   const click_handler = event => {
     event.stopPropagation();
     props.changeentity(address.bySample(props.model, props.form));
   };
-
-  const tiStyle = {
-    margin: helpers.marginCalc(props),
-    backgroundColor: '#6C788F',
-    position: 'relative',
-    gridColumn: `span ${props.model.width()}`,
-    height: '100px',
-    cursor: 'move',
-    // border: '1px solid red',
-    padding: '4px',
-    borderRadius: '2px',
-  };
-
-  const tiInputStyle = {
-    height: '40px',
-  };
-
-  // return actual style values
-  // 1. # of grid columns the TextArea and Append will fill
-  styles.defaultEntity['gridColumn'] =
-    'span ' +
-    (props.model.prepend() +
-      props.model.prePromptWidth() +
-      props.model.width() +
-      props.model.postPromptWidth() +
-      props.model.append());
-  // 2. # of grid columns within the TextArea
-  styles.defaultEntity['gridTemplateColumns'] =
-    'repeat(' +
-    (props.model.prepend() +
-      props.model.prePromptWidth() +
-      props.model.width() +
-      props.model.postPromptWidth() +
-      props.model.append()) +
-    ', [col] 1fr)';
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
-      style={styles.defaultEntity}
+      style={styleDefaultEntity(props.model)}
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
-      onDragLeave={dragleave_handler}
       onClick={click_handler}
     >
       {props.model.prepend() > 0 ? (
@@ -102,6 +72,7 @@ const AdverseEventComponent = props => {
           mutate={props.mutate}
         />
       ) : null}
+
       <PrePrompt
         id={`${props.model.UUID()}.prepend`}
         prePromptWidth={props.model.prePromptWidth()}
@@ -115,19 +86,16 @@ const AdverseEventComponent = props => {
       />
 
       <div
-        style={tiStyle}
         id={`${props.model.UUID()}.${props.model.type()}`}
-        className="TextInput"
+        style={cbStyle}
+        className="CheckBox"
+        data-type="CheckBox"
         onMouseDown={mouseDown_handler}
         onDragStart={dragstart_handler}
         draggable="true"
       >
-        <br />
-        <input
-          style={tiInputStyle}
-          className="form-control"
-          type={props.model.type()}
-        />
+        {/* onChange={(e) => handleChange(e, props)} */}
+        <input type={props.model.type()} style={cbInputStyle} />
         <Resizer
           id={`${props.model.UUID()}.resizer`}
           element="FormEntity"
@@ -155,6 +123,7 @@ const AdverseEventComponent = props => {
         <Append
           id={`${props.model.UUID()}.append`}
           append={props.model.append()}
+          uuid={props.model.UUID()}
           className="append"
           model={props.model}
           form={props.form}
@@ -167,4 +136,4 @@ const AdverseEventComponent = props => {
   );
 };
 
-export default AdverseEventComponent;
+export default CheckBoxComponent;

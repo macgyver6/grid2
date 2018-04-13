@@ -1,20 +1,36 @@
-export const styles = {
-  defaultEntity: {
+const calcTotal = entity => {
+  if (typeof entity.prePromptWidth === 'function') {
+    console.log('has prompts: ', entity.type());
+    return (
+      entity.prepend() +
+      entity.prePromptWidth() +
+      entity.width() +
+      entity.postPromptWidth() +
+      entity.append()
+    );
+  } else {
+    console.log('no prompts: ', entity.type());
+    return entity.prepend() + entity.width() + entity.append();
+  }
+};
+
+export const styleDefaultEntity = entity => {
+  return {
     display: 'grid',
-    // gridColumn: null,
-    // gridTemplateColumns: null,
+    gridColumn: `span ${calcTotal(entity)}`,
+    gridTemplateColumns: 'repeat(' + `${calcTotal(entity)}` + ', [col] 1fr)',
+    gridGap: '8px',
     draggable: 'true',
     margin: '10px 0px 10px 0px',
     minHeight: '100px',
-    // maxHeight: '100px',
     zIndex: '40',
-    cursor: 'move',
-  },
-
-  // defaultEntity2: {
-  //   "backgroundColor": "lightgreen",
-  //   "minHeight": "100px",
-  //   "maxHeight": "100px",
-  //   "zIndex": "40"
-  // }
+    cursor: 'move'
+  };
 };
+
+// defaultEntity2: {
+//   "backgroundColor": "lightgreen",
+//   "minHeight": "100px",
+//   "maxHeight": "100px",
+//   "zIndex": "40"
+// }

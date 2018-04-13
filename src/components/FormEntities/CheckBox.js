@@ -3,7 +3,7 @@ import { helpers } from '../../helpers';
 import { drop } from '../../drop';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
-import { styles } from './feStyles';
+import { styleDefaultEntity } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 import PrePrompt from './subentities/PrePrompt.js';
 import PostPrompt from './subentities/PostPrompt.js';
@@ -37,7 +37,7 @@ const CheckBoxComponent = props => {
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
     height: '100px',
-    // margin: helpers.marginCalc(props),
+    // //     margin: helpers.marginCalc(props),
     padding: '4px',
     borderRadius: '2px'
   };
@@ -51,21 +51,10 @@ const CheckBoxComponent = props => {
     event.stopPropagation();
     props.changeentity(address.bySample(props.model, props.form));
   };
-
-  // return actual style values
-  // 1. # of grid columns the CheckBox and Append will fill
-  styles.defaultEntity['gridColumn'] =
-    'span ' +
-    (props.model.prepend() + props.model.width() + props.model.append());
-  // 2. # of grid columns within the CheckBox
-  styles.defaultEntity['gridTemplateColumns'] =
-    'repeat(' +
-    (props.model.prepend() + props.model.width() + props.model.append()) +
-    ', [col] 1fr)';
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
-      style={styles.defaultEntity}
+      style={styleDefaultEntity(props.model)}
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
       onClick={click_handler}

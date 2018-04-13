@@ -3,7 +3,8 @@ import { helpers } from '../../helpers';
 import { drop } from '../../drop';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
-import { styles } from './feStyles';
+
+import { styleDefaultEntity } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 import PrePrompt from './subentities/PrePrompt.js';
 import PostPrompt from './subentities/PostPrompt.js';
@@ -32,7 +33,7 @@ const TextAreaComponent = props => {
   };
 
   const taStyle = {
-    margin: helpers.marginCalc(props),
+    //     margin: helpers.marginCalc(props),
     backgroundColor: '#205EE2',
     opacity: '1',
     gridColumn: `span ${props.model.width()}`,
@@ -47,29 +48,10 @@ const TextAreaComponent = props => {
     props.changeentity(address.bySample(props.model, props.form));
   };
 
-  // return actual style values
-  // 1. # of grid columns the TextArea and Append will fill
-  styles.defaultEntity['gridColumn'] =
-    'span ' +
-    (props.model.prepend() +
-      props.model.prePromptWidth() +
-      props.model.width() +
-      props.model.postPromptWidth() +
-      props.model.append());
-  // 2. # of grid columns within the TextArea
-  styles.defaultEntity['gridTemplateColumns'] =
-    'repeat(' +
-    (props.model.prepend() +
-      props.model.prePromptWidth() +
-      props.model.width() +
-      props.model.postPromptWidth() +
-      props.model.append()) +
-    ', [col] 1fr)';
-
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
-      style={styles.defaultEntity}
+      style={styleDefaultEntity(props.model)}
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
       onClick={click_handler}

@@ -7,11 +7,18 @@ const PrePrompt = props => {
     backgroundColor: 'green',
     padding: '4px',
     borderRadius: '2px',
-    position: 'relative',
+    position: 'relative'
   };
+
+  const prePromptInputStyle = { height: '20px', width: '120px' };
 
   return (
     <div style={prePromptStyle} id={`${props.model.UUID()}.prePrompt`}>
+      <input
+        style={prePromptInputStyle}
+        className="form-control"
+        value={props.model.prePrompt()}
+      />
       <Resizer
         id={`${props.model.UUID()}.resizer`}
         element="FormEntity"

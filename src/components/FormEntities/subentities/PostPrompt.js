@@ -7,11 +7,18 @@ const PostPrompt = props => {
     backgroundColor: 'blue',
     padding: '4px',
     borderRadius: '2px',
-    position: 'relative',
+    position: 'relative'
   };
+
+  const postPromptInputStyle = { height: '20px', width: '120px' };
 
   return (
     <div style={postPromptStyle} id={`${props.model.UUID()}.postPrompt`}>
+      <input
+        style={postPromptInputStyle}
+        className="form-control"
+        value={props.model.postPrompt()}
+      />
       <Resizer
         id={`${props.model.UUID()}.resizer`}
         element="FormEntity"
