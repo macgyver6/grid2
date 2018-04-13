@@ -14,17 +14,18 @@ export const ImageBlockProperty = props => {
         ? event.target.checked
         : event.target.value;
     return props.mutate(address.bySample(props.model, props.form), {
-      [event.target.id]: value
+      [event.target.id]: value,
     });
   };
 
-  // const stringOfFiles = localStorage.getItem('FILE');
-  // const filesJSON = JSON.parse(stringOfFiles);
-  // const fileNames = stringOfFiles
-  //   ? JSON.parse(stringOfFiles).map(file => {
-  //       return Object.keys(file)[0];
-  //     })
-  //   : null;
+  let localFiles = [];
+  for (var i = 0; i < localStorage.length; i++) {
+    let _key = localStorage.key(i);
+    localFiles.push({
+      name: [_key],
+      file: localStorage.getItem(localStorage.key(i)),
+    });
+  }
 
   return (
     <div>
@@ -38,13 +39,13 @@ export const ImageBlockProperty = props => {
         onChange={change_handler}
         id="url"
       >
-        <option value="test">test</option>
-        <option value={localStorage.getItem('smiley.gif')}>smiley.gif</option>
-        {/*filesJSON.map(file => (
-          <option value={localStorage.getItem('smiley.gif')}>
-            {'smiley.gif'}
+        {localFiles.length > 0 ? (
+          localFiles.map(file => <option value={file.file}>{file.name}</option>)
+        ) : (
+          <option>
+            'No files found, please upload picture through Form Property Panel'
           </option>
-        ))*/}
+        )}
       </select>
       <div />
       <div />

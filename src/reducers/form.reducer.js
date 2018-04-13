@@ -121,7 +121,10 @@ const formReducer = (state, action) => {
   }
 
   if (action.type === 'CHANGEENTITY') {
-    return { ...state, app: { ...state.app, currententity: action.entity } };
+    return {
+      ...state,
+      app: { ...state.app, currententity: action.entityAddress },
+    };
   }
   return state;
 };

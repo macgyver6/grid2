@@ -7,7 +7,7 @@ const AddToEnd = props => {
     height: '20px',
     position: 'absolute',
     right: '0',
-    bottom: '-20px'
+    bottom: '-20px',
   };
 
   const restoreDonorSiblingAddress = (arr, props, draggedEntity) => {
@@ -21,7 +21,7 @@ const AddToEnd = props => {
       const _toLeft = [...arr];
       console.log({
         address: _toLeft,
-        entity: address.byPath(props.form, _toLeft)
+        entity: address.byPath(props.form, _toLeft),
       });
       _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1;
       return { address: _toLeft, entity: address.byPath(props.form, _toLeft) };
@@ -31,7 +31,7 @@ const AddToEnd = props => {
       _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1;
       return {
         address: _toRight,
-        entity: address.byPath(props.form, _toRight)
+        entity: address.byPath(props.form, _toRight),
       };
     };
     console.log(
@@ -55,8 +55,8 @@ const AddToEnd = props => {
             toRight(arr).entity.prepend() +
             draggedEntity.prepend() +
             draggedEntity.width() +
-            draggedEntity.append()
-        }
+            draggedEntity.append(),
+        },
       };
     } else {
       return {
@@ -66,8 +66,8 @@ const AddToEnd = props => {
             toLeft(arr).entity.append() +
             draggedEntity.prepend() +
             draggedEntity.width() +
-            draggedEntity.append()
-        }
+            draggedEntity.append(),
+        },
       };
     }
   };
@@ -109,7 +109,7 @@ const AddToEnd = props => {
         address.resurrectEntity(
           Object.assign({}, droppedEntity.properties(), {
             // @hack dropData.model.width below assumes that it is a new entity. Doesn't allow an existing entity to be added
-            append: destination[1].width() - droppedEntity.width()
+            append: destination[1].width() - droppedEntity.width(),
           })
         )
       );
@@ -144,14 +144,15 @@ const AddToEnd = props => {
           return entity.prepend + entity.width;
         }
       };
-      props.add(
+      const newEntity = props.add(
         loc,
         address.resurrectEntity(
           Object.assign({}, dropData.model, {
-            append: destination[1].width() - calcAppend(dropData.model)
+            append: destination[1].width() - calcAppend(dropData.model),
           })
         )
       );
+      props.changeentity(loc);
     }
     event.target.style.backgroundColor = '';
   };
