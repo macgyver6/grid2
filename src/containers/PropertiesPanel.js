@@ -40,6 +40,7 @@ export const PropertiesPanel = props => {
         </TabPanel>
         <TabPanel dtLocalFilesSaved={props.dtLocalFilesSaved}>
           <FormProperty
+            mutate={props.mutate}
             model={props.form}
             dtLocalFilesSaved={props.dtLocalFilesSaved}
           />

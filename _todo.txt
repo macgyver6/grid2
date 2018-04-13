@@ -1,0 +1,3 @@
+- in order to change properties on the form, use action.type formmuate in the form properties to toggle allow form attached files
+- dependency validation
+- validator implementation

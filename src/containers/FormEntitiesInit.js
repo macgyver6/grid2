@@ -392,6 +392,7 @@ const MiddlePanel = props => {
         mutate={props.mutate}
         activeTab={props.activeTab}
         changeentity={props.changeentity}
+        mutate={props.mutate}
       />
     </div>
   );

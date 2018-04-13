@@ -28,7 +28,7 @@ export const FormProperty = props => {
       event.target.type === 'checkbox'
         ? event.target.checked
         : event.target.value;
-    return props.mutate(address.bySample(props.model, props.form), {
+    return props.mutate(props.form, {
       [event.target.id]: value,
     });
   };
@@ -47,6 +47,8 @@ export const FormProperty = props => {
     });
   }
 
+  const cbInputStyle = { height: '25px', width: '25px', margin: '8px' };
+
   return (
     <div
       style={formPropertiesStyle}
@@ -54,6 +56,18 @@ export const FormProperty = props => {
       onDrop={dropFile_handler}
     >
       <h1>Form Properties</h1>
+      <h2>Accept Form Attached Files</h2>
+      <p>
+        <input
+          type="checkbox"
+          name="form-formFiles"
+          id="allowEventAttachedFile"
+          onChange={change_handler}
+          style={cbInputStyle}
+          checked={props.model.allowEventAttachedFile()}
+        />
+        <label for="textInput-formFiles">Accept Form Attached Files</label>
+      </p>
       <h2>Files Uploaded</h2>
       <ul>{localFiles.map(file => <li>{file.name}</li>)}</ul>
     </div>

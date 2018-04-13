@@ -177,6 +177,7 @@ export var defaultPropsFE = {
     type: 'Form',
     version: 1,
     autoId: true,
+    allowEventAttachedFile: true,
     children: [
       new FormSection({
         uuid: undefined,
