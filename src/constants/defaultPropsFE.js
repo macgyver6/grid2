@@ -132,7 +132,7 @@ export var initFE = {
   },
   ImageBlock: {
     alt: 'alt',
-    title: 'title',
+    title: '',
     url: '',
     uuid: undefined,
     name: 'TextBlock Name',

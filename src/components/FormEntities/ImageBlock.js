@@ -55,11 +55,11 @@ const ImageBlockComponent = props => {
     cursor: 'move',
     // border: '1px solid red',
     padding: '4px',
-    borderRadius: '2px'
+    borderRadius: '2px',
   };
 
   const tBInputStyle = {
-    height: '40px'
+    height: '40px',
   };
   return (
     <div
@@ -93,11 +93,14 @@ const ImageBlockComponent = props => {
         draggable="true"
       >
         <br />
-        {console.log()}
-        <img
-          src={props.model.url() ? props.model.url() : ''}
-          alt="Smiley face"
-        />
+        {props.model.title() === '' ? (
+          <p>Please select an image from Image Block Property Panel</p>
+        ) : (
+          <img
+            src={localStorage.getItem(props.model.title())}
+            alt={localStorage.getItem(props.model.title())}
+          />
+        )}
         <Resizer
           id={`${props.model.UUID()}.resizer`}
           element="FormEntity"

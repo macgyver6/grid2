@@ -7,8 +7,6 @@ import { FormInput } from '../data/FormInput';
 
 export const ImageBlockProperty = props => {
   const change_handler = event => {
-    console.log('yolo2: ', { [event.target.id]: event.target.value });
-    // console.log(event.target.value);
     const value =
       event.target.type === 'checkbox'
         ? event.target.checked
@@ -37,10 +35,14 @@ export const ImageBlockProperty = props => {
         name="url"
         type={props.model.type()}
         onChange={change_handler}
-        id="url"
+        id="title"
       >
+        <option disabled selected value>
+          {' '}
+          -- select an option --{' '}
+        </option>
         {localFiles.length > 0 ? (
-          localFiles.map(file => <option value={file.file}>{file.name}</option>)
+          localFiles.map(file => <option value={file.name}>{file.name}</option>)
         ) : (
           <option>
             'No files found, please upload picture through Form Property Panel'
