@@ -16,11 +16,11 @@ const PropertiesPanelStyle = {
 export const PropertiesPanel = props => {
   return (
     <div style={PropertiesPanelStyle}>
-      <Tabs>
+      <Tabs dtLocalFilesSaved={props.dtLocalFilesSaved}>
         <TabList>
           <Tab>Properties</Tab>
           <Tab>Dependencies</Tab>
-          <Tab>Form</Tab>
+          <Tab dtLocalFilesSaved={props.dtLocalFilesSaved}>Form</Tab>
         </TabList>
         <TabPanel>
           {React.createElement(
@@ -38,8 +38,11 @@ export const PropertiesPanel = props => {
         <TabPanel>
           <h2>Any content 2</h2>
         </TabPanel>
-        <TabPanel>
-          <FormProperty model={props.form} />
+        <TabPanel dtLocalFilesSaved={props.dtLocalFilesSaved}>
+          <FormProperty
+            model={props.form}
+            dtLocalFilesSaved={props.dtLocalFilesSaved}
+          />
         </TabPanel>
       </Tabs>
       {/* <h1>Uploaded Files</h1>

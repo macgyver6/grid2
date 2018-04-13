@@ -8,6 +8,7 @@ export const FormProperty = props => {
 
   const saveToLocal = (name, readFile) => {
     localStorage.setItem(name, readFile);
+    props.dtLocalFilesSaved(Date.now());
   };
 
   const dropFile_handler = event => {
@@ -37,7 +38,15 @@ export const FormProperty = props => {
     border: '2px solid',
   };
 
-  const imageyolo = localStorage.getItem('FILE');
+  let localFiles = [];
+  for (var i = 0; i < localStorage.length; i++) {
+    let _key = localStorage.key(i);
+    localFiles.push({
+      name: [_key],
+      file: localStorage.getItem(localStorage.key(i)),
+    });
+  }
+
   return (
     <div
       style={formPropertiesStyle}
@@ -45,9 +54,8 @@ export const FormProperty = props => {
       onDrop={dropFile_handler}
     >
       <h1>Form Properties</h1>
-      <h2>File Uploaded</h2>
-      <img src={localStorage.getItem('Files')} />
-      {/* <ul>{fileNames.map(file => <li>{file}</li>)}</ul> */}
+      <h2>Files Uploaded</h2>
+      <ul>{localFiles.map(file => <li>{file.name}</li>)}</ul>
     </div>
   );
 };

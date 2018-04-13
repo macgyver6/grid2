@@ -37,10 +37,13 @@ export const ImageBlockProperty = props => {
         onChange={change_handler}
         id="title"
       >
-        <option disabled selected value>
-          {' '}
-          -- select an option --{' '}
-        </option>
+        {localFiles.length > 0 ? (
+          <option selected value>
+            {' '}
+            -- select an option --{' '}
+          </option>
+        ) : null}
+
         {localFiles.length > 0 ? (
           localFiles.map(file => <option value={file.name}>{file.name}</option>)
         ) : (

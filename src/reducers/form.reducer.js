@@ -31,6 +31,7 @@ const formReducer = (state, action) => {
       value: 0,
       form: new Form(defaultPropsFE.Form),
       app: {
+        dateTime: null,
         activeTab: 0,
         currententity: [0, 0, 0],
         // currententity: null
@@ -124,6 +125,13 @@ const formReducer = (state, action) => {
     return {
       ...state,
       app: { ...state.app, currententity: action.entityAddress },
+    };
+  }
+
+  if (action.type === 'DTLOCALFILESSAVED') {
+    return {
+      ...state,
+      app: { ...state.app, dtLocalFilesSaved: action.dateTime },
     };
   }
   return state;

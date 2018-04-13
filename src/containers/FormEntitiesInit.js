@@ -44,6 +44,7 @@ const BackgroundPanel = props => (
       changeentity={props.changeentity}
       currententity={props.currententity}
       mutate={props.mutate}
+      dtLocalFilesSaved={props.dtLocalFilesSaved}
     />
   </div>
 );
@@ -414,6 +415,7 @@ class FormEntityInit extends Component {
           activeTab={this.props.store.model.app.activeTab}
           changeentity={this.props.changeentity}
           currententity={this.props.store.model.app.currententity}
+          dtLocalFilesSaved={this.props.dtLocalFilesSaved}
         />
       </div>
     );

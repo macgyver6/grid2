@@ -72,3 +72,7 @@ export const changetab = tab => {
 export const changeentity = entityAddress => {
   return { type: 'CHANGEENTITY', entityAddress };
 };
+
+export const dtLocalFilesSaved = dateTime => {
+  return { type: 'DTLOCALFILESSAVED', dateTime };
+};
