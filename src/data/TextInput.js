@@ -122,13 +122,14 @@ class TextInput extends FormInput {
       defaultContent: this.defaultContent(),
       autoTab: this.autoTab(),
       doubleEntry: this.doubleEntry(),
+      validations: this.validations()
     };
   }
 }
 
 TextInput.LENGTH = {
   DEFAULT: 80,
-  NO_MAX: 0,
+  NO_MAX: 0
 };
 
 TextInput.DEFAULT_CONTENT = 'Default Content';
