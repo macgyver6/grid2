@@ -7,7 +7,7 @@ const PrePrompt = props => {
     backgroundColor: 'green',
     padding: '4px',
     borderRadius: '2px',
-    position: 'relative'
+    position: 'relative',
   };
 
   const prePromptInputStyle = { height: '20px', width: '120px' };

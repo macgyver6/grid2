@@ -8,6 +8,7 @@ export const FormProperty = props => {
 
   const saveToLocal = (name, readFile) => {
     localStorage.setItem(name, readFile);
+    props.dtLocalFilesSaved(Date.now());
   };
 
   const dropFile_handler = event => {
@@ -27,7 +28,7 @@ export const FormProperty = props => {
       event.target.type === 'checkbox'
         ? event.target.checked
         : event.target.value;
-    return props.mutate(address.bySample(props.model, props.form), {
+    return props.mutate(props.form, {
       [event.target.id]: value,
     });
   };
@@ -37,7 +38,17 @@ export const FormProperty = props => {
     border: '2px solid',
   };
 
-  const imageyolo = localStorage.getItem('FILE');
+  let localFiles = [];
+  for (var i = 0; i < localStorage.length; i++) {
+    let _key = localStorage.key(i);
+    localFiles.push({
+      name: [_key],
+      file: localStorage.getItem(localStorage.key(i)),
+    });
+  }
+
+  const cbInputStyle = { height: '25px', width: '25px', margin: '8px' };
+
   return (
     <div
       style={formPropertiesStyle}
@@ -45,9 +56,20 @@ export const FormProperty = props => {
       onDrop={dropFile_handler}
     >
       <h1>Form Properties</h1>
-      <h2>File Uploaded</h2>
-      <img src={localStorage.getItem('Files')} />
-      {/* <ul>{fileNames.map(file => <li>{file}</li>)}</ul> */}
+      <h2>Accept Form Attached Files</h2>
+      <p>
+        <input
+          type="checkbox"
+          name="form-formFiles"
+          id="allowEventAttachedFile"
+          onChange={change_handler}
+          style={cbInputStyle}
+          checked={props.model.allowEventAttachedFile()}
+        />
+        <label for="textInput-formFiles">Accept Form Attached Files</label>
+      </p>
+      <h2>Files Uploaded</h2>
+      <ul>{localFiles.map(file => <li>{file.name}</li>)}</ul>
     </div>
   );
 };
