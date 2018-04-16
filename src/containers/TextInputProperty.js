@@ -153,7 +153,7 @@ export const TextInputProperty = props => {
               {' '}
               -- select an option --{' '}
             </option>
-            {['String', 'Integer'].map(item => (
+            {['String', 'Date', 'Integer', 'Float'].map(item => (
               <option value={item}>{item}</option>
             ))}
           </select>
