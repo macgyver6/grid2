@@ -4,15 +4,22 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 export const TextInputProperty = props => {
   const change_handler = event => {
-    // console.log(event.target.value);
+    console.log(event.target.value);
     const value =
       event.target.type === 'checkbox'
         ? event.target.checked
         : event.target.value;
-    return props.mutate(address.bySample(props.model, props.form), {
-      [event.target.id]: value
-    });
+    console.log(props.model.validations());
+    // console.log(
+    return props.mutate(
+      address.bySample(props.model, props.form),
+
+      {
+        validations: { ...props.model.validations(), [event.target.id]: value }
+      }
+    );
   };
+
   return (
     <div>
       <Tabs>
@@ -111,7 +118,7 @@ export const TextInputProperty = props => {
                 type="number"
                 id="length"
                 onChange={change_handler}
-                value={props.model.length()}
+                value={props.model.validations().maxLength}
               />
               <br />
               <label for="textInput-defaultContent">Default Content</label>
@@ -134,14 +141,6 @@ export const TextInputProperty = props => {
           <h2>{props.model.type()} Validations</h2>
           <label for="textInput-val-type">Input Type</label>
           <br />
-          <input
-            name="textInput-val-type"
-            size="2"
-            type={props.model.validations().valType}
-            id="valType"
-            onChange={change_handler}
-            value={props.model.validations().valType}
-          />
 
           <select
             value={props.model.validations().valType}
@@ -150,16 +149,25 @@ export const TextInputProperty = props => {
             onChange={change_handler}
             id="valType"
           >
-            <option value="test">test</option>
-            <option value={localStorage.getItem('smiley.gif')}>
-              smiley.gif
+            <option selected value>
+              {' '}
+              -- select an option --{' '}
             </option>
-            {/*filesJSON.map(file => (
-          <option value={localStorage.getItem('smiley.gif')}>
-            {'smiley.gif'}
-          </option>
-        ))*/}
+            {['String', 'Integer'].map(item => (
+              <option value={item}>{item}</option>
+            ))}
           </select>
+          <br />
+          <label for="textInput-val-length">Input Max Length</label>
+
+          <input
+            name="textInput-val-length"
+            size="2"
+            type="number"
+            id="maxLength"
+            onChange={change_handler}
+            value={props.model.validations().maxLength}
+          />
         </TabPanel>
       </Tabs>
     </div>

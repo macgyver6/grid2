@@ -33,9 +33,9 @@ const formReducer = (state, action) => {
       app: {
         dateTime: null,
         activeTab: 0,
-        currententity: [0, 0, 0],
+        currententity: [0, 0, 0]
         // currententity: null
-      },
+      }
     };
     return state;
   }
@@ -46,27 +46,27 @@ const formReducer = (state, action) => {
 
   if (action.type === 'INCREMENT') {
     return Object.assign({}, state, {
-      value: state.value + 1,
+      value: state.value + 1
     });
   }
 
   if (action.type === 'DECREMENT') {
     return Object.assign({}, state, {
-      value: state.value - 1,
+      value: state.value - 1
     });
   }
 
   if (action.type === 'ADD') {
     let result = utility.add(action.path, action.entity, state.form);
     return Object.assign({}, state, {
-      form: result,
+      form: result
     });
   }
 
   if (action.type === 'REMOVE') {
     let result = utility.remove(action.path, state.form);
     return Object.assign({}, state, {
-      form: result,
+      form: result
     });
   }
 
@@ -74,7 +74,7 @@ const formReducer = (state, action) => {
     const initEntity = address.byPath(state.form, action.path);
     let update = utility.remove(action.path, state.form);
     const removedUpdate = Object.assign({}, state, {
-      form: update,
+      form: update
     });
     let mutatedEntity = Object.assign(
       {},
@@ -87,7 +87,7 @@ const formReducer = (state, action) => {
       removedUpdate.form
     );
     return Object.assign({}, state, {
-      form: result,
+      form: result
     });
   }
 
@@ -95,7 +95,7 @@ const formReducer = (state, action) => {
     let mutatedEntity = state.form.setChildren(action.properties);
 
     return Object.assign({}, state, {
-      form: mutatedEntity,
+      form: mutatedEntity
     });
   }
 
@@ -103,7 +103,7 @@ const formReducer = (state, action) => {
     let serialized = comm.serialize(state.form);
     localStorage.setItem('model', JSON.stringify(serialized));
     return Object.assign({}, state, {
-      lastSaved: Date.now(),
+      lastSaved: Date.now()
     });
   }
 
@@ -124,14 +124,14 @@ const formReducer = (state, action) => {
   if (action.type === 'CHANGEENTITY') {
     return {
       ...state,
-      app: { ...state.app, currententity: action.entityAddress },
+      app: { ...state.app, currententity: action.entityAddress }
     };
   }
 
   if (action.type === 'DTLOCALFILESSAVED') {
     return {
       ...state,
-      app: { ...state.app, dtLocalFilesSaved: action.dateTime },
+      app: { ...state.app, dtLocalFilesSaved: action.dateTime }
     };
   }
   return state;
