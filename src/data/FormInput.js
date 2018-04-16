@@ -41,6 +41,7 @@ class FormInput extends FormEntity {
       typeof properties.autoNumber === 'string'
         ? FormInput.AutoNumberRuleToken[properties.autoNumber]
         : properties.autoNumber;
+    this._validations = properties.validations || FormInput.DEFAULT_VALIDATIONS;
 
     if (this.constructor === FormInput) {
       deepFreeze(this);
@@ -159,8 +160,20 @@ class FormInput extends FormEntity {
 
   /**
    *
+   * Get validation properties on the form input.
+   * @param {Object} props
+   * @returns {FormInput}
+   * @memberof FormInput
+   */
+  validations() {
+    return this._validations;
+  }
+
+  /**
+   *
    * Returns public properties of a form input.
-   * @returns {Object}
+   * @return {object}
+   * @memberof FormInput
    */
   properties() {
     return {
@@ -179,17 +192,19 @@ class FormInput extends FormEntity {
       inputWidth: this.inputWidth(),
       promptNumber: this.promptNumber(),
       autoNumber: this.autoNumber(),
+      validations: this.validations()
     };
   }
 }
 
 FormInput.DEFAULT_PROMPT_PRE_WIDTH = 2;
 FormInput.DEFAULT_PROMPT_POST_WIDTH = 2;
+FormInput.DEFAULT_VALIDATIONS = { valType: 'String', maxLength: 6 };
 // These are dummy options, need to replace with real options
 FormInput.AutoNumberRuleToken = {
   SEQUENTIAL: 0,
   UNORDERED: 1,
-  ORDERED: 2,
+  ORDERED: 2
 };
 
 if (this.constructor === FormInput) {

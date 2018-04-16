@@ -7,8 +7,6 @@ import { FormInput } from '../data/FormInput';
 
 export const ImageBlockProperty = props => {
   const change_handler = event => {
-    console.log('yolo2: ', { [event.target.id]: event.target.value });
-    // console.log(event.target.value);
     const value =
       event.target.type === 'checkbox'
         ? event.target.checked
@@ -18,13 +16,14 @@ export const ImageBlockProperty = props => {
     });
   };
 
-  // const stringOfFiles = localStorage.getItem('FILE');
-  // const filesJSON = JSON.parse(stringOfFiles);
-  // const fileNames = stringOfFiles
-  //   ? JSON.parse(stringOfFiles).map(file => {
-  //       return Object.keys(file)[0];
-  //     })
-  //   : null;
+  let localFiles = [];
+  for (var i = 0; i < localStorage.length; i++) {
+    let _key = localStorage.key(i);
+    localFiles.push({
+      name: [_key],
+      file: localStorage.getItem(localStorage.key(i))
+    });
+  }
 
   return (
     <div>
@@ -36,15 +35,22 @@ export const ImageBlockProperty = props => {
         name="url"
         type={props.model.type()}
         onChange={change_handler}
-        id="url"
+        id="title"
       >
-        <option value="test">test</option>
-        <option value={localStorage.getItem('smiley.gif')}>smiley.gif</option>
-        {/*filesJSON.map(file => (
-          <option value={localStorage.getItem('smiley.gif')}>
-            {'smiley.gif'}
+        {localFiles.length > 0 ? (
+          <option selected value>
+            {' '}
+            -- select an option --{' '}
           </option>
-        ))*/}
+        ) : null}
+
+        {localFiles.length > 0 ? (
+          localFiles.map(file => <option value={file.name}>{file.name}</option>)
+        ) : (
+          <option>
+            'No files found, please upload picture through Form Property Panel'
+          </option>
+        )}
       </select>
       <div />
       <div />
