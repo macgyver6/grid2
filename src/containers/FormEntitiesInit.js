@@ -91,7 +91,7 @@ const selectionStyles = {
   Echo: {
     background: 'khaki',
   },
-  CDS: {
+  CDSTextInput: {
     background: 'blue',
   },
   Remove: {
@@ -110,7 +110,7 @@ let entityTypes = [
   'ImageBlock',
   'ASInput',
   'Echo',
-  'CDS',
+  'CDSTextInput',
 ];
 
 let dragover_handler = event => {

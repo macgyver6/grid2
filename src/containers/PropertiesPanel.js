@@ -18,8 +18,7 @@ export const PropertiesPanel = props => {
     <div style={PropertiesPanelStyle}>
       <Tabs dtLocalFilesSaved={props.dtLocalFilesSaved}>
         <TabList>
-          <Tab>Properties</Tab>
-          <Tab>Dependencies</Tab>
+          <Tab>Entity</Tab>
           <Tab dtLocalFilesSaved={props.dtLocalFilesSaved}>Form</Tab>
         </TabList>
         <TabPanel>
@@ -34,9 +33,6 @@ export const PropertiesPanel = props => {
               mutate: props.mutate,
             }
           )}
-        </TabPanel>
-        <TabPanel>
-          <h2>Any content 2</h2>
         </TabPanel>
         <TabPanel dtLocalFilesSaved={props.dtLocalFilesSaved}>
           <FormProperty

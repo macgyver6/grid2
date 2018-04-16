@@ -131,7 +131,7 @@ const AddToEnd = props => {
       /*
       @hack - this needs to accomodate some entities having prePrompt and others not
        */
-      console.log('add to end');
+      console.log(address.resurrectEntity(Object.assign({}, dropData.model)));
       const calcAppend = entity => {
         if (entity.prePromptWidth) {
           return (

@@ -2,6 +2,7 @@ import React from 'react';
 // import { utility } from '../../../utility';
 import { address } from '../../../address';
 import { defaultPropsFE } from '../../../constants/defaultPropsFE';
+import { initFE } from '../../../constants/defaultPropsFE';
 // import { helpers } from '../../../helpers';
 
 const round = (value, decimals) => {
@@ -310,14 +311,15 @@ let Resizer = props => {
       `${props.model.UUID()}.${props.model.type()}`
     );
     // setTimeout(function () { element.style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor }, 120);
-    console.log(
-      'change this: ',
-      entityToChangeColor.id +
-        'to: ' +
-        defaultPropsFE[props.model.type()].render.backgroundColor
-    );
+    // console.log(
+    //   'change this: ',
+    //   entityToChangeColor.id +
+    //     'to: ' +
+    //     defaultPropsFE[props.model.type()].render.backgroundColor
+    // );
+    console.log(initFE[props.model.type()]);
     entityToChangeColor.style.backgroundColor =
-      defaultPropsFE[props.model.type()].render.backgroundColor;
+      initFE[props.model.type()].render.backgroundColor;
   };
 
   return (

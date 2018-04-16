@@ -2,6 +2,7 @@
 import FormComponent from './components/FormEntities/Form';
 import FormSectionComponent from './components/FormEntities/FormSection';
 import TextInputComponent from './components/FormEntities/TextInput';
+import CDSTextInputComponent from './components/FormEntities/CDSTextInput';
 import TextAreaComponent from './components/FormEntities/TextArea';
 import CheckBoxComponent from './components/FormEntities/CheckBox';
 import RadioButtonComponent from './components/FormEntities/RadioButton';
@@ -13,6 +14,7 @@ import EchoComponent from './components/FormEntities/Echo';
 import { Form } from './data/Form';
 import { FormSection } from './data/FormSection';
 import { TextInput } from './data/TextInput';
+import { CDSTextInput } from './data/CDSTextInput';
 import { TextArea } from './data/TextArea';
 import { CheckBox } from './data/CheckBox';
 import { SelectionInput } from './data/SelectionInput';
@@ -22,6 +24,7 @@ import { ImageBlock } from './data/ImageBlock';
 import { EchoInput } from './data/EchoInput';
 import { AdverseEventInput } from './data/AdverseEventInput';
 import { TextInputProperty } from './containers/TextInputProperty';
+import { CDSTextInputProperty } from './containers/CDSTextInputProperty';
 import { TextAreaProperty } from './containers/TextAreaProperty';
 import { AdverseEventProperty } from './containers/AdverseEventProperty';
 import { CheckBoxProperty } from './containers/CheckBoxProperty';
@@ -78,6 +81,8 @@ export const address = {
       return FormComponent;
     } else if (modelInstance instanceof FormSection) {
       return FormSectionComponent;
+    } else if (modelInstance instanceof CDSTextInput) {
+      return CDSTextInputComponent;
     } else if (modelInstance instanceof TextInput) {
       return TextInputComponent;
     } else if (modelInstance instanceof TextArea) {
@@ -104,6 +109,8 @@ export const address = {
       return FormComponent;
       // } else if (modelInstance instanceof FormSection) {
       //   return FormSectionComponent;
+    } else if (modelInstance instanceof CDSTextInput) {
+      return CDSTextInputProperty;
     } else if (modelInstance instanceof TextInput) {
       return TextInputProperty;
     } else if (modelInstance instanceof TextArea) {
@@ -135,6 +142,8 @@ export const address = {
         return new Form({ ...formEntitySerialized });
       case 'FormSection':
         return new FormSection({ ...formEntitySerialized });
+      case 'CDSTextInput':
+        return new CDSTextInput({ ...formEntitySerialized });
       case 'TextInput':
         return new TextInput({ ...formEntitySerialized });
       case 'TextArea':
