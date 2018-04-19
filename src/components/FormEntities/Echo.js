@@ -10,6 +10,7 @@ import PostPrompt from './subentities/PostPrompt.js';
 import { log } from 'util';
 import { address } from '../../address';
 import { utility } from '../../validation/val.utility';
+import { FormInput } from '../../data/FormInput';
 
 const EchoComponent = props => {
   /** Handle adding/subtracing prepend or append */
@@ -56,12 +57,12 @@ const EchoComponent = props => {
     cursor: 'move',
     // border: '1px solid red',
     padding: '4px',
-    borderRadius: '2px'
+    borderRadius: '2px',
   };
 
   const tBInputStyle = {
     height: '40px',
-    width: '120px'
+    width: '120px',
   };
 
   return (
@@ -101,6 +102,11 @@ const EchoComponent = props => {
           className="form-control"
           type={props.model.type()}
           disabled="disabled"
+          value={
+            props.model.sourceInput() !== ''
+              ? props.model.sourceInput() + ` value`
+              : ''
+          }
         />
         {/*console.log(
           props.model.sourceInput() === ''

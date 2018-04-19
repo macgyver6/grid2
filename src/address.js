@@ -76,7 +76,6 @@ export const address = {
   },
 
   lookupComponent: modelInstance => {
-    console.log(modelInstance);
     if (modelInstance instanceof Form) {
       return FormComponent;
     } else if (modelInstance instanceof FormSection) {
@@ -135,9 +134,11 @@ export const address = {
   resurrectEntity: formEntitySerialized => {
     // @hack
     console.log(formEntitySerialized);
-    switch (formEntitySerialized.type ||
-      formEntitySerialized._type ||
-      formEntitySerialized.type()) {
+    switch (
+      formEntitySerialized.type ||
+        formEntitySerialized._type ||
+        formEntitySerialized.type()
+    ) {
       case 'Form':
         return new Form({ ...formEntitySerialized });
       case 'FormSection':

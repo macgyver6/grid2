@@ -11,7 +11,7 @@ export const TextBlockProperty = props => {
         ? event.target.checked
         : event.target.value;
     return props.mutate(address.bySample(props.model, props.form), {
-      [event.target.id]: value
+      [event.target.id]: value,
     });
   };
   return (

@@ -1,6 +1,8 @@
 import React from 'react';
 import { address } from '../address';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { _validations } from './_validations';
+import DataDefinedValidationsUI from './dataDefinedValidationsUI';
 
 export const TextInputProperty = props => {
   const change_handler = event => {
@@ -14,7 +16,7 @@ export const TextInputProperty = props => {
       address.bySample(props.model, props.form),
 
       {
-        validations: { ...props.model.validations(), [event.target.id]: value }
+        validations: { ...props.model.validations(), [event.target.id]: value },
       }
     );
   };
@@ -24,7 +26,7 @@ export const TextInputProperty = props => {
       <Tabs>
         <TabList>
           <Tab>Properties</Tab>
-          <Tab>Dependencies</Tab>
+          <Tab>Validations</Tab>
         </TabList>
         <h1>Text Input</h1>
         <p>{props.model.UUID()}</p>
@@ -166,17 +168,27 @@ export const TextInputProperty = props => {
                 value={props.model.validations().maxLength}
               />
               <br />
+              <label for="textInput-QxQ">QxQ Content</label>
+
+              <textarea
+                name="textInput-QxQ"
+                type="text"
+                id="QxQ"
+                onChange={change_handler}
+                value={props.model.QxQ()}
+                rows="3"
+                cols="50"
+              />
+              <br />
               <label for="textInput-defaultContent">Default Content</label>
               <br />
-              <textarea
+              <input
                 type="text"
                 name="textInput-defaultContent"
                 type="text"
                 id="defaultContent"
                 onChange={change_handler}
                 value={props.model.defaultContent()}
-                rows="10"
-                cols="50"
               />
             </div>
             <br />
@@ -186,7 +198,6 @@ export const TextInputProperty = props => {
           <h2>{props.model.type()} Validations</h2>
           <label for="textInput-val-type">Input Type</label>
           <br />
-
           <select
             value={props.model.validations().valType}
             className="form-control"
@@ -203,7 +214,7 @@ export const TextInputProperty = props => {
             ))}
           </select>
           <br />
-          <label for="textInput-val-length">Input Max Length</label>
+          {/*    <label for="textInput-val-length">Input Max Length</label>
 
           <input
             name="textInput-val-length"
@@ -213,6 +224,41 @@ export const TextInputProperty = props => {
             onChange={change_handler}
             value={props.model.validations().maxLength}
           />
+          */}
+
+          {props.model.validations.type() => {
+            // @hack
+            switch (
+              props.model.validations.type()
+            ) {
+              case 'String':
+                return new Form({ ...formEntitySerialized });
+              case 'Integer':
+                return new FormSection({ ...formEntitySerialized });
+              case 'Float':
+                return new CDSTextInput({ ...formEntitySerialized });
+              case 'TextInput':
+                return new TextInput({ ...formEntitySerialized });
+              case 'TextArea':
+                return new TextArea({ ...formEntitySerialized });
+              case 'CheckBox':
+                return new CheckBox({ ...formEntitySerialized });
+              case 'RadioButton':
+                return new RadioButton({ ...formEntitySerialized });
+              case 'SelectionInput':
+                return new SelectionInput({ ...formEntitySerialized });
+              case 'TextBlock':
+                return new TextBlock({ ...formEntitySerialized });
+              case 'ImageBlock':
+                return new ImageBlock({ ...formEntitySerialized });
+              case 'AdverseEvent':
+                return new AdverseEventInput({ ...formEntitySerialized });
+              case 'Echo':
+                return new EchoInput({ ...formEntitySerialized });
+              default:
+                throw new Error('Unexpected Entity Type');
+            }
+          }}
         </TabPanel>
       </Tabs>
     </div>

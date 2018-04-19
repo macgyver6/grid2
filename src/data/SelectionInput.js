@@ -9,6 +9,7 @@ class SelectionInput extends FormInput {
   /**
    * Create a SelectionInput.
    * @param {mode} renderMode
+   * @property {string} properties.QxQ - Field to provide additional information that may assist the user in filling out the form. This is rendered in a "tool tip", or if a TextBlock Entity property "QxQ" is true, the currently selected entity's QxQ information will be rendered in this field.
    */
   constructor(properties) {
     super(properties);
@@ -66,6 +67,7 @@ class SelectionInput extends FormInput {
       postPrompt: this.postPromptWidth(),
       postPromptWidth: this.postPromptWidth(),
       name: this.name(),
+      QxQ: this.QxQ(),
       sasCodeLabel: this.sasCodeLabel(),
       type: this.type(),
       tabOrder: this.tabOrder(),

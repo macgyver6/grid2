@@ -6,7 +6,7 @@ export const TextAreaProperty = props => {
     console.log(props.model.name());
 
     return props.mutate(address.bySample(props.model, props.form), {
-      name: event.target.value
+      name: event.target.value,
     });
   };
   return (
@@ -125,6 +125,18 @@ export const TextAreaProperty = props => {
             value={props.model.sasCodeLabel()}
           />
         </p>
+        <br />
+        <label for="textInput-QxQ">QxQ Content</label>
+
+        <textarea
+          name="textInput-QxQ"
+          type="text"
+          id="QxQ"
+          onChange={change_handler}
+          value={props.model.QxQ()}
+          rows="3"
+          cols="50"
+        />
       </div>
     </div>
   );

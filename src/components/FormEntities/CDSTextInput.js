@@ -141,6 +141,7 @@ const CDSTextInputComponent = props => {
         draggable="true"
       >
         <br />
+
         <PrismCode>
           <p>{props.model.script()}</p>
         </PrismCode>
