@@ -34,6 +34,10 @@ import { TextBlockProperty } from './containers/TextBlockProperty';
 import { ImageBlockProperty } from './containers/ImageBlockProperty';
 import { EchoProperty } from './containers/EchoProperty';
 import { initFE } from './constants/defaultPropsFE';
+import DateValidationUI from './containers/validations/dateValidationUI';
+import StringValidationUI from './containers/validations/stringValidationUI';
+import IntegerValidationUI from './containers/validations/integerValidationUI';
+import FloatValidationUI from './containers/validations/floatValidationUI';
 
 export const address = {
   bySample: (target, node, path = []) => {
@@ -131,6 +135,23 @@ export const address = {
     }
   },
 
+  whichValidation: validationType => {
+    console.log(validationType);
+    if (validationType === 'String') {
+      console.log('type String ');
+      return StringValidationUI;
+    } else if (validationType === 'Date') {
+      console.log('type Date');
+      return DateValidationUI;
+    } else if (validationType === 'Integer') {
+      console.log('type Date');
+      return IntegerValidationUI;
+    } else if (validationType === 'Float') {
+      console.log('type Date');
+      return FloatValidationUI;
+    }
+  },
+
   resurrectEntity: formEntitySerialized => {
     // @hack
     console.log(formEntitySerialized);
@@ -166,5 +187,5 @@ export const address = {
       default:
         throw new Error('Unexpected Entity Type');
     }
-  },
+  }
 };

@@ -2,7 +2,10 @@ import React from 'react';
 import { address } from '../address';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { _validations } from './_validations';
-import DataDefinedValidationsUI from './dataDefinedValidationsUI';
+import DateValidationUI from './validations/dateValidationUI';
+import StringValidationUI from './validations/stringValidationUI';
+import IntegerValidationUI from './validations/integerValidationUI';
+import FloatValidationUI from './validations/floatValidationUI';
 
 export const TextInputProperty = props => {
   const change_handler = event => {
@@ -16,8 +19,17 @@ export const TextInputProperty = props => {
       address.bySample(props.model, props.form),
 
       {
-        validations: { ...props.model.validations(), [event.target.id]: value },
+        validations: { ...props.model.validations(), [event.target.id]: value }
       }
+    );
+  };
+
+  const validationSelector_handler = event => {
+    console.log(event.target.value);
+    return props.mutate(
+      address.bySample(props.model, props.form),
+
+      { validations: _validations[event.target.value] }
     );
   };
 
@@ -202,7 +214,7 @@ export const TextInputProperty = props => {
             value={props.model.validations().valType}
             className="form-control"
             name="textInput-val-type"
-            onChange={change_handler}
+            onChange={validationSelector_handler}
             id="valType"
           >
             <option selected value>
@@ -225,40 +237,20 @@ export const TextInputProperty = props => {
             value={props.model.validations().maxLength}
           />
           */}
-
-          {props.model.validations.type() => {
-            // @hack
-            switch (
-              props.model.validations.type()
-            ) {
-              case 'String':
-                return new Form({ ...formEntitySerialized });
-              case 'Integer':
-                return new FormSection({ ...formEntitySerialized });
-              case 'Float':
-                return new CDSTextInput({ ...formEntitySerialized });
-              case 'TextInput':
-                return new TextInput({ ...formEntitySerialized });
-              case 'TextArea':
-                return new TextArea({ ...formEntitySerialized });
-              case 'CheckBox':
-                return new CheckBox({ ...formEntitySerialized });
-              case 'RadioButton':
-                return new RadioButton({ ...formEntitySerialized });
-              case 'SelectionInput':
-                return new SelectionInput({ ...formEntitySerialized });
-              case 'TextBlock':
-                return new TextBlock({ ...formEntitySerialized });
-              case 'ImageBlock':
-                return new ImageBlock({ ...formEntitySerialized });
-              case 'AdverseEvent':
-                return new AdverseEventInput({ ...formEntitySerialized });
-              case 'Echo':
-                return new EchoInput({ ...formEntitySerialized });
-              default:
-                throw new Error('Unexpected Entity Type');
+          {/* {address.whichValidation(props.model.validations().type)} */}
+          {console.log(props.model.validations())}
+          {React.createElement(
+            address.whichValidation(props.model.validations().type),
+            {
+              // key: i,
+              model: props.model.validations()
+              // form: props.form,
+              // remove: props.remove,
+              // add: props.add,
+              // mutate: props.mutate,
+              // changeentity: props.changeentity
             }
-          }}
+          )}
         </TabPanel>
       </Tabs>
     </div>
