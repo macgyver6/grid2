@@ -19,7 +19,7 @@ export const TextInputProperty = props => {
       address.bySample(props.model, props.form),
 
       {
-        validations: { ...props.model.validations(), [event.target.id]: value }
+        validations: { ...props.model.validations(), [event.target.id]: value },
       }
     );
   };
@@ -145,7 +145,6 @@ export const TextInputProperty = props => {
                 onChange={change_handler}
                 value={props.model.tabOrder()}
               />
-              {/* disabled="disabled" */}
             </p>
             <p>
               <label for="textInput-sasCodeLabel">SAS Code Label</label>
@@ -217,10 +216,10 @@ export const TextInputProperty = props => {
             onChange={validationSelector_handler}
             id="valType"
           >
-            <option selected value>
+            {/* <option selected value>
               {' '}
               -- select an option --{' '}
-            </option>
+      </option> */}
             {['String', 'Date', 'Integer', 'Float'].map(item => (
               <option value={item}>{item}</option>
             ))}
@@ -243,11 +242,11 @@ export const TextInputProperty = props => {
             address.whichValidation(props.model.validations().type),
             {
               // key: i,
-              model: props.model.validations()
-              // form: props.form,
+              model: props.model,
+              form: props.form,
               // remove: props.remove,
               // add: props.add,
-              // mutate: props.mutate,
+              mutate: props.mutate,
               // changeentity: props.changeentity
             }
           )}

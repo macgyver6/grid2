@@ -177,6 +177,7 @@ class FormInput extends FormEntity {
    * @memberof FormInput
    */
   validations() {
+    console.log('validations hit: ', this._validations);
     return this._validations;
   }
 
@@ -204,19 +205,22 @@ class FormInput extends FormEntity {
       inputWidth: this.inputWidth(),
       promptNumber: this.promptNumber(),
       autoNumber: this.autoNumber(),
-      validations: this.validations()
+      validations: this.validations(),
     };
   }
 }
 
 FormInput.DEFAULT_PROMPT_PRE_WIDTH = 2;
 FormInput.DEFAULT_PROMPT_POST_WIDTH = 2;
-FormInput.DEFAULT_VALIDATIONS = { type: 'String' };
+FormInput.DEFAULT_VALIDATIONS = {
+  type: 'String',
+  length: 2,
+};
 // These are dummy options, need to replace with real options
 FormInput.AutoNumberRuleToken = {
   SEQUENTIAL: 0,
   UNORDERED: 1,
-  ORDERED: 2
+  ORDERED: 2,
 };
 
 if (this.constructor === FormInput) {

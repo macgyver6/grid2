@@ -5,27 +5,21 @@ import { TextArea } from '../data/TextArea';
 export const _validations = {
   String: {
     type: 'String',
-    length: 2
+    length: 2,
   },
   Date: {
     type: 'Date',
-    fixed: null,
-    full: null,
+    fixed: false,
+    full: false,
     partialExpression: null,
-    timeZone: null
+    timeZone: null,
   },
   Float: {
-    type: 'Float'
-    // fixed: null,
-    // full: null,
-    // partialExpression: null,
-    // timeZone: null
+    type: 'Float',
+    length: 2,
   },
   Integer: {
-    type: 'Integer'
-    // fixed: null,
-    // full: null,
-    // partialExpression: null,
-    // timeZone: null
-  }
+    type: 'Integer',
+    length: 2,
+  },
 };
