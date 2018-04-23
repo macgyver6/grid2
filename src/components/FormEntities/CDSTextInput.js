@@ -52,7 +52,9 @@ const CDSTextInputComponent = props => {
 
   const click_handler = event => {
     event.stopPropagation();
-    props.changeentity(address.bySample(props.model, props.form));
+    props.temporalStateChange({
+      currententity: address.bySample(props.model, props.form),
+    });
   };
 
   const tiWrapperStyle = {

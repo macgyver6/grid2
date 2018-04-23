@@ -39,17 +39,19 @@ const CheckBoxComponent = props => {
     height: '100px',
     // //     margin: helpers.marginCalc(props),
     padding: '4px',
-    borderRadius: '2px'
+    borderRadius: '2px',
   };
 
   const cbInputStyle = {
     height: '25px',
-    width: '25px'
+    width: '25px',
   };
 
   const click_handler = event => {
     event.stopPropagation();
-    props.changeentity(address.bySample(props.model, props.form));
+    props.temporalStateChange({
+      currententity: address.bySample(props.model, props.form),
+    });
   };
   return (
     <div

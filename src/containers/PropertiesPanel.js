@@ -31,6 +31,8 @@ export const PropertiesPanel = props => {
               form: props.form,
               currententity: props.currententity,
               mutate: props.mutate,
+              appState: props.appState,
+              temporalStateChange: props.temporalStateChange,
             }
           )}
         </TabPanel>

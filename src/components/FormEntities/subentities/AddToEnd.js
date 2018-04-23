@@ -152,7 +152,7 @@ const AddToEnd = props => {
           })
         )
       );
-      props.changeentity(loc);
+      props.temporalStateChange(loc);
     }
     event.target.style.backgroundColor = '';
   };

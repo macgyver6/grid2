@@ -12,7 +12,7 @@ export const FloatValidationUI = props => {
   };
   return (
     <div>
-      <h1>Float Validations</h1>
+      <h2>Float Validations</h2>
       <p>
         <label for="val-length">Float Length</label>
         <br />

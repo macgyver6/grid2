@@ -48,7 +48,9 @@ const TextInputComponent = props => {
 
   const click_handler = event => {
     event.stopPropagation();
-    props.changeentity(address.bySample(props.model, props.form));
+    props.temporalStateChange({
+      currententity: address.bySample(props.model, props.form),
+    });
   };
 
   const tiWrapperStyle = {
@@ -73,7 +75,7 @@ const TextInputComponent = props => {
     margin: '10px 0px 10px 0px',
     minHeight: '100px',
     zIndex: '40',
-    cursor: 'move'
+    cursor: 'move',
   }; // maxHeight: '100px',
 
   const tiStyle = {
@@ -86,12 +88,12 @@ const TextInputComponent = props => {
     // gridGap: '8px',
     // border: '1px solid red',
     padding: '4px',
-    borderRadius: '2px'
+    borderRadius: '2px',
   };
 
   const tiInputStyle = {
     height: '20px',
-    width: '120px'
+    width: '120px',
   };
 
   return (

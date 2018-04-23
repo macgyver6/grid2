@@ -35,7 +35,9 @@ const RadioButtonComponent = props => {
 
   const click_handler = event => {
     event.stopPropagation();
-    props.changeentity(address.bySample(props.model, props.form));
+    props.temporalStateChange({
+      currententity: address.bySample(props.model, props.form),
+    });
   };
 
   const rbStyle = {
@@ -45,7 +47,7 @@ const RadioButtonComponent = props => {
     height: '100px',
     //     margin: helpers.marginCalc(props),
     borderRadius: '2px',
-    padding: '4px'
+    padding: '4px',
   };
 
   return (

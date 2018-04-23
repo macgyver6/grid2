@@ -34,6 +34,7 @@ const formReducer = (state, action) => {
         dateTime: null,
         activeTab: 0,
         currententity: [0, 0, 0],
+        validations: false,
         // currententity: null
       },
     };
@@ -122,10 +123,15 @@ const formReducer = (state, action) => {
     return { ...state, app: { ...state.app, activeTab: action.tab } };
   }
 
-  if (action.type === 'CHANGEENTITY') {
+  if (action.type === 'temporalStateChange') {
     return {
       ...state,
-      app: { ...state.app, currententity: action.entityAddress },
+      app: {
+        ...state.app,
+        // ...action.payload,
+        [Object.keys(action.payload)[0]]:
+          action.payload[Object.keys(action.payload)[0]],
+      },
     };
   }
 

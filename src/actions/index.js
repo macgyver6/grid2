@@ -69,8 +69,9 @@ export const changetab = tab => {
   };
 };
 
-export const changeentity = entityAddress => {
-  return { type: 'CHANGEENTITY', entityAddress };
+export const temporalStateChange = payload => {
+  console.log(payload);
+  return { type: 'temporalStateChange', payload };
 };
 
 export const dtLocalFilesSaved = dateTime => {

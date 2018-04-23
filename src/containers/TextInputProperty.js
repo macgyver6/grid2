@@ -6,6 +6,7 @@ import DateValidationUI from './validations/dateValidationUI';
 import StringValidationUI from './validations/stringValidationUI';
 import IntegerValidationUI from './validations/integerValidationUI';
 import FloatValidationUI from './validations/floatValidationUI';
+import { Collapse } from 'react-collapse';
 
 export const TextInputProperty = props => {
   const change_handler = event => {
@@ -33,15 +34,89 @@ export const TextInputProperty = props => {
     );
   };
 
+  const collapse_handler = event => {
+    // bool = !bool;
+    props.temporalStateChange({
+      validations: !props.appState.validations,
+    });
+  };
+
   return (
     <div>
+      <h1>Text Input</h1>
       <Tabs>
         <TabList>
-          <Tab>Properties</Tab>
           <Tab>Validations</Tab>
+          <Tab>Properties</Tab>
         </TabList>
-        <h1>Text Input</h1>
         <p>{props.model.UUID()}</p>
+        <TabPanel>
+          <h2>{props.model.type()} Validations</h2>
+          <label for="textInput-val-type">Input Type</label>
+          <br />
+          <select
+            value={props.model.validations().valType}
+            className="form-control"
+            name="textInput-val-type"
+            onChange={validationSelector_handler}
+            id="valType"
+          >
+            {/* <option selected value>
+              {' '}
+              -- select an option --{' '}
+      </option> */}
+            {['String', 'Date', 'Integer', 'Float'].map(item => (
+              <option value={item}>{item}</option>
+            ))}
+          </select>
+          <br />
+          {/*    <label for="textInput-val-length">Input Max Length</label>
+
+          <input
+            name="textInput-val-length"
+            size="2"
+            type="number"
+            id="maxLength"
+            onChange={change_handler}
+            value={props.model.validations().maxLength}
+          />
+          */}
+          {/* {address.whichValidation(props.model.validations().type)} */}
+          {console.log(props.model.validations())}
+          {React.createElement(
+            address.whichValidation(props.model.validations().type),
+            {
+              // key: i,
+              model: props.model,
+              form: props.form,
+              // remove: props.remove,
+              // add: props.add,
+              mutate: props.mutate,
+              // temporalStateChange: props.temporalStateChange
+            }
+          )}
+          <h2 onClick={collapse_handler}>Validations</h2>
+          <Collapse isOpened={props.appState.validations}>
+            <select
+              // value={props.model.validations().valType}
+              className="form-control"
+              name="textInput-val-type"
+              // onChange={validationSelector_handler}
+              id="valType"
+            >
+              {/* <option selected value>
+            {' '}
+            -- select an option --{' '}
+    </option> */}
+              {[
+                'Pattern',
+                'Empty Field',
+                'Enumeration',
+                'Subhect Input Validation',
+              ].map(item => <option value={item}>{item}</option>)}
+            </select>
+          </Collapse>
+        </TabPanel>
         <TabPanel>
           <div>
             <p>
@@ -128,10 +203,10 @@ export const TextInputProperty = props => {
               />
             </p>
             {/* <p>
-          <label for="textInput-qbq">Q-by-Q (optional)</label>
-          <br />
-          <textarea name="textInput-qbq" />
-        </p> */}
+        <label for="textInput-qbq">Q-by-Q (optional)</label>
+        <br />
+        <textarea name="textInput-qbq" />
+      </p> */}
           </div>
           <div>
             <p>
@@ -204,52 +279,6 @@ export const TextInputProperty = props => {
             </div>
             <br />
           </div>
-        </TabPanel>
-        <TabPanel>
-          <h2>{props.model.type()} Validations</h2>
-          <label for="textInput-val-type">Input Type</label>
-          <br />
-          <select
-            value={props.model.validations().valType}
-            className="form-control"
-            name="textInput-val-type"
-            onChange={validationSelector_handler}
-            id="valType"
-          >
-            {/* <option selected value>
-              {' '}
-              -- select an option --{' '}
-      </option> */}
-            {['String', 'Date', 'Integer', 'Float'].map(item => (
-              <option value={item}>{item}</option>
-            ))}
-          </select>
-          <br />
-          {/*    <label for="textInput-val-length">Input Max Length</label>
-
-          <input
-            name="textInput-val-length"
-            size="2"
-            type="number"
-            id="maxLength"
-            onChange={change_handler}
-            value={props.model.validations().maxLength}
-          />
-          */}
-          {/* {address.whichValidation(props.model.validations().type)} */}
-          {console.log(props.model.validations())}
-          {React.createElement(
-            address.whichValidation(props.model.validations().type),
-            {
-              // key: i,
-              model: props.model,
-              form: props.form,
-              // remove: props.remove,
-              // add: props.add,
-              mutate: props.mutate,
-              // changeentity: props.changeentity
-            }
-          )}
         </TabPanel>
       </Tabs>
     </div>

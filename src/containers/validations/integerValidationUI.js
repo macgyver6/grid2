@@ -12,7 +12,7 @@ export const IntegerValidationUI = props => {
   };
   return (
     <div>
-      <h1>Integer Validations</h1>
+      <h2>Integer Validations</h2>
       <p>
         <label for="val-length">Integer Length</label>
         <br />

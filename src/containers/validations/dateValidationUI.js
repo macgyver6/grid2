@@ -13,7 +13,7 @@ export const DateValidationUI = props => {
   };
   return (
     <div>
-      <h1>Date Validations</h1>
+      <h2>Date Validations</h2>
       <br />
       <label for="val-fixed">Fixed</label>
       <select

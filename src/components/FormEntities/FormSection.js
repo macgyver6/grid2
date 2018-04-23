@@ -343,7 +343,7 @@ let FormSectionComponent = props => {
                 remove: props.remove,
                 add: props.add,
                 mutate: props.mutate,
-                changeentity: props.changeentity,
+                temporalStateChange: props.temporalStateChange,
               });
             })
           : null}
@@ -365,7 +365,7 @@ let FormSectionComponent = props => {
           add={props.add}
           remove={props.remove}
           mutate={props.mutate}
-          changeentity={props.changeentity}
+          temporalStateChange={props.temporalStateChange}
         />
       </div>
       {props.model.append() > 0 ? (

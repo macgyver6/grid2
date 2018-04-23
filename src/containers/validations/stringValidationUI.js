@@ -12,7 +12,7 @@ export const StringValidationUI = props => {
   };
   return (
     <div>
-      <h1>String Validations</h1>
+      <h2>String Validations</h2>
       <p>
         <label for="val-length">String Length</label>
         <br />

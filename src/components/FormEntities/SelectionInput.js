@@ -43,7 +43,9 @@ const SelectionInputComponent = props => {
 
   const click_handler = event => {
     event.stopPropagation();
-    props.changeentity(address.bySample(props.model, props.form));
+    props.temporalStateChange({
+      currententity: address.bySample(props.model, props.form),
+    });
   };
 
   const siStyle = {
@@ -55,11 +57,11 @@ const SelectionInputComponent = props => {
     cursor: 'move',
     // border: '1px solid red',
     padding: '4px',
-    borderRadius: '2px'
+    borderRadius: '2px',
   };
 
   const siInputStyle = {
-    height: '40px'
+    height: '40px',
   };
 
   return (

@@ -40,12 +40,14 @@ const TextAreaComponent = props => {
     position: 'relative',
     height: '100px',
     borderRadius: '2px',
-    padding: '4px'
+    padding: '4px',
   };
 
   const click_handler = event => {
     event.stopPropagation();
-    props.changeentity(address.bySample(props.model, props.form));
+    props.temporalStateChange({
+      currententity: address.bySample(props.model, props.form),
+    });
   };
 
   return (
