@@ -7,6 +7,7 @@ import StringValidationUI from './validations/stringValidationUI';
 import IntegerValidationUI from './validations/integerValidationUI';
 import FloatValidationUI from './validations/floatValidationUI';
 import { Collapse } from 'react-collapse';
+import Expand from '../assets/expand.js'
 
 export const TextInputProperty = props => {
   const change_handler = event => {
@@ -35,9 +36,8 @@ export const TextInputProperty = props => {
   };
 
   const collapse_handler = event => {
-    // bool = !bool;
     props.temporalStateChange({
-      validations: !props.appState.validations
+      [event.target.id]: !props.appState[event.target.id]
     });
   };
 
@@ -51,7 +51,9 @@ export const TextInputProperty = props => {
         </TabList>
         <p>{props.model.UUID()}</p>
         <TabPanel>
-          <h2>{props.model.type()} Validations</h2>
+        <br/>
+        <h2 id="dataDefinedValidationPane" onClick={collapse_handler}>Data Defined Validation{props.appState.dataDefinedValidationPane ?  ' ⬇️ (Click to collpase)' : ' ↕️ (Click to Expand)'} </h2>
+        <Collapse isOpened={props.appState.dataDefinedValidationPane}>
           <label for="textInput-val-type">Input Type</label>
           <br />
           <select
@@ -94,7 +96,10 @@ export const TextInputProperty = props => {
               // temporalStateChange: props.temporalStateChange
             }
           )}
-          <h2 onClick={collapse_handler}>Validations</h2>
+          <hr/>
+          </ Collapse>
+          <h2 id="validations" onClick={collapse_handler}>User Defined Validations{props.appState.validations ?  ' ⬇️ (Click to collpase)' : ' ↕️ (Click to Expand)'}
+</h2>
           <Collapse isOpened={props.appState.validations}>
             <select
               // value={props.model.validations().valType}
@@ -111,7 +116,9 @@ export const TextInputProperty = props => {
                 'Pattern',
                 'EmptyField',
                 'Enumeration',
-                'SubjectInputValidation'
+                'SubjectInputValidation',
+                'Range',
+                'NoOp'
               ].map(item => <option value={item}>{item}</option>)}
             </select>
             <p>This is where the selected validator config will go</p>
