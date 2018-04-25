@@ -15,28 +15,29 @@ export const TextInputProperty = props => {
         ? event.target.checked
         : event.target.value;
     return props.mutate(address.bySample(props.model, props.form), {
-      validations: { ...props.model.validations(), [event.target.id]: value },
+      validations: { ...props.model.validations(), [event.target.id]: value }
     });
   };
 
   const validationSelector_handler = event => {
-    console.log({
+    // return {
+    //   validations: {
+    //     ...props.model.validations(),
+    //     [event.target.id]: event.target.value
+    //   }
+    // };
+    return props.mutate(address.bySample(props.model, props.form), {
       validations: {
         ...props.model.validations(),
-        [event.target.id]: event.target.value,
-      },
+        [event.target.id]: event.target.value
+      }
     });
-    // console.log(
-    //   props.mutate(address.bySample(props.model, props.form), {
-    //     validations: _validations[event.target.value],
-    //   })
-    // );
   };
 
   const collapse_handler = event => {
     // bool = !bool;
     props.temporalStateChange({
-      validations: !props.appState.validations,
+      validations: !props.appState.validations
     });
   };
 
@@ -81,16 +82,15 @@ export const TextInputProperty = props => {
             size="2"
           */}
           {/* {address.whichValidation(props.model.validations().type)} */}
-          {console.log(address.whichValidation(props.model.validations().type))}
           {React.createElement(
-            address.whichValidation(props.model.validations().type),
+            address.whichValidation(props.model.validations().valType),
             {
               // key: i,
               model: props.model,
               form: props.form,
               // remove: props.remove,
               // add: props.add,
-              mutate: props.mutate,
+              mutate: props.mutate
               // temporalStateChange: props.temporalStateChange
             }
           )}
@@ -111,12 +111,11 @@ export const TextInputProperty = props => {
                 'Pattern',
                 'EmptyField',
                 'Enumeration',
-                'SubjectInputValidation',
+                'SubjectInputValidation'
               ].map(item => <option value={item}>{item}</option>)}
             </select>
             <p>This is where the selected validator config will go</p>
-            {console.log(props.model.validations())}
-            {/*React.createElement(
+            {React.createElement(
               address.whichValidator(props.model.validations().userDefined),
               {
                 model: address.byPath(props.form, props.currententity),
@@ -124,9 +123,9 @@ export const TextInputProperty = props => {
                 currententity: props.currententity,
                 mutate: props.mutate,
                 appState: props.appState,
-                temporalStateChange: props.temporalStateChange,
+                temporalStateChange: props.temporalStateChange
               }
-            )*/}
+            )}
           </Collapse>
         </TabPanel>
         <TabPanel>

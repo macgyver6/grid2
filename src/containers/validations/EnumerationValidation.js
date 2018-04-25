@@ -13,7 +13,7 @@ export const EnumerationValidation = props => {
   // };
   return (
     <div>
-      <h2>Pattern Validations</h2>
+      <h2>Enumeration Validations</h2>
       <br />
     </div>
   );
