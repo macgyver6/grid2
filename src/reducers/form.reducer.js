@@ -34,7 +34,7 @@ const formReducer = (state, action) => {
         dateTime: null,
         activeTab: 0,
         currententity: [0, 0, 0],
-        validations: false,
+        validations: true,
         // currententity: null
       },
     };

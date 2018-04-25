@@ -215,6 +215,7 @@ FormInput.DEFAULT_PROMPT_POST_WIDTH = 2;
 FormInput.DEFAULT_VALIDATIONS = {
   type: 'String',
   length: 2,
+  userDefined: 'Pattern',
 };
 // These are dummy options, need to replace with real options
 FormInput.AutoNumberRuleToken = {

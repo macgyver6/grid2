@@ -38,6 +38,8 @@ import DateValidationUI from './containers/validations/dateValidationUI';
 import StringValidationUI from './containers/validations/stringValidationUI';
 import IntegerValidationUI from './containers/validations/integerValidationUI';
 import FloatValidationUI from './containers/validations/floatValidationUI';
+import PatternValidation from './containers/validations/PatternValidation';
+import EnumerationValidation from './containers/validations/EnumerationValidation';
 
 export const address = {
   bySample: (target, node, path = []) => {
@@ -135,6 +137,37 @@ export const address = {
     }
   },
 
+  whichValidator: modelInstance => {
+    console.log(modelInstance);
+    if (modelInstance instanceof Form) {
+      return FormComponent;
+      // } else if (modelInstance instanceof FormSection) {
+      //   return FormSectionComponent;
+    } else if (modelInstance === 'Pattern') {
+      console.log(modelInstance);
+      return PatternValidation;
+    } else if (modelInstance === 'Enumeration') {
+      return EnumerationValidation;
+    }
+    // else if (modelInstance instanceof TextArea) {
+    //   return TextAreaProperty;
+    // } else if (modelInstance instanceof CheckBox) {
+    //   return CheckBoxProperty;
+    // } else if (modelInstance instanceof RadioButton) {
+    //   return RadioButtonProperty;
+    // } else if (modelInstance instanceof SelectionInput) {
+    //   return SelectionInputProperty;
+    // } else if (modelInstance instanceof TextBlock) {
+    //   return TextBlockProperty;
+    // } else if (modelInstance instanceof ImageBlock) {
+    //   return ImageBlockProperty;
+    // } else if (modelInstance instanceof AdverseEventInput) {
+    //   return AdverseEventProperty;
+    // } else if (modelInstance instanceof EchoInput) {
+    //   return EchoProperty;
+    // }
+  },
+
   whichValidation: validationType => {
     console.log(validationType);
     if (validationType === 'String') {
@@ -187,5 +220,5 @@ export const address = {
       default:
         throw new Error('Unexpected Entity Type');
     }
-  }
+  },
 };

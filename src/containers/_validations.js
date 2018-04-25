@@ -22,4 +22,16 @@ export const _validations = {
     type: 'Integer',
     length: 2,
   },
+  Pattern: {
+    value: 'pattern content',
+  },
+  EmptyField: {
+    value: 'EmptyField content',
+  },
+  Enumeration: {
+    value: 'Enumeration content',
+  },
+  SubjectInputValidation: {
+    value: 'SubjectInputValidation content',
+  },
 };
