@@ -11,29 +11,29 @@ import TextBlockComponent from './components/FormEntities/TextBlock';
 import ImageBlockComponent from './components/FormEntities/ImageBlock';
 import AdverseeventComponent from './components/FormEntities/AdverseEvent';
 import EchoComponent from './components/FormEntities/Echo';
-import {Form} from './data/Form';
-import {FormSection} from './data/FormSection';
-import {TextInput} from './data/TextInput';
-import {CDSTextInput} from './data/CDSTextInput';
-import {TextArea} from './data/TextArea';
-import {CheckBox} from './data/CheckBox';
-import {SelectionInput} from './data/SelectionInput';
-import {RadioButton} from './data/RadioButton';
-import {TextBlock} from './data/TextBlock';
-import {ImageBlock} from './data/ImageBlock';
-import {EchoInput} from './data/EchoInput';
-import {AdverseEventInput} from './data/AdverseEventInput';
-import {TextInputProperty} from './containers/TextInputProperty';
-import {CDSTextInputProperty} from './containers/CDSTextInputProperty';
-import {TextAreaProperty} from './containers/TextAreaProperty';
-import {AdverseEventProperty} from './containers/AdverseEventProperty';
-import {CheckBoxProperty} from './containers/CheckBoxProperty';
-import {RadioButtonProperty} from './containers/RadioButtonProperty';
-import {SelectionInputProperty} from './containers/SelectionInputProperty';
-import {TextBlockProperty} from './containers/TextBlockProperty';
-import {ImageBlockProperty} from './containers/ImageBlockProperty';
-import {EchoProperty} from './containers/EchoProperty';
-import {initFE} from './constants/defaultPropsFE';
+import { Form } from './data/Form';
+import { FormSection } from './data/FormSection';
+import { TextInput } from './data/TextInput';
+import { CDSTextInput } from './data/CDSTextInput';
+import { TextArea } from './data/TextArea';
+import { CheckBox } from './data/CheckBox';
+import { SelectionInput } from './data/SelectionInput';
+import { RadioButton } from './data/RadioButton';
+import { TextBlock } from './data/TextBlock';
+import { ImageBlock } from './data/ImageBlock';
+import { EchoInput } from './data/EchoInput';
+import { AdverseEventInput } from './data/AdverseEventInput';
+import { TextInputProperty } from './containers/TextInputProperty';
+import { CDSTextInputProperty } from './containers/CDSTextInputProperty';
+import { TextAreaProperty } from './containers/TextAreaProperty';
+import { AdverseEventProperty } from './containers/AdverseEventProperty';
+import { CheckBoxProperty } from './containers/CheckBoxProperty';
+import { RadioButtonProperty } from './containers/RadioButtonProperty';
+import { SelectionInputProperty } from './containers/SelectionInputProperty';
+import { TextBlockProperty } from './containers/TextBlockProperty';
+import { ImageBlockProperty } from './containers/ImageBlockProperty';
+import { EchoProperty } from './containers/EchoProperty';
+import { initFE } from './constants/defaultPropsFE';
 import DateValidationUI from './containers/validations/dateValidationUI';
 import StringValidationUI from './containers/validations/stringValidationUI';
 import IntegerValidationUI from './containers/validations/integerValidationUI';
@@ -55,14 +55,9 @@ export const address = {
     }
 
     if (node.children) {
-      return node
-        .children()
-        .reduce((acc, child, index) => {
-          return acc || address.bySample(target, child, [
-            ...path,
-            index
-          ]);
-        }, null);
+      return node.children().reduce((acc, child, index) => {
+        return acc || address.bySample(target, child, [...path, index]);
+      }, null);
     }
 
     return null;
@@ -74,14 +69,9 @@ export const address = {
     }
 
     if (node.children) {
-      return node
-        .children()
-        .reduce((acc, child, index) => {
-          return acc || address.byUuid(uuid, child, [
-            ...path,
-            index
-          ]);
-        }, null);
+      return node.children().reduce((acc, child, index) => {
+        return acc || address.byUuid(uuid, child, [...path, index]);
+      }, null);
     }
 
     return null;
@@ -157,14 +147,14 @@ export const address = {
       return PatternValidation;
     } else if (modelInstance === 'Enumeration') {
       return EnumerationValidation;
-    } else if (modelInstance === 'SubjectInput') {
-      return SubjectInputValidation;
     } else if (modelInstance === 'EmptyField') {
       return EmptyFieldValidation;
     } else if (modelInstance === 'NoOp') {
       return NoOpValidation;
     } else if (modelInstance === 'Range') {
       return RangeValidation;
+    } else if (modelInstance === 'SubjectInputValidation') {
+      return SubjectInputValidation;
     }
   },
 
@@ -188,7 +178,11 @@ export const address = {
   resurrectEntity: formEntitySerialized => {
     // @hack
     console.log(formEntitySerialized);
-    switch (formEntitySerialized.type || formEntitySerialized._type || formEntitySerialized.type()) {
+    switch (
+      formEntitySerialized.type ||
+        formEntitySerialized._type ||
+        formEntitySerialized.type()
+    ) {
       case 'Form':
         return new Form({
           ...formEntitySerialized

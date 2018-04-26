@@ -1,13 +1,13 @@
 import React from 'react';
 import { address } from '../address';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { _validations } from './_validations';
+import { _dataDefined } from './_validations';
 import DateValidationUI from './validations/dateValidationUI';
 import StringValidationUI from './validations/stringValidationUI';
 import IntegerValidationUI from './validations/integerValidationUI';
 import FloatValidationUI from './validations/floatValidationUI';
 import { Collapse } from 'react-collapse';
-import Expand from '../assets/expand.js'
+import Expand from '../assets/expand.js';
 
 export const TextInputProperty = props => {
   const change_handler = event => {
@@ -41,6 +41,22 @@ export const TextInputProperty = props => {
     });
   };
 
+  console.log(Object.keys(_dataDefined));
+
+  // const dataDefined = {
+  //   String: ['Pattern', 'NoOp', 'Enumeration', 'SubjectInputValidation'],
+  //   Date: ['NoOp', 'Enumeration', 'Range'],
+  //   Integer: ['Pattern', 'NoOp', 'Enumeration', 'Range'],
+  //   Float: ['Pattern', 'NoOp', 'Enumeration', 'Range']
+  // };
+
+  const userDefinedValOptionsArr = dataDefinedSelection =>
+    _dataDefined[dataDefinedSelection]['userDefined'].map(
+      userDefinedValOption => (
+        <option value={userDefinedValOption}>{userDefinedValOption}</option>
+      )
+    );
+
   return (
     <div>
       <h1>Text Input</h1>
@@ -51,28 +67,32 @@ export const TextInputProperty = props => {
         </TabList>
         <p>{props.model.UUID()}</p>
         <TabPanel>
-        <br/>
-        <h2 id="dataDefinedValidationPane" onClick={collapse_handler}>Data Defined Validation{props.appState.dataDefinedValidationPane ?  ' ⬇️ (Click to collpase)' : ' ↕️ (Click to Expand)'} </h2>
-        <Collapse isOpened={props.appState.dataDefinedValidationPane}>
-          <label for="textInput-val-type">Input Type</label>
           <br />
-          <select
-            value={props.model.validations().valType}
-            className="form-control"
-            name="textInput-val-type"
-            onChange={validationSelector_handler}
-            id="valType"
-          >
-            {/* <option selected value>
+          <h2 id="dataDefinedValidationPane" onClick={collapse_handler}>
+            Data Defined Validation{props.appState.dataDefinedValidationPane
+              ? ' ⬇️ (Click to collpase)'
+              : ' ↕️ (Click to Expand)'}{' '}
+          </h2>
+          <Collapse isOpened={props.appState.dataDefinedValidationPane}>
+            <label for="textInput-val-type">Input Type</label>
+            <br />
+            <select
+              value={props.model.validations().valType}
+              className="form-control"
+              name="textInput-val-type"
+              onChange={validationSelector_handler}
+              id="valType"
+            >
+              {/* <option selected value>
               {' '}
               -- select an option --{' '}
       </option> */}
-            {['String', 'Date', 'Integer', 'Float'].map(item => (
-              <option value={item}>{item}</option>
-            ))}
-          </select>
-          <br />
-          {/*    <label for="textInput-val-length">Input Max Length</label>
+              {Object.keys(_dataDefined)
+                .map(val => val)
+                .map(item => <option value={item}>{item}</option>)}
+            </select>
+            <br />
+            {/*    <label for="textInput-val-length">Input Max Length</label>
 
           <input
             name="textInput-val-length"
@@ -83,26 +103,28 @@ export const TextInputProperty = props => {
             />
             size="2"
           */}
-          {/* {address.whichValidation(props.model.validations().type)} */}
-          {React.createElement(
-            address.whichValidation(props.model.validations().valType),
-            {
-              // key: i,
-              model: props.model,
-              form: props.form,
-              // remove: props.remove,
-              // add: props.add,
-              mutate: props.mutate
-              // temporalStateChange: props.temporalStateChange
-            }
-          )}
-          <hr/>
-          </ Collapse>
-          <h2 id="validations" onClick={collapse_handler}>User Defined Validations{props.appState.validations ?  ' ⬇️ (Click to collpase)' : ' ↕️ (Click to Expand)'}
-</h2>
+            {/* {address.whichValidation(props.model.validations().type)} */}
+            {React.createElement(
+              address.whichValidation(props.model.validations().valType),
+              {
+                // key: i,
+                model: props.model,
+                form: props.form,
+                // remove: props.remove,
+                // add: props.add,
+                mutate: props.mutate
+                // temporalStateChange: props.temporalStateChange
+              }
+            )}
+            <hr />
+          </Collapse>
+          <h2 id="validations" onClick={collapse_handler}>
+            User Defined Validations{props.appState.validations
+              ? ' ⬇️ (Click to collpase)'
+              : ' ↕️ (Click to Expand)'}
+          </h2>
           <Collapse isOpened={props.appState.validations}>
-            <select
-              // value={props.model.validations().valType}
+            <select // value={props.model.validations().valType}
               className="form-control"
               name="textInput-val-type"
               onChange={validationSelector_handler}
@@ -112,14 +134,16 @@ export const TextInputProperty = props => {
             {' '}
             -- select an option --{' '}
     </option> */}
-              {[
+
+              {/*[
                 'Pattern',
                 'EmptyField',
                 'Enumeration',
                 'SubjectInputValidation',
                 'Range',
                 'NoOp'
-              ].map(item => <option value={item}>{item}</option>)}
+              ].map(item => <option value={item}>{item}</option>)*/}
+              {userDefinedValOptionsArr(props.model.validations().valType)}
             </select>
             <p>This is where the selected validator config will go</p>
             {React.createElement(
