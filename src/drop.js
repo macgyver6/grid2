@@ -25,33 +25,36 @@ export const drop = {
     dropObj.initPrepend = props.model.prepend();
     dropObj.initAppend = props.model.append();
     dropObj.sourceAddress = address.bySample(props.model, props.form);
+    console.log(dropObj)
     dropObj.offsetInit =
-      address.bySample(props.model, props.form).length > 1
-        ? round(
-            event.clientX -
-              document
-                .getElementById(`${props.model.UUID()}.${props.model.type()}`)
-                .getBoundingClientRect().left,
-            3
-          )
-        : null;
+    address.bySample(props.model, props.form).length > 1
+    ? round(
+      event.clientX -
+      document
+      .getElementById(`${props.model.UUID()}.${props.model.type()}`)
+      .getBoundingClientRect().left,
+      3
+    )
+    : null;
+    console.log('mouseDown: ', dropObj)
   },
   /**Give the user feedback while they are dragged.
    * If the user were to drop at the clientX of mouseMove, would it be valid?
    * Eg: Make the target drop green if valid, red if not.
    *    */
-  mouseMove_handler: (event, props) => {
-    const canMove = () => {
-      dropObj.valid = true;
-      return true;
-    };
-    dropObj.dX = canMove() ? event.clientX - dropObj.mouseDownStartX : null;
-  },
+  // mouseMove_handler: (event, props) => {
+  //   const canMove = () => {
+  //     dropObj.valid = true;
+  //     return true;
+  //   };
+  //   dropObj.dX = canMove() ? event.clientX - dropObj.mouseDownStartX : null;
+  // },
   drop_handler: (event, props) => {
     event.stopPropagation();
-    console.log(dropObj.offsetInit);
+    console.log('dropObj: ', dropObj);
     const dropData = JSON.parse(event.dataTransfer.getData('address'));
     const previousSibling = () => {
+      console.log('from drop_handler: ', dropObj)
       const _sourceAddress = [...dropObj.sourceAddress];
       if (dropObj.sourceAddress[dropObj.sourceAddress.length - 1] > 0) {
         _sourceAddress.splice(
@@ -269,11 +272,18 @@ export const drop = {
       // console.log(firstInRow(dropObj.destinationAddress))
       const entityToMutate = {
         prepend: firstInRow(dropObj.destinationAddress)
-          ? dropObj.initPrepend + gridOffsetNoLocChange()
-          : 0,
-        append: dropObj.initAppend - gridOffsetNoLocChange(),
+            ? dropObj.initPrepend + gridOffsetNoLocChange()
+            : 0,
+            append: dropObj.initAppend - gridOffsetNoLocChange(),
       };
-      // console.log(dropObj.sourceAddress, entityToMutate)
+      console.log('append', dropObj)
+      // const entityToMutate = {
+      //   prepend: firstInRow(dropObj.destinationAddress)
+      //     ? dropObj.initPrepend + gridOffsetNoLocChange()
+      //     : 0,
+      //   append: dropObj.initAppend - gridOffsetNoLocChange(),
+      // };
+      console.log(dropObj.sourceAddress, entityToMutate)
       props.mutate(dropObj.sourceAddress, entityToMutate);
       console.log('test');
     } else if (

@@ -41,10 +41,10 @@ const formReducer = (state, action) => {
     };
     return state;
   }
-
-  if (state !== 'undefined') {
-    console.log(validateForm(state.form).validateImport());
-  }
+/** entry point to validate form IF form entities exist */
+  // if (state !== 'undefined') {
+  //   console.log(validateForm(state.form).validateImport());
+  // }
 
   if (action.type === 'INCREMENT') {
     return Object.assign({}, state, {

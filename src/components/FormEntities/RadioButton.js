@@ -57,6 +57,8 @@ const RadioButtonComponent = props => {
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
       onClick={click_handler}
+      onDragStart={dragstart_handler}
+      draggable="true"
     >
       {props.model.prepend() > 0 ? (
         <Prepend
@@ -88,8 +90,8 @@ const RadioButtonComponent = props => {
         style={rbStyle}
         className="RadioButton"
         onMouseDown={mouseDown_handler}
-        onDragStart={dragstart_handler}
-        draggable="true"
+        // onDragStart={dragstart_handler}
+        // draggable="true"
       >
         <form action="">
           <input type="radio" name="_value" value="yes" /> Yes<br />

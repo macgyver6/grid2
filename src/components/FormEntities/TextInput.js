@@ -26,8 +26,9 @@ const TextInputComponent = props => {
    * 2. Deleting a form section
    */
   let dragstart_handler = event => {
-    // event.stopPropagation();
-    helpers.dragStart_handler(event, props.model, props.form, 'move');
+   //  event.stopPropagation();
+    //  helpers.dragStart_handler(event, props.model, props.form, 'move');
+    return false // to prevent a drag image from appearing
   };
 
   let dragOver_handler = event => {
@@ -96,6 +97,11 @@ const TextInputComponent = props => {
     width: '120px',
   };
 
+  const mouseUp_handler = (event) => {
+    event.stopPropagation()
+    console.log('mouseUp_handler')
+  }
+
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
@@ -103,7 +109,11 @@ const TextInputComponent = props => {
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
       onDragLeave={dragleave_handler}
-      onClick={click_handler}
+      onClick={click_handler} // to select the current entity for properties panel
+      onMouseDown={mouseDown_handler} // to set intitial mouse click loc
+      onDragStart={dragstart_handler} // returns false to prevent drag image
+      onMouseUp={mouseUp_handler}
+      draggable="true"
     >
       {props.model.prepend() > 0 ? (
         <Prepend
@@ -134,9 +144,9 @@ const TextInputComponent = props => {
         style={tiStyle}
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="TextInput"
-        onMouseDown={mouseDown_handler}
-        onDragStart={dragstart_handler}
-        draggable="true"
+        // onMouseDown={mouseDown_handler}
+        // onDragStart={dragstart_handler}
+        // draggable="true"
       >
         <br />
         <input

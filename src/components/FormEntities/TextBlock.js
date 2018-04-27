@@ -85,6 +85,8 @@ const TextBlockComponent = props => {
       onDrop={drop_handler}
       onDragLeave={dragleave_handler}
       onClick={click_handler}
+      onDragStart={dragstart_handler}
+      draggable="true"
     >
       {props.model.prepend() > 0 ? (
         <Prepend
@@ -105,8 +107,8 @@ const TextBlockComponent = props => {
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="TextInput"
         onMouseDown={mouseDown_handler}
-        onDragStart={dragstart_handler}
-        draggable="true"
+        // onDragStart={dragstart_handler}
+        // draggable="true"
       >
         <br />
         <textarea
