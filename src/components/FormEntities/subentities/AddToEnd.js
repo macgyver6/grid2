@@ -119,6 +119,7 @@ const AddToEnd = props => {
         props,
         droppedEntity
       );
+
       // if (!arraysEqual(toBeMutatedRestore.address, dropObj.destinationAddress)) {
 
       if (toBeMutatedRestore) {
@@ -127,14 +128,31 @@ const AddToEnd = props => {
 
       props.remove(dropData.address);
     } else {
-      props.add(
+      /*
+      @hack - this needs to accomodate some entities having prePrompt and others not
+       */
+      console.log(address.resurrectEntity(Object.assign({}, dropData.model)));
+      const calcAppend = entity => {
+        if (entity.prePromptWidth) {
+          return (
+            entity.prepend +
+            entity.prePromptWidth +
+            entity.width +
+            entity.postPromptWidth
+          );
+        } else {
+          return entity.prepend + entity.width;
+        }
+      };
+      const newEntity = props.add(
         loc,
         address.resurrectEntity(
           Object.assign({}, dropData.model, {
-            append: destination[1].width() - dropData.model.width,
+            append: destination[1].width() - calcAppend(dropData.model),
           })
         )
       );
+      props.temporalStateChange(loc);
     }
     event.target.style.backgroundColor = '';
   };

@@ -63,9 +63,17 @@ export const loadstate = () => {
 };
 
 export const changetab = tab => {
-  console.log(tab);
   return {
     type: 'CHANGETAB',
     tab,
   };
+};
+
+export const temporalStateChange = payload => {
+  console.log(payload);
+  return { type: 'temporalStateChange', payload };
+};
+
+export const dtLocalFilesSaved = dateTime => {
+  return { type: 'DTLOCALFILESSAVED', dateTime };
 };

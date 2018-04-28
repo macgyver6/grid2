@@ -104,7 +104,7 @@ export const helpers = {
 
         // const calcMover = ((newWidth) => {
         //   let entityToChange = locEntity[1]
-        //   props.remove(locEntity[0])
+        //   props.remove(locEntity[0])f
         //   return props.add(address.resurrectEntity(
         //     Object.assign({},
         //       entityToChange.properties(), newWidth)

@@ -10,6 +10,7 @@ class TextBlock extends FormEntity {
    * Create a FormEntity.
    * @param {Object} properties - Properties of FormEntity
    * @property {number} properties.uuid - UUID of form entity.
+   * @property {type} properties.type - Type of Entity.
    * @property {number} properties.width - Width (in grid units) of the form entity.
    * @property {number} properties.prepend - Get the number of grid units prepended to rendered representations of the form entity.
    * @property {number} properties.append - Get the number of grid units appended to rendered representations of the form entity.
@@ -20,6 +21,7 @@ class TextBlock extends FormEntity {
     super(properties);
 
     this._content = properties.content;
+    this._type = properties.type;
     this._backgroundColor =
       properties.backgroundColor ||
       TextBlock.BACKGROUND_COLOR.DEFAULT_BACKGROUND_COLOR;
@@ -51,6 +53,16 @@ class TextBlock extends FormEntity {
 
   /**
    *
+   *Get the type of the text block.
+   * @return {string}
+   * @memberof TextBlock
+   */
+  content() {
+    return this._content;
+  }
+
+  /**
+   *
    * Clone the form input.
    * @param {Object} props
    * @returns {TextBlock}
@@ -73,6 +85,7 @@ class TextBlock extends FormEntity {
       append: this.append(),
       backgroundColor: this.backgroundColor(),
       content: this.content(),
+      type: this.type(),
     };
   }
 }

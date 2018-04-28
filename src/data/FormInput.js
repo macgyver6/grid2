@@ -21,6 +21,7 @@ class FormInput extends FormEntity {
    * @property {number} properties.prepend - Get the number of grid units prepended to rendered representations of the form entity.
    * @property {number} properties.append - Get the number of grid units appended to rendered representations of the form entity.
    * @property {autoNumber} properties.autoNumber - The expression used to determine how to automatically number inputs after this one in a form hierarchy.
+   * @property {string} properties.QxQ - Field to provide additional information that may assist the user in filling out the form. This is rendered in a "tool tip", or if a TextBlock Entity property "QxQ" is true, the currently selected entity's QxQ information will be rendered in this field.
    */
   constructor(properties) {
     super(properties);
@@ -37,10 +38,12 @@ class FormInput extends FormEntity {
     this._tabOrder = properties.tabOrder;
     this._inputWidth = properties.inputWidth;
     this._promptNumber = properties.promptNumber;
+    this._QxQ = properties.QxQ;
     this._autoNumber =
       typeof properties.autoNumber === 'string'
         ? FormInput.AutoNumberRuleToken[properties.autoNumber]
         : properties.autoNumber;
+    this._validations = properties.validations || FormInput.DEFAULT_VALIDATIONS;
 
     if (this.constructor === FormInput) {
       deepFreeze(this);
@@ -90,6 +93,15 @@ class FormInput extends FormEntity {
    */
   name() {
     return this._name;
+  }
+
+  /**
+   * Get the QxQ of the input.
+   * @return {string}
+   * @memberof FormInput
+   */
+  QxQ() {
+    return this._QxQ;
   }
 
   /**
@@ -159,8 +171,21 @@ class FormInput extends FormEntity {
 
   /**
    *
+   * Get validation properties on the form input.
+   * @param {Object} props
+   * @returns {FormInput}
+   * @memberof FormInput
+   */
+  validations() {
+    console.log('validations hit: ', this._validations);
+    return this._validations;
+  }
+
+  /**
+   *
    * Returns public properties of a form input.
-   * @returns {Object}
+   * @return {object}
+   * @memberof FormInput
    */
   properties() {
     return {
@@ -173,23 +198,30 @@ class FormInput extends FormEntity {
       postPrompt: this.postPromptWidth(),
       postPromptWidth: this.postPromptWidth(),
       name: this.name(),
+      QxQ: this.QxQ(),
       sasCodeLabel: this.sasCodeLabel(),
       type: this.type(),
       tabOrder: this.tabOrder(),
       inputWidth: this.inputWidth(),
       promptNumber: this.promptNumber(),
       autoNumber: this.autoNumber(),
+      validations: this.validations()
     };
   }
 }
 
 FormInput.DEFAULT_PROMPT_PRE_WIDTH = 2;
 FormInput.DEFAULT_PROMPT_POST_WIDTH = 2;
+FormInput.DEFAULT_VALIDATIONS = {
+  valType: 'String',
+  length: 2,
+  userDefined: 'Pattern'
+};
 // These are dummy options, need to replace with real options
 FormInput.AutoNumberRuleToken = {
   SEQUENTIAL: 0,
   UNORDERED: 1,
-  ORDERED: 2,
+  ORDERED: 2
 };
 
 if (this.constructor === FormInput) {

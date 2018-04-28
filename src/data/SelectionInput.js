@@ -9,6 +9,7 @@ class SelectionInput extends FormInput {
   /**
    * Create a SelectionInput.
    * @param {mode} renderMode
+   * @property {string} properties.QxQ - Field to provide additional information that may assist the user in filling out the form. This is rendered in a "tool tip", or if a TextBlock Entity property "QxQ" is true, the currently selected entity's QxQ information will be rendered in this field.
    */
   constructor(properties) {
     super(properties);
@@ -66,6 +67,7 @@ class SelectionInput extends FormInput {
       postPrompt: this.postPromptWidth(),
       postPromptWidth: this.postPromptWidth(),
       name: this.name(),
+      QxQ: this.QxQ(),
       sasCodeLabel: this.sasCodeLabel(),
       type: this.type(),
       tabOrder: this.tabOrder(),
@@ -88,5 +90,25 @@ SelectionInput.RenderMode = {
 
 deepFreeze(SelectionInput);
 
-// var x = new SelectionInput({ uuid: 10, width: 10, options: ['true'], prepend: 10, append: 10, sasCodeLabel: 'sasCodeLabel', name: 'name', prePrompt: 'prePrompt', prePromptWidth: 12, postPrompt: 'postPrompt', postPromptWidth: 12, renderMode: 'MENU', type: 'selection', tabOrder: [1, 2, 3], inputWidth: 33, promptNumber: 'promptNumber', autoNumber: 'SEQUENTIAL' })
-// console.log(x.mutate({ width: 2003 }))
+// var x = new SelectionInput({
+//   uuid: 10,
+//   width: 10,
+//   options: ['true'],
+//   prepend: 10,
+//   append: 10,
+//   sasCodeLabel: 'sasCodeLabel',
+//   name: 'name',
+//   prePrompt: 'prePrompt',
+//   prePromptWidth: 12,
+//   postPrompt: 'postPrompt',
+//   postPromptWidth: 12,
+//   renderMode: 'MENU',
+//   type: 'selection',
+//   tabOrder: [1, 2, 3],
+//   inputWidth: 33,
+//   promptNumber: 'promptNumber',
+//   autoNumber: 'SEQUENTIAL',
+// });
+// console.log(x.mutate({ width: 2003 }));
+
+module.exports = { SelectionInput: SelectionInput };

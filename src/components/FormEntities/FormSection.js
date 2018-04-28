@@ -62,7 +62,7 @@ let FormSectionComponent = props => {
           append: props.model.width() - (offsetGrids + data.model.width), // addressNewEntity[addressNewEntity.length] = props.model.children().length
         })
       );
-      console.log('here');
+      console.log('here: ', data.model);
       // @hack - only adds to position 0 at this point
       let addressNewEntity = [...location];
       addressNewEntity[addressNewEntity.length] = props.model.children().length;
@@ -251,27 +251,39 @@ let FormSectionComponent = props => {
   const fsStyle = {
     display: 'grid',
     position: 'relative',
-    // border: '2px dotted',
-    // borderRadius: '2px',
+    // border: '8px solid black',
+    borderRadius: '2px',
     gridTemplateColumns: `repeat(${props.model.width()}, [col] 1fr)`,
     backgroundColor: 'rgba(243, 234, 95, 0.7)',
     minHeight: '120px',
     minWidth: '100px',
     gridColumn: `span ${props.model.width()}`,
     gridGap: '8px',
+    gridAutoRows: 'min-content',
     zIndex: '30',
     cursor: 'move',
     borderRadius: '2px',
-    padding: '4px',
+    // padding: '4px',
+  };
+
+  const formSectionStyle = {
+    display: 'grid',
+    // gridColumn: null,
+    // gridTemplateColumns: null,
+    draggable: 'true',
+    margin: '20px 0px 0px 0px', // minHeight: '120px',
+    // "maxHeight": "120px",
+    zIndex: '40',
+    cursor: 'move',
   };
 
   // return actual style values
   // 1. # of grid columns the CheckBox and Append will fill
-  styles.formSection['gridColumn'] =
+  formSectionStyle['gridColumn'] =
     'span ' +
     (props.model.prepend() + props.model.width() + props.model.append());
   // 2. # of grid columns within the CheckBox
-  styles.formSection['gridTemplateColumns'] =
+  formSectionStyle['gridTemplateColumns'] =
     'repeat(' +
     (props.model.prepend() + props.model.width() + props.model.append()) +
     ', [col] 1fr)';
@@ -279,15 +291,28 @@ let FormSectionComponent = props => {
     address.bySample(props.model, props.form).length < 2
       ? ''
       : fsStyle.backgroundColor;
+
+  const total = entity => entity.prepend() + entity.width() + entity.append();
+
+  // const allChildrenSum = section =>
+  //   section
+  //     .children()
+  //     .map(child => {
+  //       console.log(total(child));
+  //       return total(child);
+  //     })
+  //     .reduce((accumulator, currentValue, currentIndex, array) => {
+  //       return accumulator + currentValue;
+  //     }, 0);
+
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       className="FS"
-      style={styles.formSection}
+      style={formSectionStyle}
       onDrop={drop_handler} // adding a new entity to section
       onDragOver={dragOver_handler}
       onClick={click_handler}
-      // style={styles.defaultEntity}
     >
       {props.model.prepend() > 0 ? (
         <Prepend
@@ -310,6 +335,7 @@ let FormSectionComponent = props => {
       >
         {props.model.type() === 'FormSection'
           ? props.model.children().map((element, i) => {
+              console.log(element);
               return React.createElement(address.lookupComponent(element), {
                 key: i,
                 model: element,
@@ -317,6 +343,7 @@ let FormSectionComponent = props => {
                 remove: props.remove,
                 add: props.add,
                 mutate: props.mutate,
+                temporalStateChange: props.temporalStateChange,
               });
             })
           : null}
@@ -338,6 +365,7 @@ let FormSectionComponent = props => {
           add={props.add}
           remove={props.remove}
           mutate={props.mutate}
+          temporalStateChange={props.temporalStateChange}
         />
       </div>
       {props.model.append() > 0 ? (

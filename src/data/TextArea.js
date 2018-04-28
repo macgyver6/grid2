@@ -25,6 +25,7 @@ class TextArea extends FormInput {
    * @property {number} properties.prepend - Get the number of grid units prepended to rendered representations of the form entity.
    * @property {number} properties.append - Get the number of grid units appended to rendered representations of the form entity.
    * @property {autoNumber} properties.autoNumber - The expression used to determine how to automatically number inputs after this one in a form hierarchy.
+   * @property {string} properties.QxQ - Field to provide additional information that may assist the user in filling out the form. This is rendered in a "tool tip", or if a TextBlock Entity property "QxQ" is true, the currently selected entity's QxQ information will be rendered in this field.
    */
   constructor(properties) {
     super(properties);
@@ -63,6 +64,7 @@ class TextArea extends FormInput {
       postPrompt: this.postPromptWidth(),
       postPromptWidth: this.postPromptWidth(),
       name: this.name(),
+      QxQ: this.QxQ(),
       sasCodeLabel: this.sasCodeLabel(),
       type: this.type(),
       tabOrder: this.tabOrder(),

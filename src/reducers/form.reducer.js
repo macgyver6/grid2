@@ -22,23 +22,29 @@ const formReducer = (state, action) => {
   // }
 
   if (typeof state === 'undefined') {
-    // let resurrectedEntities =
-    //   comm.unserialize((JSON.parse(localStorage.getItem('model'))))
+    // let resurrectedEntities = comm.unserialize(
+    //   JSON.parse(localStorage.getItem('model'))
+    // );
     // console.log(resurrectedEntities)
 
     state = {
       value: 0,
       form: new Form(defaultPropsFE.Form),
       app: {
+        dateTime: null,
         activeTab: 0,
+        currententity: [0, 0, 0],
+        validations: true,
+        dataDefinedValidationPane: true,
+        // currententity: null
       },
     };
     return state;
   }
-
-  if (state !== 'undefined') {
-    console.log(validateForm(state.form).validateImport());
-  }
+/** entry point to validate form IF form entities exist */
+  // if (state !== 'undefined') {
+  //   console.log(validateForm(state.form).validateImport());
+  // }
 
   if (action.type === 'INCREMENT') {
     return Object.assign({}, state, {
@@ -53,6 +59,7 @@ const formReducer = (state, action) => {
   }
 
   if (action.type === 'ADD') {
+    console.log(action);
     let result = utility.add(action.path, action.entity, state.form);
     return Object.assign({}, state, {
       form: result,
@@ -60,10 +67,9 @@ const formReducer = (state, action) => {
   }
 
   if (action.type === 'REMOVE') {
-    console.log(state.form, action.path);
-    let update = utility.remove(action.path, state.form);
+    let result = utility.remove(action.path, state.form);
     return Object.assign({}, state, {
-      form: update,
+      form: result,
     });
   }
 
@@ -115,7 +121,26 @@ const formReducer = (state, action) => {
     }
   }
   if (action.type === 'CHANGETAB') {
-    return Object.assign({}, state, { app: { activeTab: action.tab } });
+    return { ...state, app: { ...state.app, activeTab: action.tab } };
+  }
+
+  if (action.type === 'temporalStateChange') {
+    return {
+      ...state,
+      app: {
+        ...state.app,
+        // ...action.payload,
+        [Object.keys(action.payload)[0]]:
+          action.payload[Object.keys(action.payload)[0]],
+      },
+    };
+  }
+
+  if (action.type === 'DTLOCALFILESSAVED') {
+    return {
+      ...state,
+      app: { ...state.app, dtLocalFilesSaved: action.dateTime },
+    };
   }
   return state;
 };

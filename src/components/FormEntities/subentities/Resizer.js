@@ -2,6 +2,7 @@ import React from 'react';
 // import { utility } from '../../../utility';
 import { address } from '../../../address';
 import { defaultPropsFE } from '../../../constants/defaultPropsFE';
+import { initFE } from '../../../constants/defaultPropsFE';
 // import { helpers } from '../../../helpers';
 
 const round = (value, decimals) => {
@@ -16,7 +17,7 @@ const resizeStyle = {
   right: 4,
   bottom: 4,
   cursor: 'w-resize',
-  borderRadius: '2px',
+  borderRadius: '2px'
 };
 
 let Resizer = props => {
@@ -31,13 +32,15 @@ let Resizer = props => {
     changed: null,
     grids: null,
     reset: null,
+    target: null
   };
 
   let mouseDown_handler = event => {
     // event.stopPropagation();
     // console.log('mouseDown: ', event.clientX)
     resize.mouseMoveStartX = event.clientX;
-    console.log(event.clientX);
+    resize.target = event.target.id;
+    console.log(event.target);
     const element = document.getElementById(
       `${props.model.UUID()}.${props.model.type()}.wrapper`
     );
@@ -60,7 +63,7 @@ let Resizer = props => {
     let locEntity = address.byUuid(props.model.UUID(), props.form);
     resize.dx = event.clientX - resize.mouseMoveStartX;
     if (resize.init_grids === null) {
-      resize.init_grids = props.model.width();
+      resize.init_grids = props.model[`${resize.target}`]();
       resize.init_append = props.model.append();
     }
     let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8;
@@ -107,7 +110,7 @@ let Resizer = props => {
               return Object.assign({}, child.properties(), {
                 total: total(child.prepend(), child.width(), child.append()),
                 row: null,
-                index: null,
+                index: null
               });
             });
             const sectionWidth = resize.init_grids + grid();
@@ -134,7 +137,7 @@ let Resizer = props => {
                   const lastEntityToAdd = {
                     append:
                       _children[currentIndex].append +
-                      (sectionWidth - occupiedColumnsInRow(_children, 'total')),
+                      (sectionWidth - occupiedColumnsInRow(_children, 'total'))
                   };
                   if (
                     total(
@@ -165,7 +168,7 @@ let Resizer = props => {
                         append:
                           _children[currentIndex].append +
                           (sectionWidth -
-                            occupiedColumnsInRow(_children, 'total')),
+                            occupiedColumnsInRow(_children, 'total'))
                       }
                     );
                     return accumulator;
@@ -196,7 +199,7 @@ let Resizer = props => {
                   _children[currentIndex],
                   {
                     index: currentIndex - 1,
-                    row: counter,
+                    row: counter
                   }
                 );
                 return accumulator;
@@ -228,7 +231,7 @@ let Resizer = props => {
                       (sectionWidth -
                         occupiedColumnsInRow(accumulator, 'total')),
                     index: accumulator.length - 2 + 1,
-                    row: counter - 1,
+                    row: counter - 1
                   }
                 );
 
@@ -239,7 +242,7 @@ let Resizer = props => {
                     _children[currentIndex].append
                   ),
                   index: 0,
-                  row: counter,
+                  row: counter
                 };
                 return accumulator;
               }
@@ -254,9 +257,9 @@ let Resizer = props => {
               locEntity[1].setChildren([
                 address.resurrectEntity(
                   Object.assign({}, resize.init_children[0].properties(), {
-                    append: resize.init_children[0].append() + resize.grids,
+                    append: resize.init_children[0].append() + resize.grids
                   })
-                ),
+                )
               ])
             );
 
@@ -272,25 +275,25 @@ let Resizer = props => {
                           resize.init_children[0].properties(),
                           {
                             append:
-                              resize.init_children[0].append() + resize.grids,
+                              resize.init_children[0].append() + resize.grids
                           }
                         )
-                      ),
+                      )
                     ]
                   : updatedChildren.map(child =>
                       address.resurrectEntity(child, props.form)
-                    ),
+                    )
             });
             console.log(updatedChildren);
           }
         }
         console.log('resize entity other than FormSection: ', locEntity[0], {
           width: resize.init_grids + resize.grids,
-          append: resize.init_append - resize.grids,
+          append: resize.init_append - resize.grids
         });
         props.mutate(locEntity[0], {
-          width: resize.init_grids + resize.grids,
-          append: resize.init_append - resize.grids,
+          [resize.target]: resize.init_grids + resize.grids,
+          append: resize.init_append - resize.grids
         });
       }
     }
@@ -310,19 +313,20 @@ let Resizer = props => {
       `${props.model.UUID()}.${props.model.type()}`
     );
     // setTimeout(function () { element.style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor }, 120);
-    console.log(
-      'change this: ',
-      entityToChangeColor.id +
-        'to: ' +
-        defaultPropsFE[props.model.type()].render.backgroundColor
-    );
+    // console.log(
+    //   'change this: ',
+    //   entityToChangeColor.id +
+    //     'to: ' +
+    //     defaultPropsFE[props.model.type()].render.backgroundColor
+    // );
+    console.log(initFE[props.model.type()]);
     entityToChangeColor.style.backgroundColor =
-      defaultPropsFE[props.model.type()].render.backgroundColor;
+      initFE[props.model.type()].render.backgroundColor;
   };
 
   return (
     <div
-      id={`${props.model.UUID()}.resizer`}
+      id={`${props.resizeType}`}
       className="resizer"
       style={resizeStyle}
       onDragStart={dragstart_handler}

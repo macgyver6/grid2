@@ -3,8 +3,11 @@ import { helpers } from '../../helpers';
 import { drop } from '../../drop';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
-import { styles } from './feStyles';
+import { styleDefaultEntity } from './feStyles';
 import Prepend from './subentities/Prepend.js';
+import { address } from '../../address';
+import PrePrompt from './subentities/PrePrompt.js';
+import PostPrompt from './subentities/PostPrompt.js';
 
 const RadioButtonComponent = props => {
   /** Handle adding/subtracing prepend or append */
@@ -30,33 +33,32 @@ const RadioButtonComponent = props => {
     drop.drop_handler(event, props);
   };
 
+  const click_handler = event => {
+    event.stopPropagation();
+    props.temporalStateChange({
+      currententity: address.bySample(props.model, props.form)
+    });
+  };
+
   const rbStyle = {
     backgroundColor: '#304061',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
     height: '100px',
-    margin: helpers.marginCalc(props),
+    //     margin: helpers.marginCalc(props),
     borderRadius: '2px',
-    padding: '4px',
+    padding: '4px'
   };
-
-  // return actual style values
-  // 1. # of grid columns the CheckBox and Append will fill
-  styles.defaultEntity['gridColumn'] =
-    'span ' +
-    (props.model.prepend() + props.model.width() + props.model.append());
-  // 2. # of grid columns within the CheckBox
-  styles.defaultEntity['gridTemplateColumns'] =
-    'repeat(' +
-    (props.model.prepend() + props.model.width() + props.model.append()) +
-    ', [col] 1fr)';
 
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
-      style={styles.defaultEntity}
+      style={styleDefaultEntity(props.model)}
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
+      onClick={click_handler}
+      onDragStart={dragstart_handler}
+      draggable="true"
     >
       {props.model.prepend() > 0 ? (
         <Prepend
@@ -71,14 +73,25 @@ const RadioButtonComponent = props => {
           mutate={props.mutate}
         />
       ) : null}
+      <PrePrompt
+        id={`${props.model.UUID()}.prepend`}
+        prePromptWidth={props.model.prePromptWidth()}
+        uuid={props.model.UUID()}
+        className="prepend"
+        model={props.model}
+        form={props.form}
+        remove={props.remove}
+        add={props.add}
+        mutate={props.mutate}
+      />
 
       <div
         id={`${props.model.UUID()}.${props.model.type()}`}
         style={rbStyle}
         className="RadioButton"
         onMouseDown={mouseDown_handler}
-        onDragStart={dragstart_handler}
-        draggable="true"
+        // onDragStart={dragstart_handler}
+        // draggable="true"
       >
         <form action="">
           <input type="radio" name="_value" value="yes" /> Yes<br />
@@ -95,8 +108,20 @@ const RadioButtonComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
+          resizeType="width"
         />
       </div>
+      <PostPrompt
+        id={`${props.model.UUID()}.prepend`}
+        postPromptWidth={props.model.postPromptWidth()}
+        uuid={props.model.UUID()}
+        className="prepend"
+        model={props.model}
+        form={props.form}
+        remove={props.remove}
+        add={props.add}
+        mutate={props.mutate}
+      />
       {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}

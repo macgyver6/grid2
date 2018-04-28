@@ -57,6 +57,7 @@ const FormComponent = props => {
             remove: props.remove,
             add: props.add,
             mutate: props.mutate,
+            temporalStateChange: props.temporalStateChange,
           }
         )
         // })

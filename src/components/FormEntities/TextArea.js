@@ -3,8 +3,12 @@ import { helpers } from '../../helpers';
 import { drop } from '../../drop';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
-import { styles } from './feStyles';
+
+import { styleDefaultEntity } from './feStyles';
 import Prepend from './subentities/Prepend.js';
+import PrePrompt from './subentities/PrePrompt.js';
+import PostPrompt from './subentities/PostPrompt.js';
+import { address } from '../../address';
 
 const TextAreaComponent = props => {
   /** Handle adding/subtracing prepend or append */
@@ -29,33 +33,32 @@ const TextAreaComponent = props => {
   };
 
   const taStyle = {
-    margin: helpers.marginCalc(props),
+    //     margin: helpers.marginCalc(props),
     backgroundColor: '#205EE2',
     opacity: '1',
     gridColumn: `span ${props.model.width()}`,
     position: 'relative',
     height: '100px',
     borderRadius: '2px',
-    padding: '4px',
+    padding: '4px'
   };
 
-  // return actual style values
-  // 1. # of grid columns the TextArea and Append will fill
-  styles.defaultEntity['gridColumn'] =
-    'span ' +
-    (props.model.prepend() + props.model.width() + props.model.append());
-  // 2. # of grid columns within the TextArea
-  styles.defaultEntity['gridTemplateColumns'] =
-    'repeat(' +
-    (props.model.prepend() + props.model.width() + props.model.append()) +
-    ', [col] 1fr)';
+  const click_handler = event => {
+    event.stopPropagation();
+    props.temporalStateChange({
+      currententity: address.bySample(props.model, props.form)
+    });
+  };
 
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
-      style={styles.defaultEntity}
+      style={styleDefaultEntity(props.model)}
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
+      onClick={click_handler}
+      onDragStart={dragstart_handler}
+      draggable="true"
     >
       {props.model.prepend() > 0 ? (
         <Prepend
@@ -70,13 +73,26 @@ const TextAreaComponent = props => {
           mutate={props.mutate}
         />
       ) : null}
+
+      <PrePrompt
+        id={`${props.model.UUID()}.prepend`}
+        prePromptWidth={props.model.prePromptWidth()}
+        uuid={props.model.UUID()}
+        className="prepend"
+        model={props.model}
+        form={props.form}
+        remove={props.remove}
+        add={props.add}
+        mutate={props.mutate}
+      />
+
       <div
         id={`${props.model.UUID()}.${props.model.type()}`}
         style={taStyle}
         className="TextArea"
         onMouseDown={mouseDown_handler}
-        onDragStart={dragstart_handler}
-        draggable="true"
+        // onDragStart={dragstart_handler}
+        // draggable="true"
       >
         <textarea
           className="form-control"
@@ -86,7 +102,6 @@ const TextAreaComponent = props => {
           cols={props.model.numColumns()}
           type={props.model.type()}
         />
-
         <Resizer
           id={`${props.model.UUID()}.resizer`}
           element="FormEntity"
@@ -97,8 +112,21 @@ const TextAreaComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
+          resizeType="width"
         />
       </div>
+
+      <PostPrompt
+        id={`${props.model.UUID()}.prepend`}
+        postPromptWidth={props.model.postPromptWidth()}
+        uuid={props.model.UUID()}
+        className="prepend"
+        model={props.model}
+        form={props.form}
+        remove={props.remove}
+        add={props.add}
+        mutate={props.mutate}
+      />
       {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}

@@ -28,11 +28,12 @@ class TextInput extends FormInput {
     @property {boolean} properties.autoTab - Whether the input is defined as permitting auto tab to the next field during data collection.
     @property {string} properties.defaultContent - The default contents of representations of this input item.
     @property {boolean} properties.doubleEntry - The default contents of representations of this input item.
+     * @property {string} properties.QxQ - Field to provide additional information that may assist the user in filling out the form. This is rendered in a "tool tip", or if a TextBlock Entity property "QxQ" is true, the currently selected entity's QxQ information will be rendered in this field.
      */
   constructor(properties) {
     super(properties);
 
-    this._length = TextInput.LENGTH[properties.length];
+    this._length = properties.length;
     this._defaultContent =
       properties.defaultContent || TextInput.DEFAULT_CONTENT;
     this._autoTab = properties.autoTab;
@@ -44,6 +45,7 @@ class TextInput extends FormInput {
   }
 
   /**
+   *
    *
    * Get whether the input is defined as permitting auto tab to the next field during data collection.
    * @returns {boolean}
@@ -108,9 +110,10 @@ class TextInput extends FormInput {
       append: this.append(),
       prePrompt: this.prePrompt(),
       prePromptWidth: this.prePromptWidth(),
-      postPrompt: this.postPromptWidth(),
+      postPrompt: this.postPrompt(),
       postPromptWidth: this.postPromptWidth(),
       name: this.name(),
+      QxQ: this.QxQ(),
       sasCodeLabel: this.sasCodeLabel(),
       type: this.type(),
       tabOrder: this.tabOrder(),
@@ -121,12 +124,13 @@ class TextInput extends FormInput {
       defaultContent: this.defaultContent(),
       autoTab: this.autoTab(),
       doubleEntry: this.doubleEntry(),
+      validations: this.validations(),
     };
   }
 }
 
 TextInput.LENGTH = {
-  DEFAULT: 60,
+  DEFAULT: 80,
   NO_MAX: 0,
 };
 

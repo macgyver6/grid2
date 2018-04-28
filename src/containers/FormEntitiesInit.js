@@ -6,15 +6,17 @@ import FormComponent from '../components/FormEntities/Form';
 // import { utility } from '../utility';
 import { address } from '../address';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
+import { initFE } from '../constants/defaultPropsFE';
 import { helpers } from '../helpers';
 import {
   backgroundPanelStyle,
   leftPanelStyle,
   middlePanelStyle,
-  rightPanelStyle,
+  PropertiesPanelStyle,
   // headerPanelStyle,
 } from '../components/layout/styles/Layout';
 import TabContainer from '../components/layout/design/TabContainer';
+import { PropertiesPanel } from './PropertiesPanel';
 
 const BackgroundPanel = props => (
   <div style={backgroundPanelStyle}>
@@ -34,52 +36,67 @@ const BackgroundPanel = props => (
       formmutate={props.formmutate}
       changetab={props.changetab}
       activeTab={props.activeTab}
+      temporalStateChange={props.temporalStateChange}
+      currententity={props.currententity}
     />
-    <RightPanel />
+    <PropertiesPanel
+      form={props.form}
+      temporalStateChange={props.temporalStateChange}
+      currententity={props.currententity}
+      mutate={props.mutate}
+      dtLocalFilesSaved={props.dtLocalFilesSaved}
+      appState={props.appState}
+    />
   </div>
 );
+
+const entityStyle = {
+  padding: '6px',
+  margin: '20px',
+  textAlign: 'center',
+};
 
 const selectionStyles = {
   TextInput: {
     background: '#6C788F',
-    padding: '20px',
-    margin: '20px',
-    textAlign: 'center',
   },
 
   TextArea: {
     background: '#205EE2',
-    padding: '20px',
-    margin: '20px',
-    textAlign: 'center',
   },
 
   CheckBox: {
     background: '#00C5EC',
-    padding: '20px',
-    margin: '20px',
-    textAlign: 'center',
   },
 
   RadioButton: {
     background: '#304061',
-    padding: '20px',
-    margin: '20px',
-    textAlign: 'center',
+  },
+
+  SelectionInput: {
+    background: 'red',
   },
 
   FormSection: {
     background: '#f3ea5f',
-    padding: '20px',
-    margin: '20px',
-    textAlign: 'center',
   },
-
+  TextBlock: {
+    background: 'purple',
+  },
+  ImageBlock: {
+    background: 'brown',
+  },
+  ASInput: {
+    background: 'green',
+  },
+  Echo: {
+    background: 'khaki',
+  },
+  CDSTextInput: {
+    background: 'blue',
+  },
   Remove: {
     background: '#ff5f56',
-    padding: '20px',
-    margin: '20px',
-    textAlign: 'center',
   },
 };
 
@@ -89,6 +106,12 @@ let entityTypes = [
   'TextArea',
   'TextInput',
   'RadioButton',
+  'SelectionInput',
+  'TextBlock',
+  'ImageBlock',
+  'ASInput',
+  'Echo',
+  'CDSTextInput',
 ];
 
 let dragover_handler = event => {
@@ -274,9 +297,10 @@ const DeleteBtn = props => {
 
 const LeftPanel = props => {
   const dragstart_handler = event => {
+    console.log(event.target.dataset.type, initFE[event.target.dataset.type]);
     helpers.dragStart_handler(
       event,
-      defaultPropsFE[event.target.dataset.type],
+      initFE[event.target.dataset.type],
       props.form,
       'addEntity'
     );
@@ -300,9 +324,10 @@ const LeftPanel = props => {
     const type = event.target.dataset.type;
     const div = document.createElement('div');
     div.id = 'dmg';
-    div.style.width = `${defaultPropsFE[type].width * bgrndGrdWidth}px`;
+    console.log(type);
+    div.style.width = `${initFE[type].width * bgrndGrdWidth}px`;
     div.style.height = '100px';
-    div.style.backgroundColor = defaultPropsFE[type].render.backgroundColor;
+    div.style.backgroundColor = initFE[type].render.backgroundColor;
     div.style.position = 'fixed';
     div.style.top = '-1000px';
     div.style.left = '-1000px';
@@ -330,7 +355,10 @@ const LeftPanel = props => {
             draggable="true"
             form={props.form}
             onDragStart={dragstart_handler}
-            style={selectionStyles[entity]}
+            style={{
+              ...entityStyle,
+              backgroundColor: selectionStyles[entity].background,
+            }}
             data-type={entity}
           >
             <p>{entity}</p>
@@ -364,88 +392,12 @@ const MiddlePanel = props => {
         add={props.add}
         mutate={props.mutate}
         activeTab={props.activeTab}
+        temporalStateChange={props.temporalStateChange}
+        mutate={props.mutate}
       />
     </div>
   );
 };
-
-const dragOverFile_handler = event => {
-  event.preventDefault();
-};
-
-const saveFileToLocal = (file, name) => {
-  var fileReader = new FileReader();
-  const existing = localStorage.getItem('FILE');
-  fileReader.readAsDataURL(file);
-  fileReader.onload = evt => {
-    var result = evt.target.result;
-    if (existing === null) {
-      try {
-        console.log([{ [name]: result }]);
-        localStorage.setItem('FILE', JSON.stringify([{ [name]: result }]));
-      } catch (e) {
-        console.log('Storage failed: ' + e);
-      }
-    } else {
-      // console.log(JSON.parse(existing).concat([{ [name]: result }]))
-      // console.log(existing)
-      localStorage.setItem(
-        'FILE',
-        JSON.stringify(JSON.parse(existing).concat([{ [name]: result }]))
-      );
-    }
-  };
-};
-
-const handleFiles = files => {
-  const item = files.getAsFile();
-
-  // Create XHR, Blob and FileReader objects
-  var xhr = new XMLHttpRequest();
-
-  xhr.open('GET', '/pdf/download?id=');
-  xhr.responseType = 'blob';
-  xhr.onload = () => {
-    console.log(files); // response as a blob
-    if (xhr.status && xhr.status === 200) {
-      saveFileToLocal(xhr.response, item.name);
-    }
-  };
-
-  xhr.send();
-};
-
-const dropFile_handler = event => {
-  console.log('Drop');
-  event.preventDefault();
-  // If dropped items aren't files, reject them
-  var dt = event.dataTransfer;
-  if (dt.items) {
-    // Use DataTransferItemList interface to access the file(s)
-    const f = [];
-    for (var i = 0; i < dt.items.length; i++) {
-      if (dt.items[i].kind === 'file') {
-        f.push(handleFiles(dt.items[i]));
-      }
-    }
-  }
-};
-const stringOfFiles = localStorage.getItem('FILE');
-const fileNames = stringOfFiles
-  ? JSON.parse(stringOfFiles).map(file => {
-      return Object.keys(file)[0];
-    })
-  : null;
-const RightPanel = () => (
-  <div
-    style={rightPanelStyle}
-    onDragOver={dragOverFile_handler}
-    onDrop={dropFile_handler}
-  >
-    <h1>Uploaded Files</h1>
-    <ul>{fileNames ? fileNames.map(name => <li>{name}</li>) : null}</ul>
-  </div>
-);
 
 class FormEntityInit extends Component {
   constructor(props) {
@@ -463,6 +415,10 @@ class FormEntityInit extends Component {
           mutate={this.props.mutate}
           changetab={this.props.changetab}
           activeTab={this.props.store.model.app.activeTab}
+          appState={this.props.store.model.app}
+          temporalStateChange={this.props.temporalStateChange}
+          currententity={this.props.store.model.app.currententity}
+          dtLocalFilesSaved={this.props.dtLocalFilesSaved}
         />
       </div>
     );

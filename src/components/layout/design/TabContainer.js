@@ -40,12 +40,7 @@ let TabContainer = props => {
 
   const Add_Tab = () => {
     return (
-      <div
-        style={divStyle}
-        className="add_tab"
-        onClick={click_handler}
-        onmouseenter={mouse_enter_handler}
-      >
+      <div style={divStyle} className="add_tab" onClick={click_handler}>
         <p>Add Tab</p>
       </div>
     );
@@ -62,7 +57,6 @@ let TabContainer = props => {
   };
 
   const click_handler = event => {
-    console.log('hut');
     // const dummyTab = document.getElementById('tabcontainer').children[
     //   document.getElementById('tabcontainer').children.length - 1
     // ];
@@ -149,8 +143,6 @@ let TabContainer = props => {
       ));
   };
 
-  const mouse_enter_handler = e => console.log('tolo');
-
   return (
     <div style={metaTabContainerStyle}>
       <div
@@ -162,8 +154,6 @@ let TabContainer = props => {
         mutate={props.mutate}
         id="tabcontainer"
       >
-        {/* // onMouseEnter={mouseEnter_handler}
-        // onMouseLeave={mouseLeave_handler} */}
         {/* if there is only 1 formSection - collapse the tab bar */}
         {props.form.children().length > 1 ? renderTabs(props) : null}
       </div>

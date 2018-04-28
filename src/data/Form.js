@@ -16,6 +16,7 @@ class Form {
    * @param {object} properties.remoteValidatorCondition - Get the remote validator conditions contained within the given composite condition.
    * @param {boolean} properties.sectionTabs - Get whether top-level FormSection entities should be considered as tabs.
    * @param {string} properties.versionDescription - The version description of the form.
+   * @param {boolean} properties.allowEventAttachedFile - If Form Attached Files are accetped for this form.
    */
   constructor(properties) {
     this._type = properties.type;
@@ -28,6 +29,7 @@ class Form {
     this._remoteValidatorCondition = properties.remoteValidatorCondition;
     this._sectionTabs = properties.sectionTabs;
     this._versionDescription = properties.versionDescription;
+    this._allowEventAttachedFile = properties.allowEventAttachedFile;
 
     // if Form is not being inherited by another class, recursively freeze all properties to prevent mutation
 
@@ -129,6 +131,15 @@ class Form {
   }
 
   /**
+   * Get the allowEventAttachedFile value of the form.
+   * @returns {boolean}
+   * @memberof Form
+   */
+  allowEventAttachedFile() {
+    return this._allowEventAttachedFile;
+  }
+
+  /**
    * Whether children inputs have their external IDs generated automatically.
    * @returns {boolean}
    * @memberof Form
@@ -154,6 +165,7 @@ class Form {
       remoteValidatorCondition: this.remoteValidatorCondition(),
       sectionTabs: this.sectionTabs(),
       versionDescription: this.versionDescription(),
+      allowEventAttachedFile: this.allowEventAttachedFile(),
     };
   }
 
