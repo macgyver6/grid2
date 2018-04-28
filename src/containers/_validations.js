@@ -28,6 +28,35 @@ export const _dataDefined = {
   }
 };
 
+const dataDefined = {
+  Pattern: {
+    formDependency: '', //string
+    inputId: '', //string
+    eventDefinition: '',
+    occureance: '',
+    occuranceNum: 0,
+    validationPattern: '',
+    customFailureMessaage: '',
+    language: ''
+  },
+  NoOp: {
+    emptyField: false,
+    anyValue: false,
+    customFailureMessaage: '',
+    language: '',
+    country: ''
+  },
+  Enumeration: {
+    formDependency: '', //string
+    inputId: '', //string
+    eventDefinition: '',
+    occureance: '',
+    occuranceNum: 0,
+    validationPattern: ''
+  },
+  SubjectInputValidation: {}
+};
+
 export const _validations = {
   String: {
     type: 'String',
