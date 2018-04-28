@@ -7,7 +7,7 @@ const PostPrompt = props => {
     backgroundColor: 'blue',
     padding: '4px',
     borderRadius: '2px',
-    position: 'relative',
+    position: 'relative'
   };
 
   const postPromptInputStyle = { height: '20px', width: '120px' };
@@ -29,6 +29,7 @@ const PostPrompt = props => {
         remove={props.remove}
         add={props.add}
         mutate={props.mutate}
+        resizeType="postPromptWidth"
       />
     </div>
   );

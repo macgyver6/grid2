@@ -26,9 +26,9 @@ const TextInputComponent = props => {
    * 2. Deleting a form section
    */
   let dragstart_handler = event => {
-   //  event.stopPropagation();
+    //  event.stopPropagation();
     //  helpers.dragStart_handler(event, props.model, props.form, 'move');
-    return false // to prevent a drag image from appearing
+    return false; // to prevent a drag image from appearing
   };
 
   let dragOver_handler = event => {
@@ -50,7 +50,7 @@ const TextInputComponent = props => {
   const click_handler = event => {
     event.stopPropagation();
     props.temporalStateChange({
-      currententity: address.bySample(props.model, props.form),
+      currententity: address.bySample(props.model, props.form)
     });
   };
 
@@ -76,7 +76,7 @@ const TextInputComponent = props => {
     margin: '10px 0px 10px 0px',
     minHeight: '100px',
     zIndex: '40',
-    cursor: 'move',
+    cursor: 'move'
   }; // maxHeight: '100px',
 
   const tiStyle = {
@@ -89,18 +89,18 @@ const TextInputComponent = props => {
     // gridGap: '8px',
     // border: '1px solid red',
     padding: '4px',
-    borderRadius: '2px',
+    borderRadius: '2px'
   };
 
   const tiInputStyle = {
     height: '20px',
-    width: '120px',
+    width: '120px'
   };
 
-  const mouseUp_handler = (event) => {
-    event.stopPropagation()
-    console.log('mouseUp_handler')
-  }
+  const mouseUp_handler = event => {
+    event.stopPropagation();
+    console.log('mouseUp_handler');
+  };
 
   return (
     <div
@@ -156,7 +156,8 @@ const TextInputComponent = props => {
           value={props.model.defaultContent()}
         />
         <Resizer
-          id={`${props.model.UUID()}.resizer`}
+          id="width"
+          // id={`${props.model.UUID()}.resizer`}
           element="FormEntity"
           uuid={props.model.UUID()}
           className="resizer"
@@ -165,6 +166,7 @@ const TextInputComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
+          resizeType="width"
         />
       </div>
       <PostPrompt
