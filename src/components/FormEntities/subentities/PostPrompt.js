@@ -4,7 +4,7 @@ import Resizer from './Resizer';
 const PostPrompt = props => {
   const postPromptStyle = {
     gridColumn: `span ${props.postPromptWidth}`,
-    backgroundColor: 'blue',
+    backgroundColor: props.backgroundColor,
     padding: '4px',
     borderRadius: '2px',
     position: 'relative'

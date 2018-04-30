@@ -52,10 +52,10 @@ const EchoComponent = props => {
 
   const tBStyle = {
     //     margin: helpers.marginCalc(props),
-    backgroundColor: 'purple',
+    backgroundColor: 'orange',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
-    height: '100px',
+    height: '40px',
     cursor: 'move',
     // border: '1px solid red',
     padding: '4px',
@@ -63,7 +63,7 @@ const EchoComponent = props => {
   };
 
   const tBInputStyle = {
-    height: '40px',
+    height: '25px',
     width: '80%',
   };
 

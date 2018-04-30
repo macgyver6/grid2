@@ -51,10 +51,10 @@ const SelectionInputComponent = props => {
 
   const siStyle = {
     //     margin: helpers.marginCalc(props),
-    backgroundColor: '#6C788F',
+    backgroundColor: 'red',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
-    height: '100px',
+    height: '40px',
     cursor: 'move',
     // border: '1px solid red',
     padding: '4px',
@@ -62,7 +62,7 @@ const SelectionInputComponent = props => {
   };
 
   const siInputStyle = {
-    height: '40px',
+    height: '30px',
     width: '80%'
   };
 
@@ -100,6 +100,7 @@ const SelectionInputComponent = props => {
         remove={props.remove}
         add={props.add}
         mutate={props.mutate}
+        backgroundColor='red'
       />
 
       <div
@@ -110,7 +111,7 @@ const SelectionInputComponent = props => {
         // onDragStart={dragstart_handler}
         // draggable="true"
       >
-        {props.model.name()}
+    {/*props.model.name() */}
         <br />
         <select
           style={siInputStyle}
@@ -152,6 +153,7 @@ const SelectionInputComponent = props => {
         remove={props.remove}
         add={props.add}
         mutate={props.mutate}
+        backgroundColor='red'
       />
     ) : null}
     {props.model.append() > 0 ? (

@@ -84,6 +84,7 @@ const TextAreaComponent = props => {
         remove={props.remove}
         add={props.add}
         mutate={props.mutate}
+        backgroundColor='rgb(32, 94, 226)'
       />
 
       <div
@@ -127,6 +128,7 @@ const TextAreaComponent = props => {
         remove={props.remove}
         add={props.add}
         mutate={props.mutate}
+        backgroundColor='rgb(32, 94, 226)'
       />
     ) : null}
 

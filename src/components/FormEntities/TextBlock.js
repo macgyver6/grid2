@@ -58,7 +58,7 @@ const TextBlockComponent = props => {
     gridGap: '8px',
     draggable: 'true',
     margin: '10px 0px 10px 0px',
-    minHeight: '100px',
+    minHeight: '40px',
     zIndex: '40',
     cursor: 'move'
   };
@@ -68,14 +68,14 @@ const TextBlockComponent = props => {
     backgroundColor: 'purple',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
-    height: '100px',
+    height: '40px',
     cursor: 'move',
     // border: '1px solid red',
     padding: '4px',
     borderRadius: '2px'
   };
 
-  const tBInputStyle = { height: '40px', width: '80%' };
+  const tBInputStyle = { height: '60%', width: '80%' };
 
   return (
     <div

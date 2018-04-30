@@ -44,7 +44,7 @@ const RadioButtonComponent = props => {
     backgroundColor: '#304061',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
-    height: '100px',
+    height: '40px',
     //     margin: helpers.marginCalc(props),
     borderRadius: '2px',
     padding: '4px'
@@ -83,6 +83,7 @@ const RadioButtonComponent = props => {
         remove={props.remove}
         add={props.add}
         mutate={props.mutate}
+        backgroundColor='rgb(48, 64, 97)'
       />
 
       <div
@@ -96,7 +97,6 @@ const RadioButtonComponent = props => {
         <form action="">
           <input type="radio" name="_value" value="yes" /> Yes<br />
           <input type="radio" name="_value" value="no" /> No<br />
-          <input type="radio" name="_value" value="other" /> Other
         </form>
         <Resizer
           id={`${props.model.UUID()}.resizer`}
@@ -122,6 +122,7 @@ const RadioButtonComponent = props => {
         remove={props.remove}
         add={props.add}
         mutate={props.mutate}
+        backgroundColor='rgb(48, 64, 97)'
       />
     ) : null}
     {props.model.append() > 0 ? (

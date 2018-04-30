@@ -132,6 +132,7 @@ const CDSTextInputComponent = props => {
         remove={props.remove}
         add={props.add}
         mutate={props.mutate}
+        backgroundColor='blue'
       />
 
       <div
@@ -182,6 +183,7 @@ const CDSTextInputComponent = props => {
         remove={props.remove}
         add={props.add}
         mutate={props.mutate}
+        backgroundColor='blue'
       />
     ) : null}
     {props.model.append() > 0 ? (

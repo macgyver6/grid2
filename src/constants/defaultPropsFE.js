@@ -167,7 +167,7 @@ export var initFE = {
     prepend: 1,
     append: 1,
     type: 'Echo',
-    render: { backgroundColor: 'khaki', minWidth: 1 },
+    render: { backgroundColor: 'orange', minWidth: 1 },
     sourceInput: ''
   },
   CDSTextInput: {
@@ -192,7 +192,7 @@ export var initFE = {
     autoTab: true,
     doubleEntry: true,
     defaultContent: 'Default Content',
-    render: { backgroundColor: '#6C788F', minWidth: 3 }
+    render: { backgroundColor: 'blue', minWidth: 3 }
   }
 };
 

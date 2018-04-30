@@ -11,7 +11,7 @@ const round = (value, decimals) => {
 
 const resizeStyle = {
   width: '20px',
-  height: '20px',
+  height: '10px',
   backgroundColor: 'yellow',
   position: 'absolute',
   right: 4,

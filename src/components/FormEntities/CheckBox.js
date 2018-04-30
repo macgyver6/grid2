@@ -36,7 +36,7 @@ const CheckBoxComponent = props => {
     backgroundColor: '#00C5EC',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
-    height: '100px',
+    height: '40px',
     // //     margin: helpers.marginCalc(props),
     padding: '4px',
     borderRadius: '2px',
@@ -85,6 +85,7 @@ const CheckBoxComponent = props => {
         remove={props.remove}
         add={props.add}
         mutate={props.mutate}
+        backgroundColor='rgb(0, 197, 236)'
       />
 
       <div
@@ -121,6 +122,7 @@ const CheckBoxComponent = props => {
         remove={props.remove}
         add={props.add}
         mutate={props.mutate}
+        backgroundColor='rgb(0, 197, 236)'
       />
     ) : null}
     {props.model.append() > 0 ? (

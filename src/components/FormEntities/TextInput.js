@@ -138,6 +138,7 @@ const TextInputComponent = props => {
         remove={props.remove}
         add={props.add}
         mutate={props.mutate}
+        backgroundColor='rgb(108, 120, 143)'
       />
 
       <div
@@ -181,6 +182,7 @@ const TextInputComponent = props => {
         remove={props.remove}
         add={props.add}
         mutate={props.mutate}
+        backgroundColor='rgb(108, 120, 143)'
       />
     ) : null}
       {props.model.append() > 0 ? (

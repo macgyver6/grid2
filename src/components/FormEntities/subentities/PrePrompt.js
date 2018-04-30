@@ -4,11 +4,12 @@ import Resizer from './Resizer';
 const PrePrompt = props => {
   const prePromptStyle = {
     gridColumn: `span ${props.prePromptWidth}`,
-    backgroundColor: 'green',
+    backgroundColor: props.backgroundColor,
     padding: '4px',
     borderRadius: '2px',
     position: 'relative'
   };
+  console.log(props.backgroundColor)
 
   const prePromptInputStyle = { height: '20px', width: '80%' };
 

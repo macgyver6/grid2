@@ -90,7 +90,7 @@ const selectionStyles = {
     background: 'green',
   },
   Echo: {
-    background: 'khaki',
+    background: 'orange',
   },
   CDSTextInput: {
     background: 'blue',

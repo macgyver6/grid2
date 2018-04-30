@@ -24,7 +24,9 @@ export const styleDefaultEntity = entity => {
     margin: '10px 0px 10px 0px',
     minHeight: '40px',
     zIndex: '40',
-    cursor: 'move'
+    cursor: 'move',
+    border: '1px blue dashed',
+    borderRadius: '2px',
   };
 };
 
