@@ -89,10 +89,10 @@ let Resizer = props => {
         //     resize.reset != null ? mutate2(locEntity, props) : null
         //     }, 600)
       } else {
-        document.getElementById(
-          `${props.model.UUID()}.${props.model.type()}`
-        ).style.backgroundColor =
-          'lightgreen';
+        // document.getElementById(
+        //   `${props.model.UUID()}.${props.model.type()}`
+        // ).style.backgroundColor =
+        //   'lightgreen';
         console.log(
           `changing ${props.model.UUID()}.${props.model.type()}color to 'lightgreen`
         );

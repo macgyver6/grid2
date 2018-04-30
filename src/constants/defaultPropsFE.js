@@ -33,7 +33,7 @@ export var initFE = {
     length: 80,
     autoTab: true,
     doubleEntry: true,
-    defaultContent: 'Default Content',
+    defaultContent: '',
     render: { backgroundColor: '#6C788F', minWidth: 3 }
   },
   SelectionInput: {
@@ -53,7 +53,7 @@ export var initFE = {
     promptNumber: 'CIE493b',
     autoNumber: 'SEQUENTIAL',
     doubleEntry: true,
-    defaultContent: 'Default Content',
+    defaultContent: '',
     renderMode: 'menu',
     options: [
       { label: 'dfgh', value: 'one' },
@@ -80,7 +80,7 @@ export var initFE = {
     autoNumber: 'SEQUENTIAL',
     numColumns: 12,
     numRows: 2,
-    defaultContent: 'Default Content',
+    defaultContent: '',
     render: { backgroundColor: '#205EE2', minWidth: 3 }
   },
   CheckBox: {
@@ -191,7 +191,7 @@ export var initFE = {
     length: 80,
     autoTab: true,
     doubleEntry: true,
-    defaultContent: 'Default Content',
+    defaultContent: '',
     render: { backgroundColor: 'blue', minWidth: 3 }
   }
 };

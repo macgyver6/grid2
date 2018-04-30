@@ -255,7 +255,7 @@ let FormSectionComponent = props => {
     borderRadius: '2px',
     gridTemplateColumns: `repeat(${props.model.width()}, [col] 1fr)`,
     backgroundColor: 'rgba(243, 234, 95, 0.7)',
-    minHeight: '120px',
+    minHeight: '60px',
     minWidth: '100px',
     gridColumn: `span ${props.model.width()}`,
     gridGap: '8px',
