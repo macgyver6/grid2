@@ -44,7 +44,7 @@ export const DateValidationUI = props => {
       ) : null}
       <br />
       <br />
-      <label for="val-fixed">Fixed</label>
+      <label for="val-fixed">Can user override defined date properties for field?</label>
       <br />
       <select
         value={props.model.validations().fixed}
@@ -54,7 +54,7 @@ export const DateValidationUI = props => {
         id="fixed"
       >
         <option value={true}>Prefer that date entered include all properties stated above, but accept any precision</option>
-        <option value={false}>Accept only date entered that includes all properties stated above</option>
+        <option value={false}>Strict - accept only date entered that includes all properties stated above</option>
       </select>
       <br />
       <label for="val-timeZone">Timezone</label>
