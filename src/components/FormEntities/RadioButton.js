@@ -36,7 +36,7 @@ const RadioButtonComponent = props => {
   const click_handler = event => {
     event.stopPropagation();
     props.temporalStateChange({
-      currententity: address.bySample(props.model, props.form),
+      currententity: address.bySample(props.model, props.form)
     });
   };
 
@@ -47,7 +47,7 @@ const RadioButtonComponent = props => {
     height: '100px',
     //     margin: helpers.marginCalc(props),
     borderRadius: '2px',
-    padding: '4px',
+    padding: '4px'
   };
 
   return (
@@ -108,6 +108,7 @@ const RadioButtonComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
+          resizeType="width"
         />
       </div>
       <PostPrompt

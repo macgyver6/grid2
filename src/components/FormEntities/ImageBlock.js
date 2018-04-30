@@ -44,7 +44,7 @@ const ImageBlockComponent = props => {
   const click_handler = event => {
     event.stopPropagation();
     props.temporalStateChange({
-      currententity: address.bySample(props.model, props.form),
+      currententity: address.bySample(props.model, props.form)
     });
   };
 
@@ -57,11 +57,11 @@ const ImageBlockComponent = props => {
     cursor: 'move',
     // border: '1px solid red',
     padding: '4px',
-    borderRadius: '2px',
+    borderRadius: '2px'
   };
 
   const tBInputStyle = {
-    height: '40px',
+    height: '40px'
   };
   return (
     <div
@@ -113,6 +113,7 @@ const ImageBlockComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
+          resizeType="width"
         />
       </div>
 

@@ -40,13 +40,13 @@ const TextAreaComponent = props => {
     position: 'relative',
     height: '100px',
     borderRadius: '2px',
-    padding: '4px',
+    padding: '4px'
   };
 
   const click_handler = event => {
     event.stopPropagation();
     props.temporalStateChange({
-      currententity: address.bySample(props.model, props.form),
+      currententity: address.bySample(props.model, props.form)
     });
   };
 
@@ -102,7 +102,6 @@ const TextAreaComponent = props => {
           cols={props.model.numColumns()}
           type={props.model.type()}
         />
-
         <Resizer
           id={`${props.model.UUID()}.resizer`}
           element="FormEntity"
@@ -113,6 +112,7 @@ const TextAreaComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
+          resizeType="width"
         />
       </div>
 

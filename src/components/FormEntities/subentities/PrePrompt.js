@@ -7,7 +7,7 @@ const PrePrompt = props => {
     backgroundColor: 'green',
     padding: '4px',
     borderRadius: '2px',
-    position: 'relative',
+    position: 'relative'
   };
 
   const prePromptInputStyle = { height: '20px', width: '120px' };
@@ -20,7 +20,7 @@ const PrePrompt = props => {
         value={props.model.prePrompt()}
       />
       <Resizer
-        id={`${props.model.UUID()}.resizer`}
+        id="prePrompt"
         element="FormEntity"
         uuid={props.model.UUID()}
         className="resizer"
@@ -29,6 +29,7 @@ const PrePrompt = props => {
         remove={props.remove}
         add={props.add}
         mutate={props.mutate}
+        resizeType="prePromptWidth"
       />
     </div>
   );

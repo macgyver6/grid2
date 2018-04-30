@@ -44,7 +44,7 @@ const SelectionInputComponent = props => {
   const click_handler = event => {
     event.stopPropagation();
     props.temporalStateChange({
-      currententity: address.bySample(props.model, props.form),
+      currententity: address.bySample(props.model, props.form)
     });
   };
 
@@ -57,11 +57,11 @@ const SelectionInputComponent = props => {
     cursor: 'move',
     // border: '1px solid red',
     padding: '4px',
-    borderRadius: '2px',
+    borderRadius: '2px'
   };
 
   const siInputStyle = {
-    height: '40px',
+    height: '40px'
   };
 
   return (
@@ -136,6 +136,7 @@ const SelectionInputComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
+          resizeType="width"
         />
       </div>
       <PostPrompt
