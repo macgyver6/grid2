@@ -38,7 +38,7 @@ export const DateValidationUI = props => {
         <option value={true}>true</option>
         <option value={false}>false</option>
       </select>
-      {props.model.validations().fixed ? (
+      {props.model.validations().full === 'false' ? (
         <p>
           <label for="val-partialExpression">Partial Date Expression</label>
           <br />
