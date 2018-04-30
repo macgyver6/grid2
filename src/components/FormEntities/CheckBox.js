@@ -110,6 +110,7 @@ const CheckBoxComponent = props => {
           mutate={props.mutate}
         />
       </div>
+      {props.model.postPromptWidth() > 0 ? (
       <PostPrompt
         id={`${props.model.UUID()}.prepend`}
         postPromptWidth={props.model.postPromptWidth()}
@@ -121,7 +122,8 @@ const CheckBoxComponent = props => {
         add={props.add}
         mutate={props.mutate}
       />
-      {props.model.append() > 0 ? (
+    ) : null}
+    {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}
           append={props.model.append()}

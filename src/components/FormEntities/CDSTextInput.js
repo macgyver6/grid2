@@ -97,7 +97,7 @@ const CDSTextInputComponent = props => {
 
   const tiInputStyle = {
     height: '20px',
-    width: '120px',
+    width: '80%',
   };
 
   return (
@@ -171,6 +171,7 @@ const CDSTextInputComponent = props => {
           mutate={props.mutate}
         />
       </div>
+      {props.model.postPromptWidth() > 0 ? (
       <PostPrompt
         id={`${props.model.UUID()}.prepend`}
         postPromptWidth={props.model.postPromptWidth()}
@@ -182,7 +183,8 @@ const CDSTextInputComponent = props => {
         add={props.add}
         mutate={props.mutate}
       />
-      {props.model.append() > 0 ? (
+    ) : null}
+    {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}
           append={props.model.append()}

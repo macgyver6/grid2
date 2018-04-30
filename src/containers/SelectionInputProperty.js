@@ -101,8 +101,8 @@ export const SelectionInputProperty = props => {
             size="2"
             onChange={change_handler}
             value={props.model.tabOrder()}
+            // disabled="disabled"
           />
-          // disabled="disabled"
         </p>
         <p>
           <label for="selectionInput-sasCodeLabel">SAS Code Label</label>

@@ -10,7 +10,9 @@ const PostPrompt = props => {
     position: 'relative'
   };
 
-  const postPromptInputStyle = { height: '20px', width: '120px' };
+  const postPromptInputStyle = {
+    height: '20px',
+    width: '80%' };
 
   return (
     <div style={postPromptStyle} id={`${props.model.UUID()}.postPrompt`}>
@@ -18,6 +20,7 @@ const PostPrompt = props => {
         style={postPromptInputStyle}
         className="form-control"
         value={props.model.postPrompt()}
+        placeholder='post prompt'
       />
       <Resizer
         id={`${props.model.UUID()}.resizer`}

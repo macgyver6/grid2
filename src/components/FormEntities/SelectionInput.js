@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { helpers } from '../../helpers';
 import { drop } from '../../drop';
@@ -61,7 +62,8 @@ const SelectionInputComponent = props => {
   };
 
   const siInputStyle = {
-    height: '40px'
+    height: '40px',
+    width: '80%'
   };
 
   return (
@@ -139,6 +141,7 @@ const SelectionInputComponent = props => {
           resizeType="width"
         />
       </div>
+      {props.model.postPromptWidth() > 0 ? (
       <PostPrompt
         id={`${props.model.UUID()}.prepend`}
         postPromptWidth={props.model.postPromptWidth()}
@@ -150,7 +153,8 @@ const SelectionInputComponent = props => {
         add={props.add}
         mutate={props.mutate}
       />
-      {props.model.append() > 0 ? (
+    ) : null}
+    {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}
           append={props.model.append()}

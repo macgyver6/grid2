@@ -10,7 +10,7 @@ const PrePrompt = props => {
     position: 'relative'
   };
 
-  const prePromptInputStyle = { height: '20px', width: '120px' };
+  const prePromptInputStyle = { height: '20px', width: '80%' };
 
   return (
     <div style={prePromptStyle} id={`${props.model.UUID()}.prePrompt`}>
@@ -18,6 +18,7 @@ const PrePrompt = props => {
         style={prePromptInputStyle}
         className="form-control"
         value={props.model.prePrompt()}
+        placeholder='pre prompt'
       />
       <Resizer
         id="prePrompt"

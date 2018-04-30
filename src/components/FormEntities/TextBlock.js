@@ -75,7 +75,7 @@ const TextBlockComponent = props => {
     borderRadius: '2px'
   };
 
-  const tBInputStyle = { height: '40px' };
+  const tBInputStyle = { height: '40px', width: '80%' };
 
   return (
     <div

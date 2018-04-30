@@ -22,7 +22,7 @@ export const styleDefaultEntity = entity => {
     gridGap: '8px',
     draggable: 'true',
     margin: '10px 0px 10px 0px',
-    minHeight: '100px',
+    minHeight: '40px',
     zIndex: '40',
     cursor: 'move'
   };

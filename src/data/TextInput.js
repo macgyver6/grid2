@@ -134,7 +134,7 @@ TextInput.LENGTH = {
   NO_MAX: 0,
 };
 
-TextInput.DEFAULT_CONTENT = 'Default Content';
+TextInput.DEFAULT_CONTENT = '';
 
 deepFreeze(TextInput);
 

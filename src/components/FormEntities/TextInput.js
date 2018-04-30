@@ -74,7 +74,7 @@ const TextInputComponent = props => {
     gridGap: '8px',
     draggable: 'true',
     margin: '10px 0px 10px 0px',
-    minHeight: '100px',
+    maxHeight: '40px',
     zIndex: '40',
     cursor: 'move'
   }; // maxHeight: '100px',
@@ -84,7 +84,7 @@ const TextInputComponent = props => {
     backgroundColor: '#6C788F',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
-    minHeight: '100px',
+    minHeight: '40px',
     cursor: 'move',
     // gridGap: '8px',
     // border: '1px solid red',
@@ -94,7 +94,7 @@ const TextInputComponent = props => {
 
   const tiInputStyle = {
     height: '20px',
-    width: '120px'
+    width: '80%'
   };
 
   const mouseUp_handler = event => {
@@ -154,6 +154,7 @@ const TextInputComponent = props => {
           className="form-control"
           type={props.model.type()} // maxLength={props.model.length()}
           value={props.model.defaultContent()}
+          placeholder='default content'
         />
         <Resizer
           id="width"
@@ -169,6 +170,7 @@ const TextInputComponent = props => {
           resizeType="width"
         />
       </div>
+      {props.model.postPromptWidth() > 0 ? (
       <PostPrompt
         id={`${props.model.UUID()}.prepend`}
         postPromptWidth={props.model.postPromptWidth()}
@@ -180,6 +182,7 @@ const TextInputComponent = props => {
         add={props.add}
         mutate={props.mutate}
       />
+    ) : null}
       {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}

@@ -211,7 +211,7 @@ class FormInput extends FormEntity {
 }
 
 FormInput.DEFAULT_PROMPT_PRE_WIDTH = 2;
-FormInput.DEFAULT_PROMPT_POST_WIDTH = 2;
+FormInput.DEFAULT_PROMPT_POST_WIDTH = 0;
 FormInput.DEFAULT_VALIDATIONS = {
   valType: 'String',
   length: 2,

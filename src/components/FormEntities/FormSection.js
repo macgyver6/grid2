@@ -358,6 +358,7 @@ let FormSectionComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
+          resizeType="width"
         />
         <AddToEnd
           model={props.model}

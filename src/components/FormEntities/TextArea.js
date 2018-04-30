@@ -38,7 +38,7 @@ const TextAreaComponent = props => {
     opacity: '1',
     gridColumn: `span ${props.model.width()}`,
     position: 'relative',
-    height: '100px',
+    height: '40px',
     borderRadius: '2px',
     padding: '4px'
   };
@@ -116,6 +116,7 @@ const TextAreaComponent = props => {
         />
       </div>
 
+      {props.model.postPromptWidth() > 0 ? (
       <PostPrompt
         id={`${props.model.UUID()}.prepend`}
         postPromptWidth={props.model.postPromptWidth()}
@@ -127,6 +128,8 @@ const TextAreaComponent = props => {
         add={props.add}
         mutate={props.mutate}
       />
+    ) : null}
+
       {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}

@@ -99,16 +99,16 @@ let Resizer = props => {
         console.log('resize check which type');
         if (locEntity[1].type() === 'FormSection') {
           console.log('resize FormSection');
-          // resize.init_children === null
-          //   ? (resize.init_children = locEntity[1].children())
-          //   : null;
+          resize.init_children === null
+            ? (resize.init_children = locEntity[1].children())
+            : null;
 
           // map through children starting here
           if (locEntity[1].children().length > 0) {
-            const total = (prepend, width, append) => prepend + width + append;
+            const total = (prePromptWidth, prepend, width, append, postPromptWidth) => prePromptWidth + prepend + width + append + postPromptWidth;
             const _children = resize.init_children.map(child => {
               return Object.assign({}, child.properties(), {
-                total: total(child.prepend(), child.width(), child.append()),
+                total: total(child.prePromptWidth(), child.prepend(), child.width(), child.append(), child.postPromptWidth()),
                 row: null,
                 index: null
               });
@@ -141,9 +141,11 @@ let Resizer = props => {
                   };
                   if (
                     total(
+                      accumulator[accumulator.length - 1].prePromptWidth,
                       accumulator[accumulator.length - 1].prepend,
                       accumulator[accumulator.length - 1].width,
-                      accumulator[accumulator.length - 1].append
+                      accumulator[accumulator.length - 1].append,
+                      accumulator[accumulator.length - 1].postPromptWidth
                     ) +
                       total(
                         _children[_children.length - 1].prepend,
@@ -177,14 +179,18 @@ let Resizer = props => {
               // return sum of each entity < section.width
               if (
                 total(
+                  accumulator[accumulator.length - 1].prePromptWidth,
                   accumulator[accumulator.length - 1].prepend,
                   accumulator[accumulator.length - 1].width,
-                  accumulator[accumulator.length - 1].append
+                  accumulator[accumulator.length - 1].append,
+                  accumulator[accumulator.length - 1].postPromptWidth,
                 ) +
                   total(
+                    _children[currentIndex].prePromptWidth,
                     _children[currentIndex].prepend,
                     _children[currentIndex].width,
-                    _children[currentIndex].append
+                    _children[currentIndex].append,
+                    _children[currentIndex].postPromptWidth
                   ) <=
                 sectionWidth
               ) {
@@ -224,9 +230,12 @@ let Resizer = props => {
                   {
                     total:
                       total(
+                        accumulator[accumulator.length - 1].prePromptWidth,
                         accumulator[accumulator.length - 1].prepend,
                         accumulator[accumulator.length - 1].width,
-                        accumulator[accumulator.length - 1].append
+                        accumulator[accumulator.length - 1].append,
+                        accumulator[accumulator.length - 1].postPromptWidth,
+
                       ) +
                       (sectionWidth -
                         occupiedColumnsInRow(accumulator, 'total')),
@@ -237,9 +246,11 @@ let Resizer = props => {
 
                 accumulator[accumulator.length] = {
                   total: total(
+                    _children[currentIndex].prePromptWidth,
                     _children[currentIndex].prepend,
                     _children[currentIndex].width,
-                    _children[currentIndex].append
+                    _children[currentIndex].append,
+                    _children[currentIndex].postPromptWidth
                   ),
                   index: 0,
                   row: counter

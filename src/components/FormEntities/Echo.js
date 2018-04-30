@@ -64,7 +64,7 @@ const EchoComponent = props => {
 
   const tBInputStyle = {
     height: '40px',
-    width: '120px',
+    width: '80%',
   };
 
   return (
