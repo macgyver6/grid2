@@ -14,20 +14,9 @@ export const DateValidationUI = props => {
   return (
     <div>
       <h2>Date Validations</h2>
+
       <br />
-      <label for="val-fixed">Fixed</label>
-      <select
-        value={props.model.validations().fixed}
-        className="form-control"
-        name="val-fixed"
-        onChange={change_handler}
-        id="fixed"
-      >
-        <option value={true}>true</option>
-        <option value={false}>false</option>
-      </select>
-      <br />
-      <label for="val-full">Full</label>
+      <label for="val-full">How should the date to be collected be defined?</label>
       <select
         value={props.model.validations().full}
         className="form-control"
@@ -35,9 +24,10 @@ export const DateValidationUI = props => {
         onChange={change_handler}
         id="full"
       >
-        <option value={true}>true</option>
-        <option value={false}>false</option>
+        <option value={true}>Full - Expect all properties on date to be entered. Ex. YYYYMMDDThhmmss-TZ</option>
+        <option value={false}>Partial - Expect only date properties defined in expression below.</option>
       </select>
+
       {props.model.validations().full === 'false' ? (
         <p>
           <label for="val-partialExpression">Partial Date Expression</label>
@@ -48,9 +38,24 @@ export const DateValidationUI = props => {
             name="val-partialExpression"
             onChange={change_handler}
             value={props.model.validations().partialExpression}
+            placeholder="Ex. 'ymd'"
           />
         </p>
       ) : null}
+      <br />
+      <br />
+      <label for="val-fixed">Fixed</label>
+      <br />
+      <select
+        value={props.model.validations().fixed}
+        className="form-control"
+        name="val-fixed"
+        onChange={change_handler}
+        id="fixed"
+      >
+        <option value={true}>Prefer that date entered include all properties stated above, but accept any precision</option>
+        <option value={false}>Accept only date entered that includes all properties stated above</option>
+      </select>
       <br />
       <label for="val-timeZone">Timezone</label>
       <select
