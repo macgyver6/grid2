@@ -26,9 +26,12 @@ const TextInputComponent = props => {
    * 2. Deleting a form section
    */
   let dragstart_handler = event => {
+    console.log('dragStart')
     //  event.stopPropagation();
-    //  helpers.dragStart_handler(event, props.model, props.form, 'move');
-    return false; // to prevent a drag image from appearing
+    console.log(event.target.id)
+    event.preventDefault() // this prevents erroneous mutation when a resize is intended
+     helpers.dragStart_handler(event, props.model, props.form, 'move');
+    // return false; // to prevent a drag image from appearing
   };
 
   let dragOver_handler = event => {

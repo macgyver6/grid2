@@ -36,7 +36,7 @@ let Resizer = props => {
   };
 
   let mouseDown_handler = event => {
-    // event.stopPropagation();
+    event.stopPropagation();
     // console.log('mouseDown: ', event.clientX)
     resize.mouseMoveStartX = event.clientX;
     resize.target = event.target.id;
@@ -59,6 +59,9 @@ let Resizer = props => {
   };
 
   let mouseMove_handler = event => {
+    console.log(resize)
+    event.stopPropagation();
+
     resize.reset = false;
     let locEntity = address.byUuid(props.model.UUID(), props.form);
     resize.dx = event.clientX - resize.mouseMoveStartX;
@@ -230,7 +233,7 @@ let Resizer = props => {
                   {
                     total:
                       total(
-                        accumulator[accumulator.length - 1].prePromptWidth,
+                        accumulator[accumulator.length - 1]    .prePromptWidth,
                         accumulator[accumulator.length - 1].prepend,
                         accumulator[accumulator.length - 1].width,
                         accumulator[accumulator.length - 1].append,
