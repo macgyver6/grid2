@@ -9,7 +9,7 @@ const PrePrompt = props => {
     borderRadius: '2px',
     position: 'relative'
   };
-  console.log(props.backgroundColor)
+  console.log(props.backgroundColor);
 
   const prePromptInputStyle = { height: '20px', width: '80%' };
 
@@ -19,7 +19,7 @@ const PrePrompt = props => {
         style={prePromptInputStyle}
         className="form-control"
         value={props.model.prePrompt()}
-        placeholder='pre prompt'
+        placeholder="prompt"
       />
       <Resizer
         id="prePrompt"
