@@ -44,6 +44,25 @@ const SelectionInputComponent = props => {
     width: '80%'
   };
 
+  const SelectionRender = () => {
+    <select
+    style={siInputStyle}
+    className="form-control"
+    type={props.model.type()}
+  >
+    {props.model
+      .options()
+      .map(option => (
+        <option value={option.value}>{option.label}</option>
+      ))}
+    {/* <option value="value1">Value 1</option>
+    <option value="value2" selected>
+      Value 2
+    </option>
+    <option value="value3">Value 3</option> */}
+  </select>
+  }
+
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
@@ -91,22 +110,39 @@ const SelectionInputComponent = props => {
       >
         {/*props.model.name() */}
         <br />
-        <select
-          style={siInputStyle}
-          className="form-control"
-          type={props.model.type()}
-        >
-          {props.model
-            .options()
-            .map(option => (
-              <option value={option.value}>{option.label}</option>
-            ))}
-          {/* <option value="value1">Value 1</option>
-          <option value="value2" selected>
-            Value 2
-          </option>
-          <option value="value3">Value 3</option> */}
-        </select>
+
+       {/* put the desired render mode conditional and output here*/}
+{  props.model.renderMode() === 'selection' ?
+<select
+    style={siInputStyle}
+    className="form-control"
+    type={props.model.type()}
+  >
+    {props.model
+      .options()
+      .map(option => (
+        <option value={option.value}>{option.label}</option>
+      ))}
+    {/* <option value="value1">Value 1</option>
+    <option value="value2" selected>
+      Value 2
+    </option>
+    <option value="value3">Value 3</option> */}
+  </select>
+:
+<div className="fancy-radio-wrapper">
+            <div className="fancy-radio-inner">
+            {props.model
+              .options()
+              .map(option => (
+                <div><input type="radio" id={option.value} name={option.value} value={option.value}/>
+                <label className="label" for="gl1">{option.label}</label></div>
+              ))}
+            </div>
+          </div>
+
+}
+
         <Resizer
           id={`${props.model.UUID()}.resizer`}
           element="FormEntity"

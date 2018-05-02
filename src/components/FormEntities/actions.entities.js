@@ -5,9 +5,11 @@ import { drop } from '../../drop';
 export const entityActions = {
   mouseDown_handler: (event, props) => {
     event.stopPropagation();
+    const entity =
     document.getElementById(
       `${props.model.UUID()}.${props.model.type()}.wrapper`
-    ).draggable = true;
+    )
+    entity.draggable = true;
     drop.mouseDown_handler(event, props, 'move');
   },
 
@@ -17,7 +19,11 @@ export const entityActions = {
    */
   dragstart_handler: (event, props) => {
     event.stopPropagation();
-    console.log(event.target.id);
+    const entity = document.getElementById(
+      `${props.model.UUID()}.${props.model.type()}.wrapper`
+    )
+    // entity.style.border = '';
+    // event.dataTransfer.setDragImage(entity, -20, -20);
     helpers.dragStart_handler(event, props.model, props.form, 'move');
   },
 
