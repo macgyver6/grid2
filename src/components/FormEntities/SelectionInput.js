@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { helpers } from '../../helpers';
 import { drop } from '../../drop';
@@ -10,44 +9,23 @@ import PrePrompt from './subentities/PrePrompt.js';
 import PostPrompt from './subentities/PostPrompt.js';
 import { log } from 'util';
 import { address } from '../../address';
+import { entityActions } from './actions.entities';
 
 const SelectionInputComponent = props => {
-  /** Handle adding/subtracing prepend or append */
-  const mouseDown_handler = event => {
-    drop.mouseDown_handler(event, props, 'move');
-  };
+  const mouseDown_handler = event =>
+    entityActions.mouseDown_handler(event, props);
 
-  /** Set dataTransfer in the case the entity is dropped on target:
-   * 1. Moving to different form section
-   * 2. Deleting a form section
-   */
-  let dragstart_handler = event => {
-    // event.stopPropagation();
-    helpers.dragStart_handler(event, props.model, props.form, 'move');
-  };
+  let dragstart_handler = event =>
+    entityActions.dragstart_handler(event, props);
 
-  let dragOver_handler = event => {
-    event.preventDefault();
-  };
+  let dragOver_handler = event => entityActions.dragOver_handler(event, props);
 
-  let drop_handler = event => {
-    drop.drop_handler(event, props);
-  };
+  let drop_handler = event => entityActions.drop_handler(event, props);
 
-  let dragleave_handler = event => {
-    event.stopPropagation();
-    //   console.log(event.target.id)
-    // if (event.target.id === `${props.model.UUID()}.${props.model.type()}.wrapper`) {
-    //   console.log('event.currentTarget')
-    // }
-  };
+  let dragleave_handler = event =>
+    entityActions.dragleave_handler(event, props);
 
-  const click_handler = event => {
-    event.stopPropagation();
-    props.temporalStateChange({
-      currententity: address.bySample(props.model, props.form)
-    });
-  };
+  const click_handler = event => entityActions.click_handler(event, props);
 
   const siStyle = {
     //     margin: helpers.marginCalc(props),
@@ -100,7 +78,7 @@ const SelectionInputComponent = props => {
         remove={props.remove}
         add={props.add}
         mutate={props.mutate}
-        backgroundColor='red'
+        backgroundColor="red"
       />
 
       <div
@@ -111,7 +89,7 @@ const SelectionInputComponent = props => {
         // onDragStart={dragstart_handler}
         // draggable="true"
       >
-    {/*props.model.name() */}
+        {/*props.model.name() */}
         <br />
         <select
           style={siInputStyle}
@@ -143,20 +121,20 @@ const SelectionInputComponent = props => {
         />
       </div>
       {props.model.postPromptWidth() > 0 ? (
-      <PostPrompt
-        id={`${props.model.UUID()}.prepend`}
-        postPromptWidth={props.model.postPromptWidth()}
-        uuid={props.model.UUID()}
-        className="prepend"
-        model={props.model}
-        form={props.form}
-        remove={props.remove}
-        add={props.add}
-        mutate={props.mutate}
-        backgroundColor='red'
-      />
-    ) : null}
-    {props.model.append() > 0 ? (
+        <PostPrompt
+          id={`${props.model.UUID()}.prepend`}
+          postPromptWidth={props.model.postPromptWidth()}
+          uuid={props.model.UUID()}
+          className="prepend"
+          model={props.model}
+          form={props.form}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
+          backgroundColor="red"
+        />
+      ) : null}
+      {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}
           append={props.model.append()}

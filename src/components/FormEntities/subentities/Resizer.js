@@ -59,7 +59,7 @@ let Resizer = props => {
   };
 
   let mouseMove_handler = event => {
-    console.log(resize)
+    console.log(resize);
     event.stopPropagation();
 
     resize.reset = false;
@@ -108,10 +108,22 @@ let Resizer = props => {
 
           // map through children starting here
           if (locEntity[1].children().length > 0) {
-            const total = (prePromptWidth, prepend, width, append, postPromptWidth) => prePromptWidth + prepend + width + append + postPromptWidth;
+            const total = (
+              prePromptWidth,
+              prepend,
+              width,
+              append,
+              postPromptWidth
+            ) => prePromptWidth + prepend + width + append + postPromptWidth;
             const _children = resize.init_children.map(child => {
               return Object.assign({}, child.properties(), {
-                total: total(child.prePromptWidth(), child.prepend(), child.width(), child.append(), child.postPromptWidth()),
+                total: total(
+                  child.prePromptWidth(),
+                  child.prepend(),
+                  child.width(),
+                  child.append(),
+                  child.postPromptWidth()
+                ),
                 row: null,
                 index: null
               });
@@ -186,7 +198,7 @@ let Resizer = props => {
                   accumulator[accumulator.length - 1].prepend,
                   accumulator[accumulator.length - 1].width,
                   accumulator[accumulator.length - 1].append,
-                  accumulator[accumulator.length - 1].postPromptWidth,
+                  accumulator[accumulator.length - 1].postPromptWidth
                 ) +
                   total(
                     _children[currentIndex].prePromptWidth,
@@ -233,12 +245,11 @@ let Resizer = props => {
                   {
                     total:
                       total(
-                        accumulator[accumulator.length - 1]    .prePromptWidth,
+                        accumulator[accumulator.length - 1].prePromptWidth,
                         accumulator[accumulator.length - 1].prepend,
                         accumulator[accumulator.length - 1].width,
                         accumulator[accumulator.length - 1].append,
-                        accumulator[accumulator.length - 1].postPromptWidth,
-
+                        accumulator[accumulator.length - 1].postPromptWidth
                       ) +
                       (sectionWidth -
                         occupiedColumnsInRow(accumulator, 'total')),
@@ -338,6 +349,10 @@ let Resizer = props => {
       initFE[props.model.type()].render.backgroundColor;
   };
 
+  const click_handler = event => {
+    event.stopPropagation();
+  };
+
   return (
     <div
       id={`${props.resizeType}`}
@@ -345,6 +360,7 @@ let Resizer = props => {
       style={resizeStyle}
       onDragStart={dragstart_handler}
       onMouseDown={mouseDown_handler}
+      onClick={click_handler}
       draggable="true"
     />
   );
