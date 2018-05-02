@@ -26,11 +26,11 @@ const TextInputComponent = props => {
    * 2. Deleting a form section
    */
   let dragstart_handler = event => {
-    console.log('dragStart')
+    console.log('dragStart');
     //  event.stopPropagation();
-    console.log(event.target.id)
-    event.preventDefault() // this prevents erroneous mutation when a resize is intended
-     helpers.dragStart_handler(event, props.model, props.form, 'move');
+    console.log(event.target.id);
+    // event.preventDefault(); // this prevent erroneous mutation when a resize is intended
+    helpers.dragStart_handler(event, props.model, props.form, 'move');
     // return false; // to prevent a drag image from appearing
   };
 
@@ -52,7 +52,8 @@ const TextInputComponent = props => {
 
   const click_handler = event => {
     event.stopPropagation();
-    props.temporalStateChange({
+    event.target.draggable = true;
+    console.props.temporalStateChange({
       currententity: address.bySample(props.model, props.form)
     });
   };
@@ -116,7 +117,7 @@ const TextInputComponent = props => {
       onMouseDown={mouseDown_handler} // to set intitial mouse click loc
       onDragStart={dragstart_handler} // returns false to prevent drag image
       onMouseUp={mouseUp_handler}
-      draggable="true"
+      // draggable="true"
     >
       {props.model.prepend() > 0 ? (
         <Prepend
@@ -141,7 +142,7 @@ const TextInputComponent = props => {
         remove={props.remove}
         add={props.add}
         mutate={props.mutate}
-        backgroundColor='rgb(108, 120, 143)'
+        backgroundColor="rgb(108, 120, 143)"
       />
 
       <div
@@ -158,7 +159,7 @@ const TextInputComponent = props => {
           className="form-control"
           type={props.model.type()} // maxLength={props.model.length()}
           value={props.model.defaultContent()}
-          placeholder='default content'
+          placeholder="default content"
         />
         <Resizer
           id="width"
@@ -175,19 +176,19 @@ const TextInputComponent = props => {
         />
       </div>
       {props.model.postPromptWidth() > 0 ? (
-      <PostPrompt
-        id={`${props.model.UUID()}.prepend`}
-        postPromptWidth={props.model.postPromptWidth()}
-        uuid={props.model.UUID()}
-        className="prepend"
-        model={props.model}
-        form={props.form}
-        remove={props.remove}
-        add={props.add}
-        mutate={props.mutate}
-        backgroundColor='rgb(108, 120, 143)'
-      />
-    ) : null}
+        <PostPrompt
+          id={`${props.model.UUID()}.prepend`}
+          postPromptWidth={props.model.postPromptWidth()}
+          uuid={props.model.UUID()}
+          className="prepend"
+          model={props.model}
+          form={props.form}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
+          backgroundColor="rgb(108, 120, 143)"
+        />
+      ) : null}
       {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}
