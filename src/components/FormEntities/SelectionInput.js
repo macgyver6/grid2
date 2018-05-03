@@ -46,22 +46,20 @@ const SelectionInputComponent = props => {
 
   const SelectionRender = () => {
     <select
-    style={siInputStyle}
-    className="form-control"
-    type={props.model.type()}
-  >
-    {props.model
-      .options()
-      .map(option => (
-        <option value={option.value}>{option.label}</option>
-      ))}
-    {/* <option value="value1">Value 1</option>
+      style={siInputStyle}
+      className="form-control"
+      type={props.model.type()}
+    >
+      {props.model
+        .options()
+        .map(option => <option value={option.value}>{option.label}</option>)}
+      {/* <option value="value1">Value 1</option>
     <option value="value2" selected>
       Value 2
     </option>
     <option value="value3">Value 3</option> */}
-  </select>
-  }
+    </select>;
+  };
 
   return (
     <div
@@ -111,37 +109,41 @@ const SelectionInputComponent = props => {
         {/*props.model.name() */}
         <br />
 
-       {/* put the desired render mode conditional and output here*/}
-{  props.model.renderMode() === 'selection' ?
-<select
-    style={siInputStyle}
-    className="form-control"
-    type={props.model.type()}
-  >
-    {props.model
-      .options()
-      .map(option => (
-        <option value={option.value}>{option.label}</option>
-      ))}
-    {/* <option value="value1">Value 1</option>
+        {/* put the desired render mode conditional and output here*/}
+        {props.model.renderMode() === 'selection' ? (
+          <select
+            style={siInputStyle}
+            className="form-control"
+            type={props.model.type()}
+          >
+            {props.model
+              .options()
+              .map(option => (
+                <option value={option.value}>{option.label}</option>
+              ))}
+            {/* <option value="value1">Value 1</option>
     <option value="value2" selected>
       Value 2
     </option>
     <option value="value3">Value 3</option> */}
-  </select>
-:
-<div className="fancy-radio-wrapper">
+          </select>
+        ) : (
+          <div className="fancy-radio-wrapper">
             <div className="fancy-radio-inner">
-            {props.model
-              .options()
-              .map(option => (
-                <div><input type="radio" id={option.value} name={option.value} value={option.value}/>
-                <label className="label" for="gl1">{option.label}</label></div>
-              ))}
+              {props.model.options().map(option => [
+                <input
+                  type="radio"
+                  id={option.value}
+                  name={option.value}
+                  value={option.value}
+                />,
+                <label className="label" for="gl1">
+                  {option.label}
+                </label>
+              ])}
             </div>
           </div>
-
-}
+        )}
 
         <Resizer
           id={`${props.model.UUID()}.resizer`}
