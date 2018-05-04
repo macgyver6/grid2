@@ -4,6 +4,7 @@ import { log } from 'util';
 import { utility } from '../validation/val.utility';
 import { Form } from '../data/Form';
 import { FormInput } from '../data/FormInput';
+import { calcTotal } from '../components/FormEntities/feStyles';
 
 export const ImageBlockProperty = props => {
   const change_handler = event => {
@@ -29,6 +30,7 @@ export const ImageBlockProperty = props => {
     <div>
       <h1>Image Block</h1>
       <p>{props.model.UUID()}</p>
+      <p>Total width: {calcTotal(props.model)}</p>
       <select
         value={props.model.url()}
         className="form-control"

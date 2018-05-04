@@ -1,5 +1,6 @@
 import React from 'react';
 import { address } from '../address';
+import { calcTotal } from '../components/FormEntities/feStyles';
 
 export const CheckBoxProperty = props => {
   const change_handler = event => {
@@ -13,6 +14,7 @@ export const CheckBoxProperty = props => {
     <div>
       <h1>Checkbox</h1>
       <p>{props.model.UUID()}</p>
+      <p>Total width: {calcTotal(props.model)}</p>
 
       <div>
         <p>

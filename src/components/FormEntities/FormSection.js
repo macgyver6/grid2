@@ -297,6 +297,11 @@ let FormSectionComponent = props => {
       ? ''
       : fsStyle.backgroundColor;
 
+  const showResizer =
+    address.bySample(props.model, props.form).length < 2
+      ? false
+      : true;
+
   const total = entity => entity.prepend() + entity.width() + entity.append();
 
   // const allChildrenSum = section =>
@@ -351,7 +356,7 @@ let FormSectionComponent = props => {
               });
             })
           : null}
-
+{showResizer ?
         <Resizer
           id={`${props.model.UUID()}.resizer`}
           element="FormEntity"
@@ -364,6 +369,8 @@ let FormSectionComponent = props => {
           mutate={props.mutate}
           resizeType="width"
         />
+        :
+        null }
         <AddToEnd
           model={props.model}
           form={props.form}

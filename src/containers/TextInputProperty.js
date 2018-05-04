@@ -8,6 +8,7 @@ import IntegerValidationUI from './validations/integerValidationUI';
 import FloatValidationUI from './validations/floatValidationUI';
 import { Collapse } from 'react-collapse';
 import Expand from '../assets/expand.js';
+import { calcTotal } from '../components/FormEntities/feStyles';
 
 export const TextInputProperty = props => {
   const change_handler = event => {
@@ -63,6 +64,7 @@ export const TextInputProperty = props => {
           <Tab>Properties</Tab>
         </TabList>
         <p>{props.model.UUID()}</p>
+        <p>Total width: {calcTotal(props.model)}</p>
         <TabPanel>
           <br />
           <h2 id="dataDefinedValidationPane" onClick={collapse_handler}>

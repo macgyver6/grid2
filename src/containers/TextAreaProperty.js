@@ -1,5 +1,6 @@
 import React from 'react';
 import { address } from '../address';
+import { calcTotal } from '../components/FormEntities/feStyles';
 
 export const TextAreaProperty = props => {
   const change_handler = event => {
@@ -11,6 +12,7 @@ export const TextAreaProperty = props => {
     <div>
       <h1>Text Area</h1>
       <p>{props.model.UUID()}</p>
+      <p>Total width: {calcTotal(props.model)}</p>
 
       <div>
         <p>
