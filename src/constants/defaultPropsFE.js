@@ -1,7 +1,6 @@
 import {FormSection} from '../data/FormSection';
 import {TextInput} from '../data/TextInput';
 import {TextArea} from '../data/TextArea';
-import {RadioButton} from '../data/RadioButton';
 import {SelectionInput} from '../data/SelectionInput';
 
 export var initFE = {
@@ -126,28 +125,6 @@ export var initFE = {
       minWidth: 1
     }
   },
-  RadioButton: {
-    uuid: undefined,
-    prepend: 1,
-    width: 11,
-    append: 0,
-    prePromptWidth: 4,
-    postPromptWidth: 0,
-    prePrompt: '',
-    postPrompt: '',
-    name: 'name',
-    sasCodeLabel: 'sasCodeLabel',
-    type: 'RadioButton',
-    tabOrder: 1,
-    inputWidth: 8,
-    promptNumber: 'CIE49dfd5',
-    autoNumber: 'SEQUENTIAL',
-    defaultState: true,
-    render: {
-      backgroundColor: '#304061',
-      minWidth: 3
-    }
-  },
   TextBlock: {
     uuid: undefined,
     name: 'TextBlock Name',
@@ -255,7 +232,7 @@ export var defaultPropsFE = {
             uuid: undefined,
             type: 'FormSection',
             width: 18,
-            children: [new RadioButton(initFE.RadioButton), new SelectionInput(initFE.SelectionInput)],
+            children: [new SelectionInput(initFE.SelectionInput)],
             legend: 'legend',
             prepend: 3,
             append: 3
