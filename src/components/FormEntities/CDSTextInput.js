@@ -118,7 +118,7 @@ const CDSTextInputComponent = props => {
         className="TextInput"
         onMouseDown={mouseDown_handler}
         onDragStart={dragstart_handler}
-        draggable="true"
+        draggable="false"
       >
         <br />
 
@@ -147,6 +147,7 @@ const CDSTextInputComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
+          resizeType="width"
         />
       </div>
       {props.model.postPromptWidth() > 0 ? (

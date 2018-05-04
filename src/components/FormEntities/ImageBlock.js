@@ -71,7 +71,7 @@ const ImageBlockComponent = props => {
         className="TextInput"
         onMouseDown={mouseDown_handler}
         onDragStart={dragstart_handler}
-        draggable="true"
+        draggable="false"
       >
         <br />
         {props.model.title() === '' ? (

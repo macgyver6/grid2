@@ -31,31 +31,6 @@ const TextInputComponent = props => {
 
   const click_handler = event => entityActions.click_handler(event, props);
 
-  const tiWrapperStyle = {
-    display: 'grid',
-    gridColumn:
-      'span ' +
-      (props.model.prepend() +
-        props.model.prePromptWidth() +
-        props.model.width() +
-        props.model.postPromptWidth() +
-        props.model.append()),
-    gridTemplateColumns:
-      'repeat(' +
-      (props.model.prepend() +
-        props.model.prePromptWidth() +
-        props.model.width() +
-        props.model.postPromptWidth() +
-        props.model.append()) +
-      ', [col] 1fr)',
-    gridGap: '8px',
-    // draggable: 'true',
-    margin: '10px 0px 10px 0px',
-    maxHeight: '40px',
-    zIndex: '40',
-    cursor: 'move'
-  }; // maxHeight: '100px',
-
   const tiStyle = {
     // //     margin: helpers.marginCalc(props),
     backgroundColor: '#6C788F',
@@ -122,9 +97,6 @@ const TextInputComponent = props => {
         style={tiStyle}
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="TextInput"
-        // onMouseDown={mouseDown_handler}
-        // onDragStart={dragstart_handler}
-        // draggable="true"
       >
         <br />
         <input

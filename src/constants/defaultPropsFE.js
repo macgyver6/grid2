@@ -64,18 +64,18 @@ export var initFE = {
     renderMode: 'selection',
     options: [
       {
-        label: 'dfgh',
-        value: 'one'
+        label: 'one',
+        value: '1'
       }, {
-        label: 'dfgh',
-        value: 'two'
+        label: 'two',
+        value: '2'
       }, {
-        label: 'dfgh',
-        value: 'three'
+        label: 'three',
+        value: '3'
       }
     ],
     render: {
-      backgroundColor: '#6C788F',
+      backgroundColor: 'red',
       minWidth: 3
     }
   },
@@ -166,6 +166,7 @@ export var initFE = {
     promptNumber: 'CIE49sfsdf',
     prePrompt: '',
     postPrompt: '',
+    dictionaryName: '',
     type: 'AdverseEvent',
     render: {
       backgroundColor: 'green',

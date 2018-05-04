@@ -335,7 +335,6 @@ let FormSectionComponent = props => {
         className="form-group FS"
         style={{ ...fsStyle, backgroundColor: whichBackground }}
         data-action={`mover.${props.model.UUID()}.FormSection`}
-        // draggable="true"
         onDragStart={dragstart_handler}
       >
         {props.model.type() === 'FormSection'

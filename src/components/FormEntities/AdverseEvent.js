@@ -11,6 +11,7 @@ import { address } from '../../address';
 import { entityActions } from './actions.entities';
 
 const CheckBoxComponent = props => {
+  console.log(props.model)
   const mouseDown_handler = event =>
     entityActions.mouseDown_handler(event, props);
 
@@ -83,12 +84,13 @@ const CheckBoxComponent = props => {
         data-type="CheckBox"
         onMouseDown={mouseDown_handler}
         onDragStart={dragstart_handler}
-        draggable="true"
+        draggable="false"
       >
         {/* onChange={(e) => handleChange(e, props)} */}
         <input type={props.model.type()} style={cbInputStyle} />
         <Resizer
-          id={`${props.model.UUID()}.resizer`}
+          id="width"
+          // id={`${props.model.UUID()}.resizer`}
           element="FormEntity"
           uuid={props.model.UUID()}
           className="resizer"
@@ -97,6 +99,7 @@ const CheckBoxComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
+          resizeType="width"
         />
       </div>
       {props.model.postPromptWidth() > 0 ? (
