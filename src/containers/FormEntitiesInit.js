@@ -17,6 +17,7 @@ import {
 } from '../components/layout/styles/Layout';
 import TabContainer from '../components/layout/design/TabContainer';
 import { PropertiesPanel } from './PropertiesPanel';
+import { calcTotalAdd } from '../components/FormEntities/feStyles';
 
 const BackgroundPanel = props => (
   <div style={backgroundPanelStyle}>
@@ -319,9 +320,8 @@ const LeftPanel = props => {
     const type = event.target.dataset.type;
     const div = document.createElement('div');
     div.id = 'dmg';
-    console.log(type);
-    div.style.width = `${initFE[type].width * bgrndGrdWidth}px`;
-    div.style.height = '100px';
+    div.style.width = `${calcTotalAdd(address.resurrectEntity(initFE[type])) * bgrndGrdWidth - 12}px`; //  gets the total with of the default entity minus the append and prepend widths. Note subtracting 12 accounts for the gap
+    div.style.height = '40px';
     div.style.backgroundColor = initFE[type].render.backgroundColor;
     div.style.position = 'fixed';
     div.style.top = '-1000px';

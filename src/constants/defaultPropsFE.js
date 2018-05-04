@@ -46,8 +46,8 @@ export var initFE = {
   SelectionInput: {
     uuid: undefined,
     prepend: 1,
-    width: 11,
-    append: 0,
+    width: 6,
+    append: 13,
     prePromptWidth: 4,
     postPromptWidth: 0,
     prePrompt: '',
@@ -189,8 +189,8 @@ export var initFE = {
   },
   CDSTextInput: {
     prepend: 1,
-    width: 4,
-    append: 7,
+    width: 6,
+    append: 5,
     prePromptWidth: 4,
     postPromptWidth: 0,
     uuid: undefined,
@@ -232,11 +232,11 @@ export var defaultPropsFE = {
           new FormSection({
             uuid: undefined,
             type: 'FormSection',
-            width: 18,
+            width: 24,
             children: [new SelectionInput(initFE.SelectionInput)],
             legend: 'legend',
-            prepend: 3,
-            append: 3
+            prepend: 0,
+            append: 0
           })
           // new FormSection({   uuid: undefined,   type: 'FormSection',   width: 16,
           // children: [],   legend: 'legend',   prepend: 4,   append: 4,   render: {

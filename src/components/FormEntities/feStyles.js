@@ -1,4 +1,4 @@
-const calcTotal = entity => {
+export const calcTotal = entity => {
   if (typeof entity.prePromptWidth === 'function') {
     console.log('has prompts: ', entity.type());
     return (
@@ -11,6 +11,20 @@ const calcTotal = entity => {
   } else {
     console.log('no prompts: ', entity.type());
     return entity.prepend() + entity.width() + entity.append();
+  }
+};
+
+export const calcTotalAdd = entity => {
+  if (typeof entity.prePromptWidth === 'function') {
+    console.log('has prompts: ', entity.type());
+    return (
+      entity.prePromptWidth() +
+      entity.width() +
+      entity.postPromptWidth()
+    );
+  } else {
+    console.log('no prompts: ', entity.type());
+    return entity.width();
   }
 };
 
