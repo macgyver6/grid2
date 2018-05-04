@@ -25,7 +25,7 @@ export const drop = {
     dropObj.initPrepend = props.model.prepend();
     dropObj.initAppend = props.model.append();
     dropObj.sourceAddress = address.bySample(props.model, props.form);
-    console.log(dropObj);
+    console.log('dropObj2', dropObj);
     dropObj.offsetInit =
       address.bySample(props.model, props.form).length > 1
         ? round(
@@ -36,7 +36,7 @@ export const drop = {
             3
           )
         : null;
-    console.log('mouseDown: ', dropObj);
+    console.log('mouseDown: ', event.target);
   },
   /**Give the user feedback while they are dragged.
    * If the user were to drop at the clientX of mouseMove, would it be valid?
@@ -51,6 +51,7 @@ export const drop = {
   // },
   drop_handler: (event, props) => {
     event.stopPropagation();
+    console.log(event.target)
     console.log('dropObj: ', dropObj);
     const dropData = JSON.parse(event.dataTransfer.getData('address'));
     const previousSibling = () => {

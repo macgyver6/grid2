@@ -5,7 +5,6 @@ import TextInputComponent from './components/FormEntities/TextInput';
 import CDSTextInputComponent from './components/FormEntities/CDSTextInput';
 import TextAreaComponent from './components/FormEntities/TextArea';
 import CheckBoxComponent from './components/FormEntities/CheckBox';
-import RadioButtonComponent from './components/FormEntities/RadioButton';
 import SelectionInputComponent from './components/FormEntities/SelectionInput';
 import TextBlockComponent from './components/FormEntities/TextBlock';
 import ImageBlockComponent from './components/FormEntities/ImageBlock';
@@ -18,7 +17,6 @@ import { CDSTextInput } from './data/CDSTextInput';
 import { TextArea } from './data/TextArea';
 import { CheckBox } from './data/CheckBox';
 import { SelectionInput } from './data/SelectionInput';
-import { RadioButton } from './data/RadioButton';
 import { TextBlock } from './data/TextBlock';
 import { ImageBlock } from './data/ImageBlock';
 import { EchoInput } from './data/EchoInput';
@@ -28,7 +26,6 @@ import { CDSTextInputProperty } from './containers/CDSTextInputProperty';
 import { TextAreaProperty } from './containers/TextAreaProperty';
 import { AdverseEventProperty } from './containers/AdverseEventProperty';
 import { CheckBoxProperty } from './containers/CheckBoxProperty';
-import { RadioButtonProperty } from './containers/RadioButtonProperty';
 import { SelectionInputProperty } from './containers/SelectionInputProperty';
 import { TextBlockProperty } from './containers/TextBlockProperty';
 import { ImageBlockProperty } from './containers/ImageBlockProperty';
@@ -98,8 +95,6 @@ export const address = {
       return TextAreaComponent;
     } else if (modelInstance instanceof CheckBox) {
       return CheckBoxComponent;
-    } else if (modelInstance instanceof RadioButton) {
-      return RadioButtonComponent;
     } else if (modelInstance instanceof SelectionInput) {
       return SelectionInputComponent;
     } else if (modelInstance instanceof TextBlock) {
@@ -126,8 +121,6 @@ export const address = {
       return TextAreaProperty;
     } else if (modelInstance instanceof CheckBox) {
       return CheckBoxProperty;
-    } else if (modelInstance instanceof RadioButton) {
-      return RadioButtonProperty;
     } else if (modelInstance instanceof SelectionInput) {
       return SelectionInputProperty;
     } else if (modelInstance instanceof TextBlock) {
@@ -143,7 +136,6 @@ export const address = {
 
   whichValidator: modelInstance => {
     if (modelInstance === 'Pattern') {
-      console.log(modelInstance);
       return PatternValidation;
     } else if (modelInstance === 'Enumeration') {
       return EnumerationValidation;
@@ -207,11 +199,7 @@ export const address = {
         return new CheckBox({
           ...formEntitySerialized
         });
-      case 'RadioButton':
-        return new RadioButton({
-          ...formEntitySerialized
-        });
-      case 'SelectionInput':
+          case 'SelectionInput':
         return new SelectionInput({
           ...formEntitySerialized
         });

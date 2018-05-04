@@ -2,6 +2,7 @@ import React from 'react';
 import { address } from '../address';
 
 export const SelectionInputProperty = props => {
+  console.log('props.model.renderMode', props.model.renderMode())
   const change_handler = event => {
     const value =
       event.target.type === 'checkbox'
@@ -118,10 +119,11 @@ export const SelectionInputProperty = props => {
       </div>
 
       <div>
-        <label for="Mode">Selection Item Mode</label>
+        <label for="renderMode">Selection Item Mode</label>
         <br />
-        <select name="mode" id="mode">
-          <option value="menu">Menu</option>
+        <select name="renderMode" id="renderMode"             onChange={change_handler}
+        >
+          <option value="selection">Selection</option>
           <option value="radio">Radio</option>
         </select>
         <br />

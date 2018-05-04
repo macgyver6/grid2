@@ -7,6 +7,7 @@ import Prepend from './subentities/Prepend.js';
 import PrePrompt from './subentities/PrePrompt.js';
 import PostPrompt from './subentities/PostPrompt.js';
 import { styleDefaultEntity } from './feStyles';
+import { entityActions } from './actions.entities';
 
 import { log } from 'util';
 import { address } from '../../address';
@@ -15,44 +16,20 @@ import RegexColorizer from 'regex-colorizer';
 RegexColorizer.colorizeAll();
 
 const TextInputComponent = props => {
-  console.log(props.model.defaultContent());
-  /** Handle adding/subtracing prepend or append */
-  const mouseDown_handler = event => {
-    drop.mouseDown_handler(event, props, 'move');
-  };
+  const mouseDown_handler = event =>
+    entityActions.mouseDown_handler(event, props);
 
-  /** Set dataTransfer in the case the entity is dropped on target:
-   * 1. Moving to different form section
-   * 2. Deleting a form section
-   */
-  let dragstart_handler = event => {
-    //  event.stopPropagation();
-    //  helpers.dragStart_handler(event, props.model, props.form, 'move');
-    return false; // to prevent a drag image from appearing
-  };
+  let dragstart_handler = event =>
+    entityActions.dragstart_handler(event, props);
 
-  let dragOver_handler = event => {
-    event.preventDefault();
-  };
+  let dragOver_handler = event => entityActions.dragOver_handler(event, props);
 
-  let drop_handler = event => {
-    drop.drop_handler(event, props);
-  };
+  let drop_handler = event => entityActions.drop_handler(event, props);
 
-  let dragleave_handler = event => {
-    event.stopPropagation();
-    //   console.log(event.target.id)
-    // if (event.target.id === `${props.model.UUID()}.${props.model.type()}.wrapper`) {
-    //   console.log('event.currentTarget')
-    // }
-  };
+  let dragleave_handler = event =>
+    entityActions.dragleave_handler(event, props);
 
-  const click_handler = event => {
-    event.stopPropagation();
-    props.temporalStateChange({
-      currententity: address.bySample(props.model, props.form)
-    });
-  };
+  const click_handler = event => entityActions.click_handler(event, props);
 
   const tiWrapperStyle = {
     display: 'grid',
@@ -72,7 +49,7 @@ const TextInputComponent = props => {
         props.model.append()) +
       ', [col] 1fr)',
     gridGap: '8px',
-    draggable: 'true',
+    // draggable: 'true',
     margin: '10px 0px 10px 0px',
     maxHeight: '40px',
     zIndex: '40',
@@ -113,7 +90,7 @@ const TextInputComponent = props => {
       onMouseDown={mouseDown_handler} // to set intitial mouse click loc
       onDragStart={dragstart_handler} // returns false to prevent drag image
       onMouseUp={mouseUp_handler}
-      draggable="true"
+      draggable="false"
     >
       {props.model.prepend() > 0 ? (
         <Prepend
@@ -138,7 +115,7 @@ const TextInputComponent = props => {
         remove={props.remove}
         add={props.add}
         mutate={props.mutate}
-        backgroundColor='rgb(108, 120, 143)'
+        backgroundColor="rgb(108, 120, 143)"
       />
 
       <div
@@ -155,7 +132,7 @@ const TextInputComponent = props => {
           className="form-control"
           type={props.model.type()} // maxLength={props.model.length()}
           value={props.model.defaultContent()}
-          placeholder='default content'
+          placeholder="default content"
         />
         <Resizer
           id="width"
@@ -172,19 +149,19 @@ const TextInputComponent = props => {
         />
       </div>
       {props.model.postPromptWidth() > 0 ? (
-      <PostPrompt
-        id={`${props.model.UUID()}.prepend`}
-        postPromptWidth={props.model.postPromptWidth()}
-        uuid={props.model.UUID()}
-        className="prepend"
-        model={props.model}
-        form={props.form}
-        remove={props.remove}
-        add={props.add}
-        mutate={props.mutate}
-        backgroundColor='rgb(108, 120, 143)'
-      />
-    ) : null}
+        <PostPrompt
+          id={`${props.model.UUID()}.prepend`}
+          postPromptWidth={props.model.postPromptWidth()}
+          uuid={props.model.UUID()}
+          className="prepend"
+          model={props.model}
+          form={props.form}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
+          backgroundColor="rgb(108, 120, 143)"
+        />
+      ) : null}
       {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}

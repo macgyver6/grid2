@@ -69,10 +69,6 @@ const selectionStyles = {
     background: '#00C5EC',
   },
 
-  RadioButton: {
-    background: '#304061',
-  },
-
   SelectionInput: {
     background: 'red',
   },
@@ -105,7 +101,6 @@ let entityTypes = [
   'CheckBox',
   'TextArea',
   'TextInput',
-  'RadioButton',
   'SelectionInput',
   'TextBlock',
   'ImageBlock',

@@ -59,7 +59,7 @@ let FormSectionComponent = props => {
       let entityToAdd = address.resurrectEntity(
         Object.assign({}, data.model, {
           prepend: offsetGrids,
-          append: props.model.width() - (offsetGrids + data.model.width), // addressNewEntity[addressNewEntity.length] = props.model.children().length
+          append: props.model.width() - (offsetGrids + data.model.width) // addressNewEntity[addressNewEntity.length] = props.model.children().length
         })
       );
       console.log('here: ', data.model);
@@ -76,7 +76,7 @@ let FormSectionComponent = props => {
       let entityToAdd = address.resurrectEntity(
         Object.assign({}, draggedEntity.properties(), {
           prepend: offsetGrids,
-          append: props.model.width() - offsetGrids - draggedEntity.width(),
+          append: props.model.width() - offsetGrids - draggedEntity.width()
         })
       );
 
@@ -118,12 +118,12 @@ let FormSectionComponent = props => {
           const _toLeft = [...arr];
           console.log({
             address: _toLeft,
-            entity: address.byPath(props.form, _toLeft),
+            entity: address.byPath(props.form, _toLeft)
           });
           _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1;
           return {
             address: _toLeft,
-            entity: address.byPath(props.form, _toLeft),
+            entity: address.byPath(props.form, _toLeft)
           };
         };
         const toRight = arr => {
@@ -131,7 +131,7 @@ let FormSectionComponent = props => {
           _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1;
           return {
             address: _toRight,
-            entity: address.byPath(props.form, _toRight),
+            entity: address.byPath(props.form, _toRight)
           };
         };
         console.log(
@@ -155,8 +155,8 @@ let FormSectionComponent = props => {
                 toRight(arr).entity.prepend() +
                 draggedEntity.prepend() +
                 draggedEntity.width() +
-                draggedEntity.append(),
-            },
+                draggedEntity.append()
+            }
           };
         } else {
           return {
@@ -166,8 +166,8 @@ let FormSectionComponent = props => {
                 toLeft(arr).entity.append() +
                 draggedEntity.prepend() +
                 draggedEntity.width() +
-                draggedEntity.append(),
-            },
+                draggedEntity.append()
+            }
           };
         }
       };
@@ -220,13 +220,13 @@ let FormSectionComponent = props => {
           offsetGrids,
           {
             prepend: props.model.prepend() + offsetGrids,
-            append: props.model.append() - offsetGrids,
+            append: props.model.append() - offsetGrids
           }
         );
 
         props.mutate(address.bySample(props.model, props.form), {
           prepend: props.model.prepend() + offsetGrids,
-          append: props.model.append() - offsetGrids,
+          append: props.model.append() - offsetGrids
         });
       }
       // @hack - only adds to position 0 at this point
@@ -244,8 +244,13 @@ let FormSectionComponent = props => {
     }
   };
 
-  const click_handler = event => {
-    console.log('click');
+  const mouseDown_handler = event => {
+    event.stopPropagation();
+    document.getElementById(
+      `${props.model.UUID()}.${props.model.type()}.wrapper`
+    ).draggable = true;
+    console.log(event.target.draggable);
+    console.log(event.target);
   };
 
   const fsStyle = {
@@ -262,7 +267,7 @@ let FormSectionComponent = props => {
     gridAutoRows: 'min-content',
     zIndex: '30',
     cursor: 'move',
-    borderRadius: '2px',
+    borderRadius: '2px'
     // padding: '4px',
   };
 
@@ -270,11 +275,11 @@ let FormSectionComponent = props => {
     display: 'grid',
     // gridColumn: null,
     // gridTemplateColumns: null,
-    draggable: 'true',
+    // draggable: 'true',
     margin: '20px 0px 0px 0px', // minHeight: '120px',
     // "maxHeight": "120px",
     zIndex: '40',
-    cursor: 'move',
+    cursor: 'move'
   };
 
   // return actual style values
@@ -312,7 +317,7 @@ let FormSectionComponent = props => {
       style={formSectionStyle}
       onDrop={drop_handler} // adding a new entity to section
       onDragOver={dragOver_handler}
-      onClick={click_handler}
+      onMouseDown={mouseDown_handler}
     >
       {props.model.prepend() > 0 ? (
         <Prepend
@@ -330,7 +335,7 @@ let FormSectionComponent = props => {
         className="form-group FS"
         style={{ ...fsStyle, backgroundColor: whichBackground }}
         data-action={`mover.${props.model.UUID()}.FormSection`}
-        draggable="true"
+        // draggable="true"
         onDragStart={dragstart_handler}
       >
         {props.model.type() === 'FormSection'
@@ -343,7 +348,7 @@ let FormSectionComponent = props => {
                 remove: props.remove,
                 add: props.add,
                 mutate: props.mutate,
-                temporalStateChange: props.temporalStateChange,
+                temporalStateChange: props.temporalStateChange
               });
             })
           : null}

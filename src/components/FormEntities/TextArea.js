@@ -9,28 +9,23 @@ import Prepend from './subentities/Prepend.js';
 import PrePrompt from './subentities/PrePrompt.js';
 import PostPrompt from './subentities/PostPrompt.js';
 import { address } from '../../address';
+import { entityActions } from './actions.entities';
 
 const TextAreaComponent = props => {
-  /** Handle adding/subtracing prepend or append */
-  const mouseDown_handler = event => {
-    drop.mouseDown_handler(event, props, 'move');
-  };
+  const mouseDown_handler = event =>
+    entityActions.mouseDown_handler(event, props);
 
-  /** Set dataTransfer in the case the entity is dropped on target:
-   * 1. Moving to different form section
-   * 2. Deleting a form section
-   */
-  let dragstart_handler = function(event) {
-    helpers.dragStart_handler(event, props.model, props.form, 'move');
-  };
+  let dragstart_handler = event =>
+    entityActions.dragstart_handler(event, props);
 
-  let dragOver_handler = event => {
-    event.preventDefault();
-  };
+  let dragOver_handler = event => entityActions.dragOver_handler(event, props);
 
-  let drop_handler = event => {
-    drop.drop_handler(event, props);
-  };
+  let drop_handler = event => entityActions.drop_handler(event, props);
+
+  let dragleave_handler = event =>
+    entityActions.dragleave_handler(event, props);
+
+  const click_handler = event => entityActions.click_handler(event, props);
 
   const taStyle = {
     //     margin: helpers.marginCalc(props),
@@ -41,13 +36,6 @@ const TextAreaComponent = props => {
     height: '40px',
     borderRadius: '2px',
     padding: '4px'
-  };
-
-  const click_handler = event => {
-    event.stopPropagation();
-    props.temporalStateChange({
-      currententity: address.bySample(props.model, props.form)
-    });
   };
 
   return (
@@ -84,7 +72,7 @@ const TextAreaComponent = props => {
         remove={props.remove}
         add={props.add}
         mutate={props.mutate}
-        backgroundColor='rgb(32, 94, 226)'
+        backgroundColor="rgb(32, 94, 226)"
       />
 
       <div
@@ -118,19 +106,19 @@ const TextAreaComponent = props => {
       </div>
 
       {props.model.postPromptWidth() > 0 ? (
-      <PostPrompt
-        id={`${props.model.UUID()}.prepend`}
-        postPromptWidth={props.model.postPromptWidth()}
-        uuid={props.model.UUID()}
-        className="prepend"
-        model={props.model}
-        form={props.form}
-        remove={props.remove}
-        add={props.add}
-        mutate={props.mutate}
-        backgroundColor='rgb(32, 94, 226)'
-      />
-    ) : null}
+        <PostPrompt
+          id={`${props.model.UUID()}.prepend`}
+          postPromptWidth={props.model.postPromptWidth()}
+          uuid={props.model.UUID()}
+          className="prepend"
+          model={props.model}
+          form={props.form}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
+          backgroundColor="rgb(32, 94, 226)"
+        />
+      ) : null}
 
       {props.model.append() > 0 ? (
         <Append
