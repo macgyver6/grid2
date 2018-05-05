@@ -3,6 +3,7 @@ import { address } from '../../address';
 import { timeZones } from './timeZones';
 import { utility } from '../../validation/val.utility';
 import { FormInput } from '../../data/FormInput';
+import { _dataDefined, locals } from '../_validations';
 
 export const PatternValidation = props => {
   // const change_handler = event => {   return
@@ -32,9 +33,9 @@ export const PatternValidation = props => {
               name="dependencyInputID"
               type={props.model.type()}
               value="{props.model.sourceInput()}"
-              // onChange={change_handler}
               id="sourceInput"
             >
+              {/* onChange={change_handler}*/}
               {utility
                 .findAll(props.form, e => e instanceof FormInput)
                 .map(formInput => (
@@ -45,22 +46,29 @@ export const PatternValidation = props => {
             </select>
             {/* <label for="externalId">Dependency Input ID:</label>
             <select name="externalId" /> */}
+            {/*JSON.stringify(_dataDefined[props.model.validations().valType])*/}
             <hr />
             <h5>(For Remote Dependencies only)</h5>
             <label for="eventDef">Event Definition:</label>
             <span role="status" aria-live="polite" />
-            <input id="eventDef" autocomplete="off" />
+            <input
+              id="eventDef"
+              autocomplete="off"
+              value={props.model.validations().defaultUserVal.Pattern.eventDef}
+            />
             <label for="occurrence">Occurrence:</label>
-            <select id="occurrence" disabled="disabled">
+            <select id="occurrence">
               <option value="-1">First</option>
               <option value="-99">Specify</option>
             </select>
-            <label for="occurrenceNumber">Occurrence #:</label>
+            <label for="occuranceNum">Occurrence #:</label>
             <input
               type="text"
-              id="occurrenceNumber"
+              id="occuranceNum"
               size="2"
-              disabled="disabled"
+              value={
+                props.model.validations().defaultUserVal.Pattern.occuranceNum
+              }
             />
           </div>
 
@@ -69,15 +77,30 @@ export const PatternValidation = props => {
               <div>
                 <div>
                   <p>
-                    <label for="pattern">Validation Pattern:</label>
+                    <label for="validationPattern">Validation Pattern:</label>
                     <br />
-                    <input type="text" size="25" name="pattern" id="pattern" />
+                    <input
+                      type="text"
+                      size="25"
+                      name="validationPattern"
+                      id="validationPattern"
+                      value={
+                        props.model.validations().defaultUserVal.Pattern
+                          .validationPattern
+                      }
+                    />
+                    {/*JSON.stringify(
+
+                    )*/}
                     <br />
                     <br />
                     <input
                       type="checkbox"
                       name="validState"
-                      checked="checked"
+                      checked={
+                        props.model.validations().defaultUserVal.Pattern
+                          .validState
+                      }
                       id="validState-pattern"
                     />
                     <label for="validState-pattern">
@@ -88,7 +111,10 @@ export const PatternValidation = props => {
                     <input
                       type="checkbox"
                       name="nullIsValid"
-                      checked="checked"
+                      checked={
+                        props.model.validations().defaultUserVal.Pattern
+                          .nullIsValid
+                      }
                       id="nullIsValid-pattern"
                     />
                     <label for="nullIsValid-pattern">
@@ -96,7 +122,14 @@ export const PatternValidation = props => {
                       that satisfy the condition.
                     </label>
                     <br />
-                    <input type="checkbox" name="strong" id="strong-pattern" />
+                    <input
+                      type="checkbox"
+                      name="strong"
+                      id="strong-pattern"
+                      checked={
+                        props.model.validations().defaultUserVal.Pattern.strong
+                      }
+                    />
                     <label for="strong-pattern">Cannot be overridden</label>
                   </p>
                   <p>
@@ -105,20 +138,25 @@ export const PatternValidation = props => {
                   </p>
                 </div>
                 <div>
-                  <label for="failureMessage-pattern">
+                  <label for="customFailureMessaage-pattern">
                     <span>*</span>
                     Custom failure message (optional):
                   </label>
                   <br />
-                  <textarea name="failureMessage" />
+                  <textarea
+                    name="customFailureMessaage"
+                    value={
+                      props.model.validations().defaultUserVal.Pattern
+                        .customFailureMessaage
+                    }
+                  />
                   <br />
                   <label for="locale">
                     <span>*</span>
                     Language
                   </label>
                   <select name="locale">
-                    <option value="" />
-                    <option value="sq">Albanian</option>
+                    {locals.map(local => <option>{local}</option>)}
                   </select>
                   <label for="localeSpecific">Country</label>
                   <select name="localeSpecific" />

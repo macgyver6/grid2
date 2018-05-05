@@ -1,5 +1,6 @@
 const deepFreeze = require('deep-freeze');
 const { FormInput } = require('./FormInput.js');
+const { _dataDefined } = require('../containers/_validations');
 
 /**
  * Class representing a TextInput.
@@ -124,14 +125,14 @@ class TextInput extends FormInput {
       defaultContent: this.defaultContent(),
       autoTab: this.autoTab(),
       doubleEntry: this.doubleEntry(),
-      validations: this.validations(),
+      validations: this.validations()
     };
   }
 }
 
 TextInput.LENGTH = {
   DEFAULT: 80,
-  NO_MAX: 0,
+  NO_MAX: 0
 };
 
 TextInput.DEFAULT_CONTENT = '';

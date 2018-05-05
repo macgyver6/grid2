@@ -39,8 +39,6 @@ export const TextInputProperty = props => {
     });
   };
 
-  console.log(Object.keys(_dataDefined));
-
   // const dataDefined = {
   //   String: ['Pattern', 'NoOp', 'Enumeration', 'SubjectInputValidation'],
   //   Date: ['NoOp', 'Enumeration', 'Range'],
@@ -48,12 +46,13 @@ export const TextInputProperty = props => {
   //   Float: ['Pattern', 'NoOp', 'Enumeration', 'Range']
   // };
 
-  const userDefinedValOptionsArr = dataDefinedSelection =>
-    _dataDefined[dataDefinedSelection]['userDefined'].map(
-      userDefinedValOption => (
-        <option value={userDefinedValOption}>{userDefinedValOption}</option>
-      )
-    );
+  const userDefinedValOptionsArr = Object.keys(_dataDefined).map(
+    userDefinedValOption => (
+      <option value={userDefinedValOption}>{userDefinedValOption}</option>
+    )
+  );
+
+  console.log(userDefinedValOptionsArr);
 
   return (
     <div>
@@ -95,7 +94,7 @@ export const TextInputProperty = props => {
                 'Range',
                 'NoOp'
               ].map(item => <option value={item}>{item}</option>)*/}
-              {userDefinedValOptionsArr(props.model.validations().valType)}
+              {userDefinedValOptionsArr}
             </select>
             {React.createElement(
               address.whichValidator(props.model.validations().userDefined),

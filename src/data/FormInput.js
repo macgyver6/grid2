@@ -1,3 +1,4 @@
+const { _dataDefined } = require('../containers/_validations');
 const deepFreeze = require('deep-freeze');
 const { FormEntity } = require('./FormEntity.js');
 
@@ -43,7 +44,15 @@ class FormInput extends FormEntity {
       typeof properties.autoNumber === 'string'
         ? FormInput.AutoNumberRuleToken[properties.autoNumber]
         : properties.autoNumber;
-    this._validations = properties.validations || FormInput.DEFAULT_VALIDATIONS;
+    this._validations = Object.assign(
+      {},
+      properties.validations || FormInput.DEFAULT_VALIDATIONS,
+      {
+        defaultUserVal:
+          _dataDefined[FormInput.DEFAULT_VALIDATIONS.valType].userDefined
+      }
+    );
+    // { userDefinedNonSelection: _dataDefined }
 
     if (this.constructor === FormInput) {
       deepFreeze(this);
