@@ -305,9 +305,7 @@ let FormSectionComponent = props => {
       ? ''
       : fsStyle.backgroundColor;
   const whichHeight =
-    address.bySample(props.model, props.form).length < 2
-      ? '120'
-      : (fsStyle.minHeight = '240');
+    address.bySample(props.model, props.form).length < 2 ? '1200' : '240';
 
   const showResizer =
     address.bySample(props.model, props.form).length < 2 ? false : true;
