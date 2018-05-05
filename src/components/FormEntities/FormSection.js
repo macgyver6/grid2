@@ -304,6 +304,10 @@ let FormSectionComponent = props => {
     address.bySample(props.model, props.form).length < 2
       ? ''
       : fsStyle.backgroundColor;
+  const whichHeight =
+    address.bySample(props.model, props.form).length < 2
+      ? '120'
+      : (fsStyle.minHeight = '240');
 
   const showResizer =
     address.bySample(props.model, props.form).length < 2 ? false : true;
@@ -326,8 +330,10 @@ let FormSectionComponent = props => {
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       className="FS"
       style={formSectionStyle}
-      onDrop={drop_handler} // adding a new entity to section
-      onDragOver={dragOver_handler}
+      onDrop={drop_handler}
+      onDragOver={
+        dragOver_handler // adding a new entity to section
+      }
       onMouseDown={mouseDown_handler}
     >
       {props.model.prepend() > 0 ? (
@@ -344,7 +350,11 @@ let FormSectionComponent = props => {
       <div
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="form-group FS"
-        style={{ ...fsStyle, backgroundColor: whichBackground }}
+        style={{
+          ...fsStyle,
+          backgroundColor: whichBackground,
+          minHeight: whichHeight
+        }}
         data-action={`mover.${props.model.UUID()}.FormSection`}
         onDragStart={dragstart_handler}
       >
