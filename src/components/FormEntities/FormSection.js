@@ -241,14 +241,14 @@ let FormSectionComponent = props => {
       const element = document.getElementById(
         `${props.model.UUID()}.${props.model.type()}`
       );
-      console.log(
-        'change this: ',
-        element.id +
-          'to: ' +
-          defaultPropsFE[props.model.type()].render.backgroundColor
-      );
-      element.style.backgroundColor =
-        defaultPropsFE[props.model.type()].render.backgroundColor;
+      // console.log(
+      //   'change this: ',
+      //   element.id +
+      //     'to: ' +
+      //     defaultPropsFE[props.model.type()].render.backgroundColor
+      // );
+      // element.style.backgroundColor =
+      //   defaultPropsFE[props.model.type()].render.backgroundColor;
     }
   };
 

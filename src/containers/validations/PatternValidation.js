@@ -21,10 +21,12 @@ export const PatternValidation = props => {
             <label for="externalId">Dependency Form:</label>
             <select name="dependencyForm">
               <option value="-1">Current Form</option>
-              <option value="test">some remote form</option>
+              <option value="test">
+                future implementation - some remote form
+              </option>
             </select>
-            <label for="dependencyInputID">Dependency Input ID</label>
             <br />
+            <label for="dependencyInputID">Dependency Input ID</label>
             <select
               className="form-control"
               name="dependencyInputID"
