@@ -56,10 +56,18 @@ let FormSectionComponent = props => {
           bgrndGrdWidth,
         0
       );
+      const considerPrompt = prompt =>
+        data.model[prompt] ? data.model[prompt] : 0;
+
       let entityToAdd = address.resurrectEntity(
         Object.assign({}, data.model, {
           prepend: offsetGrids,
-          append: props.model.width() - (offsetGrids + data.model.width) // addressNewEntity[addressNewEntity.length] = props.model.children().length
+          append:
+            props.model.width() -
+            (offsetGrids +
+              data.model.width +
+              considerPrompt('prePromptWidth') +
+              considerPrompt('postPromptWidth'))
         })
       );
       console.log('here: ', data.model);
@@ -260,7 +268,7 @@ let FormSectionComponent = props => {
     borderRadius: '2px',
     gridTemplateColumns: `repeat(${props.model.width()}, [col] 1fr)`,
     backgroundColor: 'rgba(243, 234, 95, 0.7)',
-    minHeight: '60px',
+    minHeight: '120px',
     minWidth: '100px',
     gridColumn: `span ${props.model.width()}`,
     gridGap: '8px',
@@ -298,9 +306,7 @@ let FormSectionComponent = props => {
       : fsStyle.backgroundColor;
 
   const showResizer =
-    address.bySample(props.model, props.form).length < 2
-      ? false
-      : true;
+    address.bySample(props.model, props.form).length < 2 ? false : true;
 
   const total = entity => entity.prepend() + entity.width() + entity.append();
 
@@ -356,21 +362,20 @@ let FormSectionComponent = props => {
               });
             })
           : null}
-{showResizer ?
-        <Resizer
-          id={`${props.model.UUID()}.resizer`}
-          element="FormEntity"
-          uuid={props.model.UUID()}
-          className="resizer"
-          model={props.model}
-          form={props.form}
-          remove={props.remove}
-          add={props.add}
-          mutate={props.mutate}
-          resizeType="width"
-        />
-        :
-        null }
+        {showResizer ? (
+          <Resizer
+            id={`${props.model.UUID()}.resizer`}
+            element="FormEntity"
+            uuid={props.model.UUID()}
+            className="resizer"
+            model={props.model}
+            form={props.form}
+            remove={props.remove}
+            add={props.add}
+            mutate={props.mutate}
+            resizeType="width"
+          />
+        ) : null}
         <AddToEnd
           model={props.model}
           form={props.form}
