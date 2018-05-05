@@ -11,7 +11,7 @@ const dropObj = {
   initAppend: null,
   sourceAddress: null,
   destinationAddress: null,
-  valid: null,
+  valid: null
 };
 
 /** all event handlers within this object are for handling an entity mutating the prepend and append sizes of itself */
@@ -92,12 +92,12 @@ export const drop = {
         const _toLeft = [...arr];
         console.log({
           address: _toLeft,
-          entity: address.byPath(props.form, _toLeft),
+          entity: address.byPath(props.form, _toLeft)
         });
         _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1;
         return {
           address: _toLeft,
-          entity: address.byPath(props.form, _toLeft),
+          entity: address.byPath(props.form, _toLeft)
         };
       };
       const toRight = arr => {
@@ -105,7 +105,7 @@ export const drop = {
         _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1;
         return {
           address: _toRight,
-          entity: address.byPath(props.form, _toRight),
+          entity: address.byPath(props.form, _toRight)
         };
       };
       console.log(
@@ -131,8 +131,8 @@ export const drop = {
               toRight(arr).entity.prepend() +
               draggedEntity.prepend() +
               draggedEntity.width() +
-              draggedEntity.append(),
-          },
+              draggedEntity.append()
+          }
         };
       } else {
         return {
@@ -142,8 +142,8 @@ export const drop = {
               toLeft(arr).entity.append() +
               draggedEntity.prepend() +
               draggedEntity.width() +
-              draggedEntity.append(),
-          },
+              draggedEntity.append()
+          }
         };
       }
     };
@@ -158,7 +158,21 @@ export const drop = {
     };
     /**mutate previous sibling if necessary*/
 
-    const total = entity => entity.prepend() + entity.width() + entity.append();
+    const total = entity => {
+      if (typeof entity.prePromptWidth === 'function') {
+        console.log('has prompts: ', entity.type());
+        return (
+          entity.prepend() +
+          entity.prePromptWidth() +
+          entity.width() +
+          entity.postPromptWidth() +
+          entity.append()
+        );
+      } else {
+        console.log('no prompts: ', entity.type());
+        return entity.prepend() + entity.width() + entity.append();
+      }
+    };
     /**returns true if entity path provided is firstInRow; false if not
      * * @param {array} before - Path of the current entity
      */
@@ -183,6 +197,7 @@ export const drop = {
         .getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`)
         .getBoundingClientRect().left;
       // @hack - this is detecting if this is a addEntity. If so, it is not offsetting basedon where the entity was selected because the drag image is always 0. If it is a move of an existing object, it will grab the offsetInitin PX units.
+      console.log(dropData);
       var calc =
         event.clientX - leftBound - (dropData.model ? 0 : dropObj.offsetInit);
       if (calc > 0) {
@@ -197,6 +212,8 @@ export const drop = {
      * */
     if (dropData.model) {
       console.log('addEntity');
+      const considerModelPrompt = prompt =>
+        props.model[prompt] ? props.model[prompt]() : 0;
       const toBeMutated = {
         prepend:
           event.target.id === `${props.model.UUID()}.append`
@@ -205,11 +222,14 @@ export const drop = {
         append:
           event.target.id === `${props.model.UUID()}.append`
             ? gridOffsetLocChange() -
+              considerModelPrompt('prePromptWidth') -
+              considerModelPrompt('postPromptWidth') -
               props.model.prepend() -
               props.model.width()
-            : props.model.append(),
+            : props.model.append()
       };
-      console.log(gridOffsetLocChange());
+      console.log('toBeMutated: ', toBeMutated);
+      console.log('gridOffsetLocChange: ', gridOffsetLocChange());
 
       console.log(
         'destination sibling toBeMutated: ',
@@ -224,6 +244,9 @@ export const drop = {
         event.target.id === `${props.model.UUID()}.prepend`
           ? destinationAddress
           : _destinationAddress;
+      const considerPrompt = prompt =>
+        dropObj.sourceEntity[prompt] ? dropObj.sourceEntity[prompt]() : 0;
+      // const considerPrompt = prompt => (prompt ? prompt() : 0);
       const toBeAdded = address.resurrectEntity(
         Object.assign({}, dropObj.sourceEntity.properties(), {
           prepend:
@@ -234,10 +257,12 @@ export const drop = {
             event.target.id === `${props.model.UUID()}.append`
               ? total(props.model) -
                 gridOffsetLocChange() -
+                considerPrompt('prePromptWidth') -
+                considerPrompt('postPromptWidth') -
                 dropObj.sourceEntity.width()
               : props.model.prepend() -
                 dropObj.sourceEntity.width() -
-                gridOffsetLocChange(),
+                gridOffsetLocChange()
           // append: 1
         })
       );
@@ -262,7 +287,7 @@ export const drop = {
         //   append: previous_entity.append() + gridOffsetNoLocChange()
         // })
         props.mutate(previousSibling(), {
-          append: previous_entity.append() + gridOffsetNoLocChange(),
+          append: previous_entity.append() + gridOffsetNoLocChange()
         });
       }
       // console.log('ff: entity itself', firstInRow(dropObj.destinationAddress))
@@ -271,7 +296,7 @@ export const drop = {
         prepend: firstInRow(dropObj.destinationAddress)
           ? dropObj.initPrepend + gridOffsetNoLocChange()
           : 0,
-        append: dropObj.initAppend - gridOffsetNoLocChange(),
+        append: dropObj.initAppend - gridOffsetNoLocChange()
       };
       // console.log(dropObj.sourceAddress, entityToMutate)
       props.mutate(dropObj.sourceAddress, entityToMutate);
@@ -292,7 +317,7 @@ export const drop = {
       //   append: previous_entity.append() + gridOffsetNoLocChange()
       // })
       props.mutate(previousSibling(), {
-        append: previous_entity.append() + gridOffsetNoLocChange(),
+        append: previous_entity.append() + gridOffsetNoLocChange()
       });
       // /**mutate entity itself */
       // console.log('ff mutate entity itself: ', dropObj.sourceAddress, {
@@ -301,7 +326,7 @@ export const drop = {
       // })
       props.mutate(dropObj.sourceAddress, {
         prepend: 0,
-        append: dropObj.initAppend - gridOffsetNoLocChange(),
+        append: dropObj.initAppend - gridOffsetNoLocChange()
       });
       console.log('test');
     } else {
@@ -337,7 +362,7 @@ export const drop = {
             ? gridOffsetLocChange() -
               props.model.prepend() -
               props.model.width()
-            : props.model.append(),
+            : props.model.append()
       });
       props.mutate(whereToAccommodate(), {
         prepend:
@@ -349,7 +374,7 @@ export const drop = {
             ? gridOffsetLocChange() -
               props.model.prepend() -
               props.model.width()
-            : props.model.append(),
+            : props.model.append()
       });
 
       const toBeMutatedRestore = restoreDonorSiblingAddress(
@@ -382,7 +407,7 @@ export const drop = {
                 dropObj.sourceEntity.width()
               : props.model.prepend() -
                 dropObj.sourceEntity.width() -
-                gridOffsetLocChange(),
+                gridOffsetLocChange()
         })
       );
 
@@ -429,5 +454,5 @@ export const drop = {
       console.log('YYY add: ', whereToAdd(), toBeAdded);
       props.add(whereToAdd(), toBeAdded);
     }
-  },
+  }
 };
