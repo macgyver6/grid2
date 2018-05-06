@@ -73,29 +73,6 @@ export const TextInputProperty = props => {
               : ' ↕️ (Click to Expand)'}
           </h2>
           <Collapse isOpened={props.appState.validations}>
-            <select
-              className="form-control"
-              name="textInput-val-type"
-              onChange={
-                validationSelector_handler // value={props.model.validations().valType}
-              }
-              id="userDefined"
-            >
-              {/* <option selected value>
-            {' '}
-            -- select an option --{' '}
-    </option> */}
-
-              {/*[
-                'Pattern',
-                'EmptyField',
-                'Enumeration',
-                'SubjectInputValidation',
-                'Range',
-                'NoOp'
-              ].map(item => <option value={item}>{item}</option>)*/}
-              {userDefinedValOptionsArr}
-            </select>
             {React.createElement(
               address.whichValidator(props.model.validations().userDefined),
               {

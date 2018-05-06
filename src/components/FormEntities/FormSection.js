@@ -268,8 +268,9 @@ let FormSectionComponent = props => {
     borderRadius: '2px',
     gridTemplateColumns: `repeat(${props.model.width()}, [col] 1fr)`,
     backgroundColor: 'rgba(243, 234, 95, 0.7)',
-    minHeight: '120px',
+    // minHeight: '120px',
     minWidth: '100px',
+    paddingBottom: '60px',
     gridColumn: `span ${props.model.width()}`,
     gridGap: '8px',
     gridAutoRows: 'min-content',
@@ -304,8 +305,14 @@ let FormSectionComponent = props => {
     address.bySample(props.model, props.form).length < 2
       ? ''
       : fsStyle.backgroundColor;
-  const whichHeight =
-    address.bySample(props.model, props.form).length < 2 ? '1200' : '240';
+  const maxHeight =
+    address.bySample(props.model, props.form).length < 2 ? '100vh' : '';
+
+  const minHeight =
+    address.bySample(props.model, props.form).length < 2 ? '100vh' : '0';
+
+  const scrollable =
+    address.bySample(props.model, props.form).length < 2 ? 'auto' : 'visible';
 
   const showResizer =
     address.bySample(props.model, props.form).length < 2 ? false : true;
@@ -351,7 +358,9 @@ let FormSectionComponent = props => {
         style={{
           ...fsStyle,
           backgroundColor: whichBackground,
-          minHeight: whichHeight
+          minHeight: minHeight,
+          maxHeight: maxHeight,
+          overflowY: scrollable
         }}
         data-action={`mover.${props.model.UUID()}.FormSection`}
         onDragStart={dragstart_handler}
