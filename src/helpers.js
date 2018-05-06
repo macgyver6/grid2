@@ -16,16 +16,16 @@ export const helpers = {
 
   dragStart_handler: (event, model, form, action) => {
     event.stopPropagation();
-    console.log(
-      'dragInit info: ',
-      round(
-        event.clientX -
-          document
-            .getElementById(`${model.UUID()}.${model.type()}.wrapper`)
-            .getBoundingClientRect().left,
-        3
-      ) / 40
-    );
+    // console.log(
+    //   'dragInit info: ',
+    //   round(
+    //     event.clientX -
+    //       document
+    //         .getElementById(`${model.UUID()}.${model.type()}.wrapper`)
+    //         .getBoundingClientRect().left,
+    //     3
+    //   ) / 40
+    // );
     event.dataTransfer.setData(
       'address',
       JSON.stringify({
