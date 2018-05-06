@@ -46,7 +46,7 @@ const TextAreaComponent = props => {
       onDrop={drop_handler}
       onClick={click_handler}
       onDragStart={dragstart_handler}
-      draggable="true"
+      draggable="false"
     >
       {props.model.prepend() > 0 ? (
         <Prepend
@@ -80,8 +80,6 @@ const TextAreaComponent = props => {
         style={taStyle}
         className="TextArea"
         onMouseDown={mouseDown_handler}
-        // onDragStart={dragstart_handler}
-        // draggable="true"
       >
         <textarea
           className="form-control"

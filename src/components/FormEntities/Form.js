@@ -9,7 +9,7 @@ const FormComponent = props => {
     gridTemplateRows: `[row] auto`,
     gridGap: '8px',
     zIndex: '10',
-    minHeight: '800px',
+    minHeight: '800px'
   };
 
   const bgrndGrd = {
@@ -20,7 +20,8 @@ const FormComponent = props => {
     textAlign: 'center',
     backgroundColor: 'rgba(75,156,211, 0.18)',
     zIndex: '15',
-    height: '100vh',
+    minHeight: '60vh',
+    paddingBottom: '60px'
   };
 
   const bgColumns = [];
@@ -57,7 +58,7 @@ const FormComponent = props => {
             remove: props.remove,
             add: props.add,
             mutate: props.mutate,
-            temporalStateChange: props.temporalStateChange,
+            temporalStateChange: props.temporalStateChange
           }
         )
         // })

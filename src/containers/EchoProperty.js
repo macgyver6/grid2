@@ -4,6 +4,7 @@ import { address } from '../address';
 import { utility } from '../validation/val.utility';
 import { Form } from '../data/Form';
 import { FormInput } from '../data/FormInput';
+import { calcTotal } from '../components/FormEntities/feStyles';
 
 // const form = new Form(defaultPropsFE.Form);
 
@@ -22,6 +23,8 @@ export const EchoProperty = props => {
     <div>
       <h1>Echo Input</h1>
       <p>{props.model.UUID()}</p>
+      <p>Total width: {calcTotal(props.model)}</p>
+      <p>prePrompt width: {JSON.stringify(props.model)}</p>
 
       <div>
         <p>

@@ -75,7 +75,7 @@ const EchoComponent = props => {
         className="TextInput"
         onMouseDown={mouseDown_handler}
         onDragStart={dragstart_handler}
-        draggable="true"
+        draggable="false"
       >
         <br />
         <input
@@ -102,8 +102,8 @@ const EchoComponent = props => {
                 .defaultContent()
         )} */}
         <Resizer
-          id={`${props.model.UUID()}.resizer`}
-          element="FormEntity"
+        resizeType="width"
+        element="FormEntity"
           uuid={props.model.UUID()}
           className="resizer"
           model={props.model}

@@ -34,37 +34,12 @@ const CDSTextInputComponent = props => {
 
   const click_handler = event => entityActions.click_handler(event, props);
 
-  const tiWrapperStyle = {
-    display: 'grid',
-    gridColumn:
-      'span ' +
-      (props.model.prepend() +
-        props.model.prePromptWidth() +
-        props.model.width() +
-        props.model.postPromptWidth() +
-        props.model.append()),
-    gridTemplateColumns:
-      'repeat(' +
-      (props.model.prepend() +
-        props.model.prePromptWidth() +
-        props.model.width() +
-        props.model.postPromptWidth() +
-        props.model.append()) +
-      ', [col] 1fr)',
-    gridGap: '8px',
-    draggable: 'true',
-    margin: '10px 0px 10px 0px',
-    minHeight: '100px',
-    zIndex: '40',
-    cursor: 'move'
-  }; // maxHeight: '100px',
-
   const tiStyle = {
     // //     margin: helpers.marginCalc(props),
     backgroundColor: 'blue',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
-    minHeight: '100px',
+    minHeight: '40px',
     cursor: 'move',
     // gridGap: '8px',
     // border: '1px solid red',
@@ -118,7 +93,7 @@ const CDSTextInputComponent = props => {
         className="TextInput"
         onMouseDown={mouseDown_handler}
         onDragStart={dragstart_handler}
-        draggable="true"
+        draggable="false"
       >
         <br />
 
@@ -147,6 +122,7 @@ const CDSTextInputComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
+          resizeType="width"
         />
       </div>
       {props.model.postPromptWidth() > 0 ? (

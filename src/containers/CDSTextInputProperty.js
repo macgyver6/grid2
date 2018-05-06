@@ -1,6 +1,7 @@
 import React from 'react';
 import { address } from '../address';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { calcTotal } from '../components/FormEntities/feStyles';
 
 export const CDSTextInputProperty = props => {
   const change_handler = event => {
@@ -18,6 +19,7 @@ export const CDSTextInputProperty = props => {
         </TabList>
         <h1>CDS Text Input</h1>
         <p>{props.model.UUID()}</p>
+        <p>Total width: {calcTotal(props.model)}</p>
         <TabPanel>
           <div>
             <p>

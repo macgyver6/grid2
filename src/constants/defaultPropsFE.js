@@ -1,7 +1,7 @@
-import {FormSection} from '../data/FormSection';
-import {TextInput} from '../data/TextInput';
-import {TextArea} from '../data/TextArea';
-import {SelectionInput} from '../data/SelectionInput';
+import { FormSection } from '../data/FormSection';
+import { TextInput } from '../data/TextInput';
+import { TextArea } from '../data/TextArea';
+import { SelectionInput } from '../data/SelectionInput';
 
 export var initFE = {
   FormSection: {
@@ -12,16 +12,14 @@ export var initFE = {
     type: 'FormSection',
     children: [],
     legend: 'legend',
-    render: {
-      backgroundColor: 'rgba(243, 234, 95, 0.7)',
-      minWidth: 3
-    }
+    render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 }
   },
   TextInput: {
     uuid: undefined,
-    prepend: 1,
-    width: 4,
-    append: 7,
+    uuid: undefined,
+    prepend: 0,
+    width: 6,
+    append: 14,
     prePromptWidth: 4,
     postPromptWidth: 0,
     prePrompt: '',
@@ -38,16 +36,13 @@ export var initFE = {
     autoTab: true,
     doubleEntry: true,
     defaultContent: '',
-    render: {
-      backgroundColor: '#6C788F',
-      minWidth: 3
-    }
+    render: { backgroundColor: '#6C788F', minWidth: 3 }
   },
   SelectionInput: {
     uuid: undefined,
-    prepend: 1,
-    width: 11,
-    append: 0,
+    prepend: 0,
+    width: 6,
+    append: 14,
     prePromptWidth: 4,
     postPromptWidth: 0,
     prePrompt: '',
@@ -63,21 +58,11 @@ export var initFE = {
     defaultContent: '',
     renderMode: 'selection',
     options: [
-      {
-        label: 'dfgh',
-        value: 'one'
-      }, {
-        label: 'dfgh',
-        value: 'two'
-      }, {
-        label: 'dfgh',
-        value: 'three'
-      }
+      { label: 'one', value: '1' },
+      { label: 'two', value: '2' },
+      { label: 'three', value: '3' }
     ],
-    render: {
-      backgroundColor: '#6C788F',
-      minWidth: 3
-    }
+    render: { backgroundColor: 'red', minWidth: 3 }
   },
   TextArea: {
     uuid: undefined,
@@ -98,10 +83,7 @@ export var initFE = {
     numColumns: 12,
     numRows: 2,
     defaultContent: '',
-    render: {
-      backgroundColor: '#205EE2',
-      minWidth: 3
-    }
+    render: { backgroundColor: '#205EE2', minWidth: 3 }
   },
   CheckBox: {
     uuid: undefined,
@@ -120,10 +102,7 @@ export var initFE = {
     promptNumber: 'CIE493g',
     autoNumber: 'SEQUENTIAL',
     defaultState: true,
-    render: {
-      backgroundColor: '#00C5EC',
-      minWidth: 1
-    }
+    render: { backgroundColor: '#00C5EC', minWidth: 1 }
   },
   TextBlock: {
     uuid: undefined,
@@ -133,10 +112,7 @@ export var initFE = {
     prepend: 1,
     append: 9,
     type: 'TextBlock',
-    render: {
-      backgroundColor: 'purple',
-      minWidth: 1
-    }
+    render: { backgroundColor: 'purple', minWidth: 1 }
   },
   ImageBlock: {
     alt: 'alt',
@@ -149,10 +125,7 @@ export var initFE = {
     prepend: 1,
     append: 1,
     type: 'ImageBlock',
-    render: {
-      backgroundColor: 'brown',
-      minWidth: 1
-    }
+    render: { backgroundColor: 'brown', minWidth: 1 }
   },
   ASInput: {
     prepend: 1,
@@ -166,34 +139,31 @@ export var initFE = {
     promptNumber: 'CIE49sfsdf',
     prePrompt: '',
     postPrompt: '',
+    dictionaryName: '',
     type: 'AdverseEvent',
-    render: {
-      backgroundColor: 'green',
-      minWidth: 1
-    }
+    render: { backgroundColor: 'green', minWidth: 1 }
   },
   Echo: {
     uuid: undefined,
     name: 'Echo Name',
-    width: 4,
-    content: 'default Echo content',
-    prepend: 1,
-    append: 1,
-    type: 'Echo',
-    render: {
-      backgroundColor: 'orange',
-      minWidth: 1
-    },
-    sourceInput: ''
-  },
-  CDSTextInput: {
     prepend: 1,
     width: 4,
     append: 7,
     prePromptWidth: 4,
     postPromptWidth: 0,
+    content: 'default Echo content',
+    type: 'Echo',
+    render: { backgroundColor: 'orange', minWidth: 1 },
+    sourceInput: ''
+  },
+  CDSTextInput: {
+    prepend: 1,
+    width: 6,
+    append: 5,
+    prePromptWidth: 4,
+    postPromptWidth: 0,
     uuid: undefined,
-    script: '  const id = x => x',
+    script: 'script fn(x) => y',
     editeable: 'true',
     prePrompt: '',
     postPrompt: '',
@@ -208,10 +178,7 @@ export var initFE = {
     autoTab: true,
     doubleEntry: true,
     defaultContent: '',
-    render: {
-      backgroundColor: 'blue',
-      minWidth: 3
-    }
+    render: { backgroundColor: 'blue', minWidth: 3 }
   }
 };
 
@@ -231,11 +198,14 @@ export var defaultPropsFE = {
           new FormSection({
             uuid: undefined,
             type: 'FormSection',
-            width: 18,
-            children: [new SelectionInput(initFE.SelectionInput)],
+            width: 24,
+            children: [
+              new TextInput(initFE.TextInput),
+              new SelectionInput(initFE.SelectionInput)
+            ],
             legend: 'legend',
-            prepend: 3,
-            append: 3
+            prepend: 0,
+            append: 0
           })
           // new FormSection({   uuid: undefined,   type: 'FormSection',   width: 16,
           // children: [],   legend: 'legend',   prepend: 4,   append: 4,   render: {
@@ -252,7 +222,8 @@ export var defaultPropsFE = {
         uuid: undefined,
         type: 'FormSection',
         width: 24,
-        children: [new FormSection({
+        children: [
+          new FormSection({
             uuid: undefined,
             type: 'FormSection',
             width: 16,
@@ -264,7 +235,8 @@ export var defaultPropsFE = {
               backgroundColor: 'rgba(243, 234, 95, 0.7)',
               minWidth: 3
             }
-          })],
+          })
+        ],
         legend: '2',
         prepend: 0,
         append: 0
@@ -273,7 +245,8 @@ export var defaultPropsFE = {
         uuid: undefined,
         type: 'FormSection',
         width: 24,
-        children: [new FormSection({
+        children: [
+          new FormSection({
             uuid: undefined,
             type: 'FormSection',
             width: 16,
@@ -285,7 +258,8 @@ export var defaultPropsFE = {
               backgroundColor: 'rgba(243, 234, 95, 0.7)',
               minWidth: 3
             }
-          })],
+          })
+        ],
         legend: '3',
         prepend: 0,
         append: 0
@@ -294,7 +268,8 @@ export var defaultPropsFE = {
         uuid: undefined,
         type: 'FormSection',
         width: 24,
-        children: [new FormSection({
+        children: [
+          new FormSection({
             uuid: undefined,
             type: 'FormSection',
             width: 16,
@@ -306,16 +281,15 @@ export var defaultPropsFE = {
               backgroundColor: 'rgba(243, 234, 95, 0.7)',
               minWidth: 3
             }
-          })],
+          })
+        ],
         legend: '4',
         prepend: 0,
         append: 0
       })
     ],
     crf: 'crf',
-    inputs: [
-      'input1', 'input2'
-    ],
+    inputs: ['input1', 'input2'],
     remoteValidatorCondition: {
       0: 'zero',
       1: 'one'

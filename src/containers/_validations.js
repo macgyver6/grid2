@@ -1,12 +1,43 @@
-import { FormSection } from '../data/FormSection';
-import { TextInput } from '../data/TextInput';
-import { TextArea } from '../data/TextArea';
-
 export const _dataDefined = {
   String: {
     type: 'String',
     length: 2,
-    userDefined: ['Pattern', 'NoOp', 'Enumeration', 'SubjectInputValidation']
+    userDefined: {
+      Pattern: {
+        formDependency: '',
+        inputId: '',
+        eventDefinition: '',
+        occureance: '',
+        occuranceNum: 0,
+        validState: false,
+        nullIsValid: false,
+        strong: false,
+        validationPattern: 'samplePattern',
+        customFailureMessaage: 'sampleFailureMessage',
+        language: '',
+        overRideable: false,
+        eventDef: 'sampleDef'
+      },
+      NoOp: {
+        emptyField: false,
+        anyValue: false,
+        customFailureMessaage: '',
+        language: '',
+        country: '',
+        overRideable: false,
+        eventDef: 'sampleDef'
+      },
+      Enumeration: {
+        formDependency: '',
+        inputId: '',
+        eventDefinition: '',
+        occureance: '',
+        occuranceNum: 0,
+        validationPattern: '',
+        overRideable: false,
+        eventDef: 'sampleDef'
+      }
+    }
   },
   Date: {
     type: 'Date',
@@ -26,7 +57,8 @@ export const _dataDefined = {
     length: 2,
     userDefined: ['Pattern', 'NoOp', 'Enumeration', 'Range']
   }
-};
+}; //string //string //string //string
+// ['Pattern', 'NoOp', 'Enumeration', 'SubjectInputValidation']
 
 const dataDefined = {
   Pattern: {
@@ -90,3 +122,94 @@ export const _validations = {
     value: 'SubjectInputValidation content'
   }
 };
+export const locals2 = ['Albanian', 'Arabic'];
+
+export const locals = [
+  '',
+  'Albanian',
+
+  'Arabic',
+
+  'Belarusian',
+
+  'Bulgarian',
+
+  'Catalan',
+
+  'Chinese',
+
+  'Croatian',
+
+  'Czech',
+
+  'Danish',
+
+  'Dutch',
+
+  'English',
+
+  'Estonian',
+
+  'Finnish',
+
+  'French',
+
+  'German',
+
+  'Greek',
+
+  'Hebrew',
+  'Hindi',
+
+  'Hungarian',
+
+  'Icelandic',
+
+  'Indonesian',
+
+  'Irish',
+
+  'Italian',
+
+  'Japanese',
+
+  'Korean',
+
+  'Latvian',
+
+  'Lithuanian',
+
+  'Macedonian',
+
+  'Malay',
+
+  'Maltese',
+
+  'Norwegian',
+
+  'Polish',
+
+  'Portuguese',
+
+  'Romanian',
+
+  'Russian',
+
+  'Serbian',
+
+  'Slovak',
+
+  'Slovenian',
+
+  'Spanish',
+
+  'Swedish',
+
+  'Thai',
+
+  'Turkish',
+
+  'Ukrainian',
+
+  'Vietnames>'
+];

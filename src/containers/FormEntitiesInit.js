@@ -12,11 +12,12 @@ import {
   backgroundPanelStyle,
   leftPanelStyle,
   middlePanelStyle,
-  PropertiesPanelStyle,
+  PropertiesPanelStyle
   // headerPanelStyle,
 } from '../components/layout/styles/Layout';
 import TabContainer from '../components/layout/design/TabContainer';
 import { PropertiesPanel } from './PropertiesPanel';
+import { calcTotalAdd } from '../components/FormEntities/feStyles';
 
 const BackgroundPanel = props => (
   <div style={backgroundPanelStyle}>
@@ -53,47 +54,47 @@ const BackgroundPanel = props => (
 const entityStyle = {
   padding: '6px',
   margin: '20px',
-  textAlign: 'center',
+  textAlign: 'center'
 };
 
 const selectionStyles = {
   TextInput: {
-    background: '#6C788F',
+    background: '#6C788F'
   },
 
   TextArea: {
-    background: '#205EE2',
+    background: '#205EE2'
   },
 
   CheckBox: {
-    background: '#00C5EC',
+    background: '#00C5EC'
   },
 
   SelectionInput: {
-    background: 'red',
+    background: 'red'
   },
 
   FormSection: {
-    background: '#f3ea5f',
+    background: '#f3ea5f'
   },
   TextBlock: {
-    background: 'purple',
+    background: 'purple'
   },
   ImageBlock: {
-    background: 'brown',
+    background: 'brown'
   },
   ASInput: {
-    background: 'green',
+    background: 'green'
   },
   Echo: {
-    background: 'orange',
+    background: 'orange'
   },
   CDSTextInput: {
-    background: 'blue',
+    background: 'blue'
   },
   Remove: {
-    background: '#ff5f56',
-  },
+    background: '#ff5f56'
+  }
 };
 
 let entityTypes = [
@@ -106,7 +107,7 @@ let entityTypes = [
   'ImageBlock',
   'ASInput',
   'Echo',
-  'CDSTextInput',
+  'CDSTextInput'
 ];
 
 let dragover_handler = event => {
@@ -162,12 +163,12 @@ const DeleteBtn = props => {
         const _toLeft = [...arr];
         console.log({
           address: _toLeft,
-          entity: address.byPath(props.form, _toLeft),
+          entity: address.byPath(props.form, _toLeft)
         });
         _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1;
         return {
           address: _toLeft,
-          entity: address.byPath(props.form, _toLeft),
+          entity: address.byPath(props.form, _toLeft)
         };
       };
       const toRight = arr => {
@@ -175,7 +176,7 @@ const DeleteBtn = props => {
         _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1;
         return {
           address: _toRight,
-          entity: address.byPath(props.form, _toRight),
+          entity: address.byPath(props.form, _toRight)
         };
       };
       console.log(
@@ -199,8 +200,8 @@ const DeleteBtn = props => {
               toRight(arr).entity.prepend() +
               draggedEntity.prepend() +
               draggedEntity.width() +
-              draggedEntity.append(),
-          },
+              draggedEntity.append()
+          }
         };
       } else {
         return {
@@ -210,8 +211,8 @@ const DeleteBtn = props => {
               toLeft(arr).entity.append() +
               draggedEntity.prepend() +
               draggedEntity.width() +
-              draggedEntity.append(),
-          },
+              draggedEntity.append()
+          }
         };
       }
     };
@@ -319,9 +320,10 @@ const LeftPanel = props => {
     const type = event.target.dataset.type;
     const div = document.createElement('div');
     div.id = 'dmg';
-    console.log(type);
-    div.style.width = `${initFE[type].width * bgrndGrdWidth}px`;
-    div.style.height = '100px';
+    div.style.width = `${calcTotalAdd(address.resurrectEntity(initFE[type])) *
+      bgrndGrdWidth -
+      12}px`; //  gets the total with of the default entity minus the append and prepend widths. Note subtracting 12 accounts for the gap
+    div.style.height = '40px';
     div.style.backgroundColor = initFE[type].render.backgroundColor;
     div.style.position = 'fixed';
     div.style.top = '-1000px';
@@ -352,7 +354,7 @@ const LeftPanel = props => {
             onDragStart={dragstart_handler}
             style={{
               ...entityStyle,
-              backgroundColor: selectionStyles[entity].background,
+              backgroundColor: selectionStyles[entity].background
             }}
             data-type={entity}
           >

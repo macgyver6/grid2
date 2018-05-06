@@ -1,8 +1,9 @@
 import React from 'react';
 import { address } from '../address';
+import { calcTotal } from '../components/FormEntities/feStyles';
 
 export const SelectionInputProperty = props => {
-  console.log('props.model.renderMode', props.model.renderMode())
+  console.log('props.model.renderMode', props.model.renderMode());
   const change_handler = event => {
     const value =
       event.target.type === 'checkbox'
@@ -28,6 +29,7 @@ export const SelectionInputProperty = props => {
     <div>
       <h1>Selection Input</h1>
       <p>{props.model.UUID()}</p>
+      <p>Total width: {calcTotal(props.model)}</p>
 
       <div>
         <p>
@@ -42,6 +44,30 @@ export const SelectionInputProperty = props => {
           />
         </p>
         <p>
+          <label for="selectionInput-append">Append</label>
+          <input
+            type="number"
+            name="selectionInput-append"
+            id="append"
+            onChange={change_handler}
+            value={props.model.append()}
+            // disabled="disabled"
+          />
+        </p>
+        <p>
+          <label for="selectionInput-tabOrder">Tab Order</label>
+          <br />
+          <input
+            type="number"
+            name="selectionInput-tabOrder"
+            id="tabOrder"
+            size="2"
+            onChange={change_handler}
+            value={props.model.tabOrder()}
+          />
+          // disabled="disabled"
+        </p>
+        <p>
           <label for="selectionInput-prompt_pre">
             Pre Prompt (optional){' '}
             <a
@@ -50,7 +76,6 @@ export const SelectionInputProperty = props => {
               target="_blank"
               data-ga-click="Markdown Toolbar, click, help"
             >
-
               {/* Markdown is supported */}
             </a>
           </label>
@@ -72,7 +97,6 @@ export const SelectionInputProperty = props => {
               target="_blank"
               data-ga-click="Markdown Toolbar, click, help"
             >
-
               {/* Markdown is supported */}
             </a>
           </label>
@@ -102,8 +126,8 @@ export const SelectionInputProperty = props => {
             size="2"
             onChange={change_handler}
             value={props.model.tabOrder()}
-            // disabled="disabled"
           />
+          // disabled="disabled"
         </p>
         <p>
           <label for="selectionInput-sasCodeLabel">SAS Code Label</label>
@@ -121,8 +145,7 @@ export const SelectionInputProperty = props => {
       <div>
         <label for="renderMode">Selection Item Mode</label>
         <br />
-        <select name="renderMode" id="renderMode"             onChange={change_handler}
-        >
+        <select name="renderMode" id="renderMode" onChange={change_handler}>
           <option value="selection">Selection</option>
           <option value="radio">Radio</option>
         </select>

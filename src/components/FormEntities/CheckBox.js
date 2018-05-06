@@ -83,7 +83,7 @@ const CheckBoxComponent = props => {
         data-type="CheckBox"
         onMouseDown={mouseDown_handler}
         onDragStart={dragstart_handler}
-        draggable="true"
+        draggable="false"
       >
         {/* onChange={(e) => handleChange(e, props)} */}
         <input type={props.model.type()} style={cbInputStyle} />

@@ -70,7 +70,7 @@ const SelectionInputComponent = props => {
       onDragLeave={dragleave_handler}
       onClick={click_handler}
       onDragStart={dragstart_handler}
-      draggable="true"
+      draggable="false"
     >
       {props.model.prepend() > 0 ? (
         <Prepend
@@ -103,13 +103,8 @@ const SelectionInputComponent = props => {
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="SelectionInput"
         onMouseDown={mouseDown_handler}
-        // onDragStart={dragstart_handler}
-        // draggable="true"
       >
-        {/*props.model.name() */}
         <br />
-
-        {/* put the desired render mode conditional and output here*/}
         {props.model.renderMode() === 'selection' ? (
           <select
             style={siInputStyle}
@@ -121,11 +116,6 @@ const SelectionInputComponent = props => {
               .map(option => (
                 <option value={option.value}>{option.label}</option>
               ))}
-            {/* <option value="value1">Value 1</option>
-    <option value="value2" selected>
-      Value 2
-    </option>
-    <option value="value3">Value 3</option> */}
           </select>
         ) : (
           <div className="fancy-radio-wrapper">

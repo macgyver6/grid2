@@ -1,6 +1,7 @@
 import React from 'react';
 import { address } from '../address';
 import { log } from 'util';
+import { calcTotal } from '../components/FormEntities/feStyles';
 
 export const TextBlockProperty = props => {
   const change_handler = event => {
@@ -18,6 +19,7 @@ export const TextBlockProperty = props => {
     <div>
       <h1>Text Block</h1>
       <p>{props.model.UUID()}</p>
+      <p>Total width: {calcTotal(props.model)}</p>
 
       <div />
       <div>

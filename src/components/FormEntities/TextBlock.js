@@ -25,23 +25,6 @@ const TextBlockComponent = props => {
 
   const click_handler = event => entityActions.click_handler(event, props);
 
-  const tBWrapperStyle = {
-    display: 'grid',
-    gridColumn:
-      'span ' +
-      (props.model.prepend() + props.model.width() + props.model.append()),
-    gridTemplateColumns:
-      'repeat(' +
-      (props.model.prepend() + props.model.width() + props.model.append()) +
-      ', [col] 1fr)',
-    gridGap: '8px',
-    draggable: 'true',
-    margin: '10px 0px 10px 0px',
-    minHeight: '40px',
-    zIndex: '40',
-    cursor: 'move'
-  };
-
   const tBStyle = {
     //     margin: helpers.marginCalc(props),
     backgroundColor: 'purple',
@@ -65,7 +48,7 @@ const TextBlockComponent = props => {
       onDragLeave={dragleave_handler}
       onClick={click_handler}
       onDragStart={dragstart_handler}
-      draggable="true"
+      draggable="false"
     >
       {props.model.prepend() > 0 ? (
         <Prepend
@@ -86,8 +69,6 @@ const TextBlockComponent = props => {
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="TextInput"
         onMouseDown={mouseDown_handler}
-        // onDragStart={dragstart_handler}
-        // draggable="true"
       >
         <br />
         <textarea

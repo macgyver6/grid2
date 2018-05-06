@@ -29,7 +29,7 @@ class AdverseEventInput extends FormInput {
    */
   constructor(properties) {
     super(properties);
-
+    console.log(properties)
     this._dictionaryName = properties.dictionaryName;
 
     deepFreeze(this);
@@ -37,7 +37,18 @@ class AdverseEventInput extends FormInput {
 
   /**
    *
-   * Clone the text area.
+   * Clone the adverse event input.
+   * @returns {AdverseEventInput}
+   * @memberof AdverseEventInput
+   */
+
+  dictionaryName() {
+    return this._dictionaryName
+  }
+
+  /**
+   *
+   * Clone the adverse event input.
    * @param {Object} props
    * @returns {AdverseEventInput}
    * @memberof AdverseEventInput
@@ -71,8 +82,6 @@ class AdverseEventInput extends FormInput {
       inputWidth: this.inputWidth(),
       promptNumber: this.promptNumber(),
       autoNumber: this.autoNumber(),
-      numColumns: this.numColumns(),
-      numRows: this.numRows(),
       dictionaryName: this.dictionaryName(),
     };
   }

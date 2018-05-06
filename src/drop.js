@@ -25,7 +25,6 @@ export const drop = {
     dropObj.initPrepend = props.model.prepend();
     dropObj.initAppend = props.model.append();
     dropObj.sourceAddress = address.bySample(props.model, props.form);
-    console.log('dropObj2', dropObj);
     dropObj.offsetInit =
       address.bySample(props.model, props.form).length > 1
         ? round(
@@ -36,26 +35,23 @@ export const drop = {
             3
           )
         : null;
-    console.log('mouseDown: ', event.target);
   },
   /**Give the user feedback while they are dragged.
    * If the user were to drop at the clientX of mouseMove, would it be valid?
    * Eg: Make the target drop green if valid, red if not.
    *    */
-  // mouseMove_handler: (event, props) => {
-  //   const canMove = () => {
-  //     dropObj.valid = true;
-  //     return true;
-  //   };
-  //   dropObj.dX = canMove() ? event.clientX - dropObj.mouseDownStartX : null;
-  // },
+  mouseMove_handler: (event, props) => {
+    const canMove = () => {
+      dropObj.valid = true;
+      return true;
+    };
+    dropObj.dX = canMove() ? event.clientX - dropObj.mouseDownStartX : null;
+  },
   drop_handler: (event, props) => {
     event.stopPropagation();
-    console.log(event.target)
-    console.log('dropObj: ', dropObj);
+    console.log(dropObj.offsetInit);
     const dropData = JSON.parse(event.dataTransfer.getData('address'));
     const previousSibling = () => {
-      console.log('from drop_handler: ', dropObj);
       const _sourceAddress = [...dropObj.sourceAddress];
       if (dropObj.sourceAddress[dropObj.sourceAddress.length - 1] > 0) {
         _sourceAddress.splice(
@@ -77,6 +73,7 @@ export const drop = {
       ? address.resurrectEntity(dropData.model)
       : address.byPath(props.form, dropData.address);
     const colWidthPx = document.getElementById('0.bgrndGrd').clientWidth + 8;
+    console.log('colWidthPx: ', colWidthPx);
     const gridOffsetNoLocChange = () => {
       var calc = event.clientX - dropObj.mouseDownStartX;
       if (calc > 0) {
@@ -162,12 +159,21 @@ export const drop = {
     };
     /**mutate previous sibling if necessary*/
 
-    const total = entity =>
-      entity.prePromptWidth() +
-      entity.prepend() +
-      entity.width() +
-      entity.append() +
-      entity.postPromptWidth();
+    const total = entity => {
+      if (typeof entity.prePromptWidth === 'function') {
+        console.log('has prompts: ', entity.type());
+        return (
+          entity.prepend() +
+          entity.prePromptWidth() +
+          entity.width() +
+          entity.postPromptWidth() +
+          entity.append()
+        );
+      } else {
+        console.log('no prompts: ', entity.type());
+        return entity.prepend() + entity.width() + entity.append();
+      }
+    };
     /**returns true if entity path provided is firstInRow; false if not
      * * @param {array} before - Path of the current entity
      */
@@ -187,15 +193,17 @@ export const drop = {
       }
       return runningTotal % section.width() === 0 ? true : false;
     };
+    /**where the drop even happened on the entity */
     const gridOffsetLocChange = () => {
       const leftBound = document
         .getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`)
         .getBoundingClientRect().left;
       // @hack - this is detecting if this is a addEntity. If so, it is not offsetting basedon where the entity was selected because the drag image is always 0. If it is a move of an existing object, it will grab the offsetInitin PX units.
+      console.log('dropData ', dropData);
       var calc =
         event.clientX - leftBound - (dropData.model ? 0 : dropObj.offsetInit);
       if (calc > 0) {
-        console.log(round(calc / colWidthPx, 0));
+        console.log('gridOffsetLocChange:', round(calc / colWidthPx, 0));
         return round(calc / colWidthPx, 0);
       } else {
         return round(calc / colWidthPx, 0);
@@ -206,6 +214,8 @@ export const drop = {
      * */
     if (dropData.model) {
       console.log('addEntity');
+      const considerModelPrompt = prompt =>
+        props.model[prompt] ? props.model[prompt]() : 0;
       const toBeMutated = {
         prepend:
           event.target.id === `${props.model.UUID()}.append`
@@ -214,11 +224,14 @@ export const drop = {
         append:
           event.target.id === `${props.model.UUID()}.append`
             ? gridOffsetLocChange() -
+              considerModelPrompt('prePromptWidth') -
+              considerModelPrompt('postPromptWidth') -
               props.model.prepend() -
               props.model.width()
             : props.model.append()
       };
-      console.log(gridOffsetLocChange());
+      console.log('toBeMutated: ', toBeMutated);
+      console.log('gridOffsetLocChange: ', gridOffsetLocChange());
 
       console.log(
         'destination sibling toBeMutated: ',
@@ -233,6 +246,9 @@ export const drop = {
         event.target.id === `${props.model.UUID()}.prepend`
           ? destinationAddress
           : _destinationAddress;
+      const considerPrompt = prompt =>
+        dropObj.sourceEntity[prompt] ? dropObj.sourceEntity[prompt]() : 0;
+      // const considerPrompt = prompt => (prompt ? prompt() : 0);
       const toBeAdded = address.resurrectEntity(
         Object.assign({}, dropObj.sourceEntity.properties(), {
           prepend:
@@ -243,6 +259,8 @@ export const drop = {
             event.target.id === `${props.model.UUID()}.append`
               ? total(props.model) -
                 gridOffsetLocChange() -
+                considerPrompt('prePromptWidth') -
+                considerPrompt('postPromptWidth') -
                 dropObj.sourceEntity.width()
               : props.model.prepend() -
                 dropObj.sourceEntity.width() -
@@ -282,14 +300,7 @@ export const drop = {
           : 0,
         append: dropObj.initAppend - gridOffsetNoLocChange()
       };
-      console.log('append', dropObj);
-      // const entityToMutate = {
-      //   prepend: firstInRow(dropObj.destinationAddress)
-      //     ? dropObj.initPrepend + gridOffsetNoLocChange()
-      //     : 0,
-      //   append: dropObj.initAppend - gridOffsetNoLocChange(),
-      // };
-      console.log(dropObj.sourceAddress, entityToMutate);
+      // console.log(dropObj.sourceAddress, entityToMutate)
       props.mutate(dropObj.sourceAddress, entityToMutate);
       console.log('test');
     } else if (
@@ -343,18 +354,25 @@ export const drop = {
 
         return updatedAddress;
       };
-      console.log('YYY accommodate entity for move', whereToAccommodate(), {
-        prepend:
-          event.target.id === `${props.model.UUID()}.append`
-            ? props.model.prepend()
-            : 0,
-        append:
-          event.target.id === `${props.model.UUID()}.append`
-            ? gridOffsetLocChange() -
-              props.model.prepend() -
-              props.model.width()
-            : props.model.append()
-      });
+      console.log(
+        'YYY accommodate entity for move',
+        gridOffsetLocChange(),
+        whereToAccommodate(),
+        {
+          prepend:
+            event.target.id === `${props.model.UUID()}.append`
+              ? props.model.prepend()
+              : 0,
+          append:
+            event.target.id === `${props.model.UUID()}.append`
+              ? gridOffsetLocChange() -
+                props.model.prePromptWidth() -
+                props.model.prepend() -
+                props.model.width() -
+                dropObj.sourceEntity.prePromptWidth()
+              : props.model.append()
+        }
+      );
       props.mutate(whereToAccommodate(), {
         prepend:
           event.target.id === `${props.model.UUID()}.append`
@@ -363,8 +381,10 @@ export const drop = {
         append:
           event.target.id === `${props.model.UUID()}.append`
             ? gridOffsetLocChange() -
+              props.model.prePromptWidth() -
               props.model.prepend() -
-              props.model.width()
+              props.model.width() -
+              dropObj.sourceEntity.prePromptWidth()
             : props.model.append()
       });
 
