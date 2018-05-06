@@ -1,4 +1,4 @@
-const calcTotal = entity => {
+export const calcTotal = entity => {
   if (typeof entity.prePromptWidth === 'function') {
     console.log('has prompts: ', entity.type());
     return (
@@ -14,6 +14,16 @@ const calcTotal = entity => {
   }
 };
 
+export const calcTotalAdd = entity => {
+  if (typeof entity.prePromptWidth === 'function') {
+    console.log('has prompts: ', entity.type());
+    return entity.prePromptWidth() + entity.width() + entity.postPromptWidth();
+  } else {
+    console.log('no prompts: ', entity.type());
+    return entity.width();
+  }
+};
+
 export const styleDefaultEntity = entity => {
   return {
     display: 'grid',
@@ -26,7 +36,7 @@ export const styleDefaultEntity = entity => {
     zIndex: '40',
     cursor: 'move',
     border: '1px blue dashed',
-    borderRadius: '2px',
+    borderRadius: '2px'
   };
 };
 

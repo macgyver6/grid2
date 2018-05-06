@@ -39,6 +39,7 @@ let Resizer = props => {
     event.stopPropagation();
     // console.log('mouseDown: ', event.clientX)
     resize.mouseMoveStartX = event.clientX;
+    console.log(event.target);
     resize.target = event.target.id;
     console.log(event.target);
     const element = document.getElementById(
@@ -345,11 +346,13 @@ let Resizer = props => {
     //     defaultPropsFE[props.model.type()].render.backgroundColor
     // );
     console.log(initFE[props.model.type()]);
-    entityToChangeColor.style.backgroundColor =
-      initFE[props.model.type()].render.backgroundColor;
+    // entityToChangeColor.style.backgroundColor =
+    //   initFE[props.model.type()].render.backgroundColor;
   };
 
-  const click_handler = event => event.stopPropagation();
+  const click_handler = event => {
+    event.stopPropagation();
+  };
 
   return (
     <div
@@ -358,6 +361,7 @@ let Resizer = props => {
       style={resizeStyle}
       onDragStart={dragstart_handler}
       onMouseDown={mouseDown_handler}
+      onClick={click_handler}
       draggable="true"
       onClick={click_handler}
     />

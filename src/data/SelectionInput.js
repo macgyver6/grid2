@@ -15,7 +15,8 @@ class SelectionInput extends FormInput {
     super(properties);
 
     this._options = properties.options;
-    this._renderMode = SelectionInput.RenderMode[properties.renderMode];
+    // this._renderMode = SelectionInput.RenderMode[properties.renderMode];
+    this._renderMode = properties.renderMode;
 
     deepFreeze(this);
   }

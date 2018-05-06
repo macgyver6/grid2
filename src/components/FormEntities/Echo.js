@@ -11,44 +11,23 @@ import { log } from 'util';
 import { address } from '../../address';
 import { utility } from '../../validation/val.utility';
 import { FormInput } from '../../data/FormInput';
+import { entityActions } from './actions.entities';
 
 const EchoComponent = props => {
-  /** Handle adding/subtracing prepend or append */
-  const mouseDown_handler = event => {
-    drop.mouseDown_handler(event, props, 'move');
-  };
+  const mouseDown_handler = event =>
+    entityActions.mouseDown_handler(event, props);
 
-  /** Set dataTransfer in the case the entity is dropped on target:
-   * 1. Moving to different form section
-   * 2. Deleting a form section
-   */
-  let dragstart_handler = event => {
-    // event.stopPropagation();
-    helpers.dragStart_handler(event, props.model, props.form, 'move');
-  };
+  let dragstart_handler = event =>
+    entityActions.dragstart_handler(event, props);
 
-  let dragOver_handler = event => {
-    event.preventDefault();
-  };
+  let dragOver_handler = event => entityActions.dragOver_handler(event, props);
 
-  let drop_handler = event => {
-    drop.drop_handler(event, props);
-  };
+  let drop_handler = event => entityActions.drop_handler(event, props);
 
-  let dragleave_handler = event => {
-    event.stopPropagation();
-    //   console.log(event.target.id)
-    // if (event.target.id === `${props.model.UUID()}.${props.model.type()}.wrapper`) {
-    //   console.log('event.currentTarget')
-    // }
-  };
+  let dragleave_handler = event =>
+    entityActions.dragleave_handler(event, props);
 
-  const click_handler = event => {
-    event.stopPropagation();
-    props.temporalStateChange({
-      currententity: address.bySample(props.model, props.form),
-    });
-  };
+  const click_handler = event => entityActions.click_handler(event, props);
 
   const tBStyle = {
     //     margin: helpers.marginCalc(props),
@@ -59,12 +38,12 @@ const EchoComponent = props => {
     cursor: 'move',
     // border: '1px solid red',
     padding: '4px',
-    borderRadius: '2px',
+    borderRadius: '2px'
   };
 
   const tBInputStyle = {
     height: '25px',
-    width: '80%',
+    width: '80%'
   };
 
   return (
@@ -96,7 +75,7 @@ const EchoComponent = props => {
         className="TextInput"
         onMouseDown={mouseDown_handler}
         onDragStart={dragstart_handler}
-        draggable="true"
+        draggable="false"
       >
         <br />
         <input
@@ -123,8 +102,8 @@ const EchoComponent = props => {
                 .defaultContent()
         )} */}
         <Resizer
-          id={`${props.model.UUID()}.resizer`}
-          element="FormEntity"
+        resizeType="width"
+        element="FormEntity"
           uuid={props.model.UUID()}
           className="resizer"
           model={props.model}

@@ -56,10 +56,18 @@ let FormSectionComponent = props => {
           bgrndGrdWidth,
         0
       );
+      const considerPrompt = prompt =>
+        data.model[prompt] ? data.model[prompt] : 0;
+
       let entityToAdd = address.resurrectEntity(
         Object.assign({}, data.model, {
           prepend: offsetGrids,
-          append: props.model.width() - (offsetGrids + data.model.width), // addressNewEntity[addressNewEntity.length] = props.model.children().length
+          append:
+            props.model.width() -
+            (offsetGrids +
+              data.model.width +
+              considerPrompt('prePromptWidth') +
+              considerPrompt('postPromptWidth'))
         })
       );
       console.log('here: ', data.model);
@@ -76,7 +84,7 @@ let FormSectionComponent = props => {
       let entityToAdd = address.resurrectEntity(
         Object.assign({}, draggedEntity.properties(), {
           prepend: offsetGrids,
-          append: props.model.width() - offsetGrids - draggedEntity.width(),
+          append: props.model.width() - offsetGrids - draggedEntity.width()
         })
       );
 
@@ -118,12 +126,12 @@ let FormSectionComponent = props => {
           const _toLeft = [...arr];
           console.log({
             address: _toLeft,
-            entity: address.byPath(props.form, _toLeft),
+            entity: address.byPath(props.form, _toLeft)
           });
           _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1;
           return {
             address: _toLeft,
-            entity: address.byPath(props.form, _toLeft),
+            entity: address.byPath(props.form, _toLeft)
           };
         };
         const toRight = arr => {
@@ -131,7 +139,7 @@ let FormSectionComponent = props => {
           _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1;
           return {
             address: _toRight,
-            entity: address.byPath(props.form, _toRight),
+            entity: address.byPath(props.form, _toRight)
           };
         };
         console.log(
@@ -155,8 +163,8 @@ let FormSectionComponent = props => {
                 toRight(arr).entity.prepend() +
                 draggedEntity.prepend() +
                 draggedEntity.width() +
-                draggedEntity.append(),
-            },
+                draggedEntity.append()
+            }
           };
         } else {
           return {
@@ -166,8 +174,8 @@ let FormSectionComponent = props => {
                 toLeft(arr).entity.append() +
                 draggedEntity.prepend() +
                 draggedEntity.width() +
-                draggedEntity.append(),
-            },
+                draggedEntity.append()
+            }
           };
         }
       };
@@ -220,32 +228,37 @@ let FormSectionComponent = props => {
           offsetGrids,
           {
             prepend: props.model.prepend() + offsetGrids,
-            append: props.model.append() - offsetGrids,
+            append: props.model.append() - offsetGrids
           }
         );
 
         props.mutate(address.bySample(props.model, props.form), {
           prepend: props.model.prepend() + offsetGrids,
-          append: props.model.append() - offsetGrids,
+          append: props.model.append() - offsetGrids
         });
       }
       // @hack - only adds to position 0 at this point
       const element = document.getElementById(
         `${props.model.UUID()}.${props.model.type()}`
       );
-      console.log(
-        'change this: ',
-        element.id +
-          'to: ' +
-          defaultPropsFE[props.model.type()].render.backgroundColor
-      );
-      element.style.backgroundColor =
-        defaultPropsFE[props.model.type()].render.backgroundColor;
+      // console.log(
+      //   'change this: ',
+      //   element.id +
+      //     'to: ' +
+      //     defaultPropsFE[props.model.type()].render.backgroundColor
+      // );
+      // element.style.backgroundColor =
+      //   defaultPropsFE[props.model.type()].render.backgroundColor;
     }
   };
 
-  const click_handler = event => {
-    console.log('click');
+  const mouseDown_handler = event => {
+    event.stopPropagation();
+    document.getElementById(
+      `${props.model.UUID()}.${props.model.type()}.wrapper`
+    ).draggable = true;
+    console.log(event.target.draggable);
+    console.log(event.target);
   };
 
   const fsStyle = {
@@ -255,14 +268,15 @@ let FormSectionComponent = props => {
     borderRadius: '2px',
     gridTemplateColumns: `repeat(${props.model.width()}, [col] 1fr)`,
     backgroundColor: 'rgba(243, 234, 95, 0.7)',
-    minHeight: '60px',
+    // minHeight: '120px',
     minWidth: '100px',
+    paddingBottom: '60px',
     gridColumn: `span ${props.model.width()}`,
     gridGap: '8px',
     gridAutoRows: 'min-content',
     zIndex: '30',
     cursor: 'move',
-    borderRadius: '2px',
+    borderRadius: '2px'
     // padding: '4px',
   };
 
@@ -270,11 +284,11 @@ let FormSectionComponent = props => {
     display: 'grid',
     // gridColumn: null,
     // gridTemplateColumns: null,
-    draggable: 'true',
+    // draggable: 'true',
     margin: '20px 0px 0px 0px', // minHeight: '120px',
     // "maxHeight": "120px",
     zIndex: '40',
-    cursor: 'move',
+    cursor: 'move'
   };
 
   // return actual style values
@@ -291,6 +305,20 @@ let FormSectionComponent = props => {
     address.bySample(props.model, props.form).length < 2
       ? ''
       : fsStyle.backgroundColor;
+  const maxHeight =
+    address.bySample(props.model, props.form).length < 2 ? '70vh' : '';
+
+  const minHeight =
+    address.bySample(props.model, props.form).length < 2 ? '70vh' : '0';
+
+  /**address of less than 2 would scrolls properly with 'auto', but it affects the integrity of the grid columns */
+  const scrollable =
+    address.bySample(props.model, props.form).length < 2
+      ? 'visible'
+      : 'visible';
+
+  const showResizer =
+    address.bySample(props.model, props.form).length < 2 ? false : true;
 
   const total = entity => entity.prepend() + entity.width() + entity.append();
 
@@ -310,9 +338,11 @@ let FormSectionComponent = props => {
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       className="FS"
       style={formSectionStyle}
-      onDrop={drop_handler} // adding a new entity to section
-      onDragOver={dragOver_handler}
-      onClick={click_handler}
+      onDrop={drop_handler}
+      onDragOver={
+        dragOver_handler // adding a new entity to section
+      }
+      onMouseDown={mouseDown_handler}
     >
       {props.model.prepend() > 0 ? (
         <Prepend
@@ -328,9 +358,14 @@ let FormSectionComponent = props => {
       <div
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="form-group FS"
-        style={{ ...fsStyle, backgroundColor: whichBackground }}
+        style={{
+          ...fsStyle,
+          backgroundColor: whichBackground,
+          minHeight: minHeight,
+          maxHeight: maxHeight,
+          overflowY: scrollable
+        }}
         data-action={`mover.${props.model.UUID()}.FormSection`}
-        draggable="true"
         onDragStart={dragstart_handler}
       >
         {props.model.type() === 'FormSection'
@@ -343,23 +378,24 @@ let FormSectionComponent = props => {
                 remove: props.remove,
                 add: props.add,
                 mutate: props.mutate,
-                temporalStateChange: props.temporalStateChange,
+                temporalStateChange: props.temporalStateChange
               });
             })
           : null}
-
-        <Resizer
-          id={`${props.model.UUID()}.resizer`}
-          element="FormEntity"
-          uuid={props.model.UUID()}
-          className="resizer"
-          model={props.model}
-          form={props.form}
-          remove={props.remove}
-          add={props.add}
-          mutate={props.mutate}
-          resizeType="width"
-        />
+        {showResizer ? (
+          <Resizer
+            id={`${props.model.UUID()}.resizer`}
+            element="FormEntity"
+            uuid={props.model.UUID()}
+            className="resizer"
+            model={props.model}
+            form={props.form}
+            remove={props.remove}
+            add={props.add}
+            mutate={props.mutate}
+            resizeType="width"
+          />
+        ) : null}
         <AddToEnd
           model={props.model}
           form={props.form}
