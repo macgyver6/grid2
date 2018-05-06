@@ -306,10 +306,10 @@ let FormSectionComponent = props => {
       ? ''
       : fsStyle.backgroundColor;
   const maxHeight =
-    address.bySample(props.model, props.form).length < 2 ? '100vh' : '';
+    address.bySample(props.model, props.form).length < 2 ? '70vh' : '';
 
   const minHeight =
-    address.bySample(props.model, props.form).length < 2 ? '100vh' : '0';
+    address.bySample(props.model, props.form).length < 2 ? '70vh' : '0';
 
   const scrollable =
     address.bySample(props.model, props.form).length < 2 ? 'auto' : 'visible';
