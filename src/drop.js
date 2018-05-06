@@ -73,6 +73,7 @@ export const drop = {
       ? address.resurrectEntity(dropData.model)
       : address.byPath(props.form, dropData.address);
     const colWidthPx = document.getElementById('0.bgrndGrd').clientWidth + 8;
+    console.log('colWidthPx: ', colWidthPx);
     const gridOffsetNoLocChange = () => {
       var calc = event.clientX - dropObj.mouseDownStartX;
       if (calc > 0) {
@@ -192,16 +193,17 @@ export const drop = {
       }
       return runningTotal % section.width() === 0 ? true : false;
     };
+    /**where the drop even happened on the entity */
     const gridOffsetLocChange = () => {
       const leftBound = document
         .getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`)
         .getBoundingClientRect().left;
       // @hack - this is detecting if this is a addEntity. If so, it is not offsetting basedon where the entity was selected because the drag image is always 0. If it is a move of an existing object, it will grab the offsetInitin PX units.
-      console.log(dropData);
+      console.log('dropData ', dropData);
       var calc =
         event.clientX - leftBound - (dropData.model ? 0 : dropObj.offsetInit);
       if (calc > 0) {
-        console.log(round(calc / colWidthPx, 0));
+        console.log('gridOffsetLocChange:', round(calc / colWidthPx, 0));
         return round(calc / colWidthPx, 0);
       } else {
         return round(calc / colWidthPx, 0);
@@ -352,18 +354,25 @@ export const drop = {
 
         return updatedAddress;
       };
-      console.log('YYY accommodate entity for move', whereToAccommodate(), {
-        prepend:
-          event.target.id === `${props.model.UUID()}.append`
-            ? props.model.prepend()
-            : 0,
-        append:
-          event.target.id === `${props.model.UUID()}.append`
-            ? gridOffsetLocChange() -
-              props.model.prepend() -
-              props.model.width()
-            : props.model.append()
-      });
+      console.log(
+        'YYY accommodate entity for move',
+        gridOffsetLocChange(),
+        whereToAccommodate(),
+        {
+          prepend:
+            event.target.id === `${props.model.UUID()}.append`
+              ? props.model.prepend()
+              : 0,
+          append:
+            event.target.id === `${props.model.UUID()}.append`
+              ? gridOffsetLocChange() -
+                props.model.prePromptWidth() -
+                props.model.prepend() -
+                props.model.width() -
+                dropObj.sourceEntity.prePromptWidth()
+              : props.model.append()
+        }
+      );
       props.mutate(whereToAccommodate(), {
         prepend:
           event.target.id === `${props.model.UUID()}.append`
@@ -372,8 +381,10 @@ export const drop = {
         append:
           event.target.id === `${props.model.UUID()}.append`
             ? gridOffsetLocChange() -
+              props.model.prePromptWidth() -
               props.model.prepend() -
-              props.model.width()
+              props.model.width() -
+              dropObj.sourceEntity.prePromptWidth()
             : props.model.append()
       });
 

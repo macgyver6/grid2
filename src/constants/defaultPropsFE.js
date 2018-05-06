@@ -17,9 +17,9 @@ export var initFE = {
   TextInput: {
     uuid: undefined,
     uuid: undefined,
-    prepend: 1,
+    prepend: 0,
     width: 6,
-    append: 13,
+    append: 14,
     prePromptWidth: 4,
     postPromptWidth: 0,
     prePrompt: '',
@@ -40,9 +40,9 @@ export var initFE = {
   },
   SelectionInput: {
     uuid: undefined,
-    prepend: 1,
+    prepend: 0,
     width: 6,
-    append: 13,
+    append: 14,
     prePromptWidth: 4,
     postPromptWidth: 0,
     prePrompt: '',
