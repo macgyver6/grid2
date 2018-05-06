@@ -311,8 +311,11 @@ let FormSectionComponent = props => {
   const minHeight =
     address.bySample(props.model, props.form).length < 2 ? '70vh' : '0';
 
+  /**address of less than 2 would scrolls properly with 'auto', but it affects the integrity of the grid columns */
   const scrollable =
-    address.bySample(props.model, props.form).length < 2 ? 'auto' : 'visible';
+    address.bySample(props.model, props.form).length < 2
+      ? 'visible'
+      : 'visible';
 
   const showResizer =
     address.bySample(props.model, props.form).length < 2 ? false : true;
