@@ -179,10 +179,10 @@ const DeleteBtn = props => {
           entity: address.byPath(props.form, _toRight)
         };
       };
-      console.log(
-        donorParent.children().length - 1 === arr[arr.length - 1] &&
-          firstInRow(arr)
-      );
+      // console.log(
+      //   donorParent.children().length - 1 === arr[arr.length - 1] &&
+      //     firstInRow(arr)
+      // );
       /** if only 1 child in section or the donor entity is the last entity in section */
       if (
         donorParent.children().length === 1 ||
