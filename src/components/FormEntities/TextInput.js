@@ -8,6 +8,7 @@ import PrePrompt from './subentities/PrePrompt.js';
 import PostPrompt from './subentities/PostPrompt.js';
 import { styleDefaultEntity } from './feStyles';
 import { entityActions } from './actions.entities';
+import AddToEnd from './subentities/AddToEnd.js';
 
 import { log } from 'util';
 import { address } from '../../address';
@@ -134,6 +135,7 @@ const TextInputComponent = props => {
           backgroundColor="rgb(108, 120, 143)"
         />
       ) : null}
+
       {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}
@@ -146,7 +148,16 @@ const TextInputComponent = props => {
           mutate={props.mutate}
         />
       ) : null}
-    </div>
+       <AddToEnd
+      model={props.model}
+      form={props.form}
+      add={props.add}
+      remove={props.remove}
+      mutate={props.mutate}
+      temporalStateChange={props.temporalStateChange}
+      addToEndAction='insertInPlace'
+    />
+      </div>
   );
 };
 

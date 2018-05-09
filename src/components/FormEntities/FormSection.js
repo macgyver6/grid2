@@ -403,6 +403,7 @@ let FormSectionComponent = props => {
           remove={props.remove}
           mutate={props.mutate}
           temporalStateChange={props.temporalStateChange}
+          addToEndAction='appendToEnd'
         />
       </div>
       {props.model.append() > 0 ? (

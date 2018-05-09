@@ -36,7 +36,8 @@ export const styleDefaultEntity = entity => {
     zIndex: '40',
     cursor: 'move',
     border: '1px blue dashed',
-    borderRadius: '2px'
+    borderRadius: '2px',
+    position: 'relative'
   };
 };
 

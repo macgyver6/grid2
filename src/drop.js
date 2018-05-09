@@ -140,7 +140,9 @@ export const drop = {
           address: toLeft(arr).address,
           properties: {
             append:
+            // @hack
               toLeft(arr).entity.append() +
+              draggedEntity.prePromptWidth()+
               draggedEntity.prepend() +
               draggedEntity.width() +
               draggedEntity.append()

@@ -1,7 +1,6 @@
 import React from 'react';
 import { helpers } from '../../helpers';
 import { drop } from '../../drop';
-import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import { styleDefaultEntity } from './feStyles';
 import Prepend from './subentities/Prepend.js';
@@ -87,17 +86,6 @@ const CheckBoxComponent = props => {
       >
         {/* onChange={(e) => handleChange(e, props)} */}
         <input type={props.model.type()} style={cbInputStyle} />
-        <Resizer
-          id={`${props.model.UUID()}.resizer`}
-          element="FormEntity"
-          uuid={props.model.UUID()}
-          className="resizer"
-          model={props.model}
-          form={props.form}
-          remove={props.remove}
-          add={props.add}
-          mutate={props.mutate}
-        />
       </div>
       {props.model.postPromptWidth() > 0 ? (
         <PostPrompt
