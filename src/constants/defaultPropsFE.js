@@ -17,6 +17,7 @@ export var initFE = {
   TextInput: {
     uuid: undefined,
     uuid: undefined,
+    uuid: undefined,
     prepend: 0,
     width: 6,
     append: 14,
