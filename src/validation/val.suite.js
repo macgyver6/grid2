@@ -9,13 +9,11 @@ export const validations = {
             entity: e,
           }
         : undefined,
-    willBeIssue: e => {
-      return { exception: 'This is an issue' };
-    },
+    willBeIssue: e => ({ exception: 'This is an issue' }),
   },
   FormSection: {
     sumChildrenLessSection: section => {
-      var increment = 0;
+      let increment = 0;
       const validate = (e, sectionWidth) => {
         if (increment === section.width()) {
           increment = 0;
@@ -30,21 +28,17 @@ export const validations = {
     },
   },
   TextInput: {
-    shoudNotBeNegativeWidth: e =>
-      e.width() < 0
-        ? { exception: 'Must not be negative width', entity: e }
-        : undefined,
+    shoudNotBeLargerThanSection: e =>
+      e.width() > 24 ? { exception: 'Must not be larger than containing section', entity: e } : undefined,
+    shoudNotBeNegativeWidth: e => (e.width() < 1 ? { exception: 'Must not be negative width', entity: e } : undefined),
     shouldContainDefaultContent: e =>
-      e.defaultContent() == undefined
-        ? { exception: 'must contain default text', entity: e }
-        : undefined,
-    noNegativePrependPostpend: e => {
-      return e.prepend() < 0 || e.append() < 0
+      e.defaultContent() === undefined ? { exception: 'must contain default text', entity: e } : undefined,
+    noNegativePrependPostpend: e =>
+      e.prepend() < 0 || e.append() < 0
         ? {
             exception: 'Entity must have positive prepend and postpend values',
             entity: e,
           }
-        : undefined;
-    },
+        : undefined,
   },
 };

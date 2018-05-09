@@ -11,13 +11,11 @@ import Expand from '../assets/expand.js';
 import { calcTotal } from '../components/FormEntities/feStyles';
 
 export const TextInputProperty = props => {
-  const change_handler = event => {
-    return props.mutate(address.bySample(props.model, props.form), {
+  const change_handler = event => props.mutate(address.bySample(props.model, props.form), {
       [event.target.id]: event.target.value
     });
-  };
 
-  const validationSelector_handler = event => {
+  const validationSelector_handler = event => 
     // return {
     //   validations: {
     //     ...props.model.validations(),
@@ -25,17 +23,17 @@ export const TextInputProperty = props => {
     //   }
     // };
 
-    return props.mutate(address.bySample(props.model, props.form), {
+     props.mutate(address.bySample(props.model, props.form), {
       validations: {
         ...props.model.validations(),
         [event.target.id]: event.target.value
       }
-    });
-  };
+    })
+  ;
 
   const collapse_handler = event => {
     props.temporalStateChange({
-      [event.target.id]: !props.appState[event.target.id]
+      [event.target.id]: !props.appState[event.target.id],
     });
   };
 
@@ -46,11 +44,9 @@ export const TextInputProperty = props => {
   //   Float: ['Pattern', 'NoOp', 'Enumeration', 'Range']
   // };
 
-  const userDefinedValOptionsArr = Object.keys(_dataDefined).map(
-    userDefinedValOption => (
-      <option value={userDefinedValOption}>{userDefinedValOption}</option>
-    )
-  );
+  const userDefinedValOptionsArr = Object.keys(_dataDefined).map(userDefinedValOption => (
+    <option value={userDefinedValOption}>{userDefinedValOption}</option>
+  ));
 
   console.log(userDefinedValOptionsArr);
 
@@ -59,7 +55,7 @@ export const TextInputProperty = props => {
       <h1 style={{ marginBottom: '0px' }}>Text Input</h1>
       <p style={{ fontSize: 8, margin: '0px' }}>{props.model.UUID()}</p>
       <p style={{ fontSize: 8, margin: '0px 0px 4px 0px' }}>
-        Total width: {calcTotal(props.model)}
+        Total width: {calcTotal(props.model)} Width: {props.model.width()}
       </p>
       <Tabs>
         <TabList>
@@ -68,42 +64,31 @@ export const TextInputProperty = props => {
         </TabList>
         <TabPanel>
           <h2 id="validations" onClick={collapse_handler}>
-            User Defined Validations{props.appState.validations
-              ? ' ⬇️ (Click to collpase)'
-              : ' ↕️ (Click to Expand)'}
+            User Defined Validations{props.appState.validations ? ' ⬇️ (Click to collpase)' : ' ↕️ (Click to Expand)'}
           </h2>
           <Collapse isOpened={props.appState.validations}>
-            {React.createElement(
-              address.whichValidator(props.model.validations().userDefined),
-              {
-                model: address.byPath(props.form, props.currententity),
-                form: props.form,
-                currententity: props.currententity,
-                mutate: props.mutate,
-                appState: props.appState,
-                temporalStateChange: props.temporalStateChange
-              }
-            )}
+            {React.createElement(address.whichValidator(props.model.validations().userDefined), {
+              model: address.byPath(props.form, props.currententity),
+              form: props.form,
+              currententity: props.currententity,
+              mutate: props.mutate,
+              appState: props.appState,
+              temporalStateChange: props.temporalStateChange,
+            })}
           </Collapse>
         </TabPanel>
         <TabPanel>
           <div>
             <p>
-              <label for="textInput-name">Name</label>
+              <label htmlFor="textInput-name">Name</label>
               <br />
-              <input
-                type="text"
-                id="name"
-                name="textInput-name"
-                onChange={change_handler}
-                value={props.model.name()}
-              />
+              <input type="text" id="name" name="textInput-name" onChange={change_handler} value={props.model.name()} />
             </p>
             <p>
-              <label for="textInput-prompt_pre">
+              <label htmlFor="textInput-prompt_pre">
                 Pre Prompt (optional){' '}
                 <a
-                  class="tabnav-extra"
+                  className="tabnav-extra"
                   href="https://guides.github.com/features/mastering-markdown/"
                   target="_blank"
                   data-ga-click="Markdown Toolbar, click, help"
@@ -123,10 +108,10 @@ export const TextInputProperty = props => {
               />
             </p>
             <p>
-              <label for="textInput-prompt_post">
+              <label htmlFor="textInput-prompt_post">
                 Post Prompt (optional){' '}
                 <a
-                  class="tabnav-extra"
+                  className="tabnav-extra"
                   href="https://guides.github.com/features/mastering-markdown/"
                   target="_blank"
                   data-ga-click="Markdown Toolbar, click, help"
@@ -153,7 +138,7 @@ export const TextInputProperty = props => {
           </div>
           <div>
             <p>
-              <label for="textInput-tabOrder">Tab Order</label>
+              <label htmlFor="textInput-tabOrder">Tab Order</label>
               <br />
               <input
                 type="number"
@@ -165,7 +150,7 @@ export const TextInputProperty = props => {
               />
             </p>
             <p>
-              <label for="textInput-sasCodeLabel">SAS Code Label</label>
+              <label htmlFor="textInput-sasCodeLabel">SAS Code Label</label>
               <br />
               <input
                 type="text"
@@ -183,10 +168,10 @@ export const TextInputProperty = props => {
                 onChange={change_handler}
                 checked={props.model.autoTab()}
               />
-              <label for="textInput-autoTab">Enable Auto Tabbing</label>
+              <label htmlFor="textInput-autoTab">Enable Auto Tabbing</label>
             </p>
             <div>
-              <label for="textInput-length">Max Length</label>
+              <label htmlFor="textInput-length">Max Length</label>
               <br />
               <input
                 name="textInput-length"
@@ -197,7 +182,7 @@ export const TextInputProperty = props => {
                 value={props.model.validations().maxLength}
               />
               <br />
-              <label for="textInput-QxQ">QxQ Content</label>
+              <label htmlFor="textInput-QxQ">QxQ Content</label>
 
               <textarea
                 name="textInput-QxQ"
@@ -209,7 +194,7 @@ export const TextInputProperty = props => {
                 cols="50"
               />
               <br />
-              <label for="textInput-defaultContent">Default Content</label>
+              <label htmlFor="textInput-defaultContent">Default Content</label>
               <br />
               <input
                 type="text"
@@ -227,7 +212,7 @@ export const TextInputProperty = props => {
                 : ' ↕️ (Click to Expand)'}{' '}
             </h2>
             <Collapse isOpened={props.appState.dataDefinedValidationPane}>
-              <label for="textInput-val-type">Input Type</label>
+              <label htmlFor="textInput-val-type">Input Type</label>
               <br />
               <select
                 value={props.model.validations().valType}
@@ -257,18 +242,15 @@ export const TextInputProperty = props => {
             size="2"
           */}
               {/* {address.whichValidation(props.model.validations().type)} */}
-              {React.createElement(
-                address.whichValidation(props.model.validations().valType),
-                {
-                  // key: i,
-                  model: props.model,
-                  form: props.form,
-                  // remove: props.remove,
-                  // add: props.add,
-                  mutate: props.mutate
-                  // temporalStateChange: props.temporalStateChange
-                }
-              )}
+              {React.createElement(address.whichValidation(props.model.validations().valType), {
+                // key: i,
+                model: props.model,
+                form: props.form,
+                // remove: props.remove,
+                // add: props.add,
+                mutate: props.mutate,
+                // temporalStateChange: props.temporalStateChange
+              })}
               <hr />
             </Collapse>{' '}
           </div>

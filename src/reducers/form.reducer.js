@@ -3,7 +3,7 @@ import { address } from '../address';
 import { comm } from '../comm';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
 import { Form } from '../data/Form';
-import { validateForm } from '../validation/val.index';
+import { validateImport } from '../validation/val.index';
 
 // initialize the store
 const formReducer = (state, action) => {
@@ -41,10 +41,10 @@ const formReducer = (state, action) => {
     };
     return state;
   }
-/** entry point to validate form IF form entities exist */
-  // if (state !== 'undefined') {
-  //   console.log(validateForm(state.form).validateImport());
-  // }
+  /** entry point to validate form IF form entities exist */
+  if (state !== 'undefined') {
+    console.log('validateForm: ', validateImport(state.form));
+  }
 
   if (action.type === 'INCREMENT') {
     return Object.assign({}, state, {
@@ -59,43 +59,49 @@ const formReducer = (state, action) => {
   }
 
   if (action.type === 'ADD') {
-    console.log(action);
-    let result = utility.add(action.path, action.entity, state.form);
-    return Object.assign({}, state, {
-      form: result,
-    });
+    const result = utility.add(action.path, action.entity, state.form);
+    if (validateImport(result).length === 0) {
+      return Object.assign({}, state, {
+        form: result,
+      });
+    }
   }
 
   if (action.type === 'REMOVE') {
-    let result = utility.remove(action.path, state.form);
-    return Object.assign({}, state, {
-      form: result,
-    });
+    const result = utility.remove(action.path, state.form);
+    if (validateImport(result).length === 0) {
+      return Object.assign({}, state, {
+        form: result,
+      });
+    }
   }
 
   if (action.type === 'MUTATE') {
     const initEntity = address.byPath(state.form, action.path);
-    let update = utility.remove(action.path, state.form);
+    const update = utility.remove(action.path, state.form);
     const removedUpdate = Object.assign({}, state, {
       form: update,
     });
-    let mutatedEntity = Object.assign(
-      {},
-      initEntity.properties(),
-      action.properties
+    const mutatedEntity = Object.assign({}, initEntity.properties(), action.properties);
+    const result = utility.add(action.path, address.resurrectEntity(mutatedEntity), removedUpdate.form);
+
+    console.log(
+      validateImport(result).length === 0,
+      result
+        .children()[0]
+        .children()[0]
+        .children()[2]
+        .width()
     );
-    let result = utility.add(
-      action.path,
-      address.resurrectEntity(mutatedEntity),
-      removedUpdate.form
-    );
-    return Object.assign({}, state, {
-      form: result,
-    });
+    if (validateImport(result).length === 0) {
+      return Object.assign({}, state, {
+        form: result,
+      });
+    }
   }
 
   if (action.type === 'FORMMUTATE') {
-    let mutatedEntity = state.form.setChildren(action.properties);
+    const mutatedEntity = state.form.setChildren(action.properties);
 
     return Object.assign({}, state, {
       form: mutatedEntity,
@@ -103,7 +109,7 @@ const formReducer = (state, action) => {
   }
 
   if (action.type === 'SAVESTATE') {
-    let serialized = comm.serialize(state.form);
+    const serialized = comm.serialize(state.form);
     localStorage.setItem('model', JSON.stringify(serialized));
     return Object.assign({}, state, {
       lastSaved: Date.now(),
@@ -112,13 +118,10 @@ const formReducer = (state, action) => {
 
   if (action.type === 'LOADSTATE') {
     if (localStorage.getItem('model')) {
-      let resurrectedEntities = comm.unserialize(
-        JSON.parse(localStorage.getItem('model'))
-      );
+      const resurrectedEntities = comm.unserialize(JSON.parse(localStorage.getItem('model')));
       return { ...state, form: resurrectedEntities };
-    } else {
-      throw new Error('No items saved in local storage');
     }
+    throw new Error('No items saved in local storage');
   }
   if (action.type === 'CHANGETAB') {
     return { ...state, app: { ...state.app, activeTab: action.tab } };
@@ -130,8 +133,7 @@ const formReducer = (state, action) => {
       app: {
         ...state.app,
         // ...action.payload,
-        [Object.keys(action.payload)[0]]:
-          action.payload[Object.keys(action.payload)[0]],
+        [Object.keys(action.payload)[0]]: action.payload[Object.keys(action.payload)[0]],
       },
     };
   }
