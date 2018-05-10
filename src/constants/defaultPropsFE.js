@@ -196,7 +196,7 @@ export var defaultPropsFE = {
             uuid: undefined,
             type: 'FormSection',
             width: 24,
-            children: [new SelectionInput(initFE.SelectionInput), new SelectionInput(initFE.SelectionInput)],
+            children: [new TextInput(initFE.TextInput), new SelectionInput(initFE.SelectionInput)],
             legend: 'legend',
             prepend: 0,
             append: 0,
