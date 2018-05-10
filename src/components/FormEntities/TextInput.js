@@ -17,18 +17,15 @@ import RegexColorizer from 'regex-colorizer';
 RegexColorizer.colorizeAll();
 
 const TextInputComponent = props => {
-  const mouseDown_handler = event =>
-    entityActions.mouseDown_handler(event, props);
+  const mouseDown_handler = event => entityActions.mouseDown_handler(event, props);
 
-  let dragstart_handler = event =>
-    entityActions.dragstart_handler(event, props);
+  let dragstart_handler = event => entityActions.dragstart_handler(event, props);
 
   let dragOver_handler = event => entityActions.dragOver_handler(event, props);
 
   let drop_handler = event => entityActions.drop_handler(event, props);
 
-  let dragleave_handler = event =>
-    entityActions.dragleave_handler(event, props);
+  let dragleave_handler = event => entityActions.dragleave_handler(event, props);
 
   const click_handler = event => entityActions.click_handler(event, props);
 
@@ -37,17 +34,20 @@ const TextInputComponent = props => {
     backgroundColor: '#6C788F',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
-    minHeight: '40px',
+    maxHeight: '40px',
     cursor: 'move',
     // gridGap: '8px',
     // border: '1px solid red',
     padding: '4px',
-    borderRadius: '2px'
+    borderRadius: '2px',
   };
 
   const tiInputStyle = {
+    position: 'absolute',
+    right: 16,
+    bottom: 7,
     height: '20px',
-    width: '80%'
+    width: '82%',
   };
 
   const mouseUp_handler = event => {
@@ -94,16 +94,13 @@ const TextInputComponent = props => {
         backgroundColor="rgb(108, 120, 143)"
       />
 
-      <div
-        style={tiStyle}
-        id={`${props.model.UUID()}.${props.model.type()}`}
-        className="TextInput"
-      >
+      <div style={tiStyle} id={`${props.model.UUID()}.${props.model.type()}`} className="TextInput">
         <br />
         <input
           style={tiInputStyle}
           className="form-control"
-          type={props.model.type()} // maxLength={props.model.length()}
+          type={props.model.type()}
+          size="8"
           value={props.model.defaultContent()}
           placeholder="default content"
         />
@@ -148,16 +145,16 @@ const TextInputComponent = props => {
           mutate={props.mutate}
         />
       ) : null}
-       <AddToEnd
-      model={props.model}
-      form={props.form}
-      add={props.add}
-      remove={props.remove}
-      mutate={props.mutate}
-      temporalStateChange={props.temporalStateChange}
-      addToEndAction='insertInPlace'
-    />
-      </div>
+      <AddToEnd
+        model={props.model}
+        form={props.form}
+        add={props.add}
+        remove={props.remove}
+        mutate={props.mutate}
+        temporalStateChange={props.temporalStateChange}
+        addToEndAction="insertInPlace"
+      />
+    </div>
   );
 };
 

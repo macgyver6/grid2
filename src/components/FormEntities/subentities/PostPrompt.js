@@ -9,9 +9,13 @@ const PostPrompt = props => {
     padding: '4px',
     borderRadius: '2px',
     position: 'relative',
+    height: '40px',
   };
 
   const postPromptInputStyle = {
+    position: 'absolute',
+    // right: 16,
+    bottom: 7,
     height: '20px',
     width: '80%',
   };

@@ -12,18 +12,15 @@ import { address } from '../../address';
 import { entityActions } from './actions.entities';
 
 const TextAreaComponent = props => {
-  const mouseDown_handler = event =>
-    entityActions.mouseDown_handler(event, props);
+  const mouseDown_handler = event => entityActions.mouseDown_handler(event, props);
 
-  let dragstart_handler = event =>
-    entityActions.dragstart_handler(event, props);
+  let dragstart_handler = event => entityActions.dragstart_handler(event, props);
 
   let dragOver_handler = event => entityActions.dragOver_handler(event, props);
 
   let drop_handler = event => entityActions.drop_handler(event, props);
 
-  let dragleave_handler = event =>
-    entityActions.dragleave_handler(event, props);
+  let dragleave_handler = event => entityActions.dragleave_handler(event, props);
 
   const click_handler = event => entityActions.click_handler(event, props);
 
@@ -35,7 +32,15 @@ const TextAreaComponent = props => {
     position: 'relative',
     height: '40px',
     borderRadius: '2px',
-    padding: '4px'
+    padding: '4px',
+  };
+
+  const taInputStyle = {
+    position: 'absolute',
+    right: 16,
+    bottom: 7,
+    height: '20px',
+    width: '82%',
   };
 
   return (
@@ -81,14 +86,7 @@ const TextAreaComponent = props => {
         className="TextArea"
         onMouseDown={mouseDown_handler}
       >
-        <textarea
-          className="form-control"
-          placeholder="Write something in text area"
-          name={props.model.name()}
-          rows={props.model.numRows()}
-          cols={props.model.numColumns()}
-          type={props.model.type()}
-        />
+        {/* <input style={taInputStyle} className="form-control" type={props.model.type()} size="8" /> */}
         <Resizer
           id={`${props.model.UUID()}.resizer`}
           element="FormEntity"

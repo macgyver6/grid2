@@ -12,18 +12,15 @@ import { address } from '../../address';
 import { entityActions } from './actions.entities';
 
 const SelectionInputComponent = props => {
-  const mouseDown_handler = event =>
-    entityActions.mouseDown_handler(event, props);
+  const mouseDown_handler = event => entityActions.mouseDown_handler(event, props);
 
-  let dragstart_handler = event =>
-    entityActions.dragstart_handler(event, props);
+  let dragstart_handler = event => entityActions.dragstart_handler(event, props);
 
   let dragOver_handler = event => entityActions.dragOver_handler(event, props);
 
   let drop_handler = event => entityActions.drop_handler(event, props);
 
-  let dragleave_handler = event =>
-    entityActions.dragleave_handler(event, props);
+  let dragleave_handler = event => entityActions.dragleave_handler(event, props);
 
   const click_handler = event => entityActions.click_handler(event, props);
 
@@ -36,23 +33,28 @@ const SelectionInputComponent = props => {
     cursor: 'move',
     // border: '1px solid red',
     padding: '4px',
-    borderRadius: '2px'
+    borderRadius: '2px',
   };
 
   const siInputStyle = {
+    position: 'absolute',
+    // right: 16,
+    bottom: '7',
     height: '30px',
-    width: '80%'
+    width: '98%',
+  };
+
+  const fancyRadioStyle = {
+    position: 'absolute',
+    // right: 16,
+    bottom: '12.5',
+    height: '30px',
+    width: '98%',
   };
 
   const SelectionRender = () => {
-    <select
-      style={siInputStyle}
-      className="form-control"
-      type={props.model.type()}
-    >
-      {props.model
-        .options()
-        .map(option => <option value={option.value}>{option.label}</option>)}
+    <select style={siInputStyle} className="form-control" type={props.model.type()}>
+      {props.model.options().map(option => <option value={option.value}>{option.label}</option>)}
       {/* <option value="value1">Value 1</option>
     <option value="value2" selected>
       Value 2
@@ -106,30 +108,17 @@ const SelectionInputComponent = props => {
       >
         <br />
         {props.model.renderMode() === 'selection' ? (
-          <select
-            style={siInputStyle}
-            className="form-control"
-            type={props.model.type()}
-          >
-            {props.model
-              .options()
-              .map(option => (
-                <option value={option.value}>{option.label}</option>
-              ))}
+          <select style={siInputStyle} className="form-control" type={props.model.type()}>
+            {props.model.options().map(option => <option value={option.value}>{option.label}</option>)}
           </select>
         ) : (
-          <div className="fancy-radio-wrapper">
+          <div className="fancy-radio-wrapper" style={fancyRadioStyle}>
             <div className="fancy-radio-inner">
               {props.model.options().map(option => [
-                <input
-                  type="radio"
-                  id={option.value}
-                  name={option.value}
-                  value={option.value}
-                />,
+                <input type="radio" id={option.value} name={option.value} value={option.value} />,
                 <label className="label" for="gl1">
                   {option.label}
-                </label>
+                </label>,
               ])}
             </div>
           </div>

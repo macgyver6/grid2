@@ -9,10 +9,17 @@ const PrePrompt = props => {
     padding: '4px',
     borderRadius: '2px',
     position: 'relative',
+    height: '40px',
   };
   console.log(props.backgroundColor);
 
-  const prePromptInputStyle = { height: '20px', width: '80%' };
+  const prePromptInputStyle = {
+    height: '20px',
+    width: '80%',
+    position: 'absolute',
+    // right: 16,
+    bottom: 7,
+  };
 
   const mouseDown_handler = event => entityActions.mouseDown_handler(event, props);
 

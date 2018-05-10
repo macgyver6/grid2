@@ -1,13 +1,7 @@
 export const calcTotal = entity => {
   if (typeof entity.prePromptWidth === 'function') {
     console.log('has prompts: ', entity.type());
-    return (
-      entity.prepend() +
-      entity.prePromptWidth() +
-      entity.width() +
-      entity.postPromptWidth() +
-      entity.append()
-    );
+    return entity.prepend() + entity.prePromptWidth() + entity.width() + entity.postPromptWidth() + entity.append();
   } else {
     console.log('no prompts: ', entity.type());
     return entity.prepend() + entity.width() + entity.append();
@@ -24,8 +18,7 @@ export const calcTotalAdd = entity => {
   }
 };
 
-export const styleDefaultEntity = entity => {
-  return {
+export const styleDefaultEntity = entity => ({
     display: 'grid',
     gridColumn: `span ${calcTotal(entity)}`,
     gridTemplateColumns: 'repeat(' + `${calcTotal(entity)}` + ', [col] 1fr)',
@@ -38,8 +31,7 @@ export const styleDefaultEntity = entity => {
     border: '1px blue dashed',
     borderRadius: '2px',
     position: 'relative'
-  };
-};
+  });
 
 // defaultEntity2: {
 //   "backgroundColor": "lightgreen",
