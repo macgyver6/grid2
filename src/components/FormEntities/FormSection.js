@@ -9,9 +9,7 @@ import Prepend from './subentities/Prepend.js';
 import { helpers } from '../../helpers';
 
 let FormSectionComponent = props => {
-  const round = (value, decimals) => {
-    return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
-  };
+  const round = (value, decimals) => Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 
   let dragstart_handler = event => {
     // event.stopPropagation();
@@ -39,9 +37,7 @@ let FormSectionComponent = props => {
     const offsetE1 = data.dragInit;
     const offsetGrids = round(
       (event.clientX -
-        document
-          .getElementById(`${props.model.UUID()}.${props.model.type()}`)
-          .getBoundingClientRect().left -
+        document.getElementById(`${props.model.UUID()}.${props.model.type()}`).getBoundingClientRect().left -
         offsetE1) /
         bgrndGrdWidth,
       0
@@ -51,23 +47,15 @@ let FormSectionComponent = props => {
       console.log('drop FS add: ');
       let location = address.bySample(props.model, props.form);
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8;
-      const offsetGrids = round(
-        (event.clientX - event.target.getBoundingClientRect().left) /
-          bgrndGrdWidth,
-        0
-      );
-      const considerPrompt = prompt =>
-        data.model[prompt] ? data.model[prompt] : 0;
+      const offsetGrids = round((event.clientX - event.target.getBoundingClientRect().left) / bgrndGrdWidth, 0);
+      const considerPrompt = prompt => (data.model[prompt] ? data.model[prompt] : 0);
 
       let entityToAdd = address.resurrectEntity(
         Object.assign({}, data.model, {
           prepend: offsetGrids,
           append:
             props.model.width() -
-            (offsetGrids +
-              data.model.width +
-              considerPrompt('prePromptWidth') +
-              considerPrompt('postPromptWidth'))
+            (offsetGrids + data.model.width + considerPrompt('prePromptWidth') + considerPrompt('postPromptWidth')),
         })
       );
       console.log('here: ', data.model);
@@ -84,28 +72,20 @@ let FormSectionComponent = props => {
       let entityToAdd = address.resurrectEntity(
         Object.assign({}, draggedEntity.properties(), {
           prepend: offsetGrids,
-          append: props.model.width() - offsetGrids - draggedEntity.width()
+          append: props.model.width() - offsetGrids - draggedEntity.prePromptWidth() - draggedEntity.width(),
         })
       );
 
-      const total = entity =>
-        entity.prepend() + entity.width() + entity.append();
+      const total = entity => entity.prepend() + entity.width() + entity.append();
 
       // const _parentChildren = [...parentEntity.children()]
       /**returns true if entity path provided is firstInRow; false if not
        * * @param {array} before - Path of the current entity
        */
       const firstInRow = entityAddress => {
-        const section = address.byPath(
-          props.form,
-          entityAddress.slice(0, entityAddress.length - 1)
-        );
+        const section = address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1));
         // console.log(entityAddress )
-        const _entityAddress =
-          entityAddress.slice(
-            entityAddress.length - 1,
-            entityAddress.length + 1
-          ) - 1;
+        const _entityAddress = entityAddress.slice(entityAddress.length - 1, entityAddress.length + 1) - 1;
         var runningTotal = 0;
         // console.log(_entityAddress, section.children())
         for (var i = 0; i <= _entityAddress; ++i) {
@@ -117,21 +97,18 @@ let FormSectionComponent = props => {
 
       const restoreDonorSiblingAddress = (arr, props, draggedEntity) => {
         // get donor's parent
-        const donorParent = address.byPath(
-          props.form,
-          arr.slice(0, arr.length - 1)
-        );
+        const donorParent = address.byPath(props.form, arr.slice(0, arr.length - 1));
         console.log(arr, props, draggedEntity);
         const toLeft = arr => {
           const _toLeft = [...arr];
           console.log({
             address: _toLeft,
-            entity: address.byPath(props.form, _toLeft)
+            entity: address.byPath(props.form, _toLeft),
           });
           _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1;
           return {
             address: _toLeft,
-            entity: address.byPath(props.form, _toLeft)
+            entity: address.byPath(props.form, _toLeft),
           };
         };
         const toRight = arr => {
@@ -139,20 +116,18 @@ let FormSectionComponent = props => {
           _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1;
           return {
             address: _toRight,
-            entity: address.byPath(props.form, _toRight)
+            entity: address.byPath(props.form, _toRight),
           };
         };
-        console.log(
-          donorParent.children().length - 1 === arr[arr.length - 1] &&
-            firstInRow(arr)
-        );
+        console.log(donorParent.children().length - 1 === arr[arr.length - 1] && firstInRow(arr));
         /** if only 1 child in section or the donor entity is the last entity in section */
         if (
           donorParent.children().length === 1 ||
-          (donorParent.children().length - 1 === arr[arr.length - 1] &&
-            firstInRow(arr))
+          (donorParent.children().length - 1 === arr[arr.length - 1] && firstInRow(arr))
         ) {
           // if (donorParent.children().length === 1 || (donorParent.children().length - 1 === arr[arr.length - 1])) {
+          return false;
+        } else if (total(draggedEntity) >= donorParent.width()) {
           return false;
         } else if (firstInRow(arr)) {
           console.log('firstInRow: ', toRight(arr));
@@ -163,32 +138,29 @@ let FormSectionComponent = props => {
                 toRight(arr).entity.prepend() +
                 draggedEntity.prepend() +
                 draggedEntity.width() +
-                draggedEntity.append()
-            }
+                draggedEntity.append(),
+            },
           };
         } else {
           return {
             address: toLeft(arr).address,
             properties: {
               append:
+                // @hack
+                /**this restores the donor entity */
                 toLeft(arr).entity.append() +
+                draggedEntity.prePromptWidth() +
                 draggedEntity.prepend() +
                 draggedEntity.width() +
-                draggedEntity.append()
-            }
+                draggedEntity.append(),
+            },
           };
         }
       };
 
-      console.log(
-        restoreDonorSiblingAddress(data.address, props, draggedEntity)
-      );
+      console.log(restoreDonorSiblingAddress(data.address, props, draggedEntity));
 
-      const toBeMutatedRestore = restoreDonorSiblingAddress(
-        data.address,
-        props,
-        draggedEntity
-      );
+      const toBeMutatedRestore = restoreDonorSiblingAddress(data.address, props, draggedEntity);
 
       if (toBeMutatedRestore) {
         console.log('here');
@@ -223,24 +195,18 @@ let FormSectionComponent = props => {
       }
       // for changing prepend/append of a formsection
       if (draggedEntity.UUID() === props.model.UUID()) {
-        console.log(
-          'here dropped on FormSection, moving form section: ',
-          offsetGrids,
-          {
-            prepend: props.model.prepend() + offsetGrids,
-            append: props.model.append() - offsetGrids
-          }
-        );
+        console.log('here dropped on FormSection, moving form section: ', offsetGrids, {
+          prepend: props.model.prepend() + offsetGrids,
+          append: props.model.append() - offsetGrids,
+        });
 
         props.mutate(address.bySample(props.model, props.form), {
           prepend: props.model.prepend() + offsetGrids,
-          append: props.model.append() - offsetGrids
+          append: props.model.append() - offsetGrids,
         });
       }
       // @hack - only adds to position 0 at this point
-      const element = document.getElementById(
-        `${props.model.UUID()}.${props.model.type()}`
-      );
+      const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}`);
       // console.log(
       //   'change this: ',
       //   element.id +
@@ -254,9 +220,7 @@ let FormSectionComponent = props => {
 
   const mouseDown_handler = event => {
     event.stopPropagation();
-    document.getElementById(
-      `${props.model.UUID()}.${props.model.type()}.wrapper`
-    ).draggable = true;
+    document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`).draggable = true;
     console.log(event.target.draggable);
     console.log(event.target);
   };
@@ -276,7 +240,7 @@ let FormSectionComponent = props => {
     gridAutoRows: 'min-content',
     zIndex: '30',
     cursor: 'move',
-    borderRadius: '2px'
+    borderRadius: '2px',
     // padding: '4px',
   };
 
@@ -288,37 +252,24 @@ let FormSectionComponent = props => {
     margin: '20px 0px 0px 0px', // minHeight: '120px',
     // "maxHeight": "120px",
     zIndex: '40',
-    cursor: 'move'
+    cursor: 'move',
   };
 
   // return actual style values
   // 1. # of grid columns the CheckBox and Append will fill
-  formSectionStyle['gridColumn'] =
-    'span ' +
-    (props.model.prepend() + props.model.width() + props.model.append());
+  formSectionStyle['gridColumn'] = 'span ' + (props.model.prepend() + props.model.width() + props.model.append());
   // 2. # of grid columns within the CheckBox
   formSectionStyle['gridTemplateColumns'] =
-    'repeat(' +
-    (props.model.prepend() + props.model.width() + props.model.append()) +
-    ', [col] 1fr)';
-  const whichBackground =
-    address.bySample(props.model, props.form).length < 2
-      ? ''
-      : fsStyle.backgroundColor;
-  const maxHeight =
-    address.bySample(props.model, props.form).length < 2 ? '70vh' : '';
+    'repeat(' + (props.model.prepend() + props.model.width() + props.model.append()) + ', [col] 1fr)';
+  const whichBackground = address.bySample(props.model, props.form).length < 2 ? '' : fsStyle.backgroundColor;
+  const maxHeight = address.bySample(props.model, props.form).length < 2 ? '70vh' : '';
 
-  const minHeight =
-    address.bySample(props.model, props.form).length < 2 ? '70vh' : '0';
+  const minHeight = address.bySample(props.model, props.form).length < 2 ? '70vh' : '0';
 
   /**address of less than 2 would scrolls properly with 'auto', but it affects the integrity of the grid columns */
-  const scrollable =
-    address.bySample(props.model, props.form).length < 2
-      ? 'visible'
-      : 'visible';
+  const scrollable = address.bySample(props.model, props.form).length < 2 ? 'visible' : 'visible';
 
-  const showResizer =
-    address.bySample(props.model, props.form).length < 2 ? false : true;
+  const showResizer = address.bySample(props.model, props.form).length < 2 ? false : true;
 
   const total = entity => entity.prepend() + entity.width() + entity.append();
 
@@ -363,7 +314,7 @@ let FormSectionComponent = props => {
           backgroundColor: whichBackground,
           minHeight: minHeight,
           maxHeight: maxHeight,
-          overflowY: scrollable
+          overflowY: scrollable,
         }}
         data-action={`mover.${props.model.UUID()}.FormSection`}
         onDragStart={dragstart_handler}
@@ -378,7 +329,7 @@ let FormSectionComponent = props => {
                 remove: props.remove,
                 add: props.add,
                 mutate: props.mutate,
-                temporalStateChange: props.temporalStateChange
+                temporalStateChange: props.temporalStateChange,
               });
             })
           : null}
@@ -396,15 +347,15 @@ let FormSectionComponent = props => {
             resizeType="width"
           />
         ) : null}
-        <AddToEnd
+        {/* <AddToEnd
           model={props.model}
           form={props.form}
           add={props.add}
           remove={props.remove}
           mutate={props.mutate}
           temporalStateChange={props.temporalStateChange}
-          addToEndAction='appendToEnd'
-        />
+          addToEndAction="appendToEnd"
+        /> */}
       </div>
       {props.model.append() > 0 ? (
         <Append

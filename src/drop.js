@@ -110,12 +110,23 @@ export const drop = {
       } else if (total(draggedEntity) >= donorParent.width()) {
         return false;
       } else if (firstInRow(arr)) {
-        console.log('firstInRow: ', toRight(arr));
+        console.log('firstInRow: ', 'properties: ', {
+          prepend:
+            toRight(arr).entity.prepend() +
+            draggedEntity.prePromptWidth() +
+            draggedEntity.prepend() +
+            draggedEntity.width() +
+            draggedEntity.append(),
+        });
         return {
           address: toRight(arr).address,
           properties: {
             prepend:
-              toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append(),
+              toRight(arr).entity.prepend() +
+              draggedEntity.prePromptWidth() +
+              draggedEntity.prepend() +
+              draggedEntity.width() +
+              draggedEntity.append(),
           },
         };
       } else {
