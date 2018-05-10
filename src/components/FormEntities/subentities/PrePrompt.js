@@ -1,5 +1,6 @@
 import React from 'react';
 import Resizer from './Resizer';
+import { entityActions } from '../actions.entities';
 
 const PrePrompt = props => {
   const prePromptStyle = {
@@ -7,14 +8,20 @@ const PrePrompt = props => {
     backgroundColor: props.backgroundColor,
     padding: '4px',
     borderRadius: '2px',
-    position: 'relative'
+    position: 'relative',
   };
   console.log(props.backgroundColor);
 
   const prePromptInputStyle = { height: '20px', width: '80%' };
 
+  const mouseDown_handler = event => entityActions.mouseDown_handler(event, props);
+
   return (
-    <div style={prePromptStyle} id={`${props.model.UUID()}.prePrompt`}>
+    <div
+      style={prePromptStyle}
+      id={`${props.model.UUID()}.prePrompt`}
+      onMouseDown={mouseDown_handler} // to set intitial mouse click loc
+    >
       <input
         style={prePromptInputStyle}
         className="form-control"
