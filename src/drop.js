@@ -113,7 +113,7 @@ export const drop = {
         console.log('firstInRow: ', 'properties: ', {
           prepend:
             toRight(arr).entity.prepend() +
-            draggedEntity.prePromptWidth() +
+            (draggedEntity.prePromptWidth ? draggedEntity.prePromptWidth() : 0) +
             draggedEntity.prepend() +
             draggedEntity.width() +
             draggedEntity.append(),
@@ -123,7 +123,7 @@ export const drop = {
           properties: {
             prepend:
               toRight(arr).entity.prepend() +
-              draggedEntity.prePromptWidth() +
+              (draggedEntity.prePromptWidth ? draggedEntity.prePromptWidth() : 0) +
               draggedEntity.prepend() +
               draggedEntity.width() +
               draggedEntity.append(),
@@ -136,7 +136,7 @@ export const drop = {
             append:
               // @hack
               toLeft(arr).entity.append() +
-              draggedEntity.prePromptWidth() +
+              (draggedEntity.prePromptWidth ? draggedEntity.prePromptWidth() : 0) +
               draggedEntity.prepend() +
               draggedEntity.width() +
               draggedEntity.append(),
@@ -203,8 +203,8 @@ export const drop = {
         append:
           event.target.id === `${props.model.UUID()}.append`
             ? gridOffsetLocChange() -
-              considerModelPrompt('prePromptWidth') -
-              considerModelPrompt('postPromptWidth') -
+              (props.model.prePromptWidth ? props.model.prePromptWidth() : 0) -
+              (props.model.postPromptWidth ? props.model.postPromptWidth() : 0) -
               props.model.prepend() -
               props.model.width()
             : props.model.append(),
@@ -229,8 +229,8 @@ export const drop = {
             event.target.id === `${props.model.UUID()}.append`
               ? total(props.model) -
                 gridOffsetLocChange() -
-                considerPrompt('prePromptWidth') -
-                considerPrompt('postPromptWidth') -
+                (dropObj.sourceEntity.prePromptWidth ? dropObj.sourceEntity.prePromptWidth() : 0) -
+                (dropObj.sourceEntity.postPromptWidth ? dropObj.sourceEntity.postPromptWidth() : 0) -
                 dropObj.sourceEntity.width()
               : props.model.prepend() - dropObj.sourceEntity.width() - gridOffsetLocChange(),
           // append: 1
@@ -316,10 +316,10 @@ export const drop = {
         append:
           event.target.id === `${props.model.UUID()}.append`
             ? gridOffsetLocChange() -
-              props.model.prePromptWidth() -
+              (props.model.prePromptWidth ? props.model.prePromptWidth() : 0) -
               props.model.prepend() -
               props.model.width() -
-              dropObj.sourceEntity.prePromptWidth()
+              (dropObj.sourceEntity.prePromptWidth ? dropObj.sourceEntity.prePromptWidth() : 0)
             : props.model.append(),
       });
       /** defines the entity to be mutates - i.e. the entity that the other dragged entity is dropped on */
@@ -328,10 +328,10 @@ export const drop = {
         append:
           event.target.id === `${props.model.UUID()}.append`
             ? gridOffsetLocChange() -
-              props.model.prePromptWidth() -
+              (props.model.prePromptWidth ? props.model.prePromptWidth() : 0) -
               props.model.prepend() -
               props.model.width() -
-              dropObj.sourceEntity.prePromptWidth()
+              (dropObj.sourceEntity.prePromptWidth ? dropObj.sourceEntity.prePromptWidth() : 0)
             : props.model.append(),
       });
 
@@ -398,7 +398,7 @@ export const drop = {
       console.log(
         'YYY add: ',
         'gridOffsetLocChange(): ',
-        gridOffsetLocChange() - dropObj.sourceEntity.prePromptWidth(),
+        gridOffsetLocChange() - (dropObj.sourceEntity.prePromptWidth ? dropObj.sourceEntity.prePromptWidth() : 0),
         whereToAdd(),
         toBeAdded2
       );
