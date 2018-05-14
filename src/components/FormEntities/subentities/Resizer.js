@@ -138,7 +138,6 @@ let Resizer = props => {
             // console.log(_entityAddress, section.children())
             for (var i = 0; i <= _entityAddress; ++i) {
               console.log(section.children()[i]);
-              console.log((runningTotal += total(section.children()[i])));
               runningTotal += total(section.children()[i]);
             }
             console.log(runningTotal);
