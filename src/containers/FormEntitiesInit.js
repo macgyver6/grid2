@@ -5,14 +5,13 @@ import * as actions from '../actions/index';
 import FormComponent from '../components/FormEntities/Form';
 // import { utility } from '../utility';
 import { address } from '../address';
-import { defaultPropsFE } from '../constants/defaultPropsFE';
-import { initFE } from '../constants/defaultPropsFE';
+import { defaultPropsFE, initFE } from '../constants/defaultPropsFE';
 import { helpers } from '../helpers';
 import {
   backgroundPanelStyle,
   leftPanelStyle,
   middlePanelStyle,
-  PropertiesPanelStyle
+  PropertiesPanelStyle,
   // headerPanelStyle,
 } from '../components/layout/styles/Layout';
 import TabContainer from '../components/layout/design/TabContainer';
@@ -54,50 +53,50 @@ const BackgroundPanel = props => (
 const entityStyle = {
   padding: '6px',
   margin: '20px',
-  textAlign: 'center'
+  textAlign: 'center',
 };
 
 const selectionStyles = {
   TextInput: {
-    background: '#6C788F'
+    background: '#6C788F',
   },
 
   TextArea: {
-    background: '#205EE2'
+    background: '#205EE2',
   },
 
   CheckBox: {
-    background: '#00C5EC'
+    background: '#00C5EC',
   },
 
   SelectionInput: {
-    background: 'red'
+    background: 'red',
   },
 
   FormSection: {
-    background: '#f3ea5f'
+    background: '#f3ea5f',
   },
   TextBlock: {
-    background: 'purple'
+    background: 'purple',
   },
   ImageBlock: {
-    background: 'brown'
+    background: 'brown',
   },
   ASInput: {
-    background: 'green'
+    background: 'green',
   },
   Echo: {
-    background: 'orange'
+    background: 'orange',
   },
   CDSTextInput: {
-    background: 'blue'
+    background: 'blue',
   },
   Remove: {
-    background: '#ff5f56'
-  }
+    background: '#ff5f56',
+  },
 };
 
-let entityTypes = [
+const entityTypes = [
   'FormSection',
   'CheckBox',
   'TextArea',
@@ -107,21 +106,21 @@ let entityTypes = [
   'ImageBlock',
   'ASInput',
   'Echo',
-  'CDSTextInput'
+  'CDSTextInput',
 ];
 
-let dragover_handler = event => {
+const dragover_handler = event => {
   event.preventDefault();
 };
 
-let dragleave_handler = event => {
+const dragleave_handler = event => {
   event.preventDefault();
 };
 
 const DeleteBtn = props => {
-  let drop_handler = event => {
+  const drop_handler = event => {
     console.log(event.dataTransfer.getData('address'));
-    let data = JSON.parse(event.dataTransfer.getData('address'));
+    const data = JSON.parse(event.dataTransfer.getData('address'));
     const draggedEntity = address.byPath(props.form, data.address);
 
     /* Begin */
@@ -129,46 +128,36 @@ const DeleteBtn = props => {
     const total = entity => entity.prepend() + entity.width() + entity.append();
 
     // const _parentChildren = [...parentEntity.children()]
-    /**returns true if entity path provided is firstInRow; false if not
+    /** returns true if entity path provided is firstInRow; false if not
      * * @param {array} before - Path of the current entity
      */
     const firstInRow = entityAddress => {
-      const section = address.byPath(
-        props.form,
-        entityAddress.slice(0, entityAddress.length - 1)
-      );
+      const section = address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1));
       // console.log(entityAddress )
-      const _entityAddress =
-        entityAddress.slice(
-          entityAddress.length - 1,
-          entityAddress.length + 1
-        ) - 1;
-      var runningTotal = 0;
+      const _entityAddress = entityAddress.slice(entityAddress.length - 1, entityAddress.length + 1) - 1;
+      let runningTotal = 0;
       // console.log(_entityAddress, section.children())
-      for (var i = 0; i <= _entityAddress; ++i) {
+      for (let i = 0; i <= _entityAddress; ++i) {
         // console.log(section)
         runningTotal += total(section.children()[i]);
       }
-      return runningTotal % section.width() === 0 ? true : false;
+      return runningTotal % section.width() === 0;
     };
 
     const restoreDonorSiblingAddress = (arr, props, draggedEntity) => {
       // get donor's parent
-      const donorParent = address.byPath(
-        props.form,
-        arr.slice(0, arr.length - 1)
-      );
+      const donorParent = address.byPath(props.form, arr.slice(0, arr.length - 1));
       console.log(arr, props, draggedEntity);
       const toLeft = arr => {
         const _toLeft = [...arr];
         console.log({
           address: _toLeft,
-          entity: address.byPath(props.form, _toLeft)
+          entity: address.byPath(props.form, _toLeft),
         });
         _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1;
         return {
           address: _toLeft,
-          entity: address.byPath(props.form, _toLeft)
+          entity: address.byPath(props.form, _toLeft),
         };
       };
       const toRight = arr => {
@@ -176,7 +165,7 @@ const DeleteBtn = props => {
         _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1;
         return {
           address: _toRight,
-          entity: address.byPath(props.form, _toRight)
+          entity: address.byPath(props.form, _toRight),
         };
       };
       // console.log(
@@ -186,8 +175,7 @@ const DeleteBtn = props => {
       /** if only 1 child in section or the donor entity is the last entity in section */
       if (
         donorParent.children().length === 1 ||
-        (donorParent.children().length - 1 === arr[arr.length - 1] &&
-          firstInRow(arr))
+        (donorParent.children().length - 1 === arr[arr.length - 1] && firstInRow(arr))
       ) {
         // if (donorParent.children().length === 1 || (donorParent.children().length - 1 === arr[arr.length - 1])) {
         return false;
@@ -197,46 +185,30 @@ const DeleteBtn = props => {
           address: toRight(arr).address,
           properties: {
             prepend:
-              toRight(arr).entity.prepend() +
-              draggedEntity.prepend() +
-              draggedEntity.width() +
-              draggedEntity.append()
-          }
-        };
-      } else {
-        return {
-          address: toLeft(arr).address,
-          properties: {
-            append:
-              toLeft(arr).entity.append() +
-              draggedEntity.prepend() +
-              draggedEntity.width() +
-              draggedEntity.append()
-          }
+              toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append(),
+          },
         };
       }
+      return {
+        address: toLeft(arr).address,
+        properties: {
+          append:
+            toLeft(arr).entity.append() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append(),
+        },
+      };
     };
 
     /* End */
-    const toBeMutatedRestore = restoreDonorSiblingAddress(
-      data.address,
-      props,
-      draggedEntity
-    );
+    const toBeMutatedRestore = restoreDonorSiblingAddress(data.address, props, draggedEntity);
 
     if (toBeMutatedRestore) {
       props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties);
     }
 
-    console.log(
-      'remove entity at this address: ',
-      data.address,
-      address.byPath(props.form, data.address)
-    );
+    console.log('remove entity at this address: ', data.address, address.byPath(props.form, data.address));
     console.log(JSON.parse(event.dataTransfer.getData('address')).address);
     props.remove(data.address);
-    const currentTab = JSON.parse(event.dataTransfer.getData('address'))
-      .address;
+    const currentTab = JSON.parse(event.dataTransfer.getData('address')).address;
     console.log(currentTab[0]);
 
     if (currentTab.length === 1) {
@@ -245,22 +217,12 @@ const DeleteBtn = props => {
           console.log('here');
           return 0;
         }
-        if (
-          props.activeTab === currentTab[0] &&
-          props.form.children().length - 1 !== currentTab[0]
-        ) {
+        if (props.activeTab === currentTab[0] && props.form.children().length - 1 !== currentTab[0]) {
           console.log('here');
           return props.form.children().length;
         }
-        console.log(
-          props.activeTab,
-          currentTab[0],
-          props.form.children().length - 1
-        );
-        if (
-          props.activeTab === currentTab[0] &&
-          props.form.children().length - 1 === currentTab[0]
-        ) {
+        console.log(props.activeTab, currentTab[0], props.form.children().length - 1);
+        if (props.activeTab === currentTab[0] && props.form.children().length - 1 === currentTab[0]) {
           console.log('here');
           return props.form.children().length - 1;
         }
@@ -294,12 +256,7 @@ const DeleteBtn = props => {
 const LeftPanel = props => {
   const dragstart_handler = event => {
     console.log(event.target.dataset.type, initFE[event.target.dataset.type]);
-    helpers.dragStart_handler(
-      event,
-      initFE[event.target.dataset.type],
-      props.form,
-      'addEntity'
-    );
+    helpers.dragStart_handler(event, initFE[event.target.dataset.type], props.form, 'addEntity');
 
     // event.dataTransfer.setData("text/plain",
     //   JSON.stringify({
@@ -315,14 +272,12 @@ const LeftPanel = props => {
     // test.style.border = '2px solid red';
     // document.body.appendChild(test);
     // event.dataTransfer.setDragImage(test, 0, 0)
-    let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8;
+    const bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8;
     console.log(bgrndGrdWidth);
     const type = event.target.dataset.type;
     const div = document.createElement('div');
     div.id = 'dmg';
-    div.style.width = `${calcTotalAdd(address.resurrectEntity(initFE[type])) *
-      bgrndGrdWidth -
-      12}px`; //  gets the total with of the default entity minus the append and prepend widths. Note subtracting 12 accounts for the gap
+    div.style.width = `${calcTotalAdd(address.resurrectEntity(initFE[type])) * bgrndGrdWidth - 12}px`; //  gets the total with of the default entity minus the append and prepend widths. Note subtracting 12 accounts for the gap
     div.style.height = '40px';
     div.style.backgroundColor = initFE[type].render.backgroundColor;
     div.style.position = 'fixed';
@@ -345,56 +300,48 @@ const LeftPanel = props => {
 
   return (
     <div style={leftPanelStyle} form={props.form}>
-      {entityTypes.map((entity, index) => {
-        return (
-          <div
-            key={index}
-            draggable="true"
-            form={props.form}
-            onDragStart={dragstart_handler}
-            style={{
-              ...entityStyle,
-              backgroundColor: selectionStyles[entity].background
-            }}
-            data-type={entity}
-          >
-            <p>{entity}</p>
-          </div>
-        );
-      })}
-      <DeleteBtn
-        form={props.form}
-        remove={props.remove}
-        mutate={props.mutate}
-      />
+      {entityTypes.map((entity, index) => (
+        <div
+          key={index}
+          draggable="true"
+          form={props.form}
+          onDragStart={dragstart_handler}
+          style={{
+            ...entityStyle,
+            backgroundColor: selectionStyles[entity].background,
+          }}
+          data-type={entity}
+        >
+          <p>{entity}</p>
+        </div>
+      ))}
+      <DeleteBtn form={props.form} remove={props.remove} mutate={props.mutate} />
     </div>
   );
 };
 
-const MiddlePanel = props => {
-  return (
-    <div style={middlePanelStyle}>
-      <TabContainer
-        form={props.form}
-        add={props.add}
-        remove={props.remove}
-        mutate={props.mutate}
-        formmutate={props.formmutate}
-        changetab={props.changetab}
-        activeTab={props.activeTab}
-      />
-      <FormComponent
-        form={props.form}
-        remove={props.remove}
-        add={props.add}
-        mutate={props.mutate}
-        activeTab={props.activeTab}
-        temporalStateChange={props.temporalStateChange}
-        mutate={props.mutate}
-      />
-    </div>
-  );
-};
+const MiddlePanel = props => (
+  <div style={middlePanelStyle}>
+    <TabContainer
+      form={props.form}
+      add={props.add}
+      remove={props.remove}
+      mutate={props.mutate}
+      formmutate={props.formmutate}
+      changetab={props.changetab}
+      activeTab={props.activeTab}
+    />
+    <FormComponent
+      form={props.form}
+      remove={props.remove}
+      add={props.add}
+      mutate={props.mutate}
+      activeTab={props.activeTab}
+      temporalStateChange={props.temporalStateChange}
+      mutate={props.mutate}
+    />
+  </div>
+);
 
 class FormEntityInit extends Component {
   constructor(props) {
@@ -422,8 +369,6 @@ class FormEntityInit extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return { store: state };
-};
+const mapStateToProps = state => ({ store: state });
 FormEntityInit = connect(mapStateToProps, actions)(FormEntityInit);
 export default FormEntityInit;

@@ -4,7 +4,7 @@ import { utility } from './val.utility';
 import { validations } from './val.suite';
 // const form = new Form(defaultPropsFE.Form);
 
-const types = ['Form', 'FormSection', 'TextInput'];
+const types = ['TextInput'];
 // const types = ['Form', 'FormSection', 'TextInput', 'TextArea', 'CheckBox'];
 
 /**
@@ -13,22 +13,14 @@ const types = ['Form', 'FormSection', 'TextInput'];
  * @returns {Array{}} A flattened array of the result of all of the tests applied against that form
  * @returns {Boolean} A Boolea of the result of all of the tests applied against that form
  */
-export const validateForm = form => {
-  let result = {
-    result: utility.flatten(
-      types.map(type =>
-        utility
-          .findAll(form, e => e.type() === type)
-          .map(entity =>
-            Object.keys(validations[type]).map(fn =>
-              validations[type][fn](entity)
-            )
-          )
-      )
-    ),
+export const validateForm = form =>
+  utility.flatten(
+    types.map(type =>
+      utility
+        .findAll(form, e => e.type() === type)
+        .map(entity => Object.keys(validations[type]).map(fn => validations[type][fn](entity)))
+    )
+  );
 
-    validateImport: () => result.result.filter(e => e !== undefined),
-    validateFormState: () => result.result.every(e => e === undefined),
-  };
-  return result;
-};
+export const validateImport = form => validateForm(form).filter(e => e !== undefined);
+export const validateFormState = form => validateForm(form).every(e => e === undefined);
