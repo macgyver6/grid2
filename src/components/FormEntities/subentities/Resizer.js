@@ -100,6 +100,7 @@ let Resizer = props => {
         console.log(`changing ${props.model.UUID()}.${props.model.type()}color to 'lightgreen`);
         console.log('resize check which type');
       } else if (locEntity[1].type() === 'FormSection') {
+        /** resize FormSection with NO children */
         if (locEntity[1].children().length === 0) {
           props.mutate(locEntity[0], {
             [resize.target]: resize.init_grids + resize.grids,
@@ -114,7 +115,7 @@ let Resizer = props => {
             entity.width() +
             entity.append() +
             (entity.postPromptWidth ? entity.postPromptWidth() : 0);
-          const section2 = address.byPath(props.form, [0, 0]);
+          const section2 = address.byPath(props.form, address.bySample(props.model, props.form));
           resize.init_children = section2.children();
 
           const lastInRow = entityAddress => {
@@ -149,14 +150,11 @@ let Resizer = props => {
               })
             );
 
-          const lastEntitiesInRow = address
-            .byPath(props.form, [0, 0])
-            .children()
-            .map((child, index) => {
-              console.log(lastInRow(address.bySample(child, props.form)) ? functionToMutateChildAppend(child) : null);
-              // console.log(lastInRow(address.bySample(child, props.form)) ? functionToMutateChildAppend(child) : child);
-              return lastInRow(address.bySample(child, props.form)) ? functionToMutateChildAppend(child) : child;
-            });
+          const lastEntitiesInRow = props.model.children().map((child, index) => {
+            console.log(lastInRow(address.bySample(child, props.form)) ? functionToMutateChildAppend(child) : null);
+            // console.log(lastInRow(address.bySample(child, props.form)) ? functionToMutateChildAppend(child) : child);
+            return lastInRow(address.bySample(child, props.form)) ? functionToMutateChildAppend(child) : child;
+          });
           resize.init_lastEntitiesInRow = lastEntitiesInRow;
           console.log(lastEntitiesInRow);
           // const modifiedChildren = lastEntitiesInRow.map((entity, index) =>
@@ -171,7 +169,7 @@ let Resizer = props => {
           // eventually reimplement this
 
           props.mutate(
-            [0, 0],
+            address.bySample(props.model, props.form),
             Object.assign({}, section2.properties(), {
               width: resize.init_grids + resize.grids,
               children: lastEntitiesInRow,
