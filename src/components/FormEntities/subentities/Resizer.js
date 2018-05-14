@@ -175,6 +175,7 @@ let Resizer = props => {
             Object.assign({}, section2.properties(), {
               width: resize.init_grids + resize.grids,
               children: lastEntitiesInRow,
+              append: resize.init_append - resize.grids,
             })
           );
           /*
