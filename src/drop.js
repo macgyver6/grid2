@@ -398,7 +398,7 @@ export const drop = {
       console.log(
         'YYY add: ',
         'gridOffsetLocChange(): ',
-        gridOffsetLocChange() - dropObj.sourceEntity.prePromptWidth(),
+        gridOffsetLocChange() - (dropObj.sourceEntity.prePromptWidth ? dropObj.sourceEntity.prePromptWidth() : 0),
         whereToAdd(),
         toBeAdded2
       );

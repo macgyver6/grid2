@@ -11,11 +11,12 @@ import Expand from '../assets/expand.js';
 import { calcTotal } from '../components/FormEntities/feStyles';
 
 export const TextInputProperty = props => {
-  const change_handler = event => props.mutate(address.bySample(props.model, props.form), {
-      [event.target.id]: event.target.value
+  const change_handler = event =>
+    props.mutate(address.bySample(props.model, props.form), {
+      [event.target.id]: event.target.value,
     });
 
-  const validationSelector_handler = event => 
+  const validationSelector_handler = event =>
     // return {
     //   validations: {
     //     ...props.model.validations(),
@@ -23,13 +24,12 @@ export const TextInputProperty = props => {
     //   }
     // };
 
-     props.mutate(address.bySample(props.model, props.form), {
+    props.mutate(address.bySample(props.model, props.form), {
       validations: {
         ...props.model.validations(),
-        [event.target.id]: event.target.value
-      }
-    })
-  ;
+        [event.target.id]: event.target.value,
+      },
+    });
 
   const collapse_handler = event => {
     props.temporalStateChange({
@@ -55,7 +55,8 @@ export const TextInputProperty = props => {
       <h1 style={{ marginBottom: '0px' }}>Text Input</h1>
       <p style={{ fontSize: 8, margin: '0px' }}>{props.model.UUID()}</p>
       <p style={{ fontSize: 8, margin: '0px 0px 4px 0px' }}>
-        Total width: {calcTotal(props.model)} Width: {props.model.width()}
+        Total width: {calcTotal(props.model)} PrePend: {props.model.prePrompt()} Width: {props.model.width()} Append:{' '}
+        {props.model.append()}
       </p>
       <Tabs>
         <TabList>

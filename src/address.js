@@ -52,9 +52,7 @@ export const address = {
     }
 
     if (node.children) {
-      return node.children().reduce((acc, child, index) => {
-        return acc || address.bySample(target, child, [...path, index]);
-      }, null);
+      return node.children().reduce((acc, child, index) => acc || address.bySample(target, child, [...path, index]), null);
     }
 
     return null;
@@ -66,9 +64,7 @@ export const address = {
     }
 
     if (node.children) {
-      return node.children().reduce((acc, child, index) => {
-        return acc || address.byUuid(uuid, child, [...path, index]);
-      }, null);
+      return node.children().reduce((acc, child, index) => acc || address.byUuid(uuid, child, [...path, index]), null);
     }
 
     return null;
@@ -169,58 +165,54 @@ export const address = {
 
   resurrectEntity: formEntitySerialized => {
     // @hack
-    console.log(formEntitySerialized);
-    switch (
-      formEntitySerialized.type ||
-        formEntitySerialized._type ||
-        formEntitySerialized.type()
-    ) {
+    console.log('formEntitySerialized: ', formEntitySerialized);
+    switch (formEntitySerialized.type || formEntitySerialized._type || formEntitySerialized.type()) {
       case 'Form':
         return new Form({
-          ...formEntitySerialized
+          ...formEntitySerialized,
         });
       case 'FormSection':
         return new FormSection({
-          ...formEntitySerialized
+          ...formEntitySerialized,
         });
       case 'CDSTextInput':
         return new CDSTextInput({
-          ...formEntitySerialized
+          ...formEntitySerialized,
         });
       case 'TextInput':
         return new TextInput({
-          ...formEntitySerialized
+          ...formEntitySerialized,
         });
       case 'TextArea':
         return new TextArea({
-          ...formEntitySerialized
+          ...formEntitySerialized,
         });
       case 'CheckBox':
         return new CheckBox({
-          ...formEntitySerialized
+          ...formEntitySerialized,
         });
-          case 'SelectionInput':
+      case 'SelectionInput':
         return new SelectionInput({
-          ...formEntitySerialized
+          ...formEntitySerialized,
         });
       case 'TextBlock':
         return new TextBlock({
-          ...formEntitySerialized
+          ...formEntitySerialized,
         });
       case 'ImageBlock':
         return new ImageBlock({
-          ...formEntitySerialized
+          ...formEntitySerialized,
         });
       case 'AdverseEvent':
         return new AdverseEventInput({
-          ...formEntitySerialized
+          ...formEntitySerialized,
         });
       case 'Echo':
         return new EchoInput({
-          ...formEntitySerialized
+          ...formEntitySerialized,
         });
       default:
         throw new Error('Unexpected Entity Type');
     }
-  }
+  },
 };

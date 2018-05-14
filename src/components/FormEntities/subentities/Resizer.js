@@ -5,9 +5,7 @@ import { defaultPropsFE } from '../../../constants/defaultPropsFE';
 import { initFE } from '../../../constants/defaultPropsFE';
 // import { helpers } from '../../../helpers';
 
-const round = (value, decimals) => {
-  return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
-};
+const round = (value, decimals) => Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 
 const resizeStyle = {
   width: '20px',
@@ -17,7 +15,7 @@ const resizeStyle = {
   right: 4,
   bottom: 4,
   cursor: 'w-resize',
-  borderRadius: '2px'
+  borderRadius: '2px',
 };
 
 let Resizer = props => {
@@ -32,19 +30,17 @@ let Resizer = props => {
     changed: null,
     grids: null,
     reset: null,
-    target: null
+    target: null,
   };
 
   let mouseDown_handler = event => {
     event.stopPropagation();
     // console.log('mouseDown: ', event.clientX)
     resize.mouseMoveStartX = event.clientX;
-    console.log(event.target)
+    console.log(event.target);
     resize.target = event.target.id;
     console.log(event.target);
-    const element = document.getElementById(
-      `${props.model.UUID()}.${props.model.type()}.wrapper`
-    );
+    const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`);
     element.addEventListener('mousemove', mouseMove_handler);
     element.addEventListener('mouseup', mouseUp_handler);
     // event.dataTransfer.setData("address", JSON.stringify({
@@ -71,6 +67,10 @@ let Resizer = props => {
       resize.init_append = props.model.append();
     }
     let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8;
+    /**
+     * returns number of grids moved
+     *
+     */
     const grid = () => {
       var calc = event.pageX - resize.mouseMoveStartX;
       if (calc > 0) {
@@ -79,248 +79,107 @@ let Resizer = props => {
         return round(calc / bgrndGrdWidth, 0);
       }
     };
-
+    /** if the move has moved at least 1 grid's worth
+     *  && if the mouse actually moves
+     */
     if (resize.grids !== grid() && event.pageX !== 0) {
       resize.grids = grid();
-      // if (!can_resize(minWidth, maxWidth)) {
-      if (!true) {
-        resize.reset = null;
-        document.getElementById(
-          `${props.model.UUID()}.${props.model.type()}`
-        ).style.backgroundColor =
-          'red';
-        //  let timer =  setTimeout(function () {
-        //     resize.reset != null ? mutate2(locEntity, props) : null
-        //     }, 600)
-      } else {
-        // document.getElementById(
-        //   `${props.model.UUID()}.${props.model.type()}`
-        // ).style.backgroundColor =
-        //   'lightgreen';
-        console.log(
-          `changing ${props.model.UUID()}.${props.model.type()}color to 'lightgreen`
-        );
-        console.log('resize check which type');
-        if (locEntity[1].type() === 'FormSection') {
-          console.log('resize FormSection');
-          resize.init_children === null
-            ? (resize.init_children = locEntity[1].children())
-            : null;
 
-          // map through children starting here
-          if (locEntity[1].children().length > 0) {
-            const total = (
-              prePromptWidth,
-              prepend,
-              width,
-              append,
-              postPromptWidth
-            ) => prePromptWidth + prepend + width + append + postPromptWidth;
-            const _children = resize.init_children.map(child => {
-              return Object.assign({}, child.properties(), {
-                total: total(
-                  child.prePromptWidth(),
-                  child.prepend(),
-                  child.width(),
-                  child.append(),
-                  child.postPromptWidth()
-                ),
-                row: null,
-                index: null
-              });
-            });
-            const sectionWidth = resize.init_grids + grid();
+      console.log('mutate single entity: ', locEntity[0], {
+        width: resize.init_grids + resize.grids,
+        append: resize.init_append - resize.grids,
+      });
 
-            var counter = 0;
-            const reducer = (accumulator, currentValue, currentIndex) => {
-              if (!Array.isArray(accumulator)) {
-                accumulator = [].concat(accumulator);
-              }
-              if (accumulator)
-                if (_children.length - 1 === currentIndex) {
-                  // return last entity in section
-
-                  const occupiedColumnsInRow = (entities, prop) => {
-                    return entities.reduce((a, b) => {
-                      // console.log(a, b)
-                      if (b.row === _children[_children.length - 1].row) {
-                        return a + b[prop];
-                      } else {
-                        return a;
-                      }
-                    }, 0);
-                  };
-                  const lastEntityToAdd = {
-                    append:
-                      _children[currentIndex].append +
-                      (sectionWidth - occupiedColumnsInRow(_children, 'total'))
-                  };
-                  if (
-                    total(
-                      accumulator[accumulator.length - 1].prePromptWidth,
-                      accumulator[accumulator.length - 1].prepend,
-                      accumulator[accumulator.length - 1].width,
-                      accumulator[accumulator.length - 1].append,
-                      accumulator[accumulator.length - 1].postPromptWidth
-                    ) +
-                      total(
-                        _children[_children.length - 1].prepend,
-                        accumulator[accumulator.length - 1].width,
-                        lastEntityToAdd
-                      ) >
-                    sectionWidth
-                  ) {
-                    counter++;
-                    console.log('last and cant add new row: ');
-                    accumulator[accumulator.length] = Object.assign(
-                      {},
-                      _children[currentIndex],
-                      { index: 0, row: counter }
-                    );
-                    return accumulator;
-                  } else {
-                    accumulator[accumulator.length] = Object.assign(
-                      {},
-                      _children[currentIndex],
-                      {
-                        append:
-                          _children[currentIndex].append +
-                          (sectionWidth -
-                            occupiedColumnsInRow(_children, 'total'))
-                      }
-                    );
-                    return accumulator;
-                  }
-                }
-              // return sum of each entity < section.width
-              if (
-                total(
-                  accumulator[accumulator.length - 1].prePromptWidth,
-                  accumulator[accumulator.length - 1].prepend,
-                  accumulator[accumulator.length - 1].width,
-                  accumulator[accumulator.length - 1].append,
-                  accumulator[accumulator.length - 1].postPromptWidth
-                ) +
-                  total(
-                    _children[currentIndex].prePromptWidth,
-                    _children[currentIndex].prepend,
-                    _children[currentIndex].width,
-                    _children[currentIndex].append,
-                    _children[currentIndex].postPromptWidth
-                  ) <=
-                sectionWidth
-              ) {
-                accumulator[accumulator.length - 1] = Object.assign(
-                  {},
-                  _children[currentIndex - 1],
-                  { index: 0, row: counter }
-                );
-
-                accumulator[accumulator.length] = Object.assign(
-                  {},
-                  _children[currentIndex],
-                  {
-                    index: currentIndex - 1,
-                    row: counter
-                  }
-                );
-                return accumulator;
-              } else {
-                counter++;
-                console.log('no');
-                console.log('counter: ', counter);
-
-                const occupiedColumnsInRow = (entities, prop) => {
-                  return entities.reduce((a, b) => {
-                    if (b.row === accumulator[accumulator.length - 1].row) {
-                      return a + b[prop];
-                    } else {
-                      return a;
-                    }
-                  }, 0);
-                };
-
-                accumulator[accumulator.length - 1] = Object.assign(
-                  {},
-                  accumulator[accumulator.length - 1],
-                  {
-                    total:
-                      total(
-                        accumulator[accumulator.length - 1].prePromptWidth,
-                        accumulator[accumulator.length - 1].prepend,
-                        accumulator[accumulator.length - 1].width,
-                        accumulator[accumulator.length - 1].append,
-                        accumulator[accumulator.length - 1].postPromptWidth
-                      ) +
-                      (sectionWidth -
-                        occupiedColumnsInRow(accumulator, 'total')),
-                    index: accumulator.length - 2 + 1,
-                    row: counter - 1
-                  }
-                );
-
-                accumulator[accumulator.length] = {
-                  total: total(
-                    _children[currentIndex].prePromptWidth,
-                    _children[currentIndex].prepend,
-                    _children[currentIndex].width,
-                    _children[currentIndex].append,
-                    _children[currentIndex].postPromptWidth
-                  ),
-                  index: 0,
-                  row: counter
-                };
-                return accumulator;
-              }
-            };
-            const updatedChildren = _children.reduce(reducer);
-            console.log(updatedChildren);
-
-            // map through children finishing here
-            // console.log(resize.init_children[0].UUID(), Object.assign({}, resize.init_children[0], { append: resize.init_children[0].append() + resize.grids }))
-            console.log(
-              resize.init_children[0].prepend(),
-              locEntity[1].setChildren([
-                address.resurrectEntity(
-                  Object.assign({}, resize.init_children[0].properties(), {
-                    append: resize.init_children[0].append() + resize.grids
-                  })
-                )
-              ])
-            );
-
-            props.mutate(locEntity[0], {
-              width: resize.init_grids + resize.grids,
-              append: resize.init_append - resize.grids,
-              children:
-                props.model.children().length === 1
-                  ? [
-                      address.resurrectEntity(
-                        Object.assign(
-                          {},
-                          resize.init_children[0].properties(),
-                          {
-                            append:
-                              resize.init_children[0].append() + resize.grids
-                          }
-                        )
-                      )
-                    ]
-                  : updatedChildren.map(child =>
-                      address.resurrectEntity(child, props.form)
-                    )
-            });
-            console.log(updatedChildren);
-          }
-        }
-        console.log('resize entity other than FormSection: ', locEntity[0], {
-          width: resize.init_grids + resize.grids,
-          append: resize.init_append - resize.grids
-        });
+      if (locEntity[1].type() !== 'FormSection') {
+        /** mutate single entity, including formsection */
         props.mutate(locEntity[0], {
           [resize.target]: resize.init_grids + resize.grids,
-          append: resize.init_append - resize.grids
+          append: resize.init_append - resize.grids,
         });
+
+        console.log(`changing ${props.model.UUID()}.${props.model.type()}color to 'lightgreen`);
+        console.log('resize check which type');
+      } else if (locEntity[1].type() === 'FormSection') {
+        if (locEntity[1].children().length === 0) {
+          props.mutate(locEntity[0], {
+            [resize.target]: resize.init_grids + resize.grids,
+            append: resize.init_append - resize.grids,
+          });
+        } else {
+          /** resize FormSection with children */
+          console.log('resize FormSection with children');
+          const total = entity =>
+            (entity.prePromptWidth ? entity.prePromptWidth() : 0) +
+            entity.prepend() +
+            entity.width() +
+            entity.append() +
+            (entity.postPromptWidth ? entity.postPromptWidth() : 0);
+          const section2 = address.byPath(props.form, [0, 0]);
+          resize.init_children = section2.children();
+
+          const lastInRow = entityAddress => {
+            const section = address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1));
+            console.log(
+              address.byPath(props.form, entityAddress),
+              address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1))
+            );
+            const _entityAddress = entityAddress[entityAddress.length - 1];
+            console.log(_entityAddress);
+
+            const entity = address.byPath(props.form, entityAddress);
+            console.log(entity, total(entity), entityAddress[entityAddress.length - 1]);
+            if (entityAddress[entityAddress.length - 1] === 0 && total(entity) !== 24) {
+              return false;
+            }
+            var runningTotal = 0;
+            // console.log(_entityAddress, section.children())
+            for (var i = 0; i <= _entityAddress; ++i) {
+              console.log(section.children()[i]);
+              console.log((runningTotal += total(section.children()[i])));
+              runningTotal += total(section.children()[i]);
+            }
+            console.log(runningTotal);
+            return runningTotal % section.width() === 0 ? true : false;
+          };
+          console.log(resize.grids, resize.init_children[0].append());
+          const functionToMutateChildAppend = entity =>
+            address.resurrectEntity(
+              Object.assign({}, entity.properties(), {
+                append: entity.append() + resize.grids,
+              })
+            );
+
+          const lastEntitiesInRow = address
+            .byPath(props.form, [0, 0])
+            .children()
+            .map((child, index) => {
+              console.log(lastInRow(address.bySample(child, props.form)) ? functionToMutateChildAppend(child) : null);
+              // console.log(lastInRow(address.bySample(child, props.form)) ? functionToMutateChildAppend(child) : child);
+              return lastInRow(address.bySample(child, props.form)) ? functionToMutateChildAppend(child) : child;
+            });
+          resize.init_lastEntitiesInRow = lastEntitiesInRow;
+          console.log(lastEntitiesInRow);
+          // const modifiedChildren = lastEntitiesInRow.map((entity, index) =>
+          //   address.resurrectEntity(
+          //     Object.assign({}, entity.properties(), {
+          //       append: resize.init_lastEntitiesInRow[index].append() + resize.grids,
+          //     })
+          //   )
+          // );
+          // console.log(modifiedChildren.map(child => child)); // this is the array of mutated entities
+
+          // eventually reimplement this
+
+          props.mutate(
+            [0, 0],
+            Object.assign({}, section2.properties(), {
+              width: resize.init_grids + resize.grids,
+              children: lastEntitiesInRow,
+            })
+          );
+          /*
+          */
+        }
       }
     }
   };
@@ -330,14 +189,10 @@ let Resizer = props => {
     resize.mouseMoveEndX = event.clientX;
     console.log('mouseUp: ', resize);
 
-    const wrapperElement = document.getElementById(
-      `${props.model.UUID()}.${props.model.type()}.wrapper`
-    );
+    const wrapperElement = document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`);
     wrapperElement.removeEventListener('mousemove', mouseMove_handler);
     wrapperElement.removeEventListener('mouseup', mouseUp_handler);
-    const entityToChangeColor = document.getElementById(
-      `${props.model.UUID()}.${props.model.type()}`
-    );
+    const entityToChangeColor = document.getElementById(`${props.model.UUID()}.${props.model.type()}`);
     // setTimeout(function () { element.style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor }, 120);
     // console.log(
     //   'change this: ',
