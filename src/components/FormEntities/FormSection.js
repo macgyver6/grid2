@@ -55,7 +55,10 @@ let FormSectionComponent = props => {
           prepend: offsetGrids,
           append:
             props.model.width() -
-            (offsetGrids + data.model.width + considerPrompt('prePromptWidth') + considerPrompt('postPromptWidth')),
+            (offsetGrids +
+              data.model.width +
+              (data.model.prePromptWidth ? data.model.prePromptWidth : 0) +
+              (data.model.postPromptWidth ? data.model.postPromptWidth : 0)),
         })
       );
       console.log('here: ', data.model);
@@ -72,7 +75,11 @@ let FormSectionComponent = props => {
       let entityToAdd = address.resurrectEntity(
         Object.assign({}, draggedEntity.properties(), {
           prepend: offsetGrids,
-          append: props.model.width() - offsetGrids - draggedEntity.prePromptWidth() - draggedEntity.width(),
+          append:
+            props.model.width() -
+            offsetGrids -
+            (draggedEntity.prePromptWidth ? draggedEntity.prePromptWidth() : 0) -
+            draggedEntity.width(),
         })
       );
 
@@ -149,7 +156,7 @@ let FormSectionComponent = props => {
                 // @hack
                 /**this restores the donor entity */
                 toLeft(arr).entity.append() +
-                draggedEntity.prePromptWidth() +
+                (draggedEntity.prePromptWidth ? draggedEntity.prePromptWidth() : 0) +
                 draggedEntity.prepend() +
                 draggedEntity.width() +
                 draggedEntity.append(),
