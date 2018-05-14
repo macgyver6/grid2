@@ -7,6 +7,7 @@ import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 import { helpers } from '../../helpers';
+import { entityActions } from './actions.entities';
 
 let FormSectionComponent = props => {
   const round = (value, decimals) => Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
@@ -225,6 +226,8 @@ let FormSectionComponent = props => {
     }
   };
 
+  let drop_handler2 = event => entityActions.drop_handler(event, props);
+
   const mouseDown_handler = event => {
     event.stopPropagation();
     document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`).draggable = true;
@@ -296,7 +299,7 @@ let FormSectionComponent = props => {
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       className="FS"
       style={formSectionStyle}
-      onDrop={drop_handler}
+      onDrop={drop_handler2}
       onDragOver={
         dragOver_handler // adding a new entity to section
       }
@@ -325,6 +328,7 @@ let FormSectionComponent = props => {
         }}
         data-action={`mover.${props.model.UUID()}.FormSection`}
         onDragStart={dragstart_handler}
+        onDrop={drop_handler}
       >
         {props.model.type() === 'FormSection'
           ? props.model.children().map((element, i) => {
