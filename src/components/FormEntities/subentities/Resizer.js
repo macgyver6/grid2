@@ -117,6 +117,7 @@ let Resizer = props => {
             (entity.postPromptWidth ? entity.postPromptWidth() : 0);
           const section2 = address.byPath(props.form, address.bySample(props.model, props.form));
           resize.init_children = section2.children();
+          console.log(section2);
 
           const lastInRow = entityAddress => {
             const section = address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1));
@@ -129,7 +130,8 @@ let Resizer = props => {
 
             const entity = address.byPath(props.form, entityAddress);
             console.log(entity, total(entity), entityAddress[entityAddress.length - 1]);
-            if (entityAddress[entityAddress.length - 1] === 0 && total(entity) !== 24) {
+            console.log(total(props.model));
+            if (entityAddress[entityAddress.length - 1] === 0 && total(entity) !== props.model.width()) {
               return false;
             }
             var runningTotal = 0;
