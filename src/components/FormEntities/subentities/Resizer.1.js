@@ -50,7 +50,7 @@ let Resizer = props => {
     // helpers.dragStart_handler(event, props.model, props.form, 'resize')
   };
 
-  let dragstart_handler = event => {
+  const dragstart_handler = event => {
     event.stopPropagation();
     event.preventDefault();
   };

@@ -12,14 +12,14 @@ import { entityActions } from './actions.entities';
 let FormSectionComponent = props => {
   const round = (value, decimals) => Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 
-  let dragstart_handler = event => {
+  const dragstart_handler = event => {
     // event.stopPropagation();
     helpers.dragStart_handler(event, props.model, props.form, 'move');
     console.log('FS DragStart');
   };
   let data = '';
 
-  let dragOver_handler = function(event) {
+  const dragOver_handler = function(event) {
     // event.stopPropagation();
     event.preventDefault();
     // document.getElementById(
@@ -226,7 +226,7 @@ let FormSectionComponent = props => {
     }
   };
 
-  let drop_handler2 = event => entityActions.drop_handler(event, props);
+  const drop_handler2 = event => entityActions.drop_handler(event, props);
 
   const mouseDown_handler = event => {
     event.stopPropagation();

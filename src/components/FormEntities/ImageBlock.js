@@ -12,20 +12,22 @@ import { address } from '../../address';
 import { entityActions } from './actions.entities';
 
 const ImageBlockComponent = props => {
-  const mouseDown_handler = event =>
-    entityActions.mouseDown_handler(event, props);
+  const mouseDown_handler = event => entityActions.mouseDown_handler(event, props);
 
-  let dragstart_handler = event =>
-    entityActions.dragstart_handler(event, props);
+  const dragstart_handler = event => entityActions.dragstart_handler(event, props);
 
-  let dragOver_handler = event => entityActions.dragOver_handler(event, props);
+  const dragOver_handler = event => entityActions.dragOver_handler(event, props);
 
-  let drop_handler = event => entityActions.drop_handler(event, props);
+  const drop_handler = event => entityActions.drop_handler(event, props);
 
-  let dragleave_handler = event =>
-    entityActions.dragleave_handler(event, props);
+  const dragleave_handler = event => entityActions.dragleave_handler(event, props);
 
   const click_handler = event => entityActions.click_handler(event, props);
+
+  const mouseUp_handler = event => {
+    event.stopPropagation();
+    console.log('mouseUp_handler');
+  };
 
   const tBStyle = {
     //     margin: helpers.marginCalc(props),
@@ -36,11 +38,11 @@ const ImageBlockComponent = props => {
     cursor: 'move',
     // border: '1px solid red',
     padding: '4px',
-    borderRadius: '2px'
+    borderRadius: '2px',
   };
 
   const tBInputStyle = {
-    height: '40px'
+    height: '40px',
   };
   return (
     <div
@@ -49,7 +51,11 @@ const ImageBlockComponent = props => {
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
       onDragLeave={dragleave_handler}
-      onClick={click_handler}
+      onClick={click_handler} // to select the current entity for properties panel
+      onMouseDown={mouseDown_handler} // to set intitial mouse click loc
+      onDragStart={dragstart_handler} // returns false to prevent drag image
+      onMouseUp={mouseUp_handler}
+      draggable="false"
     >
       {props.model.prepend() > 0 ? (
         <Prepend
@@ -77,10 +83,7 @@ const ImageBlockComponent = props => {
         {props.model.title() === '' ? (
           <p>Please select an image from Image Block Property Panel</p>
         ) : (
-          <img
-            src={localStorage.getItem(props.model.title())}
-            alt={localStorage.getItem(props.model.title())}
-          />
+          <img src={localStorage.getItem(props.model.title())} alt={localStorage.getItem(props.model.title())} />
         )}
         <Resizer
           id={`${props.model.UUID()}.resizer`}
