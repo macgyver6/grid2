@@ -4,7 +4,17 @@ import { utility } from './val.utility';
 import { validations } from './val.suite';
 // const form = new Form(defaultPropsFE.Form);
 
-const types = ['TextInput'];
+const types = [
+  'TextInput',
+  'SelectionInput',
+  'TextArea',
+  'CheckBox',
+  'TextBlock',
+  'ImageBlock',
+  'AdverseEvent',
+  'Echo',
+  'CDSTextInput',
+];
 // const types = ['Form', 'FormSection', 'TextInput', 'TextArea', 'CheckBox'];
 
 /**

@@ -56,7 +56,7 @@ export var initFE = {
     promptNumber: 'CIE493b',
     autoNumber: 'SEQUENTIAL',
     doubleEntry: true,
-    defaultContent: '',
+    defaultContent: 'TestDefaultContent',
     renderMode: 'selection',
     options: [{ label: 'one', value: '1' }, { label: 'two', value: '2' }, { label: 'three', value: '3' }],
     render: { backgroundColor: 'red', minWidth: 3 },

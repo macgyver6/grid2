@@ -41,4 +41,100 @@ export const validations = {
           }
         : undefined,
   },
+  SelectionInput: {
+    shoudNotBeLargerThanSection: e =>
+      e.width() > 24 ? { exception: 'Must not be larger than containing section', entity: e } : undefined,
+    shoudNotBeNegativeWidth: e => (e.width() < 1 ? { exception: 'Must not be negative width', entity: e } : undefined),
+    noNegativePrependPostpend: e =>
+      e.prepend() < 0 || e.append() < 0
+        ? {
+            exception: 'Entity must have positive prepend and postpend values',
+            entity: e,
+          }
+        : undefined,
+  },
+  TextArea: {
+    shoudNotBeLargerThanSection: e =>
+      e.width() > 24 ? { exception: 'Must not be larger than containing section', entity: e } : undefined,
+    shoudNotBeNegativeWidth: e => (e.width() < 1 ? { exception: 'Must not be negative width', entity: e } : undefined),
+    noNegativePrependPostpend: e =>
+      e.prepend() < 0 || e.append() < 0
+        ? {
+            exception: 'Entity must have positive prepend and postpend values',
+            entity: e,
+          }
+        : undefined,
+  },
+  CheckBox: {
+    shoudNotBeLargerThanSection: e =>
+      e.width() > 24 ? { exception: 'Must not be larger than containing section', entity: e } : undefined,
+    shoudNotBeNegativeWidth: e => (e.width() < 1 ? { exception: 'Must not be negative width', entity: e } : undefined),
+    noNegativePrependPostpend: e =>
+      e.prepend() < 0 || e.append() < 0
+        ? {
+            exception: 'Entity must have positive prepend and postpend values',
+            entity: e,
+          }
+        : undefined,
+  },
+  TextBlock: {
+    shoudNotBeLargerThanSection: e =>
+      e.width() > 24 ? { exception: 'Must not be larger than containing section', entity: e } : undefined,
+    shoudNotBeNegativeWidth: e => (e.width() < 1 ? { exception: 'Must not be negative width', entity: e } : undefined),
+    noNegativePrependPostpend: e =>
+      e.prepend() < 0 || e.append() < 0
+        ? {
+            exception: 'Entity must have positive prepend and postpend values',
+            entity: e,
+          }
+        : undefined,
+  },
+  ImageBlock: {
+    shoudNotBeLargerThanSection: e =>
+      e.width() > 24 ? { exception: 'Must not be larger than containing section', entity: e } : undefined,
+    shoudNotBeNegativeWidth: e => (e.width() < 1 ? { exception: 'Must not be negative width', entity: e } : undefined),
+    noNegativePrependPostpend: e =>
+      e.prepend() < 0 || e.append() < 0
+        ? {
+            exception: 'Entity must have positive prepend and postpend values',
+            entity: e,
+          }
+        : undefined,
+  },
+  AdverseEvent: {
+    shoudNotBeLargerThanSection: e =>
+      e.width() > 24 ? { exception: 'Must not be larger than containing section', entity: e } : undefined,
+    shoudNotBeNegativeWidth: e => (e.width() < 1 ? { exception: 'Must not be negative width', entity: e } : undefined),
+    noNegativePrependPostpend: e =>
+      e.prepend() < 0 || e.append() < 0
+        ? {
+            exception: 'Entity must have positive prepend and postpend values',
+            entity: e,
+          }
+        : undefined,
+  },
+  Echo: {
+    shoudNotBeLargerThanSection: e =>
+      e.width() > 24 ? { exception: 'Must not be larger than containing section', entity: e } : undefined,
+    shoudNotBeNegativeWidth: e => (e.width() < 1 ? { exception: 'Must not be negative width', entity: e } : undefined),
+    noNegativePrependPostpend: e =>
+      e.prepend() < 0 || e.append() < 0
+        ? {
+            exception: 'Entity must have positive prepend and postpend values',
+            entity: e,
+          }
+        : undefined,
+  },
+  CDSTextInput: {
+    shoudNotBeLargerThanSection: e =>
+      e.width() > 24 ? { exception: 'Must not be larger than containing section', entity: e } : undefined,
+    shoudNotBeNegativeWidth: e => (e.width() < 1 ? { exception: 'Must not be negative width', entity: e } : undefined),
+    noNegativePrependPostpend: e =>
+      e.prepend() < 0 || e.append() < 0
+        ? {
+            exception: 'Entity must have positive prepend and postpend values',
+            entity: e,
+          }
+        : undefined,
+  },
 };
