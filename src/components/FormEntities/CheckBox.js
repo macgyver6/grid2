@@ -10,18 +10,15 @@ import { address } from '../../address';
 import { entityActions } from './actions.entities';
 
 const CheckBoxComponent = props => {
-  const mouseDown_handler = event =>
-    entityActions.mouseDown_handler(event, props);
+  const mouseDown_handler = event => entityActions.mouseDown_handler(event, props);
 
-  let dragstart_handler = event =>
-    entityActions.dragstart_handler(event, props);
+  const dragstart_handler = event => entityActions.dragstart_handler(event, props);
 
-  let dragOver_handler = event => entityActions.dragOver_handler(event, props);
+  const dragOver_handler = event => entityActions.dragOver_handler(event, props);
 
-  let drop_handler = event => entityActions.drop_handler(event, props);
+  const drop_handler = event => entityActions.drop_handler(event, props);
 
-  let dragleave_handler = event =>
-    entityActions.dragleave_handler(event, props);
+  const dragleave_handler = event => entityActions.dragleave_handler(event, props);
 
   const click_handler = event => entityActions.click_handler(event, props);
 
@@ -32,12 +29,17 @@ const CheckBoxComponent = props => {
     height: '40px',
     // //     margin: helpers.marginCalc(props),
     padding: '4px',
-    borderRadius: '2px'
+    borderRadius: '2px',
   };
 
   const cbInputStyle = {
     height: '25px',
-    width: '25px'
+    width: '25px',
+  };
+
+  const mouseUp_handler = event => {
+    event.stopPropagation();
+    console.log('mouseUp_handler');
   };
 
   return (
@@ -46,7 +48,12 @@ const CheckBoxComponent = props => {
       style={styleDefaultEntity(props.model)}
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
-      onClick={click_handler}
+      onDragLeave={dragleave_handler}
+      onClick={click_handler} // to select the current entity for properties panel
+      onMouseDown={mouseDown_handler} // to set intitial mouse click loc
+      onDragStart={dragstart_handler} // returns false to prevent drag image
+      onMouseUp={mouseUp_handler}
+      draggable="false"
     >
       {props.model.prepend() > 0 ? (
         <Prepend

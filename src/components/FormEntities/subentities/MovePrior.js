@@ -5,7 +5,7 @@ import { address } from '../../../address';
 // import { defaultPropsFE } from '../../../constants/defaultPropsFE';
 
 const MovePrior = props => {
-  // let drop_handler = (event) => {
+  // const drop_handler = (event) => {
   //   let data = event.dataTransfer.getData("text");
   //   event.preventDefault();
   //   event.stopPropagation();
@@ -39,7 +39,7 @@ const MovePrior = props => {
   // let dragend_handler = () => {
   //   console.log('dragend_handler')
   // }
-  // let dragstart_handler = () => {
+  // const dragstart_handler = () => {
   //   console.log('dragstart_handler')
   // }
 
@@ -71,15 +71,10 @@ const MovePrior = props => {
     if (data.action === 'move') {
       // console.log(address.bySample(address.resurrectEntity(data.model), props.form))
       // console.log(loc)
-      props.remove(
-        address.bySample(address.resurrectEntity(data.model), props.form)
-      );
+      props.remove(address.bySample(address.resurrectEntity(data.model), props.form));
       // props.remove(address.byPath(data.model.uuid))
     }
-    props.add(
-      locEntity[0],
-      address.resurrectEntity(Object.assign({}, data.model))
-    );
+    props.add(locEntity[0], address.resurrectEntity(Object.assign({}, data.model)));
     event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)';
   };
 
@@ -98,7 +93,7 @@ const MovePrior = props => {
     // div.innerHTML = `<h4 class="logo">Move before <strong>${props.model._type}</strong></h1>`
   };
 
-  let dragLeave_handler = event => {
+  const dragleave_handler = event => {
     event.target.removeChild(event.target.children[0]);
     event.target.style.borderLeft = '';
   };

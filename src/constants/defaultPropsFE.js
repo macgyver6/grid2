@@ -148,6 +148,8 @@ export var initFE = {
     append: 8,
     prePromptWidth: 4,
     postPromptWidth: 0,
+    prePrompt: '',
+    postPrompt: '',
     content: 'default Echo content',
     type: 'Echo',
     render: { backgroundColor: 'orange', minWidth: 1 },

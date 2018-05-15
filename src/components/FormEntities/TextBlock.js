@@ -10,18 +10,15 @@ import { address } from '../../address';
 import { entityActions } from './actions.entities';
 
 const TextBlockComponent = props => {
-  const mouseDown_handler = event =>
-    entityActions.mouseDown_handler(event, props);
+  const mouseDown_handler = event => entityActions.mouseDown_handler(event, props);
 
-  let dragstart_handler = event =>
-    entityActions.dragstart_handler(event, props);
+  const dragstart_handler = event => entityActions.dragstart_handler(event, props);
 
-  let dragOver_handler = event => entityActions.dragOver_handler(event, props);
+  const dragOver_handler = event => entityActions.dragOver_handler(event, props);
 
-  let drop_handler = event => entityActions.drop_handler(event, props);
+  const drop_handler = event => entityActions.drop_handler(event, props);
 
-  let dragleave_handler = event =>
-    entityActions.dragleave_handler(event, props);
+  const dragleave_handler = event => entityActions.dragleave_handler(event, props);
 
   const click_handler = event => entityActions.click_handler(event, props);
 
@@ -34,7 +31,7 @@ const TextBlockComponent = props => {
     cursor: 'move',
     // border: '1px solid red',
     padding: '4px',
-    borderRadius: '2px'
+    borderRadius: '2px',
   };
 
   const tBInputStyle = { height: '60%', width: '80%' };
