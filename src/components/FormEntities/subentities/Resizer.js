@@ -218,6 +218,7 @@ let Resizer = props => {
       onMouseDown={mouseDown_handler}
       onClick={click_handler}
       draggable="true"
+      onClick={click_handler}
     />
   );
 };
