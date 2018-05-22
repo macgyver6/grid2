@@ -67,6 +67,10 @@ const Tab = props => {
   let onDragOverHandler = event => {
     event.preventDefault();
     event.stopPropagation();
+    /** if there is an entity being added or moved, show a green target */
+    if (event.dataTransfer.types[0] === 'address') {
+      event.target.style.backgroundColor = 'green';
+    }
     // console.log(event.target.currentTarget)
     // console.log(event.dataTransfer.types)
     {
@@ -149,8 +153,8 @@ const Tab = props => {
         )
       );
 
-      document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`).style.backgroundColor = 'grey';
-      props.remove([props.form.children().length - 1]);
+      // document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`).style.backgroundColor = 'grey';
+      // props.remove([props.form.children().length - 1]);
     }
   };
 
@@ -186,6 +190,10 @@ const Tab = props => {
     console.log(event.target);
   };
 
+  let mouseUp_handler = event => {
+    event.target.style.backgroundColor = 'darkgrey';
+  };
+
   let change_handler = event => {
     // event.target.style.backgroundColor = 'rgb(2, 117, 216)';
     const location = address.bySample(props.model, props.form);
@@ -213,6 +221,7 @@ const Tab = props => {
       // onMouseEnter={mouseEnter_handler}
       // onMouseLeave={mouseLeave_handler}
       onMouseDown={mouseDown_handler}
+      onMouseUp={mouseUp_handler}
       onDragLeave={dragLeave_handler}
       onDrop={drop_handler}
     >
