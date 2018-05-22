@@ -125,7 +125,12 @@ const DeleteBtn = props => {
 
     /* Begin */
 
-    const total = entity => entity.prepend() + entity.width() + entity.append();
+    const total = entity =>
+      entity.prepend() +
+      (entity.prePromptWidth ? entity.prePromptWidth() : 0) +
+      entity.width() +
+      entity.append() +
+      (entity.postPromptWidth ? entity.postPromptWidth() : 0);
 
     // const _parentChildren = [...parentEntity.children()]
     /** returns true if entity path provided is firstInRow; false if not
@@ -135,13 +140,13 @@ const DeleteBtn = props => {
       const section = address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1));
       // console.log(entityAddress )
       const _entityAddress = entityAddress.slice(entityAddress.length - 1, entityAddress.length + 1) - 1;
-      let runningTotal = 0;
+      var runningTotal = 0;
       // console.log(_entityAddress, section.children())
-      for (let i = 0; i <= _entityAddress; ++i) {
+      for (var i = 0; i <= _entityAddress; ++i) {
         // console.log(section)
         runningTotal += total(section.children()[i]);
       }
-      return runningTotal % section.width() === 0;
+      return runningTotal % section.width() === 0 ? true : false;
     };
 
     const restoreDonorSiblingAddress = (arr, props, draggedEntity) => {
