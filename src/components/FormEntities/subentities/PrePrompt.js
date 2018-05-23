@@ -9,7 +9,7 @@ const PrePrompt = props => {
     padding: '4px',
     borderRadius: '2px',
     position: 'relative',
-    height: '40px',
+    maxHeight: '40px',
   };
   console.log(props.backgroundColor);
 

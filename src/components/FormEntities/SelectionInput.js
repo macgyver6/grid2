@@ -74,7 +74,7 @@ const SelectionInputComponent = props => {
       onDragStart={dragstart_handler}
       draggable="false"
     >
-      {props.model.prepend() > 0 ? (
+      {props.model.prepend() > 1 ? (
         <Prepend
           id={`${props.model.UUID()}.prepend`}
           prepend={props.model.prepend()}
@@ -87,18 +87,20 @@ const SelectionInputComponent = props => {
           mutate={props.mutate}
         />
       ) : null}
-      <PrePrompt
-        id={`${props.model.UUID()}.prepend`}
-        prePromptWidth={props.model.prePromptWidth()}
-        uuid={props.model.UUID()}
-        className="prepend"
-        model={props.model}
-        form={props.form}
-        remove={props.remove}
-        add={props.add}
-        mutate={props.mutate}
-        backgroundColor="red"
-      />
+      {props.model.prePromptWidth() > 1 ? (
+        <PrePrompt
+          id={`${props.model.UUID()}.prepend`}
+          prePromptWidth={props.model.prePromptWidth()}
+          uuid={props.model.UUID()}
+          className="prepend"
+          model={props.model}
+          form={props.form}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
+          backgroundColor="red"
+        />
+      ) : null}
 
       <div
         style={siStyle}
@@ -137,7 +139,7 @@ const SelectionInputComponent = props => {
           resizeType="width"
         />
       </div>
-      {props.model.postPromptWidth() > 0 ? (
+      {props.model.postPromptWidth() > 1 ? (
         <PostPrompt
           id={`${props.model.UUID()}.prepend`}
           postPromptWidth={props.model.postPromptWidth()}

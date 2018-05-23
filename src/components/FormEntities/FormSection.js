@@ -305,7 +305,7 @@ let FormSectionComponent = props => {
       }
       onMouseDown={mouseDown_handler}
     >
-      {props.model.prepend() > 0 ? (
+      {props.model.prepend() > 1 ? (
         <Prepend
           id={`${props.model.UUID()}.prepend`}
           prepend={props.model.prepend()}

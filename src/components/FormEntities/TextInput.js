@@ -54,7 +54,7 @@ const TextInputComponent = props => {
     height: '20px',
     width: '82%',
   };
-
+  console.log(styleDefaultEntity(props.model).gridColumn);
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
@@ -68,7 +68,7 @@ const TextInputComponent = props => {
       onMouseUp={mouseUp_handler}
       draggable="false"
     >
-      {props.model.prepend() > 0 ? (
+      {props.model.prepend() > 1 ? (
         <Prepend
           id={`${props.model.UUID()}.prepend`}
           prepend={props.model.prepend()}
@@ -81,18 +81,20 @@ const TextInputComponent = props => {
           mutate={props.mutate}
         />
       ) : null}
-      <PrePrompt
-        id={`${props.model.UUID()}.prepend`}
-        prePromptWidth={props.model.prePromptWidth()}
-        uuid={props.model.UUID()}
-        className="prepend"
-        model={props.model}
-        form={props.form}
-        remove={props.remove}
-        add={props.add}
-        mutate={props.mutate}
-        backgroundColor="rgb(108, 120, 143)"
-      />
+      {props.model.prePromptWidth() > 1 ? (
+        <PrePrompt
+          id={`${props.model.UUID()}.prepend`}
+          prePromptWidth={props.model.prePromptWidth()}
+          uuid={props.model.UUID()}
+          className="prepend"
+          model={props.model}
+          form={props.form}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
+          backgroundColor="rgb(108, 120, 143)"
+        />
+      ) : null}
 
       <div style={tiStyle} id={`${props.model.UUID()}.${props.model.type()}`} className="TextInput">
         <br />
@@ -118,7 +120,7 @@ const TextInputComponent = props => {
           resizeType="width"
         />
       </div>
-      {props.model.postPromptWidth() > 0 ? (
+      {props.model.postPromptWidth() > 1 ? (
         <PostPrompt
           id={`${props.model.UUID()}.prepend`}
           postPromptWidth={props.model.postPromptWidth()}

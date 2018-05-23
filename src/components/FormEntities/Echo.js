@@ -75,18 +75,20 @@ const EchoComponent = props => {
         />
       ) : null}
 
-      <PrePrompt
-        id={`${props.model.UUID()}.prepend`}
-        prePromptWidth={props.model.prePromptWidth()}
-        uuid={props.model.UUID()}
-        className="prepend"
-        model={props.model}
-        form={props.form}
-        remove={props.remove}
-        add={props.add}
-        mutate={props.mutate}
-        backgroundColor="orange"
-      />
+      {props.model.prePromptWidth() > 1 ? (
+        <PrePrompt
+          id={`${props.model.UUID()}.prepend`}
+          prePromptWidth={props.model.prePromptWidth()}
+          uuid={props.model.UUID()}
+          className="prepend"
+          model={props.model}
+          form={props.form}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
+          backgroundColor="orange"
+        />
+      ) : null}
 
       <div
         style={echoStyle}
@@ -129,7 +131,7 @@ const EchoComponent = props => {
         />
       </div>
 
-      {props.model.postPromptWidth() > 0 ? (
+      {props.model.postPromptWidth() > 1 ? (
         <PostPrompt
           id={`${props.model.UUID()}.prepend`}
           postPromptWidth={props.model.postPromptWidth()}
