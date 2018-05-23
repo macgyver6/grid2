@@ -33,7 +33,8 @@ const formReducer = (state, action) => {
       app: {
         dateTime: null,
         activeTab: 0,
-        currententity: [0, 0, 0],
+        currententity: null,
+        // currententity: [0, 0, 0],
         validations: true,
         dataDefinedValidationPane: true,
         // currententity: null
@@ -63,6 +64,7 @@ const formReducer = (state, action) => {
     if (validateImport(result).length === 0) {
       return Object.assign({}, state, {
         form: result,
+        app: Object.assign({}, state.app, { currententity: null }),
       });
     }
   }
@@ -72,6 +74,7 @@ const formReducer = (state, action) => {
     if (validateImport(result).length === 0) {
       return Object.assign({}, state, {
         form: result,
+        app: Object.assign({}, state.app, { currententity: null }),
       });
     }
   }
@@ -132,7 +135,6 @@ const formReducer = (state, action) => {
       ...state,
       app: {
         ...state.app,
-        // ...action.payload,
         [Object.keys(action.payload)[0]]: action.payload[Object.keys(action.payload)[0]],
       },
     };
