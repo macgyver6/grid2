@@ -70,6 +70,7 @@ const Tab = props => {
     /** if there is an entity being added or moved, show a green target */
     if (event.dataTransfer.types[0] === 'address') {
       event.target.style.backgroundColor = 'green';
+      document.getElementById(`${event.target.id.split('.')[0]}.input`).style.backgroundColor = '';
     }
     // console.log(event.target.currentTarget)
     // console.log(event.dataTransfer.types)
@@ -104,15 +105,16 @@ const Tab = props => {
   };
 
   let dragLeave_handler = event => {
-    // event.target.style.backgroundColor = 'grey';
-    document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`).style.backgroundColor = 'grey';
-    // event.target.style.backgroundColor = 'rgb(2, 117, 216)';
-    event.target.style.removeProperty('border');
+    document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`).style.backgroundColor = 'darkgrey';
+    // event.target.style.removeProperty('border');
   };
 
   let drop_handler = event => {
-    console.log(event.dataTransfer.types);
+    console.log(JSON.parse(event.dataTransfer.getData('address')));
     event.stopPropagation();
+    /** resets to the background from green to '' onDrop*/
+    document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`).style.backgroundColor = 'darkgrey';
+    document.getElementById(`${event.target.id.split('.')[0]}.input`).style.backgroundColor = '';
     if (event.dataTransfer.getData('address')) {
       const destinationTabAddress = address.bySample(props.model, props.form)[0];
 
@@ -191,7 +193,7 @@ const Tab = props => {
   };
 
   let mouseUp_handler = event => {
-    event.target.style.backgroundColor = 'darkgrey';
+    // event.target.style.backgroundColor = 'darkgrey';
   };
 
   let change_handler = event => {
@@ -210,7 +212,7 @@ const Tab = props => {
         fontWeight: currentTab ? '900' : '100',
         borderLeft: currentTab ? '0.25px solid darkgrey' : null,
         borderRight: currentTab ? '0.25px solid darkgrey' : null,
-        borderTop: currentTab ? '0.25px solid rgb(32, 94, 226)' : null,
+        borderTop: currentTab ? '3px solid rgb(32, 94, 226)' : null,
       }}
       id={`${props.form.children()[props.currentTab].UUID()}.tab.wrapper`}
       className="tab"

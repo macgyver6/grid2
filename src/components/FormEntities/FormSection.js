@@ -13,7 +13,8 @@ let FormSectionComponent = props => {
   const round = (value, decimals) => Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 
   const dragstart_handler = event => {
-    // event.stopPropagation();
+    event.stopPropagation();
+    console.log(event.target, props.model.UUID());
     helpers.dragStart_handler(event, props.model, props.form, 'move');
     console.log('FS DragStart');
   };
@@ -235,9 +236,10 @@ let FormSectionComponent = props => {
 
   const mouseDown_handler = event => {
     event.stopPropagation();
+    console.log(event.target, document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`));
     document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`).draggable = true;
     console.log(event.target.draggable);
-    console.log(event.target);
+    console.log(event.target, address.bySample(props.model, props.form));
   };
 
   const fsStyle = {
@@ -309,6 +311,7 @@ let FormSectionComponent = props => {
         dragOver_handler // adding a new entity to section
       }
       onMouseDown={mouseDown_handler}
+      onDragStart={dragstart_handler}
     >
       {props.model.prepend() > 1 ? (
         <Prepend
@@ -332,7 +335,6 @@ let FormSectionComponent = props => {
           overflowY: scrollable,
         }}
         data-action={`mover.${props.model.UUID()}.FormSection`}
-        onDragStart={dragstart_handler}
         onDrop={drop_handler}
       >
         {props.model.type() === 'FormSection'

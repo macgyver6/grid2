@@ -23,6 +23,7 @@ export const helpers = {
     //     3
     //   ) / 40
     // );
+    console.log(model);
     event.dataTransfer.setData(
       'address',
       JSON.stringify({
@@ -129,16 +130,14 @@ export const helpers = {
 
   drag_handler: (event, model, form, resize, props) => {
     event.stopPropagation();
-    const can_move = (minWidth, maxWidth) => 
-       true
-      // if (resize.init_grids - resize.grids - 1 < maxWidth && resize.init_grids - resize.grids > minWidth) {
-      //   // console.log(minWidth, maxWidth, '867, valid move')
-      //   return true
-      // } else {
-      //   // console.log(minWidth, maxWidth, '867, invalid move')
-      //   return false
-      // }
-    ;
+    const can_move = (minWidth, maxWidth) => true;
+    // if (resize.init_grids - resize.grids - 1 < maxWidth && resize.init_grids - resize.grids > minWidth) {
+    //   // console.log(minWidth, maxWidth, '867, valid move')
+    //   return true
+    // } else {
+    //   // console.log(minWidth, maxWidth, '867, invalid move')
+    //   return false
+    // }
 
     resize.reset = false;
     let locEntity = address.byUuid(props.model.UUID(), props.form);
