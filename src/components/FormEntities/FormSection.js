@@ -84,7 +84,12 @@ let FormSectionComponent = props => {
         })
       );
 
-      const total = entity => entity.prepend() + entity.width() + entity.append();
+      const total = entity =>
+        entity.prepend() +
+        (entity.prePromptWidth ? entity.prePromptWidth() : 0) +
+        entity.width() +
+        entity.append() +
+        (entity.postPromptWidth ? entity.postPromptWidth() : 0);
 
       // const _parentChildren = [...parentEntity.children()]
       /**returns true if entity path provided is firstInRow; false if not

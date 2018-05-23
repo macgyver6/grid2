@@ -28,16 +28,16 @@ export const TabStyle = {
   borderRight: '4px solid white',
 };
 
-export const TabButtonStyle = {
-  border: 'none',
-  color: 'white',
-  marginLeft: '2px',
-  textAlign: 'center',
-  textDecoration: 'none',
-  fontSize: '16px',
-  cursor: 'pointer',
-  backgroundColor: '#ff5f56',
-};
+// export const TabButtonStyle = {
+//   border: 'none',
+//   color: 'white',
+//   marginLeft: '2px',
+//   textAlign: 'center',
+//   textDecoration: 'none',
+//   fontSize: '16px',
+//   cursor: 'pointer',
+//   backgroundColor: '#ff5f56',
+// };
 // export const TabButtonStyle = {
 //   float: "right",
 //   width: "20%",

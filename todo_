@@ -1,0 +1,28 @@
+- user expects invalid move within same section to not execute & receive feedback that action is not allowed
+- scrips
+  - selection input for scripts added in other view
+  - input entity should be greyed out
+  - script runs selection
+- text input content field should be editeable
+
+- make prompt draggable
+- prompt height should now grow to largest entity height in section
+- User should be able to insert either a new or existing entity to a new row  within a section
+- add default content to text area
+- copy an entity to
+- remove garble on echo input
+
+
+resizer
+  - detirmine which entity is last in row
+    -  if the append is > 0, make the mutation
+    - deleting an entity does not work
+    - side by side sections causes an error
+
+
+form properties
+  -  name
+  -  auto naming
+  - auto tabbing
+
+copy an entity or a section

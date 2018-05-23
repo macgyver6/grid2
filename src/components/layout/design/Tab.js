@@ -18,16 +18,10 @@ const Tab = props => {
       if (props.activeTab === 0) {
         return 0;
       }
-      if (
-        props.activeTab === props.currentTab &&
-        props.form.children().length - 1 !== props.currentTab
-      ) {
+      if (props.activeTab === props.currentTab && props.form.children().length - 1 !== props.currentTab) {
         return props.currentTab;
       }
-      if (
-        props.activeTab === props.currentTab &&
-        props.form.children().length - 1 === props.currentTab
-      ) {
+      if (props.activeTab === props.currentTab && props.form.children().length - 1 === props.currentTab) {
         return props.currentTab - 1;
       }
       if (props.activeTab !== props.currentTab) {
@@ -36,12 +30,7 @@ const Tab = props => {
       }
     };
     props.remove([props.currentTab]);
-    console.log(
-      'remove this one: ',
-      [props.currentTab],
-      'change active tab to: ',
-      whichTab()
-    );
+    console.log('remove this one: ', [props.currentTab], 'change active tab to: ', whichTab());
     props.changetab(whichTab());
   };
 
@@ -61,10 +50,7 @@ const Tab = props => {
       })
     );
 
-    event.dataTransfer.setData(
-      address.bySample(props.model, props.form),
-      address.bySample(props.model, props.form)
-    );
+    event.dataTransfer.setData(address.bySample(props.model, props.form), address.bySample(props.model, props.form));
     // console.log(event.target.id.split('.')[0])
     // dragSrcEl = event.target.id.split('.')[0]
     console.log(dragSrcEl);
@@ -79,11 +65,16 @@ const Tab = props => {
   };
 
   let onDragOverHandler = event => {
-    // event.preventDefault();
+    event.preventDefault();
     event.stopPropagation();
+    /** if there is an entity being added or moved, show a green target */
+    if (event.dataTransfer.types[0] === 'address') {
+      event.target.style.backgroundColor = 'green';
+    }
     // console.log(event.target.currentTarget)
     // console.log(event.dataTransfer.types)
-    if (event.dataTransfer.types[0] !== 'tab') {
+    {
+      /*  if (event.dataTransfer.types[0] !== 'tab') {
       let element = event.target.style.backgroundColor;
       const alternateInterval = event => setInterval(alternate(event, 1000));
       const alternate = event => {
@@ -92,93 +83,83 @@ const Tab = props => {
           ? (event.target.style.backgroundColor = 'rgb(2, 117, 216)')
           : (event.target.style.backgroundColor = 'grey');
       };
-      alternateInterval(event);
-      setTimeout(() => {
-        clearInterval(alternateInterval);
-        props.changetab(props.currentTab);
-      }, 1000);
+      // alternateInterval(event);
+      // setTimeout(() => {
+      //   clearInterval(alternateInterval);
+      //   props.changetab(props.currentTab);
+      // }, 1000);
+      // props.changetab(props.currentTab);
     } else {
       // rearrange the tabs
       event.preventDefault();
 
       obj.destination = address.bySample(props.model, props.form);
       let siblings = event.target.parentNode.children;
-      if (
-        siblings[event.dataTransfer.types[1]].id.split('.')[0] !==
-        event.target.id.split('.')[0]
-      ) {
-        document.getElementById(
-          `${event.target.id.split('.')[0]}.tab.wrapper`
-        ).style.borderLeft =
+      if (siblings[event.dataTransfer.types[1]].id.split('.')[0] !== event.target.id.split('.')[0]) {
+        document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`).style.borderLeft =
           '120px solid lightgreen';
       }
+    } */
     }
   };
 
   let dragLeave_handler = event => {
     // event.target.style.backgroundColor = 'grey';
-    document.getElementById(
-      `${event.target.id.split('.')[0]}.tab.wrapper`
-    ).style.backgroundColor =
-      'grey';
+    document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`).style.backgroundColor = 'grey';
     // event.target.style.backgroundColor = 'rgb(2, 117, 216)';
     event.target.style.removeProperty('border');
   };
 
   let drop_handler = event => {
+    console.log(event.dataTransfer.types);
     event.stopPropagation();
-    const dropData = JSON.parse(event.dataTransfer.getData('tab'));
-    event.target.style.removeProperty('border');
-    const _children = [...props.form.children()];
-    const destinationAddress = address.bySample(props.model, props.form);
+    if (event.dataTransfer.getData('address')) {
+      const destinationTabAddress = address.bySample(props.model, props.form)[0];
 
-    const reorderArray = (event, originalArray) => {
-      console.log(event, originalArray);
-      const movedItem = originalArray.filter(
-        (item, index) => index === event.oldIndex
+      console.log(props.model.children().length);
+      const entityToMove = address.byPath(props.form, JSON.parse(event.dataTransfer.getData('address')).address);
+
+      props.add([destinationTabAddress, props.model.children().length], entityToMove);
+      props.remove(JSON.parse(event.dataTransfer.getData('address')).address);
+    }
+    if (event.dataTransfer.getData('tab')) {
+      const dropData = JSON.parse(event.dataTransfer.getData('tab'));
+      event.target.style.removeProperty('border');
+      const _children = [...props.form.children()];
+      const destinationAddress = address.bySample(props.model, props.form);
+
+      const reorderArray = (event, originalArray) => {
+        console.log(event, originalArray);
+        const movedItem = originalArray.filter((item, index) => index === event.oldIndex);
+        const remainingItems = originalArray.filter((item, index) => index !== event.oldIndex);
+
+        const reorderedItems = [
+          ...remainingItems.slice(0, event.newIndex),
+          movedItem[0],
+          ...remainingItems.slice(event.newIndex),
+        ];
+
+        return reorderedItems;
+      };
+      props.changetab(destinationAddress[0] > dropData.address[0] ? destinationAddress[0] - 1 : destinationAddress[0]);
+      props.formmutate(
+        [],
+        reorderArray(
+          {
+            newIndex: destinationAddress[0] > dropData.address[0] ? destinationAddress[0] - 1 : destinationAddress[0],
+            oldIndex: dropData.address[0],
+          },
+          _children
+        )
       );
-      const remainingItems = originalArray.filter(
-        (item, index) => index !== event.oldIndex
-      );
 
-      const reorderedItems = [
-        ...remainingItems.slice(0, event.newIndex),
-        movedItem[0],
-        ...remainingItems.slice(event.newIndex),
-      ];
-
-      return reorderedItems;
-    };
-    props.changetab(
-      destinationAddress[0] > dropData.address[0]
-        ? destinationAddress[0] - 1
-        : destinationAddress[0]
-    );
-    props.formmutate(
-      [],
-      reorderArray(
-        {
-          newIndex:
-            destinationAddress[0] > dropData.address[0]
-              ? destinationAddress[0] - 1
-              : destinationAddress[0],
-          oldIndex: dropData.address[0],
-        },
-        _children
-      )
-    );
-
-    document.getElementById(
-      `${event.target.id.split('.')[0]}.tab.wrapper`
-    ).style.backgroundColor =
-      'grey';
-    props.remove([props.form.children().length - 1]);
+      // document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`).style.backgroundColor = 'grey';
+      // props.remove([props.form.children().length - 1]);
+    }
   };
 
   let mouseEnter_handler = event => {
-    const tabWrapper = document.getElementById(
-      `${event.target.id.split('.')[0]}.tab.wrapper`
-    );
+    const tabWrapper = document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`);
     tabWrapper.style.backgroundColor = 'white';
     tabWrapper.style.borderTop = '0.25px solid rgb(32, 94, 226)';
     const deleteBtn = document.createElement('button');
@@ -197,19 +178,20 @@ const Tab = props => {
   };
 
   let mouseLeave_handler = event => {
-    const tabWrapper = document.getElementById(
-      `${event.target.id.split('.')[0]}.tab.wrapper`
-    );
+    const tabWrapper = document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`);
     if (!currentTab) {
       tabWrapper.style.backgroundColor = TabStyle.backgroundColor;
       tabWrapper.style.borderTop = '';
     }
-    if (tabWrapper)
-      tabWrapper.removeChild(document.getElementById('deleteBtn'));
+    if (tabWrapper) tabWrapper.removeChild(document.getElementById('deleteBtn'));
   };
 
   let mouseDown_handler = event => {
     console.log(event.target);
+  };
+
+  let mouseUp_handler = event => {
+    event.target.style.backgroundColor = 'darkgrey';
   };
 
   let change_handler = event => {
@@ -239,6 +221,7 @@ const Tab = props => {
       // onMouseEnter={mouseEnter_handler}
       // onMouseLeave={mouseLeave_handler}
       onMouseDown={mouseDown_handler}
+      onMouseUp={mouseUp_handler}
       onDragLeave={dragLeave_handler}
       onDrop={drop_handler}
     >
