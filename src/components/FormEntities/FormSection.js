@@ -347,6 +347,7 @@ let FormSectionComponent = props => {
                 remove: props.remove,
                 add: props.add,
                 mutate: props.mutate,
+                mutateandadd: props.mutateandadd,
                 temporalStateChange: props.temporalStateChange,
               });
             })

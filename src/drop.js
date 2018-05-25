@@ -213,7 +213,6 @@ export const drop = {
       console.log('gridOffsetLocChange: ', gridOffsetLocChange());
 
       console.log('destination sibling toBeMutated: ', dropObj.destinationAddress, toBeMutated);
-      props.mutate(dropObj.destinationAddress, toBeMutated);
       const _destinationAddress = [...dropObj.destinationAddress];
       _destinationAddress[dropObj.destinationAddress.length - 1] =
         dropObj.destinationAddress[dropObj.destinationAddress.length - 1] + 1;
@@ -236,8 +235,15 @@ export const drop = {
           // append: 1
         })
       );
+      props.mutateandadd(
+        dropObj.destinationAddress,
+        toBeMutated,
+        whereToAdd(dropObj.destinationAddress),
+        toBeAdded,
+        props.form
+      );
       console.log('whereToAdd: ', whereToAdd(dropObj.destinationAddress), toBeAdded);
-      props.add(whereToAdd(dropObj.destinationAddress), toBeAdded);
+      // props.add(whereToAdd(dropObj.destinationAddress), toBeAdded);
       console.log('test');
     } else if (arraysEqual(dropObj.sourceAddress, dropObj.destinationAddress)) {
       // console.log('FF entity moved onto itself')

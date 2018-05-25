@@ -103,6 +103,35 @@ const formReducer = (state, action) => {
     }
   }
 
+  if (action.type === 'MUTATEANDADD') {
+    console.log(action);
+    const initEntity = address.byPath(state.form, action.path);
+    const update = utility.remove(action.path, state.form);
+    const removedUpdate = Object.assign({}, state, {
+      form: update,
+    });
+    const mutatedEntity = Object.assign({}, initEntity.properties(), action.properties);
+    const result = utility.add(action.path, address.resurrectEntity(mutatedEntity), removedUpdate.form);
+
+    // const entityToRemove = address.byPath(result, action.pathToDelete);
+    // const entityRemoved = utility.remove(action.pathToDelete, result);
+    const entityAdded = utility.add(action.pathToAdd, action.entityToAdd, result);
+
+    // console.log(
+    //   validateImport(result).length === 0,
+    //   result
+    //     .children()[0]
+    //     .children()[0]
+    //     .children()[2]
+    //     .width()
+    // );
+    if (validateImport(entityAdded).length === 0) {
+      return Object.assign({}, state, {
+        form: entityAdded,
+      });
+    }
+  }
+
   if (action.type === 'FORMMUTATE') {
     const mutatedEntity = state.form.setChildren(action.properties);
 
