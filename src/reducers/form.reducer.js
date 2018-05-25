@@ -134,6 +134,40 @@ const formReducer = (state, action) => {
     }
   }
 
+  if (action.type === 'MUTATEADDREMOVE') {
+    console.log(action);
+    const initEntity = address.byPath(state.form, action.path);
+    const update = utility.remove(action.path, state.form);
+    const removedUpdate = Object.assign({}, state, {
+      form: update,
+    });
+    console.log(removedUpdate);
+    const mutatedEntity = Object.assign({}, initEntity.properties(), action.properties);
+    const result = utility.add(action.path, address.resurrectEntity(mutatedEntity), removedUpdate.form);
+
+    const entityAdded = utility.add(action.pathToAdd, action.entityToAdd, result);
+    // const entityToRemove = (action.pathToDelete);
+    const entityRemoved = utility.remove(action.pathToRemove, entityAdded);
+
+    console.log(action.pathToAdd, action.entityToAdd);
+
+    // console.log(
+    //   validateImport(result).length === 0,
+    //   result
+    //     .children()[0]
+    //     .children()[0]
+    //     .children()[2]
+    //     .width()
+    // );
+    console.log(validateImport(entityRemoved));
+    if (validateImport(entityRemoved).length === 0) {
+      console.log('pass');
+      return Object.assign({}, state, {
+        form: entityRemoved,
+      });
+    }
+  }
+
   if (action.type === 'FORMMUTATE') {
     const mutatedEntity = state.form.setChildren(action.properties);
 

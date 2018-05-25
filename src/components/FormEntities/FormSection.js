@@ -149,6 +149,7 @@ let FormSectionComponent = props => {
             address: toRight(arr).address,
             properties: {
               prepend:
+                (draggedEntity.prePromptWidth ? draggedEntity.prePromptWidth() : 0) +
                 toRight(arr).entity.prepend() +
                 draggedEntity.prepend() +
                 draggedEntity.width() +
@@ -176,10 +177,10 @@ let FormSectionComponent = props => {
 
       const toBeMutatedRestore = restoreDonorSiblingAddress(data.address, props, draggedEntity);
 
-      if (toBeMutatedRestore) {
-        console.log('here');
-        props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties);
-      }
+      // if (toBeMutatedRestore) {
+      //   console.log('here');
+      //   props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties);
+      // }
 
       let test = address.byUuid(props.model.UUID(), props.form)[0];
       let _test = [...test];
@@ -189,8 +190,17 @@ let FormSectionComponent = props => {
         console.log('FormSection drop move, entity dropped on FS');
         console.log('add this: ', entityToAdd, _test);
         console.log('remove this: ', data.address);
-        props.add(_test, entityToAdd);
-        props.remove(data.address);
+        // props.add(_test, entityToAdd);
+        // props.remove(data.address);
+        // path, properties, pathToAdd, entityToAdd, pathToRemove section
+        props.mutateaddremove(
+          toBeMutatedRestore.address,
+          toBeMutatedRestore.properties,
+          _test,
+          entityToAdd,
+          data.address,
+          props.form
+        );
         //   /*
         //   start restore donor
         //   */
@@ -329,6 +339,7 @@ let FormSectionComponent = props => {
         className="form-group FS"
         style={{
           ...fsStyle,
+          border: '1px dashed blue',
           backgroundColor: whichBackground,
           minHeight: minHeight,
           maxHeight: maxHeight,
@@ -348,6 +359,7 @@ let FormSectionComponent = props => {
                 add: props.add,
                 mutate: props.mutate,
                 mutateandadd: props.mutateandadd,
+                mutateaddremove: props.mutateaddremove,
                 temporalStateChange: props.temporalStateChange,
               });
             })

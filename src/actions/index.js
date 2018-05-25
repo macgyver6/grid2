@@ -30,6 +30,16 @@ export const mutateandadd = (path, properties, pathToAdd, entityToAdd, section) 
   section,
 });
 
+export const mutateaddremove = (path, properties, pathToAdd, entityToAdd, pathToRemove, section) => ({
+  type: 'MUTATEADDREMOVE',
+  path,
+  properties,
+  pathToAdd,
+  entityToAdd,
+  pathToRemove,
+  section,
+});
+
 export const formmutate = (path, properties, section) => ({
   type: 'FORMMUTATE',
   path,

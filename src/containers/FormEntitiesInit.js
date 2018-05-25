@@ -34,6 +34,7 @@ const BackgroundPanel = props => (
       add={props.add}
       mutate={props.mutate}
       mutateandadd={props.mutateandadd}
+      mutateaddremove={props.mutateaddremove}
       formmutate={props.formmutate}
       changetab={props.changetab}
       activeTab={props.activeTab}
@@ -343,6 +344,7 @@ const MiddlePanel = props => (
       add={props.add}
       mutate={props.mutate}
       mutateandadd={props.mutateandadd}
+      mutateaddremove={props.mutateaddremove}
       activeTab={props.activeTab}
       temporalStateChange={props.temporalStateChange}
       mutate={props.mutate}
@@ -365,6 +367,7 @@ class FormEntityInit extends Component {
           formmutate={this.props.formmutate}
           mutate={this.props.mutate}
           mutateandadd={this.props.mutateandadd}
+          mutateaddremove={this.props.mutateaddremove}
           changetab={this.props.changetab}
           activeTab={this.props.store.model.app.activeTab}
           appState={this.props.store.model.app}
