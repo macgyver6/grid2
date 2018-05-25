@@ -125,7 +125,9 @@ const formReducer = (state, action) => {
     //     .children()[2]
     //     .width()
     // );
+    console.log(validateImport(entityAdded));
     if (validateImport(entityAdded).length === 0) {
+      console.log('pass');
       return Object.assign({}, state, {
         form: entityAdded,
       });

@@ -231,7 +231,10 @@ export const drop = {
                 (dropObj.sourceEntity.prePromptWidth ? dropObj.sourceEntity.prePromptWidth() : 0) -
                 (dropObj.sourceEntity.postPromptWidth ? dropObj.sourceEntity.postPromptWidth() : 0) -
                 dropObj.sourceEntity.width()
-              : props.model.prepend() - dropObj.sourceEntity.width() - gridOffsetLocChange(),
+              : props.model.prepend() -
+                (dropObj.sourceEntity.prePromptWidth ? dropObj.sourceEntity.prePromptWidth() : 0) -
+                dropObj.sourceEntity.width() -
+                gridOffsetLocChange(),
           // append: 1
         })
       );
