@@ -27,14 +27,19 @@ const TextBlockComponent = props => {
     backgroundColor: 'purple',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
-    height: '40px',
+    maxHeight: '40px',
     cursor: 'move',
-    // border: '1px solid red',
     padding: '4px',
     borderRadius: '2px',
   };
 
-  const tBInputStyle = { height: '60%', width: '80%' };
+  const tBInputStyle = {
+    height: '60%',
+    width: '80%',
+    position: 'absolute',
+    right: 16,
+    bottom: 7,
+  };
 
   return (
     <div
@@ -74,7 +79,7 @@ const TextBlockComponent = props => {
           type={props.model.type()}
           value={props.model.content()}
           cols="20"
-          rows="5"
+          rows="2"
         />
         <Resizer
           id={`${props.model.UUID()}.resizer`}

@@ -18,6 +18,17 @@ const resizeStyle = {
   borderRadius: '2px',
 };
 
+const resizeStyle2 = {
+  width: '10px',
+  height: '36px',
+  // backgroundColor: 'yellow',
+  position: 'absolute',
+  right: 4,
+  bottom: 4,
+  cursor: 'w-resize',
+  // borderRadius: '2px',
+};
+
 let Resizer = props => {
   const resize = {
     _mouseMoveStartX: null,
@@ -212,8 +223,8 @@ let Resizer = props => {
   return (
     <div
       id={`${props.resizeType}`}
-      className="resizer"
-      style={resizeStyle}
+      // className="resizer"
+      style={resizeStyle2}
       onDragStart={dragstart_handler}
       onMouseDown={mouseDown_handler}
       onClick={click_handler}

@@ -29,9 +29,8 @@ const SelectionInputComponent = props => {
     backgroundColor: 'red',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
-    height: '40px',
+    maxHeight: '40px',
     cursor: 'move',
-    // border: '1px solid red',
     padding: '4px',
     borderRadius: '2px',
   };

@@ -27,12 +27,12 @@ const TextAreaComponent = props => {
   const taStyle = {
     //     margin: helpers.marginCalc(props),
     backgroundColor: '#205EE2',
-    opacity: '1',
-    gridColumn: `span ${props.model.width()}`,
     position: 'relative',
-    height: '40px',
-    borderRadius: '2px',
+    gridColumn: `span ${props.model.width()}`,
+    maxHeight: '40px',
+    cursor: 'move',
     padding: '4px',
+    borderRadius: '2px',
   };
 
   const taInputStyle = {

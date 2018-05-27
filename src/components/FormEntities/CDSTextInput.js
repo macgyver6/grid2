@@ -41,10 +41,8 @@ const CDSTextInputComponent = props => {
     backgroundColor: 'blue',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
-    minHeight: '40px',
+    maxHeight: '40px',
     cursor: 'move',
-    // gridGap: '8px',
-    // border: '1px solid red',
     padding: '4px',
     borderRadius: '2px',
   };

@@ -26,8 +26,8 @@ const CheckBoxComponent = props => {
     backgroundColor: '#00C5EC',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
-    height: '40px',
-    // //     margin: helpers.marginCalc(props),
+    maxHeight: '40px',
+    cursor: 'move',
     padding: '4px',
     borderRadius: '2px',
   };
