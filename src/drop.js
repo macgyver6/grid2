@@ -216,6 +216,7 @@ export const drop = {
       const _destinationAddress = [...dropObj.destinationAddress];
       _destinationAddress[dropObj.destinationAddress.length - 1] =
         dropObj.destinationAddress[dropObj.destinationAddress.length - 1] + 1;
+      console.log(_destinationAddress);
       const whereToAdd = destinationAddress =>
         event.target.id === `${props.model.UUID()}.prepend` ? destinationAddress : _destinationAddress;
       const considerPrompt = prompt => (dropObj.sourceEntity[prompt] ? dropObj.sourceEntity[prompt]() : 0);
@@ -372,6 +373,7 @@ export const drop = {
           dropObj.sourceAddress[dropObj.sourceAddress.length - 2] ===
           dropObj.destinationAddress[dropObj.destinationAddress.length - 2]
         ) {
+          console.log('same section');
           if (!firstInRow([...dropObj.destinationAddress])) {
             console.log(
               'YYY here: ',
@@ -379,8 +381,22 @@ export const drop = {
                 (val, index, array) => (index === array.length - 1 ? (val += 1) : val)
               )
             );
+            console.log(event.target.id === `${props.model.UUID()}.append`);
+            console.log([...dropObj.destinationAddress]);
+            console.log(
+              [...dropObj.destinationAddress].map(
+                (val, index, array) => (index === array.length - 1 ? (val -= 1) : val)
+              )
+            );
+            const afterTargetAddress = [...dropObj.destinationAddress];
+            afterTargetAddress.splice(
+              [...dropObj.destinationAddress].length - 1,
+              1,
+              [...dropObj.destinationAddress][dropObj.destinationAddress.length - 1] + 1
+            );
+
             return event.target.id === `${props.model.UUID()}.append`
-              ? [...dropObj.destinationAddress]
+              ? afterTargetAddress
               : // [...dropObj.destinationAddress].map((val, index, array) => index === array.length - 1 ? val += 1 : val) :
 
                 [...dropObj.destinationAddress].map(
@@ -395,7 +411,7 @@ export const drop = {
               : [...dropObj.destinationAddress];
           }
         } else {
-          console.log('YYY here');
+          console.log('YYY different section');
           return event.target.id === `${props.model.UUID()}.append`
             ? [...dropObj.destinationAddress].map(
                 (val, index, array) => (index === array.length - 1 ? (val += 1) : val)
