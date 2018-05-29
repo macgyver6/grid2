@@ -61,7 +61,12 @@ const AddToEnd = props => {
         address: toRight(arr).address,
         properties: {
           prepend:
-            toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append(),
+            toRight(arr).entity.prepend() +
+            (draggedEntity.prePromptWidth ? draggedEntity.prePromptWidth() : 0) +
+            draggedEntity.prepend() +
+            draggedEntity.width() +
+            (draggedEntity.postPromptWidth ? draggedEntity.postPromptWidth() : 0) +
+            draggedEntity.append(),
         },
       };
     } else {
@@ -131,7 +136,11 @@ const AddToEnd = props => {
             Object.assign({}, droppedEntity.properties(), {
               // @hack dropData.model.width below assumes that it is a new entity. Doesn't
               // allow an existing entity to be added
-              append: destinationSectionAddy()[1].width() - droppedEntity.width(),
+              append:
+                destinationSectionAddy()[1].width() -
+                (droppedEntity.prePromptWidth ? droppedEntity.prePromptWidth() : 0) -
+                droppedEntity.width() -
+                (droppedEntity.postPromptWidth ? droppedEntity.postPromptWidth() : 0),
             })
           )
         );
