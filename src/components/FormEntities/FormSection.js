@@ -262,7 +262,7 @@ let FormSectionComponent = props => {
     backgroundColor: 'rgba(243, 234, 95, 0.7)',
     // minHeight: '120px',
     minWidth: '100px',
-    paddingBottom: '60px',
+    paddingBottom: '40px',
     gridColumn: `span ${props.model.width()}`,
     gridGap: '8px',
     gridAutoRows: 'min-content',
