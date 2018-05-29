@@ -368,13 +368,31 @@ export const drop = {
         })
       );
 
-      const whereToAdd = () => {
+      const whereToAdd2 = () => {
+        console.log(
+          !firstInRow([...dropObj.destinationAddress]),
+          [...dropObj.sourceAddress][dropObj.sourceAddress.length - 1] <
+            [...dropObj.destinationAddress][dropObj.destinationAddress.length - 1]
+        );
         if (
           dropObj.sourceAddress[dropObj.sourceAddress.length - 2] ===
           dropObj.destinationAddress[dropObj.destinationAddress.length - 2]
         ) {
           console.log('same section');
-          if (!firstInRow([...dropObj.destinationAddress])) {
+          /** if destination is not first in row AND is destinated for a position after it's inital
+           * might be able to clear up the following conditions
+           */
+          if (
+            [...dropObj.sourceAddress][dropObj.sourceAddress.length - 1] <
+            [...dropObj.destinationAddress][dropObj.destinationAddress.length - 1]
+          ) {
+            return event.target.id === `${props.model.UUID()}.append`
+              ? dropObj.destinationAddress
+              : [...dropObj.destinationAddress].map(
+                  (val, index, array) => (index === array.length - 1 ? (val -= 1) : val)
+                );
+            console.log('do stuff');
+          } else if (!firstInRow([...dropObj.destinationAddress])) {
             console.log(
               'YYY here: ',
               [...dropObj.destinationAddress].map(
@@ -388,6 +406,10 @@ export const drop = {
                 (val, index, array) => (index === array.length - 1 ? (val -= 1) : val)
               )
             );
+
+            /**
+             * afterTargetAddress addresses moving an entity prior to current position
+             * */
             const afterTargetAddress = [...dropObj.destinationAddress];
             afterTargetAddress.splice(
               [...dropObj.destinationAddress].length - 1,
@@ -424,10 +446,10 @@ export const drop = {
         'YYY add: ',
         'gridOffsetLocChange(): ',
         gridOffsetLocChange() - (dropObj.sourceEntity.prePromptWidth ? dropObj.sourceEntity.prePromptWidth() : 0),
-        whereToAdd(),
+        whereToAdd2(),
         toBeAdded2
       );
-      props.add(whereToAdd(), toBeAdded2);
+      props.add(whereToAdd2(), toBeAdded2);
     }
   },
 };
