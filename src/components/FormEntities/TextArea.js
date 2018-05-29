@@ -3,6 +3,7 @@ import { helpers } from '../../helpers';
 import { drop } from '../../drop';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
+import AddToEnd from './subentities/AddToEnd.js';
 
 import { styleDefaultEntity } from './feStyles';
 import Prepend from './subentities/Prepend.js';
@@ -27,12 +28,12 @@ const TextAreaComponent = props => {
   const taStyle = {
     //     margin: helpers.marginCalc(props),
     backgroundColor: '#205EE2',
-    opacity: '1',
-    gridColumn: `span ${props.model.width()}`,
     position: 'relative',
-    height: '40px',
-    borderRadius: '2px',
+    gridColumn: `span ${props.model.width()}`,
+    maxHeight: '40px',
+    cursor: 'move',
     padding: '4px',
+    borderRadius: '2px',
   };
 
   const taInputStyle = {
@@ -41,6 +42,32 @@ const TextAreaComponent = props => {
     bottom: 7,
     height: '20px',
     width: '82%',
+  };
+
+  const total = entity =>
+    entity.prepend() +
+    (entity.prePromptWidth ? entity.prePromptWidth() : 0) +
+    entity.width() +
+    entity.append() +
+    (entity.postPromptWidth ? entity.postPromptWidth() : 0);
+  const entityAddress = address.bySample(props.model, props.form);
+
+  const lastInRow = entityAddress => {
+    const section = address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1));
+    // console.log(entityAddress )
+    const _entityAddress = entityAddress[entityAddress.length - 1];
+    const entity = address.byPath(props.form, entityAddress);
+    // if (entityAddress[entityAddress.length - 1] === 0 && total(entity) !== props.model.width()) {
+    //   return false;
+    // }
+    var runningTotal = 0;
+    // console.log(_entityAddress, section.children())
+    for (var i = 0; i <= _entityAddress; ++i) {
+      // console.log(section)
+      runningTotal += total(section.children()[i]);
+    }
+    console.log(runningTotal % section.width());
+    return runningTotal % section.width() === 0 ? true : false;
   };
 
   return (
@@ -53,7 +80,7 @@ const TextAreaComponent = props => {
       onDragStart={dragstart_handler}
       draggable="false"
     >
-      {props.model.prepend() > 0 ? (
+      {props.model.prepend() > 1 ? (
         <Prepend
           id={`${props.model.UUID()}.prepend`}
           prepend={props.model.prepend()}
@@ -67,18 +94,20 @@ const TextAreaComponent = props => {
         />
       ) : null}
 
-      <PrePrompt
-        id={`${props.model.UUID()}.prepend`}
-        prePromptWidth={props.model.prePromptWidth()}
-        uuid={props.model.UUID()}
-        className="prepend"
-        model={props.model}
-        form={props.form}
-        remove={props.remove}
-        add={props.add}
-        mutate={props.mutate}
-        backgroundColor="rgb(32, 94, 226)"
-      />
+      {props.model.prePromptWidth() > 1 ? (
+        <PrePrompt
+          id={`${props.model.UUID()}.prepend`}
+          prePromptWidth={props.model.prePromptWidth()}
+          uuid={props.model.UUID()}
+          className="prepend"
+          model={props.model}
+          form={props.form}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
+          backgroundColor="rgb(32, 94, 226)"
+        />
+      ) : null}
 
       <div
         id={`${props.model.UUID()}.${props.model.type()}`}
@@ -101,7 +130,7 @@ const TextAreaComponent = props => {
         />
       </div>
 
-      {props.model.postPromptWidth() > 0 ? (
+      {props.model.postPromptWidth() > 1 ? (
         <PostPrompt
           id={`${props.model.UUID()}.prepend`}
           postPromptWidth={props.model.postPromptWidth()}
@@ -127,6 +156,18 @@ const TextAreaComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
+        />
+      ) : null}
+      {lastInRow(entityAddress) ? (
+        <AddToEnd
+          model={props.model}
+          form={props.form}
+          add={props.add}
+          remove={props.remove}
+          mutate={props.mutate}
+          temporalStateChange={props.temporalStateChange}
+          addToEndAction="insertInPlace"
+          appState={props.appState}
         />
       ) : null}
     </div>

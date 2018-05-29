@@ -8,12 +8,13 @@ import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 import { helpers } from '../../helpers';
 import { entityActions } from './actions.entities';
-
+// import AddToEnd from './subentities/AddToEnd.js';
 let FormSectionComponent = props => {
   const round = (value, decimals) => Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 
   const dragstart_handler = event => {
-    // event.stopPropagation();
+    event.stopPropagation();
+    console.log(event.target, props.model.UUID());
     helpers.dragStart_handler(event, props.model, props.form, 'move');
     console.log('FS DragStart');
   };
@@ -148,6 +149,7 @@ let FormSectionComponent = props => {
             address: toRight(arr).address,
             properties: {
               prepend:
+                (draggedEntity.prePromptWidth ? draggedEntity.prePromptWidth() : 0) +
                 toRight(arr).entity.prepend() +
                 draggedEntity.prepend() +
                 draggedEntity.width() +
@@ -175,10 +177,10 @@ let FormSectionComponent = props => {
 
       const toBeMutatedRestore = restoreDonorSiblingAddress(data.address, props, draggedEntity);
 
-      if (toBeMutatedRestore) {
-        console.log('here');
-        props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties);
-      }
+      // if (toBeMutatedRestore) {
+      //   console.log('here');
+      //   props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties);
+      // }
 
       let test = address.byUuid(props.model.UUID(), props.form)[0];
       let _test = [...test];
@@ -188,8 +190,17 @@ let FormSectionComponent = props => {
         console.log('FormSection drop move, entity dropped on FS');
         console.log('add this: ', entityToAdd, _test);
         console.log('remove this: ', data.address);
-        props.add(_test, entityToAdd);
-        props.remove(data.address);
+        // props.add(_test, entityToAdd);
+        // props.remove(data.address);
+        // path, properties, pathToAdd, entityToAdd, pathToRemove section
+        props.mutateaddremove(
+          toBeMutatedRestore.address,
+          toBeMutatedRestore.properties,
+          _test,
+          entityToAdd,
+          data.address,
+          props.form
+        );
         //   /*
         //   start restore donor
         //   */
@@ -235,9 +246,10 @@ let FormSectionComponent = props => {
 
   const mouseDown_handler = event => {
     event.stopPropagation();
+    console.log(event.target, document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`));
     document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`).draggable = true;
     console.log(event.target.draggable);
-    console.log(event.target);
+    console.log(event.target, address.bySample(props.model, props.form));
   };
 
   const fsStyle = {
@@ -286,7 +298,39 @@ let FormSectionComponent = props => {
 
   const showResizer = address.bySample(props.model, props.form).length < 2 ? false : true;
 
-  const total = entity => entity.prepend() + entity.width() + entity.append();
+  const total = entity =>
+    (entity.prePromptWidth ? entity.prePromptWidth() : 0) +
+    entity.prepend() +
+    entity.width() +
+    entity.append() +
+    (entity.postPromptWidth ? entity.postPromptWidth() : 0);
+
+  const lastInRow = entityAddress => {
+    const section = address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1));
+    // console.log(entityAddress )
+    const _entityAddress = entityAddress[entityAddress.length - 1];
+    const entity = address.byPath(props.form, entityAddress);
+    // if (entityAddress[entityAddress.length - 1] === 0 && total(entity) !== props.model.width()) {
+    //   return false;
+    // }
+    var runningTotal = 0;
+    // console.log(_entityAddress, section.children())
+    for (var i = 0; i <= _entityAddress; ++i) {
+      // console.log(section)
+      runningTotal += total(section.children()[i]);
+    }
+    console.log(runningTotal % section.width());
+    return runningTotal % section.width() === 0 ? true : false;
+  };
+
+  const lastEntitiesInRow = props.model
+    .children()
+    .map(
+      (child, index) =>
+        lastInRow(address.bySample(child, props.form)) ? `${child.UUID()}.${child.type()}.wrapper` : null
+    );
+
+  console.log(lastEntitiesInRow);
 
   // const allChildrenSum = section =>
   //   section
@@ -299,18 +343,27 @@ let FormSectionComponent = props => {
   //       return accumulator + currentValue;
   //     }, 0);
 
+  const dragEnter_handler = event => {
+    // event.stopPropagation();
+    // event.preventDefault();
+    props.temporalStateChange({ gridWidth: document.getElementById('0.bgrndGrd').clientWidth + 7 });
+  };
+  // lastEntitiesInRow.map(entity => document.getElementById(entity).appendChild(AddToEnd));
+
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       className="FS"
       style={formSectionStyle}
       onDrop={drop_handler2}
+      onDragEnter={dragEnter_handler}
       onDragOver={
         dragOver_handler // adding a new entity to section
       }
       onMouseDown={mouseDown_handler}
+      onDragStart={dragstart_handler}
     >
-      {props.model.prepend() > 0 ? (
+      {props.model.prepend() > 1 ? (
         <Prepend
           id={`${props.model.UUID()}.prepend`}
           prepend={props.model.prepend()}
@@ -326,13 +379,13 @@ let FormSectionComponent = props => {
         className="form-group FS"
         style={{
           ...fsStyle,
+          border: '1px dashed blue',
           backgroundColor: whichBackground,
           minHeight: minHeight,
           maxHeight: maxHeight,
           overflowY: scrollable,
         }}
         data-action={`mover.${props.model.UUID()}.FormSection`}
-        onDragStart={dragstart_handler}
         onDrop={drop_handler}
       >
         {props.model.type() === 'FormSection'
@@ -345,7 +398,10 @@ let FormSectionComponent = props => {
                 remove: props.remove,
                 add: props.add,
                 mutate: props.mutate,
+                mutateandadd: props.mutateandadd,
+                mutateaddremove: props.mutateaddremove,
                 temporalStateChange: props.temporalStateChange,
+                appState: props.appState,
               });
             })
           : null}

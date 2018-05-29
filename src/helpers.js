@@ -1,9 +1,7 @@
 import { address } from './address';
 import { defaultPropsFE } from './constants/defaultPropsFE';
 
-const round = (value, decimals) => {
-  return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
-};
+const round = (value, decimals) => Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 
 export const helpers = {
   /**
@@ -13,7 +11,6 @@ export const helpers = {
    * @param {number[]} path
    * @returns {FormEntity}
    */
-
   dragStart_handler: (event, model, form, action) => {
     event.stopPropagation();
     // console.log(
@@ -26,6 +23,7 @@ export const helpers = {
     //     3
     //   ) / 40
     // );
+    console.log(model);
     event.dataTransfer.setData(
       'address',
       JSON.stringify({
@@ -35,12 +33,10 @@ export const helpers = {
           action === 'move'
             ? round(
                 event.clientX -
-                  document
-                    .getElementById(`${model.UUID()}.${model.type()}.wrapper`)
-                    .getBoundingClientRect().left,
+                  document.getElementById(`${model.UUID()}.${model.type()}.wrapper`).getBoundingClientRect().left,
                 3
               )
-            : null
+            : null,
       })
     );
     // console.log(JSON.stringify({
@@ -78,7 +74,7 @@ export const helpers = {
         JSON.stringify({
           action: action,
           model: model,
-          dragInit: null
+          dragInit: null,
         })
       );
     }
@@ -122,43 +118,30 @@ export const helpers = {
         console.log('dropMove on: ', props.model.type());
         props.mutate(resize.address, {
           prepend: resize.init_prepend + resize.grids,
-          append: resize.init_append - resize.grids
+          append: resize.init_append - resize.grids,
         });
       }
     }
-    const element = document.getElementById(
-      `${props.model.UUID()}.${props.model.type()}`
-    );
+    const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}`);
     // OK
-    console.log(
-      'change this: ',
-      element.id +
-        'to: ' +
-        defaultPropsFE[props.model.type()].render.backgroundColor
-    );
-    element.style.backgroundColor =
-      defaultPropsFE[props.model.type()].render.backgroundColor;
+    console.log('change this: ', element.id + 'to: ' + defaultPropsFE[props.model.type()].render.backgroundColor);
+    element.style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor;
   },
 
   drag_handler: (event, model, form, resize, props) => {
     event.stopPropagation();
-    const can_move = (minWidth, maxWidth) => {
-      return true;
-      // if (resize.init_grids - resize.grids - 1 < maxWidth && resize.init_grids - resize.grids > minWidth) {
-      //   // console.log(minWidth, maxWidth, '867, valid move')
-      //   return true
-      // } else {
-      //   // console.log(minWidth, maxWidth, '867, invalid move')
-      //   return false
-      // }
-    };
+    const can_move = (minWidth, maxWidth) => true;
+    // if (resize.init_grids - resize.grids - 1 < maxWidth && resize.init_grids - resize.grids > minWidth) {
+    //   // console.log(minWidth, maxWidth, '867, valid move')
+    //   return true
+    // } else {
+    //   // console.log(minWidth, maxWidth, '867, invalid move')
+    //   return false
+    // }
 
     resize.reset = false;
     let locEntity = address.byUuid(props.model.UUID(), props.form);
-    let parentEntity = address.byPath(
-      props.form,
-      locEntity[0].slice(0, locEntity[0].length - 1)
-    );
+    let parentEntity = address.byPath(props.form, locEntity[0].slice(0, locEntity[0].length - 1));
     const minWidth = defaultPropsFE[props.model.type()].render.minWidth;
     const maxWidth = parentEntity.width();
     if (resize.init === null) {
@@ -185,10 +168,7 @@ export const helpers = {
       if (!can_move(minWidth, maxWidth)) {
         console.log('invalid');
         resize.reset = null;
-        document.getElementById(
-          `${props.model.UUID()}.${props.model.type()}`.UUID()
-        ).style.backgroundColor =
-          'red';
+        document.getElementById(`${props.model.UUID()}.${props.model.type()}`.UUID()).style.backgroundColor = 'red';
         // let timer = setTimeout(function () {
         //   resize.reset !== null ? mutate2(locEntity, props) : null
         // }, 600)
@@ -213,14 +193,11 @@ export const helpers = {
       if (destinationEntity.length > 2) {
         const whichSection = arr => arr[arr.length - 2];
         const isSibling = arr => arr[arr.length - 1];
-        if (
-          whichSection(destinationEntity) === whichSection(draggedEntityAddress)
-        ) {
+        if (whichSection(destinationEntity) === whichSection(draggedEntityAddress)) {
           if (
             isSibling(destinationEntity) ===
             (isSibling(draggedEntityAddress) + 1 ||
-              isSibling(destinationEntity) ===
-                isSibling(draggedEntityAddress) - 1)
+              isSibling(destinationEntity) === isSibling(draggedEntityAddress) - 1)
           ) {
             return true;
           }
@@ -235,10 +212,7 @@ export const helpers = {
       draggedEntity.type() !== 'FormSection'
     ) {
       console.log('dropped UUID different than props');
-      let parentEntity = address.byPath(
-        props.form,
-        data.address.slice(0, data.address.length - 1)
-      );
+      let parentEntity = address.byPath(props.form, data.address.slice(0, data.address.length - 1));
       console.log(parentEntity);
 
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8;
@@ -246,32 +220,27 @@ export const helpers = {
       // # grids from event to end of FS row
       const offsetE1 = data.dragInit;
       const appendGrids = round(
-        (event.clientX - event.target.getBoundingClientRect().left - offsetE1) /
-          bgrndGrdWidth,
+        (event.clientX - event.target.getBoundingClientRect().left - offsetE1) / bgrndGrdWidth,
         0
       );
       let draggedEntityNewAddress = [...destinationEntity[0]];
       draggedEntityNewAddress[draggedEntityNewAddress.length - 1] =
         draggedEntityNewAddress[draggedEntityNewAddress.length - 1] + 1;
       let loc = [...destinationEntity[0]];
-      loc[loc.length - 1] =
-        destinationEntity[0][destinationEntity[0].length - 1] + 1;
+      loc[loc.length - 1] = destinationEntity[0][destinationEntity[0].length - 1] + 1;
       if (destinationIsSibling(destinationEntity[0], data.address)) {
         console.log('is sibling');
-        const total = (prepend, append, width) => {
-          return prepend + append + width;
-        };
+        const total = (prepend, append, width) => prepend + append + width;
         const newArr = [...destinationEntity[0]];
         newArr[newArr.length - 1] = newArr[newArr.length - 1] + 1;
         console.log(appendGrids);
-        const addEntityAppend =
-          props.model.append() - 0 - draggedEntity.width();
+        const addEntityAppend = props.model.append() - 0 - draggedEntity.width();
         props.add(
           newArr,
           address.resurrectEntity(
             Object.assign({}, draggedEntity.properties(), {
               prepend: 0,
-              append: addEntityAppend - appendGrids
+              append: addEntityAppend - appendGrids,
             })
           )
         );
@@ -280,20 +249,12 @@ export const helpers = {
           (destinationEntity[0],
           {
             append: appendGrids,
-            prepend: total(
-              draggedEntity.prepend(),
-              draggedEntity.width(),
-              draggedEntity.append()
-            )
+            prepend: total(draggedEntity.prepend(), draggedEntity.width(), draggedEntity.append()),
           })
         );
         props.mutate(destinationEntity[0], {
           append: appendGrids,
-          prepend: total(
-            draggedEntity.prepend(),
-            draggedEntity.width(),
-            draggedEntity.append()
-          )
+          prepend: total(draggedEntity.prepend(), draggedEntity.width(), draggedEntity.append()),
         });
         props.remove(data.address);
       }
@@ -303,28 +264,22 @@ export const helpers = {
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8;
 
       // # grids from event to end of FS row
-      const appendGrids = round(
-        (event.clientX - event.target.getBoundingClientRect().left) /
-          bgrndGrdWidth,
-        0
-      );
+      const appendGrids = round((event.clientX - event.target.getBoundingClientRect().left) / bgrndGrdWidth, 0);
       let draggedEntityNewAddress = [...destinationEntity[0]];
       draggedEntityNewAddress[draggedEntityNewAddress.length - 1] =
         draggedEntityNewAddress[draggedEntityNewAddress.length - 1] + 1;
       let loc = [...destinationEntity[0]];
-      loc[loc.length - 1] =
-        destinationEntity[0][destinationEntity[0].length - 1];
+      loc[loc.length - 1] = destinationEntity[0][destinationEntity[0].length - 1];
 
       const newAddress = [...destinationEntity[0]];
 
-      newAddress[destinationEntity[0].length - 1] =
-        newAddress[destinationEntity[0].length - 1] + 1;
+      newAddress[destinationEntity[0].length - 1] = newAddress[destinationEntity[0].length - 1] + 1;
       console.log('here');
       props.add(
         newAddress,
         address.resurrectEntity(
           Object.assign({}, data.model, {
-            append: props.model.append() - appendGrids - data.model.width
+            append: props.model.append() - appendGrids - data.model.width,
           })
         )
       );
@@ -332,17 +287,9 @@ export const helpers = {
       props.mutate(destinationEntity[0], { append: appendGrids });
     }
     // event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)'
-    const element = document.getElementById(
-      `${props.model.UUID()}.${props.model.type()}`
-    );
-    console.log(
-      'change this: ',
-      element.id +
-        'to: ' +
-        defaultPropsFE[props.model.type()].render.backgroundColor
-    );
-    element.style.backgroundColor =
-      defaultPropsFE[props.model.type()].render.backgroundColor;
+    const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}`);
+    console.log('change this: ', element.id + 'to: ' + defaultPropsFE[props.model.type()].render.backgroundColor);
+    element.style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor;
   },
 
   dropPrepend_handler: (event, props) => {
@@ -353,13 +300,10 @@ export const helpers = {
         console.log('>2');
         const whichSection = arr => arr[arr.length - 2];
         const isSibling = arr => arr[arr.length - 1];
-        if (
-          whichSection(destinationEntity) === whichSection(draggedEntityAddress)
-        ) {
+        if (whichSection(destinationEntity) === whichSection(draggedEntityAddress)) {
           console.log('same Section');
           if (
-            isSibling(destinationEntity) ===
-              isSibling(draggedEntityAddress) + 1 ||
+            isSibling(destinationEntity) === isSibling(draggedEntityAddress) + 1 ||
             isSibling(destinationEntity) === isSibling(draggedEntityAddress) - 1
           ) {
             console.log('yes we related');
@@ -388,28 +332,22 @@ export const helpers = {
       // # grids from event to end of FS row
       const offsetE1 = data.dragInit;
       const appendGrids = round(
-        (event.clientX - event.target.getBoundingClientRect().left - offsetE1) /
-          bgrndGrdWidth,
+        (event.clientX - event.target.getBoundingClientRect().left - offsetE1) / bgrndGrdWidth,
         0
       );
       let draggedEntityNewAddress = [...destinationEntity[0]];
       draggedEntityNewAddress[draggedEntityNewAddress.length - 1] =
         draggedEntityNewAddress[draggedEntityNewAddress.length - 1] + 1;
       let loc = [...destinationEntity[0]];
-      loc[loc.length - 1] =
-        destinationEntity[0][destinationEntity[0].length - 1] + 1;
+      loc[loc.length - 1] = destinationEntity[0][destinationEntity[0].length - 1] + 1;
       // get init_prepend of modified
       // console.log(destinationEntity[1].prepend())
       // console.log(appendGrids)
-      const total = (prepend, append, width) => {
-        return prepend + append + width;
-      };
+      const total = (prepend, append, width) => prepend + append + width;
       console.log(destinationIsSibling(destinationEntity[0], data.address));
       if (destinationIsSibling(destinationEntity[0], data.address)) {
         console.log('is sibling');
-        const total = (prepend, append, width) => {
-          return prepend + append + width;
-        };
+        const total = (prepend, append, width) => prepend + append + width;
         const newArr = [...destinationEntity[0]];
         newArr[newArr.length - 1] = newArr[newArr.length - 1];
         console.log(
@@ -417,11 +355,7 @@ export const helpers = {
           newArr,
           Object.assign({}, draggedEntity.properties(), {
             prepend: appendGrids,
-            append:
-              props.model.prepend() -
-              appendGrids -
-              draggedEntity.width() -
-              appendGrids
+            append: props.model.prepend() - appendGrids - draggedEntity.width() - appendGrids,
           })
         );
         console.log(appendGrids);
@@ -430,78 +364,46 @@ export const helpers = {
           address.resurrectEntity(
             Object.assign({}, draggedEntity.properties(), {
               prepend: appendGrids,
-              append:
-                props.model.prepend() - 0 - draggedEntity.width() - appendGrids
+              append: props.model.prepend() - 0 - draggedEntity.width() - appendGrids,
             })
           )
         );
         let mutateMe = [...data.address];
-        mutateMe[data.address.length - 1] =
-          data.address[data.address.length - 1];
+        mutateMe[data.address.length - 1] = data.address[data.address.length - 1];
         console.log('mutate this one: ', mutateMe, {
           prepend: 0,
-          append: total(
-            draggedEntity.prepend(),
-            draggedEntity.width(),
-            draggedEntity.append()
-          )
+          append: total(draggedEntity.prepend(), draggedEntity.width(), draggedEntity.append()),
         });
         console.log(
           (mutateMe,
           {
             prepend: 0,
-            append: total(
-              draggedEntity.prepend(),
-              draggedEntity.width(),
-              draggedEntity.append()
-            )
+            append: total(draggedEntity.prepend(), draggedEntity.width(), draggedEntity.append()),
           })
         );
         props.mutate(mutateMe, {
           prepend: 0,
-          append: total(
-            draggedEntity.prepend(),
-            draggedEntity.width(),
-            draggedEntity.append()
-          )
+          append: total(draggedEntity.prepend(), draggedEntity.width(), draggedEntity.append()),
         });
         let removeMe = [...data.address];
-        removeMe[data.address.length - 1] =
-          data.address[data.address.length - 1] + 1;
-        console.log(
-          'remove this one; ',
-          removeMe,
-          address.byPath(props.form, removeMe)
-        );
+        removeMe[data.address.length - 1] = data.address[data.address.length - 1] + 1;
+        console.log('remove this one; ', removeMe, address.byPath(props.form, removeMe));
 
         props.remove(removeMe);
       } else {
         // mutate sibling entity origin
         const sisterAddress = [...destinationEntity[0]];
-        sisterAddress[destinationEntity[0].length - 1] =
-          destinationEntity[0][destinationEntity[0].length - 1] + 1;
-        console.log(
-          'mutate dropPrepend: ',
-          destinationEntity[0],
-          address.byPath(props.form, destinationEntity[0]),
-          {
-            prepend: total(
-              draggedEntity.prepend(),
-              draggedEntity.width(),
-              draggedEntity.append()
-            )
-          }
-        );
+        sisterAddress[destinationEntity[0].length - 1] = destinationEntity[0][destinationEntity[0].length - 1] + 1;
+        console.log('mutate dropPrepend: ', destinationEntity[0], address.byPath(props.form, destinationEntity[0]), {
+          prepend: total(draggedEntity.prepend(), draggedEntity.width(), draggedEntity.append()),
+        });
 
         // restore append of previous sibling.
         // if no previous sibling, restore prepend
 
         const restoreDonorSiblingAddress = arr => {
           // get donor's parent
-          const donorParent = address.byPath(
-            props.form,
-            arr.slice(0, arr.length - 1)
-          );
+          const donorParent = address.byPath(props.form, arr.slice(0, arr.length - 1));
 
           if (donorParent.children().length === 1) {
             return false;
@@ -514,7 +416,7 @@ export const helpers = {
               _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1;
               return {
                 address: _toLeft,
-                entity: address.byPath(props.form, _toLeft)
+                entity: address.byPath(props.form, _toLeft),
               };
             };
             const toRight = arr => {
@@ -522,15 +424,12 @@ export const helpers = {
               _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1;
               return {
                 address: _toRight,
-                entity: address.byPath(props.form, _toRight)
+                entity: address.byPath(props.form, _toRight),
               };
             };
 
             if (toLeft(arr)) {
-              console.log(
-                'previous entity exists, adding to append: ',
-                toLeft(arr).address
-              );
+              console.log('previous entity exists, adding to append: ', toLeft(arr).address);
               return {
                 address: toLeft(arr).address,
                 properties: {
@@ -538,8 +437,8 @@ export const helpers = {
                     toLeft(arr).entity.append() +
                     draggedEntity.prepend() +
                     draggedEntity.width() +
-                    draggedEntity.append()
-                }
+                    draggedEntity.append(),
+                },
               };
             } else {
               console.log('no previous entity exists, adding to prepend');
@@ -550,8 +449,8 @@ export const helpers = {
                     toRight(arr).entity.prepend() +
                     draggedEntity.prepend() +
                     draggedEntity.width() +
-                    draggedEntity.append()
-                }
+                    draggedEntity.append(),
+                },
               };
             }
           }
@@ -575,10 +474,7 @@ export const helpers = {
           address.resurrectEntity(
             Object.assign({}, draggedEntity.properties(), {
               prepend: appendGrids,
-              append:
-                destinationEntity[1].prepend() -
-                appendGrids -
-                draggedEntity.width()
+              append: destinationEntity[1].prepend() - appendGrids - draggedEntity.width(),
             })
           ),
           destinationEntity[0]
@@ -589,10 +485,7 @@ export const helpers = {
           address.resurrectEntity(
             Object.assign({}, draggedEntity.properties(), {
               prepend: appendGrids,
-              append:
-                destinationEntity[1].prepend() -
-                appendGrids -
-                draggedEntity.width()
+              append: destinationEntity[1].prepend() - appendGrids - draggedEntity.width(),
             })
           )
         );
@@ -606,11 +499,11 @@ export const helpers = {
         // mutate sibling entity destination
         console.log('mutate this one: ', draggedEntityNewAddress, {
           prepend: 0,
-          append: destinationEntity[1].append()
+          append: destinationEntity[1].append(),
         });
         props.mutate(draggedEntityNewAddress, {
           prepend: 0,
-          append: destinationEntity[1].append()
+          append: destinationEntity[1].append(),
         });
         console.log('remove this one: ', data.address);
         props.remove(data.address);
@@ -624,41 +517,28 @@ export const helpers = {
       let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8;
 
       // # grids from event to end of FS row
-      const appendGrids = round(
-        (event.clientX - event.target.getBoundingClientRect().left) /
-          bgrndGrdWidth,
-        0
-      );
+      const appendGrids = round((event.clientX - event.target.getBoundingClientRect().left) / bgrndGrdWidth, 0);
       console.log('apendGrids: ', appendGrids);
       props.add(
         destinationEntity[0],
         address.resurrectEntity(
           Object.assign({}, data.model, {
             prepend: appendGrids,
-            append: props.model.prepend() - appendGrids - data.model.width
+            append: props.model.prepend() - appendGrids - data.model.width,
           })
         )
       );
 
       const removeEntityAddress = [...destinationEntity[0]];
-      removeEntityAddress[destinationEntity[0].length - 1] =
-        removeEntityAddress[destinationEntity[0].length - 1] + 1;
+      removeEntityAddress[destinationEntity[0].length - 1] = removeEntityAddress[destinationEntity[0].length - 1] + 1;
       // props.remove(removeEntityAddress)
 
       props.mutate(removeEntityAddress, { prepend: 0 });
     }
     // event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)'
-    const element = document.getElementById(
-      `${props.model.UUID()}.${props.model.type()}`
-    );
-    console.log(
-      'change this: ',
-      element.id +
-        'to: ' +
-        defaultPropsFE[props.model.type()].render.backgroundColor
-    );
-    element.style.backgroundColor =
-      defaultPropsFE[props.model.type()].render.backgroundColor;
+    const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}`);
+    console.log('change this: ', element.id + 'to: ' + defaultPropsFE[props.model.type()].render.backgroundColor);
+    element.style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor;
   },
 
   // for dropping on an entity
@@ -673,8 +553,7 @@ export const helpers = {
     let destinationEntity = address.byUuid(model.UUID(), form);
 
     let loc = [...destinationEntity[0]];
-    loc[loc.length - 1] =
-      destinationEntity[0][destinationEntity[0].length - 1] + 1;
+    loc[loc.length - 1] = destinationEntity[0][destinationEntity[0].length - 1] + 1;
 
     if (data.action === 'move') {
       // console.log(address.bySample(address.resurrectEntity(data.model), form))
@@ -701,10 +580,7 @@ export const helpers = {
     let draggedEntity = address.byPath(props.form, arr);
     const total = (prepend, width, append) => prepend + width + append;
     // get donor's parent
-    const donorParent = address.byPath(
-      props.form,
-      arr.slice(0, arr.length - 1)
-    );
+    const donorParent = address.byPath(props.form, arr.slice(0, arr.length - 1));
     const entitySelf = address.byPath(props.form, arr);
     // console.log(total(0, 8, 0))
     // console.log(typeof(entitySelf.prepend()), typeof(entitySelf.width()), typeof(entitySelf.append()))
@@ -731,7 +607,7 @@ export const helpers = {
           _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1;
           return {
             address: _toLeft,
-            entity: address.byPath(props.form, _toLeft)
+            entity: address.byPath(props.form, _toLeft),
           };
         }
       };
@@ -740,24 +616,18 @@ export const helpers = {
         _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1;
         return {
           address: arr,
-          entity: address.byPath(props.form, _toRight)
+          entity: address.byPath(props.form, _toRight),
         };
       };
 
       if (toLeft(arr)) {
-        console.log(
-          'previous entity exists, adding to append: ',
-          toLeft(arr).address
-        );
+        console.log('previous entity exists, adding to append: ', toLeft(arr).address);
         return {
           address: toLeft(arr).address,
           properties: {
             append:
-              toLeft(arr).entity.append() +
-              draggedEntity.prepend() +
-              draggedEntity.width() +
-              draggedEntity.append()
-          }
+              toLeft(arr).entity.append() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append(),
+          },
         };
       } else {
         console.log(
@@ -770,21 +640,18 @@ export const helpers = {
                 toRight(arr).entity.prepend() +
                 draggedEntity.prepend() +
                 draggedEntity.width() +
-                draggedEntity.append()
-            }
+                draggedEntity.append(),
+            },
           }
         );
         return {
           address: toRight(arr).address,
           properties: {
             prepend:
-              toRight(arr).entity.prepend() +
-              draggedEntity.prepend() +
-              draggedEntity.width() +
-              draggedEntity.append()
-          }
+              toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append(),
+          },
         };
       }
     }
-  }
+  },
 };

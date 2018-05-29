@@ -9,6 +9,7 @@ import PrePrompt from './subentities/PrePrompt.js';
 import PostPrompt from './subentities/PostPrompt.js';
 import { address } from '../../address';
 import { entityActions } from './actions.entities';
+import AddToEnd from './subentities/AddToEnd.js';
 
 const CheckBoxComponent = props => {
   const mouseDown_handler = event => entityActions.mouseDown_handler(event, props);
@@ -32,8 +33,8 @@ const CheckBoxComponent = props => {
     backgroundColor: 'green',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
-    height: '40px',
-    // //     margin: helpers.marginCalc(props),
+    maxHeight: '40px',
+    cursor: 'move',
     padding: '4px',
     borderRadius: '2px',
   };
@@ -41,6 +42,32 @@ const CheckBoxComponent = props => {
   const cbInputStyle = {
     height: '25px',
     width: '25px',
+  };
+
+  const total = entity =>
+    entity.prepend() +
+    (entity.prePromptWidth ? entity.prePromptWidth() : 0) +
+    entity.width() +
+    entity.append() +
+    (entity.postPromptWidth ? entity.postPromptWidth() : 0);
+  const entityAddress = address.bySample(props.model, props.form);
+
+  const lastInRow = entityAddress => {
+    const section = address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1));
+    // console.log(entityAddress )
+    const _entityAddress = entityAddress[entityAddress.length - 1];
+    const entity = address.byPath(props.form, entityAddress);
+    // if (entityAddress[entityAddress.length - 1] === 0 && total(entity) !== props.model.width()) {
+    //   return false;
+    // }
+    var runningTotal = 0;
+    // console.log(_entityAddress, section.children())
+    for (var i = 0; i <= _entityAddress; ++i) {
+      // console.log(section)
+      runningTotal += total(section.children()[i]);
+    }
+    console.log(runningTotal % section.width());
+    return runningTotal % section.width() === 0 ? true : false;
   };
 
   return (
@@ -56,7 +83,7 @@ const CheckBoxComponent = props => {
       onMouseUp={mouseUp_handler}
       draggable="false"
     >
-      {props.model.prepend() > 0 ? (
+      {props.model.prepend() > 1 ? (
         <Prepend
           id={`${props.model.UUID()}.prepend`}
           prepend={props.model.prepend()}
@@ -70,18 +97,20 @@ const CheckBoxComponent = props => {
         />
       ) : null}
 
-      <PrePrompt
-        id={`${props.model.UUID()}.prepend`}
-        prePromptWidth={props.model.prePromptWidth()}
-        uuid={props.model.UUID()}
-        className="prepend"
-        model={props.model}
-        form={props.form}
-        remove={props.remove}
-        add={props.add}
-        mutate={props.mutate}
-        backgroundColor="green"
-      />
+      {props.model.prePromptWidth() > 1 ? (
+        <PrePrompt
+          id={`${props.model.UUID()}.prepend`}
+          prePromptWidth={props.model.prePromptWidth()}
+          uuid={props.model.UUID()}
+          className="prepend"
+          model={props.model}
+          form={props.form}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
+          backgroundColor="green"
+        />
+      ) : null}
 
       <div
         id={`${props.model.UUID()}.${props.model.type()}`}
@@ -108,7 +137,7 @@ const CheckBoxComponent = props => {
           resizeType="width"
         />
       </div>
-      {props.model.postPromptWidth() > 0 ? (
+      {props.model.postPromptWidth() > 1 ? (
         <PostPrompt
           id={`${props.model.UUID()}.prepend`}
           postPromptWidth={props.model.postPromptWidth()}
@@ -133,6 +162,18 @@ const CheckBoxComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
+        />
+      ) : null}
+      {lastInRow(entityAddress) ? (
+        <AddToEnd
+          model={props.model}
+          form={props.form}
+          add={props.add}
+          remove={props.remove}
+          mutate={props.mutate}
+          temporalStateChange={props.temporalStateChange}
+          addToEndAction="insertInPlace"
+          appState={props.appState}
         />
       ) : null}
     </div>

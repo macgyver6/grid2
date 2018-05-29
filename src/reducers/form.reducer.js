@@ -33,9 +33,11 @@ const formReducer = (state, action) => {
       app: {
         dateTime: null,
         activeTab: 0,
-        currententity: [0, 0, 0],
+        currententity: null,
+        // currententity: [0, 0, 0],
         validations: true,
         dataDefinedValidationPane: true,
+        gridWidth: null,
         // currententity: null
       },
     };
@@ -63,6 +65,7 @@ const formReducer = (state, action) => {
     if (validateImport(result).length === 0) {
       return Object.assign({}, state, {
         form: result,
+        app: Object.assign({}, state.app, { currententity: null }),
       });
     }
   }
@@ -72,6 +75,7 @@ const formReducer = (state, action) => {
     if (validateImport(result).length === 0) {
       return Object.assign({}, state, {
         form: result,
+        app: Object.assign({}, state.app, { currententity: null }),
       });
     }
   }
@@ -96,6 +100,71 @@ const formReducer = (state, action) => {
     if (validateImport(result).length === 0) {
       return Object.assign({}, state, {
         form: result,
+      });
+    }
+  }
+
+  if (action.type === 'MUTATEANDADD') {
+    console.log(action);
+    const initEntity = address.byPath(state.form, action.path);
+    const update = utility.remove(action.path, state.form);
+    const removedUpdate = Object.assign({}, state, {
+      form: update,
+    });
+    const mutatedEntity = Object.assign({}, initEntity.properties(), action.properties);
+    const result = utility.add(action.path, address.resurrectEntity(mutatedEntity), removedUpdate.form);
+
+    // const entityToRemove = address.byPath(result, action.pathToDelete);
+    // const entityRemoved = utility.remove(action.pathToDelete, result);
+    const entityAdded = utility.add(action.pathToAdd, action.entityToAdd, result);
+
+    // console.log(
+    //   validateImport(result).length === 0,
+    //   result
+    //     .children()[0]
+    //     .children()[0]
+    //     .children()[2]
+    //     .width()
+    // );
+    console.log(validateImport(entityAdded));
+    if (validateImport(entityAdded).length === 0) {
+      console.log('pass');
+      return Object.assign({}, state, {
+        form: entityAdded,
+      });
+    }
+  }
+
+  if (action.type === 'MUTATEADDREMOVE') {
+    console.log(action);
+    const initEntity = address.byPath(state.form, action.path);
+    const update = utility.remove(action.path, state.form);
+    const removedUpdate = Object.assign({}, state, {
+      form: update,
+    });
+    console.log(removedUpdate);
+    const mutatedEntity = Object.assign({}, initEntity.properties(), action.properties);
+    const result = utility.add(action.path, address.resurrectEntity(mutatedEntity), removedUpdate.form);
+
+    const entityAdded = utility.add(action.pathToAdd, action.entityToAdd, result);
+    // const entityToRemove = (action.pathToDelete);
+    const entityRemoved = utility.remove(action.pathToRemove, entityAdded);
+
+    console.log(action.pathToAdd, action.entityToAdd);
+
+    // console.log(
+    //   validateImport(result).length === 0,
+    //   result
+    //     .children()[0]
+    //     .children()[0]
+    //     .children()[2]
+    //     .width()
+    // );
+    console.log(validateImport(entityRemoved));
+    if (validateImport(entityRemoved).length === 0) {
+      console.log('pass');
+      return Object.assign({}, state, {
+        form: entityRemoved,
       });
     }
   }
@@ -132,7 +201,6 @@ const formReducer = (state, action) => {
       ...state,
       app: {
         ...state.app,
-        // ...action.payload,
         [Object.keys(action.payload)[0]]: action.payload[Object.keys(action.payload)[0]],
       },
     };

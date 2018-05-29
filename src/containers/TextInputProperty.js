@@ -16,6 +16,19 @@ export const TextInputProperty = props => {
       [event.target.id]: event.target.value,
     });
 
+  const layoutChange_handler = event => {
+    props.mutate(address.bySample(props.model, props.form), {
+      [event.target.id]: parseFloat(event.target.value),
+      append:
+        24 -
+        props.model.prepend() -
+        parseFloat(event.target.value) -
+        props.model.width() -
+        props.model.postPromptWidth(),
+      // function that calcs total width and subtracts all OTHER elements, returningt what the value should be
+    });
+  };
+
   const validationSelector_handler = event =>
     // return {
     //   validations: {
@@ -48,16 +61,16 @@ export const TextInputProperty = props => {
     <option value={userDefinedValOption}>{userDefinedValOption}</option>
   ));
 
-  console.log(userDefinedValOptionsArr);
-
   return (
     <div>
       <h1 style={{ marginBottom: '0px' }}>Text Input</h1>
       <p style={{ fontSize: 8, margin: '0px' }}>{props.model.UUID()}</p>
       <p style={{ fontSize: 8, margin: '0px 0px 4px 0px' }}>
-        Total width: {calcTotal(props.model)} PrePend: {props.model.prePrompt()} Width: {props.model.width()} Append:{' '}
+        prePromptWidth: {props.model.prePromptWidth()} Append: Total width: {calcTotal(props.model)} PrePend:{' '}
+        {props.model.prePrompt()} Width: {props.model.width()} Append:
         {props.model.append()}
       </p>
+      <input type="number" id="prePromptWidth" onChange={layoutChange_handler} value={props.model.prePromptWidth()} />
       <Tabs>
         <TabList>
           <Tab>Validations</Tab>

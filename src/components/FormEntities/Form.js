@@ -9,7 +9,7 @@ const FormComponent = props => {
     gridTemplateRows: `[row] auto`,
     gridGap: '8px',
     zIndex: '10',
-    minHeight: '800px'
+    minHeight: '800px',
   };
 
   const bgrndGrd = {
@@ -21,7 +21,7 @@ const FormComponent = props => {
     backgroundColor: 'rgba(75,156,211, 0.18)',
     zIndex: '15',
     minHeight: '60vh',
-    paddingBottom: '60px'
+    paddingBottom: '60px',
   };
 
   const bgColumns = [];
@@ -49,18 +49,18 @@ const FormComponent = props => {
         {// props.form.children()[props.activeTab]((element, i) => {
 
         // props.form.children()[props.activeTab].children().map((element, i) => {
-        React.createElement(
-          address.lookupComponent(props.form.children()[props.activeTab]),
-          {
-            // key: i,
-            model: props.form.children()[props.activeTab],
-            form: props.form,
-            remove: props.remove,
-            add: props.add,
-            mutate: props.mutate,
-            temporalStateChange: props.temporalStateChange
-          }
-        )
+        React.createElement(address.lookupComponent(props.form.children()[props.activeTab]), {
+          // key: i,
+          model: props.form.children()[props.activeTab],
+          form: props.form,
+          remove: props.remove,
+          add: props.add,
+          mutate: props.mutate,
+          mutateandadd: props.mutateandadd,
+          mutateaddremove: props.mutateaddremove,
+          temporalStateChange: props.temporalStateChange,
+          appState: props.appState,
+        })
         // })
         }
       </div>

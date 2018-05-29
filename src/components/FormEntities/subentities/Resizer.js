@@ -18,6 +18,17 @@ const resizeStyle = {
   borderRadius: '2px',
 };
 
+const resizeStyle2 = {
+  width: '10px',
+  height: '100%',
+  // backgroundColor: 'yellow',
+  position: 'absolute',
+  right: 4,
+  bottom: 4,
+  cursor: 'w-resize',
+  // borderRadius: '2px',
+};
+
 let Resizer = props => {
   const resize = {
     _mouseMoveStartX: null,
@@ -86,16 +97,16 @@ let Resizer = props => {
       resize.grids = grid();
 
       console.log('mutate single entity: ', locEntity[0], {
-        width: resize.init_grids + resize.grids,
+        [resize.target]: resize.init_grids + resize.grids,
         append: resize.init_append - resize.grids,
       });
 
+      props.mutate(locEntity[0], {
+        [resize.target]: resize.init_grids + resize.grids,
+        append: resize.init_append - resize.grids,
+      });
       if (locEntity[1].type() !== 'FormSection') {
         /** mutate single entity, including formsection */
-        props.mutate(locEntity[0], {
-          [resize.target]: resize.init_grids + resize.grids,
-          append: resize.init_append - resize.grids,
-        });
 
         console.log(`changing ${props.model.UUID()}.${props.model.type()}color to 'lightgreen`);
         console.log('resize check which type');
@@ -150,7 +161,6 @@ let Resizer = props => {
                 append: entity.append() + resize.grids,
               })
             );
-
           const lastEntitiesInRow = props.model.children().map((child, index) => {
             console.log(lastInRow(address.bySample(child, props.form)) ? functionToMutateChildAppend(child) : null);
             // console.log(lastInRow(address.bySample(child, props.form)) ? functionToMutateChildAppend(child) : child);
@@ -212,8 +222,8 @@ let Resizer = props => {
   return (
     <div
       id={`${props.resizeType}`}
-      className="resizer"
-      style={resizeStyle}
+      // className="resizer"
+      style={resizeStyle2}
       onDragStart={dragstart_handler}
       onMouseDown={mouseDown_handler}
       onClick={click_handler}

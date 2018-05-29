@@ -8,6 +8,7 @@ import Prepend from './subentities/Prepend.js';
 import { log } from 'util';
 import { address } from '../../address';
 import { entityActions } from './actions.entities';
+import AddToEnd from './subentities/AddToEnd.js';
 
 const TextBlockComponent = props => {
   const mouseDown_handler = event => entityActions.mouseDown_handler(event, props);
@@ -27,14 +28,45 @@ const TextBlockComponent = props => {
     backgroundColor: 'purple',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
-    height: '40px',
+    maxHeight: '40px',
     cursor: 'move',
-    // border: '1px solid red',
     padding: '4px',
     borderRadius: '2px',
   };
 
-  const tBInputStyle = { height: '60%', width: '80%' };
+  const tBInputStyle = {
+    height: '60%',
+    width: '80%',
+    position: 'absolute',
+    right: 16,
+    bottom: 7,
+  };
+
+  const total = entity =>
+    entity.prepend() +
+    (entity.prePromptWidth ? entity.prePromptWidth() : 0) +
+    entity.width() +
+    entity.append() +
+    (entity.postPromptWidth ? entity.postPromptWidth() : 0);
+  const entityAddress = address.bySample(props.model, props.form);
+
+  const lastInRow = entityAddress => {
+    const section = address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1));
+    // console.log(entityAddress )
+    const _entityAddress = entityAddress[entityAddress.length - 1];
+    const entity = address.byPath(props.form, entityAddress);
+    // if (entityAddress[entityAddress.length - 1] === 0 && total(entity) !== props.model.width()) {
+    //   return false;
+    // }
+    var runningTotal = 0;
+    // console.log(_entityAddress, section.children())
+    for (var i = 0; i <= _entityAddress; ++i) {
+      // console.log(section)
+      runningTotal += total(section.children()[i]);
+    }
+    console.log(runningTotal % section.width());
+    return runningTotal % section.width() === 0 ? true : false;
+  };
 
   return (
     <div
@@ -47,7 +79,7 @@ const TextBlockComponent = props => {
       onDragStart={dragstart_handler}
       draggable="false"
     >
-      {props.model.prepend() > 0 ? (
+      {props.model.prepend() > 1 ? (
         <Prepend
           id={`${props.model.UUID()}.prepend`}
           prepend={props.model.prepend()}
@@ -74,7 +106,7 @@ const TextBlockComponent = props => {
           type={props.model.type()}
           value={props.model.content()}
           cols="20"
-          rows="5"
+          rows="2"
         />
         <Resizer
           id={`${props.model.UUID()}.resizer`}
@@ -100,6 +132,18 @@ const TextBlockComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
+        />
+      ) : null}
+      {lastInRow(entityAddress) ? (
+        <AddToEnd
+          model={props.model}
+          form={props.form}
+          add={props.add}
+          remove={props.remove}
+          mutate={props.mutate}
+          temporalStateChange={props.temporalStateChange}
+          addToEndAction="insertInPlace"
+          appState={props.appState}
         />
       ) : null}
     </div>
