@@ -3,6 +3,7 @@ import { address } from '../../address';
 import { defaultPropsFE } from '../../constants/defaultPropsFE';
 import Resizer from './subentities/Resizer.js';
 import AddToEnd from './subentities/AddToEnd.js';
+import AddToBeginning from './subentities/AddToBeginning.js';
 import Append from './subentities/Append';
 import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
@@ -388,6 +389,19 @@ let FormSectionComponent = props => {
         data-action={`mover.${props.model.UUID()}.FormSection`}
         onDrop={drop_handler}
       >
+        {/* <p>{address.bySample(props.model, props.form).length}</p> */}
+        {address.bySample(props.model, props.form).length > 1 ? (
+          <AddToBeginning
+            model={props.model}
+            form={props.form}
+            add={props.add}
+            remove={props.remove}
+            mutate={props.mutate}
+            temporalStateChange={props.temporalStateChange}
+            addToEndAction="insertInPlace"
+            appState={props.appState}
+          />
+        ) : null}
         {props.model.type() === 'FormSection'
           ? props.model.children().map((element, i) => {
               console.log(element);
