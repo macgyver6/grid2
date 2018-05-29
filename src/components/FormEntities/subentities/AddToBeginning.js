@@ -18,7 +18,8 @@ const AddToBeginning = props => {
     height: '20px',
     position: 'absolute',
     right: '0',
-    top: '-20',
+    top: '0',
+    zIndex: '20',
     // backgroundColor: 'blue',
   };
   console.log(wrapperStyle.width);
@@ -105,16 +106,13 @@ const AddToBeginning = props => {
      * returns [parentSectionAddress, parentSectionEntity, <optional>indexToAddEntityAt]
      */
 
-    let loc = [...entityAddy].slice(0, entityAddy.length - 1);
+    let loc = [...entityAddy].concat(0);
     console.log(loc);
-
-    loc = loc.concat([...entityAddy][entityAddy.length]);
-    console.log(entityAddy, [...entityAddy][`${entityAddy.length - 1}`] - 1);
 
     console.log(dropData);
 
     props.add(
-      entityAddy,
+      loc,
       address.resurrectEntity(
         Object.assign({}, droppedEntity.properties(), {
           // @hack dropData.model.width below assumes that it is a new entity. Doesn't
@@ -127,12 +125,14 @@ const AddToBeginning = props => {
     props.temporalStateChange(loc);
 
     event.target.style.backgroundColor = '';
+    event.target.innerText = '';
   };
 
   let dragEnter_handler = event => {
     event.stopPropagation();
     event.preventDefault();
     event.target.style.backgroundColor = 'lightgreen';
+    event.target.innerHTML = '⬇️Add/move entity to this form section';
 
     // const entityAddress = address.bySample(props.model, props.form);
     // const parentAddress = entityAddress.slice(0, entityAddress.length - 1);

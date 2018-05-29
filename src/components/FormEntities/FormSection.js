@@ -345,8 +345,8 @@ let FormSectionComponent = props => {
   //     }, 0);
 
   const dragEnter_handler = event => {
-    // event.stopPropagation();
-    // event.preventDefault();
+    event.stopPropagation();
+    event.preventDefault();
     props.temporalStateChange({ gridWidth: document.getElementById('0.bgrndGrd').clientWidth + 7 });
   };
   // lastEntitiesInRow.map(entity => document.getElementById(entity).appendChild(AddToEnd));

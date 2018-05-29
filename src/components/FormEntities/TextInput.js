@@ -151,7 +151,6 @@ const TextInputComponent = props => {
           value={props.model.defaultContent()}
           placeholder="default content"
         />
-        <p>{JSON.stringify(lastInRow(entityAddress))}</p>
         <Resizer
           id="width"
           // id={`${props.model.UUID()}.resizer`}
