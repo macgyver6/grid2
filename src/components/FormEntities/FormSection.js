@@ -385,6 +385,7 @@ let FormSectionComponent = props => {
           minHeight: minHeight,
           maxHeight: maxHeight,
           overflowY: scrollable,
+          paddingTop: '18px',
         }}
         data-action={`mover.${props.model.UUID()}.FormSection`}
         onDrop={drop_handler}
