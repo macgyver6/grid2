@@ -150,6 +150,7 @@ const AddToBeginning = props => {
 
   let dragLeave_handler = event => {
     event.target.style.backgroundColor = '';
+    event.target.innerHTML = '';
   };
 
   const lastInRow = entityAddress => {

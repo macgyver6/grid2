@@ -168,6 +168,7 @@ const AddToEnd = props => {
         props.temporalStateChange(loc);
       }
       event.target.style.backgroundColor = '';
+      event.target.innerHTML = '';
     }
 
     if (props.addToEndAction === 'appendToEnd') {
@@ -224,12 +225,14 @@ const AddToEnd = props => {
         props.temporalStateChange(loc);
       }
       event.target.style.backgroundColor = '';
+      event.target.innerHTML = '';
     }
   };
   let dragEnter_handler = event => {
     event.stopPropagation();
     event.preventDefault();
     event.target.style.backgroundColor = 'lightgreen';
+    event.target.innerHTML = '⬇️Insert entity here';
 
     // const entityAddress = address.bySample(props.model, props.form);
     // const parentAddress = entityAddress.slice(0, entityAddress.length - 1);
@@ -247,6 +250,7 @@ const AddToEnd = props => {
 
   let dragLeave_handler = event => {
     event.target.style.backgroundColor = '';
+    event.target.innerHTML = '';
   };
 
   const lastInRow = entityAddress => {
