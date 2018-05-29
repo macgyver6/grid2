@@ -8,7 +8,7 @@ import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 import { helpers } from '../../helpers';
 import { entityActions } from './actions.entities';
-
+// import AddToEnd from './subentities/AddToEnd.js';
 let FormSectionComponent = props => {
   const round = (value, decimals) => Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 
@@ -298,7 +298,39 @@ let FormSectionComponent = props => {
 
   const showResizer = address.bySample(props.model, props.form).length < 2 ? false : true;
 
-  const total = entity => entity.prepend() + entity.width() + entity.append();
+  const total = entity =>
+    (entity.prePromptWidth ? entity.prePromptWidth() : 0) +
+    entity.prepend() +
+    entity.width() +
+    entity.append() +
+    (entity.postPromptWidth ? entity.postPromptWidth() : 0);
+
+  const lastInRow = entityAddress => {
+    const section = address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1));
+    // console.log(entityAddress )
+    const _entityAddress = entityAddress[entityAddress.length - 1];
+    const entity = address.byPath(props.form, entityAddress);
+    // if (entityAddress[entityAddress.length - 1] === 0 && total(entity) !== props.model.width()) {
+    //   return false;
+    // }
+    var runningTotal = 0;
+    // console.log(_entityAddress, section.children())
+    for (var i = 0; i <= _entityAddress; ++i) {
+      // console.log(section)
+      runningTotal += total(section.children()[i]);
+    }
+    console.log(runningTotal % section.width());
+    return runningTotal % section.width() === 0 ? true : false;
+  };
+
+  const lastEntitiesInRow = props.model
+    .children()
+    .map(
+      (child, index) =>
+        lastInRow(address.bySample(child, props.form)) ? `${child.UUID()}.${child.type()}.wrapper` : null
+    );
+
+  console.log(lastEntitiesInRow);
 
   // const allChildrenSum = section =>
   //   section
@@ -311,12 +343,20 @@ let FormSectionComponent = props => {
   //       return accumulator + currentValue;
   //     }, 0);
 
+  const dragEnter_handler = event => {
+    // event.stopPropagation();
+    // event.preventDefault();
+    props.temporalStateChange({ gridWidth: document.getElementById('0.bgrndGrd').clientWidth + 7 });
+  };
+  // lastEntitiesInRow.map(entity => document.getElementById(entity).appendChild(AddToEnd));
+
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
       className="FS"
       style={formSectionStyle}
       onDrop={drop_handler2}
+      onDragEnter={dragEnter_handler}
       onDragOver={
         dragOver_handler // adding a new entity to section
       }
@@ -361,6 +401,7 @@ let FormSectionComponent = props => {
                 mutateandadd: props.mutateandadd,
                 mutateaddremove: props.mutateaddremove,
                 temporalStateChange: props.temporalStateChange,
+                appState: props.appState,
               });
             })
           : null}

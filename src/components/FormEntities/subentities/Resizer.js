@@ -20,7 +20,7 @@ const resizeStyle = {
 
 const resizeStyle2 = {
   width: '10px',
-  height: '36px',
+  height: '100%',
   // backgroundColor: 'yellow',
   position: 'absolute',
   right: 4,
@@ -161,7 +161,6 @@ let Resizer = props => {
                 append: entity.append() + resize.grids,
               })
             );
-
           const lastEntitiesInRow = props.model.children().map((child, index) => {
             console.log(lastInRow(address.bySample(child, props.form)) ? functionToMutateChildAppend(child) : null);
             // console.log(lastInRow(address.bySample(child, props.form)) ? functionToMutateChildAppend(child) : child);

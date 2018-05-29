@@ -37,6 +37,7 @@ const formReducer = (state, action) => {
         // currententity: [0, 0, 0],
         validations: true,
         dataDefinedValidationPane: true,
+        gridWidth: null,
         // currententity: null
       },
     };

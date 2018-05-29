@@ -9,6 +9,7 @@ import PrePrompt from './subentities/PrePrompt.js';
 import PostPrompt from './subentities/PostPrompt.js';
 import { address } from '../../address';
 import { entityActions } from './actions.entities';
+import AddToEnd from './subentities/AddToEnd.js';
 
 const CheckBoxComponent = props => {
   const mouseDown_handler = event => entityActions.mouseDown_handler(event, props);
@@ -41,6 +42,32 @@ const CheckBoxComponent = props => {
   const cbInputStyle = {
     height: '25px',
     width: '25px',
+  };
+
+  const total = entity =>
+    entity.prepend() +
+    (entity.prePromptWidth ? entity.prePromptWidth() : 0) +
+    entity.width() +
+    entity.append() +
+    (entity.postPromptWidth ? entity.postPromptWidth() : 0);
+  const entityAddress = address.bySample(props.model, props.form);
+
+  const lastInRow = entityAddress => {
+    const section = address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1));
+    // console.log(entityAddress )
+    const _entityAddress = entityAddress[entityAddress.length - 1];
+    const entity = address.byPath(props.form, entityAddress);
+    // if (entityAddress[entityAddress.length - 1] === 0 && total(entity) !== props.model.width()) {
+    //   return false;
+    // }
+    var runningTotal = 0;
+    // console.log(_entityAddress, section.children())
+    for (var i = 0; i <= _entityAddress; ++i) {
+      // console.log(section)
+      runningTotal += total(section.children()[i]);
+    }
+    console.log(runningTotal % section.width());
+    return runningTotal % section.width() === 0 ? true : false;
   };
 
   return (
@@ -135,6 +162,18 @@ const CheckBoxComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
+        />
+      ) : null}
+      {lastInRow(entityAddress) ? (
+        <AddToEnd
+          model={props.model}
+          form={props.form}
+          add={props.add}
+          remove={props.remove}
+          mutate={props.mutate}
+          temporalStateChange={props.temporalStateChange}
+          addToEndAction="insertInPlace"
+          appState={props.appState}
         />
       ) : null}
     </div>

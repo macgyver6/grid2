@@ -59,6 +59,7 @@ const FormComponent = props => {
           mutateandadd: props.mutateandadd,
           mutateaddremove: props.mutateaddremove,
           temporalStateChange: props.temporalStateChange,
+          appState: props.appState,
         })
         // })
         }

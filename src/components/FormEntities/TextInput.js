@@ -54,7 +54,53 @@ const TextInputComponent = props => {
     height: '20px',
     width: '82%',
   };
-  console.log(styleDefaultEntity(props.model).gridColumn);
+
+  const total = entity =>
+    entity.prepend() +
+    (entity.prePromptWidth ? entity.prePromptWidth() : 0) +
+    entity.width() +
+    entity.append() +
+    (entity.postPromptWidth ? entity.postPromptWidth() : 0);
+  const entityAddress = address.bySample(props.model, props.form);
+
+  const lastInRow = entityAddress => {
+    const section = address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1));
+    // console.log(entityAddress )
+    const _entityAddress = entityAddress[entityAddress.length - 1];
+    const entity = address.byPath(props.form, entityAddress);
+    // if (entityAddress[entityAddress.length - 1] === 0 && total(entity) !== props.model.width()) {
+    //   return false;
+    // }
+    var runningTotal = 0;
+    // console.log(_entityAddress, section.children())
+    for (var i = 0; i <= _entityAddress; ++i) {
+      // console.log(section)
+      runningTotal += total(section.children()[i]);
+    }
+    console.log(runningTotal % section.width());
+    return runningTotal % section.width() === 0 ? true : false;
+  };
+
+  // const lastInRow = entityAddress => {
+  //   const _entityAddress = entityAddress[entityAddress.length - 1];
+  //   console.log(_entityAddress);
+
+  //   const entity = address.byPath(props.form, entityAddress);
+  //   console.log(entity, total(entity), entityAddress[entityAddress.length - 1]);
+  //   console.log(total(props.model));
+  //   if (entityAddress[entityAddress.length - 1] === 0 && total(entity) !== props.model.width()) {
+  //     return false;
+  //   }
+  //   var runningTotal = 0;
+  //   // console.log(_entityAddress, section.children())
+  //   for (var i = 0; i <= _entityAddress; ++i) {
+  //     console.log(section.children()[i]);
+  //     runningTotal += total(section.children()[i]);
+  //   }
+  //   console.log(runningTotal);
+  //   return runningTotal % section.width() === 0 ? true : false;
+  // };
+
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
@@ -95,7 +141,6 @@ const TextInputComponent = props => {
           backgroundColor="rgb(108, 120, 143)"
         />
       ) : null}
-
       <div style={tiStyle} id={`${props.model.UUID()}.${props.model.type()}`} className="TextInput">
         <br />
         <input
@@ -106,6 +151,7 @@ const TextInputComponent = props => {
           value={props.model.defaultContent()}
           placeholder="default content"
         />
+        <p>{JSON.stringify(lastInRow(entityAddress))}</p>
         <Resizer
           id="width"
           // id={`${props.model.UUID()}.resizer`}
@@ -134,7 +180,6 @@ const TextInputComponent = props => {
           backgroundColor="rgb(108, 120, 143)"
         />
       ) : null}
-
       {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}
@@ -147,15 +192,18 @@ const TextInputComponent = props => {
           mutate={props.mutate}
         />
       ) : null}
-      <AddToEnd
-        model={props.model}
-        form={props.form}
-        add={props.add}
-        remove={props.remove}
-        mutate={props.mutate}
-        temporalStateChange={props.temporalStateChange}
-        addToEndAction="insertInPlace"
-      />
+      {lastInRow(entityAddress) ? (
+        <AddToEnd
+          model={props.model}
+          form={props.form}
+          add={props.add}
+          remove={props.remove}
+          mutate={props.mutate}
+          temporalStateChange={props.temporalStateChange}
+          addToEndAction="insertInPlace"
+          appState={props.appState}
+        />
+      ) : null}
     </div>
   );
 };

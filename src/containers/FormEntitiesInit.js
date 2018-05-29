@@ -37,6 +37,7 @@ const BackgroundPanel = props => (
       mutateaddremove={props.mutateaddremove}
       formmutate={props.formmutate}
       changetab={props.changetab}
+      appState={props.appState}
       activeTab={props.activeTab}
       temporalStateChange={props.temporalStateChange}
       currententity={props.currententity}
@@ -348,6 +349,7 @@ const MiddlePanel = props => (
       activeTab={props.activeTab}
       temporalStateChange={props.temporalStateChange}
       mutate={props.mutate}
+      appState={props.appState}
     />
   </div>
 );
