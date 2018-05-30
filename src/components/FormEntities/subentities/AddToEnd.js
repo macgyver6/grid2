@@ -74,7 +74,12 @@ const AddToEnd = props => {
         address: toLeft(arr).address,
         properties: {
           append:
-            toLeft(arr).entity.append() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append(),
+            toLeft(arr).entity.append() +
+            (draggedEntity.prePromptWidth ? draggedEntity.prePromptWidth() : 0) +
+            draggedEntity.prepend() +
+            draggedEntity.width() +
+            (draggedEntity.postPromptWidth ? draggedEntity.postPromptWidth() : 0) +
+            +draggedEntity.append(),
         },
       };
     }
@@ -149,7 +154,7 @@ const AddToEnd = props => {
         const toBeMutatedRestore = restoreDonorSiblingAddress(dropData.address, props, droppedEntity);
 
         // if (!arraysEqual(toBeMutatedRestore.address, dropObj.destinationAddress)) {
-
+        console.log(toBeMutatedRestore);
         if (toBeMutatedRestore) {
           props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties);
         }
