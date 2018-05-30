@@ -23,6 +23,7 @@ export const helpers = {
     //     3
     //   ) / 40
     // );
+    let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8;
     console.log(model);
     event.dataTransfer.setData(
       'address',
@@ -39,6 +40,14 @@ export const helpers = {
             : null,
       })
     );
+    // console.log(
+    //   round(
+    //     (event.clientX -
+    //       document.getElementById(`${model.UUID()}.${model.type()}.wrapper`).getBoundingClientRect().left) /
+    //       bgrndGrdWidth,
+    //     3
+    //   )
+    // );
     // console.log(JSON.stringify({
     //   action: action || 'move',
     //   address: address.bySample(model, form),

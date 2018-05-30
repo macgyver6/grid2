@@ -69,7 +69,7 @@ const ImageBlockComponent = props => {
       onMouseUp={mouseUp_handler}
       draggable="false"
     >
-      {props.model.prepend() > 1 ? (
+      {props.model.prepend() > 0 ? (
         <Prepend
           id={`${props.model.UUID()}.prepend`}
           prepend={props.model.prepend()}

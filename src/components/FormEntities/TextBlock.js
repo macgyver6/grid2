@@ -68,7 +68,7 @@ const TextBlockComponent = props => {
       onDragStart={dragstart_handler}
       draggable="false"
     >
-      {props.model.prepend() > 1 ? (
+      {props.model.prepend() > 0 ? (
         <Prepend
           id={`${props.model.UUID()}.prepend`}
           prepend={props.model.prepend()}

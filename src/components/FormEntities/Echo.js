@@ -144,7 +144,7 @@ const EchoComponent = props => {
         />
       </div>
 
-      {props.model.postPromptWidth() > 1 ? (
+      {props.model.postPromptWidth() > 0 ? (
         <PostPrompt
           id={`${props.model.UUID()}.prepend`}
           postPromptWidth={props.model.postPromptWidth()}

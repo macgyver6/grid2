@@ -98,7 +98,7 @@ const TextInputComponent = props => {
       onMouseUp={mouseUp_handler}
       draggable="false"
     >
-      {props.model.prepend() > 1 ? (
+      {props.model.prepend() > 0 ? (
         <Prepend
           id={`${props.model.UUID()}.prepend`}
           prepend={props.model.prepend()}
@@ -156,7 +156,7 @@ const TextInputComponent = props => {
           resizeType="width"
         />
       </div>
-      {props.model.postPromptWidth() > 1 ? (
+      {props.model.postPromptWidth() > 0 ? (
         <PostPrompt
           id={`${props.model.UUID()}.prepend`}
           postPromptWidth={props.model.postPromptWidth()}

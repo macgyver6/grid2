@@ -72,7 +72,7 @@ const CheckBoxComponent = props => {
       onMouseUp={mouseUp_handler}
       draggable="false"
     >
-      {props.model.prepend() > 1 ? (
+      {props.model.prepend() > 0 ? (
         <Prepend
           id={`${props.model.UUID()}.prepend`}
           prepend={props.model.prepend()}
@@ -116,7 +116,7 @@ const CheckBoxComponent = props => {
         {/* onChange={(e) => handleChange(e, props)} */}
         <input type={props.model.type()} style={cbInputStyle} />
       </div>
-      {props.model.postPromptWidth() > 1 ? (
+      {props.model.postPromptWidth() > 0 ? (
         <PostPrompt
           id={`${props.model.UUID()}.prepend`}
           postPromptWidth={props.model.postPromptWidth()}

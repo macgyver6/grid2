@@ -138,6 +138,7 @@ const AddToEnd = props => {
               // allow an existing entity to be added
               append:
                 destinationSectionAddy()[1].width() -
+                droppedEntity.prepend() -
                 (droppedEntity.prePromptWidth ? droppedEntity.prePromptWidth() : 0) -
                 droppedEntity.width() -
                 (droppedEntity.postPromptWidth ? droppedEntity.postPromptWidth() : 0),
