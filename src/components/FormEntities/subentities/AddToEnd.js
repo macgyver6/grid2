@@ -47,6 +47,7 @@ const AddToEnd = props => {
       };
     };
     console.log(donorParent.children().length - 1 === arr[arr.length - 1] && firstInRow(arr));
+    console.log(total(draggedEntity));
     /** if only 1 child in section or the donor entity is the last entity in section */
     if (
       donorParent.children().length === 1 ||
@@ -54,6 +55,9 @@ const AddToEnd = props => {
     ) {
       // if (donorParent.children().length === 1 || (donorParent.children().length - 1
       // === arr[arr.length - 1])) {
+      return false;
+    } else if (donorParent.width() === total(draggedEntity)) {
+      /** in the case that the entity used the entire destination section */
       return false;
     } else if (firstInRow(arr)) {
       console.log('firstInRow: ', toRight(arr));
@@ -75,17 +79,22 @@ const AddToEnd = props => {
         properties: {
           append:
             toLeft(arr).entity.append() +
-            (draggedEntity.prePromptWidth ? draggedEntity.prePromptWidth() : 0) +
+            // (draggedEntity.prePromptWidth ? draggedEntity.prePromptWidth() : 0) +
             draggedEntity.prepend() +
             draggedEntity.width() +
-            (draggedEntity.postPromptWidth ? draggedEntity.postPromptWidth() : 0) +
+            // (draggedEntity.postPromptWidth ? draggedEntity.postPromptWidth() : 0) +
             +draggedEntity.append(),
         },
       };
     }
   };
 
-  const total = entity => entity.prepend() + entity.width() + entity.append();
+  const total = entity =>
+    entity.prepend() +
+    (entity.prePromptWidth ? entity.prePromptWidth() : 0) +
+    entity.width() +
+    (entity.postPromptWidth ? entity.postPromptWidth() : 0) +
+    entity.append();
 
   const firstInRow = entityAddress => {
     const section = address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1));
