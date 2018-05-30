@@ -2,7 +2,7 @@ import React from 'react';
 import { helpers } from '../../helpers';
 import { drop } from '../../drop';
 import Resizer from './subentities/Resizer';
-import { styleDefaultEntity } from './feStyles';
+import { entityWrapperStyle, entityStyle, inputStyle } from './feStyles';
 import Append from './subentities/Append.js';
 import Prepend from './subentities/Prepend.js';
 import PrePrompt from './subentities/PrePrompt.js';
@@ -30,22 +30,6 @@ const EchoComponent = props => {
   const mouseUp_handler = event => {
     event.stopPropagation();
     console.log('mouseUp_handler');
-  };
-
-  const echoStyle = {
-    //     margin: helpers.marginCalc(props),
-    backgroundColor: 'orange',
-    position: 'relative',
-    gridColumn: `span ${props.model.width()}`,
-    maxHeight: '40px',
-    cursor: 'move',
-    padding: '4px',
-    borderRadius: '2px',
-  };
-
-  const echoInputStyle = {
-    height: '25px',
-    width: '80%',
   };
 
   const total = entity =>
@@ -77,7 +61,7 @@ const EchoComponent = props => {
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
-      style={styleDefaultEntity(props.model)}
+      style={entityWrapperStyle(props.model)}
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
       onDragLeave={dragleave_handler}
@@ -117,7 +101,10 @@ const EchoComponent = props => {
       ) : null}
 
       <div
-        style={echoStyle}
+        style={{
+          ...entityStyle(props.model),
+          backgroundColor: 'orange',
+        }}
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="EchoInput"
         onMouseDown={mouseDown_handler}
@@ -126,7 +113,7 @@ const EchoComponent = props => {
       >
         <br />
         <input
-          style={echoInputStyle}
+          style={inputStyle(props.model)}
           className="form-control"
           type={props.model.type()}
           disabled="disabled"

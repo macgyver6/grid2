@@ -6,7 +6,7 @@ import Append from './subentities/Append.js';
 import Prepend from './subentities/Prepend.js';
 import PrePrompt from './subentities/PrePrompt.js';
 import PostPrompt from './subentities/PostPrompt.js';
-import { styleDefaultEntity } from './feStyles';
+import { entityWrapperStyle, entityStyle, inputStyle } from './feStyles';
 import { log } from 'util';
 import { address } from '../../address';
 import RegexColorizer from 'regex-colorizer';
@@ -35,22 +35,6 @@ const CDSTextInputComponent = props => {
   const mouseUp_handler = event => {
     event.stopPropagation();
     console.log('mouseUp_handler');
-  };
-
-  const cdsStyle = {
-    // //     margin: helpers.marginCalc(props),
-    backgroundColor: 'blue',
-    position: 'relative',
-    gridColumn: `span ${props.model.width()}`,
-    maxHeight: '40px',
-    cursor: 'move',
-    padding: '4px',
-    borderRadius: '2px',
-  };
-
-  const cdsInputStyle = {
-    height: '20px',
-    width: '80%',
   };
 
   const total = entity =>
@@ -82,7 +66,7 @@ const CDSTextInputComponent = props => {
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
-      style={styleDefaultEntity(props.model)}
+      style={entityWrapperStyle(props.model)}
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
       onDragLeave={dragleave_handler}
@@ -120,24 +104,29 @@ const CDSTextInputComponent = props => {
         />
       ) : null}
 
-      <div style={cdsStyle} id={`${props.model.UUID()}.${props.model.type()}`} className="TextInput">
+      <div
+        style={{
+          ...entityStyle(props.model),
+          backgroundColor: 'blue',
+        }}
+        id={`${props.model.UUID()}.${props.model.type()}`}
+        className="TextInput"
+      >
         <br />
-
+        {/*
         <PrismCode>
           <p>{props.model.script()}</p>
         </PrismCode>
-        {/* <textarea
+*/}
+        <input
+          style={inputStyle(props.model)}
           className="form-control"
-          placeholder="Write something in text area"
+          // placeholder="Write something in text area"
           name={props.model.name()}
-          rows="5"
-          cols="12"
-          value={highlight(
-            props.model.script(),
-            languages.javascript,
-            'javascript'
-          )}
-        /> */}
+          // rows="5"
+          // cols="12"
+          value={props.model.script()}
+        />
         <Resizer
           id={`${props.model.UUID()}.resizer`}
           element="FormEntity"

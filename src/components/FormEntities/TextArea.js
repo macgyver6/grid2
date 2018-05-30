@@ -4,8 +4,7 @@ import { drop } from '../../drop';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import AddToEnd from './subentities/AddToEnd.js';
-
-import { styleDefaultEntity } from './feStyles';
+import { entityWrapperStyle, entityStyle, inputStyle } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 import PrePrompt from './subentities/PrePrompt.js';
 import PostPrompt from './subentities/PostPrompt.js';
@@ -24,17 +23,6 @@ const TextAreaComponent = props => {
   const dragleave_handler = event => entityActions.dragleave_handler(event, props);
 
   const click_handler = event => entityActions.click_handler(event, props);
-
-  const taStyle = {
-    //     margin: helpers.marginCalc(props),
-    backgroundColor: '#205EE2',
-    position: 'relative',
-    gridColumn: `span ${props.model.width()}`,
-    maxHeight: '40px',
-    cursor: 'move',
-    padding: '4px',
-    borderRadius: '2px',
-  };
 
   const taInputStyle = {
     position: 'absolute',
@@ -73,7 +61,7 @@ const TextAreaComponent = props => {
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
-      style={styleDefaultEntity(props.model)}
+      style={entityWrapperStyle(props.model)}
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
       onClick={click_handler}
@@ -111,11 +99,22 @@ const TextAreaComponent = props => {
 
       <div
         id={`${props.model.UUID()}.${props.model.type()}`}
-        style={taStyle}
+        style={{
+          ...entityStyle(props.model),
+          backgroundColor: '#205EE2',
+        }}
         className="TextArea"
         onMouseDown={mouseDown_handler}
       >
-        {/* <input style={taInputStyle} className="form-control" type={props.model.type()} size="8" /> */}
+        <br />
+        <input
+          style={inputStyle(props.model)}
+          className="form-control"
+          type={props.model.type()}
+          size="8"
+          // value={props.model.defaultContent()}
+          placeholder="default content"
+        />
         <Resizer
           id={`${props.model.UUID()}.resizer`}
           element="FormEntity"

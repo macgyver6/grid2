@@ -5,7 +5,6 @@ import Resizer from './subentities/Resizer.js';
 import AddToEnd from './subentities/AddToEnd.js';
 import AddToBeginning from './subentities/AddToBeginning.js';
 import Append from './subentities/Append';
-import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 import { helpers } from '../../helpers';
 import { entityActions } from './actions.entities';

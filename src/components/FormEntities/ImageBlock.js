@@ -2,7 +2,7 @@ import React from 'react';
 import { helpers } from '../../helpers';
 import { drop } from '../../drop';
 import Resizer from './subentities/Resizer';
-import { styleDefaultEntity } from './feStyles';
+import { entityWrapperStyle, entityStyle, inputStyle } from './feStyles';
 import Append from './subentities/Append.js';
 import Prepend from './subentities/Prepend.js';
 import PrePrompt from './subentities/PrePrompt.js';
@@ -28,22 +28,6 @@ const ImageBlockComponent = props => {
   const mouseUp_handler = event => {
     event.stopPropagation();
     console.log('mouseUp_handler');
-  };
-
-  const tBStyle = {
-    //     margin: helpers.marginCalc(props),
-    backgroundColor: 'brown',
-    position: 'relative',
-    gridColumn: `span ${props.model.width()}`,
-    minHeight: '100px',
-    cursor: 'move',
-    // border: '1px solid red',
-    padding: '4px',
-    borderRadius: '2px',
-  };
-
-  const tBInputStyle = {
-    height: '40px',
   };
 
   const total = entity =>
@@ -75,7 +59,7 @@ const ImageBlockComponent = props => {
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
-      style={styleDefaultEntity(props.model)}
+      style={entityWrapperStyle(props.model)}
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
       onDragLeave={dragleave_handler}
@@ -100,7 +84,11 @@ const ImageBlockComponent = props => {
       ) : null}
 
       <div
-        style={tBStyle}
+        style={{
+          ...entityStyle(props.model),
+          backgroundColor: 'brown',
+          minHeight: '100px',
+        }}
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="TextInput"
         onMouseDown={mouseDown_handler}

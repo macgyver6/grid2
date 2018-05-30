@@ -1,7 +1,7 @@
 import React from 'react';
 import { helpers } from '../../helpers';
 import { drop } from '../../drop';
-import { styleDefaultEntity } from './feStyles';
+import { entityWrapperStyle, entityStyle, inputStyle } from './feStyles';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append.js';
 import Prepend from './subentities/Prepend.js';
@@ -22,17 +22,6 @@ const TextBlockComponent = props => {
   const dragleave_handler = event => entityActions.dragleave_handler(event, props);
 
   const click_handler = event => entityActions.click_handler(event, props);
-
-  const tBStyle = {
-    //     margin: helpers.marginCalc(props),
-    backgroundColor: 'purple',
-    position: 'relative',
-    gridColumn: `span ${props.model.width()}`,
-    maxHeight: '40px',
-    cursor: 'move',
-    padding: '4px',
-    borderRadius: '2px',
-  };
 
   const tBInputStyle = {
     height: '60%',
@@ -71,7 +60,7 @@ const TextBlockComponent = props => {
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
-      style={styleDefaultEntity(props.model)}
+      style={entityWrapperStyle(props.model)}
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
       onDragLeave={dragleave_handler}
@@ -94,20 +83,25 @@ const TextBlockComponent = props => {
       ) : null}
 
       <div
-        style={tBStyle}
+        style={{
+          ...entityStyle(props.model),
+          backgroundColor: 'purple',
+        }}
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="TextInput"
         onMouseDown={mouseDown_handler}
       >
         <br />
-        <textarea
-          style={tBInputStyle}
+
+        <input
+          style={inputStyle(props.model)}
           className="form-control"
           type={props.model.type()}
+          size="8"
           value={props.model.content()}
-          cols="20"
-          rows="2"
+          placeholder="default content"
         />
+
         <Resizer
           id={`${props.model.UUID()}.resizer`}
           element="FormEntity"

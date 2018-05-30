@@ -2,7 +2,7 @@ import React from 'react';
 import { helpers } from '../../helpers';
 import { drop } from '../../drop';
 import Resizer from './subentities/Resizer';
-import { styleDefaultEntity } from './feStyles';
+import { entityWrapperStyle, entityStyle, inputStyle } from './feStyles';
 import Append from './subentities/Append.js';
 import Prepend from './subentities/Prepend.js';
 import PrePrompt from './subentities/PrePrompt.js';
@@ -24,17 +24,6 @@ const SelectionInputComponent = props => {
   const dragleave_handler = event => entityActions.dragleave_handler(event, props);
 
   const click_handler = event => entityActions.click_handler(event, props);
-
-  const siStyle = {
-    //     margin: helpers.marginCalc(props),
-    backgroundColor: 'red',
-    position: 'relative',
-    gridColumn: `span ${props.model.width()}`,
-    maxHeight: '40px',
-    cursor: 'move',
-    padding: '4px',
-    borderRadius: '2px',
-  };
 
   const siInputStyle = {
     position: 'absolute',
@@ -92,7 +81,7 @@ const SelectionInputComponent = props => {
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
-      style={styleDefaultEntity(props.model)}
+      style={entityWrapperStyle(props.model)}
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
       onDragLeave={dragleave_handler}
@@ -129,7 +118,10 @@ const SelectionInputComponent = props => {
       ) : null}
 
       <div
-        style={siStyle}
+        style={{
+          ...entityStyle(props.model),
+          backgroundColor: 'red',
+        }}
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="SelectionInput"
         onMouseDown={mouseDown_handler}

@@ -2,7 +2,7 @@ import React from 'react';
 import { helpers } from '../../helpers';
 import { drop } from '../../drop';
 import Append from './subentities/Append';
-import { styleDefaultEntity } from './feStyles';
+import { entityWrapperStyle, entityStyle, inputStyle } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 import PrePrompt from './subentities/PrePrompt.js';
 import PostPrompt from './subentities/PostPrompt.js';
@@ -22,16 +22,6 @@ const CheckBoxComponent = props => {
   const dragleave_handler = event => entityActions.dragleave_handler(event, props);
 
   const click_handler = event => entityActions.click_handler(event, props);
-
-  const cbStyle = {
-    backgroundColor: '#00C5EC',
-    position: 'relative',
-    gridColumn: `span ${props.model.width()}`,
-    maxHeight: '40px',
-    cursor: 'move',
-    padding: '4px',
-    borderRadius: '2px',
-  };
 
   const cbInputStyle = {
     height: '25px',
@@ -72,7 +62,7 @@ const CheckBoxComponent = props => {
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
-      style={styleDefaultEntity(props.model)}
+      style={entityWrapperStyle(props.model)}
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
       onDragLeave={dragleave_handler}
@@ -113,7 +103,10 @@ const CheckBoxComponent = props => {
 
       <div
         id={`${props.model.UUID()}.${props.model.type()}`}
-        style={cbStyle}
+        style={{
+          ...entityStyle(props.model),
+          backgroundColor: '#00C5EC',
+        }}
         className="CheckBox"
         data-type="CheckBox"
         onMouseDown={mouseDown_handler}
