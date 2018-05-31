@@ -348,6 +348,7 @@ const MiddlePanel = props => (
       formmutate={props.formmutate}
       changetab={props.changetab}
       activeTab={props.activeTab}
+      temporalStateChange={props.temporalStateChange}
     />
     <FormComponent
       form={props.form}

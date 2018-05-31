@@ -115,7 +115,8 @@ const Tab = props => {
     /** resets to the background from green to '' onDrop*/
     document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`).style.backgroundColor = 'darkgrey';
     document.getElementById(`${event.target.id.split('.')[0]}.input`).style.backgroundColor = '';
-    if (event.dataTransfer.getData('address')) {
+    let dropData = JSON.parse(event.dataTransfer.getData('address'));
+    if (dropData.action !== 'addEntity') {
       const destinationTabAddress = address.bySample(props.model, props.form)[0];
 
       console.log(props.model.children().length);
@@ -123,6 +124,30 @@ const Tab = props => {
 
       props.add([destinationTabAddress, props.model.children().length], entityToMove);
       props.remove(JSON.parse(event.dataTransfer.getData('address')).address);
+      props.changetab(destinationTabAddress);
+    } else {
+      let dropData = JSON.parse(event.dataTransfer.getData('address'));
+      const destinationTabAddress = address.bySample(props.model, props.form)[0];
+      console.log(dropData);
+      console.log(JSON.stringify(dropData.address));
+      console.log(dropData.model);
+      // const droppedEntity = address.byPath(props.form, dropData.address);
+      // let droppedEntity = address.resurrectEntity(_entity);
+      /**returns [addy, {ParentSection}] */
+      const entityAddy = address.bySample(props.model, props.form);
+
+      const calcAppend = entity => {
+        if (entity.prePromptWidth) {
+          return entity.prepend + entity.prePromptWidth + entity.width + entity.postPromptWidth;
+        } else {
+          return entity.prepend + entity.width;
+        }
+      };
+
+      props.add([destinationTabAddress, props.model.children().length], address.resurrectEntity(dropData.model));
+      console.log(destinationTabAddress);
+      // props.temporalStateChange({ currentTab: destinationTabAddress });
+      props.changetab(destinationTabAddress);
     }
     if (event.dataTransfer.getData('tab')) {
       const dropData = JSON.parse(event.dataTransfer.getData('tab'));

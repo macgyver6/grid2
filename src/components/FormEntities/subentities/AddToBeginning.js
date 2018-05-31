@@ -15,25 +15,25 @@ const AddToBeginning = props => {
 
   const wrapperStyle = {
     width: props.appState.gridWidth * props.model.width(),
-    height: '20px',
+    height: '40px',
     position: 'absolute',
     right: '0',
     top: '0',
-    zIndex: '20',
+    zIndex: '40',
     // backgroundColor: 'blue',
   };
-  console.log(wrapperStyle.width);
+  // console.log(wrapperStyle.width);
 
   const restoreDonorSiblingAddress = (arr, props, draggedEntity) => {
     // get donor's parent
     const donorParent = address.byPath(props.form, arr.slice(0, arr.length - 1));
-    console.log(arr, props, draggedEntity);
+    // console.log(arr, props, draggedEntity);
     const toLeft = arr => {
       const _toLeft = [...arr];
-      console.log({
-        address: _toLeft,
-        entity: address.byPath(props.form, _toLeft),
-      });
+      // console.log({
+      //   address: _toLeft,
+      //   entity: address.byPath(props.form, _toLeft),
+      // });
       _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1;
       return {
         address: _toLeft,
@@ -48,7 +48,7 @@ const AddToBeginning = props => {
         entity: address.byPath(props.form, _toRight),
       };
     };
-    console.log(donorParent.children().length - 1 === arr[arr.length - 1] && firstInRow(arr));
+    // console.log(donorParent.children().length - 1 === arr[arr.length - 1] && firstInRow(arr));
     /** if only 1 child in section or the donor entity is the last entity in section */
     if (
       donorParent.children().length === 1 ||
@@ -96,40 +96,68 @@ const AddToBeginning = props => {
     event.stopPropagation();
     console.log('addToBeginning');
     let dropData = JSON.parse(event.dataTransfer.getData('address'));
-    console.log(JSON.stringify(dropData.address));
-    console.log(address.byPath(props.form, dropData.address).type());
-    const droppedEntity = address.byPath(props.form, dropData.address);
-    // let droppedEntity = address.resurrectEntity(_entity);
-    /**returns [addy, {ParentSection}] */
-    const entityAddy = address.bySample(props.model, props.form);
-    console.log(entityAddy);
-    /**
-     * returns [parentSectionAddress, parentSectionEntity, <optional>indexToAddEntityAt]
-     */
+    if (dropData.action !== 'addEntity') {
+      let dropData = JSON.parse(event.dataTransfer.getData('address'));
+      console.log(JSON.stringify(dropData.address));
+      console.log(dropData.addres);
+      const droppedEntity = address.byPath(props.form, dropData.address);
+      // let droppedEntity = address.resurrectEntity(_entity);
+      /**returns [addy, {ParentSection}] */
+      const entityAddy = address.bySample(props.model, props.form);
+      console.log(entityAddy);
+      /**
+       * returns [parentSectionAddress, parentSectionEntity, <optional>indexToAddEntityAt]
+       */
 
-    let loc = [...entityAddy].concat(0);
-    console.log(loc);
+      let loc = [...entityAddy].concat(0);
+      console.log(loc);
 
-    console.log(dropData);
+      console.log(dropData);
+      props.add(
+        loc,
+        address.resurrectEntity(
+          Object.assign({}, droppedEntity.properties(), {
+            // @hack dropData.model.width below assumes that it is a new entity. Doesn't
+            // allow an existing entity to be added
+            append:
+              props.model.width() -
+              droppedEntity.prepend() -
+              (droppedEntity.prePromptWidth ? droppedEntity.prePromptWidth() : 0) -
+              droppedEntity.width(),
+          })
+        )
+      );
 
-    props.add(
-      loc,
-      address.resurrectEntity(
-        Object.assign({}, droppedEntity.properties(), {
-          // @hack dropData.model.width below assumes that it is a new entity. Doesn't
-          // allow an existing entity to be added
-          append: 24 - (droppedEntity.prePromptWidth ? droppedEntity.prePromptWidth() : 0) - droppedEntity.width(),
-        })
-      )
-    );
-
-    console.log(dropData.address[dropData.address.length - 2], loc[loc.length - 2]);
-    if (dropData.address[dropData.address.length - 2] === loc[loc.length - 2]) {
-      console.log([...dropData.address].map((val, index, array) => (index === array.length - 1 ? (val += 1) : val)));
-      props.remove([...dropData.address].map((val, index, array) => (index === array.length - 1 ? (val += 1) : val)));
+      console.log(dropData.address[dropData.address.length - 2], loc[loc.length - 2]);
+      if (dropData.address[dropData.address.length - 2] === loc[loc.length - 2]) {
+        console.log([...dropData.address].map((val, index, array) => (index === array.length - 1 ? (val += 1) : val)));
+        props.remove([...dropData.address].map((val, index, array) => (index === array.length - 1 ? (val += 1) : val)));
+      } else {
+        props.remove(dropData.address);
+      }
     } else {
-      props.remove(dropData.address);
+      let dropData = JSON.parse(event.dataTransfer.getData('address'));
+      console.log(dropData);
+      console.log(JSON.stringify(dropData.address));
+      console.log(dropData.model);
+      // const droppedEntity = address.byPath(props.form, dropData.address);
+      // let droppedEntity = address.resurrectEntity(_entity);
+      /**returns [addy, {ParentSection}] */
+      const entityAddy = address.bySample(props.model, props.form);
+
+      const calcAppend = entity => {
+        if (entity.prePromptWidth) {
+          return entity.prepend + entity.prePromptWidth + entity.width + entity.postPromptWidth;
+        } else {
+          return entity.prepend + entity.width;
+        }
+      };
+      let loc = [...entityAddy].concat(0);
+      console.log(loc, dropData.model);
+
+      props.add(loc, address.resurrectEntity(dropData.model));
     }
+    let loc = address.bySample(props.model, props.form).concat(0);
 
     props.temporalStateChange(loc);
 
