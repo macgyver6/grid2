@@ -432,7 +432,7 @@ let FormSectionComponent = props => {
         onDrop={drop_handler}
       >
         {/* <p>{address.bySample(props.model, props.form).length}</p> */}
-        {address.bySample(props.model, props.form).length > 1 ? (
+        {address.bySample(props.model, props.form).length > 0 ? (
           <AddToBeginning
             model={props.model}
             form={props.form}
