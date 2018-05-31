@@ -100,6 +100,7 @@ const TextBlockComponent = props => {
           size="8"
           value={props.model.content()}
           placeholder="default content"
+          disabled
         />
 
         <Resizer

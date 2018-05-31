@@ -153,21 +153,21 @@ const AddToEnd = props => {
             droppedEntity.width() -
             (droppedEntity.postPromptWidth ? droppedEntity.postPromptWidth() : 0)
         );
-        // props.add(
-        //   destinationSectionAddy()[2],
-        //   address.resurrectEntity(
-        //     Object.assign({}, droppedEntity.properties(), {
-        //       // @hack dropData.model.width below assumes that it is a new entity. Doesn't
-        //       // allow an existing entity to be added
-        //       append:
-        //         destinationSectionAddy()[1].width() -
-        //         droppedEntity.prepend() -
-        //         (droppedEntity.prePromptWidth ? droppedEntity.prePromptWidth() : 0) -
-        //         droppedEntity.width() -
-        //         (droppedEntity.postPromptWidth ? droppedEntity.postPromptWidth() : 0),
-        //     })
-        //   )
-        // );
+        props.add(
+          destinationSectionAddy()[2],
+          address.resurrectEntity(
+            Object.assign({}, droppedEntity.properties(), {
+              // @hack dropData.model.width below assumes that it is a new entity. Doesn't
+              // allow an existing entity to be added
+              append:
+                destinationSectionAddy()[1].width() -
+                droppedEntity.prepend() -
+                (droppedEntity.prePromptWidth ? droppedEntity.prePromptWidth() : 0) -
+                droppedEntity.width() -
+                (droppedEntity.postPromptWidth ? droppedEntity.postPromptWidth() : 0),
+            })
+          )
+        );
 
         const toBeMutatedRestore = restoreDonorSiblingAddress(dropData.address, props, droppedEntity);
 
