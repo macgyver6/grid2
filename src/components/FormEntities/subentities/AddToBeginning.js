@@ -153,9 +153,35 @@ const AddToBeginning = props => {
         }
       };
       let loc = [...entityAddy].concat(0);
-      console.log(loc, dropData.model);
+      console.log(
+        loc,
+        Object.assign({}, dropData.model, {
+          // @hack dropData.model.width below assumes that it is a new entity. Doesn't
+          // allow an existing entity to be added
+          append:
+            props.model.width() -
+            dropData.model.prepend -
+            (dropData.model.prePromptWidth ? dropData.model.prePromptWidth : 0) -
+            dropData.model.width -
+            (dropData.model.postPromptWidth ? dropData.model.postPromptWidth : 0),
+        })
+      );
 
-      props.add(loc, address.resurrectEntity(dropData.model));
+      props.add(
+        loc,
+        address.resurrectEntity(
+          Object.assign({}, dropData.model, {
+            // @hack dropData.model.width below assumes that it is a new entity. Doesn't
+            // allow an existing entity to be added
+            append:
+              props.model.width() -
+              dropData.model.prepend -
+              (dropData.model.prePromptWidth ? dropData.model.prePromptWidth : 0) -
+              dropData.model.width -
+              (dropData.model.postPromptWidth ? dropData.model.postPromptWidth : 0),
+          })
+        )
+      );
     }
     let loc = address.bySample(props.model, props.form).concat(0);
 
