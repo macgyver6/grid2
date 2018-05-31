@@ -98,6 +98,7 @@ const AddToEnd = props => {
 
   const firstInRow = entityAddress => {
     const section = address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1));
+    // const section = address.byPath(props.form, entityAddress);
     // console.log(entityAddress )
     const _entityAddress = entityAddress.slice(entityAddress.length - 1, entityAddress.length + 1) - 1;
     var runningTotal = 0;

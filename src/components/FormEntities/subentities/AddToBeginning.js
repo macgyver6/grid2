@@ -96,9 +96,10 @@ const AddToBeginning = props => {
     event.stopPropagation();
     console.log('addToBeginning');
     let dropData = JSON.parse(event.dataTransfer.getData('address'));
-    console.log(dropData);
-    let droppedEntity = address.resurrectEntity(dropData.model);
-
+    console.log(JSON.stringify(dropData.address));
+    console.log(address.byPath(props.form, dropData.address).type());
+    const droppedEntity = address.byPath(props.form, dropData.address);
+    // let droppedEntity = address.resurrectEntity(_entity);
     /**returns [addy, {ParentSection}] */
     const entityAddy = address.bySample(props.model, props.form);
     console.log(entityAddy);
@@ -117,10 +118,18 @@ const AddToBeginning = props => {
         Object.assign({}, droppedEntity.properties(), {
           // @hack dropData.model.width below assumes that it is a new entity. Doesn't
           // allow an existing entity to be added
-          append: 24 - droppedEntity.prePromptWidth() - droppedEntity.width(),
+          append: 24 - (droppedEntity.prePromptWidth ? droppedEntity.prePromptWidth() : 0) - droppedEntity.width(),
         })
       )
     );
+
+    console.log(dropData.address[dropData.address.length - 2], loc[loc.length - 2]);
+    if (dropData.address[dropData.address.length - 2] === loc[loc.length - 2]) {
+      console.log([...dropData.address].map((val, index, array) => (index === array.length - 1 ? (val += 1) : val)));
+      props.remove([...dropData.address].map((val, index, array) => (index === array.length - 1 ? (val += 1) : val)));
+    } else {
+      props.remove(dropData.address);
+    }
 
     props.temporalStateChange(loc);
 

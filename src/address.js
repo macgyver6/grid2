@@ -52,7 +52,9 @@ export const address = {
     }
 
     if (node.children) {
-      return node.children().reduce((acc, child, index) => acc || address.bySample(target, child, [...path, index]), null);
+      return node
+        .children()
+        .reduce((acc, child, index) => acc || address.bySample(target, child, [...path, index]), null);
     }
 
     return null;
