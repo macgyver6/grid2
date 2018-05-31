@@ -101,11 +101,11 @@ let Resizer = props => {
         append: resize.init_append - resize.grids,
       });
 
-      props.mutate(locEntity[0], {
-        [resize.target]: resize.init_grids + resize.grids,
-        append: resize.init_append - resize.grids,
-      });
       if (locEntity[1].type() !== 'FormSection') {
+        props.mutate(locEntity[0], {
+          [resize.target]: resize.init_grids + resize.grids,
+          append: resize.init_append - resize.grids,
+        });
         /** mutate single entity, including formsection */
 
         console.log(`changing ${props.model.UUID()}.${props.model.type()}color to 'lightgreen`);
