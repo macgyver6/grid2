@@ -3,8 +3,7 @@ import { FormSection } from '../../../data/FormSection';
 import Tab from './Tab';
 
 let TabContainer = props => {
-  const allowAddTab = props =>
-    props.form.children().length < 5 ? true : false;
+  const allowAddTab = props => (props.form.children().length < 5 ? true : false);
 
   const mouseEnter_handler = event => {
     /*
@@ -17,13 +16,10 @@ let TabContainer = props => {
     tab.style.borderBottom = '3px solid white';
     tab.style.backgroundColor = 'white';
 
-    tab.innerHTML = allowAddTab(props)
-      ? 'click to add'
-      : '<strong>max tabs</strong>';
+    tab.innerHTML = allowAddTab(props) ? 'click to add' : '<strong>max tabs</strong>';
 
     document.getElementById('tabcontainer').appendChild(tab);
-    document.getElementById('tabcontainer').style.backgroundColor =
-      'rgb(243, 234, 95)';
+    document.getElementById('tabcontainer').style.backgroundColor = 'rgb(243, 234, 95)';
     // document.getElementById('tabcontainer').style.backgroundColor =
     //   props.form.children().length > 4 ? 'red' : 'rgb(243, 234, 95)';
   };
@@ -38,20 +34,16 @@ let TabContainer = props => {
     bottom: 4,
   };
 
-  const Add_Tab = () => {
-    return (
+  const Add_Tab = () => (
       <div style={divStyle} className="add_tab" onClick={click_handler}>
         <p>Add Tab</p>
       </div>
     );
-  };
 
   const mouseLeave_handler = event => {
     // props.remove([props.form.children().length - 1])
     const tabContainer = document.getElementById('tabcontainer');
-    tabContainer.removeChild(
-      tabContainer.children[tabContainer.children.length - 1]
-    );
+    tabContainer.removeChild(tabContainer.children[tabContainer.children.length - 1]);
     document.getElementById('tabcontainer').style.backgroundColor =
       props.form.children().length > 1 ? 'darkgrey' : 'white';
   };
@@ -103,8 +95,7 @@ let TabContainer = props => {
     }
 
     let tabContainer = document.getElementById('tabcontainer');
-    tabContainer.style.backgroundColor =
-      props.form.children().length > 3 ? 'red' : 'rgb(243, 234, 95)';
+    tabContainer.style.backgroundColor = props.form.children().length > 3 ? 'red' : 'rgb(243, 234, 95)';
     console.log(tabContainer.scrollWidth);
     tabContainer.scrollLeft = tabContainer.scrollWidth + 160;
   };
@@ -123,8 +114,7 @@ let TabContainer = props => {
   };
   // border: 'solid blue',
 
-  const renderTabs = props => {
-    return props.form
+  const renderTabs = props => props.form
       .children()
       .map((tab, index) => (
         <Tab
@@ -139,17 +129,16 @@ let TabContainer = props => {
           add={props.add}
           mutate={props.mutate}
           formmutate={props.formmutate}
+          temporalStateChange={props.temporalStateChange}
         />
       ));
-  };
 
   return (
     <div style={metaTabContainerStyle}>
       <div
         style={{
           ...TabContainerStyle,
-          backgroundColor:
-            props.form.children().length > 1 ? 'darkgrey' : 'white',
+          backgroundColor: props.form.children().length > 1 ? 'darkgrey' : 'white',
         }}
         mutate={props.mutate}
         id="tabcontainer"

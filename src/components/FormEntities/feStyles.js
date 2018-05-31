@@ -6,20 +6,18 @@ export const calcTotal = entity => {
       entity.width() +
       entity.postPromptWidth() +
       parseFloat(entity.append());
-    console.log(typeof entity.prepend());
     return resultingSum;
   } else {
-    console.log('no prompts: ', entity.type());
     return entity.prepend() + entity.width() + entity.append();
   }
 };
 
 export const calcTotalAdd = entity => {
   if (typeof entity.prePromptWidth === 'function') {
-    console.log('has prompts: ', entity.type());
+    // console.log('has prompts: ', entity.type());
     return entity.prePromptWidth() + entity.width() + entity.postPromptWidth();
   } else {
-    console.log('no prompts: ', entity.type());
+    // console.log('no prompts: ', entity.type());
     return entity.width();
   }
 };

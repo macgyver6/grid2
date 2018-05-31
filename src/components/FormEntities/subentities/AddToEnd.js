@@ -15,10 +15,10 @@ const AddToEnd = props => {
 
   const wrapperStyle = {
     width: props.appState.gridWidth * parentEntity.width(),
-    height: '20px',
+    height: '40px',
     position: 'absolute',
     right: '0',
-    bottom: '-20px',
+    bottom: '-40px',
   };
   console.log(wrapperStyle.width);
 
@@ -146,21 +146,28 @@ const AddToEnd = props => {
         // const parentEntity = [...destinationSectionAddy()[0]].slice(0,
         // destinationSectionAddy().length - 1) console.log(parentEntity)
         console.log('destinationSectionAddy', destinationSectionAddy()[2]);
-        props.add(
-          destinationSectionAddy()[2],
-          address.resurrectEntity(
-            Object.assign({}, droppedEntity.properties(), {
-              // @hack dropData.model.width below assumes that it is a new entity. Doesn't
-              // allow an existing entity to be added
-              append:
-                destinationSectionAddy()[1].width() -
-                droppedEntity.prepend() -
-                (droppedEntity.prePromptWidth ? droppedEntity.prePromptWidth() : 0) -
-                droppedEntity.width() -
-                (droppedEntity.postPromptWidth ? droppedEntity.postPromptWidth() : 0),
-            })
-          )
+        console.log(
+          destinationSectionAddy()[1].width() -
+            droppedEntity.prepend() -
+            (droppedEntity.prePromptWidth ? droppedEntity.prePromptWidth() : 0) -
+            droppedEntity.width() -
+            (droppedEntity.postPromptWidth ? droppedEntity.postPromptWidth() : 0)
         );
+        // props.add(
+        //   destinationSectionAddy()[2],
+        //   address.resurrectEntity(
+        //     Object.assign({}, droppedEntity.properties(), {
+        //       // @hack dropData.model.width below assumes that it is a new entity. Doesn't
+        //       // allow an existing entity to be added
+        //       append:
+        //         destinationSectionAddy()[1].width() -
+        //         droppedEntity.prepend() -
+        //         (droppedEntity.prePromptWidth ? droppedEntity.prePromptWidth() : 0) -
+        //         droppedEntity.width() -
+        //         (droppedEntity.postPromptWidth ? droppedEntity.postPromptWidth() : 0),
+        //     })
+        //   )
+        // );
 
         const toBeMutatedRestore = restoreDonorSiblingAddress(dropData.address, props, droppedEntity);
 
