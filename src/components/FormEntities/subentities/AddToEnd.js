@@ -112,6 +112,7 @@ const AddToEnd = props => {
   const drop_handler = event => {
     event.stopPropagation();
     let dropData = JSON.parse(event.dataTransfer.getData('address'));
+    console.log(dropData);
 
     /**returns [addy, {ParentSection}] */
     const entityAddy = address.byUuid(props.model.UUID(), props.form);
@@ -167,8 +168,21 @@ const AddToEnd = props => {
         if (toBeMutatedRestore) {
           props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties);
         }
-
-        props.remove(dropData.address);
+        console.log(
+          destinationSectionAddy()[2],
+          [...dropData.address].map((val, index, array) => (index === array.length - 1 ? (val += 1) : val))
+        );
+        /** handles the condition that the entity is moved to prior index in the same section */
+        if (
+          dropData.address[dropData.address.length - 1] >
+          destinationSectionAddy()[2][destinationSectionAddy()[2].length - 1]
+        ) {
+          props.remove(
+            [...dropData.address].map((val, index, array) => (index === array.length - 1 ? (val += 1) : val))
+          );
+        } else {
+          props.remove(dropData.address);
+        }
       } else {
         /*
       @hack - this needs to accomodate some entities having prePrompt and others not
