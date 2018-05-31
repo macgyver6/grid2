@@ -15,10 +15,10 @@ const AddToEnd = props => {
 
   const wrapperStyle = {
     width: props.appState.gridWidth * parentEntity.width(),
-    height: '20px',
+    height: '40px',
     position: 'absolute',
     right: '0',
-    bottom: '-20px',
+    bottom: '-40px',
   };
   console.log(wrapperStyle.width);
 
@@ -47,6 +47,7 @@ const AddToEnd = props => {
       };
     };
     console.log(donorParent.children().length - 1 === arr[arr.length - 1] && firstInRow(arr));
+    console.log(total(draggedEntity));
     /** if only 1 child in section or the donor entity is the last entity in section */
     if (
       donorParent.children().length === 1 ||
@@ -55,13 +56,21 @@ const AddToEnd = props => {
       // if (donorParent.children().length === 1 || (donorParent.children().length - 1
       // === arr[arr.length - 1])) {
       return false;
+    } else if (donorParent.width() === total(draggedEntity)) {
+      /** in the case that the entity used the entire destination section */
+      return false;
     } else if (firstInRow(arr)) {
       console.log('firstInRow: ', toRight(arr));
       return {
         address: toRight(arr).address,
         properties: {
           prepend:
-            toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append(),
+            toRight(arr).entity.prepend() +
+            (draggedEntity.prePromptWidth ? draggedEntity.prePromptWidth() : 0) +
+            draggedEntity.prepend() +
+            draggedEntity.width() +
+            (draggedEntity.postPromptWidth ? draggedEntity.postPromptWidth() : 0) +
+            draggedEntity.append(),
         },
       };
     } else {
@@ -69,16 +78,27 @@ const AddToEnd = props => {
         address: toLeft(arr).address,
         properties: {
           append:
-            toLeft(arr).entity.append() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append(),
+            toLeft(arr).entity.append() +
+            // (draggedEntity.prePromptWidth ? draggedEntity.prePromptWidth() : 0) +
+            draggedEntity.prepend() +
+            draggedEntity.width() +
+            // (draggedEntity.postPromptWidth ? draggedEntity.postPromptWidth() : 0) +
+            +draggedEntity.append(),
         },
       };
     }
   };
 
-  const total = entity => entity.prepend() + entity.width() + entity.append();
+  const total = entity =>
+    entity.prepend() +
+    (entity.prePromptWidth ? entity.prePromptWidth() : 0) +
+    entity.width() +
+    (entity.postPromptWidth ? entity.postPromptWidth() : 0) +
+    entity.append();
 
   const firstInRow = entityAddress => {
     const section = address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1));
+    // const section = address.byPath(props.form, entityAddress);
     // console.log(entityAddress )
     const _entityAddress = entityAddress.slice(entityAddress.length - 1, entityAddress.length + 1) - 1;
     var runningTotal = 0;
@@ -93,6 +113,7 @@ const AddToEnd = props => {
   const drop_handler = event => {
     event.stopPropagation();
     let dropData = JSON.parse(event.dataTransfer.getData('address'));
+    console.log(dropData);
 
     /**returns [addy, {ParentSection}] */
     const entityAddy = address.byUuid(props.model.UUID(), props.form);
@@ -125,26 +146,51 @@ const AddToEnd = props => {
         // const parentEntity = [...destinationSectionAddy()[0]].slice(0,
         // destinationSectionAddy().length - 1) console.log(parentEntity)
         console.log('destinationSectionAddy', destinationSectionAddy()[2]);
-        props.add(
-          destinationSectionAddy()[2],
-          address.resurrectEntity(
-            Object.assign({}, droppedEntity.properties(), {
-              // @hack dropData.model.width below assumes that it is a new entity. Doesn't
-              // allow an existing entity to be added
-              append: destinationSectionAddy()[1].width() - droppedEntity.width(),
-            })
-          )
+        console.log(
+          destinationSectionAddy()[1].width() -
+            droppedEntity.prepend() -
+            (droppedEntity.prePromptWidth ? droppedEntity.prePromptWidth() : 0) -
+            droppedEntity.width() -
+            (droppedEntity.postPromptWidth ? droppedEntity.postPromptWidth() : 0)
         );
+        // props.add(
+        //   destinationSectionAddy()[2],
+        //   address.resurrectEntity(
+        //     Object.assign({}, droppedEntity.properties(), {
+        //       // @hack dropData.model.width below assumes that it is a new entity. Doesn't
+        //       // allow an existing entity to be added
+        //       append:
+        //         destinationSectionAddy()[1].width() -
+        //         droppedEntity.prepend() -
+        //         (droppedEntity.prePromptWidth ? droppedEntity.prePromptWidth() : 0) -
+        //         droppedEntity.width() -
+        //         (droppedEntity.postPromptWidth ? droppedEntity.postPromptWidth() : 0),
+        //     })
+        //   )
+        // );
 
         const toBeMutatedRestore = restoreDonorSiblingAddress(dropData.address, props, droppedEntity);
 
         // if (!arraysEqual(toBeMutatedRestore.address, dropObj.destinationAddress)) {
-
+        console.log(toBeMutatedRestore);
         if (toBeMutatedRestore) {
           props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties);
         }
-
-        props.remove(dropData.address);
+        console.log(
+          destinationSectionAddy()[2],
+          [...dropData.address].map((val, index, array) => (index === array.length - 1 ? (val += 1) : val))
+        );
+        /** handles the condition that the entity is moved to prior index in the same section */
+        if (
+          dropData.address[dropData.address.length - 1] >
+          destinationSectionAddy()[2][destinationSectionAddy()[2].length - 1]
+        ) {
+          props.remove(
+            [...dropData.address].map((val, index, array) => (index === array.length - 1 ? (val += 1) : val))
+          );
+        } else {
+          props.remove(dropData.address);
+        }
       } else {
         /*
       @hack - this needs to accomodate some entities having prePrompt and others not
@@ -168,6 +214,7 @@ const AddToEnd = props => {
         props.temporalStateChange(loc);
       }
       event.target.style.backgroundColor = '';
+      event.target.innerHTML = '';
     }
 
     if (props.addToEndAction === 'appendToEnd') {
@@ -224,12 +271,14 @@ const AddToEnd = props => {
         props.temporalStateChange(loc);
       }
       event.target.style.backgroundColor = '';
+      event.target.innerHTML = '';
     }
   };
   let dragEnter_handler = event => {
     event.stopPropagation();
     event.preventDefault();
     event.target.style.backgroundColor = 'lightgreen';
+    event.target.innerHTML = '⬇️Insert entity here';
 
     // const entityAddress = address.bySample(props.model, props.form);
     // const parentAddress = entityAddress.slice(0, entityAddress.length - 1);
@@ -247,6 +296,7 @@ const AddToEnd = props => {
 
   let dragLeave_handler = event => {
     event.target.style.backgroundColor = '';
+    event.target.innerHTML = '';
   };
 
   const lastInRow = entityAddress => {

@@ -6,7 +6,7 @@ import Append from './subentities/Append.js';
 import Prepend from './subentities/Prepend.js';
 import PrePrompt from './subentities/PrePrompt.js';
 import PostPrompt from './subentities/PostPrompt.js';
-import { styleDefaultEntity } from './feStyles';
+import { entityWrapperStyle, entityStyle, inputStyle } from './feStyles';
 import { entityActions } from './actions.entities';
 import AddToEnd from './subentities/AddToEnd.js';
 
@@ -33,26 +33,10 @@ const TextInputComponent = props => {
     event.stopPropagation();
     console.log('mouseUp_handler');
   };
-
-  const tiStyle = {
-    // //     margin: helpers.marginCalc(props),
-    backgroundColor: '#6C788F',
-    position: 'relative',
-    gridColumn: `span ${props.model.width()}`,
-    maxHeight: '40px',
-    cursor: 'move',
-    // gridGap: '8px',
-    // border: '1px solid red',
-    padding: '4px',
-    borderRadius: '2px',
-  };
-
-  const tiInputStyle = {
-    position: 'absolute',
-    right: 16,
-    bottom: 7,
-    height: '20px',
-    width: '82%',
+  const marginCalc = promptWidth => {
+    if (promptWidth > 0) {
+      return '-8';
+    }
   };
 
   const total = entity =>
@@ -104,7 +88,7 @@ const TextInputComponent = props => {
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
-      style={styleDefaultEntity(props.model)}
+      style={entityWrapperStyle(props.model)}
       onDragOver={dragOver_handler}
       onDrop={drop_handler}
       onDragLeave={dragleave_handler}
@@ -114,7 +98,7 @@ const TextInputComponent = props => {
       onMouseUp={mouseUp_handler}
       draggable="false"
     >
-      {props.model.prepend() > 1 ? (
+      {props.model.prepend() > 0 ? (
         <Prepend
           id={`${props.model.UUID()}.prepend`}
           prepend={props.model.prepend()}
@@ -141,17 +125,23 @@ const TextInputComponent = props => {
           backgroundColor="rgb(108, 120, 143)"
         />
       ) : null}
-      <div style={tiStyle} id={`${props.model.UUID()}.${props.model.type()}`} className="TextInput">
+      <div
+        style={{
+          ...entityStyle(props.model),
+          backgroundColor: '#6C788F',
+        }}
+        id={`${props.model.UUID()}.${props.model.type()}`}
+        className="TextInput"
+      >
         <br />
         <input
-          style={tiInputStyle}
+          style={inputStyle(props.model)}
           className="form-control"
           type={props.model.type()}
           size="8"
           value={props.model.defaultContent()}
           placeholder="default content"
         />
-        <p>{JSON.stringify(lastInRow(entityAddress))}</p>
         <Resizer
           id="width"
           // id={`${props.model.UUID()}.resizer`}
@@ -166,7 +156,7 @@ const TextInputComponent = props => {
           resizeType="width"
         />
       </div>
-      {props.model.postPromptWidth() > 1 ? (
+      {props.model.postPromptWidth() > 0 ? (
         <PostPrompt
           id={`${props.model.UUID()}.prepend`}
           postPromptWidth={props.model.postPromptWidth()}

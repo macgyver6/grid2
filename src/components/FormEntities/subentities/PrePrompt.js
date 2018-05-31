@@ -7,7 +7,7 @@ const PrePrompt = props => {
     gridColumn: `span ${props.prePromptWidth}`,
     backgroundColor: props.backgroundColor,
     padding: '4px',
-    borderRadius: '2px',
+    // borderRadius: '2px',
     position: 'relative',
     maxHeight: '40px',
   };

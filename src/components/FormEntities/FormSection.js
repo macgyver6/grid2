@@ -3,8 +3,8 @@ import { address } from '../../address';
 import { defaultPropsFE } from '../../constants/defaultPropsFE';
 import Resizer from './subentities/Resizer.js';
 import AddToEnd from './subentities/AddToEnd.js';
+import AddToBeginning from './subentities/AddToBeginning.js';
 import Append from './subentities/Append';
-import { styles } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 import { helpers } from '../../helpers';
 import { entityActions } from './actions.entities';
@@ -34,12 +34,12 @@ let FormSectionComponent = props => {
     // event.preventDefault();
     data = JSON.parse(event.dataTransfer.getData('address'));
     console.log(event.dataTransfer.getData('address'), data);
-
     let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8;
     const offsetE1 = data.dragInit;
+    console.log(round(data.dragInit / bgrndGrdWidth, 0));
     const offsetGrids = round(
       (event.clientX -
-        document.getElementById(`${props.model.UUID()}.${props.model.type()}`).getBoundingClientRect().left -
+        document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`).getBoundingClientRect().left -
         offsetE1) /
         bgrndGrdWidth,
       0
@@ -74,15 +74,47 @@ let FormSectionComponent = props => {
       console.log('FormSection drop move');
       console.log(data.address);
       let draggedEntity = address.byPath(props.form, data.address);
+
+      const totalThis =
+        (draggedEntity.prePromptWidth ? draggedEntity.prePromptWidth() : 0) +
+        draggedEntity.width() +
+        (draggedEntity.postPromptWidth ? draggedEntity.postPromptWidth() : 0);
+      const whereClicked = round(offsetE1 / bgrndGrdWidth, 0);
+
+      const gridsToEndOfSection = props.model.width() - (totalThis - whereClicked - offsetGrids);
+
+      /**
+       * offsetGrids is not calculating if the entity had a prepend in position 1
+       * */
+
+      const futurePrepend = draggedEntity.prepend() + offsetGrids;
+
       let entityToAdd = address.resurrectEntity(
         Object.assign({}, draggedEntity.properties(), {
-          prepend: offsetGrids,
-          append:
-            props.model.width() -
-            offsetGrids -
-            (draggedEntity.prePromptWidth ? draggedEntity.prePromptWidth() : 0) -
-            draggedEntity.width(),
+          prepend: futurePrepend,
+          append: props.model.width() - totalThis - futurePrepend,
+          // (draggedEntity.postPromptWidth ? draggedEntity.postPromptWidth() : 0) -
+          // draggedEntity.width(),
         })
+      );
+
+      console.log(whereClicked, gridsToEndOfSection, props.model.width(), totalThis - offsetGrids);
+      console.log(
+        // entityToAdd.prepend(),
+        entityToAdd.append(),
+        props.model.width(),
+        gridsToEndOfSection,
+        draggedEntity.postPromptWidth ? draggedEntity.postPromptWidth() : 0,
+        draggedEntity.width(),
+        {
+          [`data.dragInit`]: round(data.dragInit / bgrndGrdWidth, 0),
+          [`data`]: data,
+          offsetGrids,
+          [`props.model.width()`]: props.model.width(),
+          offsetGrids,
+          [`draggedEntity.prePromptWidth()`]: draggedEntity.prePromptWidth(),
+          [` draggedEntity.width()`]: draggedEntity.width(),
+        }
       );
 
       const total = entity =>
@@ -140,6 +172,7 @@ let FormSectionComponent = props => {
           (donorParent.children().length - 1 === arr[arr.length - 1] && firstInRow(arr))
         ) {
           // if (donorParent.children().length === 1 || (donorParent.children().length - 1 === arr[arr.length - 1])) {
+          console.log(false);
           return false;
         } else if (total(draggedEntity) >= donorParent.width()) {
           return false;
@@ -177,11 +210,6 @@ let FormSectionComponent = props => {
 
       const toBeMutatedRestore = restoreDonorSiblingAddress(data.address, props, draggedEntity);
 
-      // if (toBeMutatedRestore) {
-      //   console.log('here');
-      //   props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties);
-      // }
-
       let test = address.byUuid(props.model.UUID(), props.form)[0];
       let _test = [...test];
       _test[test.length] = props.model.children().length;
@@ -193,14 +221,28 @@ let FormSectionComponent = props => {
         // props.add(_test, entityToAdd);
         // props.remove(data.address);
         // path, properties, pathToAdd, entityToAdd, pathToRemove section
-        props.mutateaddremove(
-          toBeMutatedRestore.address,
-          toBeMutatedRestore.properties,
-          _test,
-          entityToAdd,
-          data.address,
-          props.form
-        );
+        // console.log(
+        //   toBeMutatedRestore.address,
+        //   toBeMutatedRestore.properties,
+        //   _test,
+        //   entityToAdd,
+        //   data.address,
+        //   props.form
+        // );
+        if (toBeMutatedRestore) {
+          console.log('here');
+          props.mutateaddremove(
+            toBeMutatedRestore.address,
+            toBeMutatedRestore.properties,
+            _test,
+            entityToAdd,
+            data.address,
+            props.form
+          );
+        } else {
+          props.add(_test, entityToAdd);
+          props.remove(data.address);
+        }
         //   /*
         //   start restore donor
         //   */
@@ -261,7 +303,7 @@ let FormSectionComponent = props => {
     backgroundColor: 'rgba(243, 234, 95, 0.7)',
     // minHeight: '120px',
     minWidth: '100px',
-    paddingBottom: '60px',
+    paddingBottom: '40px',
     gridColumn: `span ${props.model.width()}`,
     gridGap: '8px',
     gridAutoRows: 'min-content',
@@ -344,8 +386,8 @@ let FormSectionComponent = props => {
   //     }, 0);
 
   const dragEnter_handler = event => {
-    // event.stopPropagation();
-    // event.preventDefault();
+    event.stopPropagation();
+    event.preventDefault();
     props.temporalStateChange({ gridWidth: document.getElementById('0.bgrndGrd').clientWidth + 7 });
   };
   // lastEntitiesInRow.map(entity => document.getElementById(entity).appendChild(AddToEnd));
@@ -363,7 +405,7 @@ let FormSectionComponent = props => {
       onMouseDown={mouseDown_handler}
       onDragStart={dragstart_handler}
     >
-      {props.model.prepend() > 1 ? (
+      {props.model.prepend() > 0 ? (
         <Prepend
           id={`${props.model.UUID()}.prepend`}
           prepend={props.model.prepend()}
@@ -384,10 +426,24 @@ let FormSectionComponent = props => {
           minHeight: minHeight,
           maxHeight: maxHeight,
           overflowY: scrollable,
+          paddingTop: '18px',
         }}
         data-action={`mover.${props.model.UUID()}.FormSection`}
         onDrop={drop_handler}
       >
+        {/* <p>{address.bySample(props.model, props.form).length}</p> */}
+        {address.bySample(props.model, props.form).length > 1 ? (
+          <AddToBeginning
+            model={props.model}
+            form={props.form}
+            add={props.add}
+            remove={props.remove}
+            mutate={props.mutate}
+            temporalStateChange={props.temporalStateChange}
+            addToEndAction="insertInPlace"
+            appState={props.appState}
+          />
+        ) : null}
         {props.model.type() === 'FormSection'
           ? props.model.children().map((element, i) => {
               console.log(element);

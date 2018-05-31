@@ -193,7 +193,12 @@ const DeleteBtn = props => {
           address: toRight(arr).address,
           properties: {
             prepend:
-              toRight(arr).entity.prepend() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append(),
+              toRight(arr).entity.prepend() +
+              (draggedEntity.prePromptWidth ? draggedEntity.prePromptWidth() : 0) +
+              draggedEntity.prepend() +
+              draggedEntity.width() +
+              draggedEntity.append() +
+              (draggedEntity.postPromptWidth ? draggedEntity.postPromptWidth() : 0),
           },
         };
       }
@@ -201,7 +206,12 @@ const DeleteBtn = props => {
         address: toLeft(arr).address,
         properties: {
           append:
-            toLeft(arr).entity.append() + draggedEntity.prepend() + draggedEntity.width() + draggedEntity.append(),
+            toLeft(arr).entity.append() +
+            (draggedEntity.prePromptWidth ? draggedEntity.prePromptWidth() : 0) +
+            draggedEntity.prepend() +
+            draggedEntity.width() +
+            draggedEntity.append() +
+            +(draggedEntity.postPromptWidth ? draggedEntity.postPromptWidth() : 0),
         },
       };
     };
@@ -338,6 +348,7 @@ const MiddlePanel = props => (
       formmutate={props.formmutate}
       changetab={props.changetab}
       activeTab={props.activeTab}
+      temporalStateChange={props.temporalStateChange}
     />
     <FormComponent
       form={props.form}
