@@ -33,8 +33,8 @@ const formReducer = (state, action) => {
       app: {
         dateTime: null,
         activeTab: 0,
-        currententity: null,
-        // currententity: [0, 0, 0],
+        // currententity: null,
+        currententity: [0, 0, 0],
         validations: true,
         dataDefinedValidationPane: true,
         gridWidth: null,
@@ -87,7 +87,7 @@ const formReducer = (state, action) => {
       form: update,
     });
     const mutatedEntity = Object.assign({}, initEntity.properties(), action.properties);
-    const result = utility.add(action.path, address.resurrectEntity(mutatedEntity), removedUpdate.form);
+    const result = utility.add(action.path, address.rehydrate(mutatedEntity), removedUpdate.form);
 
     // console.log(
     //   validateImport(result).length === 0,
@@ -112,7 +112,7 @@ const formReducer = (state, action) => {
       form: update,
     });
     const mutatedEntity = Object.assign({}, initEntity.properties(), action.properties);
-    const result = utility.add(action.path, address.resurrectEntity(mutatedEntity), removedUpdate.form);
+    const result = utility.add(action.path, address.rehydrate(mutatedEntity), removedUpdate.form);
 
     // const entityToRemove = address.byPath(result, action.pathToDelete);
     // const entityRemoved = utility.remove(action.pathToDelete, result);
@@ -144,7 +144,7 @@ const formReducer = (state, action) => {
     });
     console.log(removedUpdate);
     const mutatedEntity = Object.assign({}, initEntity.properties(), action.properties);
-    const result = utility.add(action.path, address.resurrectEntity(mutatedEntity), removedUpdate.form);
+    const result = utility.add(action.path, address.rehydrate(mutatedEntity), removedUpdate.form);
 
     const entityAdded = utility.add(action.pathToAdd, action.entityToAdd, result);
     // const entityToRemove = (action.pathToDelete);

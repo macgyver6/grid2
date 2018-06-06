@@ -3,11 +3,23 @@ import { address } from '../address';
 import { calcTotal } from '../components/FormEntities/feStyles';
 
 export const TextAreaProperty = props => {
-  const change_handler = event => {
-    return props.mutate(address.bySample(props.model, props.form), {
+  const change_handler = event => props.mutate(address.bySample(props.model, props.form), {
       [event.target.id]: event.target.value
     });
+
+  const layoutChange_handler = event => {
+    props.mutate(address.bySample(props.model, props.form), {
+      [event.target.id]: parseFloat(event.target.value),
+      append:
+        24 -
+        props.model.prepend() -
+        (event.target.id === 'prePromptWidth' ? parseFloat(event.target.value) : props.model.prePromptWidth()) -
+        props.model.width() -
+        (event.target.id === 'postPromptWidth' ? parseFloat(event.target.value) : props.model.postPromptWidth()),
+      // function that calcs total width and subtracts all OTHER elements, returningt what the value should be
+    });
   };
+
   return (
     <div>
       <h1>Text Area</h1>
@@ -18,14 +30,17 @@ export const TextAreaProperty = props => {
         <p>
           <label for="textArea-name">Name</label>
           <br />
-          <input
-            type="text"
-            id="name"
-            name="textArea-name"
-            onChange={change_handler}
-            value={props.model.name()}
-          />
+          <input type="text" id="name" name="textArea-name" onChange={change_handler} value={props.model.name()} />
         </p>
+        PrePromptWidth:
+        <input type="number" id="prePromptWidth" onChange={layoutChange_handler} value={props.model.prePromptWidth()} />
+        PostPromptWidth:
+        <input
+          type="number"
+          id="postPromptWidth"
+          onChange={layoutChange_handler}
+          value={props.model.postPromptWidth()}
+        />
         <p>
           <label for="textArea-prompt_pre">
             Pre Prompt (optional){' '}
@@ -35,7 +50,6 @@ export const TextAreaProperty = props => {
               target="_blank"
               data-ga-click="Markdown Toolbar, click, help"
             >
-
               {/* Markdown is supported */}
             </a>
           </label>
@@ -57,7 +71,6 @@ export const TextAreaProperty = props => {
               target="_blank"
               data-ga-click="Markdown Toolbar, click, help"
             >
-
               {/* Markdown is supported */}
             </a>
           </label>
@@ -88,7 +101,7 @@ export const TextAreaProperty = props => {
             onChange={change_handler}
             value={props.model.tabOrder()}
             // disabled="disabled"
-            />
+          />
         </p>
         <p>
           <label for="textArea-sasCodeLabel">SAS Code Label</label>

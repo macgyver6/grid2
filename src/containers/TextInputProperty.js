@@ -1,7 +1,7 @@
 import React from 'react';
 import { address } from '../address';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { _dataDefined } from './_validations';
+import { _dataDefined, userDefined } from './_validations';
 import DateValidationUI from './validations/dateValidationUI';
 import StringValidationUI from './validations/stringValidationUI';
 import IntegerValidationUI from './validations/integerValidationUI';
@@ -22,9 +22,9 @@ export const TextInputProperty = props => {
       append:
         24 -
         props.model.prepend() -
-        parseFloat(event.target.value) -
+        (event.target.id === 'prePromptWidth' ? parseFloat(event.target.value) : props.model.prePromptWidth()) -
         props.model.width() -
-        props.model.postPromptWidth(),
+        (event.target.id === 'postPromptWidth' ? parseFloat(event.target.value) : props.model.postPromptWidth()),
       // function that calcs total width and subtracts all OTHER elements, returningt what the value should be
     });
   };
@@ -38,11 +38,15 @@ export const TextInputProperty = props => {
     // };
 
     props.mutate(address.bySample(props.model, props.form), {
-      validations: {
-        ...props.model.validations(),
+        ...props.model,
         [event.target.id]: event.target.value,
-      },
     });
+    // props.mutate(address.bySample(props.model, props.form), {
+    //   validations: {
+    //     ...props.model.validations(),
+    //     [event.target.id]: event.target.value,
+    //   },
+    // });
 
   const collapse_handler = event => {
     props.temporalStateChange({
@@ -61,6 +65,27 @@ export const TextInputProperty = props => {
     <option value={userDefinedValOption}>{userDefinedValOption}</option>
   ));
 
+  let currentSelectedValidator = 'Pattern'
+  const validationSelector_handler2 = event => currentSelectedValidator =  event.target.value;
+
+  console.log(currentSelectedValidator)
+
+    // return {
+    //   validations: {
+    //     ...props.model.validations(),
+    //     [event.target.id]: event.target.value
+    //   }
+    // };
+
+
+  // const collapse_handler = event => {
+  //   props.temporalStateChange({
+  //     [event.target.id]: !props.appState[event.target.id],
+  //   });
+  // };
+
+
+
   return (
     <div>
       <h1 style={{ marginBottom: '0px' }}>Text Input</h1>
@@ -70,7 +95,6 @@ export const TextInputProperty = props => {
         {props.model.prePrompt()} Width: {props.model.width()} Append:
         {props.model.append()}
       </p>
-      <input type="number" id="prePromptWidth" onChange={layoutChange_handler} value={props.model.prePromptWidth()} />
       <Tabs>
         <TabList>
           <Tab>Validations</Tab>
@@ -80,8 +104,24 @@ export const TextInputProperty = props => {
           <h2 id="validations" onClick={collapse_handler}>
             User Defined Validations{props.appState.validations ? ' ⬇️ (Click to collpase)' : ' ↕️ (Click to Expand)'}
           </h2>
+          <select
+            value={props.model.currentValidator()}
+            className="form-control"
+            name="textInput-val-type"
+            onChange={validationSelector_handler}
+            id="currentValidator"
+          >
+            {/* <option selected value>
+              {' '}
+              -- select an option --{' '}
+      </option> */}
+            {_dataDefined[`${props.model.validations().valType}`].userDefined.map(userDefinedVal => (
+              <option value={userDefinedVal}>{userDefinedVal}</option>
+            ))}
+          </select>
+
           <Collapse isOpened={props.appState.validations}>
-            {React.createElement(address.whichValidator(props.model.validations().userDefined), {
+            {React.createElement(address.whichValidator(props.model.currentValidator()), {
               model: address.byPath(props.form, props.currententity),
               form: props.form,
               currententity: props.currententity,
@@ -98,6 +138,20 @@ export const TextInputProperty = props => {
               <br />
               <input type="text" id="name" name="textInput-name" onChange={change_handler} value={props.model.name()} />
             </p>
+            PrePromptWidth:
+            <input
+              type="number"
+              id="prePromptWidth"
+              onChange={layoutChange_handler}
+              value={props.model.prePromptWidth()}
+            />
+            PostPromptWidth:
+            <input
+              type="number"
+              id="postPromptWidth"
+              onChange={layoutChange_handler}
+              value={props.model.postPromptWidth()}
+            />
             <p>
               <label htmlFor="textInput-prompt_pre">
                 Pre Prompt (optional){' '}

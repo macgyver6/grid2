@@ -52,6 +52,9 @@ class FormInput extends FormEntity {
           _dataDefined[FormInput.DEFAULT_VALIDATIONS.valType].userDefined
       }
     );
+    this._currentValidator = properties.currentValidator || 'Pattern';
+    this._currentDependency = properties.currentDependency || '';
+
     // { userDefinedNonSelection: _dataDefined }
 
     if (this.constructor === FormInput) {
@@ -188,6 +191,27 @@ class FormInput extends FormEntity {
   validations() {
     console.log('validations hit: ', this._validations);
     return this._validations;
+  }
+
+  /**
+   *
+   * Get currentValidator on the form input.
+   * @param {Object} props
+   * @returns {FormInput}
+   * @memberof FormInput
+   */
+  currentValidator() {
+    return this._currentValidator;
+  }
+  /**
+   *
+   * Get currentDependency on the form input.
+   * @param {Object} props
+   * @returns {FormInput}
+   * @memberof FormInput
+   */
+  currentDependency() {
+    return this._currentDependency;
   }
 
   /**

@@ -15,7 +15,7 @@ const MovePrior = props => {
   //   let location = address.bySample(props.model, props.form)
   //   props.remove(location)
 
-  //   let existingEntity = address.resurrectEntity(
+  //   let existingEntity = address.rehydrate(
   //     Object.assign({},
   //       defaultPropsFE[props.model.type()], {
   //         append: (12 - props.model.width())
@@ -24,7 +24,7 @@ const MovePrior = props => {
   //   props.add(existingEntity, location)
   //   // @hack - only adds to position 0 at this point
   //   // 2.) add new entity behind the current entity
-  //   let newEntityToAdd = address.resurrectEntity(
+  //   let newEntityToAdd = address.rehydrate(
   //     Object.assign({},
   //       defaultPropsFE[data], {
   //         append: (12 - defaultPropsFE[data].width)
@@ -69,12 +69,12 @@ const MovePrior = props => {
     loc[loc.length - 1] = locEntity[0][locEntity[0].length - 1] + 1;
 
     if (data.action === 'move') {
-      // console.log(address.bySample(address.resurrectEntity(data.model), props.form))
+      // console.log(address.bySample(address.rehydrate(data.model), props.form))
       // console.log(loc)
-      props.remove(address.bySample(address.resurrectEntity(data.model), props.form));
+      props.remove(address.bySample(address.rehydrate(data.model), props.form));
       // props.remove(address.byPath(data.model.uuid))
     }
-    props.add(locEntity[0], address.resurrectEntity(Object.assign({}, data.model)));
+    props.add(locEntity[0], address.rehydrate(Object.assign({}, data.model)));
     event.target.style.backgroundColor = 'rgba(0, 0, 0, 0)';
   };
 

@@ -63,7 +63,7 @@ export const drop = {
     dropObj.destinationAddress = address.bySample(props.model, props.form);
     dropObj.destinationEntity = address.byPath(props.form, dropObj.destinationAddress);
     dropObj.sourceEntity = dropData.model
-      ? address.resurrectEntity(dropData.model)
+      ? address.rehydrate(dropData.model)
       : address.byPath(props.form, dropData.address);
     const colWidthPx = document.getElementById('0.bgrndGrd').clientWidth + 8;
     console.log('colWidthPx: ', colWidthPx);
@@ -222,7 +222,7 @@ export const drop = {
       const considerPrompt = prompt => (dropObj.sourceEntity[prompt] ? dropObj.sourceEntity[prompt]() : 0);
       // const considerPrompt = prompt => (prompt ? prompt() : 0);
 
-      const toBeAdded = address.resurrectEntity(
+      const toBeAdded = address.rehydrate(
         Object.assign({}, dropObj.sourceEntity.properties(), {
           prepend: event.target.id === `${props.model.UUID()}.prepend` ? gridOffsetLocChange() : 0,
           append:
@@ -355,7 +355,7 @@ export const drop = {
       console.log('YYY remove: ', [...dropObj.sourceAddress]);
       props.remove([...dropObj.sourceAddress]);
 
-      const toBeAdded2 = address.resurrectEntity(
+      const toBeAdded2 = address.rehydrate(
         Object.assign({}, dropObj.sourceEntity.properties(), {
           prepend:
             event.target.id === `${props.model.UUID()}.prepend`

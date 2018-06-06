@@ -155,7 +155,7 @@ const AddToEnd = props => {
         );
         // props.add(
         //   destinationSectionAddy()[2],
-        //   address.resurrectEntity(
+        //   address.rehydrate(
         //     Object.assign({}, droppedEntity.properties(), {
         //       // @hack dropData.model.width below assumes that it is a new entity. Doesn't
         //       // allow an existing entity to be added
@@ -195,7 +195,7 @@ const AddToEnd = props => {
         /*
       @hack - this needs to accomodate some entities having prePrompt and others not
        */
-        console.log(address.resurrectEntity(Object.assign({}, dropData.model)));
+        console.log(address.rehydrate(Object.assign({}, dropData.model)));
         const calcAppend = entity => {
           if (entity.prePromptWidth) {
             return entity.prepend + entity.prePromptWidth + entity.width + entity.postPromptWidth;
@@ -205,7 +205,7 @@ const AddToEnd = props => {
         };
         const newEntity = props.add(
           destinationSectionAddy()[2],
-          address.resurrectEntity(
+          address.rehydrate(
             Object.assign({}, dropData.model, {
               append: destinationSectionAddy()[1].width() - calcAppend(dropData.model),
             })
@@ -230,7 +230,7 @@ const AddToEnd = props => {
         // destinationSectionAddy().length - 1) console.log(parentEntity)
         props.add(
           loc,
-          address.resurrectEntity(
+          address.rehydrate(
             Object.assign({}, droppedEntity.properties(), {
               // @hack dropData.model.width below assumes that it is a new entity. Doesn't
               // allow an existing entity to be added
@@ -252,7 +252,7 @@ const AddToEnd = props => {
         /*
       @hack - this needs to accomodate some entities having prePrompt and others not
        */
-        console.log(address.resurrectEntity(Object.assign({}, dropData.model)));
+        console.log(address.rehydrate(Object.assign({}, dropData.model)));
         const calcAppend = entity => {
           if (entity.prePromptWidth) {
             return entity.prepend + entity.prePromptWidth + entity.width + entity.postPromptWidth;
@@ -262,7 +262,7 @@ const AddToEnd = props => {
         };
         const newEntity = props.add(
           loc,
-          address.resurrectEntity(
+          address.rehydrate(
             Object.assign({}, dropData.model, {
               append: destinationSectionAddy[1].width() - calcAppend(dropData.model),
             })

@@ -80,6 +80,8 @@ class EchoInput extends FormInput {
       promptNumber: this.promptNumber(),
       autoNumber: this.autoNumber(),
       sourceInput: this.sourceInput(),
+      currentValidator: this.currentValidator(),
+      currentDependency: this._currentDependency()
     };
   }
 }

@@ -101,7 +101,7 @@ const AddToBeginning = props => {
       console.log(JSON.stringify(dropData.address));
       console.log(dropData.addres);
       const droppedEntity = address.byPath(props.form, dropData.address);
-      // let droppedEntity = address.resurrectEntity(_entity);
+      // let droppedEntity = address.rehydrate(_entity);
       /**returns [addy, {ParentSection}] */
       const entityAddy = address.bySample(props.model, props.form);
       console.log(entityAddy);
@@ -115,7 +115,7 @@ const AddToBeginning = props => {
       console.log(dropData);
       props.add(
         loc,
-        address.resurrectEntity(
+        address.rehydrate(
           Object.assign({}, droppedEntity.properties(), {
             // @hack dropData.model.width below assumes that it is a new entity. Doesn't
             // allow an existing entity to be added
@@ -141,7 +141,7 @@ const AddToBeginning = props => {
       console.log(JSON.stringify(dropData.address));
       console.log(dropData.model);
       // const droppedEntity = address.byPath(props.form, dropData.address);
-      // let droppedEntity = address.resurrectEntity(_entity);
+      // let droppedEntity = address.rehydrate(_entity);
       /**returns [addy, {ParentSection}] */
       const entityAddy = address.bySample(props.model, props.form);
 
@@ -169,7 +169,7 @@ const AddToBeginning = props => {
 
       props.add(
         loc,
-        address.resurrectEntity(
+        address.rehydrate(
           Object.assign({}, dropData.model, {
             // @hack dropData.model.width below assumes that it is a new entity. Doesn't
             // allow an existing entity to be added

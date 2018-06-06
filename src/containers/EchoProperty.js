@@ -19,6 +19,20 @@ export const EchoProperty = props => {
       [event.target.id]: value
     });
   };
+
+  const layoutChange_handler = event => {
+    props.mutate(address.bySample(props.model, props.form), {
+      [event.target.id]: parseFloat(event.target.value),
+      append:
+        24 -
+        props.model.prepend() -
+        (event.target.id === 'prePromptWidth' ? parseFloat(event.target.value) : props.model.prePromptWidth()) -
+        props.model.width() -
+        (event.target.id === 'postPromptWidth' ? parseFloat(event.target.value) : props.model.postPromptWidth()),
+      // function that calcs total width and subtracts all OTHER elements, returningt what the value should be
+    });
+  };
+
   return (
     <div>
       <h1>Echo Input</h1>
@@ -38,6 +52,20 @@ export const EchoProperty = props => {
             value={props.model.name()}
           />
         </p>
+        PrePromptWidth:
+            <input
+          type="number"
+          id="prePromptWidth"
+          onChange={layoutChange_handler}
+          value={props.model.prePromptWidth()}
+        />
+        PostPromptWidth:
+            <input
+          type="number"
+          id="postPromptWidth"
+          onChange={layoutChange_handler}
+          value={props.model.postPromptWidth()}
+        />
         <p>
           <label for="textInput-prompt_pre">
             Pre Prompt (optional){' '}
