@@ -102,6 +102,10 @@ let Resizer = props => {
       });
 
       if (locEntity[1].type() !== 'FormSection') {
+        props.mutate(locEntity[0], {
+          [resize.target]: resize.init_grids + resize.grids,
+          append: resize.init_append - resize.grids,
+        });
         /** mutate single entity, including formsection */
 
         props.mutate(locEntity[0], {
