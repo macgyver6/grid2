@@ -11,9 +11,9 @@ class PatternValidation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      _failMsg: '',
-      _failLocal: '',
-      _failLang: '',
+      failMsg: '',
+      failLocal: '',
+      failLang: '',
     };
     Object.keys(new PatternValidator({ type: 'PatternValidator' }).properties()).forEach(
       property => (this.state[property] = '')
@@ -22,6 +22,7 @@ class PatternValidation extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.addFailureMessage = this.addFailureMessage.bind(this);
+    this.allowSubmit = this.allowSubmit.bind(this);
   }
 
   // const change_handler = event => {   return
@@ -59,13 +60,7 @@ class PatternValidation extends React.Component {
   handleAdd(event) {
     event.stopPropagation();
     event.preventDefault();
-    console.log(this.props.model.validations());
-    const test = Object.keys(this.state).map(property => ({ [property]: this.state[property] }));
-    console.log(test);
 
-    console.log([...this.props.model.validations(), new PatternValidator(this.state)][0].value());
-
-    // alert('A pattern was submitted: ' + this.validationPattern.value);
     this.props.mutate(address.bySample(this.props.model, this.props.form), {
       validations: [...this.props.model.validations(), new PatternValidator(this.state)],
     });
@@ -88,17 +83,15 @@ class PatternValidation extends React.Component {
     //     return [this.state.customFailtureMessages, target.value];
     //     break;
     this.setState({
-      customFailureMessage: [
-        ...this.state.customFailureMessage,
-        {
-          failMsg: this.state._failMsg,
-          failLocal: this.state._failLocal,
-          failLang: this.state._failLang,
-        },
-      ],
-      _failMsg: '',
-      _failLocal: '',
-      _failLang: '',
+      customFailureMessage: {
+        failMsg: this.state._failMsg,
+        failLocal: this.state._failLocal,
+        failLang: this.state._failLang,
+      },
+
+      // _failMsg: '',
+      // _failLocal: '',
+      // _failLang: '',
     });
 
     // this.setState({
@@ -111,21 +104,29 @@ class PatternValidation extends React.Component {
     //     },
     //   ],
     // });
-    event.preventDefault();
+    // event.preventDefault();
   }
 
-  //    this.state = {
-  //   value: '',
-  //   validationPattern: '',
-  //   validState: false,
-  // };
-  render() {
-    const test = {};
+  edit_fail(failMsg) {
+    const fail_set = this.props.model.validations().filter(element => element.failMsg === 'yolo');
+    console.log(fail_set);
+  }
 
-    // Object.keys(new PatternValidator({ validState: 'test', validationPattern: 'test' }).properties()).forEach(
-    //   property => (test[property] = '')
-    // );
-    console.log(test);
+  allowSubmit() {
+    if (this.state.failMsg !== '' && this.state.failLocal !== '' && this.state.failLang !== '') {
+      return false;
+    } else if (this.state.failMsg === '' && this.state.failLocal === '' && this.state.failLang === '') {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  render() {
+    // if (this.state._failMsg !== '' && this.state._failLocal !== '' && this.state._failLang !== '') {
+    //   this.addFailureMessage();
+    // }
+
     return (
       <div>
         <form>
@@ -188,55 +189,50 @@ class PatternValidation extends React.Component {
                     </p>
                   </div>
                   <div style={{ border: '1px solid blue' }}>
-                    <label for="_failMsg-pattern">
+                    <label for="failMsg-pattern">
                       <span>*</span>
                       Custom failure message (optional):
                     </label>
                     <br />
-                    <textarea name="_failMsg" id="_failMsg" onChange={this.handleChange} value={this.state._failMsg} />
+                    <textarea name="failMsg" id="failMsg" onChange={this.handleChange} value={this.state.failMsg} />
                     <br />
-                    <label for="_failLang">
+                    <label for="failLang">
                       <span>*</span>
                       Language
                     </label>
-                    <select name="_failLang" id="_failLang" onChange={this.handleChange} value={this.state._failLang}>
+                    <select name="failLang" id="failLang" onChange={this.handleChange} value={this.state.failLang}>
                       {locals.map(local => <option>{local}</option>)}
                     </select>
-                    <label for="_failLocal">Country</label>
-                    <select
-                      name="_failLocal"
-                      id="_failLocal"
-                      onChange={this.handleChange}
-                      value={this.state._failLocal}
-                    >
-                      <option>Brazil</option>
-                      <option>Chile</option>
+                    <label for="failLocal">Country</label>
+                    <select name="failLocal" id="failLocal" onChange={this.handleChange} value={this.state.failLocal}>
+                      <option value="" />
+                      <option value="Brazil">Brazil</option>
+                      <option value="Chile">Chile</option>
+                      <option value="China">China</option>
                     </select>
                     <br />
-                    {this.state._failMsg !== '' && this.state._failLocal !== '' && this.state._failLang !== '' ? (
-                      <p onMouseDown={this.addFailureMessage}>Add message</p>
+
+                    {this.state.failMsg !== '' && this.state.failLocal !== '' && this.state.failLang !== '' ? (
+                      <p>✔️ Custom Failure Message Added</p>
                     ) : (
-                      'To add message, complete all 3 fields'
+                      // <p onMouseDown={this.addFailureMessage}>Add message</p>
+                      <strong>To add custom failure message, complete all 3 fields</strong>
                     )}
-                    <br />
                     {/* <button>Update Message</button> */}
                     <div />
-                    <br />
-                    <div
+                    {/* <div
                       style={{ minHeight: '60px', width: '90%', border: 'solid black 1px', background: 'lightblue' }}
                     >
-                      <ul>
-                        {this.state.customFailureMessage.length > 0 ? (
-                          this.state.customFailureMessage.map(message => (
-                            <li>
-                              {message.failMsg} {message.failLocal} {message.failLang}
-                            </li>
-                          ))
-                        ) : (
-                          <p>Map through and render all messages</p>
-                        )}
-                      </ul>
-                    </div>
+                      {/* {this.props.model.customFailureMessage() ? (
+                        <p>
+                          {this.props.model.customFailureMessage().failMsg}{' '}
+                          {this.props.model.customFailureMessage().failLocal}{' '}
+                          {this.props.model.customFailureMessage().failLang}
+                        </p>
+                      ) : (
+                        <p>Map through and render all messages</p>
+                      )}
+                    </div> */}
                   </div>
                 </div>
                 {/* end AppliedValidator*/}
@@ -247,28 +243,12 @@ class PatternValidation extends React.Component {
             </div>
           </div>
           <p>
-            <button value="PatternValidator" onClick={this.handleAdd}>
+            <p>{console.log(this.allowSubmit())}</p>
+            <button disabled={this.allowSubmit()} value="PatternValidator" onClick={this.handleAdd}>
               Add
             </button>
             <button value="PatternValidator">Update</button>
           </p>
-          <div style={{ minHeight: '60px', width: '90%', border: 'solid black 1px', background: 'orange' }}>
-            {/* {JSON.stringify(this.props.model.validations())} */}
-            <ul>
-              {this.props.model.validations().length > 0 ? (
-                this.props.model.validations().map(validation => (
-                  <li>
-                    {this.props.model.inputType()} {validation.type()} {validation.value()}
-                  </li>
-                ))
-              ) : (
-                <p>No validations added to this field</p>
-              )}
-            </ul>
-          </div>
-          {/* <button type="submit" id="finish">
-            Finish
-          </button> */}
         </form>
         <div>
           <label>

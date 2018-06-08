@@ -9,6 +9,11 @@ import FloatValidationUI from './validations/floatValidationUI';
 import { Collapse } from 'react-collapse';
 import Expand from '../assets/expand.js';
 import { calcTotal } from '../components/FormEntities/feStyles';
+import { utility } from '../validation/val.utility';
+import { FormInput } from '../data/FormInput';
+import PatternValidator from './validations/PatternValidation';
+// './validations/PatternValidation'
+import DropToSelect from './DropToSelect';
 
 export const TextInputProperty = props => {
   const change_handler = event =>
@@ -83,6 +88,10 @@ export const TextInputProperty = props => {
   //   });
   // };
 
+  const tabPanelStyle = {
+    padding: '10px',
+  };
+
   return (
     <div>
       <h1 style={{ marginBottom: '0px' }}>Text Input</h1>
@@ -95,12 +104,38 @@ export const TextInputProperty = props => {
       <Tabs>
         <TabList>
           <Tab>Validations</Tab>
+          <Tab>Dependencies</Tab>
           <Tab>Properties</Tab>
         </TabList>
-        <TabPanel>
-          <h2 id="validations" onClick={collapse_handler}>
+        <TabPanel style={tabPanelStyle}>
+          {/* <h2 id="validations" onClick={collapse_handler}>
             User Defined Validations{props.appState.validations ? ' ⬇️ (Click to collpase)' : ' ↕️ (Click to Expand)'}
-          </h2>
+          </h2> */}
+          <div
+            style={{
+              margin: '20px',
+              padding: '4px',
+              minHeight: '60px',
+              width: '80%',
+              border: 'solid black 1px',
+              background: 'orange',
+            }}
+          >
+            {/* {JSON.stringify(this.props.model.validations())} */}
+            <h4>Validations Applied to this Field</h4>
+            <ul>
+              {props.model.validations().length > 0 ? (
+                props.model.validations().map(validation => (
+                  <li>
+                    {props.model.inputType()} {validation.type()} {validation.value()}
+                  </li>
+                ))
+              ) : (
+                <li>No validations on this field exist</li>
+              )}
+            </ul>
+          </div>
+          <br />
           <select
             value={props.model.currentValidator()}
             className="form-control"
@@ -128,7 +163,73 @@ export const TextInputProperty = props => {
             })}
           </Collapse>
         </TabPanel>
-        <TabPanel>
+        <TabPanel style={tabPanelStyle}>
+          <h3>Configure dependencies here</h3>
+          <div
+            style={{
+              margin: '20px',
+              padding: '4px',
+              minHeight: '60px',
+              width: '80%',
+              border: 'solid black 1px',
+              background: 'orange',
+            }}
+          >
+            {/* {JSON.stringify(this.props.model.validations())} */}
+            <h4>Dependencies Applied to this Field</h4>
+            <ul>
+              <li>
+                Any of the following
+                <ul>
+                  <li>a1 - Text Input Patient Age Range (min inclusive): 10 (max inclusive): 60</li>
+                  <li>a2 - Text Input Patient Gender Female</li>
+                </ul>
+              </li>
+            </ul>
+
+            {/* {props.model.validations().length > 0 ? (
+                props.model.validations().map(validation => (
+                  <li>
+                    {props.model.inputType()} {validation.type()} {validation.value()}
+                  </li>
+                ))
+              ) : (
+                <li>None</li>
+              )} */}
+          </div>
+          <h3>1. Select dependency input</h3>
+          <select>
+            <option>All</option>
+            <option>Any</option>
+            <option>Exactly One</option>
+          </select>
+          <h3>2. Select Entity to Apply Dependency To (implement eye-dropper - future)</h3>
+          <br />
+          <DropToSelect form={props.form} model={props.model} />
+
+          {/* <select
+            className="form-control"
+            name="dependency-selection"
+            type={props.model.type()}
+            // value={props.model.sourceInput()}
+            onChange={change_handler}
+            id="sourceInput"
+          >
+            {utility
+              .findAll(props.form, e => e instanceof FormInput)
+              .map(formInput => (
+                <option value={formInput.promptNumber()}>{`${formInput.promptNumber()} - ${formInput.type()}`}</option>
+              ))}
+          </select> */}
+          <h3>3. Select validator to apply</h3>
+          <select>
+            <option>Pattern</option>
+            <option>NoOp</option>
+          </select>
+          <h3>4. Configure validator</h3>
+          <PatternValidator />
+        </TabPanel>
+        <TabPanel style={tabPanelStyle}>
           <div>
             <p>
               <label htmlFor="textInput-name">Name</label>
