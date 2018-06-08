@@ -17,7 +17,7 @@ export const comm = {
 
   unserialize: node => {
     // process this node and return public copy with props
-    const props = address.resurrectEntity(node);
+    const props = address.rehydrate(node);
     if (node && (props instanceof Form || props instanceof FormSection)) {
       // process any children
       return props.setChildren(

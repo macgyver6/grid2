@@ -2,42 +2,7 @@ export const _dataDefined = {
   String: {
     type: 'String',
     length: 2,
-    userDefined: {
-      Pattern: {
-        formDependency: '',
-        inputId: '',
-        eventDefinition: '',
-        occureance: '',
-        occuranceNum: 0,
-        validState: false,
-        nullIsValid: false,
-        strong: false,
-        validationPattern: 'samplePattern',
-        customFailureMessaage: 'sampleFailureMessage',
-        language: '',
-        overRideable: false,
-        eventDef: 'sampleDef'
-      },
-      NoOp: {
-        emptyField: false,
-        anyValue: false,
-        customFailureMessaage: '',
-        language: '',
-        country: '',
-        overRideable: false,
-        eventDef: 'sampleDef'
-      },
-      Enumeration: {
-        formDependency: '',
-        inputId: '',
-        eventDefinition: '',
-        occureance: '',
-        occuranceNum: 0,
-        validationPattern: '',
-        overRideable: false,
-        eventDef: 'sampleDef'
-      }
-    }
+    userDefined: ['Pattern', 'NoOp', 'Enumeration', 'SubjectInputValidation'],
   },
   Date: {
     type: 'Date',
@@ -45,82 +10,104 @@ export const _dataDefined = {
     full: false,
     partialExpression: null,
     timeZone: null,
-    userDefined: ['NoOp', 'Enumeration', 'Range']
+    userDefined: ['NoOp', 'Enumeration', 'Range'],
   },
   Integer: {
     type: 'Integer',
     length: 2,
-    userDefined: ['Pattern', 'NoOp', 'Enumeration', 'Range']
+    userDefined: ['Pattern', 'NoOp', 'Enumeration', 'Range'],
   },
   Float: {
     type: 'Float',
     length: 2,
-    userDefined: ['Pattern', 'NoOp', 'Enumeration', 'Range']
-  }
+    userDefined: ['Pattern', 'NoOp', 'Enumeration', 'Range'],
+  },
 }; //string //string //string //string
 // ['Pattern', 'NoOp', 'Enumeration', 'SubjectInputValidation']
 
-const dataDefined = {
+export const userDefined = {
   Pattern: {
-    formDependency: '', //string
-    inputId: '', //string
+    formDependency: '',
+    inputId: '',
     eventDefinition: '',
     occureance: '',
     occuranceNum: 0,
-    validationPattern: '',
-    customFailureMessaage: '',
-    language: ''
+    validState: false,
+    nullIsValid: false,
+    strong: false,
+    validationPattern: 'samplePattern',
+    customFailureMessaage: 'sampleFailureMessage',
+    language: '',
+    overRideable: false,
+    eventDef: 'sampleDef',
   },
   NoOp: {
     emptyField: false,
     anyValue: false,
     customFailureMessaage: '',
     language: '',
-    country: ''
+    country: '',
+    overRideable: false,
+    eventDef: 'sampleDef',
   },
   Enumeration: {
-    formDependency: '', //string
-    inputId: '', //string
+    formDependency: '',
+    inputId: '',
     eventDefinition: '',
     occureance: '',
     occuranceNum: 0,
-    validationPattern: ''
+    validationPattern: '',
+    overRideable: false,
+    eventDef: 'sampleDef',
   },
-  SubjectInputValidation: {}
+  SubjectInputValidation: { script: '' },
+  Range: {
+    type: 'SubjectInputValidation',
+    customFailureMessage: 'customFailureMessage',
+    validState: 'validState',
+    strong: 'strong',
+    nullIsValid: 'nullIsValid',
+    inputIndex: 'inputIndex',
+    externalId: 'externalId',
+    maxInclusive: 'maxInclusive',
+    minInclusive: 'minInclusive',
+    min: 'min',
+    max: 'max',
+  },
 };
 
 export const _validations = {
   String: {
     type: 'String',
-    length: 2
+    length: 2,
   },
   Date: {
     type: 'Date',
     fixed: false,
     full: false,
     partialExpression: null,
-    timeZone: null
+    timeZone: null,
   },
   Float: {
     type: 'Float',
-    length: 2
+    length: 2,
   },
   Integer: {
     type: 'Integer',
-    length: 2
+    length: 2,
   },
   Pattern: {
-    value: 'pattern content'
+    value: 'pattern content',
   },
   EmptyField: {
-    value: 'EmptyField content'
+    value: 'EmptyField content',
   },
   Enumeration: {
-    value: 'Enumeration content'
+    value: 'Enumeration content',
   },
   SubjectInputValidation: {
-    value: 'SubjectInputValidation content'
-  }
+    value: 'SubjectInputValidation content',
+  },
 };
 export const locals2 = ['Albanian', 'Arabic'];
 
@@ -211,5 +198,5 @@ export const locals = [
 
   'Ukrainian',
 
-  'Vietnames>'
+  'Vietnames>',
 ];

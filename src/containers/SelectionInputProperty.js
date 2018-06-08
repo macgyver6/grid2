@@ -5,15 +5,26 @@ import { calcTotal } from '../components/FormEntities/feStyles';
 export const SelectionInputProperty = props => {
   console.log('props.model.renderMode', props.model.renderMode());
   const change_handler = event => {
-    const value =
-      event.target.type === 'checkbox'
-        ? event.target.checked
-        : event.target.value;
+    const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
 
     return props.mutate(address.bySample(props.model, props.form), {
-      [event.target.id]: value
+      [event.target.id]: value,
     });
   };
+
+  const layoutChange_handler = event => {
+    props.mutate(address.bySample(props.model, props.form), {
+      [event.target.id]: parseFloat(event.target.value),
+      append:
+        24 -
+        props.model.prepend() -
+        (event.target.id === 'prePromptWidth' ? parseFloat(event.target.value) : props.model.prePromptWidth()) -
+        props.model.width() -
+        (event.target.id === 'postPromptWidth' ? parseFloat(event.target.value) : props.model.postPromptWidth()),
+      // function that calcs total width and subtracts all OTHER elements, returningt what the value should be
+    });
+  };
+
   const addOption_handler = event => {
     const labelToAdd = document.getElementById('si-label').value;
     const valueToAdd = document.getElementById('si-value').value;
@@ -21,8 +32,8 @@ export const SelectionInputProperty = props => {
     return props.mutate(address.bySample(props.model, props.form), {
       options: existing.concat({
         label: labelToAdd,
-        value: valueToAdd
-      })
+        value: valueToAdd,
+      }),
     });
   };
   return (
@@ -43,6 +54,15 @@ export const SelectionInputProperty = props => {
             value={props.model.name()}
           />
         </p>
+        PrePromptWidth:
+        <input type="number" id="prePromptWidth" onChange={layoutChange_handler} value={props.model.prePromptWidth()} />
+        PostPromptWidth:
+        <input
+          type="number"
+          id="postPromptWidth"
+          onChange={layoutChange_handler}
+          value={props.model.postPromptWidth()}
+        />
         <p>
           <label for="selectionInput-append">Append</label>
           <input

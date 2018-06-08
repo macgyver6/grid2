@@ -295,7 +295,7 @@ const LeftPanel = props => {
     const type = event.target.dataset.type;
     const div = document.createElement('div');
     div.id = 'dmg';
-    div.style.width = `${calcTotalAdd(address.resurrectEntity(initFE[type])) * bgrndGrdWidth - 12}px`; //  gets the total with of the default entity minus the append and prepend widths. Note subtracting 12 accounts for the gap
+    div.style.width = `${calcTotalAdd(address.rehydrate(initFE[type])) * bgrndGrdWidth - 12}px`; //  gets the total with of the default entity minus the append and prepend widths. Note subtracting 12 accounts for the gap
     div.style.height = '40px';
     div.style.backgroundColor = initFE[type].render.backgroundColor;
     div.style.position = 'fixed';
