@@ -1,38 +1,38 @@
-const { AppliedValidator } = require('./AppliedValidator')
+const { AppliedValidator } = require('./AppliedValidator');
 
 /** Class represents a Validator */
 class RangeValidator extends AppliedValidator {
   /**
    *
-   * @param {string} type
-   * @param {string} customFailureMessage
-   * @param {boolean} validState
-   * @param {boolean} strong
-   * @param {boolean} nullIsValid
-   * @param {string} inputIndex
-   * @param {string} externalId
-   * @param {boolean} maxInclusive
-   * @param {boolean} minInclusive
-   * @param {number} min
-   * @param {string} externalId
-   * @param {string} externalId
+   * @param {string} properties.type
+   * @param {string} properties.customFailureMessage
+   * @param {boolean} properties.validState
+   * @param {boolean} properties.strong
+   * @param {boolean} properties.nullIsValid
+   * @param {string} properties.inputIndex
+   * @param {string} properties.externalId
+   * @param {boolean} properties.maxInclusive
+   * @param {boolean} properties.minInclusive
+   * @param {number} properties.min
+   * @param {string} properties.externalId
+   * @param {string} properties.externalId
    */
-  constructor(type, customFailureMessage, validState, strong, nullIsValid, inputIndex, externalId, maxInclusive, minInclusive, min, max) {
-    super(type);
+  constructor(properties) {
+    super(properties);
     this._type = 'RangeValidator';
-    this._customFailureMessage = customFailureMessage;
-    this._validState = validState;
-    this._strong = strong;
-    this._nullIsValid = nullIsValid;
-    this._inputIndex = inputIndex;
-    this._externalId = externalId;
-    this._min = min;
-    this._max = max;
-    this._minInclusive = minInclusive;
-    this._maxInclusive = maxInclusive;
+    this._customFailureMessage = properties.customFailureMessage;
+    this._validState = properties.validState;
+    this._strong = properties.strong;
+    this._nullIsValid = properties.nullIsValid;
+    this._inputIndex = properties.inputIndex;
+    this._externalId = properties.externalId;
+    this._min = properties.min;
+    this._max = properties.max;
+    this._minInclusive = properties.minInclusive;
+    this._maxInclusive = properties.maxInclusive;
   }
 
-   customFailureMessage() {
+  customFailureMessage() {
     return this._customFailureMessage;
   }
 
@@ -71,9 +71,37 @@ class RangeValidator extends AppliedValidator {
   max() {
     return this._max;
   }
+
+  properties() {
+    return {
+      type: this.properties.type,
+      customFailureMessage: this.properties.customFailureMessage,
+      validState: this.properties.validState,
+      strong: this.properties.strong,
+      nullIsValid: this.properties.nullIsValid,
+      inputIndex: this.properties.inputIndex,
+      externalId: this.properties.externalId,
+      min: this.properties.min,
+      max: this.properties.max,
+      minInclusive: this.properties.minInclusive,
+      maxInclusive: this.properties.maxInclusive,
+    };
+  }
 }
 
-const newRangeValidator = new RangeValidator('type', 'customFailureMessage', 'validState', 'strong', 'nullIsValid', 'inputIndex', 'externalId', 'maxInclusive', 'minInclusive', 'min', 'max');
+const newRangeValidator = new RangeValidator(
+  'type',
+  'customFailureMessage',
+  'validState',
+  'strong',
+  'nullIsValid',
+  'inputIndex',
+  'externalId',
+  'maxInclusive',
+  'minInclusive',
+  'min',
+  'max'
+);
 
 // const volume = (shape) => {
 //  return shape.height() + shape.width() + (shape.length ? shape.length() : 0)
@@ -81,6 +109,5 @@ const newRangeValidator = new RangeValidator('type', 'customFailureMessage', 'va
 
 // console.log(volume(rectangle))
 // console.log(newRangeValidator.type())
-
 
 module.exports = { RangeValidator };

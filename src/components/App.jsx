@@ -21,18 +21,10 @@ class App extends Component {
           <h4><span className="badge badge-danger">Unsaved Changes</span></h4>
         } */}
 
-        <button
-          type="button"
-          className="btn btn-primary btn-lg btn-block"
-          onClick={this.props.savestate}
-        >
+        <button type="button" className="btn btn-primary btn-lg btn-block" onClick={this.props.savestate}>
           Save Model State
         </button>
-        <button
-          type="button"
-          className="btn btn-success btn-lg btn-block"
-          onClick={this.props.loadstate}
-        >
+        <button type="button" className="btn btn-success btn-lg btn-block" onClick={this.props.loadstate}>
           Load Model State
         </button>
         <FormEntityInit />
@@ -40,8 +32,6 @@ class App extends Component {
     );
   }
 }
-const mapStateToProps = state => {
-  return { store: state };
-};
+const mapStateToProps = state => ({ store: state });
 
 export default connect(mapStateToProps, actions)(App);

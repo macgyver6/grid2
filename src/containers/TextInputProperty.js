@@ -38,15 +38,15 @@ export const TextInputProperty = props => {
     // };
 
     props.mutate(address.bySample(props.model, props.form), {
-        ...props.model,
-        [event.target.id]: event.target.value,
+      ...props.model,
+      [event.target.id]: event.target.value,
     });
-    // props.mutate(address.bySample(props.model, props.form), {
-    //   validations: {
-    //     ...props.model.validations(),
-    //     [event.target.id]: event.target.value,
-    //   },
-    // });
+  // props.mutate(address.bySample(props.model, props.form), {
+  //   validations: {
+  //     ...props.model.validations(),
+  //     [event.target.id]: event.target.value,
+  //   },
+  // });
 
   const collapse_handler = event => {
     props.temporalStateChange({
@@ -65,26 +65,23 @@ export const TextInputProperty = props => {
     <option value={userDefinedValOption}>{userDefinedValOption}</option>
   ));
 
-  let currentSelectedValidator = 'Pattern'
-  const validationSelector_handler2 = event => currentSelectedValidator =  event.target.value;
+  let currentSelectedValidator = 'Pattern';
+  const validationSelector_handler2 = event => (currentSelectedValidator = event.target.value);
 
-  console.log(currentSelectedValidator)
+  console.log(currentSelectedValidator);
 
-    // return {
-    //   validations: {
-    //     ...props.model.validations(),
-    //     [event.target.id]: event.target.value
-    //   }
-    // };
-
+  // return {
+  //   validations: {
+  //     ...props.model.validations(),
+  //     [event.target.id]: event.target.value
+  //   }
+  // };
 
   // const collapse_handler = event => {
   //   props.temporalStateChange({
   //     [event.target.id]: !props.appState[event.target.id],
   //   });
   // };
-
-
 
   return (
     <div>
@@ -115,7 +112,7 @@ export const TextInputProperty = props => {
               {' '}
               -- select an option --{' '}
       </option> */}
-            {_dataDefined[`${props.model.validations().valType}`].userDefined.map(userDefinedVal => (
+            {_dataDefined[`${props.model.inputType()}`].userDefined.map(userDefinedVal => (
               <option value={userDefinedVal}>{userDefinedVal}</option>
             ))}
           </select>
@@ -247,7 +244,7 @@ export const TextInputProperty = props => {
                 type="number"
                 id="length"
                 onChange={change_handler}
-                value={props.model.validations().maxLength}
+                value={props.model.maxLength()}
               />
               <br />
               <label htmlFor="textInput-QxQ">QxQ Content</label>
@@ -283,11 +280,11 @@ export const TextInputProperty = props => {
               <label htmlFor="textInput-val-type">Input Type</label>
               <br />
               <select
-                value={props.model.validations().valType}
+                value={props.model.inputType()}
                 className="form-control"
                 name="textInput-val-type"
-                onChange={validationSelector_handler}
-                id="valType"
+                onChange={change_handler}
+                id="inputType"
               >
                 {/* <option selected value>
               {' '}
@@ -310,7 +307,7 @@ export const TextInputProperty = props => {
             size="2"
           */}
               {/* {address.whichValidation(props.model.validations().type)} */}
-              {React.createElement(address.whichValidation(props.model.validations().valType), {
+              {React.createElement(address.whichValidation(props.model.inputType()), {
                 // key: i,
                 model: props.model,
                 form: props.form,

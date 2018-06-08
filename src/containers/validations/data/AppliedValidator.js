@@ -1,29 +1,29 @@
-const { Validator } = require('./Validator')
+const { Validator } = require('./Validator');
 
 /** Class represents a Validator */
 class AppliedValidator extends Validator {
   /**
    *
-   * @param {string} type
-   * @param {string} customFailureMessage
-   * @param {boolean} validState
-   * @param {boolean} strong
-   * @param {boolean} nullIsValid
-   * @param {string} inputIndex
-   * @param {string} externalId
+   * @param {string} properties.type
+   * @param {Object} properties.customFailureMessage
+   * @param {boolean} properties.validState
+   * @param {boolean} properties.strong
+   * @param {boolean} properties.nullIsValid
+   * @param {string} properties.inputIndex
+   * @param {string} properties.externalId
    */
-  constructor(type, customFailureMessage, validState, strong, nullIsValid, inputIndex, externalId) {
-    super(type);
-    this._type = type;
-    this._customFailureMessage = customFailureMessage;
-    this._validState = validState;
-    this._strong = strong;
-    this._nullIsValid = nullIsValid;
-    this._inputIndex = inputIndex;
-    this._externalId = externalId;
+  constructor(properties) {
+    super(properties);
+    this._type = properties.type;
+    this._customFailureMessage = properties.customFailureMessage;
+    this._validState = properties.validState;
+    this._strong = properties.strong;
+    this._nullIsValid = properties.nullIsValid;
+    this._inputIndex = properties.inputIndex;
+    this._externalId = properties.externalId;
   }
 
-   customFailureMessage() {
+  customFailureMessage() {
     return this._customFailureMessage;
   }
 
@@ -46,9 +46,30 @@ class AppliedValidator extends Validator {
   externalId() {
     return this._externalId;
   }
+
+  properties() {
+    return {
+      uuid: this.type(),
+      type: this.properties.type,
+      customFailureMessage: this.properties.customFailureMessage,
+      validState: this.properties.validState,
+      strong: this.properties.strong,
+      nullIsValid: this.properties.nullIsValid,
+      inputIndex: this.properties.inputIndex,
+      externalId: this.properties.externalId,
+    };
+  }
 }
 
-const newAppliedValidator = new AppliedValidator('type', 'customFailureMessage', 'validState', 'strong', 'nullIsValid', 'inputIndex', 'externalId');
+// const newAppliedValidator = new AppliedValidator(
+//   'type',
+//   'customFailureMessage',
+//   'validState',
+//   'strong',
+//   'nullIsValid',
+//   'inputIndex',
+//   'externalId'
+// );
 
 // const volume = (shape) => {
 //  return shape.height() + shape.width() + (shape.length ? shape.length() : 0)
@@ -56,6 +77,5 @@ const newAppliedValidator = new AppliedValidator('type', 'customFailureMessage',
 
 // console.log(volume(rectangle))
 // console.log(newAppliedValidator.type())
-
 
 module.exports = { AppliedValidator };

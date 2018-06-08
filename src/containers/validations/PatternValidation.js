@@ -4,164 +4,281 @@ import { timeZones } from './timeZones';
 import { utility } from '../../validation/val.utility';
 import { FormInput } from '../../data/FormInput';
 import { _dataDefined, locals } from '../_validations';
+import AppliedValidator from './AppliedValidator';
+import { PatternValidator } from './data/PatternValidator';
 
-export const PatternValidation = props => (
+class PatternValidation extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      _failMsg: '',
+      _failLocal: '',
+      _failLang: '',
+    };
+    Object.keys(new PatternValidator({ type: 'PatternValidator' }).properties()).forEach(
+      property => (this.state[property] = '')
+    );
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
+    this.addFailureMessage = this.addFailureMessage.bind(this);
+  }
+
   // const change_handler = event => {   return
   // props.mutate(address.bySample(props.model, props.form), {     validations: {
   //   ...props.model.validations(),       [event.target.id]: event.target.value,
   //    },   }); };
-  <div>
-    <h2>Pattern Validations</h2>
-    <br />
+  handleChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
 
-    <div id="validation">
-      {/* <h3>Form Input Validators</h3> */}
+    // switch (target) {
+    //   case target.type === 'checkbox':
+    //     return target.checked;
+    //     break;
+    //   // case target.id === 'customFailureMessage':
+    //   //   [...state.customFailureMessage, { message: 'test2', language: 'spansh' }]
+    //   //   return [this.state.customFailtureMessages, target.value];
+    //   //   break;
+    //   default:
+    //     return target.value;
+    // }
+
+    const name = target.name;
+
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  handleSubmit(event) {
+    alert('A name was submitted: ' + this.input.value);
+    event.preventDefault();
+  }
+
+  handleAdd(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    console.log(this.props.model.validations());
+    const test = Object.keys(this.state).map(property => ({ [property]: this.state[property] }));
+    console.log(test);
+
+    console.log([...this.props.model.validations(), new PatternValidator(this.state)][0].value());
+
+    // alert('A pattern was submitted: ' + this.validationPattern.value);
+    this.props.mutate(address.bySample(this.props.model, this.props.form), {
+      validations: [...this.props.model.validations(), new PatternValidator(this.state)],
+    });
+
+    const resetObj = {
+      _failMsg: '',
+      _failLocal: '',
+      _failLang: '',
+    };
+
+    Object.keys(new PatternValidator({ type: 'PatternValidator' }).properties()).forEach(
+      property => (resetObj[property] = '')
+    );
+    this.setState(resetObj);
+  }
+
+  addFailureMessage(event) {
+    //  case target.id === 'customFailureMessage':
+    //     [...state.customFailureMessage, { message: 'test2', language: 'spansh' }]
+    //     return [this.state.customFailtureMessages, target.value];
+    //     break;
+    this.setState({
+      customFailureMessage: [
+        ...this.state.customFailureMessage,
+        {
+          failMsg: this.state._failMsg,
+          failLocal: this.state._failLocal,
+          failLang: this.state._failLang,
+        },
+      ],
+      _failMsg: '',
+      _failLocal: '',
+      _failLang: '',
+    });
+
+    // this.setState({
+    //   customFailureMessage: [
+    //     ...this.state.customFailureMessage,
+    //     {
+    //       [this.state._failMsg]: this.state._failMsg,
+    //       [this.state._failLocal]: this.state._failLocal,
+    //       [this.state._failLang]: this.state._failLang,
+    //     },
+    //   ],
+    // });
+    event.preventDefault();
+  }
+
+  //    this.state = {
+  //   value: '',
+  //   validationPattern: '',
+  //   validState: false,
+  // };
+  render() {
+    const test = {};
+
+    // Object.keys(new PatternValidator({ validState: 'test', validationPattern: 'test' }).properties()).forEach(
+    //   property => (test[property] = '')
+    // );
+    console.log(test);
+    return (
       <div>
-        <div id="dependencyElems">
-          <label for="externalId">Dependency Form:</label>
-          <select name="dependencyForm">
-            <option value="-1">Current Form</option>
-            <option value="test">future implementation - some remote form</option>
-          </select>
-          <br />
-          <label for="dependencyInputID">Dependency Input ID</label>
-          <select
-            className="form-control"
-            name="dependencyInputID"
-            type={props.model.type()}
-            value="{props.model.sourceInput()}"
-            id="sourceInput"
-          >
-            {/* onChange={change_handler}*/}
-            {utility
-              .findAll(props.form, e => e instanceof FormInput)
-              .map(formInput => (
-                <option value={formInput.promptNumber()}>{`${formInput.promptNumber()} - ${formInput.type()}`}</option>
-              ))}
-          </select>
-          {/* <label for="externalId">Dependency Input ID:</label>
-            <select name="externalId" /> */}
-          {/*JSON.stringify(_dataDefined[props.model.validations().valType])*/}
-          <hr />
-          <h5>(For Remote Dependencies only)</h5>
-          <label for="eventDef">Event Definition:</label>
-          <span role="status" aria-live="polite" />
-          <input
-            id="eventDef"
-            autocomplete="off"
-            // value={props.model.validations().defaultUserVal.Pattern.eventDef}
-          />
-          <label for="occurrence">Occurrence:</label>
-          <select id="occurrence">
-            <option value="-1">First</option>
-            <option value="-99">Specify</option>
-          </select>
-          <label for="occuranceNum">Occurrence #:</label>
-          <input
-            type="text"
-            id="occuranceNum"
-            size="2"
-            // value={
-            //   props.model.validations().defaultUserVal.Pattern.occuranceNum
-            // }
-          />
-        </div>
-
-        <div id="edu_unc_tcrdms_model_form_validation_validators_PatternValidator">
-          <form>
+        <form>
+          {/* <form onSubmit={this.handleSubmit}> */}
+          <div id="validation">
+            <br />
+            <label>
+              Validation Pattern:
+              <input
+                type="text"
+                size="25"
+                name="value"
+                id="value"
+                onChange={this.handleChange}
+                value={this.state.value}
+              />
+            </label>
             <div>
-              <div>
-                <p>
-                  <label for="validationPattern">Validation Pattern:</label>
-                  <br />
-                  <input
-                    type="text"
-                    size="25"
-                    name="validationPattern"
-                    id="validationPattern"
-                    // value={
-                    //   props.model.validations().defaultUserVal.Pattern
-                    //     .validationPattern
-                    // }
-                  />
-                  {/*JSON.stringify(
+              <div id="edu_unc_tcrdms_model_form_validation_validators_PatternValidator">
+                {/* begin AppliedValidator*/}
+                <div>
+                  <div>
+                    <p>
+                      <label for="validationPattern">Validation Pattern:</label>
+                      <br />
+                      <input
+                        type="checkbox"
+                        name="validState"
+                        checked={this.state.validState}
+                        onChange={this.handleChange}
+                        // checked={props.model.validations().defaultUserVal.Pattern.validState}
+                        id="validState"
+                      />
+                      <label for="validState-pattern">
+                        If checked values matching the (pattern, values, range) above satisfy the condition.
+                      </label>
+                      <br />
+                      <input
+                        type="checkbox"
+                        name="nullIsValid"
+                        checked={this.state.nullIsValid}
+                        onChange={this.handleChange}
+                        // checked={props.model.validations().defaultUserVal.Pattern.nullIsValid}
+                        // id="nullIsValid-pattern"
+                      />
+                      <label for="nullIsValid-pattern">
+                        If checked blank values are included in the list of values that satisfy the condition.
+                      </label>
+                      <br />
+                      <input
+                        type="checkbox"
+                        name="strong"
+                        id="strong-pattern"
+                        checked={this.state.strong}
+                        onChange={this.handleChange}
 
-                    )*/}
-                  <br />
-                  <br />
-                  <input
-                    type="checkbox"
-                    name="validState"
-                    // checked={props.model.validations().defaultUserVal.Pattern.validState}
-                    // id="validState-pattern"
-                  />
-                  <label for="validState-pattern">
-                    If checked values matching the (pattern, values, range) above satisfy the condition.
-                  </label>
-                  <br />
-                  <input
-                    type="checkbox"
-                    name="nullIsValid"
-                    // checked={props.model.validations().defaultUserVal.Pattern.nullIsValid}
-                    // id="nullIsValid-pattern"
-                  />
-                  <label for="nullIsValid-pattern">
-                    If checked blank values are included in the list of values that satisfy the condition.
-                  </label>
-                  <br />
-                  <input
-                    type="checkbox"
-                    name="strong"
-                    id="strong-pattern"
-                    // checked={props.model.validations().defaultUserVal.Pattern.strong}
-                  />
-                  <label for="strong-pattern">Cannot be overridden</label>
-                </p>
-                <p>
-                  <button value="PatternValidator">Add</button>
-                  <button value="PatternValidator">Update</button>
-                </p>
-              </div>
-              <div>
-                <label for="customFailureMessaage-pattern">
-                  <span>*</span>
-                  Custom failure message (optional):
-                </label>
-                <br />
-                <textarea
-                  name="customFailureMessaage"
-                  // value={props.model.validations().defaultUserVal.Pattern.customFailureMessaage}
-                />
-                <br />
-                <label for="locale">
-                  <span>*</span>
-                  Language
-                </label>
-                <select name="locale">{locals.map(local => <option>{local}</option>)}</select>
-                <label for="localeSpecific">Country</label>
-                <select name="localeSpecific" />
-                <br />
-                <button>Add message</button>
-                <button>Update Message</button>
-                <div />
+                        // checked={props.model.validations().defaultUserVal.Pattern.strong}
+                      />
+                      <label for="strong-pattern">Cannot be overridden</label>
+                    </p>
+                  </div>
+                  <div style={{ border: '1px solid blue' }}>
+                    <label for="_failMsg-pattern">
+                      <span>*</span>
+                      Custom failure message (optional):
+                    </label>
+                    <br />
+                    <textarea name="_failMsg" id="_failMsg" onChange={this.handleChange} value={this.state._failMsg} />
+                    <br />
+                    <label for="_failLang">
+                      <span>*</span>
+                      Language
+                    </label>
+                    <select name="_failLang" id="_failLang" onChange={this.handleChange} value={this.state._failLang}>
+                      {locals.map(local => <option>{local}</option>)}
+                    </select>
+                    <label for="_failLocal">Country</label>
+                    <select
+                      name="_failLocal"
+                      id="_failLocal"
+                      onChange={this.handleChange}
+                      value={this.state._failLocal}
+                    >
+                      <option>Brazil</option>
+                      <option>Chile</option>
+                    </select>
+                    <br />
+                    {this.state._failMsg !== '' && this.state._failLocal !== '' && this.state._failLang !== '' ? (
+                      <p onMouseDown={this.addFailureMessage}>Add message</p>
+                    ) : (
+                      'To add message, complete all 3 fields'
+                    )}
+                    <br />
+                    {/* <button>Update Message</button> */}
+                    <div />
+                    <br />
+                    <div
+                      style={{ minHeight: '60px', width: '90%', border: 'solid black 1px', background: 'lightblue' }}
+                    >
+                      <ul>
+                        {this.state.customFailureMessage.length > 0 ? (
+                          this.state.customFailureMessage.map(message => (
+                            <li>
+                              {message.failMsg} {message.failLocal} {message.failLang}
+                            </li>
+                          ))
+                        ) : (
+                          <p>Map through and render all messages</p>
+                        )}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                {/* end AppliedValidator*/}
               </div>
             </div>
-          </form>
+            <div id="validators">
+              <ul />
+            </div>
+          </div>
+          <p>
+            <button value="PatternValidator" onClick={this.handleAdd}>
+              Add
+            </button>
+            <button value="PatternValidator">Update</button>
+          </p>
+          <div style={{ minHeight: '60px', width: '90%', border: 'solid black 1px', background: 'orange' }}>
+            {/* {JSON.stringify(this.props.model.validations())} */}
+            <ul>
+              {this.props.model.validations().length > 0 ? (
+                this.props.model.validations().map(validation => (
+                  <li>
+                    {this.props.model.inputType()} {validation.type()} {validation.value()}
+                  </li>
+                ))
+              ) : (
+                <p>No validations added to this field</p>
+              )}
+            </ul>
+          </div>
+          {/* <button type="submit" id="finish">
+            Finish
+          </button> */}
+        </form>
+        <div>
+          <label>
+            <span>*</span>
+            Indicates a required field
+          </label>
         </div>
       </div>
-      <div id="validators">
-        <ul />
-      </div>
-      <br />
-      <button id="finish">Finish</button>
-      <div>
-        <label>
-          <span>*</span>
-          Indicates a required field
-        </label>
-      </div>
-    </div>
-  </div>
-);
+    );
+  }
+}
 
 export default PatternValidation;

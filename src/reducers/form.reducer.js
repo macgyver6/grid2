@@ -81,6 +81,7 @@ const formReducer = (state, action) => {
   }
 
   if (action.type === 'MUTATE') {
+    console.log(action.properties);
     const initEntity = address.byPath(state.form, action.path);
     const update = utility.remove(action.path, state.form);
     const removedUpdate = Object.assign({}, state, {

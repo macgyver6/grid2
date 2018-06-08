@@ -23,16 +23,16 @@ class FormInput extends FormEntity {
    * @property {number} properties.append - Get the number of grid units appended to rendered representations of the form entity.
    * @property {autoNumber} properties.autoNumber - The expression used to determine how to automatically number inputs after this one in a form hierarchy.
    * @property {string} properties.QxQ - Field to provide additional information that may assist the user in filling out the form. This is rendered in a "tool tip", or if a TextBlock Entity property "QxQ" is true, the currently selected entity's QxQ information will be rendered in this field.
+   * @property {inputType} properties.inputType - The type of input to be expected.
+   * @property {maxLength} properties.maxLength - The length of input to be expected.
    */
   constructor(properties) {
     super(properties);
 
     this._prePrompt = properties.prePrompt;
-    this._prePromptWidth =
-      properties.prePromptWidth || FormInput.DEFAULT_PROMPT_PRE_WIDTH;
+    this._prePromptWidth = properties.prePromptWidth || FormInput.DEFAULT_PROMPT_PRE_WIDTH;
     this._postPrompt = properties.postPrompt;
-    this._postPromptWidth =
-      properties.postPromptWidth || FormInput.DEFAULT_PROMPT_POST_WIDTH;
+    this._postPromptWidth = properties.postPromptWidth || FormInput.DEFAULT_PROMPT_POST_WIDTH;
     this._name = properties.name;
     this._sasCodeLabel = properties.sasCodeLabel;
     this._type = properties.type;
@@ -44,16 +44,15 @@ class FormInput extends FormEntity {
       typeof properties.autoNumber === 'string'
         ? FormInput.AutoNumberRuleToken[properties.autoNumber]
         : properties.autoNumber;
-    this._validations = Object.assign(
-      {},
-      properties.validations || FormInput.DEFAULT_VALIDATIONS,
-      {
-        defaultUserVal:
-          _dataDefined[FormInput.DEFAULT_VALIDATIONS.valType].userDefined
-      }
-    );
+    this._validations = properties.validations || [];
+
+    // || FormInput.DEFAULT_VALIDATIONS, {
+    //   defaultUserVal: _dataDefined[FormInput.DEFAULT_VALIDATIONS.valType].userDefined,
+    // }
     this._currentValidator = properties.currentValidator || 'Pattern';
     this._currentDependency = properties.currentDependency || '';
+    this._inputType = properties.inputType || 'String';
+    this._maxLength = properties.maxLength || 2;
 
     // { userDefinedNonSelection: _dataDefined }
 
@@ -216,6 +215,28 @@ class FormInput extends FormEntity {
 
   /**
    *
+   * Get inputType on the form input.
+   * @param {Object} props
+   * @returns {FormInput}
+   * @memberof FormInput
+   */
+  inputType() {
+    return this._inputType;
+  }
+
+  /**
+   *
+   * Get maxLength on the form input.
+   * @param {Object} props
+   * @returns {FormInput}
+   * @memberof FormInput
+   */
+  maxLength() {
+    return this._maxLength;
+  }
+
+  /**
+   *
    * Returns public properties of a form input.
    * @return {object}
    * @memberof FormInput
@@ -238,7 +259,10 @@ class FormInput extends FormEntity {
       inputWidth: this.inputWidth(),
       promptNumber: this.promptNumber(),
       autoNumber: this.autoNumber(),
-      validations: this.validations()
+      validations: this.validations(),
+      inputType: this.inputType(),
+      inputType: this.inputType(),
+      maxLength: this.maxLength(),
     };
   }
 }
@@ -248,13 +272,14 @@ FormInput.DEFAULT_PROMPT_POST_WIDTH = 0;
 FormInput.DEFAULT_VALIDATIONS = {
   valType: 'String',
   length: 2,
-  userDefined: 'Pattern'
+  userDefined: 'Pattern',
 };
+
 // These are dummy options, need to replace with real options
 FormInput.AutoNumberRuleToken = {
   SEQUENTIAL: 0,
   UNORDERED: 1,
-  ORDERED: 2
+  ORDERED: 2,
 };
 
 if (this.constructor === FormInput) {
