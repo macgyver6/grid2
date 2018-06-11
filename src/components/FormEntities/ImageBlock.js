@@ -56,6 +56,22 @@ const ImageBlockComponent = props => {
     return runningTotal % section.width() === 0 ? true : false;
   };
 
+  const tBStyle = {
+    //     margin: helpers.marginCalc(props),
+    backgroundColor: 'brown',
+    position: 'relative',
+    gridColumn: `span ${props.model.width()}`,
+    minHeight: '100px',
+    cursor: 'move',
+    // border: '1px solid red',
+    padding: '4px',
+    borderRadius: '2px',
+  };
+
+  const tBInputStyle = {
+    height: '40px',
+  };
+
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
@@ -84,11 +100,7 @@ const ImageBlockComponent = props => {
       ) : null}
 
       <div
-        style={{
-          ...entityStyle(props.model),
-          backgroundColor: 'brown',
-          minHeight: '100px',
-        }}
+        style={tBStyle}
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="TextInput"
         onMouseDown={mouseDown_handler}

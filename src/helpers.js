@@ -98,7 +98,7 @@ export const helpers = {
       if (entityUUID === props.model.UUID()) {
         // console.log(resize.grids)
         // const calc = ((newWidth) => {
-        //   return props.add(address.resurrectEntity(
+        //   return props.add(address.rehydrate(
         //       Object.assign({},
         //         props.model.properties(), newWidth)
         //     ), locEntity[0])
@@ -119,7 +119,7 @@ export const helpers = {
         // const calcMover = ((newWidth) => {
         //   let entityToChange = locEntity[1]
         //   props.remove(locEntity[0])f
-        //   return props.add(address.resurrectEntity(
+        //   return props.add(address.rehydrate(
         //     Object.assign({},
         //       entityToChange.properties(), newWidth)
         //   ), locEntity[0])
@@ -246,7 +246,7 @@ export const helpers = {
         const addEntityAppend = props.model.append() - 0 - draggedEntity.width();
         props.add(
           newArr,
-          address.resurrectEntity(
+          address.rehydrate(
             Object.assign({}, draggedEntity.properties(), {
               prepend: 0,
               append: addEntityAppend - appendGrids,
@@ -286,7 +286,7 @@ export const helpers = {
       console.log('here');
       props.add(
         newAddress,
-        address.resurrectEntity(
+        address.rehydrate(
           Object.assign({}, data.model, {
             append: props.model.append() - appendGrids - data.model.width,
           })
@@ -370,7 +370,7 @@ export const helpers = {
         console.log(appendGrids);
         props.add(
           newArr,
-          address.resurrectEntity(
+          address.rehydrate(
             Object.assign({}, draggedEntity.properties(), {
               prepend: appendGrids,
               append: props.model.prepend() - 0 - draggedEntity.width() - appendGrids,
@@ -480,7 +480,7 @@ export const helpers = {
 
         console.log(
           'add this one: ',
-          address.resurrectEntity(
+          address.rehydrate(
             Object.assign({}, draggedEntity.properties(), {
               prepend: appendGrids,
               append: destinationEntity[1].prepend() - appendGrids - draggedEntity.width(),
@@ -491,7 +491,7 @@ export const helpers = {
         console.log('dropPrepend add: ');
         props.add(
           destinationEntity[0],
-          address.resurrectEntity(
+          address.rehydrate(
             Object.assign({}, draggedEntity.properties(), {
               prepend: appendGrids,
               append: destinationEntity[1].prepend() - appendGrids - draggedEntity.width(),
@@ -499,7 +499,7 @@ export const helpers = {
           )
         );
         // console.log('total existing: ', total(destinationEntity[1].width(), 0, destinationEntity[1].append()))
-        // let mutateEntity = address.resurrectEntity(
+        // let mutateEntity = address.rehydrate(
         //   Object.assign({},
         //     destinationEntity[1].properties(), {
         //       prepend: 0,
@@ -530,7 +530,7 @@ export const helpers = {
       console.log('apendGrids: ', appendGrids);
       props.add(
         destinationEntity[0],
-        address.resurrectEntity(
+        address.rehydrate(
           Object.assign({}, data.model, {
             prepend: appendGrids,
             append: props.model.prepend() - appendGrids - data.model.width,
@@ -565,7 +565,7 @@ export const helpers = {
     loc[loc.length - 1] = destinationEntity[0][destinationEntity[0].length - 1] + 1;
 
     if (data.action === 'move') {
-      // console.log(address.bySample(address.resurrectEntity(data.model), form))
+      // console.log(address.bySample(address.rehydrate(data.model), form))
       // console.log(loc)
       add(draggedEntity, destinationEntity[0]);
       console.log(data.address);

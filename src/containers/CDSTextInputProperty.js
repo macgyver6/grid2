@@ -4,9 +4,20 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { calcTotal } from '../components/FormEntities/feStyles';
 
 export const CDSTextInputProperty = props => {
-  const change_handler = event => {
-    return props.mutate(address.bySample(props.model, props.form), {
+  const change_handler = event => props.mutate(address.bySample(props.model, props.form), {
       [event.target.id]: event.target.value,
+    });
+
+  const layoutChange_handler = event => {
+    props.mutate(address.bySample(props.model, props.form), {
+      [event.target.id]: parseFloat(event.target.value),
+      append:
+        24 -
+        props.model.prepend() -
+        (event.target.id === 'prePromptWidth' ? parseFloat(event.target.value) : props.model.prePromptWidth()) -
+        props.model.width() -
+        (event.target.id === 'postPromptWidth' ? parseFloat(event.target.value) : props.model.postPromptWidth()),
+      // function that calcs total width and subtracts all OTHER elements, returningt what the value should be
     });
   };
 
@@ -25,14 +36,22 @@ export const CDSTextInputProperty = props => {
             <p>
               <label for="textInput-name">Name</label>
               <br />
-              <input
-                type="text"
-                id="name"
-                name="textInput-name"
-                onChange={change_handler}
-                value={props.model.name()}
-              />
+              <input type="text" id="name" name="textInput-name" onChange={change_handler} value={props.model.name()} />
             </p>
+            PrePromptWidth:
+            <input
+              type="number"
+              id="prePromptWidth"
+              onChange={layoutChange_handler}
+              value={props.model.prePromptWidth()}
+            />
+            PostPromptWidth:
+            <input
+              type="number"
+              id="postPromptWidth"
+              onChange={layoutChange_handler}
+              value={props.model.postPromptWidth()}
+            />
             <p>
               <label for="textInput-prompt_pre">
                 Pre Prompt (optional){' '}
@@ -41,9 +60,7 @@ export const CDSTextInputProperty = props => {
                   href="https://guides.github.com/features/mastering-markdown/"
                   target="_blank"
                   data-ga-click="Markdown Toolbar, click, help"
-                >
-
-                </a>
+                />
               </label>
               <br />
               <textarea
@@ -64,9 +81,7 @@ export const CDSTextInputProperty = props => {
                   href="https://guides.github.com/features/mastering-markdown/"
                   target="_blank"
                   data-ga-click="Markdown Toolbar, click, help"
-                >
-
-                </a>
+                />
               </label>
               <br />
               <textarea
@@ -163,9 +178,7 @@ export const CDSTextInputProperty = props => {
               {' '}
               -- select an option --{' '}
             </option>
-            {['String', 'Date', 'Integer', 'Float'].map(item => (
-              <option value={item}>{item}</option>
-            ))}
+            {['String', 'Date', 'Integer', 'Float'].map(item => <option value={item}>{item}</option>)}
           </select>
           <br />
           <label for="textInput-val-length">Input Max Length</label>

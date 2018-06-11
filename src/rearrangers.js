@@ -88,7 +88,7 @@ export const rearrangers = {
           const newDestination = [...destinationAddress];
           newDestination[destinationAddress.length - 1] =
             destinationAddress[destinationAddress.length - 1];
-          const entityToAdd = address.resurrectEntity(
+          const entityToAdd = address.rehydrate(
             Object.assign({}, draggedEntity.properties(), {
               prepend: offsetGrids,
               append: newPrepend,
@@ -141,7 +141,7 @@ export const rearrangers = {
           const newDestination = [...destinationAddress];
           newDestination[destinationAddress.length - 1] =
             destinationAddress[destinationAddress.length - 1] + 1;
-          const entityToAdd = address.resurrectEntity(
+          const entityToAdd = address.rehydrate(
             Object.assign({}, draggedEntity.properties(), {
               prepend: 0,
               append: newAppend,
@@ -248,7 +248,7 @@ export const rearrangers = {
         console.log(
           'add this entity: ',
           destinationAddress,
-          address.resurrectEntity(
+          address.rehydrate(
             Object.assign({}, data.model, {
               prepend: offsetGrids,
               append: props.model.prepend() - offsetGrids - data.model.width,
@@ -258,7 +258,7 @@ export const rearrangers = {
 
         props.add(
           destinationAddress,
-          address.resurrectEntity(
+          address.rehydrate(
             Object.assign({}, data.model, {
               prepend: offsetGrids,
               append: props.model.prepend() - offsetGrids - data.model.width,
@@ -283,7 +283,7 @@ export const rearrangers = {
         console.log(
           'add this entity: ',
           destinationAddress,
-          address.resurrectEntity(
+          address.rehydrate(
             Object.assign({}, data.model, {
               prepend: 0,
               append: total(props.model) - offsetGrids - data.model.width,
@@ -293,7 +293,7 @@ export const rearrangers = {
 
         props.add(
           newAddress,
-          address.resurrectEntity(
+          address.rehydrate(
             Object.assign({}, data.model, {
               prepend: 0,
               append: total(props.model) - offsetGrids - data.model.width,

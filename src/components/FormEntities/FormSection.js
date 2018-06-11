@@ -52,7 +52,7 @@ let FormSectionComponent = props => {
       const offsetGrids = round((event.clientX - event.target.getBoundingClientRect().left) / bgrndGrdWidth, 0);
       const considerPrompt = prompt => (data.model[prompt] ? data.model[prompt] : 0);
 
-      let entityToAdd = address.resurrectEntity(
+      let entityToAdd = address.rehydrate(
         Object.assign({}, data.model, {
           prepend: offsetGrids,
           append:
@@ -89,7 +89,7 @@ let FormSectionComponent = props => {
 
       const futurePrepend = draggedEntity.prepend() + offsetGrids;
 
-      let entityToAdd = address.resurrectEntity(
+      let entityToAdd = address.rehydrate(
         Object.assign({}, draggedEntity.properties(), {
           prepend: futurePrepend,
           append: props.model.width() - totalThis - futurePrepend,
@@ -99,23 +99,23 @@ let FormSectionComponent = props => {
       );
 
       console.log(whereClicked, gridsToEndOfSection, props.model.width(), totalThis - offsetGrids);
-      console.log(
-        // entityToAdd.prepend(),
-        entityToAdd.append(),
-        props.model.width(),
-        gridsToEndOfSection,
-        draggedEntity.postPromptWidth ? draggedEntity.postPromptWidth() : 0,
-        draggedEntity.width(),
-        {
-          [`data.dragInit`]: round(data.dragInit / bgrndGrdWidth, 0),
-          [`data`]: data,
-          offsetGrids,
-          [`props.model.width()`]: props.model.width(),
-          offsetGrids,
-          [`draggedEntity.prePromptWidth()`]: draggedEntity.prePromptWidth(),
-          [` draggedEntity.width()`]: draggedEntity.width(),
-        }
-      );
+      // console.log(
+      //   // entityToAdd.prepend(),
+      //   entityToAdd.append(),
+      //   props.model.width(),
+      //   gridsToEndOfSection,
+      //   draggedEntity.postPromptWidth ? draggedEntity.postPromptWidth() : 0,
+      //   draggedEntity.width(),
+      //   {
+      //     [`data.dragInit`]: round(data.dragInit / bgrndGrdWidth, 0),
+      //     [`data`]: data,
+      //     offsetGrids,
+      //     [`props.model.width()`]: props.model.width(),
+      //     offsetGrids,
+      //     [`draggedEntity.prePromptWidth()`]: draggedEntity.prePromptWidth(),
+      //     [` draggedEntity.width()`]: draggedEntity.width(),
+      //   }
+      // );
 
       const total = entity =>
         entity.prepend() +

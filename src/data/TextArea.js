@@ -73,6 +73,8 @@ class TextArea extends FormInput {
       autoNumber: this.autoNumber(),
       numColumns: this.numColumns(),
       numRows: this.numRows(),
+      currentValidator: this.currentValidator(),
+      currentDependency: this._currentDependency()
     };
   }
 

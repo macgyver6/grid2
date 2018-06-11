@@ -165,7 +165,7 @@ export const address = {
     }
   },
 
-  resurrectEntity: formEntitySerialized => {
+  rehydrate: formEntitySerialized => {
     // @hack
     console.log('formEntitySerialized: ', formEntitySerialized);
     switch (formEntitySerialized.type || formEntitySerialized._type || formEntitySerialized.type()) {

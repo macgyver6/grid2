@@ -8,23 +8,12 @@ import { initFE } from '../../../constants/defaultPropsFE';
 const round = (value, decimals) => Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 
 const resizeStyle = {
-  width: '20px',
-  height: '10px',
-  backgroundColor: 'yellow',
-  position: 'absolute',
-  right: 4,
-  bottom: 4,
-  cursor: 'w-resize',
-  borderRadius: '2px',
-};
-
-const resizeStyle2 = {
-  width: '10px',
+  width: '30px',
   height: '100%',
   // backgroundColor: 'yellow',
   position: 'absolute',
-  right: 4,
-  bottom: 4,
+  right: 0,
+  bottom: 0,
   cursor: 'w-resize',
   // borderRadius: '2px',
 };
@@ -102,6 +91,10 @@ let Resizer = props => {
       });
 
       if (locEntity[1].type() !== 'FormSection') {
+        props.mutate(locEntity[0], {
+          [resize.target]: resize.init_grids + resize.grids,
+          append: resize.init_append - resize.grids,
+        });
         /** mutate single entity, including formsection */
 
         props.mutate(locEntity[0], {
@@ -156,7 +149,7 @@ let Resizer = props => {
           };
           console.log(resize.grids, resize.init_children[0].append());
           const functionToMutateChildAppend = entity =>
-            address.resurrectEntity(
+            address.rehydrate(
               Object.assign({}, entity.properties(), {
                 append: entity.append() + resize.grids,
               })
@@ -169,7 +162,7 @@ let Resizer = props => {
           resize.init_lastEntitiesInRow = lastEntitiesInRow;
           console.log(lastEntitiesInRow);
           // const modifiedChildren = lastEntitiesInRow.map((entity, index) =>
-          //   address.resurrectEntity(
+          //   address.rehydrate(
           //     Object.assign({}, entity.properties(), {
           //       append: resize.init_lastEntitiesInRow[index].append() + resize.grids,
           //     })
@@ -223,7 +216,7 @@ let Resizer = props => {
     <div
       id={`${props.resizeType}`}
       // className="resizer"
-      style={resizeStyle2}
+      style={resizeStyle}
       onDragStart={dragstart_handler}
       onMouseDown={mouseDown_handler}
       onClick={click_handler}

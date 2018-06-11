@@ -132,7 +132,7 @@ const Tab = props => {
       console.log(JSON.stringify(dropData.address));
       console.log(dropData.model);
       // const droppedEntity = address.byPath(props.form, dropData.address);
-      // let droppedEntity = address.resurrectEntity(_entity);
+      // let droppedEntity = address.rehydrate(_entity);
       /**returns [addy, {ParentSection}] */
       const entityAddy = address.bySample(props.model, props.form);
 
@@ -144,7 +144,7 @@ const Tab = props => {
         }
       };
 
-      props.add([destinationTabAddress, props.model.children().length], address.resurrectEntity(dropData.model));
+      props.add([destinationTabAddress, props.model.children().length], address.rehydrate(dropData.model));
       console.log(destinationTabAddress);
       // props.temporalStateChange({ currentTab: destinationTabAddress });
       props.changetab(destinationTabAddress);

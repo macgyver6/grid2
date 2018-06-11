@@ -73,7 +73,7 @@ export const utility = {
     const entity = address.byPath(address);
     utility.remove(address);
     utility.add(
-      address.resurrectEntity(
+      address.rehydrate(
         Object.assign({}, entity.properties(), properties)
       ),
       address

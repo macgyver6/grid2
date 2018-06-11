@@ -5,14 +5,25 @@ import { calcTotal } from '../components/FormEntities/feStyles';
 export const AdverseEventProperty = props => {
   const change_handler = event => {
     // console.log(event.target.value);
-    const value =
-      event.target.type === 'checkbox'
-        ? event.target.checked
-        : event.target.value;
+    const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
     return props.mutate(address.bySample(props.model, props.form), {
       [event.target.id]: value,
     });
   };
+
+  const layoutChange_handler = event => {
+    props.mutate(address.bySample(props.model, props.form), {
+      [event.target.id]: parseFloat(event.target.value),
+      append:
+        24 -
+        props.model.prepend() -
+        (event.target.id === 'prePromptWidth' ? parseFloat(event.target.value) : props.model.prePromptWidth()) -
+        props.model.width() -
+        (event.target.id === 'postPromptWidth' ? parseFloat(event.target.value) : props.model.postPromptWidth()),
+      // function that calcs total width and subtracts all OTHER elements, returningt what the value should be
+    });
+  };
+
   return (
     <div>
       <h1>Adverse Event Input</h1>
@@ -23,14 +34,17 @@ export const AdverseEventProperty = props => {
         <p>
           <label for="adverseEvent-name">Name</label>
           <br />
-          <input
-            type="text"
-            id="name"
-            name="adverseEvent-name"
-            onChange={change_handler}
-            value={props.model.name()}
-          />
+          <input type="text" id="name" name="adverseEvent-name" onChange={change_handler} value={props.model.name()} />
         </p>
+        PrePromptWidth:
+        <input type="number" id="prePromptWidth" onChange={layoutChange_handler} value={props.model.prePromptWidth()} />
+        PostPromptWidth:
+        <input
+          type="number"
+          id="postPromptWidth"
+          onChange={layoutChange_handler}
+          value={props.model.postPromptWidth()}
+        />
         <p>
           <label for="adverseEvent-prompt_pre">Pre Prompt (optional)</label>
           <br />

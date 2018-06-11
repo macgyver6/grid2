@@ -269,7 +269,7 @@ let Resizer = props => {
             console.log(
               resize.init_children[0].prepend(),
               locEntity[1].setChildren([
-                address.resurrectEntity(
+                address.rehydrate(
                   Object.assign({}, resize.init_children[0].properties(), {
                     append: resize.init_children[0].append() + resize.grids,
                   })
@@ -283,14 +283,14 @@ let Resizer = props => {
               children:
                 props.model.children().length === 1
                   ? [
-                      address.resurrectEntity(
+                      address.rehydrate(
                         Object.assign({}, resize.init_children[0].properties(), {
                           append: resize.init_children[0].append() + resize.grids,
                         })
                       ),
                     ]
                   : // : updatedChildren.map(child => console.log('child: ', child)),
-                    updatedChildren.map(child => address.resurrectEntity(child, props.form)),
+                    updatedChildren.map(child => address.rehydrate(child, props.form)),
             });
             console.log('updatedChildren: ', updatedChildren);
           }
