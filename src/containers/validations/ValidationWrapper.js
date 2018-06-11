@@ -17,6 +17,7 @@ class ValidationWrapper extends React.Component {
       value: '',
       mode: 'add',
       currentIndex: '',
+      strong: true,
     };
     Object.keys(new PatternValidator({ type: 'PatternValidator' }).properties()).forEach(
       property => (this.state[property] = '')
@@ -243,7 +244,11 @@ class ValidationWrapper extends React.Component {
     Object.keys(new PatternValidator({ type: 'PatternValidator' }).properties()).forEach(
       property => (resetObj[property] = '')
     );
-    this.setState(resetObj);
+    this.setState({
+      resetObj,
+      mode: 'add',
+      currentIndex: event.target.id,
+    });
   }
 
   validationSelector_handler(event) {
@@ -333,6 +338,9 @@ class ValidationWrapper extends React.Component {
               value: this.state.value,
               mode: this.state.mode,
               currentIndex: this.state.currentIndex,
+              validState: this.state.validState,
+              strong: this.state.strong,
+              nullIsValid: this.state.nullIsValid,
             })}
           </div>
         </form>
