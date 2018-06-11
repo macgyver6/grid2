@@ -30,6 +30,7 @@ class ValidationWrapper extends React.Component {
     this.loadExistingValidator = this.loadExistingValidator.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.validationSelector_handler = this.validationSelector_handler.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   // const change_handler = event => {   return
@@ -264,6 +265,47 @@ class ValidationWrapper extends React.Component {
     });
   }
 
+  handleDelete(event) {
+    event.preventDefault();
+    console.log(this.state);
+    const index = this.state.currentIndex;
+    const originalValidators = [...this.props.model.validations()];
+
+    // const customFailureMessage = () =>
+    //   this.state.failMsg !== '' && this.state.failLocal !== '' && this.state.failLang !== ''
+    //     ? {
+    //       customFailureMessage:
+    //         // ...this.state.customFailureMessage,
+    //         {
+    //           failMsg: this.state.failMsg,
+    //           failLocal: this.state.failLocal,
+    //           failLang: this.state.failLang,
+    //         },
+    //     }
+    //     : { customFailureMessage: '' };
+
+    originalValidators.splice(this.state.currentIndex, 1);
+
+    this.props.mutate(address.bySample(this.props.model, this.props.form), {
+      validations: originalValidators,
+    });
+
+    const resetObj = {
+      failMsg: '',
+      failLocal: '',
+      failLang: '',
+    };
+
+    Object.keys(new PatternValidator({ type: 'PatternValidator' }).properties()).forEach(
+      property => (resetObj[property] = '')
+    );
+    this.setState({
+      resetObj,
+      mode: 'add',
+      currentIndex: event.target.id,
+    });
+  }
+
   render() {
     // if (this.state._failMsg !== '' && this.state._failLocal !== '' && this.state._failLang !== '') {
     //   this.addFailureMessage();
@@ -286,8 +328,16 @@ class ValidationWrapper extends React.Component {
           <ul>
             {this.props.model.validations().length > 0 ? (
               this.props.model.validations().map((validation, index) => (
-                <li onClick={this.loadExistingValidator} id={index}>
+                <li>
                   {this.props.model.inputType()} {validation.type()} {validation.value()}
+                  {'        '}
+                  <span id={index} onClick={this.loadExistingValidator}>
+                    ✏️
+                  </span>
+                  {'        '}
+                  <span id={index} onClick={this.handleDelete}>
+                    🗑️
+                  </span>
                 </li>
               ))
             ) : (
