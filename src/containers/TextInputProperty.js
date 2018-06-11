@@ -12,6 +12,7 @@ import { calcTotal } from '../components/FormEntities/feStyles';
 import { utility } from '../validation/val.utility';
 import { FormInput } from '../data/FormInput';
 import PatternValidator from './validations/PatternValidation';
+import ValidationWrapper from './validations/ValidationWrapper';
 // './validations/PatternValidation'
 import DropToSelect from './DropToSelect';
 
@@ -108,37 +109,13 @@ export const TextInputProperty = props => {
           <Tab>Properties</Tab>
         </TabList>
         <TabPanel style={tabPanelStyle}>
-          {/* <h2 id="validations" onClick={collapse_handler}>
-            User Defined Validations{props.appState.validations ? ' ⬇️ (Click to collpase)' : ' ↕️ (Click to Expand)'}
-          </h2> */}
-
-          <br />
-          <select
-            value={props.model.currentValidator()}
-            className="form-control"
-            name="textInput-val-type"
-            onChange={validationSelector_handler}
-            id="currentValidator"
-          >
-            {/* <option selected value>
-              {' '}
-              -- select an option --{' '}
-      </option> */}
-            {_dataDefined[`${props.model.inputType()}`].userDefined.map(userDefinedVal => (
-              <option value={userDefinedVal}>{userDefinedVal}</option>
-            ))}
-          </select>
-
-          <Collapse isOpened={props.appState.validations}>
-            {React.createElement(address.whichValidator(props.model.currentValidator()), {
-              model: address.byPath(props.form, props.currententity),
-              form: props.form,
-              currententity: props.currententity,
-              mutate: props.mutate,
-              appState: props.appState,
-              temporalStateChange: props.temporalStateChange,
-            })}
-          </Collapse>
+          <ValidationWrapper
+            form={props.form}
+            model={props.model}
+            currententity={props.appState.currententity}
+            mutate={props.mutate}
+          />
+          {/* <h1>{props.appState.currententity}</h1> */}
         </TabPanel>
         <TabPanel style={tabPanelStyle}>
           <h3>Configure dependencies here</h3>
@@ -349,31 +326,26 @@ export const TextInputProperty = props => {
               />
             </div>
             <hr />
-            <h2 id="dataDefinedValidationPane" onClick={collapse_handler}>
-              Data Defined Validation{props.appState.dataDefinedValidationPane
-                ? ' ⬇️ (Click to collpase)'
-                : ' ↕️ (Click to Expand)'}{' '}
-            </h2>
-            <Collapse isOpened={props.appState.dataDefinedValidationPane}>
-              <label htmlFor="textInput-val-type">Input Type</label>
-              <br />
-              <select
-                value={props.model.inputType()}
-                className="form-control"
-                name="textInput-val-type"
-                onChange={change_handler}
-                id="inputType"
-              >
-                {/* <option selected value>
+            <h2 id="dataDefinedValidationPane">Data Defined Validation</h2>
+            <label htmlFor="textInput-val-type">Input Type</label>
+            <br />
+            <select
+              value={props.model.inputType()}
+              className="form-control"
+              name="textInput-val-type"
+              onChange={change_handler}
+              id="inputType"
+            >
+              {/* <option selected value>
               {' '}
               -- select an option --{' '}
       </option> */}
-                {Object.keys(_dataDefined)
-                  .map(val => val)
-                  .map(item => <option value={item}>{item}</option>)}
-              </select>
-              <br />
-              {/*    <label for="textInput-val-length">Input Max Length</label>
+              {Object.keys(_dataDefined)
+                .map(val => val)
+                .map(item => <option value={item}>{item}</option>)}
+            </select>
+            <br />
+            {/*    <label for="textInput-val-length">Input Max Length</label>
 
           <input
             name="textInput-val-length"
@@ -384,18 +356,17 @@ export const TextInputProperty = props => {
             />
             size="2"
           */}
-              {/* {address.whichValidation(props.model.validations().type)} */}
-              {React.createElement(address.whichValidation(props.model.inputType()), {
-                // key: i,
-                model: props.model,
-                form: props.form,
-                // remove: props.remove,
-                // add: props.add,
-                mutate: props.mutate,
-                // temporalStateChange: props.temporalStateChange
-              })}
-              <hr />
-            </Collapse>{' '}
+            {/* {address.whichValidation(props.model.validations().type)} */}
+            {React.createElement(address.whichValidation(props.model.inputType()), {
+              // key: i,
+              model: props.model,
+              form: props.form,
+              // remove: props.remove,
+              // add: props.add,
+              mutate: props.mutate,
+              // temporalStateChange: props.temporalStateChange
+            })}
+            <hr />
           </div>
         </TabPanel>
       </Tabs>
