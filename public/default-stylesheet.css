@@ -1,5 +1,47 @@
 .fancy-radio-wrapper
 {
+    display:block;
+}
+.fancy-radio-inner
+{
+       border: 1px black solid;
+    border-radius: 0;
+    overflow: hidden;
+    display: table;
+    margin: 0;
+    padding:0;
+    text-align: center;
+    width:100%;
+}
+       .fancy-radio-inner input[type=radio]
+       {
+               display:none;
+       }
+       .fancy-radio-inner label
+       {
+               display: table-cell;
+               padding: 0.5rem 1rem;
+               margin: 0 auto;
+               background-color: forestgreen;
+               transition: background-color 0.2s ease-in-out;
+               max-width: 100%;
+       }
+
+       .fancy-radio-inner input:disabled + label
+       {
+               background: #ccc;
+               cursor: not-allowed;
+       }
+
+       .fancy-radio-inner input:checked + label
+       {
+               background: #3465a4;
+               color: white;
+
+       }
+
+/* .fancy-radio-wrapper
+{
         display:block;
 }
 .fancy-radio-inner
@@ -38,4 +80,4 @@
                 background: #3465a4;
                 color: white;
 
-        }
+        } */

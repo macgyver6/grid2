@@ -71,7 +71,7 @@ export const TextInputProperty = props => {
     <option value={userDefinedValOption}>{userDefinedValOption}</option>
   ));
 
-  let currentSelectedValidator = 'Pattern';
+  let currentSelectedValidator = 'PatternValidator';
   const validationSelector_handler2 = event => (currentSelectedValidator = event.target.value);
 
   console.log(currentSelectedValidator);
@@ -326,7 +326,6 @@ export const TextInputProperty = props => {
               />
             </div>
             <hr />
-            <h2 id="dataDefinedValidationPane">Data Defined Validation</h2>
             <label htmlFor="textInput-val-type">Input Type</label>
             <br />
             <select

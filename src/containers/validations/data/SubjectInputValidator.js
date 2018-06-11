@@ -35,6 +35,10 @@ class SubjectInputValidator extends AppliedValidator {
     return this._value;
   }
 
+  type() {
+    return this._type;
+  }
+
   properties() {
     return {
       type: this.type(),

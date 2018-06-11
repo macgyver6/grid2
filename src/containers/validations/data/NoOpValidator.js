@@ -19,6 +19,14 @@ class NoOpValidator extends AppliedValidator {
     this._type = 'NoOpValidator';
   }
 
+  name() {
+    return this._name;
+  }
+
+  value() {
+    return this._value;
+  }
+
   properties() {
     return {
       type: this.type(),
@@ -29,7 +37,7 @@ class NoOpValidator extends AppliedValidator {
       inputIndex: this.inputIndex(),
       externalId: this.externalId(),
       name: this.name(),
-      value: this.value(),
+      value: this.value() || false,
     };
   }
 }
@@ -41,6 +49,6 @@ class NoOpValidator extends AppliedValidator {
 // }
 
 // console.log(volume(rectangle))
-console.log(newNoOpValidator.customFailureMessage());
+// console.log(new NoOpValidator.customFailureMessage());
 
 module.exports = { NoOpValidator };

@@ -2,7 +2,7 @@ export const _dataDefined = {
   String: {
     type: 'String',
     length: 2,
-    userDefined: ['Pattern', 'NoOp', 'Enumeration', 'SubjectInputValidation'],
+    userDefined: ['PatternValidator', 'NoOpValidator', 'EnumerationValidator', 'SubjectInputValidator'],
   },
   Date: {
     type: 'Date',
@@ -10,17 +10,17 @@ export const _dataDefined = {
     full: false,
     partialExpression: null,
     timeZone: null,
-    userDefined: ['NoOp', 'Enumeration', 'Range'],
+    userDefined: ['NoOpValidator', 'EnumerationValidator', 'RangeValidator'],
   },
   Integer: {
     type: 'Integer',
     length: 2,
-    userDefined: ['Pattern', 'NoOp', 'Enumeration', 'Range'],
+    userDefined: ['PatternValidator', 'NoOpValidator', 'EnumerationValidator', 'RangeValidator'],
   },
   Float: {
     type: 'Float',
     length: 2,
-    userDefined: ['Pattern', 'NoOp', 'Enumeration', 'Range'],
+    userDefined: ['PatternValidator', 'NoOpValidator', 'EnumerationValidator', 'RangeValidator'],
   },
 }; //string //string //string //string
 // ['Pattern', 'NoOp', 'Enumeration', 'SubjectInputValidation']

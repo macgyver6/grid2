@@ -41,6 +41,11 @@ import SubjectInputValidation from './containers/validations/SubjectInputValidat
 import EmptyFieldValidation from './containers/validations/EmptyFieldValidation';
 import RangeValidation from './containers/validations/RangeValidation';
 import NoOpValidation from './containers/validations/NoOpValidation';
+import { PatternValidator } from './containers/validations/data/PatternValidator';
+import { EnumerationValidator } from './containers/validations/data/EnumerationValidator.js';
+import { NoOpValidator } from './containers/validations/data/NoOpValidator.js';
+import { RangeValidator } from './containers/validations/data/RangeValidator.js';
+import { SubjectInputValidator } from './containers/validations/data/SubjectInputValidator.js';
 
 export const address = {
   bySample: (target, node, path = []) => {
@@ -132,19 +137,33 @@ export const address = {
     }
   },
 
-  whichValidator: modelInstance => {
-    if (modelInstance === 'Pattern') {
+  whichValidationComponent: modelInstance => {
+    if (modelInstance === 'PatternValidator') {
       return PatternValidation;
-    } else if (modelInstance === 'Enumeration') {
+    } else if (modelInstance === 'EnumerationValidator') {
       return EnumerationValidation;
-    } else if (modelInstance === 'EmptyField') {
+    } else if (modelInstance === 'EmptyFieldValidator') {
       return EmptyFieldValidation;
-    } else if (modelInstance === 'NoOp') {
+    } else if (modelInstance === 'NoOpValidator') {
       return NoOpValidation;
-    } else if (modelInstance === 'Range') {
+    } else if (modelInstance === 'RangeValidator') {
       return RangeValidation;
-    } else if (modelInstance === 'SubjectInputValidation') {
+    } else if (modelInstance === 'SubjectInputValidator') {
       return SubjectInputValidation;
+    }
+  },
+
+  hydrateValidator: (validatorInstance, properties) => {
+    if (validatorInstance === 'PatternValidator') {
+      return new PatternValidator(properties);
+    } else if (validatorInstance === 'EnumerationValidator') {
+      return new EnumerationValidator(properties);
+    } else if (validatorInstance === 'NoOpValidator') {
+      return new NoOpValidator(properties);
+    } else if (validatorInstance === 'Range') {
+      return new RangeValidator(properties);
+    } else if (validatorInstance === 'SubjectInputValidator') {
+      return new SubjectInputValidator(properties);
     }
   },
 

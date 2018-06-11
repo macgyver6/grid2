@@ -15,6 +15,7 @@ class PatternValidator extends AppliedValidator {
    * @param {string} properties.value
    */
   constructor(properties) {
+    console.log(properties);
     super(properties);
     this._type = 'PatternValidator';
     this._customFailureMessage = properties.customFailureMessage;
@@ -68,5 +69,6 @@ class PatternValidator extends AppliedValidator {
 
 // console.log(volume(rectangle))
 // console.log(newPatternValidator.name());
+// console.log(new PatternValidator({ type: 'Pattern' }));
 
 module.exports = { PatternValidator };

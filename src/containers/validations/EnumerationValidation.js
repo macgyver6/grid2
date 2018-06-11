@@ -1,80 +1,71 @@
 import React from 'react';
-import {address} from '../../address';
-import {timeZones} from './timeZones';
+import { address } from '../../address';
+import { timeZones } from './timeZones';
+import FailureMessage from './FailureMessage';
+import ConfigApplyMethod from './ConfigApplyMethod';
 
-export const EnumerationValidation = props => {
+export const EnumerationValidation = props => (
   // const change_handler = event => {   return
   // props.mutate(address.bySample(props.model, props.form), {     validations: {
   //      ...props.model.validations(),       [event.target.id]:
   // event.target.value,     },   }); };
-  return (
+  <div>
+    <br />
+    <label>
+      Enumeration Value:
+      <input type="text" size="25" name="value" id="value" onChange={props.handleChange} value={props.value} />
+    </label>
     <div>
-      <h2>Enumeration Validations</h2>
-      <br/>
-      <div id="edu_unc_tcrdms_model_form_validation_validators_EnumerationValidator">
-        <form>
-          <div>
-            <div>
-              <p>
-                <a id="addEnum">Add enumeration value</a>
-              </p>
-              <div id="enumerationList"/>
-              <input
-                type="checkbox"
-                name="validState"
-                checked="checked"
-                id="validState-enum"/>
-              <label for="validState-enum">
-                If checked values matching the (pattern, values, range) above satisfy the
-                condition.
-              </label>
-              <br/>
-              <input
-                type="checkbox"
-                name="nullIsValid"
-                checked="checked"
-                id="nullIsValid-enum"/>
-              <label for="nullIsValid-enum">
-                If checked blank values are included in the list of values that satisfy the
-                condition.
-              </label>
-              <br/>
-              <input type="checkbox" name="strong" id="strong-enum"/>
-              <label for="strong-enum">Cannot be overridden</label>
-              <p/>
-              <p>
-                <button value="EnumerationValidator">Add</button>
-                <button value="EnumerationValidator">Update</button>
-              </p>
-            </div>
-            <div>
-              <label for="failureMessage-enum">
-                <span>*</span>
-                Custom failure message (optional):
-              </label>
-              <br/>
-              <textarea name="failureMessage" id="failureMessage-enum"/>
-              <br/>
-              <label for="locale">
-                <span>*</span>
-                Language
-              </label>
-              <select name="locale">
-                <option value=""/>
-                <option value="ar">Arabic</option>
-              </select>
-              <label for="localeSpecific">Country</label>
-              <select name="localeSpecific"/>
-              <br/>
-              <button>Add message</button>
-              <button>Update Message</button>
-              <div/>
-            </div>
-          </div>
-        </form>
+      <div id="edu_unc_tcrdms_model_form_validation_validators_PatternValidator">
+        {/* begin AppliedValidator*/}
+        <div>
+          <ConfigApplyMethod
+            handleChange={props.handleChange}
+            handleSubmit={props.handleSubmit}
+            handleAdd={props.handleAdd}
+            allowSubmit={props.allowSubmit}
+            loadExistingValidator={props.loadExistingValidator}
+            handleUpdate={props.handleUpdate}
+            validState={props.validState}
+            strong={props.strong}
+            nullIsValid={props.nullIsValid}
+          />
+          <FailureMessage
+            handleChange={props.handleChange}
+            handleSubmit={props.handleSubmit}
+            handleAdd={props.handleAdd}
+            allowSubmit={props.allowSubmit}
+            loadExistingValidator={props.loadExistingValidator}
+            handleUpdate={props.handleUpdate}
+            failMsg={props.failMsg}
+            failLocal={props.failLocal}
+            failLang={props.failLang}
+          />
+        </div>
+        {/* end AppliedValidator*/}
       </div>
     </div>
-  );
-};
+    <div id="validators">
+      <ul />
+    </div>
+    <p>
+      {props.mode === 'add' ? (
+        <button disabled={props.allowSubmit()} value="PatternValidator" onClick={props.handleAdd}>
+          Add
+        </button>
+      ) : (
+        <button value="PatternValidator" onClick={props.handleUpdate}>
+          Update
+        </button>
+      )}
+    </p>
+    <div>
+      <label>
+        <span>*</span>
+        Indicates a required field
+      </label>
+    </div>
+  </div>
+);
 
 export default EnumerationValidation;

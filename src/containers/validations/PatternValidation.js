@@ -13,8 +13,8 @@ export const PatternValidation = props => (
   <div>
     <br />
     <label>
-      Validation Pattern:
-      <input type="text" size="25" name="value" id="value" onChange={props.handleChange} value={props.value} />
+      Validation Pattern:onChange={props.handleChange}
+      <input type="text" size="25" name="value" id="value" value={props.value} />
     </label>
     <div>
       <div id="edu_unc_tcrdms_model_form_validation_validators_PatternValidator">

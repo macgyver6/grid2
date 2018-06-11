@@ -49,7 +49,7 @@ class FormInput extends FormEntity {
     // || FormInput.DEFAULT_VALIDATIONS, {
     //   defaultUserVal: _dataDefined[FormInput.DEFAULT_VALIDATIONS.valType].userDefined,
     // }
-    this._currentValidator = properties.currentValidator || 'Pattern';
+    this._currentValidator = properties.currentValidator || '';
     this._currentDependency = properties.currentDependency || '';
     this._inputType = properties.inputType || 'String';
     this._maxLength = properties.maxLength || 2;
