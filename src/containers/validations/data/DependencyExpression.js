@@ -4,7 +4,7 @@ const { Validator } = require('./Validator');
 class DependecyExpression extends Validator {
   /**
    *
-   * @param {string} properties.type
+   * @param {string} typ()e
    * @param {string} properties.operator
    * @param {array} properties.conditions
    */
@@ -25,9 +25,9 @@ class DependecyExpression extends Validator {
 
   properties() {
     return {
-      type: this.properties.type,
-      operator: this.properties.operator,
-      conditions: this.properties.conditions,
+      type: this.type(),
+      operator: this.operator(),
+      conditions: this.conditions(),
     };
   }
 }

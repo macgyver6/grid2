@@ -21,7 +21,7 @@ class Validator {
    */
   properties() {
     return {
-      type: this._type(),
+      type: this.type(),
     };
   }
 }

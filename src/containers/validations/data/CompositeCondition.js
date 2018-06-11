@@ -4,7 +4,7 @@ const { Validator } = require('./Validator');
 class CompositeCondition {
   /**
    *
-   * @param {string} properties.type
+   * @param {string} type()
    * @param {string} properties.operator
    * @param {array} properties.conditions
    */
@@ -24,9 +24,9 @@ class CompositeCondition {
 
   properties() {
     return {
-      type: this.properties.type,
-      operator: this.properties.operator,
-      conditions: this.properties.conditions,
+      type: this.type(),
+      operator: this.operator(),
+      conditions: this.conditions(),
     };
   }
 }

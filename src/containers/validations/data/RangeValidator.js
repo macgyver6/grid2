@@ -74,17 +74,17 @@ class RangeValidator extends AppliedValidator {
 
   properties() {
     return {
-      type: this.properties.type,
-      customFailureMessage: this.properties.customFailureMessage,
-      validState: this.properties.validState,
-      strong: this.properties.strong,
-      nullIsValid: this.properties.nullIsValid,
-      inputIndex: this.properties.inputIndex,
-      externalId: this.properties.externalId,
-      min: this.properties.min,
-      max: this.properties.max,
-      minInclusive: this.properties.minInclusive,
-      maxInclusive: this.properties.maxInclusive,
+      type: this.type(),
+      customFailureMessage: this.customFailureMessage(),
+      validState: this.validState(),
+      strong: this.strong(),
+      nullIsValid: this.nullIsValid(),
+      inputIndex: this.inputIndex(),
+      externalId: this.externalId(),
+      min: this.min(),
+      max: this.max(),
+      minInclusive: this.minInclusive(),
+      maxInclusive: this.maxInclusive(),
     };
   }
 }

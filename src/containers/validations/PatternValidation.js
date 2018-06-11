@@ -14,6 +14,8 @@ class PatternValidation extends React.Component {
       failMsg: '',
       failLocal: '',
       failLang: '',
+      value: '',
+      mode: 'add',
     };
     Object.keys(new PatternValidator({ type: 'PatternValidator' }).properties()).forEach(
       property => (this.state[property] = '')
@@ -23,6 +25,7 @@ class PatternValidation extends React.Component {
     this.handleAdd = this.handleAdd.bind(this);
     this.addFailureMessage = this.addFailureMessage.bind(this);
     this.allowSubmit = this.allowSubmit.bind(this);
+    this.loadExistingValidator = this.loadExistingValidator.bind(this);
   }
 
   // const change_handler = event => {   return
@@ -61,14 +64,30 @@ class PatternValidation extends React.Component {
     event.stopPropagation();
     event.preventDefault();
 
+    const customFailureMessage = () =>
+      this.state.failMsg !== '' && this.state.failLocal !== '' && this.state.failLang !== ''
+        ? {
+            customFailureMessage:
+              // ...this.state.customFailureMessage,
+              {
+                failMsg: this.state.failMsg,
+                failLocal: this.state.failLocal,
+                failLang: this.state.failLang,
+              },
+          }
+        : { customFailureMessage: '' };
+
     this.props.mutate(address.bySample(this.props.model, this.props.form), {
-      validations: [...this.props.model.validations(), new PatternValidator(this.state)],
+      validations: [
+        ...this.props.model.validations(),
+        new PatternValidator({ ...this.state, ...customFailureMessage() }),
+      ],
     });
 
     const resetObj = {
-      _failMsg: '',
-      _failLocal: '',
-      _failLang: '',
+      failMsg: '',
+      failLocal: '',
+      failLang: '',
     };
 
     Object.keys(new PatternValidator({ type: 'PatternValidator' }).properties()).forEach(
@@ -82,6 +101,7 @@ class PatternValidation extends React.Component {
     //     [...state.customFailureMessage, { message: 'test2', language: 'spansh' }]
     //     return [this.state.customFailtureMessages, target.value];
     //     break;
+
     this.setState({
       customFailureMessage: {
         failMsg: this.state._failMsg,
@@ -113,13 +133,66 @@ class PatternValidation extends React.Component {
   }
 
   allowSubmit() {
-    if (this.state.failMsg !== '' && this.state.failLocal !== '' && this.state.failLang !== '') {
+    if (
+      this.state.failMsg !== '' &&
+      this.state.failLocal !== '' &&
+      this.state.failLang !== '' &&
+      this.state.value !== ''
+    ) {
       return false;
-    } else if (this.state.failMsg === '' && this.state.failLocal === '' && this.state.failLang === '') {
+    } else if (
+      this.state.failMsg === '' &&
+      this.state.failLocal === '' &&
+      this.state.failLang === '' &&
+      this.state.value !== ''
+    ) {
       return false;
     } else {
       return true;
     }
+  }
+
+  loadExistingValidator(event) {
+    this.setState({ mode: 'update' });
+    const flattenObject = function(ob) {
+      var toReturn = {};
+
+      for (var i in ob) {
+        if (!ob.hasOwnProperty(i)) continue;
+
+        if (typeof ob[i] == 'object') {
+          var flatObject = flattenObject(ob[i]);
+          for (var x in flatObject) {
+            if (!flatObject.hasOwnProperty(x)) continue;
+
+            toReturn[i + '.' + x] = flatObject[x];
+          }
+        } else {
+          toReturn[i] = ob[i];
+        }
+      }
+      return toReturn;
+    };
+
+    // Object.keys(new PatternValidator({ type: 'PatternValidator' }).properties()).forEach(
+    //   property => (this.state[property] = '')
+    // );
+    Object.keys(this.props.model.validations()[event.target.id].properties()).forEach(value =>
+      this.setState({
+        [`${value}`]: this.props.model.validations()[event.target.id].properties()[`${value}`],
+      })
+    );
+
+    this.props.model.validations()[event.target.id].properties()['customFailureMessage'] !== ''
+      ? Object.keys(this.props.model.validations()[event.target.id].properties()['customFailureMessage']).forEach(
+          value =>
+            this.setState({
+              [`${value}`]: this.props.model.validations()[event.target.id].properties()['customFailureMessage'][
+                `${value}`
+              ],
+            })
+        )
+      : null;
   }
 
   render() {
@@ -129,6 +202,30 @@ class PatternValidation extends React.Component {
 
     return (
       <div>
+        <div
+          style={{
+            margin: '20px',
+            padding: '4px',
+            minHeight: '60px',
+            width: '80%',
+            border: 'solid black 1px',
+            background: 'orange',
+          }}
+        >
+          {/* {JSON.stringify(this.props.model.validations())} */}
+          <h4>Validations Applied to this Field</h4>
+          <ul>
+            {this.props.model.validations().length > 0 ? (
+              this.props.model.validations().map((validation, index) => (
+                <li onClick={this.loadExistingValidator} id={index}>
+                  {this.props.model.inputType()} {validation.type()} {validation.value()}
+                </li>
+              ))
+            ) : (
+              <li>No validations on this field exist</li>
+            )}
+          </ul>
+        </div>
         <form>
           {/* <form onSubmit={this.handleSubmit}> */}
           <div id="validation">
@@ -243,11 +340,13 @@ class PatternValidation extends React.Component {
             </div>
           </div>
           <p>
-            <p>{console.log(this.allowSubmit())}</p>
-            <button disabled={this.allowSubmit()} value="PatternValidator" onClick={this.handleAdd}>
-              Add
-            </button>
-            <button value="PatternValidator">Update</button>
+            {this.state.mode === 'add' ? (
+              <button disabled={this.allowSubmit()} value="PatternValidator" onClick={this.handleAdd}>
+                Add
+              </button>
+            ) : (
+              <button value="PatternValidator">Update</button>
+            )}
           </p>
         </form>
         <div>

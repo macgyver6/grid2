@@ -111,30 +111,7 @@ export const TextInputProperty = props => {
           {/* <h2 id="validations" onClick={collapse_handler}>
             User Defined Validations{props.appState.validations ? ' ⬇️ (Click to collpase)' : ' ↕️ (Click to Expand)'}
           </h2> */}
-          <div
-            style={{
-              margin: '20px',
-              padding: '4px',
-              minHeight: '60px',
-              width: '80%',
-              border: 'solid black 1px',
-              background: 'orange',
-            }}
-          >
-            {/* {JSON.stringify(this.props.model.validations())} */}
-            <h4>Validations Applied to this Field</h4>
-            <ul>
-              {props.model.validations().length > 0 ? (
-                props.model.validations().map(validation => (
-                  <li>
-                    {props.model.inputType()} {validation.type()} {validation.value()}
-                  </li>
-                ))
-              ) : (
-                <li>No validations on this field exist</li>
-              )}
-            </ul>
-          </div>
+
           <br />
           <select
             value={props.model.currentValidator()}

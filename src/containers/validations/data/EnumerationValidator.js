@@ -37,15 +37,15 @@ class EnumerationValidator extends AppliedValidator {
 
   properties() {
     return {
-      type: this.properties.type,
-      customFailureMessage: this.properties.customFailureMessage,
-      validState: this.properties.validState,
-      strong: this.properties.strong,
-      nullIsValid: this.properties.nullIsValid,
-      inputIndex: this.properties.inputIndex,
-      externalId: this.properties.externalId,
-      name: this.properties.name,
-      value: this.properties.value,
+      type: this.type(),
+      customFailureMessage: this.customFailureMessage(),
+      validState: this.validState(),
+      strong: this.strong(),
+      nullIsValid: this.nullIsValid(),
+      inputIndex: this.inputIndex(),
+      externalId: this.externalId(),
+      name: this.name(),
+      value: this.value(),
     };
   }
 }
