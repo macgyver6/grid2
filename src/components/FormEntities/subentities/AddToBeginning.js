@@ -15,7 +15,7 @@ const AddToBeginning = props => {
 
   const wrapperStyle = {
     width: props.appState.gridWidth * props.model.width(),
-    height: '40px',
+    height: '20px',
     position: 'absolute',
     right: '0',
     top: '0',
