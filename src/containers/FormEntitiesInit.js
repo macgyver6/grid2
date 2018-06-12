@@ -49,6 +49,7 @@ const BackgroundPanel = props => (
       mutate={props.mutate}
       dtLocalFilesSaved={props.dtLocalFilesSaved}
       appState={props.appState}
+      model={address.byPath(props.form, props.appState.currententity)}
     />
   </div>
 );

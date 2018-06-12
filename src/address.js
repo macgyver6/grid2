@@ -21,15 +21,15 @@ import { TextBlock } from './data/TextBlock';
 import { ImageBlock } from './data/ImageBlock';
 import { EchoInput } from './data/EchoInput';
 import { AdverseEventInput } from './data/AdverseEventInput';
-import { TextInputProperty } from './containers/TextInputProperty';
-import { CDSTextInputProperty } from './containers/CDSTextInputProperty';
-import { TextAreaProperty } from './containers/TextAreaProperty';
-import { AdverseEventProperty } from './containers/AdverseEventProperty';
-import { CheckBoxProperty } from './containers/CheckBoxProperty';
-import { SelectionInputProperty } from './containers/SelectionInputProperty';
-import { TextBlockProperty } from './containers/TextBlockProperty';
-import { ImageBlockProperty } from './containers/ImageBlockProperty';
-import { EchoProperty } from './containers/EchoProperty';
+import { _TextInputProperty } from './containers/_TextInputProperty';
+import { _CDSTextInputProperty } from './containers/_CDSTextInputProperty';
+import { _TextAreaProperty } from './containers/_TextAreaProperty';
+import { _AdverseEventProperty } from './containers/_AdverseEventProperty';
+import { _CheckBoxProperty } from './containers/_CheckBoxProperty';
+import { _SelectionInputProperty } from './containers/_SelectionInputProperty';
+import { _TextBlockProperty } from './containers/_TextBlockProperty';
+import { _ImageBlockProperty } from './containers/_ImageBlockProperty';
+import { _EchoProperty } from './containers/_EchoProperty';
 import { initFE } from './constants/defaultPropsFE';
 import DateValidationUI from './containers/validations/dateValidationUI';
 import StringValidationUI from './containers/validations/stringValidationUI';
@@ -117,23 +117,23 @@ export const address = {
       // } else if (modelInstance instanceof FormSection) {   return
       // FormSectionComponent;
     } else if (modelInstance instanceof CDSTextInput) {
-      return CDSTextInputProperty;
+      return _CDSTextInputProperty;
     } else if (modelInstance instanceof TextInput) {
-      return TextInputProperty;
+      return _TextInputProperty;
     } else if (modelInstance instanceof TextArea) {
-      return TextAreaProperty;
+      return _TextAreaProperty;
     } else if (modelInstance instanceof CheckBox) {
-      return CheckBoxProperty;
+      return _CheckBoxProperty;
     } else if (modelInstance instanceof SelectionInput) {
-      return SelectionInputProperty;
+      return _SelectionInputProperty;
     } else if (modelInstance instanceof TextBlock) {
-      return TextBlockProperty;
+      return _TextBlockProperty;
     } else if (modelInstance instanceof ImageBlock) {
-      return ImageBlockProperty;
+      return _ImageBlockProperty;
     } else if (modelInstance instanceof AdverseEventInput) {
-      return AdverseEventProperty;
+      return _AdverseEventProperty;
     } else if (modelInstance instanceof EchoInput) {
-      return EchoProperty;
+      return _EchoProperty;
     }
   },
 

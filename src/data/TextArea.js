@@ -74,7 +74,7 @@ class TextArea extends FormInput {
       numColumns: this.numColumns(),
       numRows: this.numRows(),
       currentValidator: this.currentValidator(),
-      currentDependency: this._currentDependency()
+      currentDependency: this.currentDependency()
     };
   }
 

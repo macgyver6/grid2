@@ -78,7 +78,7 @@ class SelectionInput extends FormInput {
       options: this.options(),
       renderMode: this.renderMode(),
       currentValidator: this.currentValidator(),
-      currentDependency: this._currentDependency()
+      currentDependency: this.currentDependency()
     };
   }
 }

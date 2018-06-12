@@ -100,7 +100,7 @@ class DateTextInput extends TextInput {
       tzChoice: this.tzChoice(),
       startingDate: this.startingDate(),
       currentValidator: this.currentValidator(),
-      currentDependency: this._currentDependency()
+      currentDependency: this.currentDependency()
     };
   }
 }
