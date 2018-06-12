@@ -7,6 +7,7 @@ import { _dataDefined, locals } from '../_validations';
 import AppliedValidator from './AppliedValidator';
 import { PatternValidator } from './data/PatternValidator';
 import DropToSelect from '../DropToSelect';
+import Dependency_ValidationWrapper from './Dependency_ValidationWrapper';
 
 class DependencyWrapper extends React.Component {
   constructor(props) {
@@ -446,11 +447,55 @@ class DependencyWrapper extends React.Component {
           </select> */}
         <h3>3. Select validator to apply</h3>
         <select>
-          <option>Pattern</option>
-          <option>NoOp</option>
+          {/* value={this.props.model.currentValidator()}
+          className="form-control" name="textInput-val-type" onChange={this.validationSelector_handler}
+          id="currentValidator" */}
+          >
+          {_dataDefined[`${this.props.model.inputType()}`].userDefined.map(userDefinedVal => (
+            <option value={userDefinedVal}>{userDefinedVal}</option>
+          ))}
         </select>
         <h3>4. Configure validator</h3>
-        {/* <PatternValidator /> */}
+        <div id="validation">
+          <Dependency_ValidationWrapper
+            form={this.props.form}
+            model={this.props.model}
+            // currententity={[this.props.appState.currententity]}
+            currententity={[0, 0, 0]}
+            mutate={this.props.mutate}
+            failureMode="dependency"
+          />
+          {/* {this.props.model.currentValidator()
+            ? React.createElement(address.whichValidationComponent(this.props.model.currentValidator()), {
+                model: address.byPath(this.props.form, this.props.currententity),
+                form: this.props.form,
+                currententity: this.props.currententity,
+                mutate: this.props.mutate,
+                appState: this.props.appState,
+                temporalStateChange: this.props.temporalStateChange,
+
+                handleChange: this.handleChange,
+                handleSubmit: this.handleSubmit,
+                handleAdd: this.handleAdd,
+                // addFailureMessage: this.addFailureMessage,
+                allowSubmit: this.allowSubmit,
+                loadExistingValidator: this.loadExistingValidator,
+                handleUpdate: this.handleUpdate,
+                // mode: this.state.mode,
+                // currentIndex: this.state.currentIndex,
+
+                failMsg: this.state.failMsg,
+                failLocal: this.state.failLocal,
+                failLang: this.state.failLang,
+                value: this.state.value,
+                mode: this.state.mode,
+                currentIndex: this.state.currentIndex,
+                validState: this.state.validState,
+                strong: this.state.strong,
+                nullIsValid: this.state.nullIsValid,
+              })
+            : null} */}
+        </div>
       </div>
     );
   }

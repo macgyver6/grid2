@@ -30,18 +30,22 @@ export const PatternValidation = props => (
             validState={props.validState}
             strong={props.strong}
             nullIsValid={props.nullIsValid}
+            failureMode={props.failureMode}
           />
-          <FailureMessage
-            handleChange={props.handleChange}
-            handleSubmit={props.handleSubmit}
-            handleAdd={props.handleAdd}
-            allowSubmit={props.allowSubmit}
-            loadExistingValidator={props.loadExistingValidator}
-            handleUpdate={props.handleUpdate}
-            failMsg={props.failMsg}
-            failLocal={props.failLocal}
-            failLang={props.failLang}
-          />
+          {props.failureMode === 'validation' ? (
+            <FailureMessage
+              handleChange={props.handleChange}
+              handleSubmit={props.handleSubmit}
+              handleAdd={props.handleAdd}
+              allowSubmit={props.allowSubmit}
+              loadExistingValidator={props.loadExistingValidator}
+              handleUpdate={props.handleUpdate}
+              failMsg={props.failMsg}
+              failLocal={props.failLocal}
+              failLang={props.failLang}
+              failureMode={props.failureMode}
+            />
+          ) : null}
         </div>
         {/* end AppliedValidator*/}
       </div>

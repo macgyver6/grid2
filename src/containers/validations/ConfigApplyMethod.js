@@ -35,16 +35,18 @@ export const ConfigApplyMethod = props => (
         If checked blank values are included in the list of values that satisfy the condition.
       </label>
       <br />
-      <input
-        type="checkbox"
-        name="strong"
-        id="strong-pattern"
-        checked={props.strong}
-        onChange={props.handleChange}
-
-        // checked={props.model.validations().defaultUserVal.Pattern.strong}
-      />
-      <label for="strong-pattern">Cannot be overridden</label>
+      {props.failureMode === 'validation'
+        ? [
+            <input
+              type="checkbox"
+              name="strong"
+              id="strong-pattern"
+              checked={props.strong}
+              onChange={props.handleChange}
+            />,
+            <label for="strong-pattern">Cannot be overridden</label>,
+          ]
+        : null}
     </p>
   </div>
 );
