@@ -77,7 +77,7 @@ export const NoOpValidation = props => (
 
     <div className="fancy-radio-wrapper">
       <fieldset className="fancy-radio-inner">
-        <input type="radio" id="empty" name="empty" checked={props.value} />
+        <input type="radio" id="empty" name="empty" checked={props.value === true} />
         <label for="empty" id={true}>
           Field Is Empty
         </label>

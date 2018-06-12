@@ -3,8 +3,9 @@ import { address } from '../address';
 import { calcTotal } from '../components/FormEntities/feStyles';
 
 export const TextAreaProperty = props => {
-  const change_handler = event => props.mutate(address.bySample(props.model, props.form), {
-      [event.target.id]: event.target.value
+  const change_handler = event =>
+    props.mutate(address.bySample(props.model, props.form), {
+      [event.target.id]: event.target.value,
     });
 
   const layoutChange_handler = event => {

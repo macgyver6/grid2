@@ -438,7 +438,6 @@ class ValidationWrapper extends React.Component {
         <form>
           {/* <form onSubmit={this.handleSubmit}> */}
           <div id="validation">
-            <h2>{this.props.model.currentValidator()}</h2>
             {this.props.model.currentValidator()
               ? React.createElement(address.whichValidationComponent(this.props.model.currentValidator()), {
                   model: address.byPath(this.props.form, this.props.currententity),
