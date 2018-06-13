@@ -84,7 +84,7 @@ class DateTextInput extends TextInput {
       append: this.append(),
       prePrompt: this.prePrompt(),
       prePromptWidth: this.prePromptWidth(),
-      postPrompt: this.postPromptWidth(),
+      postPrompt: this.postPrompt(),
       postPromptWidth: this.postPromptWidth(),
       name: this.name(),
       sasCodeLabel: this.sasCodeLabel(),
@@ -100,7 +100,7 @@ class DateTextInput extends TextInput {
       tzChoice: this.tzChoice(),
       startingDate: this.startingDate(),
       currentValidator: this.currentValidator(),
-      currentDependency: this.currentDependency()
+      currentDependency: this.currentDependency(),
     };
   }
 }

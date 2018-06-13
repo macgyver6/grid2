@@ -50,8 +50,7 @@ export const _SelectionInputProperty = props => {
           <label for="selectionInput-name">Name</label>
           <br />
           <input
-            disabled={props.model.postPromptWidth() < 1 ? true : false}
-            type="text"
+            type="number"
             id="name"
             name="selectionInput-name"
             onChange={change_handler}
@@ -62,7 +61,6 @@ export const _SelectionInputProperty = props => {
         <input type="number" id="prePromptWidth" onChange={layoutChange_handler} value={props.model.prePromptWidth()} />
         Post Prompt Width:
         <input
-          disabled={props.model.postPromptWidth() < 1 ? true : false}
           type="number"
           id="postPromptWidth"
           onChange={layoutChange_handler}
@@ -104,6 +102,7 @@ export const _SelectionInputProperty = props => {
           </label>
           <br />
           <input
+            disabled={props.model.prePromptWidth() < 1 ? true : false}
             name="selectionInput-prompt_pre"
             type="text"
             id="prePrompt"
@@ -125,6 +124,7 @@ export const _SelectionInputProperty = props => {
           </label>
           <br />
           <input
+            disabled={props.model.postPrompt() < 1 ? true : false}
             name="selectionInput-prompt_post"
             type="text"
             id="postPrompt"

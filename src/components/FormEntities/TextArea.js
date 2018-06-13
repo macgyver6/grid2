@@ -101,19 +101,9 @@ const TextAreaComponent = props => {
         id={`${props.model.UUID()}.${props.model.type()}`}
         style={{
           ...entityStyle(props.model),
-          //     margin: helpers.marginCalc(props),
-          // position: 'relative',
-          // gridColumn: `span ${props.model.width()}`,
-          display: 'grid',
-          gridColumn: `span ${props.model.width()}`,
-          gridTemplateColumns: 'repeat(' + `${props.model.width()}` + ', [col] 1fr)',
-          gridGap: '8px',
-          minHeight: '40px',
+
           maxHeight: '',
-          cursor: 'move',
-          // border: '1px solid red',
-          padding: '4px',
-          borderRadius: '2px',
+
           backgroundColor: '#205EE2',
         }}
         // style={{
@@ -135,14 +125,13 @@ const TextAreaComponent = props => {
           style={{
             gridColumn: `span ${props.model.width()}`,
             height: 'auto',
+            resize: 'none',
           }}
           className="form-control"
           type={props.model.type()}
           // cols={props.model.numColumns()}
           rows={props.model.numRows()}
           // value={props.model.defaultContent()}
-          value={props.model.numRows()}
-          placeholder="default content"
         />
         <Resizer
           id={`${props.model.UUID()}.resizer`}

@@ -126,9 +126,13 @@ const SelectionInputComponent = props => {
         className="SelectionInput"
         onMouseDown={mouseDown_handler}
       >
-        <br />
         {props.model.renderMode() === 'selection' ? (
-          <select style={siInputStyle} className="form-control" type={props.model.type()}>
+          <select
+            // style={siInputStyle}
+            style={inputStyle(props.model)}
+            className="form-control"
+            type={props.model.type()}
+          >
             {props.model.options().map(option => <option value={option.value}>{option.label}</option>)}
           </select>
         ) : (

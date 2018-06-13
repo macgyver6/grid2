@@ -1,13 +1,16 @@
 import React from 'react';
 import Resizer from './Resizer';
 import { entityActions } from '../actions.entities';
+import { entityStyle, inputStyle } from '../feStyles';
 
 const PostPrompt = props => {
   const postPromptStyle = {
-    gridColumn: `span ${props.postPromptWidth}`,
+    ...entityStyle(props.model),
+    gridTemplateColumns: 'repeat(' + `${props.model.postPromptWidth()}` + ', [col] 1fr)',
+    gridColumn: `span ${props.model.postPromptWidth()}`,
     backgroundColor: props.backgroundColor,
     padding: '4px',
-    borderRadius: '2px',
+    // borderRadius: '2px',
     position: 'relative',
     maxHeight: '40px',
   };
@@ -29,10 +32,12 @@ const PostPrompt = props => {
       onMouseDown={mouseDown_handler} // to set intitial mouse click loc
     >
       <input
-        style={postPromptInputStyle}
+        style={{
+          ...inputStyle(props.model),
+          gridColumn: `span ${props.model.postPromptWidth()}`,
+        }}
         className="form-control"
         value={props.model.postPrompt()}
-        placeholder="post prompt"
       />
       <Resizer
         id={`${props.model.UUID()}.resizer`}

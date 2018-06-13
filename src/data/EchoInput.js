@@ -70,7 +70,7 @@ class EchoInput extends FormInput {
       append: this.append(),
       prePrompt: this.prePrompt(),
       prePromptWidth: this.prePromptWidth(),
-      postPrompt: this.postPromptWidth(),
+      postPrompt: this.postPrompt(),
       postPromptWidth: this.postPromptWidth(),
       name: this.name(),
       sasCodeLabel: this.sasCodeLabel(),
@@ -81,7 +81,7 @@ class EchoInput extends FormInput {
       autoNumber: this.autoNumber(),
       sourceInput: this.sourceInput(),
       currentValidator: this.currentValidator(),
-      currentDependency: this.currentDependency()
+      currentDependency: this.currentDependency(),
     };
   }
 }

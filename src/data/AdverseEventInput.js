@@ -24,15 +24,28 @@ class AdverseEventInput extends FormInput {
    * @property {string} properties.promptNumber - The text corresponding to the question number and separator, which prefixes a prompt when auto-numbering has been enabled.
    * @property {number} properties.prepend - Get the number of grid units prepended to rendered representations of the form entity.
    * @property {number} properties.append - Get the number of grid units appended to rendered representations of the form entity.
+   * @property {boolean} properties.autoTab - Whether the input is defined as permitting auto tab to the next field during data collection.
    * @property {autoNumber} properties.autoNumber - The expression used to determine how to automatically number inputs after this one in a form hierarchy.
    * @property {dictionaryName} properties.dictionaryName - The dictionary used to lookup the term.
    */
   constructor(properties) {
     super(properties);
-    console.log(properties)
+    console.log(properties);
     this._dictionaryName = properties.dictionaryName;
+    this._autoTab = properties.autoTab;
 
     deepFreeze(this);
+  }
+
+  /**
+   *
+   *
+   * Get whether the input is defined as permitting auto tab to the next field during data collection.
+   * @returns {boolean}
+   * @memberof TextInput
+   */
+  autoTab() {
+    return this._autoTab;
   }
 
   /**
@@ -43,7 +56,7 @@ class AdverseEventInput extends FormInput {
    */
 
   dictionaryName() {
-    return this._dictionaryName
+    return this._dictionaryName;
   }
 
   /**
@@ -55,9 +68,7 @@ class AdverseEventInput extends FormInput {
    */
 
   clone(props) {
-    return new AdverseEventInput(
-      props === undefined ? this.properties() : props
-    );
+    return new AdverseEventInput(props === undefined ? this.properties() : props);
   }
 
   /**
@@ -73,7 +84,7 @@ class AdverseEventInput extends FormInput {
       append: this.append(),
       prePrompt: this.prePrompt(),
       prePromptWidth: this.prePromptWidth(),
-      postPrompt: this.postPromptWidth(),
+      postPrompt: this.postPrompt(),
       postPromptWidth: this.postPromptWidth(),
       name: this.name(),
       sasCodeLabel: this.sasCodeLabel(),
@@ -82,6 +93,7 @@ class AdverseEventInput extends FormInput {
       inputWidth: this.inputWidth(),
       promptNumber: this.promptNumber(),
       autoNumber: this.autoNumber(),
+      autoTab: this.autoTab(),
       dictionaryName: this.dictionaryName(),
     };
   }

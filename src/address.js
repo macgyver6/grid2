@@ -184,6 +184,38 @@ export const address = {
     }
   },
 
+  getHumanName: entityType => {
+    switch (entityType) {
+      case 'CDSTextInput':
+        return 'CDS Text Input';
+        break;
+      case 'TextInput':
+        return 'Text Input';
+        break;
+      case 'TextArea':
+        return 'Text Area';
+        break;
+      case 'CheckBox':
+        return 'Check Box';
+        break;
+      case 'SelectionInput':
+        return 'Selection Input';
+        break;
+      case 'TextBlock':
+        return 'Text Block';
+        break;
+      case 'ImageBlock':
+        return 'Image Block';
+        break;
+      case 'instanceof':
+        return 'Adverse Event Input';
+        break;
+      case 'EchoInput':
+        return 'Echo Input';
+        break;
+    }
+  },
+
   rehydrate: formEntitySerialized => {
     // @hack
     console.log('formEntitySerialized: ', formEntitySerialized);

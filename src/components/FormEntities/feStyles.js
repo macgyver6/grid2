@@ -38,29 +38,35 @@ export const entityWrapperStyle = entity => ({
 });
 
 export const inputStyle = entity => ({
-  position: 'absolute',
-  right: 16,
-  bottom: 7,
+  gridColumn: `span ${entity.width()}`,
+  // position: 'absolute',
+  // right: 16,
+  // bottom: 7,
+  marginTop: '8px',
   height: '20px',
-  width: '82%',
+  // width: '82%',
 });
 
 export const entityStyle = entity => ({
   // //     margin: helpers.marginCalc(props),
+  display: 'grid',
+  gridTemplateColumns: 'repeat(' + `${entity.width()}` + ', [col] 1fr)',
+  gridGap: '8px',
+  minHeight: '40px',
+  cursor: 'move',
+  padding: '4px',
+  borderRadius: '2px',
   position: 'relative',
   gridColumn: `span ${entity.width()}`,
-  maxHeight: '40px',
-  cursor: 'move',
-  // gridGap: '8px',
-  // border: '1px solid red',
   padding: '4px',
-  borderRadius: `
-  ${entity.prePromptWidth ? (entity.prePromptWidth() > 0 ? '0px' : '2px') : '0px'}
-  ${entity.postPromptWidth ? (entity.postPromptWidth() > 0 ? '0px' : '2px') : '0px'}
-  ${entity.postPromptWidth ? (entity.postPromptWidth() > 0 ? '0px' : '2px') : '0px'}
-  ${entity.prePromptWidth ? (entity.prePromptWidth() > 0 ? '0px' : '2px') : '0px'}`,
-  marginLeft: entity.prePromptWidth ? (entity.prePromptWidth() > 0 ? '-8px' : '0px') : '0px',
-  marginRight: entity.postPromptWidth ? (entity.postPromptWidth() > 0 ? '-8px' : '0px') : '0px',
+  // @hack
+  // borderRadius: `
+  // ${entity.prePromptWidth ? (entity.prePromptWidth() > 0 ? '0px' : '2px') : '0px'}
+  // ${entity.postPromptWidth ? (entity.postPromptWidth() > 0 ? '0px' : '2px') : '0px'}
+  // ${entity.postPromptWidth ? (entity.postPromptWidth() > 0 ? '0px' : '2px') : '0px'}
+  // ${entity.prePromptWidth ? (entity.prePromptWidth() > 0 ? '0px' : '2px') : '0px'}`,
+  // marginLeft: entity.prePromptWidth ? (entity.prePromptWidth() > 0 ? '-8px' : '0px') : '0px',
+  // marginRight: entity.postPromptWidth ? (entity.postPromptWidth() > 0 ? '-8px' : '0px') : '0px',
 });
 // defaultEntity2: {
 //   "backgroundColor": "lightgreen",

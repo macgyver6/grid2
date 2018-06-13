@@ -211,7 +211,10 @@ const AddToEnd = props => {
             })
           )
         );
-        props.temporalStateChange(loc);
+        console.log(loc);
+        props.temporalStateChange({
+          currententity: loc,
+        });
       }
       event.target.style.backgroundColor = '';
       event.target.innerHTML = '';

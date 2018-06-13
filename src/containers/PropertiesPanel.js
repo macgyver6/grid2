@@ -2,7 +2,6 @@ import React from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import '../../node_modules/react-tabs/style/react-tabs.css';
 import { properties } from './properties';
-import { TextInputProperty } from './TextInputProperty';
 import { _TextInputProperty } from './_TextInputProperty';
 import { FormProperty } from './FormProperties';
 import { address } from '../address';
@@ -117,11 +116,11 @@ export const PropertiesPanel = props => {
             <div>
               <Tabs>
                 <TabList>
-                  <Tab>{props.model.type()} Properties</Tab>
+                  <Tab>{address.getHumanName(props.model.type())} Properties</Tab>
                   {props.model instanceof FormInput
                     ? [
-                        <Tab key="0">{props.model.type()} Validations</Tab>,
-                        <Tab key="1">{props.model.type()} Dependencies</Tab>,
+                        <Tab key="0">{address.getHumanName(props.model.type())} Validations</Tab>,
+                        <Tab key="1">{address.getHumanName(props.model.type())} Dependencies</Tab>,
                       ]
                     : null}
                 </TabList>

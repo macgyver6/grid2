@@ -6,7 +6,7 @@ const Prepend = props => {
     backgroundColor: 'rgba(0, 0, 0, 0)',
   };
 
-  return <div style={prependStyle} id={`${props.model.UUID()}.prePrompt`} />;
+  return <div style={prependStyle} id={`${props.model.UUID()}.prepend`} />;
 };
 
 export default Prepend;

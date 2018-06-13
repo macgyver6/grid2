@@ -65,7 +65,7 @@ class SelectionInput extends FormInput {
       append: this.append(),
       prePrompt: this.prePrompt(),
       prePromptWidth: this.prePromptWidth(),
-      postPrompt: this.postPromptWidth(),
+      postPrompt: this.postPrompt(),
       postPromptWidth: this.postPromptWidth(),
       name: this.name(),
       QxQ: this.QxQ(),
@@ -78,7 +78,7 @@ class SelectionInput extends FormInput {
       options: this.options(),
       renderMode: this.renderMode(),
       currentValidator: this.currentValidator(),
-      currentDependency: this.currentDependency()
+      currentDependency: this.currentDependency(),
     };
   }
 }
