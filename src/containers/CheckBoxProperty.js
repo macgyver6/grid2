@@ -101,7 +101,7 @@ export const CheckBoxProperty = props => {
             onChange={change_handler}
             value={props.model.tabOrder()}
           />
-          // disabled="disabled"
+
         </p>
         <p>
           <label for="checkBox-sasCodeLabel">SAS Code Label</label>

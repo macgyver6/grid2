@@ -466,7 +466,7 @@ class ValidationWrapper extends React.Component {
                   validState: this.state.validState,
                   strong: this.state.strong,
                   nullIsValid: this.state.nullIsValid,
-                  failureMode: 'validation',
+                  failureMode: this.props.failureMode ? this.props.failureMode : 'validation',
                 })
               : null}
           </div>

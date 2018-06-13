@@ -7,7 +7,7 @@ import { _dataDefined, locals } from '../_validations';
 import AppliedValidator from './AppliedValidator';
 import { PatternValidator } from './data/PatternValidator';
 import DropToSelect from '../DropToSelect';
-import Dependency_ValidationWrapper from './Dependency_ValidationWrapper';
+import ValidationWrapper from './ValidationWrapper';
 
 class DependencyWrapper extends React.Component {
   constructor(props) {
@@ -457,7 +457,7 @@ class DependencyWrapper extends React.Component {
         </select>
         <h3>4. Configure validator</h3>
         <div id="validation">
-          <Dependency_ValidationWrapper
+          <ValidationWrapper
             form={this.props.form}
             model={this.props.model}
             // currententity={[this.props.appState.currententity]}

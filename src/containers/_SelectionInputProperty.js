@@ -78,7 +78,7 @@ export const _SelectionInputProperty = props => {
             id="append"
             onChange={change_handler}
             value={props.model.append()}
-            // disabled="disabled"
+
           />
         </p>
         <p>
@@ -92,7 +92,7 @@ export const _SelectionInputProperty = props => {
             onChange={change_handler}
             value={props.model.tabOrder()}
           />
-          // disabled="disabled"
+
         </p>
         <p>
           <label for="selectionInput-prompt_pre">
@@ -154,7 +154,7 @@ export const _SelectionInputProperty = props => {
             onChange={change_handler}
             value={props.model.tabOrder()}
           />
-          // disabled="disabled"
+
         </p>
         <p>
           <label for="selectionInput-sasCodeLabel">SAS Code Label</label>

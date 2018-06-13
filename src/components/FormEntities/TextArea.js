@@ -4,7 +4,7 @@ import { drop } from '../../drop';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import AddToEnd from './subentities/AddToEnd.js';
-import { entityWrapperStyle, entityStyle, inputStyle } from './feStyles';
+import { entityWrapperStyle, entityStyle, inputStyle, calcTotal } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 import PrePrompt from './subentities/PrePrompt.js';
 import PostPrompt from './subentities/PostPrompt.js';
@@ -101,18 +101,47 @@ const TextAreaComponent = props => {
         id={`${props.model.UUID()}.${props.model.type()}`}
         style={{
           ...entityStyle(props.model),
+          //     margin: helpers.marginCalc(props),
+          // position: 'relative',
+          // gridColumn: `span ${props.model.width()}`,
+          display: 'grid',
+          gridColumn: `span ${props.model.width()}`,
+          gridTemplateColumns: 'repeat(' + `${props.model.width()}` + ', [col] 1fr)',
+          gridGap: '8px',
+          minHeight: '40px',
+          maxHeight: '',
+          cursor: 'move',
+          // border: '1px solid red',
+          padding: '4px',
+          borderRadius: '2px',
           backgroundColor: '#205EE2',
         }}
+        // style={{
+        //   ...entityStyle(props.model),
+        //   //     margin: helpers.marginCalc(props),
+        //   position: 'relative',
+        //   gridColumn: `span ${props.model.width()}`,
+        //   minHeight: '40px',
+        //   cursor: 'move',
+        //   // border: '1px solid red',
+        //   padding: '4px',
+        //   borderRadius: '2px',
+        //   backgroundColor: '#205EE2',
+        // }}
         className="TextArea"
         onMouseDown={mouseDown_handler}
       >
-        <br />
-        <input
-          style={inputStyle(props.model)}
+        <textarea
+          style={{
+            gridColumn: `span ${props.model.width()}`,
+            height: 'auto',
+          }}
           className="form-control"
           type={props.model.type()}
-          size="8"
+          // cols={props.model.numColumns()}
+          rows={props.model.numRows()}
           // value={props.model.defaultContent()}
+          value={props.model.numRows()}
           placeholder="default content"
         />
         <Resizer

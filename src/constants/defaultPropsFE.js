@@ -1,5 +1,6 @@
 import { FormSection } from '../data/FormSection';
 import { TextInput } from '../data/TextInput';
+import { CheckBox } from '../data/CheckBox';
 import { TextArea } from '../data/TextArea';
 import { SelectionInput } from '../data/SelectionInput';
 
@@ -198,7 +199,7 @@ export var defaultPropsFE = {
             uuid: undefined,
             type: 'FormSection',
             width: 24,
-            children: [new TextInput(initFE.TextInput)],
+            children: [new TextArea(initFE.TextArea)],
             // children: [new TextInput(initFE.TextInput)],
             legend: 'legend',
             prepend: 0,

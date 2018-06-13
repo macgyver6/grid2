@@ -36,7 +36,6 @@ export const _TextAreaProperty = props => {
       <h1>Text Area</h1>
       <p>{props.model.UUID()}</p>
       <p>Total width: {calcTotal(props.model)}</p>
-
       <div>
         <p>
           <label for="textArea-name">Name</label>
@@ -53,20 +52,19 @@ export const _TextAreaProperty = props => {
           value={props.model.postPromptWidth()}
         />
         <p>
-          <label for="textArea-prompt_pre">
-            Pre Prompt (optional){' '}
+          <label for="prePrompt">
+            Prompt (optional){' '}
             <a
               class="tabnav-extra"
               href="https://guides.github.com/features/mastering-markdown/"
               target="_blank"
               data-ga-click="Markdown Toolbar, click, help"
-            >
-              {/* Markdown is supported */}
-            </a>
+            />
           </label>
           <br />
           <input
-            name="textArea-prompt_pre"
+            disabled={props.model.prePromptWidth() < 1 ? true : false}
+            name="prePrompt"
             type="text"
             id="prePrompt"
             onChange={change_handler}
@@ -74,32 +72,43 @@ export const _TextAreaProperty = props => {
           />
         </p>
         <p>
-          <label for="textArea-prompt_post">
+          <label for="posPrompt">
             Post Prompt (optional){' '}
             <a
               class="tabnav-extra"
               href="https://guides.github.com/features/mastering-markdown/"
               target="_blank"
               data-ga-click="Markdown Toolbar, click, help"
-            >
-              {/* Markdown is supported */}
-            </a>
+            />
           </label>
           <br />
           <input
-            name="textArea-prompt_post"
+            disabled={props.model.postPromptWidth() < 1 ? true : false}
+            value={props.model.postPrompt()}
+            name="posPrompt"
             type="text"
             id="postPrompt"
             onChange={change_handler}
-            value={props.model.postPrompt()}
           />
         </p>
-        {/* <p>
-          <label for="textArea-qbq">Q-by-Q (optional)</label>
-          <br />
-          <textarea name="textArea-qbq" />
-        </p> */}
       </div>
+      <p>
+        <label for="numRows">
+          Text Area Rows:
+          <a
+            href="https://guides.github.com/features/mastering-markdown/"
+            data-ga-click="Markdown Toolbar, click, help"
+          />
+        </label>
+        <br />
+        <input
+          value={props.model.numRows()}
+          name="numRows"
+          type="number"
+          id="numRows"
+          onChange={change_handler}
+        />
+      </p>{' '}
       <div>
         <p>
           <label for="textArea-tabOrder">Tab Order</label>
@@ -111,7 +120,6 @@ export const _TextAreaProperty = props => {
             size="2"
             onChange={change_handler}
             value={props.model.tabOrder()}
-            // disabled="disabled"
           />
         </p>
         <p>

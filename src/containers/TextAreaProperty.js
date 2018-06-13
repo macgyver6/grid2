@@ -101,7 +101,6 @@ export const TextAreaProperty = props => {
             size="2"
             onChange={change_handler}
             value={props.model.tabOrder()}
-            // disabled="disabled"
           />
         </p>
         <p>

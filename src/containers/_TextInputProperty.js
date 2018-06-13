@@ -45,8 +45,9 @@ export const _TextInputProperty = props => {
           <br />
           <input type="text" id="name" name="textInput-name" onChange={change_handler} value={props.model.name()} />
         </p>
-        PrePromptWidth:
+        PrePromptWidth: {'    '}
         <input type="number" id="prePromptWidth" onChange={layoutChange_handler} value={props.model.prePromptWidth()} />
+        {'    '}
         PostPromptWidth:
         <input
           type="number"
@@ -55,49 +56,43 @@ export const _TextInputProperty = props => {
           value={props.model.postPromptWidth()}
         />
         <p>
-          <label htmlFor="textInput-prompt_pre">
-            Pre Prompt (optional){' '}
+          <label for="prePrompt">
+            Prompt (optional){' '}
             <a
-              className="tabnav-extra"
+              class="tabnav-extra"
               href="https://guides.github.com/features/mastering-markdown/"
               target="_blank"
               data-ga-click="Markdown Toolbar, click, help"
-            >
-              {/* Markdown is supported */}
-            </a>
+            />
           </label>
           <br />
-          <textarea
-            name="textInput-prompt_pre"
+          <input
+            disabled={props.model.prePromptWidth() < 1 ? true : false}
+            name="prePrompt"
             type="text"
             id="prePrompt"
             onChange={change_handler}
             value={props.model.prePrompt()}
-            rows="3"
-            cols="50"
           />
         </p>
         <p>
-          <label htmlFor="textInput-prompt_post">
+          <label for="posPrompt">
             Post Prompt (optional){' '}
             <a
-              className="tabnav-extra"
+              class="tabnav-extra"
               href="https://guides.github.com/features/mastering-markdown/"
               target="_blank"
               data-ga-click="Markdown Toolbar, click, help"
-            >
-              {/* Markdown is supported */}
-            </a>
+            />
           </label>
           <br />
-          <textarea
-            name="textInput-prompt_post"
+          <input
+            disabled={props.model.postPromptWidth() < 1 ? true : false}
+            value={props.model.postPrompt()}
+            name="posPrompt"
             type="text"
             id="postPrompt"
             onChange={change_handler}
-            value={props.model.postPrompt()}
-            rows="3"
-            cols="50"
           />
         </p>
       </div>
@@ -148,7 +143,7 @@ export const _TextInputProperty = props => {
           />
           <br />
           <label htmlFor="textInput-QxQ">QxQ Content</label>
-
+          <br /> <br />
           <textarea
             name="textInput-QxQ"
             type="text"
@@ -158,7 +153,7 @@ export const _TextInputProperty = props => {
             rows="3"
             cols="50"
           />
-          <br />
+          <br /> <br />
           <label htmlFor="textInput-defaultContent">Default Content</label>
           <br />
           <input

@@ -33,19 +33,21 @@ export const _CheckBoxProperty = props => {
 
   return (
     <div>
-      <h1>Checkbox</h1>
-      <p>{props.model.UUID()}</p>
-      <p>Total width: {calcTotal(props.model)}</p>
-
+      <p style={{ fontSize: 8, margin: '0px' }}>{props.model.UUID()}</p>
+      <p style={{ fontSize: 8, margin: '0px 0px 4px 0px' }}>
+        prePromptWidth: {props.model.prePromptWidth()} Append: Total width: {calcTotal(props.model)} PrePend:
+        {props.model.prePrompt()} Width: {props.model.width()} Append:
+        {props.model.append()}
+      </p>{' '}
       <div>
         <p>
           <label for="checkBox-name">Name</label>
           <br />
           <input type="text" id="name" name="checkBox-name" onChange={change_handler} value={props.model.name()} />
         </p>
-        PrePromptWidth:
+        PrePromptWidth:{' '}
         <input type="number" id="prePromptWidth" onChange={layoutChange_handler} value={props.model.prePromptWidth()} />
-        PostPromptWidth:
+        PostPromptWidth:{' '}
         <input
           type="number"
           id="postPromptWidth"
@@ -53,8 +55,8 @@ export const _CheckBoxProperty = props => {
           value={props.model.postPromptWidth()}
         />
         <p>
-          <label for="checkBox-prompt_pre">
-            Pre Prompt (optional){' '}
+          <label for="prePrompt">
+            Prompt (optional){' '}
             <a
               class="tabnav-extra"
               href="https://guides.github.com/features/mastering-markdown/"
@@ -64,7 +66,8 @@ export const _CheckBoxProperty = props => {
           </label>
           <br />
           <input
-            name="checkBox-prompt_pre"
+            disabled={props.model.prePromptWidth() < 1 ? true : false}
+            name="prePrompt"
             type="text"
             id="prePrompt"
             onChange={change_handler}
@@ -72,7 +75,7 @@ export const _CheckBoxProperty = props => {
           />
         </p>
         <p>
-          <label for="checkBox-prompt_post">
+          <label for="posPrompt">
             Post Prompt (optional){' '}
             <a
               class="tabnav-extra"
@@ -83,18 +86,26 @@ export const _CheckBoxProperty = props => {
           </label>
           <br />
           <input
-            name="checkBox-prompt_post"
+            disabled={props.model.postPromptWidth() < 1 ? true : false}
+            value={props.model.postPrompt()}
+            name="posPrompt"
             type="text"
             id="postPrompt"
             onChange={change_handler}
-            value={props.model.postPrompt()}
           />
         </p>
-        {/* <p>
-          <label for="checkBox-qbq">Q-by-Q (optional)</label>
-          <br />
-          <textarea name="checkBox-qbq" />
-        </p> */}
+        <br />
+        <label htmlFor="checkBox-QxQ">QxQ Content</label>
+        <br /> <br />
+        <textarea
+          name="checkBox-QxQ"
+          type="text"
+          id="QxQ"
+          onChange={change_handler}
+          value={props.model.QxQ()}
+          rows="3"
+          cols="50"
+        />
       </div>
       <div>
         <p>
@@ -108,8 +119,25 @@ export const _CheckBoxProperty = props => {
             onChange={change_handler}
             value={props.model.tabOrder()}
           />
-          // disabled="disabled"
         </p>
+        <br />
+        <label htmlFor="defaultState">Default State</label>
+        <br />
+        <select
+          value={props.model.inputType()}
+          className="form-control"
+          name="defaultState"
+          onChange={change_handler}
+          id="defaultState"
+        >
+          {/* <option selected value>
+              {' '}
+              -- select an default state --{' '}
+      </option> */}
+          {[{ label: 'checked', value: true }, { label: 'unchecked', value: false }]
+            .map(val => val)
+            .map(item => <option value={item.value}>{item.label}</option>)}
+        </select>
         <p>
           <label for="checkBox-sasCodeLabel">SAS Code Label</label>
           <br />
