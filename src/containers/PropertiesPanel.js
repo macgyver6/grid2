@@ -117,14 +117,24 @@ export const PropertiesPanel = props => {
             <div>
               <Tabs>
                 <TabList>
+                  <Tab>{props.model.type()} Properties</Tab>
                   {props.model instanceof FormInput
                     ? [
                         <Tab key="0">{props.model.type()} Validations</Tab>,
                         <Tab key="1">{props.model.type()} Dependencies</Tab>,
                       ]
                     : null}
-                  <Tab>{props.model.type()} Properties</Tab>
                 </TabList>
+                <TabPanel style={tabPanelStyle}>
+                  {React.createElement(address.whichEntity(address.byPath(props.form, props.currententity)), {
+                    model: address.byPath(props.form, props.currententity),
+                    form: props.form,
+                    currententity: props.currententity,
+                    mutate: props.mutate,
+                    appState: props.appState,
+                    temporalStateChange: props.temporalStateChange,
+                  })}
+                </TabPanel>
                 {props.model instanceof FormInput ? (
                   <TabPanel style={tabPanelStyle}>
                     <ValidationWrapper
@@ -145,16 +155,6 @@ export const PropertiesPanel = props => {
                     />
                   </TabPanel>
                 ) : null}
-                <TabPanel style={tabPanelStyle}>
-                  {React.createElement(address.whichEntity(address.byPath(props.form, props.currententity)), {
-                    model: address.byPath(props.form, props.currententity),
-                    form: props.form,
-                    currententity: props.currententity,
-                    mutate: props.mutate,
-                    appState: props.appState,
-                    temporalStateChange: props.temporalStateChange,
-                  })}
-                </TabPanel>
               </Tabs>
             </div>
           </TabPanel>

@@ -24,6 +24,7 @@ const CheckBoxComponent = props => {
   const click_handler = event => entityActions.click_handler(event, props);
 
   const cbInputStyle = {
+    margin: '4px',
     height: '25px',
     width: '25px',
   };

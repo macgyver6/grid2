@@ -36,9 +36,9 @@ export const CheckBoxProperty = props => {
           <br />
           <input type="text" id="name" name="checkBox-name" onChange={change_handler} value={props.model.name()} />
         </p>
-        PrePromptWidth:
+        Prompt Width:
         <input type="number" id="prePromptWidth" onChange={layoutChange_handler} value={props.model.prePromptWidth()} />
-        PostPromptWidth:
+        Post Prompt Width:
         <input
           type="number"
           id="postPromptWidth"
@@ -101,7 +101,6 @@ export const CheckBoxProperty = props => {
             onChange={change_handler}
             value={props.model.tabOrder()}
           />
-
         </p>
         <p>
           <label for="checkBox-sasCodeLabel">SAS Code Label</label>

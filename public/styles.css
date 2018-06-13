@@ -25,3 +25,7 @@ img {
   height: auto;
   width: 100%;
 }
+
+.resizer:hover {
+    background-color: green;
+}

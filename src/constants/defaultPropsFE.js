@@ -199,7 +199,7 @@ export var defaultPropsFE = {
             uuid: undefined,
             type: 'FormSection',
             width: 24,
-            children: [new TextArea(initFE.TextArea)],
+            children: [new SelectionInput(initFE.SelectionInput)],
             // children: [new TextInput(initFE.TextInput)],
             legend: 'legend',
             prepend: 0,

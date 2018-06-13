@@ -132,14 +132,14 @@ export const TextInputProperty = props => {
               <br />
               <input type="text" id="name" name="textInput-name" onChange={change_handler} value={props.model.name()} />
             </p>
-            PrePromptWidth:
+            Prompt Width:
             <input
               type="number"
               id="prePromptWidth"
               onChange={layoutChange_handler}
               value={props.model.prePromptWidth()}
             />
-            PostPromptWidth:
+            Post Prompt Width:
             <input
               type="number"
               id="postPromptWidth"

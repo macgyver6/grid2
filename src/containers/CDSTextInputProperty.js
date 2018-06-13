@@ -4,7 +4,8 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { calcTotal } from '../components/FormEntities/feStyles';
 
 export const CDSTextInputProperty = props => {
-  const change_handler = event => props.mutate(address.bySample(props.model, props.form), {
+  const change_handler = event =>
+    props.mutate(address.bySample(props.model, props.form), {
       [event.target.id]: event.target.value,
     });
 
@@ -38,14 +39,14 @@ export const CDSTextInputProperty = props => {
               <br />
               <input type="text" id="name" name="textInput-name" onChange={change_handler} value={props.model.name()} />
             </p>
-            PrePromptWidth:
+            Prompt Width:
             <input
               type="number"
               id="prePromptWidth"
               onChange={layoutChange_handler}
               value={props.model.prePromptWidth()}
             />
-            PostPromptWidth:
+            Post Prompt Width:
             <input
               type="number"
               id="postPromptWidth"

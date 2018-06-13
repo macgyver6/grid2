@@ -45,15 +45,12 @@ export const _SelectionInputProperty = props => {
 
   return (
     <div>
-      <h1>Selection Input</h1>
-      <p>{props.model.UUID()}</p>
-      <p>Total width: {calcTotal(props.model)}</p>
-
       <div>
         <p>
           <label for="selectionInput-name">Name</label>
           <br />
           <input
+            disabled={props.model.postPromptWidth() < 1 ? true : false}
             type="text"
             id="name"
             name="selectionInput-name"
@@ -61,10 +58,11 @@ export const _SelectionInputProperty = props => {
             value={props.model.name()}
           />
         </p>
-        PrePromptWidth:
+        Prompt Width:
         <input type="number" id="prePromptWidth" onChange={layoutChange_handler} value={props.model.prePromptWidth()} />
-        PostPromptWidth:
+        Post Prompt Width:
         <input
+          disabled={props.model.postPromptWidth() < 1 ? true : false}
           type="number"
           id="postPromptWidth"
           onChange={layoutChange_handler}
@@ -78,7 +76,6 @@ export const _SelectionInputProperty = props => {
             id="append"
             onChange={change_handler}
             value={props.model.append()}
-
           />
         </p>
         <p>
@@ -92,7 +89,6 @@ export const _SelectionInputProperty = props => {
             onChange={change_handler}
             value={props.model.tabOrder()}
           />
-
         </p>
         <p>
           <label for="selectionInput-prompt_pre">
@@ -154,7 +150,6 @@ export const _SelectionInputProperty = props => {
             onChange={change_handler}
             value={props.model.tabOrder()}
           />
-
         </p>
         <p>
           <label for="selectionInput-sasCodeLabel">SAS Code Label</label>
@@ -169,8 +164,31 @@ export const _SelectionInputProperty = props => {
         </p>
       </div>
 
+      <hr />
+      <label htmlFor="textInput-val-type">Input Type</label>
+      <br />
+      <select
+        value={props.model.inputType()}
+        className="form-control"
+        name="textInput-val-type"
+        onChange={change_handler}
+        id="inputType"
+      >
+        {/* <option selected value>
+              {' '}
+              -- select an option --{' '}
+      </option> */}
+        {Object.keys(_dataDefined)
+          .map(val => val)
+          .map(item => <option value={item}>{item}</option>)}
+      </select>
+      <br />
+      <br />
+
       <div>
         <label for="renderMode">Selection Item Mode</label>
+
+        <br />
         <br />
         <select name="renderMode" id="renderMode" onChange={change_handler}>
           <option value="selection">Selection</option>
@@ -191,7 +209,7 @@ export const _SelectionInputProperty = props => {
           {props.model.options().map(option => (
             <li className="flexbox-container">
               <div>
-                <label for="input">Value</label>
+                <label for="input">Label</label>
                 <input name="input" type="text" value={option.label} />
               </div>
               <div>

@@ -11,12 +11,9 @@ import { calcTotal } from '../components/FormEntities/feStyles';
 export const EchoProperty = props => {
   const change_handler = event => {
     // console.log(event.target.value);
-    const value =
-      event.target.type === 'checkbox'
-        ? event.target.checked
-        : event.target.value;
+    const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
     return props.mutate(address.bySample(props.model, props.form), {
-      [event.target.id]: value
+      [event.target.id]: value,
     });
   };
 
@@ -44,23 +41,12 @@ export const EchoProperty = props => {
         <p>
           <label for="textInput-name">Name</label>
           <br />
-          <input
-            type="text"
-            id="name"
-            name="textInput-name"
-            onChange={change_handler}
-            value={props.model.name()}
-          />
+          <input type="text" id="name" name="textInput-name" onChange={change_handler} value={props.model.name()} />
         </p>
-        PrePromptWidth:
-            <input
-          type="number"
-          id="prePromptWidth"
-          onChange={layoutChange_handler}
-          value={props.model.prePromptWidth()}
-        />
-        PostPromptWidth:
-            <input
+        Prompt Width:
+        <input type="number" id="prePromptWidth" onChange={layoutChange_handler} value={props.model.prePromptWidth()} />
+        Post Prompt Width:
+        <input
           type="number"
           id="postPromptWidth"
           onChange={layoutChange_handler}
@@ -182,9 +168,7 @@ export const EchoProperty = props => {
           {utility
             .findAll(props.form, e => e instanceof FormInput)
             .map(formInput => (
-              <option value={formInput.promptNumber()}>
-                {`${formInput.promptNumber()} - ${formInput.type()}`}
-              </option>
+              <option value={formInput.promptNumber()}>{`${formInput.promptNumber()} - ${formInput.type()}`}</option>
             ))}
         </select>
 

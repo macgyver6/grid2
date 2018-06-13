@@ -54,9 +54,9 @@ export const SelectionInputProperty = props => {
             value={props.model.name()}
           />
         </p>
-        PrePromptWidth:
+        Prompt Width:
         <input type="number" id="prePromptWidth" onChange={layoutChange_handler} value={props.model.prePromptWidth()} />
-        PostPromptWidth:
+        Post Prompt Width:
         <input
           type="number"
           id="postPromptWidth"
@@ -71,7 +71,6 @@ export const SelectionInputProperty = props => {
             id="append"
             onChange={change_handler}
             value={props.model.append()}
-
           />
         </p>
         <p>
@@ -85,7 +84,6 @@ export const SelectionInputProperty = props => {
             onChange={change_handler}
             value={props.model.tabOrder()}
           />
-
         </p>
         <p>
           <label for="selectionInput-prompt_pre">
@@ -147,7 +145,6 @@ export const SelectionInputProperty = props => {
             onChange={change_handler}
             value={props.model.tabOrder()}
           />
-
         </p>
         <p>
           <label for="selectionInput-sasCodeLabel">SAS Code Label</label>

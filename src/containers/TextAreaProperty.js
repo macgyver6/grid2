@@ -33,9 +33,9 @@ export const TextAreaProperty = props => {
           <br />
           <input type="text" id="name" name="textArea-name" onChange={change_handler} value={props.model.name()} />
         </p>
-        PrePromptWidth:
+        Prompt Width:
         <input type="number" id="prePromptWidth" onChange={layoutChange_handler} value={props.model.prePromptWidth()} />
-        PostPromptWidth:
+        Post Prompt Width:
         <input
           type="number"
           id="postPromptWidth"

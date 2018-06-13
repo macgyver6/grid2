@@ -42,7 +42,15 @@ export const entityActions = {
 
   click_handler: (event, props) => {
     event.stopPropagation();
-    // event.target.draggable = true;
+    const prePrompt = document.getElementById(`${props.model.UUID()}.prePrompt`);
+    prePrompt.style.boxShadow = '3px 3px blue';
+    // prePrompt.style.borderTop = '4px 4px blue';
+    // prePrompt.style.borderBottom = '4px 4px blue';
+    const inputEntity = document.getElementById(`${props.model.UUID()}.${props.model.type()}`);
+    inputEntity.style.boxShadow = '3px 3px blue';
+    // inputEntity.style.b = '4px 4px blue';
+    // inputEntity.style.borderTop = '4px 4px blue';
+    // inputEntity.style.borderBottom = '4px 4px blue';
     props.temporalStateChange({
       currententity: address.bySample(props.model, props.form),
     });
