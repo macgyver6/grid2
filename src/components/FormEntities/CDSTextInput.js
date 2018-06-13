@@ -121,7 +121,6 @@ const CDSTextInputComponent = props => {
         <input
           style={inputStyle(props.model)}
           className="form-control"
-          // placeholder="Write something in text area"
           name={props.model.name()}
           // rows="5"
           // cols="12"

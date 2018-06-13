@@ -99,7 +99,6 @@ const TextBlockComponent = props => {
           type={props.model.type()}
           size="8"
           value={props.model.content()}
-          placeholder="default content"
           disabled
         />
 
