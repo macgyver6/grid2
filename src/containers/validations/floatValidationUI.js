@@ -2,17 +2,14 @@ import React from 'react';
 import { address } from '../../address';
 
 export const FloatValidationUI = props => {
-  const change_handler = event => {
-    return props.mutate(address.bySample(props.model, props.form), {
+  const change_handler = event => props.mutate(address.bySample(props.model, props.form), {
       validations: {
         ...props.model.validations(),
         [event.target.id]: event.target.value,
       },
     });
-  };
   return (
     <div>
-      <h2>Float Validations</h2>
       <p>
         <label for="val-length">Float Length</label>
         <br />

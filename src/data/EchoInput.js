@@ -32,8 +32,20 @@ class EchoInput extends FormInput {
     super(properties);
 
     this._sourceInput = properties.sourceInput;
+    this._autoTab = properties.autoTab;
 
     deepFreeze(this);
+  }
+
+  /**
+   *
+   *
+   * Get whether the input is defined as permitting auto tab to the next field during data collection.
+   * @returns {boolean}
+   * @memberof TextInput
+   */
+  autoTab() {
+    return this._autoTab;
   }
 
   /**
@@ -82,6 +94,7 @@ class EchoInput extends FormInput {
       sourceInput: this.sourceInput(),
       currentValidator: this.currentValidator(),
       currentDependency: this.currentDependency(),
+      autoTab: this.autoTab(),
     };
   }
 }

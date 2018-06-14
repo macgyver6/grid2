@@ -3,7 +3,8 @@ import { address } from '../../address';
 import { timeZones } from './timeZones';
 
 export const DateValidationUI = props => {
-  const change_handler = event => props.mutate(address.bySample(props.model, props.form), {
+  const change_handler = event =>
+    props.mutate(address.bySample(props.model, props.form), {
       validations: {
         ...props.model.validations(),
         [event.target.id]: event.target.value,
@@ -11,8 +12,6 @@ export const DateValidationUI = props => {
     });
   return (
     <div>
-      <h2>Date Validations</h2>
-
       <br />
       <label for="val-full">How should the date to be collected be defined?</label>
       <select

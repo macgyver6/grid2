@@ -6,11 +6,10 @@ import { Form } from '../data/Form';
 import { FormInput } from '../data/FormInput';
 import { calcTotal } from '../components/FormEntities/feStyles';
 import { _dataDefined, userDefined } from './_validations';
-import { Input_Property_Template } from './Input_Property_Template';
 
 // const form = new Form(defaultPropsFE.Form);
 
-export const _TextInputProperty = props => {
+export const Input_Property_Template = props => {
   const change_handler = event => {
     // console.log(event.target.value);
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
@@ -34,25 +33,103 @@ export const _TextInputProperty = props => {
 
   return (
     <div>
-      <Input_Property_Template
-        model={address.byPath(props.form, props.currententity)}
-        form={props.form}
-        currententity={props.currententity}
-        mutate={props.mutate}
-        appState={props.appState}
-        temporalStateChange={props.temporalStateChange}
-      />
-      <label htmlFor="textInput-defaultContent">Default Content</label>
-      <br />
-      <input
-        type="text"
-        name="textInput-defaultContent"
-        type="text"
-        id="defaultContent"
-        onChange={change_handler}
-        value={props.model.defaultContent()}
-      />
+      <p style={{ fontSize: 8, margin: '0px' }}>{props.model.UUID()}</p>
+      <p style={{ fontSize: 8, margin: '0px 0px 4px 0px' }}>
+        prePromptWidth: {props.model.prePromptWidth()} Append: Total width: {calcTotal(props.model)} PrePend:
+        {props.model.prePrompt()} Width: {props.model.width()} Append:
+        {props.model.append()}
+      </p>
       <div>
+        <p>
+          <label htmlFor="textInput-name">Name</label>
+          <br />
+          <input type="text" id="name" name="textInput-name" onChange={change_handler} value={props.model.name()} />
+        </p>
+        Prompt Width: {'    '}
+        <input type="number" id="prePromptWidth" onChange={layoutChange_handler} value={props.model.prePromptWidth()} />
+        {'    '}
+        Post Prompt Width:
+        <input
+          type="number"
+          id="postPromptWidth"
+          onChange={layoutChange_handler}
+          value={props.model.postPromptWidth()}
+        />
+        <p>
+          <label for="prePrompt">
+            Prompt (optional){' '}
+            <a
+              class="tabnav-extra"
+              href="https://guides.github.com/features/mastering-markdown/"
+              target="_blank"
+              data-ga-click="Markdown Toolbar, click, help"
+            />
+          </label>
+          <br />
+          <input
+            disabled={props.model.prePromptWidth() < 1 ? true : false}
+            name="prePrompt"
+            type="text"
+            id="prePrompt"
+            onChange={change_handler}
+            value={props.model.prePrompt()}
+          />
+        </p>
+        <p>
+          <label for="posPrompt">
+            Post Prompt (optional){' '}
+            <a
+              class="tabnav-extra"
+              href="https://guides.github.com/features/mastering-markdown/"
+              target="_blank"
+              data-ga-click="Markdown Toolbar, click, help"
+            />
+          </label>
+          <br />
+          <input
+            disabled={props.model.postPromptWidth() < 1 ? true : false}
+            value={props.model.postPrompt()}
+            name="posPrompt"
+            type="text"
+            id="postPrompt"
+            onChange={change_handler}
+          />
+        </p>
+      </div>
+      <div>
+        <p>
+          <label htmlFor="textInput-tabOrder">Tab Order</label>
+          <br />
+          <input
+            type="number"
+            name="textInput-tabOrder"
+            id="tabOrder"
+            size="2"
+            onChange={change_handler}
+            value={props.model.tabOrder()}
+          />
+        </p>
+        <p>
+          <label htmlFor="textInput-sasCodeLabel">SAS Code Label</label>
+          <br />
+          <input
+            type="text"
+            name="textInput-sasCodeLabel"
+            id="sasCodeLabel"
+            onChange={change_handler}
+            value={props.model.sasCodeLabel()}
+          />
+        </p>
+        <p>
+          <input
+            type="checkbox"
+            name="textInput-autoTab"
+            id="autoTab"
+            onChange={change_handler}
+            checked={props.model.autoTab()}
+          />
+          <label htmlFor="textInput-autoTab">Enable Auto Tabbing</label>
+        </p>
         <div>
           <label htmlFor="textInput-length">Max Length</label>
           <br />
@@ -77,16 +154,6 @@ export const _TextInputProperty = props => {
             cols="50"
           />
           <br /> <br />
-          <label htmlFor="textInput-defaultContent">Default Content</label>
-          <br />
-          <input
-            type="text"
-            name="textInput-defaultContent"
-            type="text"
-            id="defaultContent"
-            onChange={change_handler}
-            value={props.model.defaultContent()}
-          />
         </div>
         <hr />
         <label htmlFor="textInput-val-type">Input Type</label>

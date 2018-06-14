@@ -6,6 +6,7 @@ import { Form } from '../data/Form';
 import { FormInput } from '../data/FormInput';
 import { calcTotal } from '../components/FormEntities/feStyles';
 import { _dataDefined, userDefined } from './_validations';
+import { Input_Property_Template } from './Input_Property_Template';
 
 // const form = new Form(defaultPropsFE.Form);
 
@@ -45,124 +46,14 @@ export const _SelectionInputProperty = props => {
 
   return (
     <div>
-      <div>
-        <p>
-          <label for="selectionInput-name">Name</label>
-          <br />
-          <input
-            type="number"
-            id="name"
-            name="selectionInput-name"
-            onChange={change_handler}
-            value={props.model.name()}
-          />
-        </p>
-        Prompt Width:
-        <input type="number" id="prePromptWidth" onChange={layoutChange_handler} value={props.model.prePromptWidth()} />
-        Post Prompt Width:
-        <input
-          type="number"
-          id="postPromptWidth"
-          onChange={layoutChange_handler}
-          value={props.model.postPromptWidth()}
-        />
-        <p>
-          <label for="selectionInput-append">Append</label>
-          <input
-            type="number"
-            name="selectionInput-append"
-            id="append"
-            onChange={change_handler}
-            value={props.model.append()}
-          />
-        </p>
-        <p>
-          <label for="selectionInput-tabOrder">Tab Order</label>
-          <br />
-          <input
-            type="number"
-            name="selectionInput-tabOrder"
-            id="tabOrder"
-            size="2"
-            onChange={change_handler}
-            value={props.model.tabOrder()}
-          />
-        </p>
-        <p>
-          <label for="selectionInput-prompt_pre">
-            Pre Prompt (optional){' '}
-            <a
-              class="tabnav-extra"
-              href="https://guides.github.com/features/mastering-markdown/"
-              target="_blank"
-              data-ga-click="Markdown Toolbar, click, help"
-            >
-              {/* Markdown is supported */}
-            </a>
-          </label>
-          <br />
-          <input
-            disabled={props.model.prePromptWidth() < 1 ? true : false}
-            name="selectionInput-prompt_pre"
-            type="text"
-            id="prePrompt"
-            onChange={change_handler}
-            value={props.model.prePrompt()}
-          />
-        </p>
-        <p>
-          <label for="selectionInput-prompt_post">
-            Post Prompt (optional){' '}
-            <a
-              class="tabnav-extra"
-              href="https://guides.github.com/features/mastering-markdown/"
-              target="_blank"
-              data-ga-click="Markdown Toolbar, click, help"
-            >
-              {/* Markdown is supported */}
-            </a>
-          </label>
-          <br />
-          <input
-            disabled={props.model.postPrompt() < 1 ? true : false}
-            name="selectionInput-prompt_post"
-            type="text"
-            id="postPrompt"
-            onChange={change_handler}
-            value={props.model.postPrompt()}
-          />
-        </p>
-        {/* <p>
-          <label for="selectionInput-qbq">Q-by-Q (optional)</label>
-          <br />
-          <textarea name="selectionInput-qbq" />
-        </p> */}
-      </div>
-      <div>
-        <p>
-          <label for="selectionInput-tabOrder">Tab Order</label>
-          <br />
-          <input
-            type="number"
-            name="selectionInput-tabOrder"
-            id="tabOrder"
-            size="2"
-            onChange={change_handler}
-            value={props.model.tabOrder()}
-          />
-        </p>
-        <p>
-          <label for="selectionInput-sasCodeLabel">SAS Code Label</label>
-          <br />
-          <input
-            type="text"
-            name="selectionInput-sasCodeLabel"
-            id="sasCodeLabel"
-            onChange={change_handler}
-            value={props.model.sasCodeLabel()}
-          />
-        </p>
-      </div>
+      <Input_Property_Template
+        model={address.byPath(props.form, props.currententity)}
+        form={props.form}
+        currententity={props.currententity}
+        mutate={props.mutate}
+        appState={props.appState}
+        temporalStateChange={props.temporalStateChange}
+      />
 
       <hr />
       <label htmlFor="textInput-val-type">Input Type</label>
