@@ -22,7 +22,7 @@ class ValidationWrapper extends React.Component {
 
     // Object.keys(
     //   address
-    //     .hydrateValidator(this.props.model.currentValidator() || 'Pattern', { type: 'PatternValidator' })
+    //     .hydrateValidator(this.state.currentValidator || 'Pattern', { type: 'PatternValidator' })
     //     .properties()
     // ).forEach(property => (this.state[property] = ''));
     this.handleChange = this.handleChange.bind(this);
@@ -86,24 +86,24 @@ class ValidationWrapper extends React.Component {
         : { customFailureMessage: '' };
 
     // console.log(
-    //   address.hydrateValidator(this.props.model.currentValidator(), {...this.state, type: this.props.model.currentValidator(), customFailureMessage })
+    //   address.hydrateValidator(this.state.currentValidator, {...this.state, type: this.state.currentValidator, customFailureMessage })
     // );
 
     console.log(
-      address.hydrateValidator(this.props.model.currentValidator(), {
+      address.hydrateValidator(this.state.currentValidator, {
         ...this.state,
         ...customFailureMessage(),
-        type: this.props.model.currentValidator(),
+        type: this.state.currentValidator,
       })
     );
 
     this.props.mutate(address.bySample(this.props.model, this.props.form), {
       validations: [
         ...this.props.model.validations(),
-        address.hydrateValidator(this.props.model.currentValidator(), {
+        address.hydrateValidator(this.state.currentValidator, {
           ...this.state,
           ...customFailureMessage(),
-          type: this.props.model.currentValidator(),
+          type: this.state.currentValidator,
         }),
       ],
     });
@@ -269,10 +269,10 @@ class ValidationWrapper extends React.Component {
 
     Object.keys(
       address
-        .hydrateValidator(this.props.model.currentValidator(), {
+        .hydrateValidator(this.state.currentValidator, {
           ...this.state,
           ...customFailureMessage(),
-          type: this.props.model.currentValidator(),
+          type: this.state.currentValidator,
         })
         .properties()
     ).forEach(property => (resetObj[property] = ''));
@@ -303,8 +303,8 @@ class ValidationWrapper extends React.Component {
 
     // console.log(
     //   address
-    //     .hydrateValidator(this.props.model.currentValidator(), {
-    //       type: this.props.model.currentValidator(),
+    //     .hydrateValidator(this.state.currentValidator, {
+    //       type: this.state.currentValidator,
     //     })
     //     .properties()
     // );
@@ -420,10 +420,10 @@ class ValidationWrapper extends React.Component {
           </ul>
         </div>
         <select
-          value={this.props.model.currentValidator()}
+          value={this.state.currentValidator}
           className="form-control"
-          name="textInput-val-type"
-          onChange={this.validationSelector_handler}
+          name="currentValidator"
+          onChange={this.handleChange}
           id="currentValidator"
         >
           {/* <option selected value>
@@ -438,8 +438,8 @@ class ValidationWrapper extends React.Component {
         <form>
           {/* <form onSubmit={this.handleSubmit}> */}
           <div id="validation">
-            {this.props.model.currentValidator()
-              ? React.createElement(address.whichValidationComponent(this.props.model.currentValidator()), {
+            {this.state.currentValidator
+              ? React.createElement(address.whichValidationComponent(this.state.currentValidator), {
                   model: address.byPath(this.props.form, this.props.currententity),
                   form: this.props.form,
                   currententity: this.props.currententity,

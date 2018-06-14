@@ -24,7 +24,7 @@ class DependencyWrapper extends React.Component {
 
     // Object.keys(
     //   address
-    //     .hydrateValidator(this.this.propsmodel.currentValidator() || 'Pattern', { type: 'PatternValidator' })
+    //     .hydrateValidator(this.props.model.currentValidator() || 'Pattern', { type: 'PatternValidator' })
     //     .properties()
     // ).forEach(property => (this.state[property] = ''));
     this.handleChange = this.handleChange.bind(this);
@@ -39,8 +39,8 @@ class DependencyWrapper extends React.Component {
   }
 
   // const change_handler = event => {   return
-  // this.propsmutate(address.bySample(this.propsmodel, this.propsform), {     validations: {
-  //   ...this.propsmodel.validations(),       [event.target.id]: event.target.value,
+  // this.props.mutate(address.bySample(this.props.model, this.props.form), {     validations: {
+  //   ...this.props.model.validations(),       [event.target.id]: event.target.value,
   //    },   }); };
   handleChange(event) {
     const target = event.target;
@@ -88,24 +88,24 @@ class DependencyWrapper extends React.Component {
         : { customFailureMessage: '' };
 
     // console.log(
-    //   address.hydrateValidator(this.this.propsmodel.currentValidator(), {...this.state, type: this.this.propsmodel.currentValidator(), customFailureMessage })
+    //   address.hydrateValidator(this.props.model.currentValidator(), {...this.state, type: this.props.model.currentValidator(), customFailureMessage })
     // );
 
     console.log(
-      address.hydrateValidator(this.this.propsmodel.currentValidator(), {
+      address.hydrateValidator(this.state.currentValidator, {
         ...this.state,
         ...customFailureMessage(),
-        type: this.this.propsmodel.currentValidator(),
+        type: this.state.currentValidator,
       })
     );
 
-    this.this.propsmutate(address.bySample(this.this.propsmodel, this.this.propsform), {
+    this.props.mutate(address.bySample(this.props.model, this.props.form), {
       validations: [
-        ...this.this.propsmodel.validations(),
-        address.hydrateValidator(this.this.propsmodel.currentValidator(), {
+        ...this.props.model.validations(),
+        address.hydrateValidator(this.state.currentValidator, {
           ...this.state,
           ...customFailureMessage(),
-          type: this.this.propsmodel.currentValidator(),
+          type: this.state.currentValidator,
         }),
       ],
     });
@@ -154,7 +154,7 @@ class DependencyWrapper extends React.Component {
   // }
 
   edit_fail(failMsg) {
-    const fail_set = this.this.propsmodel.validations().filter(element => element.failMsg === 'yolo');
+    const fail_set = this.props.model.validations().filter(element => element.failMsg === 'yolo');
     console.log(fail_set);
   }
 
@@ -183,10 +183,10 @@ class DependencyWrapper extends React.Component {
       mode: 'update',
       currentIndex: event.target.id,
     });
-    console.log(this.this.propsmodel.validations()[event.target.id].type());
-    this.this.propsmutate(address.bySample(this.this.propsmodel, this.this.propsform), {
-      // ...this.this.propsmodel,
-      currentValidator: this.this.propsmodel.validations()[event.target.id].type(),
+    console.log(this.props.model.validations()[event.target.id].type());
+    this.props.mutate(address.bySample(this.props.model, this.props.form), {
+      // ...this.props.model,
+      currentValidator: this.props.model.validations()[event.target.id].type(),
     });
 
     const flattenObject = function(ob) {
@@ -212,17 +212,17 @@ class DependencyWrapper extends React.Component {
     // Object.keys(new PatternValidator({ type: 'PatternValidator' }).properties()).forEach(
     //   property => (this.state[property] = '')
     // );
-    Object.keys(this.this.propsmodel.validations()[event.target.id].properties()).forEach(value =>
+    Object.keys(this.props.model.validations()[event.target.id].properties()).forEach(value =>
       this.setState({
-        [`${value}`]: this.this.propsmodel.validations()[event.target.id].properties()[`${value}`],
+        [`${value}`]: this.props.model.validations()[event.target.id].properties()[`${value}`],
       })
     );
 
-    this.this.propsmodel.validations()[event.target.id].properties()['customFailureMessage'] !== ''
-      ? Object.keys(this.this.propsmodel.validations()[event.target.id].properties()['customFailureMessage']).forEach(
+    this.props.model.validations()[event.target.id].properties()['customFailureMessage'] !== ''
+      ? Object.keys(this.props.model.validations()[event.target.id].properties()['customFailureMessage']).forEach(
           value =>
             this.setState({
-              [`${value}`]: this.this.propsmodel.validations()[event.target.id].properties()['customFailureMessage'][
+              [`${value}`]: this.props.model.validations()[event.target.id].properties()['customFailureMessage'][
                 `${value}`
               ],
             })
@@ -234,7 +234,7 @@ class DependencyWrapper extends React.Component {
     event.preventDefault();
     console.log(this.state);
     const index = this.state.currentIndex;
-    const originalValidators = [...this.this.propsmodel.validations()];
+    const originalValidators = [...this.props.model.validations()];
     // months.splice(4, 1, 'May');
     // replaces 1 element at 4th index
 
@@ -253,13 +253,13 @@ class DependencyWrapper extends React.Component {
     originalValidators.splice(
       this.state.currentIndex,
       1,
-      // ...this.this.propsmodel.validations(),
+      // ...this.props.model.validations(),
       new PatternValidator({ ...this.state, ...customFailureMessage() })
     );
 
     console.log(originalValidators);
 
-    this.this.propsmutate(address.bySample(this.this.propsmodel, this.this.propsform), {
+    this.props.mutate(address.bySample(this.props.model, this.props.form), {
       validations: originalValidators,
     });
 
@@ -271,10 +271,10 @@ class DependencyWrapper extends React.Component {
 
     Object.keys(
       address
-        .hydrateValidator(this.this.propsmodel.currentValidator(), {
+        .hydrateValidator(this.state.currentValidator(), {
           ...this.state,
           ...customFailureMessage(),
-          type: this.this.propsmodel.currentValidator(),
+          type: this.state.currentValidator,
         })
         .properties()
     ).forEach(property => (resetObj[property] = ''));
@@ -288,12 +288,13 @@ class DependencyWrapper extends React.Component {
   validationSelector_handler(event) {
     // return {
     //   validations: {
-    //     ...this.propsmodel.validations(),
+    //     ...this.props.model.validations(),
     //     [event.target.id]: event.target.value
     //   }
     // };
-    this.this.propsmutate(address.bySample(this.this.propsmodel, this.this.propsform), {
-      ...this.this.propsmodel,
+    console.log(this.props.model, this.props.form);
+    this.props.mutate(address.bySample(this.props.model, this.props.form), {
+      ...this.props.model,
       [event.target.id]: event.target.value,
     });
 
@@ -305,8 +306,8 @@ class DependencyWrapper extends React.Component {
 
     // console.log(
     //   address
-    //     .hydrateValidator(this.this.propsmodel.currentValidator(), {
-    //       type: this.this.propsmodel.currentValidator(),
+    //     .hydrateValidator(this.props.model.currentValidator(), {
+    //       type: this.props.model.currentValidator(),
     //     })
     //     .properties()
     // );
@@ -343,7 +344,7 @@ class DependencyWrapper extends React.Component {
     event.preventDefault();
     console.log(this.state);
     const index = this.state.currentIndex;
-    const originalValidators = [...this.this.propsmodel.validations()];
+    const originalValidators = [...this.props.model.validations()];
 
     // const customFailureMessage = () =>
     //   this.state.failMsg !== '' && this.state.failLocal !== '' && this.state.failLang !== ''
@@ -360,7 +361,7 @@ class DependencyWrapper extends React.Component {
 
     originalValidators.splice(this.state.currentIndex, 1);
 
-    this.this.propsmutate(address.bySample(this.this.propsmodel, this.this.propsform), {
+    this.props.mutate(address.bySample(this.props.model, this.props.form), {
       validations: originalValidators,
     });
 
@@ -399,7 +400,7 @@ class DependencyWrapper extends React.Component {
             background: 'orange',
           }}
         >
-          {/* {JSON.stringify(this.this.propsmodel.validations())} */}
+          {/* {JSON.stringify(this.props.model.validations())} */}
           <h4>Dependencies Applied to this Field</h4>
           <ul>
             <li>
@@ -411,10 +412,10 @@ class DependencyWrapper extends React.Component {
             </li>
           </ul>
 
-          {/* {this.propsmodel.validations().length > 0 ? (
-                this.propsmodel.validations().map(validation => (
+          {/* {this.props.model.validations().length > 0 ? (
+                this.props.model.validations().map(validation => (
                   <li>
-                    {this.propsmodel.inputType()} {validation.type()} {validation.value()}
+                    {this.props.model.inputType()} {validation.type()} {validation.value()}
                   </li>
                 ))
               ) : (
@@ -429,44 +430,42 @@ class DependencyWrapper extends React.Component {
         </select>
         <h3>2. Select Entity to Apply Dependency To (implement eye-dropper - future)</h3>
         <br />
-        <DropToSelect form={this.propsform} model={this.propsmodel} />
+        <DropToSelect form={this.props.form} model={this.props.model} />
 
         {/* <select
             className="form-control"
             name="dependency-selection"
-            type={this.propsmodel.type()}
-            // value={this.propsmodel.sourceInput()}
+            type={this.props.model.type()}
+            // value={this.props.model.sourceInput()}
             onChange={change_handler}
             id="sourceInput"
           >
             {utility
-              .findAll(this.propsform, e => e instanceof FormInput)
+              .findAll(this.props.form, e => e instanceof FormInput)
               .map(formInput => (
                 <option value={formInput.promptNumber()}>{`${formInput.promptNumber()} - ${formInput.type()}`}</option>
               ))}
           </select> */}
         <h3>3. Select validator to apply</h3>
-        <select>
-          {/* value={this.props.model.currentValidator()}
-          className="form-control" name="textInput-val-type" onChange={this.validationSelector_handler}
-          id="currentValidator" */}
-          >
+        <select
+          value={this.state.currentValidator}
+          className="form-control"
+          name="currentValidator"
+          onChange={this.handleChange}
+          id="currentValidator"
+        >
+          {/* <option selected value>
+              {' '}
+              -- select an option --{' '}
+      </option> */}
           {_dataDefined[`${this.props.model.inputType()}`].userDefined.map(userDefinedVal => (
             <option value={userDefinedVal}>{userDefinedVal}</option>
           ))}
         </select>
         <h3>4. Configure validator</h3>
         <div id="validation">
-          <ValidationWrapper
-            form={this.props.form}
-            model={this.props.model}
-            // currententity={[this.props.appState.currententity]}
-            currententity={[0, 0, 0]}
-            mutate={this.props.mutate}
-            failureMode="dependency"
-          />
-          {/* {this.props.model.currentValidator()
-            ? React.createElement(address.whichValidationComponent(this.props.model.currentValidator()), {
+          {this.state.currentValidator
+            ? React.createElement(address.whichValidationComponent(this.state.currentValidator), {
                 model: address.byPath(this.props.form, this.props.currententity),
                 form: this.props.form,
                 currententity: this.props.currententity,
@@ -493,8 +492,9 @@ class DependencyWrapper extends React.Component {
                 validState: this.state.validState,
                 strong: this.state.strong,
                 nullIsValid: this.state.nullIsValid,
+                failureMode: this.props.failureMode ? this.props.failureMode : 'dependency',
               })
-            : null} */}
+            : null}
         </div>
       </div>
     );
