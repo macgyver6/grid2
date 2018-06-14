@@ -35,8 +35,7 @@ class TextInput extends FormInput {
     super(properties);
 
     this._length = properties.length;
-    this._defaultContent =
-      properties.defaultContent || TextInput.DEFAULT_CONTENT;
+    this._defaultContent = properties.defaultContent || TextInput.DEFAULT_CONTENT;
     this._autoTab = properties.autoTab;
     this._doubleEntry = properties.doubleEntry;
 
@@ -127,14 +126,14 @@ class TextInput extends FormInput {
       doubleEntry: this.doubleEntry(),
       validations: this.validations(),
       currentValidator: this.currentValidator(),
-      currentDependency: this.currentDependency()
+      currentDependency: this.currentDependency(),
     };
   }
 }
 
 TextInput.LENGTH = {
   DEFAULT: 80,
-  NO_MAX: 0
+  NO_MAX: 0,
 };
 
 TextInput.DEFAULT_CONTENT = '';

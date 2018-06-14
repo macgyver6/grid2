@@ -25,7 +25,6 @@ class DateTextInput extends TextInput {
     * @property {number} properties.append - Get the number of grid units appended to rendered representations of the form entity.
     * @property {autoNumber} properties.autoNumber - The expression used to determine how to automatically number inputs after this one in a form hierarchy.
     @property {number} properties.length - Max length for input. Default is 60, and if NO_MAX is passed in, no max length will be applied to this field.
-    @property {boolean} properties.autoTab - Whether the input is defined as permitting auto tab to the next field during data collection.
     @property {string} properties.defaultContent - The default contents of representations of this input item.
     @property {boolean} properties.doubleEntry - The default contents of representations of this input item.
     @property {boolean} properties.tzChoice - Whether rendered representations of the input should allow for a choice of time zone for entered dates.
@@ -95,7 +94,6 @@ class DateTextInput extends TextInput {
       autoNumber: this.autoNumber(),
       length: this.length(),
       defaultContent: this.defaultContent(),
-      autoTab: this.autoTab(),
       doubleEntry: this.doubleEntry(),
       tzChoice: this.tzChoice(),
       startingDate: this.startingDate(),

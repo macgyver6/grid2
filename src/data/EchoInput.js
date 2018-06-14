@@ -25,7 +25,6 @@ class EchoInput extends FormInput {
     * @property {number} properties.append - Get the number of grid units appended to rendered representations of the form entity.
     * @property {autoNumber} properties.autoNumber - The expression used to determine how to automatically number inputs after this one in a form hierarchy.
     @property {number} properties.length - Max length for input. Default is 60, and if NO_MAX is passed in, no max length will be applied to this field.
-    @property {boolean} properties.autoTab - Whether the input is defined as permitting auto tab to the next field during data collection.
     @property {string} properties.sourceInput - Form input that serves as the source for the echo input.
      */
   constructor(properties) {
@@ -35,17 +34,6 @@ class EchoInput extends FormInput {
     this._autoTab = properties.autoTab;
 
     deepFreeze(this);
-  }
-
-  /**
-   *
-   *
-   * Get whether the input is defined as permitting auto tab to the next field during data collection.
-   * @returns {boolean}
-   * @memberof TextInput
-   */
-  autoTab() {
-    return this._autoTab;
   }
 
   /**
@@ -94,7 +82,6 @@ class EchoInput extends FormInput {
       sourceInput: this.sourceInput(),
       currentValidator: this.currentValidator(),
       currentDependency: this.currentDependency(),
-      autoTab: this.autoTab(),
     };
   }
 }

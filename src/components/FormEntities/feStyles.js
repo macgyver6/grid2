@@ -42,7 +42,8 @@ export const inputStyle = entity => ({
   // position: 'absolute',
   // right: 16,
   // bottom: 7,
-  marginTop: '8px',
+  cursor: 'move',
+  margin: '8px',
   height: '20px',
   // width: '82%',
 });
@@ -59,6 +60,7 @@ export const entityStyle = entity => ({
   position: 'relative',
   gridColumn: `span ${entity.width()}`,
   padding: '4px',
+  maxHeight: '40px',
   // @hack
   // borderRadius: `
   // ${entity.prePromptWidth ? (entity.prePromptWidth() > 0 ? '0px' : '2px') : '0px'}

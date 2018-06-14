@@ -123,7 +123,8 @@ const TextAreaComponent = props => {
       >
         <textarea
           style={{
-            gridColumn: `span ${props.model.width()}`,
+            ...inputStyle(props.model),
+            maxHeight: '',
             height: 'auto',
             resize: 'none',
           }}

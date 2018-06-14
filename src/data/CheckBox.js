@@ -25,28 +25,15 @@ class CheckBox extends FormInput {
    * @property {number} properties.prepend - Get the number of grid units prepended to rendered representations of the form entity.
    * @property {number} properties.append - Get the number of grid units appended to rendered representations of the form entity.
    * @property {string} properties.autoNumber - The expression used to determine how to automatically number inputs after this one in a form hierarchy.
-   *  @property {boolean} properties.autoTab - Whether the input is defined as permitting auto tab to the next field during data collection.
    * @property {boolean} properties.defaultState - Default state of the CheckBox.
    * @property {string} properties.QxQ - Field to provide additional information that may assist the user in filling out the form. This is rendered in a "tool tip", or if a TextBlock Entity property "QxQ" is true, the currently selected entity's QxQ information will be rendered in this field.
    */
   constructor(properties) {
     super(properties);
 
-    this._autoTab = properties.autoTab;
     this._defaultState = properties.defaultState;
 
     deepFreeze(this);
-  }
-
-  /**
-   *
-   *
-   * Get whether the input is defined as permitting auto tab to the next field during data collection.
-   * @returns {boolean}
-   * @memberof TextInput
-   */
-  autoTab() {
-    return this._autoTab;
   }
 
   /**
@@ -94,7 +81,6 @@ class CheckBox extends FormInput {
       promptNumber: this.promptNumber(),
       autoNumber: this.autoNumber(),
       defaultState: this.defaultState(),
-      autoTab: this.autoTab(),
     };
   }
 }

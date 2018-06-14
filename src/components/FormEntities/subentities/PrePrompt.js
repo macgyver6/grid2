@@ -9,7 +9,7 @@ const PrePrompt = props => {
     gridTemplateColumns: 'repeat(' + `${props.model.prePromptWidth()}` + ', [col] 1fr)',
     gridColumn: `span ${props.model.prePromptWidth()}`,
     backgroundColor: props.backgroundColor,
-    padding: '4px',
+    // padding: '4px',
     // borderRadius: '2px',
     position: 'relative',
     maxHeight: '40px',

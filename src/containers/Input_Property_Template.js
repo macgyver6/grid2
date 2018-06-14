@@ -32,7 +32,7 @@ export const Input_Property_Template = props => {
   };
 
   return (
-    <div>
+    <div style={{ border: '2px green solid' }}>
       <p style={{ fontSize: 8, margin: '0px' }}>{props.model.UUID()}</p>
       <p style={{ fontSize: 8, margin: '0px 0px 4px 0px' }}>
         prePromptWidth: {props.model.prePromptWidth()} Append: Total width: {calcTotal(props.model)} PrePend:
@@ -45,56 +45,92 @@ export const Input_Property_Template = props => {
           <br />
           <input type="text" id="name" name="textInput-name" onChange={change_handler} value={props.model.name()} />
         </p>
-        Prompt Width: {'    '}
-        <input type="number" id="prePromptWidth" onChange={layoutChange_handler} value={props.model.prePromptWidth()} />
-        {'    '}
-        Post Prompt Width:
+        <label htmlFor="prePromptWidth">Prompt Width: </label>
         <input
+          name="prePromptWidth"
+          type="number"
+          id="prePromptWidth"
+          onChange={layoutChange_handler}
+          value={props.model.prePromptWidth()}
+        />
+
+        <label htmlFor="prePrompt">
+          {' '}
+          <a
+            class="tabnav-extra"
+            href="https://guides.github.com/features/mastering-markdown/"
+            target="_blank"
+            data-ga-click="Markdown Toolbar, click, help"
+          >
+            <svg
+              class="octicon octicon-markdown v-align-bottom"
+              viewBox="0 0 16 16"
+              version="1.1"
+              width="16"
+              height="16"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M14.85 3H1.15C.52 3 0 3.52 0 4.15v7.69C0 12.48.52 13 1.15 13h13.69c.64 0 1.15-.52 1.15-1.15v-7.7C16 3.52 15.48 3 14.85 3zM9 11H7V8L5.5 9.92 4 8v3H2V5h2l1.5 2L7 5h2v6zm2.99.5L9.5 8H11V5h2v3h1.5l-2.51 3.5z"
+              />
+            </svg>
+            {/* Markdown is supported */}
+          </a>{' '}
+          Prompt (optional):{' '}
+        </label>
+        <textarea
+          disabled={props.model.prePromptWidth() < 1 ? true : false}
+          name="prePrompt"
+          type="text"
+          id="prePrompt"
+          onChange={change_handler}
+          value={props.model.prePrompt()}
+        />
+        <br />
+
+        <label htmlFor="postPromptWidth"> Post Prompt Width: </label>
+        <input
+          name="postPromptWidth"
           type="number"
           id="postPromptWidth"
           onChange={layoutChange_handler}
           value={props.model.postPromptWidth()}
         />
-        <p>
-          <label for="prePrompt">
-            Prompt (optional){' '}
-            <a
-              class="tabnav-extra"
-              href="https://guides.github.com/features/mastering-markdown/"
-              target="_blank"
-              data-ga-click="Markdown Toolbar, click, help"
-            />
-          </label>
-          <br />
-          <input
-            disabled={props.model.prePromptWidth() < 1 ? true : false}
-            name="prePrompt"
-            type="text"
-            id="prePrompt"
-            onChange={change_handler}
-            value={props.model.prePrompt()}
-          />
-        </p>
-        <p>
-          <label for="posPrompt">
-            Post Prompt (optional){' '}
-            <a
-              class="tabnav-extra"
-              href="https://guides.github.com/features/mastering-markdown/"
-              target="_blank"
-              data-ga-click="Markdown Toolbar, click, help"
-            />
-          </label>
-          <br />
-          <input
-            disabled={props.model.postPromptWidth() < 1 ? true : false}
-            value={props.model.postPrompt()}
-            name="posPrompt"
-            type="text"
-            id="postPrompt"
-            onChange={change_handler}
-          />
-        </p>
+
+        <label htmlFor="postPrompt">
+          {' '}
+          <a
+            class="tabnav-extra"
+            href="https://guides.github.com/features/mastering-markdown/"
+            target="_blank"
+            data-ga-click="Markdown Toolbar, click, help"
+          >
+            <svg
+              class="octicon octicon-markdown v-align-bottom"
+              viewBox="0 0 16 16"
+              version="1.1"
+              width="16"
+              height="16"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M14.85 3H1.15C.52 3 0 3.52 0 4.15v7.69C0 12.48.52 13 1.15 13h13.69c.64 0 1.15-.52 1.15-1.15v-7.7C16 3.52 15.48 3 14.85 3zM9 11H7V8L5.5 9.92 4 8v3H2V5h2l1.5 2L7 5h2v6zm2.99.5L9.5 8H11V5h2v3h1.5l-2.51 3.5z"
+              />
+            </svg>
+            {/* Markdown is supported */}
+          </a>{' '}
+          Post Prompt (optional):{' '}
+        </label>
+        <textarea
+          disabled={props.model.postPromptWidth() < 1 ? true : false}
+          value={props.model.postPrompt()}
+          name="posPrompt"
+          type="text"
+          id="postPrompt"
+          onChange={change_handler}
+        />
       </div>
       <div>
         <p>
@@ -110,7 +146,7 @@ export const Input_Property_Template = props => {
           />
         </p>
         <p>
-          <label htmlFor="textInput-sasCodeLabel">SAS Code Label</label>
+          <label htmlFor="textInput-sasCodeLabel">Field Label: </label>
           <br />
           <input
             type="text"
@@ -120,28 +156,7 @@ export const Input_Property_Template = props => {
             value={props.model.sasCodeLabel()}
           />
         </p>
-        <p>
-          <input
-            type="checkbox"
-            name="textInput-autoTab"
-            id="autoTab"
-            onChange={change_handler}
-            checked={props.model.autoTab()}
-          />
-          <label htmlFor="textInput-autoTab">Enable Auto Tabbing</label>
-        </p>
         <div>
-          <label htmlFor="textInput-length">Max Length</label>
-          <br />
-          <input
-            name="textInput-length"
-            size="2"
-            type="number"
-            id="length"
-            onChange={change_handler}
-            value={props.model.maxLength()}
-          />
-          <br />
           <label htmlFor="textInput-QxQ">QxQ Content</label>
           <br /> <br />
           <textarea
@@ -155,47 +170,6 @@ export const Input_Property_Template = props => {
           />
           <br /> <br />
         </div>
-        <hr />
-        <label htmlFor="textInput-val-type">Input Type</label>
-        <br />
-        <select
-          value={props.model.inputType()}
-          className="form-control"
-          name="textInput-val-type"
-          onChange={change_handler}
-          id="inputType"
-        >
-          {/* <option selected value>
-              {' '}
-              -- select an option --{' '}
-      </option> */}
-          {Object.keys(_dataDefined)
-            .map(val => val)
-            .map(item => <option value={item}>{item}</option>)}
-        </select>
-        <br />
-        {/*    <label for="textInput-val-length">Input Max Length</label>
-
-          <input
-            name="textInput-val-length"
-            type="number"
-            id="maxLength"
-            onChange={change_handler}
-            value={props.model.validations().maxLength}
-            />
-            size="2"
-          */}
-        {/* {address.whichValidation(props.model.validations().type)} */}
-        {React.createElement(address.whichValidation(props.model.inputType()), {
-          // key: i,
-          model: props.model,
-          form: props.form,
-          // remove: props.remove,
-          // add: props.add,
-          mutate: props.mutate,
-          // temporalStateChange: props.temporalStateChange
-        })}
-        <hr />
       </div>
     </div>
   );

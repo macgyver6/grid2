@@ -133,7 +133,13 @@ const TextInputComponent = props => {
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="TextInput"
       >
-        <input style={inputStyle(props.model)} className="form-control" type={props.model.type()} size="8" />
+        <input
+          style={inputStyle(props.model)}
+          className="form-control"
+          type={props.model.type()}
+          // size="8"
+          readOnly="true"
+        />
         <Resizer
           id="width"
           // id={`${props.model.UUID()}.resizer`}

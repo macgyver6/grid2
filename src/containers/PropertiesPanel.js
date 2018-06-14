@@ -7,7 +7,7 @@ import { FormProperty } from './FormProperties';
 import { address } from '../address';
 
 import { _dataDefined, userDefined } from './_validations';
-import DateValidationUI from './validations/dateValidationUI';
+import DateValidationUI from './validations/DateValidationUI';
 import StringValidationUI from './validations/stringValidationUI';
 import IntegerValidationUI from './validations/integerValidationUI';
 import FloatValidationUI from './validations/floatValidationUI';

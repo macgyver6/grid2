@@ -107,6 +107,9 @@ const CheckBoxComponent = props => {
         style={{
           ...entityStyle(props.model),
           backgroundColor: '#00C5EC',
+          margin: '0px',
+          minHeight: '48px',
+          padding: '0px',
         }}
         className="CheckBox"
         data-type="CheckBox"
@@ -115,7 +118,15 @@ const CheckBoxComponent = props => {
         draggable="false"
       >
         {/* onChange={(e) => handleChange(e, props)} */}
-        <input type={props.model.type()} style={cbInputStyle} />
+        <input
+          type={props.model.type()}
+          style={{
+            ...inputStyle(props.model),
+            // margin: '4px',
+            height: '24px',
+            width: '24px',
+          }}
+        />
       </div>
       {props.model.postPromptWidth() > 0 ? (
         <PostPrompt

@@ -7,7 +7,7 @@ import { FormInput } from '../data/FormInput';
 import { calcTotal } from '../components/FormEntities/feStyles';
 import { _dataDefined, userDefined } from './_validations';
 import { Input_Property_Template } from './Input_Property_Template';
-
+import { DataDefinedValidation } from './DataDefinedValidation';
 // const form = new Form(defaultPropsFE.Form);
 
 export const _SelectionInputProperty = props => {
@@ -56,25 +56,6 @@ export const _SelectionInputProperty = props => {
       />
 
       <hr />
-      <label htmlFor="textInput-val-type">Input Type</label>
-      <br />
-      <select
-        value={props.model.inputType()}
-        className="form-control"
-        name="textInput-val-type"
-        onChange={change_handler}
-        id="inputType"
-      >
-        {/* <option selected value>
-              {' '}
-              -- select an option --{' '}
-      </option> */}
-        {Object.keys(_dataDefined)
-          .map(val => val)
-          .map(item => <option value={item}>{item}</option>)}
-      </select>
-      <br />
-      <br />
 
       <div>
         <label for="renderMode">Selection Item Mode</label>
@@ -111,6 +92,15 @@ export const _SelectionInputProperty = props => {
           ))}
         </ul>
       </div>
+      <hr />
+      <DataDefinedValidation
+        model={address.byPath(props.form, props.currententity)}
+        form={props.form}
+        currententity={props.currententity}
+        mutate={props.mutate}
+        appState={props.appState}
+        temporalStateChange={props.temporalStateChange}
+      />
     </div>
   );
 };

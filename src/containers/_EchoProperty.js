@@ -4,9 +4,10 @@ import { address } from '../address';
 import { utility } from '../validation/val.utility';
 import { Form } from '../data/Form';
 import { FormInput } from '../data/FormInput';
-import { calcTotal } from '../components/FormEntities/feStyles';
+import { entityWrapperStyle, entityStyle, inputStyle, calcTotal } from '../components/FormEntities/feStyles';
 import { _dataDefined, userDefined } from './_validations';
 import { Input_Property_Template } from './Input_Property_Template';
+import { DataDefinedValidation } from './DataDefinedValidation';
 
 // const form = new Form(defaultPropsFE.Form);
 
@@ -52,6 +53,7 @@ export const _EchoProperty = props => {
           value={props.model.sourceInput()}
           onChange={change_handler}
           id="sourceInput"
+          style={inputStyle(props.model)}
         >
           {utility
             .findAll(props.form, e => e instanceof FormInput)
@@ -62,6 +64,14 @@ export const _EchoProperty = props => {
 
         <div />
         <br />
+        <DataDefinedValidation
+          model={address.byPath(props.form, props.currententity)}
+          form={props.form}
+          currententity={props.currententity}
+          mutate={props.mutate}
+          appState={props.appState}
+          temporalStateChange={props.temporalStateChange}
+        />
       </div>
     </div>
   );

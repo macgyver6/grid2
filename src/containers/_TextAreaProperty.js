@@ -6,7 +6,7 @@ import { Form } from '../data/Form';
 import { FormInput } from '../data/FormInput';
 import { calcTotal } from '../components/FormEntities/feStyles';
 import { _dataDefined, userDefined } from './_validations';
-
+import { DataDefinedValidation } from './DataDefinedValidation';
 // const form = new Form(defaultPropsFE.Form);
 
 export const _TextAreaProperty = props => {
@@ -138,6 +138,15 @@ export const _TextAreaProperty = props => {
           value={props.model.QxQ()}
           rows="3"
           cols="50"
+        />
+        <hr />
+        <DataDefinedValidation
+          model={address.byPath(props.form, props.currententity)}
+          form={props.form}
+          currententity={props.currententity}
+          mutate={props.mutate}
+          appState={props.appState}
+          temporalStateChange={props.temporalStateChange}
         />
       </div>
     </div>

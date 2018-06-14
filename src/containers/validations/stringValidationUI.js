@@ -2,7 +2,8 @@ import React from 'react';
 import { address } from '../../address';
 
 export const StringValidationUI = props => {
-  const change_handler = event => props.mutate(address.bySample(props.model, props.form), {
+  const change_handler = event =>
+    props.mutate(address.bySample(props.model, props.form), {
       validations: {
         ...props.model.validations(),
         [event.target.id]: event.target.value,
@@ -11,7 +12,7 @@ export const StringValidationUI = props => {
   return (
     <div>
       <p>
-        <label for="val-length">Input Length</label>
+        <label for="val-length">Max Length</label>
         <br />
         <input
           type="number"
@@ -19,7 +20,7 @@ export const StringValidationUI = props => {
           id="length"
           size="2"
           onChange={change_handler}
-          value={props.model.validations().length}
+          value={props.model.length()}
         />
       </p>
     </div>

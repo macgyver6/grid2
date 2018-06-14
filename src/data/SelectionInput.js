@@ -9,7 +9,6 @@ class SelectionInput extends FormInput {
   /**
    * Create a SelectionInput.
    * @param {mode} renderMode
-   * @property {boolean} properties.autoTab - Whether the input is defined as permitting auto tab to the next field during data collection.
    * @property {string} properties.QxQ - Field to provide additional information that may assist the user in filling out the form. This is rendered in a "tool tip", or if a TextBlock Entity property "QxQ" is true, the currently selected entity's QxQ information will be rendered in this field.
    */
   constructor(properties) {
@@ -18,20 +17,8 @@ class SelectionInput extends FormInput {
     this._options = properties.options;
     // this._renderMode = SelectionInput.RenderMode[properties.renderMode];
     this._renderMode = properties.renderMode;
-    this._autoTab = properties.autoTab;
 
     deepFreeze(this);
-  }
-
-  /**
-   *
-   *
-   * Get whether the input is defined as permitting auto tab to the next field during data collection.
-   * @returns {boolean}
-   * @memberof TextInput
-   */
-  autoTab() {
-    return this._autoTab;
   }
 
   /**
@@ -92,7 +79,6 @@ class SelectionInput extends FormInput {
       renderMode: this.renderMode(),
       currentValidator: this.currentValidator(),
       currentDependency: this.currentDependency(),
-      autoTab: this.autoTab(),
     };
   }
 }

@@ -7,6 +7,8 @@ import { FormInput } from '../data/FormInput';
 import { calcTotal } from '../components/FormEntities/feStyles';
 import { _dataDefined, userDefined } from './_validations';
 import { Input_Property_Template } from './Input_Property_Template';
+import { DataDefinedValidation } from './DataDefinedValidation';
+import { DateValidationUI } from './validations/DateValidationUI.js';
 
 // const form = new Form(defaultPropsFE.Form);
 
@@ -42,8 +44,18 @@ export const _TextInputProperty = props => {
         appState={props.appState}
         temporalStateChange={props.temporalStateChange}
       />
-      <label htmlFor="textInput-defaultContent">Default Content</label>
-      <br />
+      <p>
+        <label htmlFor="textInput-autoTab">Enable Auto Tabbing: </label>
+        <input
+          type="checkbox"
+          name="textInput-autoTab"
+          id="autoTab"
+          onChange={change_handler}
+          checked={props.model.autoTab()}
+        />
+      </p>
+
+      <label htmlFor="textInput-defaultContent">Default Text: </label>
       <input
         type="text"
         name="textInput-defaultContent"
@@ -52,83 +64,46 @@ export const _TextInputProperty = props => {
         onChange={change_handler}
         value={props.model.defaultContent()}
       />
+      <br />
       <div>
         <div>
-          <label htmlFor="textInput-length">Max Length</label>
           <br />
-          <input
-            name="textInput-length"
-            size="2"
-            type="number"
-            id="length"
-            onChange={change_handler}
-            value={props.model.maxLength()}
-          />
-          <br />
-          <label htmlFor="textInput-QxQ">QxQ Content</label>
-          <br /> <br />
-          <textarea
-            name="textInput-QxQ"
-            type="text"
-            id="QxQ"
-            onChange={change_handler}
-            value={props.model.QxQ()}
-            rows="3"
-            cols="50"
-          />
-          <br /> <br />
-          <label htmlFor="textInput-defaultContent">Default Content</label>
-          <br />
-          <input
-            type="text"
-            name="textInput-defaultContent"
-            type="text"
-            id="defaultContent"
-            onChange={change_handler}
-            value={props.model.defaultContent()}
-          />
         </div>
         <hr />
-        <label htmlFor="textInput-val-type">Input Type</label>
-        <br />
-        <select
-          value={props.model.inputType()}
-          className="form-control"
-          name="textInput-val-type"
-          onChange={change_handler}
-          id="inputType"
-        >
-          {/* <option selected value>
-              {' '}
-              -- select an option --{' '}
-      </option> */}
-          {Object.keys(_dataDefined)
-            .map(val => val)
-            .map(item => <option value={item}>{item}</option>)}
-        </select>
-        <br />
-        {/*    <label for="textInput-val-length">Input Max Length</label>
-
+        <p>
+          <label htmlFor="doubleEntry">Double Entry: </label>
           <input
-            name="textInput-val-length"
-            type="number"
-            id="maxLength"
+            type="checkbox"
+            name="doubleEntry"
+            id="doubleEntry"
             onChange={change_handler}
-            value={props.model.validations().maxLength}
+            checked={props.model.doubleEntry()}
+          />
+        </p>
+        <DataDefinedValidation
+          model={address.byPath(props.form, props.currententity)}
+          form={props.form}
+          currententity={props.currententity}
+          mutate={props.mutate}
+          appState={props.appState}
+          temporalStateChange={props.temporalStateChange}
+        />
+        {typeof props.model.length === 'function' && props.model.inputType() === 'Date' ? (
+          <DateValidationUI model={props.model} form={props.form} mutate={props.mutate} />
+        ) : (
+          <p>
+            <label for="val-length">Max Length</label>
+            <br />
+            <input
+              type="number"
+              name="val-length"
+              id="length"
+              size="2"
+              onChange={change_handler}
+              value={props.model.length()}
             />
-            size="2"
-          */}
-        {/* {address.whichValidation(props.model.validations().type)} */}
-        {React.createElement(address.whichValidation(props.model.inputType()), {
-          // key: i,
-          model: props.model,
-          form: props.form,
-          // remove: props.remove,
-          // add: props.add,
-          mutate: props.mutate,
-          // temporalStateChange: props.temporalStateChange
-        })}
-        <hr />
+          </p>
+        )}
       </div>
     </div>
   );

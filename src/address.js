@@ -31,7 +31,7 @@ import { _TextBlockProperty } from './containers/_TextBlockProperty';
 import { _ImageBlockProperty } from './containers/_ImageBlockProperty';
 import { _EchoProperty } from './containers/_EchoProperty';
 import { initFE } from './constants/defaultPropsFE';
-import DateValidationUI from './containers/validations/dateValidationUI';
+import DateValidationUI from './containers/validations/DateValidationUI';
 import StringValidationUI from './containers/validations/stringValidationUI';
 import IntegerValidationUI from './containers/validations/integerValidationUI';
 import FloatValidationUI from './containers/validations/floatValidationUI';
@@ -213,12 +213,13 @@ export const address = {
       case 'EchoInput':
         return 'Echo Input';
         break;
+      case 'FormSection':
+        return 'FormSection';
+        break;
     }
   },
 
   rehydrate: formEntitySerialized => {
-    // @hack
-    console.log('formEntitySerialized: ', formEntitySerialized);
     switch (formEntitySerialized.type || formEntitySerialized._type || formEntitySerialized.type()) {
       case 'Form':
         return new Form({

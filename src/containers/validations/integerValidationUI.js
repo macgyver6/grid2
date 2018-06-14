@@ -2,7 +2,8 @@ import React from 'react';
 import { address } from '../../address';
 
 export const IntegerValidationUI = props => {
-  const change_handler = event => props.mutate(address.bySample(props.model, props.form), {
+  const change_handler = event =>
+    props.mutate(address.bySample(props.model, props.form), {
       validations: {
         ...props.model.validations(),
         [event.target.id]: event.target.value,
@@ -11,7 +12,7 @@ export const IntegerValidationUI = props => {
   return (
     <div>
       <p>
-        <label for="val-length">Integer Length</label>
+        <label for="val-length">Max Length</label>
         <br />
         <input
           type="number"

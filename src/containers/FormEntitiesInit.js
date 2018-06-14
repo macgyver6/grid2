@@ -54,12 +54,6 @@ const BackgroundPanel = props => (
   </div>
 );
 
-const entityStyle = {
-  padding: '6px',
-  margin: '20px',
-  textAlign: 'center',
-};
-
 const selectionStyles = {
   TextInput: {
     background: '#6C788F',
@@ -326,12 +320,22 @@ const LeftPanel = props => {
           form={props.form}
           onDragStart={dragstart_handler}
           style={{
-            ...entityStyle,
+            padding: '6px',
+            margin: '20px',
+            textAlign: 'center',
+            height: '40px',
             backgroundColor: selectionStyles[`${entity.type}`].background,
+            borderRadius: '4px',
           }}
           data-type={entity.type}
         >
-          <p>{entity.humanName}</p>
+          <p
+            style={{
+              marginTop: '10px',
+            }}
+          >
+            {entity.humanName}
+          </p>
         </div>
       ))}
       <DeleteBtn form={props.form} remove={props.remove} mutate={props.mutate} />
