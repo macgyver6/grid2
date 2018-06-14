@@ -49,8 +49,6 @@ class FormInput extends FormEntity {
     // || FormInput.DEFAULT_VALIDATIONS, {
     //   defaultUserVal: _dataDefined[FormInput.DEFAULT_VALIDATIONS.valType].userDefined,
     // }
-    this._currentValidator = properties.currentValidator || '';
-    this._currentDependency = properties.currentDependency || '';
     this._inputType = properties.inputType || 'String';
     this._maxLength = properties.maxLength || 2;
     this._externalIdentifier = properties.externalIdentifier;
@@ -191,27 +189,6 @@ class FormInput extends FormEntity {
   validations() {
     console.log('validations hit: ', this._validations);
     return this._validations;
-  }
-
-  /**
-   *
-   * Get currentValidator on the form input.
-   * @param {Object} props
-   * @returns {FormInput}
-   * @memberof FormInput
-   */
-  currentValidator() {
-    return this._currentValidator;
-  }
-  /**
-   *
-   * Get currentDependency on the form input.
-   * @param {Object} props
-   * @returns {FormInput}
-   * @memberof FormInput
-   */
-  currentDependency() {
-    return this._currentDependency;
   }
 
   /**
