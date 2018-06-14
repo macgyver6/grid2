@@ -45,6 +45,18 @@ export const Input_Property_Template = props => {
           <br />
           <input type="text" id="name" name="textInput-name" onChange={change_handler} value={props.model.name()} />
         </p>
+        <p>
+          <label htmlFor="externalIdentifier">Field Identifier</label>
+          <br />
+          <input
+            type="text"
+            id="externalIdentifier"
+            name="externalIdentifier"
+            onChange={change_handler}
+            value={props.model.externalIdentifier()}
+          />
+        </p>
+
         <label htmlFor="prePromptWidth">Prompt Width: </label>
         <input
           name="prePromptWidth"

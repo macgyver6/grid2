@@ -53,6 +53,7 @@ class FormInput extends FormEntity {
     this._currentDependency = properties.currentDependency || '';
     this._inputType = properties.inputType || 'String';
     this._maxLength = properties.maxLength || 2;
+    this._externalIdentifier = properties.externalIdentifier;
 
     // { userDefinedNonSelection: _dataDefined }
 
@@ -237,6 +238,17 @@ class FormInput extends FormEntity {
 
   /**
    *
+   *
+   * Known as external identifier to the user - the field ID used to access a local or remote field.
+   * @returns {string}
+   * @memberof TextInput
+   */
+  externalIdentifier() {
+    return this._externalIdentifier;
+  }
+
+  /**
+   *
    * Returns public properties of a form input.
    * @return {object}
    * @memberof FormInput
@@ -263,6 +275,7 @@ class FormInput extends FormEntity {
       inputType: this.inputType(),
       inputType: this.inputType(),
       maxLength: this.maxLength(),
+      externalIdentifier: this.externalIdentifier(),
     };
   }
 }

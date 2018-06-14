@@ -27,6 +27,7 @@ export const _dataDefined = {
 export const dataDefinedByInput = {
   TextInput: ['String', 'Integer', 'Date', 'Float'],
   SelectionInput: ['String', 'Integer', 'Float'],
+  CDSTextInput: ['String', 'Date', 'Integer', 'Float'],
 };
 //string //string //string //string
 // ['Pattern', 'NoOp', 'Enumeration', 'SubjectInputValidation']

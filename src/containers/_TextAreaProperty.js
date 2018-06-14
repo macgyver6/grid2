@@ -7,7 +7,7 @@ import { FormInput } from '../data/FormInput';
 import { calcTotal } from '../components/FormEntities/feStyles';
 import { _dataDefined, userDefined } from './_validations';
 import { DataDefinedValidation } from './DataDefinedValidation';
-// const form = new Form(defaultPropsFE.Form);
+import { Input_Property_Template } from './Input_Property_Template';
 
 export const _TextAreaProperty = props => {
   const change_handler = event => {
@@ -33,65 +33,14 @@ export const _TextAreaProperty = props => {
 
   return (
     <div>
-      <h1>Text Area</h1>
-      <p>{props.model.UUID()}</p>
-      <p>Total width: {calcTotal(props.model)}</p>
-      <div>
-        <p>
-          <label for="textArea-name">Name</label>
-          <br />
-          <input type="text" id="name" name="textArea-name" onChange={change_handler} value={props.model.name()} />
-        </p>
-        Prompt Width:
-        <input type="number" id="prePromptWidth" onChange={layoutChange_handler} value={props.model.prePromptWidth()} />
-        Post Prompt Width:
-        <input
-          type="number"
-          id="postPromptWidth"
-          onChange={layoutChange_handler}
-          value={props.model.postPromptWidth()}
-        />
-        <p>
-          <label for="prePrompt">
-            Prompt (optional){' '}
-            <a
-              class="tabnav-extra"
-              href="https://guides.github.com/features/mastering-markdown/"
-              target="_blank"
-              data-ga-click="Markdown Toolbar, click, help"
-            />
-          </label>
-          <br />
-          <input
-            disabled={props.model.prePromptWidth() < 1 ? true : false}
-            name="prePrompt"
-            type="text"
-            id="prePrompt"
-            onChange={change_handler}
-            value={props.model.prePrompt()}
-          />
-        </p>
-        <p>
-          <label for="posPrompt">
-            Post Prompt (optional){' '}
-            <a
-              class="tabnav-extra"
-              href="https://guides.github.com/features/mastering-markdown/"
-              target="_blank"
-              data-ga-click="Markdown Toolbar, click, help"
-            />
-          </label>
-          <br />
-          <input
-            disabled={props.model.postPromptWidth() < 1 ? true : false}
-            value={props.model.postPrompt()}
-            name="posPrompt"
-            type="text"
-            id="postPrompt"
-            onChange={change_handler}
-          />
-        </p>
-      </div>
+      <Input_Property_Template
+        model={address.byPath(props.form, props.currententity)}
+        form={props.form}
+        currententity={props.currententity}
+        mutate={props.mutate}
+        appState={props.appState}
+        temporalStateChange={props.temporalStateChange}
+      />
       <p>
         <label for="numRows">
           Text Area Rows:
@@ -102,53 +51,7 @@ export const _TextAreaProperty = props => {
         </label>
         <br />
         <input value={props.model.numRows()} name="numRows" type="number" id="numRows" onChange={change_handler} />
-      </p>{' '}
-      <div>
-        <p>
-          <label for="textArea-tabOrder">Tab Order</label>
-          <br />
-          <input
-            type="number"
-            name="textArea-tabOrder"
-            id="tabOrder"
-            size="2"
-            onChange={change_handler}
-            value={props.model.tabOrder()}
-          />
-        </p>
-        <p>
-          <label for="textArea-sasCodeLabel">SAS Code Label</label>
-          <br />
-          <input
-            type="text"
-            name="textArea-sasCodeLabel"
-            id="sasCodeLabel"
-            onChange={change_handler}
-            value={props.model.sasCodeLabel()}
-          />
-        </p>
-        <br />
-        <label for="textInput-QxQ">QxQ Content</label>
-
-        <textarea
-          name="textInput-QxQ"
-          type="text"
-          id="QxQ"
-          onChange={change_handler}
-          value={props.model.QxQ()}
-          rows="3"
-          cols="50"
-        />
-        <hr />
-        <DataDefinedValidation
-          model={address.byPath(props.form, props.currententity)}
-          form={props.form}
-          currententity={props.currententity}
-          mutate={props.mutate}
-          appState={props.appState}
-          temporalStateChange={props.temporalStateChange}
-        />
-      </div>
+      </p>
     </div>
   );
 };

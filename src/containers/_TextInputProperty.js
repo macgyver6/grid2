@@ -8,7 +8,7 @@ import { calcTotal } from '../components/FormEntities/feStyles';
 import { _dataDefined, userDefined } from './_validations';
 import { Input_Property_Template } from './Input_Property_Template';
 import { DataDefinedValidation } from './DataDefinedValidation';
-import { DateValidationUI } from './validations/DateValidationUI.js';
+import { DateValidationUI } from './validations/DateValidationUI';
 
 // const form = new Form(defaultPropsFE.Form);
 

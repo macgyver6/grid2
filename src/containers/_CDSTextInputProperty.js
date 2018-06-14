@@ -6,7 +6,12 @@ import { Form } from '../data/Form';
 import { FormInput } from '../data/FormInput';
 import { calcTotal } from '../components/FormEntities/feStyles';
 import { _dataDefined, userDefined } from './_validations';
-
+import { DataDefinedValidation } from './DataDefinedValidation';
+import { Input_Property_Template } from './Input_Property_Template';
+/*
+script: this.script(),
+editing: this.editeable(),
+*/
 // const form = new Form(defaultPropsFE.Form);
 
 export const _CDSTextInputProperty = props => {
@@ -33,130 +38,63 @@ export const _CDSTextInputProperty = props => {
 
   return (
     <div>
-      <div>
-        <p>
-          <label for="textInput-name">Name</label>
-          <br />
-          <input type="text" id="name" name="textInput-name" onChange={change_handler} value={props.model.name()} />
-        </p>
-        Prompt Width:
-        <input type="number" id="prePromptWidth" onChange={layoutChange_handler} value={props.model.prePromptWidth()} />
-        Post Prompt Width:
+      <Input_Property_Template
+        model={address.byPath(props.form, props.currententity)}
+        form={props.form}
+        currententity={props.currententity}
+        mutate={props.mutate}
+        appState={props.appState}
+        temporalStateChange={props.temporalStateChange}
+      />
+      <br />
+      <DataDefinedValidation
+        model={address.byPath(props.form, props.currententity)}
+        form={props.form}
+        currententity={props.currententity}
+        mutate={props.mutate}
+        appState={props.appState}
+        temporalStateChange={props.temporalStateChange}
+      />
+      <br />
+      <label htmlFor="evalidationPolicy">Script runs:</label>
+      <select value={props.model.script()} className="form-control" name="script" onChange={change_handler} id="script">
+        {[
+          { label: '-- select a script --', value: '' },
+          { label: 'Super helpful script', value: '0' },
+          { label: 'Super helpful script 2', value: '2' },
+          { label: 'Super helpful script 3', value: '3' },
+          ,
+        ].map(item => <option value={item.value}>{item.label}</option>)}
+      </select>
+      <br />
+      <br />
+      <select
+        value={props.model.evaluationPolicy()}
+        className="form-control"
+        name="evaluationPolicy"
+        onChange={change_handler}
+        id="evaluationPolicy"
+      >
+        {/* <option selected value>
+              {' '}
+              -- select an default state --{' '}
+      </option> */}
+        {[
+          { label: 'When form is first loaded', value: 'RENDER_FIRST' },
+          { label: 'Every time form is loaded', value: 'RENDER_EVERY' },
+          { label: 'If no collected data exists', value: 'IF_COLLECTED_DATA_NULL' },
+        ].map(item => <option value={item.value}>{item.label}</option>)}
+      </select>
+      <p>
+        <label htmlFor="editeable">Editeable: </label>
         <input
-          type="number"
-          id="postPromptWidth"
-          onChange={layoutChange_handler}
-          value={props.model.postPromptWidth()}
+          type="checkbox"
+          name="editeable"
+          id="editeable"
+          onChange={change_handler}
+          checked={props.model.editeable()}
         />
-        <p>
-          <label for="textInput-prompt_pre">
-            Pre Prompt (optional){' '}
-            <a
-              class="tabnav-extra"
-              href="https://guides.github.com/features/mastering-markdown/"
-              target="_blank"
-              data-ga-click="Markdown Toolbar, click, help"
-            />
-          </label>
-          <br />
-          <textarea
-            name="textInput-prompt_pre"
-            type="text"
-            id="prePrompt"
-            onChange={change_handler}
-            value={props.model.prePrompt()}
-            rows="3"
-            cols="50"
-          />
-        </p>
-        <p>
-          <label for="textInput-prompt_post">
-            Post Prompt (optional){' '}
-            <a
-              class="tabnav-extra"
-              href="https://guides.github.com/features/mastering-markdown/"
-              target="_blank"
-              data-ga-click="Markdown Toolbar, click, help"
-            />
-          </label>
-          <br />
-          <textarea
-            name="textInput-prompt_post"
-            type="text"
-            id="postPrompt"
-            onChange={change_handler}
-            value={props.model.postPrompt()}
-            rows="3"
-            cols="50"
-          />
-        </p>
-        {/* <p>
-          <label for="textInput-qbq">Q-by-Q (optional)</label>
-          <br />
-          <textarea name="textInput-qbq" />
-        </p> */}
-      </div>
-      <div>
-        <p>
-          <label for="textInput-tabOrder">Tab Order</label>
-          <br />
-          <input
-            type="number"
-            name="textInput-tabOrder"
-            id="tabOrder"
-            size="2"
-            onChange={change_handler}
-            value={props.model.tabOrder()}
-          />
-          {/* disabled="disabled" */}
-        </p>
-        <p>
-          <label for="textInput-sasCodeLabel">SAS Code Label</label>
-          <br />
-          <input
-            type="text"
-            name="textInput-sasCodeLabel"
-            id="sasCodeLabel"
-            onChange={change_handler}
-            value={props.model.sasCodeLabel()}
-          />
-        </p>
-        <p>
-          <input
-            type="checkbox"
-            name="textInput-autoTab"
-            id="autoTab"
-            onChange={change_handler}
-            checked={props.model.autoTab()}
-          />
-          <label for="textInput-autoTab">Enable Auto Tabbing</label>
-        </p>
-        <div>
-          <label for="textInput-length">Max Length</label>
-          <br />
-          <input
-            name="textInput-length"
-            size="2"
-            type="number"
-            id="length"
-            onChange={change_handler}
-            value={props.model.validations().maxLength}
-          />
-          <br />
-          <label for="textInput-script">Script</label>
-          <br />
-          <textarea
-            type="text"
-            name="textInput-script"
-            id="script"
-            onChange={change_handler}
-            value={props.model.script()}
-            rows="10"
-            cols="50"
-          />
-        </div>
-        <br />
-      </div>
+      </p>
     </div>
   );
 };

@@ -10,6 +10,7 @@ class SelectionInput extends FormInput {
    * Create a SelectionInput.
    * @param {mode} renderMode
    * @property {string} properties.QxQ - Field to provide additional information that may assist the user in filling out the form. This is rendered in a "tool tip", or if a TextBlock Entity property "QxQ" is true, the currently selected entity's QxQ information will be rendered in this field.
+   *     @property {string} properties.externalIdentifier - Known as external identifier to the user - the field ID used to access a local or remote field.
    */
   constructor(properties) {
     super(properties);
@@ -17,6 +18,7 @@ class SelectionInput extends FormInput {
     this._options = properties.options;
     // this._renderMode = SelectionInput.RenderMode[properties.renderMode];
     this._renderMode = properties.renderMode;
+    this._externalIdentifier = properties.externalIdentifier;
 
     deepFreeze(this);
   }
@@ -54,6 +56,17 @@ class SelectionInput extends FormInput {
 
   /**
    *
+   *
+   * Known as external identifier to the user - the field ID used to access a local or remote field.
+   * @returns {string}
+   * @memberof TextInput
+   */
+  externalIdentiexternalIdentifierfier() {
+    return this._autoTab;
+  }
+
+  /**
+   *
    * Returns public properties of a selection input.
    * @returns {Object}
    */
@@ -79,6 +92,7 @@ class SelectionInput extends FormInput {
       renderMode: this.renderMode(),
       currentValidator: this.currentValidator(),
       currentDependency: this.currentDependency(),
+      externalIdentifier: this.externalIdentifier(),
     };
   }
 }

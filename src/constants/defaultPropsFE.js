@@ -3,6 +3,9 @@ import { TextInput } from '../data/TextInput';
 import { CheckBox } from '../data/CheckBox';
 import { TextArea } from '../data/TextArea';
 import { SelectionInput } from '../data/SelectionInput';
+import { CDSTextInput } from '../data/CDSTextInput';
+import { EchoInput } from '../data/EchoInput';
+import { AdverseEventInput } from '../data/AdverseEventInput';
 
 export var initFE = {
   FormSection: {
@@ -38,6 +41,7 @@ export var initFE = {
     autoTab: true,
     doubleEntry: true,
     defaultContent: '',
+    externalIdentifier: 'test',
     render: { backgroundColor: '#6C788F', minWidth: 3 },
   },
   SelectionInput: {
@@ -200,6 +204,9 @@ export var defaultPropsFE = {
             type: 'FormSection',
             width: 24,
             children: [
+              new AdverseEventInput(initFE.ASInput),
+              new EchoInput(initFE.Echo),
+              new CDSTextInput(initFE.CDSTextInput),
               new TextInput(initFE.TextInput),
               new SelectionInput(initFE.SelectionInput),
               new CheckBox(initFE.CheckBox),

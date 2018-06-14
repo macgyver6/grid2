@@ -44,7 +44,7 @@ export const _EchoProperty = props => {
         temporalStateChange={props.temporalStateChange}
       />
       <div>
-        <label for="echo-sourceInput">Echo Source Field</label>
+        <label for="echo-sourceInput">Echo Source Input: </label>
         <br />
         <select
           className="form-control"
@@ -64,14 +64,25 @@ export const _EchoProperty = props => {
 
         <div />
         <br />
-        <DataDefinedValidation
+        <p>
+          <label htmlFor="editeable">Editeable echo input: </label>
+          <input
+            type="checkbox"
+            name="editeable"
+            id="editeable"
+            onChange={change_handler}
+            checked={props.model.editeable()}
+          />
+        </p>
+        <br />
+        {/* <DataDefinedValidation
           model={address.byPath(props.form, props.currententity)}
           form={props.form}
           currententity={props.currententity}
           mutate={props.mutate}
           appState={props.appState}
           temporalStateChange={props.temporalStateChange}
-        />
+        /> */}
       </div>
     </div>
   );

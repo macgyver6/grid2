@@ -31,6 +31,7 @@ class AdverseEventInput extends FormInput {
     super(properties);
     console.log(properties);
     this._dictionaryName = properties.dictionaryName;
+    this._editeable = properties.editeable;
 
     deepFreeze(this);
   }
@@ -44,6 +45,16 @@ class AdverseEventInput extends FormInput {
 
   dictionaryName() {
     return this._dictionaryName;
+  }
+
+  /**
+   *
+   * Whether the input implementation may be made editable.
+   * @returns {boolean}
+   * @memberof CDSTextInput
+   */
+  editeable() {
+    return this._editeable;
   }
 
   /**
@@ -81,6 +92,7 @@ class AdverseEventInput extends FormInput {
       promptNumber: this.promptNumber(),
       autoNumber: this.autoNumber(),
       dictionaryName: this.dictionaryName(),
+      editeable: this.editeable(),
     };
   }
 }
