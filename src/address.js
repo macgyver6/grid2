@@ -215,7 +215,7 @@ export const address = {
         return 'Echo Input';
         break;
       case 'FormSection':
-        return 'FormSection';
+        return 'Form Section';
         break;
     }
   },
