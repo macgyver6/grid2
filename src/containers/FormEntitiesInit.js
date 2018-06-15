@@ -172,10 +172,7 @@ const DeleteBtn = props => {
           entity: address.byPath(props.form, _toRight),
         };
       };
-      // console.log(
-      //   donorParent.children().length - 1 === arr[arr.length - 1] &&
-      //     firstInRow(arr)
-      // );
+      console.log(donorParent.children().length - 1 === arr[arr.length - 1] && firstInRow(arr));
       /** if only 1 child in section or the donor entity is the last entity in section */
       if (
         donorParent.children().length === 1 ||
@@ -183,8 +180,17 @@ const DeleteBtn = props => {
       ) {
         // if (donorParent.children().length === 1 || (donorParent.children().length - 1 === arr[arr.length - 1])) {
         return false;
+      } else if (total(draggedEntity) >= donorParent.width()) {
+        return false;
       } else if (firstInRow(arr)) {
-        console.log('firstInRow: ', toRight(arr));
+        console.log('firstInRow: ', 'properties: ', {
+          prepend:
+            toRight(arr).entity.prepend() +
+            (draggedEntity.prePromptWidth ? draggedEntity.prePromptWidth() : 0) +
+            draggedEntity.prepend() +
+            draggedEntity.width() +
+            draggedEntity.append(),
+        });
         return {
           address: toRight(arr).address,
           properties: {
@@ -193,23 +199,23 @@ const DeleteBtn = props => {
               (draggedEntity.prePromptWidth ? draggedEntity.prePromptWidth() : 0) +
               draggedEntity.prepend() +
               draggedEntity.width() +
-              draggedEntity.append() +
-              (draggedEntity.postPromptWidth ? draggedEntity.postPromptWidth() : 0),
+              draggedEntity.append(),
+          },
+        };
+      } else {
+        return {
+          address: toLeft(arr).address,
+          properties: {
+            append:
+              // @hack
+              toLeft(arr).entity.append() +
+              (draggedEntity.prePromptWidth ? draggedEntity.prePromptWidth() : 0) +
+              draggedEntity.prepend() +
+              draggedEntity.width() +
+              draggedEntity.append(),
           },
         };
       }
-      return {
-        address: toLeft(arr).address,
-        properties: {
-          append:
-            toLeft(arr).entity.append() +
-            (draggedEntity.prePromptWidth ? draggedEntity.prePromptWidth() : 0) +
-            draggedEntity.prepend() +
-            draggedEntity.width() +
-            draggedEntity.append() +
-            +(draggedEntity.postPromptWidth ? draggedEntity.postPromptWidth() : 0),
-        },
-      };
     };
 
     /* End */
