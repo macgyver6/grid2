@@ -49,15 +49,10 @@ const BackgroundPanel = props => (
       mutate={props.mutate}
       dtLocalFilesSaved={props.dtLocalFilesSaved}
       appState={props.appState}
+      model={address.byPath(props.form, props.appState.currententity)}
     />
   </div>
 );
-
-const entityStyle = {
-  padding: '6px',
-  margin: '20px',
-  textAlign: 'center',
-};
 
 const selectionStyles = {
   TextInput: {
@@ -100,16 +95,16 @@ const selectionStyles = {
 };
 
 const entityTypes = [
-  'FormSection',
-  'CheckBox',
-  'TextArea',
-  'TextInput',
-  'SelectionInput',
-  'TextBlock',
-  'ImageBlock',
-  'ASInput',
-  'Echo',
-  'CDSTextInput',
+  { type: 'FormSection', humanName: address.getHumanName('FormSection') },
+  { type: 'CheckBox', humanName: address.getHumanName('CheckBox') },
+  { type: 'TextArea', humanName: address.getHumanName('TextArea') },
+  { type: 'TextInput', humanName: address.getHumanName('TextInput') },
+  { type: 'SelectionInput', humanName: address.getHumanName('SelectionInput') },
+  { type: 'TextBlock', humanName: address.getHumanName('TextBlock') },
+  { type: 'ImageBlock', humanName: address.getHumanName('ImageBlock') },
+  { type: 'ASInput', humanName: 'Adverse Event Input' },
+  { type: 'Echo', humanName: 'Echo Input' },
+  { type: 'CDSTextInput', humanName: address.getHumanName('CDSTextInput') },
 ];
 
 const dragover_handler = event => {
@@ -325,12 +320,22 @@ const LeftPanel = props => {
           form={props.form}
           onDragStart={dragstart_handler}
           style={{
-            ...entityStyle,
-            backgroundColor: selectionStyles[entity].background,
+            padding: '6px',
+            margin: '20px',
+            textAlign: 'center',
+            height: '40px',
+            backgroundColor: selectionStyles[`${entity.type}`].background,
+            borderRadius: '4px',
           }}
-          data-type={entity}
+          data-type={entity.type}
         >
-          <p>{entity}</p>
+          <p
+            style={{
+              marginTop: '10px',
+            }}
+          >
+            {entity.humanName}
+          </p>
         </div>
       ))}
       <DeleteBtn form={props.form} remove={props.remove} mutate={props.mutate} />

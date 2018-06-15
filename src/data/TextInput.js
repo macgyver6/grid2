@@ -29,20 +29,32 @@ class TextInput extends FormInput {
     @property {boolean} properties.autoTab - Whether the input is defined as permitting auto tab to the next field during data collection.
     @property {string} properties.defaultContent - The default contents of representations of this input item.
     @property {boolean} properties.doubleEntry - The default contents of representations of this input item.
+    @property {string} properties.externalIdentifier - Known as external identifier to the user - the field ID used to access a local or remote field.
      * @property {string} properties.QxQ - Field to provide additional information that may assist the user in filling out the form. This is rendered in a "tool tip", or if a TextBlock Entity property "QxQ" is true, the currently selected entity's QxQ information will be rendered in this field.
      */
   constructor(properties) {
     super(properties);
-
+    console.log(properties.externalIdentifier);
     this._length = properties.length;
-    this._defaultContent =
-      properties.defaultContent || TextInput.DEFAULT_CONTENT;
+    this._defaultContent = properties.defaultContent || TextInput.DEFAULT_CONTENT;
     this._autoTab = properties.autoTab;
     this._doubleEntry = properties.doubleEntry;
+    this._externalIdentifier = properties.externalIdentifier;
 
     if (this.constructor === TextInput) {
       deepFreeze(this);
     }
+  }
+
+  /**
+   *
+   *
+   * Known as external identifier to the user - the field ID used to access a local or remote field.
+   * @returns {string}
+   * @memberof TextInput
+   */
+  externalIdentifier() {
+    return this._externalIdentifier;
   }
 
   /**
@@ -127,14 +139,15 @@ class TextInput extends FormInput {
       doubleEntry: this.doubleEntry(),
       validations: this.validations(),
       currentValidator: this.currentValidator(),
-      currentDependency: this.currentDependency()
+      currentDependency: this.currentDependency(),
+      externalIdentifier: this.externalIdentifier(),
     };
   }
 }
 
 TextInput.LENGTH = {
   DEFAULT: 80,
-  NO_MAX: 0
+  NO_MAX: 0,
 };
 
 TextInput.DEFAULT_CONTENT = '';

@@ -49,10 +49,9 @@ class FormInput extends FormEntity {
     // || FormInput.DEFAULT_VALIDATIONS, {
     //   defaultUserVal: _dataDefined[FormInput.DEFAULT_VALIDATIONS.valType].userDefined,
     // }
-    this._currentValidator = properties.currentValidator || '';
-    this._currentDependency = properties.currentDependency || '';
     this._inputType = properties.inputType || 'String';
     this._maxLength = properties.maxLength || 2;
+    this._externalIdentifier = properties.externalIdentifier;
 
     // { userDefinedNonSelection: _dataDefined }
 
@@ -194,27 +193,6 @@ class FormInput extends FormEntity {
 
   /**
    *
-   * Get currentValidator on the form input.
-   * @param {Object} props
-   * @returns {FormInput}
-   * @memberof FormInput
-   */
-  currentValidator() {
-    return this._currentValidator;
-  }
-  /**
-   *
-   * Get currentDependency on the form input.
-   * @param {Object} props
-   * @returns {FormInput}
-   * @memberof FormInput
-   */
-  currentDependency() {
-    return this._currentDependency;
-  }
-
-  /**
-   *
    * Get inputType on the form input.
    * @param {Object} props
    * @returns {FormInput}
@@ -237,6 +215,17 @@ class FormInput extends FormEntity {
 
   /**
    *
+   *
+   * Known as external identifier to the user - the field ID used to access a local or remote field.
+   * @returns {string}
+   * @memberof TextInput
+   */
+  externalIdentifier() {
+    return this._externalIdentifier;
+  }
+
+  /**
+   *
    * Returns public properties of a form input.
    * @return {object}
    * @memberof FormInput
@@ -249,7 +238,7 @@ class FormInput extends FormEntity {
       append: this.append(),
       prePrompt: this.prePrompt(),
       prePromptWidth: this.prePromptWidth(),
-      postPrompt: this.postPromptWidth(),
+      postPrompt: this.postPrompt(),
       postPromptWidth: this.postPromptWidth(),
       name: this.name(),
       QxQ: this.QxQ(),
@@ -263,6 +252,7 @@ class FormInput extends FormEntity {
       inputType: this.inputType(),
       inputType: this.inputType(),
       maxLength: this.maxLength(),
+      externalIdentifier: this.externalIdentifier(),
     };
   }
 }

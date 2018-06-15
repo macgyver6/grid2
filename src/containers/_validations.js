@@ -22,7 +22,14 @@ export const _dataDefined = {
     length: 2,
     userDefined: ['PatternValidator', 'NoOpValidator', 'EnumerationValidator', 'RangeValidator'],
   },
-}; //string //string //string //string
+};
+
+export const dataDefinedByInput = {
+  TextInput: ['String', 'Integer', 'Date', 'Float'],
+  SelectionInput: ['String', 'Integer', 'Float'],
+  CDSTextInput: ['String', 'Date', 'Integer', 'Float'],
+};
+//string //string //string //string
 // ['Pattern', 'NoOp', 'Enumeration', 'SubjectInputValidation']
 
 export const userDefined = {

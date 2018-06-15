@@ -1,7 +1,11 @@
 import { FormSection } from '../data/FormSection';
 import { TextInput } from '../data/TextInput';
+import { CheckBox } from '../data/CheckBox';
 import { TextArea } from '../data/TextArea';
 import { SelectionInput } from '../data/SelectionInput';
+import { CDSTextInput } from '../data/CDSTextInput';
+import { EchoInput } from '../data/EchoInput';
+import { AdverseEventInput } from '../data/AdverseEventInput';
 
 export var initFE = {
   FormSection: {
@@ -25,9 +29,9 @@ export var initFE = {
     postPromptWidth: 0,
     prePrompt: '',
     postPrompt: '',
-    name: 'text input name',
-    QxQ: 'Sample QxQ',
-    sasCodeLabel: 'sasCodeLabel',
+    name: '',
+    QxQ: '',
+    sasCodeLabel: '',
     type: 'TextInput',
     tabOrder: 1,
     inputWidth: 8,
@@ -37,6 +41,7 @@ export var initFE = {
     autoTab: true,
     doubleEntry: true,
     defaultContent: '',
+    externalIdentifier: 'test',
     render: { backgroundColor: '#6C788F', minWidth: 3 },
   },
   SelectionInput: {
@@ -48,15 +53,15 @@ export var initFE = {
     postPromptWidth: 0,
     prePrompt: '',
     postPrompt: '',
-    name: 'Selection Input name',
-    sasCodeLabel: 'sasCodeLabel',
+    name: '',
+    sasCodeLabel: '',
     type: 'SelectionInput',
     tabOrder: 1,
     inputWidth: 8,
     promptNumber: 'CIE493b',
     autoNumber: 'SEQUENTIAL',
     doubleEntry: true,
-    defaultContent: 'TestDefaultContent',
+    defaultContent: '',
     renderMode: 'selection',
     options: [{}],
     render: { backgroundColor: 'red', minWidth: 3 },
@@ -70,8 +75,8 @@ export var initFE = {
     postPromptWidth: 0,
     prePrompt: '',
     postPrompt: '',
-    name: 'name',
-    sasCodeLabel: 'sasCodeLabel',
+    name: '',
+    sasCodeLabel: '',
     type: 'TextArea',
     tabOrder: 1,
     inputWidth: 12,
@@ -91,8 +96,8 @@ export var initFE = {
     postPromptWidth: 0,
     prePrompt: '',
     postPrompt: '',
-    name: 'name',
-    sasCodeLabel: 'sasCodeLabel',
+    name: '',
+    sasCodeLabel: '',
     type: 'CheckBox',
     tabOrder: 1,
     inputWidth: 8,
@@ -103,7 +108,7 @@ export var initFE = {
   },
   TextBlock: {
     uuid: undefined,
-    name: 'TextBlock Name',
+    name: '',
     width: 4,
     content: 'default text block content',
     prepend: 0,
@@ -116,7 +121,7 @@ export var initFE = {
     title: '',
     url: '',
     uuid: undefined,
-    name: 'TextBlock Name',
+    name: '',
     width: 8,
     content: 'default text block content',
     prepend: 0,
@@ -131,7 +136,7 @@ export var initFE = {
     prePromptWidth: 4,
     postPromptWidth: 0,
     uuid: undefined,
-    name: 'Adverse Event Name',
+    name: '',
     content: 'default ASInput content',
     promptNumber: 'CIE49sfsdf',
     prePrompt: '',
@@ -142,7 +147,7 @@ export var initFE = {
   },
   Echo: {
     uuid: undefined,
-    name: 'Echo Name',
+    name: '',
     prepend: 0,
     width: 4,
     append: 16,
@@ -166,8 +171,8 @@ export var initFE = {
     editeable: 'true',
     prePrompt: '',
     postPrompt: '',
-    name: 'text input name',
-    sasCodeLabel: 'sasCodeLabel',
+    name: '',
+    sasCodeLabel: '',
     type: 'CDSTextInput',
     tabOrder: 1,
     inputWidth: 8,
@@ -198,7 +203,15 @@ export var defaultPropsFE = {
             uuid: undefined,
             type: 'FormSection',
             width: 24,
-            children: [new TextInput(initFE.TextInput)],
+            children: [
+              new AdverseEventInput(initFE.ASInput),
+              new EchoInput(initFE.Echo),
+              new CDSTextInput(initFE.CDSTextInput),
+              new TextInput(initFE.TextInput),
+              new SelectionInput(initFE.SelectionInput),
+              new CheckBox(initFE.CheckBox),
+              new TextArea(initFE.TextArea),
+            ],
             // children: [new TextInput(initFE.TextInput)],
             legend: 'legend',
             prepend: 0,

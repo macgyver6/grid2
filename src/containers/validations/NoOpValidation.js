@@ -123,18 +123,34 @@ export const NoOpValidation = props => (
     <div>
       <div id="edu_unc_tcrdms_model_form_validation_validators_PatternValidator">
         {/* begin AppliedValidator*/}
+
+        <ConfigApplyMethod
+          handleChange={props.handleChange}
+          handleSubmit={props.handleSubmit}
+          handleAdd={props.handleAdd}
+          allowSubmit={props.allowSubmit}
+          loadExistingValidator={props.loadExistingValidator}
+          handleUpdate={props.handleUpdate}
+          validState={props.validState}
+          strong={props.strong}
+          nullIsValid={props.nullIsValid}
+          failureMode={props.failureMode}
+        />
         <div>
-          <FailureMessage
-            handleChange={props.handleChange}
-            handleSubmit={props.handleSubmit}
-            handleAdd={props.handleAdd}
-            allowSubmit={props.allowSubmit}
-            loadExistingValidator={props.loadExistingValidator}
-            handleUpdate={props.handleUpdate}
-            failMsg={props.failMsg}
-            failLocal={props.failLocal}
-            failLang={props.failLang}
-          />
+          {props.failureMode === 'validation' ? (
+            <FailureMessage
+              handleChange={props.handleChange}
+              handleSubmit={props.handleSubmit}
+              handleAdd={props.handleAdd}
+              allowSubmit={props.allowSubmit}
+              loadExistingValidator={props.loadExistingValidator}
+              handleUpdate={props.handleUpdate}
+              failMsg={props.failMsg}
+              failLocal={props.failLocal}
+              failLang={props.failLang}
+              failureMode={props.failureMode}
+            />
+          ) : null}
         </div>
         {/* end AppliedValidator*/}
       </div>

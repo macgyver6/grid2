@@ -1,19 +1,33 @@
 import React from 'react';
+import { defaultPropsFE } from '../constants/defaultPropsFE';
 import { address } from '../address';
-import { log } from 'util';
 import { utility } from '../validation/val.utility';
 import { Form } from '../data/Form';
 import { FormInput } from '../data/FormInput';
 import { calcTotal } from '../components/FormEntities/feStyles';
+import { _dataDefined, userDefined } from './_validations';
 
-export const ImageBlockProperty = props => {
+// const form = new Form(defaultPropsFE.Form);
+
+export const _ImageBlockProperty = props => {
   const change_handler = event => {
-    const value =
-      event.target.type === 'checkbox'
-        ? event.target.checked
-        : event.target.value;
+    // console.log(event.target.value);
+    const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
     return props.mutate(address.bySample(props.model, props.form), {
-      [event.target.id]: value
+      [event.target.id]: value,
+    });
+  };
+
+  const layoutChange_handler = event => {
+    props.mutate(address.bySample(props.model, props.form), {
+      [event.target.id]: parseFloat(event.target.value),
+      append:
+        24 -
+        props.model.prepend() -
+        (event.target.id === 'prePromptWidth' ? parseFloat(event.target.value) : props.model.prePromptWidth()) -
+        props.model.width() -
+        (event.target.id === 'postPromptWidth' ? parseFloat(event.target.value) : props.model.postPromptWidth()),
+      // function that calcs total width and subtracts all OTHER elements, returningt what the value should be
     });
   };
 
@@ -22,7 +36,7 @@ export const ImageBlockProperty = props => {
     let _key = localStorage.key(i);
     localFiles.push({
       name: [_key],
-      file: localStorage.getItem(localStorage.key(i))
+      file: localStorage.getItem(localStorage.key(i)),
     });
   }
 
@@ -49,9 +63,7 @@ export const ImageBlockProperty = props => {
         {localFiles.length > 0 ? (
           localFiles.map(file => <option value={file.name}>{file.name}</option>)
         ) : (
-          <option>
-            'No files found, please upload picture through Form Property Panel'
-          </option>
+          <option>'No files found, please upload picture through Form Property Panel'</option>
         )}
       </select>
       <div />

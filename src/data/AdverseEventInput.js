@@ -29,8 +29,9 @@ class AdverseEventInput extends FormInput {
    */
   constructor(properties) {
     super(properties);
-    console.log(properties)
+    console.log(properties);
     this._dictionaryName = properties.dictionaryName;
+    this._editeable = properties.editeable;
 
     deepFreeze(this);
   }
@@ -43,7 +44,17 @@ class AdverseEventInput extends FormInput {
    */
 
   dictionaryName() {
-    return this._dictionaryName
+    return this._dictionaryName;
+  }
+
+  /**
+   *
+   * Whether the input implementation may be made editable.
+   * @returns {boolean}
+   * @memberof CDSTextInput
+   */
+  editeable() {
+    return this._editeable;
   }
 
   /**
@@ -55,9 +66,7 @@ class AdverseEventInput extends FormInput {
    */
 
   clone(props) {
-    return new AdverseEventInput(
-      props === undefined ? this.properties() : props
-    );
+    return new AdverseEventInput(props === undefined ? this.properties() : props);
   }
 
   /**
@@ -73,7 +82,7 @@ class AdverseEventInput extends FormInput {
       append: this.append(),
       prePrompt: this.prePrompt(),
       prePromptWidth: this.prePromptWidth(),
-      postPrompt: this.postPromptWidth(),
+      postPrompt: this.postPrompt(),
       postPromptWidth: this.postPromptWidth(),
       name: this.name(),
       sasCodeLabel: this.sasCodeLabel(),
@@ -83,6 +92,7 @@ class AdverseEventInput extends FormInput {
       promptNumber: this.promptNumber(),
       autoNumber: this.autoNumber(),
       dictionaryName: this.dictionaryName(),
+      editeable: this.editeable(),
     };
   }
 }

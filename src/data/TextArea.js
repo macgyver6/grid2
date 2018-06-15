@@ -25,6 +25,7 @@ class TextArea extends FormInput {
    * @property {number} properties.prepend - Get the number of grid units prepended to rendered representations of the form entity.
    * @property {number} properties.append - Get the number of grid units appended to rendered representations of the form entity.
    * @property {autoNumber} properties.autoNumber - The expression used to determine how to automatically number inputs after this one in a form hierarchy.
+   *     @property {string} properties.externalIdentifier - Known as external identifier to the user - the field ID used to access a local or remote field.
    * @property {string} properties.QxQ - Field to provide additional information that may assist the user in filling out the form. This is rendered in a "tool tip", or if a TextBlock Entity property "QxQ" is true, the currently selected entity's QxQ information will be rendered in this field.
    */
   constructor(properties) {
@@ -32,8 +33,20 @@ class TextArea extends FormInput {
 
     this._numColumns = properties.numColumns;
     this._numRows = properties.numRows;
+    this._externalIdentifier = properties.externalIdentifier;
 
     deepFreeze(this);
+  }
+
+  /**
+   *
+   *
+   * Known as external identifier to the user - the field ID used to access a local or remote field.
+   * @returns {string}
+   * @memberof TextInput
+   */
+  externalIdentiexternalIdentifierfier() {
+    return this._autoTab;
   }
 
   /**
@@ -74,7 +87,8 @@ class TextArea extends FormInput {
       numColumns: this.numColumns(),
       numRows: this.numRows(),
       currentValidator: this.currentValidator(),
-      currentDependency: this._currentDependency()
+      currentDependency: this.currentDependency(),
+      externalIdentifier: this.externalIdentifier(),
     };
   }
 

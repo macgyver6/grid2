@@ -112,19 +112,13 @@ const CDSTextInputComponent = props => {
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="TextInput"
       >
-        <br />
-        {/*
-        <PrismCode>
-          <p>{props.model.script()}</p>
-        </PrismCode>
-*/}
         <input
           style={inputStyle(props.model)}
           className="form-control"
-          // placeholder="Write something in text area"
           name={props.model.name()}
           // rows="5"
           // cols="12"
+          readOnly="true"
           value={props.model.script()}
         />
         <Resizer

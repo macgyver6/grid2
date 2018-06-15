@@ -10,6 +10,7 @@ const round = (value, decimals) => Number(Math.round(value + 'e' + decimals) + '
 const resizeStyle = {
   width: '30px',
   height: '100%',
+  padding: `4px`,
   // backgroundColor: 'yellow',
   position: 'absolute',
   right: 0,
@@ -43,11 +44,6 @@ let Resizer = props => {
     const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`);
     element.addEventListener('mousemove', mouseMove_handler);
     element.addEventListener('mouseup', mouseUp_handler);
-    // event.dataTransfer.setData("address", JSON.stringify({
-    //   action: 'move',
-    //   address: address.bySample(props.model, props.form)
-    // }))
-    // helpers.dragStart_handler(event, props.model, props.form, 'resize')
   };
 
   const dragstart_handler = event => {
@@ -62,6 +58,7 @@ let Resizer = props => {
     resize.reset = false;
     let locEntity = address.byUuid(props.model.UUID(), props.form);
     resize.dx = event.clientX - resize.mouseMoveStartX;
+    console.log(props.model.type());
     if (resize.init_grids === null) {
       resize.init_grids = props.model[`${resize.target}`]();
       resize.init_append = props.model.append();
@@ -204,8 +201,23 @@ let Resizer = props => {
     //     defaultPropsFE[props.model.type()].render.backgroundColor
     // );
     console.log(initFE[props.model.type()]);
+    event.target.style.backgroundColor = '';
+
     // entityToChangeColor.style.backgroundColor =
     //   initFE[props.model.type()].render.backgroundColor;
+  };
+
+  const mouseEnter_handler = event => {
+    // console.log(event.target);
+    event.target.style.backgroundColor = 'green';
+    // event.target.innerHTML = '<h1>↔️</h1>';
+    // event.target.zIndex = '100';
+  };
+
+  const mouseLeave_handler = event => {
+    // console.log(event.target);
+    // event.target.style.backgroundColor = '';
+    // event.target.innerHTML = '';
   };
 
   const click_handler = event => {
@@ -215,10 +227,13 @@ let Resizer = props => {
   return (
     <div
       id={`${props.resizeType}`}
-      // className="resizer"
+      className="resizer"
       style={resizeStyle}
       onDragStart={dragstart_handler}
       onMouseDown={mouseDown_handler}
+      onMouseUp={mouseUp_handler}
+      // onMouseEnter={mouseEnter_handler}
+      // onMouseLeave={mouseLeave_handler}
       onClick={click_handler}
       draggable="true"
       onClick={click_handler}

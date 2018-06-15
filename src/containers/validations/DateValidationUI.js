@@ -3,18 +3,15 @@ import { address } from '../../address';
 import { timeZones } from './timeZones';
 
 export const DateValidationUI = props => {
-  const change_handler = event => {
-    return props.mutate(address.bySample(props.model, props.form), {
+  const change_handler = event =>
+    props.mutate(address.bySample(props.model, props.form), {
       validations: {
         ...props.model.validations(),
         [event.target.id]: event.target.value,
       },
     });
-  };
   return (
     <div>
-      <h2>Date Validations</h2>
-
       <br />
       <label for="val-full">How should the date to be collected be defined?</label>
       <select
@@ -53,7 +50,9 @@ export const DateValidationUI = props => {
         onChange={change_handler}
         id="fixed"
       >
-        <option value={true}>Prefer that date entered include all properties stated above, but accept any precision</option>
+        <option value={true}>
+          Prefer that date entered include all properties stated above, but accept any precision
+        </option>
         <option value={false}>Strict - accept only date entered that includes all properties stated above</option>
       </select>
       <br />
@@ -69,9 +68,7 @@ export const DateValidationUI = props => {
           {' '}
           -- select a Time Zone --{' '}
         </option>
-        {Object.entries(timeZones).map(([key, value]) => (
-          <option value={value}>{key}</option>
-        ))}
+        {Object.entries(timeZones).map(([key, value]) => <option value={value}>{key}</option>)}
       </select>
     </div>
   );

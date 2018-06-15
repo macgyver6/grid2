@@ -25,6 +25,7 @@ class CheckBox extends FormInput {
    * @property {number} properties.prepend - Get the number of grid units prepended to rendered representations of the form entity.
    * @property {number} properties.append - Get the number of grid units appended to rendered representations of the form entity.
    * @property {string} properties.autoNumber - The expression used to determine how to automatically number inputs after this one in a form hierarchy.
+   *     @property {string} properties.externalIdentifier - Known as external identifier to the user - the field ID used to access a local or remote field.
    * @property {boolean} properties.defaultState - Default state of the CheckBox.
    * @property {string} properties.QxQ - Field to provide additional information that may assist the user in filling out the form. This is rendered in a "tool tip", or if a TextBlock Entity property "QxQ" is true, the currently selected entity's QxQ information will be rendered in this field.
    */
@@ -32,6 +33,7 @@ class CheckBox extends FormInput {
     super(properties);
 
     this._defaultState = properties.defaultState;
+    this._externalIdentifier = properties.externalIdentifier;
 
     deepFreeze(this);
   }
@@ -59,6 +61,17 @@ class CheckBox extends FormInput {
 
   /**
    *
+   *
+   * Known as external identifier to the user - the field ID used to access a local or remote field.
+   * @returns {string}
+   * @memberof TextInput
+   */
+  externalIdentifier() {
+    return this._externalIdentifier;
+  }
+
+  /**
+   *
    * Returns public properties of a form input.
    * @returns {Object}
    */
@@ -81,6 +94,7 @@ class CheckBox extends FormInput {
       promptNumber: this.promptNumber(),
       autoNumber: this.autoNumber(),
       defaultState: this.defaultState(),
+      externalIdentifier: this.externalIdentifier(),
     };
   }
 }

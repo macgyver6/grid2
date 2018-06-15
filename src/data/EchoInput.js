@@ -24,16 +24,29 @@ class EchoInput extends FormInput {
     * @property {number} properties.prepend - Get the number of grid units prepended to rendered representations of the form entity.
     * @property {number} properties.append - Get the number of grid units appended to rendered representations of the form entity.
     * @property {autoNumber} properties.autoNumber - The expression used to determine how to automatically number inputs after this one in a form hierarchy.
+    *@property {string} properties.externalIdentifier - Known as external identifier to the user - the field ID used to access a local or remote field.
     @property {number} properties.length - Max length for input. Default is 60, and if NO_MAX is passed in, no max length will be applied to this field.
-    @property {boolean} properties.autoTab - Whether the input is defined as permitting auto tab to the next field during data collection.
     @property {string} properties.sourceInput - Form input that serves as the source for the echo input.
      */
   constructor(properties) {
     super(properties);
 
     this._sourceInput = properties.sourceInput;
+    this._autoTab = properties.autoTab;
+    this._externalIdentifier = properties.externalIdentifier;
+    this._editeable = properties.editeable;
 
     deepFreeze(this);
+  }
+
+  /**
+   *
+   * Defines if the resulting value from input field is editeable.
+   * @returns {boolean}
+   * @memberof EchoInput
+   */
+  editeable() {
+    return this._editeable;
   }
 
   /**
@@ -59,6 +72,17 @@ class EchoInput extends FormInput {
 
   /**
    *
+   *
+   * Known as external identifier to the user - the field ID used to access a local or remote field.
+   * @returns {string}
+   * @memberof TextInput
+   */
+  externalIdentifier() {
+    return this._externalIdentifier;
+  }
+
+  /**
+   *
    * Returns public properties of a text input.
    * @returns {Object}
    */
@@ -70,7 +94,7 @@ class EchoInput extends FormInput {
       append: this.append(),
       prePrompt: this.prePrompt(),
       prePromptWidth: this.prePromptWidth(),
-      postPrompt: this.postPromptWidth(),
+      postPrompt: this.postPrompt(),
       postPromptWidth: this.postPromptWidth(),
       name: this.name(),
       sasCodeLabel: this.sasCodeLabel(),
@@ -81,7 +105,9 @@ class EchoInput extends FormInput {
       autoNumber: this.autoNumber(),
       sourceInput: this.sourceInput(),
       currentValidator: this.currentValidator(),
-      currentDependency: this._currentDependency()
+      currentDependency: this.currentDependency(),
+      externalIdentifier: this.externalIdentifier(),
+      editeable: this.editeable(),
     };
   }
 }

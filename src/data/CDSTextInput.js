@@ -29,6 +29,8 @@ class CDSTextInput extends TextInput {
     @property {string} properties.defaultContent - The default contents of representations of this input item.
     @property {boolean} properties.doubleEntry - The default contents of representations of this input item.
     @property {string} properties.script - Get the script which should be evaluated to produce the value of the input.
+        @property {string} properties.externalIdentifier - Known as external identifier to the user - the field ID used to access a local or remote field.
+        @property {string} properties.evaluationPolicy - Policy that dictates when the script will operate.
     @property {boolean} properties.editeable - Whether the input implementation may be made editable.
      */
   constructor(properties) {
@@ -36,6 +38,8 @@ class CDSTextInput extends TextInput {
 
     this._script = properties.script;
     this._editeable = properties.editeable;
+    this._externalIdentifer = properties.externalIdentifer;
+    this._evaluationPolicy = properties.evaluationPolicy;
 
     deepFreeze(this);
   }
@@ -62,6 +66,16 @@ class CDSTextInput extends TextInput {
 
   /**
    *
+   * Policy that dictates when the script will operate.
+   * @returns {string}
+   * @memberof CDSTextInput
+   */
+  evaluationPolicy() {
+    return this._evaluationPolicy;
+  }
+
+  /**
+   *
    * Clone the text input.
    * @param {Object} props
    * @returns {CDSTextInput}
@@ -69,6 +83,17 @@ class CDSTextInput extends TextInput {
    */
   clone(props) {
     return new CDSTextInput(props === undefined ? this.properties() : props);
+  }
+
+  /**
+   *
+   *
+   * Known as external identifier to the user - the field ID used to access a local or remote field.
+   * @returns {string}
+   * @memberof TextInput
+   */
+  externalIdentifier() {
+    return this._externalIdentifier;
   }
 
   /**
@@ -84,7 +109,7 @@ class CDSTextInput extends TextInput {
       append: this.append(),
       prePrompt: this.prePrompt(),
       prePromptWidth: this.prePromptWidth(),
-      postPrompt: this.postPromptWidth(),
+      postPrompt: this.postPrompt(),
       postPromptWidth: this.postPromptWidth(),
       name: this.name(),
       sasCodeLabel: this.sasCodeLabel(),
@@ -99,6 +124,8 @@ class CDSTextInput extends TextInput {
       doubleEntry: this.doubleEntry(),
       script: this.script(),
       editing: this.editeable(),
+      externalIdentifier: this.externalIdentifier(),
+      evaluationPolicy: this.evaluationPolicy(),
     };
   }
 }

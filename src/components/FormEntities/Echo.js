@@ -111,7 +111,6 @@ const EchoComponent = props => {
         onDragStart={dragstart_handler}
         draggable="false"
       >
-        <br />
         <input
           style={inputStyle(props.model)}
           className="form-control"

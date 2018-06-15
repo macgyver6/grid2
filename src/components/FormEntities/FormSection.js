@@ -68,6 +68,9 @@ let FormSectionComponent = props => {
       let addressNewEntity = [...location];
       addressNewEntity[addressNewEntity.length] = props.model.children().length;
       props.add(addressNewEntity, entityToAdd);
+      props.temporalStateChange({
+        currententity: addressNewEntity,
+      });
     }
     // rearranging by moving one entity from one section to another
     if (data && data.action === 'move') {
