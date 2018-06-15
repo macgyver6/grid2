@@ -185,9 +185,9 @@ const AddToBeginning = props => {
     }
     let loc = address.bySample(props.model, props.form).concat(0);
 
-    props.temporalStateChange({
-      currententity: loc,
-    });
+    // props.temporalStateChange({
+    //   currententity: loc,
+    // });
 
     event.target.style.backgroundColor = '';
     event.target.innerText = '';
