@@ -13,7 +13,7 @@ let TabContainer = props => {
 
     var tab = document.createElement('div');
     tab.style.textAlign = 'center';
-    tab.style.borderBottom = '3px solid white';
+    tab.style.Bottom = '3px solid white';
     tab.style.backgroundColor = 'white';
 
     // tab.innerHTML = allowAddTab(props) ? 'click to add' : '<strong>max tabs</strong>';
@@ -104,14 +104,14 @@ let TabContainer = props => {
   const metaTabContainerStyle = { width: '100%', position: 'relative' }; // minHeight: '46px',
 
   const TabContainerStyle = {
-    width: '85%', // paddingLeft: '4px', // minHeight: '46px',
+    width: '80%', // paddingLeft: '4px', // minHeight: '46px',
     display: 'grid',
     gridTemplateColumns: 'auto',
     gridAutoFlow: 'column',
     // position: 'relative',
     // marginLeft: '20px', // backgroundColor: 'white',
     // marginRight: '20px',
-    overflow: 'auto',
+    overflowX: 'scroll',
   };
   // border: 'solid blue',
 

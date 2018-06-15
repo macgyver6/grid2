@@ -29,3 +29,7 @@ img {
 .resizer:hover {
     background-color: green;
 }
+
+::-webkit-scrollbar {
+display: none;
+}

@@ -97,7 +97,7 @@ const selectionStyles = {
     textAlign: 'center',
     height: '42px',
     background: '#ff5f56',
-    borderRadius: '4px',
+    borderRadius: '2px',
   },
 };
 
@@ -348,7 +348,7 @@ const LeftPanel = props => {
             textAlign: 'center',
             height: '42px',
             backgroundColor: selectionStyles[`${entity.type}`].background,
-            borderRadius: '4px',
+            borderRadius: '2px',
           }}
           data-type={entity.type}
         >

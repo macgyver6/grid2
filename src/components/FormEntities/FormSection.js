@@ -339,7 +339,7 @@ let FormSectionComponent = props => {
   const minHeight = address.bySample(props.model, props.form).length < 2 ? '70vh' : '0';
 
   /**address of less than 2 would scrolls properly with 'auto', but it affects the integrity of the grid columns */
-  const scrollable = address.bySample(props.model, props.form).length < 2 ? 'visible' : 'visible';
+  const scrollable = address.bySample(props.model, props.form).length < 2 ? 'visible' : 'scroll';
 
   const showResizer = address.bySample(props.model, props.form).length < 2 ? false : true;
 
@@ -422,13 +422,21 @@ let FormSectionComponent = props => {
       <div
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="form-group FS"
+        /**
+         * scrolling notes: without styling the scrollbar was inadvertantly skewing the grid contents by the scrollbar width. Using this css, the scrollbar is hidden:
+         * ::-webkit-scrollbar {
+         * display: none;
+         *}
+         */
         style={{
           ...fsStyle,
           // border: '1px dashed blue',
           backgroundColor: whichBackground,
           minHeight: minHeight,
-          maxHeight: maxHeight,
+          maxHeight: '70vh',
+          // overflowY: 'scrollable',
           overflowY: scrollable,
+          overflowX: 'visible',
           paddingTop: '18px',
         }}
         data-action={`mover.${props.model.UUID()}.FormSection`}
