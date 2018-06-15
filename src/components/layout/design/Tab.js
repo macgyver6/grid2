@@ -124,6 +124,9 @@ const Tab = props => {
 
       props.add([destinationTabAddress, props.model.children().length], entityToMove);
       props.remove(JSON.parse(event.dataTransfer.getData('address')).address);
+      props.temporalStateChange({
+        currententity: [destinationTabAddress, props.model.children().length],
+      });
       props.changetab(destinationTabAddress);
     } else {
       let dropData = JSON.parse(event.dataTransfer.getData('address'));
@@ -146,7 +149,10 @@ const Tab = props => {
 
       props.add([destinationTabAddress, props.model.children().length], address.rehydrate(dropData.model));
       console.log(destinationTabAddress);
-      // props.temporalStateChange({ currentTab: destinationTabAddress });
+
+      props.temporalStateChange({
+        currententity: [destinationTabAddress, props.model.children().length],
+      });
       props.changetab(destinationTabAddress);
     }
     if (event.dataTransfer.getData('tab')) {

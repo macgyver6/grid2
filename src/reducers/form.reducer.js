@@ -7,6 +7,7 @@ import { validateImport } from '../validation/val.index';
 
 // initialize the store
 const formReducer = (state, action) => {
+  console.log(action.type);
   // if (localStorage.getItem('model')) {
   //   let resurrectedEntities =
   //     comm.unserialize((JSON.parse(localStorage.getItem('model'))))
