@@ -246,11 +246,11 @@ export var defaultPropsFE = {
           new FormSection({
             uuid: undefined,
             type: 'FormSection',
-            width: 16,
+            width: 24,
             legend: 'legend',
             children: [new TextArea(initFE.TextArea)],
             prepend: 0,
-            append: 8,
+            append: 0,
             render: {
               backgroundColor: 'rgba(243, 234, 95, 0.7)',
               minWidth: 3,
@@ -269,7 +269,7 @@ export var defaultPropsFE = {
           new FormSection({
             uuid: undefined,
             type: 'FormSection',
-            width: 16,
+            width: 24,
             children: [],
             legend: 'legend',
             prepend: 0,
