@@ -85,22 +85,35 @@ const TextBlockComponent = props => {
       <div
         style={{
           ...entityStyle(props.model),
+          maxHeight: '',
           backgroundColor: 'purple',
         }}
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="TextInput"
         onMouseDown={mouseDown_handler}
       >
-        <br />
+        <textarea
+          style={{
+            ...inputStyle(props.model),
+            height: 'auto',
+            resize: 'none',
+          }}
+          className="form-control"
+          type={props.model.type()}
+          // cols={props.model.numColumns()}
+          // rows={props.model.numRows()}
+          value={props.model.content()}
+          readonly="true"
+        />
 
-        <input
+        {/* <input
           style={inputStyle(props.model)}
           className="form-control"
           type={props.model.type()}
-          size="8"
+          rows={props.model.numRows()}
           value={props.model.content()}
           disabled
-        />
+        /> */}
 
         <Resizer
           id={`${props.model.UUID()}.resizer`}

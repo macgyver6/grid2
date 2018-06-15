@@ -66,7 +66,7 @@ const formReducer = (state, action) => {
     if (validateImport(result).length === 0) {
       return Object.assign({}, state, {
         form: result,
-        app: Object.assign({}, state.app, { currententity: null }),
+        app: Object.assign({}, state.app, { currententity: action.path }),
       });
     }
   }
@@ -76,7 +76,7 @@ const formReducer = (state, action) => {
     if (validateImport(result).length === 0) {
       return Object.assign({}, state, {
         form: result,
-        app: Object.assign({}, state.app, { currententity: null }),
+        app: Object.assign({}, state.app, { currententity: [0, 0, 0] }),
       });
     }
   }

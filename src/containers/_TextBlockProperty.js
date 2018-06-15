@@ -33,10 +33,6 @@ export const _TextBlockProperty = props => {
 
   return (
     <div>
-      <h1>Text Block</h1>
-      <p>{props.model.UUID()}</p>
-      <p>Total width: {calcTotal(props.model)}</p>
-
       <div />
       <div>
         <div>

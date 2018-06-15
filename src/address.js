@@ -46,6 +46,7 @@ import { EnumerationValidator } from './containers/validations/data/EnumerationV
 import { NoOpValidator } from './containers/validations/data/NoOpValidator.js';
 import { RangeValidator } from './containers/validations/data/RangeValidator.js';
 import { SubjectInputValidator } from './containers/validations/data/SubjectInputValidator.js';
+import { entityActions } from './components/FormEntities/actions.entities';
 
 export const address = {
   bySample: (target, node, path = []) => {
@@ -185,6 +186,7 @@ export const address = {
   },
 
   getHumanName: entityType => {
+    console.log(entityType);
     switch (entityType) {
       case 'CDSTextInput':
         return 'CDS Text Input';
@@ -207,10 +209,10 @@ export const address = {
       case 'ImageBlock':
         return 'Image Block';
         break;
-      case 'instanceof':
-        return 'Adverse Event Input';
+      case 'AdverseEvent':
+        return 'Adverse Event';
         break;
-      case 'EchoInput':
+      case 'Echo':
         return 'Echo Input';
         break;
       case 'FormSection':

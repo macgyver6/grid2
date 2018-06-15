@@ -124,7 +124,6 @@ const TextAreaComponent = props => {
         <textarea
           style={{
             ...inputStyle(props.model),
-            maxHeight: '',
             height: 'auto',
             resize: 'none',
           }}
@@ -133,6 +132,7 @@ const TextAreaComponent = props => {
           // cols={props.model.numColumns()}
           rows={props.model.numRows()}
           // value={props.model.defaultContent()}
+          readonly="true"
         />
         <Resizer
           id={`${props.model.UUID()}.resizer`}
