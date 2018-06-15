@@ -131,8 +131,13 @@ const formReducer = (state, action) => {
     console.log(validateImport(entityAdded));
     if (validateImport(entityAdded).length === 0) {
       console.log('pass');
+      // return Object.assign({}, state, {
+      //   form: entityAdded,
+      // });
+
       return Object.assign({}, state, {
         form: entityAdded,
+        app: Object.assign({}, state.app, { currententity: action.path }),
       });
     }
   }
