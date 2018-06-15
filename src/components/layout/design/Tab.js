@@ -43,7 +43,7 @@ const Tab = props => {
   let dragstart_handler = event => {
     // helpers.dragStart_handler(event, props.model, props.form)
     event.dataTransfer.setData(
-      'tab',
+      'address',
       JSON.stringify({
         // action: action,
         address: address.bySample(props.model, props.form),
@@ -264,6 +264,7 @@ const Tab = props => {
         type={props.model.type()}
         onChange={change_handler}
         value={props.model.legend()}
+        readOnly="true"
         // size={'18'}
         // maxLength={'18'}
       />

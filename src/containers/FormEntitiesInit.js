@@ -22,6 +22,7 @@ const BackgroundPanel = props => (
   <div style={backgroundPanelStyle}>
     <LeftPanel
       form={props.form}
+      changetab={props.changetab}
       remove={props.remove}
       add={props.add}
       mutate={props.mutate}
@@ -124,7 +125,7 @@ const dragleave_handler = event => {
 
 const DeleteBtn = props => {
   const drop_handler = event => {
-    console.log(event.dataTransfer.getData('address'));
+    console.log(event.dataTransfer.getDataList);
     const data = JSON.parse(event.dataTransfer.getData('address'));
     const draggedEntity = address.byPath(props.form, data.address);
 
@@ -178,9 +179,11 @@ const DeleteBtn = props => {
           entity: address.byPath(props.form, _toRight),
         };
       };
-      console.log(donorParent.children().length - 1 === arr[arr.length - 1] && firstInRow(arr));
+      // console.log(donorParent.children().length - 1 === arr[arr.length - 1] && firstInRow(arr));
       /** if only 1 child in section or the donor entity is the last entity in section */
-      if (
+      if (arr.length === 1) {
+        return false;
+      } else if (
         donorParent.children().length === 1 ||
         (donorParent.children().length - 1 === arr[arr.length - 1] && firstInRow(arr))
       ) {
@@ -264,7 +267,9 @@ const DeleteBtn = props => {
       };
       console.log(event.target, currentTab[0]);
       console.log('change current tab to: ', whichTab() - 1);
-      props.changetab(whichTab() - 1);
+      // @hack this needs to be more dynamic. ex: deleteing first tab, last tab, etc.
+      // props.changetab(1);
+      props.changetab(whichTab() - 2);
     }
 
     // console.log(props.activeTab)
@@ -332,6 +337,7 @@ const LeftPanel = props => {
     <div style={leftPanelStyle} form={props.form}>
       <DeleteBtn
         form={props.form}
+        changetab={props.changetab}
         remove={props.remove}
         mutate={props.mutate}
         temporalStateChange={props.temporalStateChange}
