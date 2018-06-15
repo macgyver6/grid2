@@ -208,7 +208,7 @@ let Resizer = props => {
   };
 
   const mouseEnter_handler = event => {
-    // console.log(event.target);
+    console.log(event.target);
     event.target.style.backgroundColor = 'green';
     // event.target.innerHTML = '<h1>↔️</h1>';
     // event.target.zIndex = '100';
@@ -228,15 +228,14 @@ let Resizer = props => {
     <div
       id={`${props.resizeType}`}
       className="resizer"
-      style={resizeStyle}
+      style={{ ...resizeStyle, ...props.style }}
       onDragStart={dragstart_handler}
       onMouseDown={mouseDown_handler}
       onMouseUp={mouseUp_handler}
       // onMouseEnter={mouseEnter_handler}
       // onMouseLeave={mouseLeave_handler}
-      onClick={click_handler}
       draggable="true"
-      onClick={click_handler}
+      // onClick={click_handler}
     />
   );
 };

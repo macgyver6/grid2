@@ -476,6 +476,9 @@ let FormSectionComponent = props => {
             add={props.add}
             mutate={props.mutate}
             resizeType="width"
+            style={{
+              right: '-30',
+            }}
           />
         ) : null}
         {/* <AddToEnd
