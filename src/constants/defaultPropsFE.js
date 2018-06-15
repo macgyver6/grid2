@@ -217,16 +217,16 @@ export var defaultPropsFE = {
             prepend: 0,
             append: 0,
           }),
-          new FormSection({
-            uuid: undefined,
-            type: 'FormSection',
-            width: 24,
-            children: [],
-            // children: [new TextInput(initFE.TextInput)],
-            legend: 'legend',
-            prepend: 0,
-            append: 0,
-          }),
+          // new FormSection({
+          //   uuid: undefined,
+          //   type: 'FormSection',
+          //   width: 24,
+          //   children: [],
+          //   // children: [new TextInput(initFE.TextInput)],
+          //   legend: 'legend',
+          //   prepend: 0,
+          //   append: 0,
+          // }),
           // new FormSection({   uuid: undefined,   type: 'FormSection',   width: 16,
           // children: [],   legend: 'legend',   prepend: 4,   append: 4,   render: {
           // backgroundColor: 'rgba(243, 234, 95, 0.7)',     minWidth: 3,   }, }), new

@@ -433,9 +433,9 @@ let FormSectionComponent = props => {
           // border: '1px dashed blue',
           backgroundColor: whichBackground,
           minHeight: minHeight,
-          maxHeight: '70vh',
+          maxHeight: '65vh',
           // overflowY: 'scrollable',
-          overflowY: scrollable,
+          overflowY: 'scroll', // this allows both the tab and the form section to scroll
           overflowX: 'visible',
           paddingTop: '18px',
         }}
