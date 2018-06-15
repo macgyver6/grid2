@@ -24,6 +24,7 @@ const PropertiesPanelStyle = {
   width: '40%',
   height: '100%',
   backgroundColor: 'white',
+  // border: '4px solid lightgrey',
   border: '4px solid lightgrey',
 };
 

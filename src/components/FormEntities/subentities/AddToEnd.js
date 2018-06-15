@@ -18,7 +18,7 @@ const AddToEnd = props => {
     height: '15px',
     position: 'absolute',
     right: '0',
-    bottom: '-5px',
+    bottom: '-15px',
     zIndex: '40',
   };
   console.log(wrapperStyle.width);

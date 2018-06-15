@@ -109,7 +109,7 @@ const ImageBlockComponent = props => {
       >
         <br />
         {props.model.title() === '' ? (
-          <p>Please select an image from Image Block Property Panel</p>
+          <p>️️🖼️ Please select an image from Image Block Property Panel</p>
         ) : (
           <img src={localStorage.getItem(props.model.title())} alt={localStorage.getItem(props.model.title())} />
         )}

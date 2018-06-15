@@ -424,7 +424,7 @@ let FormSectionComponent = props => {
         className="form-group FS"
         style={{
           ...fsStyle,
-          border: '1px dashed blue',
+          // border: '1px dashed blue',
           backgroundColor: whichBackground,
           minHeight: minHeight,
           maxHeight: maxHeight,

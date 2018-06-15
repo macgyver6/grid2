@@ -35,10 +35,10 @@ let TabContainer = props => {
   };
 
   const Add_Tab = () => (
-      <div style={divStyle} className="add_tab" onClick={click_handler}>
-        <p>Add Tab</p>
-      </div>
-    );
+    <div style={divStyle} className="add_tab" onClick={click_handler}>
+      <p>Add Tab</p>
+    </div>
+  );
 
   const mouseLeave_handler = event => {
     // props.remove([props.form.children().length - 1])
@@ -114,7 +114,8 @@ let TabContainer = props => {
   };
   // border: 'solid blue',
 
-  const renderTabs = props => props.form
+  const renderTabs = props =>
+    props.form
       .children()
       .map((tab, index) => (
         <Tab

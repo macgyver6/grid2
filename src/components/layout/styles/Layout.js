@@ -10,7 +10,7 @@ export const leftPanelStyle = {
   height: '100%',
   backgroundColor: 'white',
   border: '0px solid black',
-  paddingTop: '60px',
+  paddingTop: '0px',
 };
 export const middlePanelStyle = {
   width: '50%',

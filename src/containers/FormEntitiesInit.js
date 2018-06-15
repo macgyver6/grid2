@@ -92,7 +92,12 @@ const selectionStyles = {
     background: 'blue',
   },
   Remove: {
+    paddingTop: '0px',
+    margin: '8px',
+    textAlign: 'center',
+    height: '42px',
     background: '#ff5f56',
+    borderRadius: '4px',
   },
 };
 
@@ -325,6 +330,12 @@ const LeftPanel = props => {
 
   return (
     <div style={leftPanelStyle} form={props.form}>
+      <DeleteBtn
+        form={props.form}
+        remove={props.remove}
+        mutate={props.mutate}
+        temporalStateChange={props.temporalStateChange}
+      />
       {entityTypes.map((entity, index) => (
         <div
           key={index}
@@ -332,10 +343,10 @@ const LeftPanel = props => {
           form={props.form}
           onDragStart={dragstart_handler}
           style={{
-            padding: '6px',
-            margin: '20px',
+            paddingTop: '6px',
+            margin: '8px',
             textAlign: 'center',
-            height: '40px',
+            height: '42px',
             backgroundColor: selectionStyles[`${entity.type}`].background,
             borderRadius: '4px',
           }}
@@ -350,12 +361,6 @@ const LeftPanel = props => {
           </p>
         </div>
       ))}
-      <DeleteBtn
-        form={props.form}
-        remove={props.remove}
-        mutate={props.mutate}
-        temporalStateChange={props.temporalStateChange}
-      />
     </div>
   );
 };

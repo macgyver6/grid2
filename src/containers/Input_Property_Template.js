@@ -52,7 +52,7 @@ export const Input_Property_Template = props => {
         {props.model.prePrompt()} Width: {props.model.width()} Append:
         {props.model.append()}
       </p>
-      <button onClick={copyHandler}>📋 Copy This Entity</button>
+      <button onClick={copyHandler}>📋 Copy This Input</button>
       <div>
         <p>
           <label htmlFor="textInput-name">Name</label>
