@@ -30,6 +30,7 @@ import { _SelectionInputProperty } from './containers/_SelectionInputProperty';
 import { _TextBlockProperty } from './containers/_TextBlockProperty';
 import { _ImageBlockProperty } from './containers/_ImageBlockProperty';
 import { _EchoProperty } from './containers/_EchoProperty';
+import { _FormSectionProperty } from './containers/_FormSectionProperty';
 import { initFE } from './constants/defaultPropsFE';
 import DateValidationUI from './containers/validations/DateValidationUI';
 import StringValidationUI from './containers/validations/stringValidationUI';
@@ -113,12 +114,10 @@ export const address = {
   },
 
   whichEntity: modelInstance => {
-    if (modelInstance instanceof Form) {
-      return FormComponent;
-      // } else if (modelInstance instanceof FormSection) {   return
-      // FormSectionComponent;
-    } else if (modelInstance instanceof CDSTextInput) {
+    if (modelInstance instanceof CDSTextInput) {
       return _CDSTextInputProperty;
+    } else if (modelInstance instanceof FormSection) {
+      return _FormSectionProperty;
     } else if (modelInstance instanceof TextInput) {
       return _TextInputProperty;
     } else if (modelInstance instanceof TextArea) {

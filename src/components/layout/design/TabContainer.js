@@ -3,7 +3,7 @@ import { FormSection } from '../../../data/FormSection';
 import Tab from './Tab';
 
 let TabContainer = props => {
-  const allowAddTab = props => (props.form.children().length < 5 ? true : false);
+  // const allowAddTab = props => (props.form.children().length < 5 ? true : false);
 
   const mouseEnter_handler = event => {
     /*
@@ -16,7 +16,7 @@ let TabContainer = props => {
     tab.style.borderBottom = '3px solid white';
     tab.style.backgroundColor = 'white';
 
-    tab.innerHTML = allowAddTab(props) ? 'click to add' : '<strong>max tabs</strong>';
+    // tab.innerHTML = allowAddTab(props) ? 'click to add' : '<strong>max tabs</strong>';
 
     document.getElementById('tabcontainer').appendChild(tab);
     document.getElementById('tabcontainer').style.backgroundColor = 'rgb(243, 234, 95)';
@@ -32,6 +32,7 @@ let TabContainer = props => {
     position: 'absolute',
     right: 4,
     bottom: 4,
+    border: '1px solid rgb(32, 94, 226)',
   };
 
   const Add_Tab = () => (
@@ -61,7 +62,7 @@ let TabContainer = props => {
           type: 'FormSection',
           width: 24,
           children: [],
-          legend: 'new Tab',
+          legend: `Tab ${props.form.children().length + 1}`,
           prepend: 0,
           append: 0,
         })
@@ -95,7 +96,7 @@ let TabContainer = props => {
     }
 
     let tabContainer = document.getElementById('tabcontainer');
-    tabContainer.style.backgroundColor = props.form.children().length > 3 ? 'red' : 'rgb(243, 234, 95)';
+    // tabContainer.style.backgroundColor = props.form.children().length > 3 ? 'red' : 'rgb(243, 234, 95)'; // turns red if more than certain amount of tabs
     console.log(tabContainer.scrollWidth);
     tabContainer.scrollLeft = tabContainer.scrollWidth + 160;
   };
@@ -139,7 +140,7 @@ let TabContainer = props => {
       <div
         style={{
           ...TabContainerStyle,
-          backgroundColor: props.form.children().length > 1 ? 'darkgrey' : 'white',
+          backgroundColor: props.form.children().length > 1 ? 'white' : 'white',
         }}
         mutate={props.mutate}
         id="tabcontainer"

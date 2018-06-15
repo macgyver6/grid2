@@ -105,7 +105,7 @@ const Tab = props => {
   };
 
   let dragLeave_handler = event => {
-    document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`).style.backgroundColor = 'darkgrey';
+    document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`).style.backgroundColor = 'white';
     // event.target.style.removeProperty('border');
   };
 
@@ -113,7 +113,7 @@ const Tab = props => {
     console.log(JSON.parse(event.dataTransfer.getData('address')));
     event.stopPropagation();
     /** resets to the background from green to '' onDrop*/
-    document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`).style.backgroundColor = 'darkgrey';
+    document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`).style.backgroundColor = 'white';
     document.getElementById(`${event.target.id.split('.')[0]}.input`).style.backgroundColor = '';
     let dropData = JSON.parse(event.dataTransfer.getData('address'));
     if (dropData.action !== 'addEntity') {
@@ -241,9 +241,9 @@ const Tab = props => {
         ...TabStyle,
         backgroundColor: currentTab ? 'white' : TabStyle.backgroundColor,
         fontWeight: currentTab ? '900' : '100',
-        borderLeft: currentTab ? '0.25px solid darkgrey' : null,
-        borderRight: currentTab ? '0.25px solid darkgrey' : null,
-        borderTop: currentTab ? '3px solid rgb(32, 94, 226)' : null,
+        // borderLeft: currentTab ? '0.25px solid darkgrey' : null,
+        // borderRight: currentTab ? '0.25px solid darkgrey' : null,
+        borderTop: currentTab ? '3px solid rgb(32, 94, 226)' : '3px solid white',
       }}
       id={`${props.form.children()[props.currentTab].UUID()}.tab.wrapper`}
       className="tab"

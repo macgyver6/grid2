@@ -23,7 +23,7 @@ export const TabStyle = {
   // margin: '4px',
   // marginTop: "2%",
   // marginLeft: "1%",
-  backgroundColor: 'darkgrey',
+  backgroundColor: 'white',
   // borderTop: "0.25px solid white",
   borderRight: '4px solid white',
 };
