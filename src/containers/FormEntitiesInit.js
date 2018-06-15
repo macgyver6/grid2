@@ -44,6 +44,7 @@ const BackgroundPanel = props => (
       currententity={props.currententity}
     />
     <PropertiesPanel
+      add={props.add}
       form={props.form}
       temporalStateChange={props.temporalStateChange}
       currententity={props.currententity}

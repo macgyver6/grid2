@@ -42,9 +42,13 @@ export const _ImageBlockProperty = props => {
 
   return (
     <div>
-      <h1>Image Block</h1>
+      {/* <h1>Image Block</h1>
       <p>{props.model.UUID()}</p>
-      <p>Total width: {calcTotal(props.model)}</p>
+      <p>Total width: {calcTotal(props.model)}</p> */}
+      <label htmlFor="url">
+        Select a image: Note: To add images to this form, please upload under the 'Form' tab above
+      </label>
+      <br />
       <select
         value={props.model.url()}
         className="form-control"

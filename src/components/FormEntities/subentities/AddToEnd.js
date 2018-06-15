@@ -15,10 +15,11 @@ const AddToEnd = props => {
 
   const wrapperStyle = {
     width: props.appState.gridWidth * parentEntity.width(),
-    height: '20px',
+    height: '15px',
     position: 'absolute',
     right: '0',
-    bottom: '-20px',
+    bottom: '-5px',
+    zIndex: '40',
   };
   console.log(wrapperStyle.width);
 

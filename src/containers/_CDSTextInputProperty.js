@@ -45,6 +45,7 @@ export const _CDSTextInputProperty = props => {
         mutate={props.mutate}
         appState={props.appState}
         temporalStateChange={props.temporalStateChange}
+        add={props.add}
       />
       <br />
       <DataDefinedValidation

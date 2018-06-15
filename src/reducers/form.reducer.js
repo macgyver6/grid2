@@ -137,7 +137,7 @@ const formReducer = (state, action) => {
 
       return Object.assign({}, state, {
         form: entityAdded,
-        app: Object.assign({}, state.app, { currententity: action.path }),
+        app: Object.assign({}, state.app, { currententity: action.pathToAdd }),
       });
     }
   }

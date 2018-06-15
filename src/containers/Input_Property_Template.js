@@ -6,6 +6,7 @@ import { Form } from '../data/Form';
 import { FormInput } from '../data/FormInput';
 import { calcTotal } from '../components/FormEntities/feStyles';
 import { _dataDefined, userDefined } from './_validations';
+import { entityActions } from '../components/FormEntities/actions.entities';
 
 // const form = new Form(defaultPropsFE.Form);
 
@@ -31,14 +32,27 @@ export const Input_Property_Template = props => {
     });
   };
 
+  const copyHandler = event => {
+    event.preventDefault();
+    console.log('copyHandler');
+
+    const entityAddress = address.bySample(props.model, props.form);
+    let sectionAddress = entityAddress.slice(0, entityAddress.length - 1);
+    const howManyChildren = address.byPath(props.form, sectionAddress).children().length;
+    const combinedAddress = sectionAddress.concat(howManyChildren);
+    props.add(combinedAddress, props.model);
+    console.log(combinedAddress);
+  };
+
   return (
-    <div style={{ border: '2px green solid' }}>
+    <div>
       <p style={{ fontSize: 8, margin: '0px' }}>{props.model.UUID()}</p>
       <p style={{ fontSize: 8, margin: '0px 0px 4px 0px' }}>
         prePromptWidth: {props.model.prePromptWidth()} Append: Total width: {calcTotal(props.model)} PrePend:
         {props.model.prePrompt()} Width: {props.model.width()} Append:
         {props.model.append()}
       </p>
+      <button onClick={copyHandler}>📋 Copy This Entity</button>
       <div>
         <p>
           <label htmlFor="textInput-name">Name</label>

@@ -23,8 +23,8 @@ import DependencyWrapper from './validations/DependencyWrapper';
 const PropertiesPanelStyle = {
   width: '40%',
   height: '100%',
-  backgroundColor: 'lightgrey',
-  border: '4px solid green',
+  backgroundColor: 'white',
+  border: '4px solid lightgrey',
 };
 
 export const PropertiesPanel = props => {
@@ -124,7 +124,7 @@ export const PropertiesPanel = props => {
                       ]
                     : null}
                 </TabList>
-                <TabPanel style={tabPanelStyle}>
+                <TabPanel add={props.add} style={tabPanelStyle}>
                   {React.createElement(address.whichEntity(address.byPath(props.form, props.currententity)), {
                     model: address.byPath(props.form, props.currententity),
                     form: props.form,
@@ -132,6 +132,7 @@ export const PropertiesPanel = props => {
                     mutate: props.mutate,
                     appState: props.appState,
                     temporalStateChange: props.temporalStateChange,
+                    add: props.add,
                   })}
                 </TabPanel>
                 {props.model instanceof FormInput ? (

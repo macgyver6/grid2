@@ -43,6 +43,7 @@ export const _TextInputProperty = props => {
         mutate={props.mutate}
         appState={props.appState}
         temporalStateChange={props.temporalStateChange}
+        add={props.add}
       />
       <p>
         <label htmlFor="textInput-autoTab">Enable Auto Tabbing: </label>

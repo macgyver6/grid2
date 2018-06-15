@@ -42,6 +42,7 @@ export const _AdverseEventProperty = props => {
         mutate={props.mutate}
         appState={props.appState}
         temporalStateChange={props.temporalStateChange}
+        add={props.add}
       />
       <br />
       <label htmlFor="dictionaryName">Dictionary: </label>

@@ -42,6 +42,7 @@ export const _EchoProperty = props => {
         mutate={props.mutate}
         appState={props.appState}
         temporalStateChange={props.temporalStateChange}
+        add={props.add}
       />
       <div>
         <label for="echo-sourceInput">Echo Source Input: </label>

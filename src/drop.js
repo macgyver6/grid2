@@ -1,4 +1,6 @@
 import { address } from './address';
+// import { drop } from './drop';
+
 const round = (value, decimals) => Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 const dropObj = {
   mouseDownStartX: null,

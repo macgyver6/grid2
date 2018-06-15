@@ -41,6 +41,7 @@ export const _CheckBoxProperty = props => {
         mutate={props.mutate}
         appState={props.appState}
         temporalStateChange={props.temporalStateChange}
+        add={props.add}
       />
       <label htmlFor="defaultState">Default State</label>
       <br />

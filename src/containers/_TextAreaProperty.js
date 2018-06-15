@@ -40,6 +40,7 @@ export const _TextAreaProperty = props => {
         mutate={props.mutate}
         appState={props.appState}
         temporalStateChange={props.temporalStateChange}
+        add={props.add}
       />
       <p>
         <label for="numRows">
