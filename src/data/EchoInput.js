@@ -35,6 +35,7 @@ class EchoInput extends FormInput {
     this._autoTab = properties.autoTab;
     this._externalIdentifier = properties.externalIdentifier;
     this._editeable = properties.editeable;
+    this._defaultContent = properties.defaultContent;
 
     deepFreeze(this);
   }
@@ -57,6 +58,10 @@ class EchoInput extends FormInput {
    */
   sourceInput() {
     return this._sourceInput;
+  }
+
+  defaultContent() {
+    return this._defaultContent;
   }
 
   /**
@@ -102,6 +107,7 @@ class EchoInput extends FormInput {
       tabOrder: this.tabOrder(),
       inputWidth: this.inputWidth(),
       promptNumber: this.promptNumber(),
+      defaultContent: this.defaultContent(),
       autoNumber: this.autoNumber(),
       sourceInput: this.sourceInput(),
 

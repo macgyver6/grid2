@@ -431,7 +431,7 @@ class ValidationWrapper extends React.Component {
               -- select an option --{' '}
       </option> */}
           {_dataDefined[`${this.props.model.inputType()}`].userDefined.map(userDefinedVal => (
-            <option value={userDefinedVal}>{userDefinedVal}</option>
+            <option value={userDefinedVal}>{address.getHumanValidatorName(userDefinedVal)}</option>
           ))}
         </select>
 

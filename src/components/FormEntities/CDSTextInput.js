@@ -119,7 +119,7 @@ const CDSTextInputComponent = props => {
           // rows="5"
           // cols="12"
           readOnly="true"
-          value={props.model.script()}
+          // value={props.model.script()}
         />
         <Resizer
           id={`${props.model.UUID()}.resizer`}

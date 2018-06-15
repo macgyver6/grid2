@@ -455,7 +455,7 @@ let FormSectionComponent = props => {
             appState={props.appState}
           />
         ) : null}
-        {props.model.type() === 'FormSection'
+        {props.model.type() === 'FormSection' && props.form.children().length > 1
           ? props.model.children().map((element, i) => {
               console.log(element);
               return React.createElement(address.lookupComponent(element), {

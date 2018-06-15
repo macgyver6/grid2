@@ -96,6 +96,16 @@ export const _CDSTextInputProperty = props => {
           checked={props.model.editeable()}
         />
       </p>
+      <p>
+        <label htmlFor="defaultContent">Default Content: </label>
+        <input
+          type="text"
+          name="defaultContent"
+          id="defaultContent"
+          onChange={change_handler}
+          value={props.model.defaultContent()}
+        />
+      </p>
     </div>
   );
 };

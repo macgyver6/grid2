@@ -76,6 +76,16 @@ export const _EchoProperty = props => {
           />
         </p>
         <br />
+        <p>
+          <label htmlFor="defaultContent">Default Content: </label>
+          <input
+            type="text"
+            name="defaultContent"
+            id="defaultContent"
+            onChange={change_handler}
+            value={props.model.defaultContent()}
+          />
+        </p>
         {/* <DataDefinedValidation
           model={address.byPath(props.form, props.currententity)}
           form={props.form}

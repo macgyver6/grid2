@@ -101,6 +101,23 @@ export const PropertiesPanel = props => {
   //   });
   // };
 
+  const showValidator = entity => {
+    console.log(entity);
+    switch (entity) {
+      case 'TextArea':
+        return false;
+        break;
+      case 'CheckBox':
+        return false;
+        break;
+      case 'SelectionInput':
+        return false;
+        break;
+      default:
+        return true;
+    }
+  };
+
   const tabPanelStyle = {
     padding: '10px',
   };
@@ -118,12 +135,10 @@ export const PropertiesPanel = props => {
               <Tabs>
                 <TabList>
                   <Tab>{address.getHumanName(props.model.type())} Properties</Tab>
-                  {props.model instanceof FormInput
-                    ? [
-                        <Tab key="0">{address.getHumanName(props.model.type())} Validations</Tab>,
-                        <Tab key="1">{address.getHumanName(props.model.type())} Dependencies</Tab>,
-                      ]
-                    : null}
+                  {showValidator(props.model.type()) ? (
+                    <Tab key="0">{address.getHumanName(props.model.type())} Validations</Tab>
+                  ) : null}
+                  <Tab key="1">{address.getHumanName(props.model.type())} Dependencies</Tab>
                 </TabList>
                 <TabPanel add={props.add} style={tabPanelStyle}>
                   {React.createElement(address.whichEntity(address.byPath(props.form, props.currententity)), {

@@ -25,7 +25,7 @@ let TabContainer = props => {
   };
 
   const divStyle = {
-    width: '15%',
+    width: props.form.children().length > 1 ? '15%' : '100%',
     textAlign: 'center',
     borderBottom: '3px solid white',
     backgroundColor: 'white',

@@ -429,9 +429,37 @@ class DependencyWrapper extends React.Component {
           <option>Exactly One</option>
         </select>
         <h3>2. Select Entity to Apply Dependency To (implement eye-dropper - future)</h3>
+        <select
+          className="form-control"
+          name="validationSelector"
+          type={this.props.model.type()}
+          value={this.state.validationSelector}
+          onChange={this.handleChange}
+          id="validationSelector"
+          // style={inputStyle(this.props.model)}
+        >
+          {utility
+            .findAll(this.props.form, e => e instanceof FormInput)
+            .map(formInput => (
+              <option
+                value={JSON.stringify(address.bySample(this.props.model, this.props.form))}
+              >{`${formInput.externalIdentifier()} - ${formInput.type()} - ${formInput.inputType()}`}</option>
+            ))}
+        </select>
+        {/* {console.log(
+          this.state.validationSelector
+            ? address.byPath(this.state.validationSelector, this.props.form).inputType()
+            : null
+        )} */}
+        {/* {console.log(
+          this.state.validationSelector
+            ? _dataDefined[address.byPath(this.props.form, this.state.validationSelector).inputType()]
+            : null
+        )} */}
+        {/* {console.log(this.state.validationSelector)} */}
+        {/* <p>{this.state.validationSelector}</p> */}
         <br />
         <DropToSelect form={this.props.form} model={this.props.model} />
-
         {/* <select
             className="form-control"
             name="dependency-selection"
@@ -458,15 +486,20 @@ class DependencyWrapper extends React.Component {
               {' '}
               -- select an option --{' '}
       </option> */}
-          {_dataDefined[`${this.props.model.inputType()}`].userDefined.map(userDefinedVal => (
-            <option value={userDefinedVal}>{userDefinedVal}</option>
-          ))}
+
+          {this.state.validationSelector
+            ? _dataDefined[
+                address.byPath(this.props.form, JSON.parse(this.state.validationSelector)).inputType()
+              ].userDefined.map(userDefinedVal => (
+                <option value={userDefinedVal}>{address.getHumanValidatorName(userDefinedVal)}</option>
+              ))
+            : null}
         </select>
         <h3>4. Configure validator</h3>
         <div id="validation">
           {this.state.currentValidator
             ? React.createElement(address.whichValidationComponent(this.state.currentValidator), {
-                model: address.byPath(this.props.form, this.props.currententity),
+                model: address.byPath(this.props.form, JSON.parse(this.state.validationSelector)),
                 form: this.props.form,
                 currententity: this.props.currententity,
                 mutate: this.props.mutate,

@@ -220,6 +220,27 @@ export const address = {
     }
   },
 
+  getHumanValidatorName: validatorType => {
+    console.log(validatorType);
+    switch (validatorType) {
+      case 'NoOpValidator':
+        return 'Empty Field';
+        break;
+      case 'PatternValidator':
+        return 'Pattern Validator';
+        break;
+      case 'RangeValidator':
+        return 'Range Validator';
+        break;
+      case 'EnumerationValidator':
+        return 'Enumeration Validator';
+        break;
+      case 'SubjectInputValidator':
+        return 'Selection Input';
+        break;
+    }
+  },
+
   rehydrate: formEntitySerialized => {
     switch (formEntitySerialized.type || formEntitySerialized._type || formEntitySerialized.type()) {
       case 'Form':
