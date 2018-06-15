@@ -110,8 +110,7 @@ class DateTextInput extends TextInput {
       doubleEntry: this.doubleEntry(),
       tzChoice: this.tzChoice(),
       startingDate: this.startingDate(),
-      currentValidator: this.currentValidator(),
-      currentDependency: this.currentDependency(),
+
       externalIdentifier: this.externalIdentifier(),
     };
   }

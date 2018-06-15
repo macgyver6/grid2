@@ -27,6 +27,7 @@ const BackgroundPanel = props => (
       mutate={props.mutate}
       changetab={props.changetab}
       activeTab={props.activeTab}
+      temporalStateChange={props.temporalStateChange}
     />
     <MiddlePanel
       form={props.form}
@@ -223,6 +224,10 @@ const DeleteBtn = props => {
     props.remove(data.address);
     const currentTab = JSON.parse(event.dataTransfer.getData('address')).address;
     console.log(currentTab[0]);
+    console.log('test');
+    props.temporalStateChange({
+      currententity: [0, 0, 0],
+    });
 
     if (currentTab.length === 1) {
       const whichTab = () => {
@@ -338,7 +343,12 @@ const LeftPanel = props => {
           </p>
         </div>
       ))}
-      <DeleteBtn form={props.form} remove={props.remove} mutate={props.mutate} />
+      <DeleteBtn
+        form={props.form}
+        remove={props.remove}
+        mutate={props.mutate}
+        temporalStateChange={props.temporalStateChange}
+      />
     </div>
   );
 };
