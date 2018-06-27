@@ -267,29 +267,29 @@ export var defaultPropsFE = {
         prepend: 0,
         append: 0,
       }),
-      new FormSection({
-        uuid: undefined,
-        type: 'FormSection',
-        width: 24,
-        children: [
-          new FormSection({
-            uuid: undefined,
-            type: 'FormSection',
-            width: 24,
-            children: [],
-            legend: 'legend',
-            prepend: 0,
-            append: 0,
-            render: {
-              backgroundColor: 'rgba(243, 234, 95, 0.7)',
-              minWidth: 3,
-            },
-          }),
-        ],
-        legend: 'Tab 3',
-        prepend: 0,
-        append: 0,
-      }),
+      // new FormSection({
+      //   uuid: undefined,
+      //   type: 'FormSection',
+      //   width: 24,
+      //   children: [
+      //     new FormSection({
+      //       uuid: undefined,
+      //       type: 'FormSection',
+      //       width: 24,
+      //       children: [],
+      //       legend: 'legend',
+      //       prepend: 0,
+      //       append: 0,
+      //       render: {
+      //         backgroundColor: 'rgba(243, 234, 95, 0.7)',
+      //         minWidth: 3,
+      //       },
+      //     }),
+      //   ],
+      //   legend: 'Tab 3',
+      //   prepend: 0,
+      //   append: 0,
+      // }),
       // new FormSection({
       //   uuid: undefined,
       //   type: 'FormSection',

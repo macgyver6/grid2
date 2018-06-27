@@ -24,21 +24,22 @@ let TabContainer = props => {
     //   props.form.children().length > 4 ? 'red' : 'rgb(243, 234, 95)';
   };
 
-  const divStyle = {
-    width: props.form.children().length > 1 ? '15%' : '100%',
+  const style_Add_Tab = {
+    width: '100%',
     textAlign: 'center',
     borderBottom: '3px solid white',
     backgroundColor: 'white',
-    position: 'absolute',
-    right: 4,
-    bottom: 4,
+    // position: 'absolute',
+    // right: 4,
+    // bottom: 4,
     border: '1px solid rgb(32, 94, 226)',
+    draggable: 'false',
   };
 
   const Add_Tab = () => (
-    <div style={divStyle} className="add_tab" onClick={click_handler}>
+    <button style={style_Add_Tab} className="add_tab" onClick={click_handler}>
       <p>Add Tab</p>
-    </div>
+    </button>
   );
 
   const mouseLeave_handler = event => {
@@ -50,11 +51,7 @@ let TabContainer = props => {
   };
 
   const click_handler = event => {
-    // const dummyTab = document.getElementById('tabcontainer').children[
-    //   document.getElementById('tabcontainer').children.length - 1
-    // ];
     if (true) {
-      // if (allowAddTab(props)) {
       props.add(
         [props.form.children().length],
         new FormSection({
@@ -67,46 +64,30 @@ let TabContainer = props => {
           append: 0,
         })
       );
-      props.changetab(props.form.children().length);
-      document.getElementById('tabcontainer');
-    }
-
-    if (props.form.children().length > 3) {
-      console.log('too many');
-      const myTimer = setInterval(function() {
-        alternateInterval();
-      }, 300);
-
-      var currentColor = 'red';
-      const alternateInterval = () => {
-        console.log('called');
-        // dummyTab.style.backgroundColor = currentColor;
-        // dummyTab.style.borderBottom = currentColor;
-        // dummyTab.style.borderBottom = currentColor;
-        // currentColor = currentColor === 'red' ? 'white' : 'red';
-      };
-      // dummyTab.innerHTML = '<strong>max2 tabs</strong>';
-
-      setTimeout(() => {
-        console.log('cleared');
-        clearInterval(myTimer);
-        // dummyTab.style.backgroundColor = 'red';
-        // dummyTab.style.borderBottom = '4px solid red';
-      }, 1800);
+      props.temporalStateChange({ activeTab: props.form.children().length });
     }
 
     let tabContainer = document.getElementById('tabcontainer');
-    // tabContainer.style.backgroundColor = props.form.children().length > 3 ? 'red' : 'rgb(243, 234, 95)'; // turns red if more than certain amount of tabs
-    console.log(tabContainer.scrollWidth);
-    tabContainer.scrollLeft = tabContainer.scrollWidth + 160;
+
+    /** number of pixels to offset the scroll by - calculated by the inital div width and the scrollable width */
+    const scrollOffset = tabContainer.scrollWidth - tabContainer.getBoundingClientRect().width;
+
+    /** set the scrollLeft to the right bound of the scroll. An alternative implementation is the use Element.scrollIntoView */
+    tabContainer.scrollLeft = tabContainer.scrollWidth + scrollOffset;
   };
 
-  const metaTabContainerStyle = { width: '100%', position: 'relative' }; // minHeight: '46px',
+  const metaTabContainerStyle = {
+    width: '100%',
+    display: 'grid',
+    gridTemplateColumns: '80% 20%',
+    // position: 'relative'
+  }; // minHeight: '46px',
 
   const TabContainerStyle = {
-    width: '80%', // paddingLeft: '4px', // minHeight: '46px',
+    // width: '80%',
+    // paddingLeft: '4px', // minHeight: '46px',
     display: 'grid',
-    gridTemplateColumns: 'auto',
+    gridTemplateColumns: '1fr',
     gridAutoFlow: 'column',
     // position: 'relative',
     // marginLeft: '20px', // backgroundColor: 'white',
@@ -146,7 +127,24 @@ let TabContainer = props => {
         id="tabcontainer"
       >
         {/* if there is only 1 formSection - collapse the tab bar */}
-        {props.form.children().length > 1 ? renderTabs(props) : null}
+        {/* {props.form.children().length > 1 ? renderTabs(props) : null} */}
+        {renderTabs(props)}
+        <div
+          style={{
+            textAlign: 'center',
+            padding: '10px',
+            // verticalAlign: 'middle',
+            width: '200px',
+            // height: '100%',
+            marginTop: '4px',
+            // margin: '4px',
+            // marginTop: "2%",
+            // marginLeft: "1%",
+            backgroundColor: 'white',
+            // borderTop: "0.25px solid white",
+            borderRight: '4px solid white',
+          }}
+        />
       </div>
       <Add_Tab />
     </div>
