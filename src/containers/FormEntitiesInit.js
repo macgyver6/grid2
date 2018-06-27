@@ -52,7 +52,7 @@ const BackgroundPanel = props => (
       mutate={props.mutate}
       dtLocalFilesSaved={props.dtLocalFilesSaved}
       appState={props.appState}
-      model={address.byPath(props.form, props.appState.currententity)}
+      model={props.appState.currententity ? address.byPath(props.form, props.appState.currententity) : null}
     />
   </div>
 );
@@ -236,12 +236,13 @@ const DeleteBtn = props => {
 
     console.log('remove entity at this address: ', data.address, address.byPath(props.form, data.address));
     console.log(JSON.parse(event.dataTransfer.getData('address')).address);
+    console.log(props.form.children().length);
     props.remove(data.address);
     const currentTab = JSON.parse(event.dataTransfer.getData('address')).address;
     console.log(currentTab[0]);
     console.log('test');
     props.temporalStateChange({
-      currententity: [0, 0, 0],
+      currententity: null,
     });
 
     if (currentTab.length === 1) {
@@ -269,7 +270,21 @@ const DeleteBtn = props => {
       console.log('change current tab to: ', whichTab() - 1);
       // @hack this needs to be more dynamic. ex: deleteing first tab, last tab, etc.
       // props.changetab(1);
-      props.changetab(whichTab() - 2);
+      const whichTab2 = () => {
+        console.log(props.form.children().length - 1 === data.address[0]);
+        if (props.form.children().length === 1) {
+          console.log(1);
+          return 1;
+        } else if (props.form.children().length - 1 === data.address[0]) {
+          console.log(props.form.children().length - 3);
+          return props.form.children().length - 3;
+        } else {
+          console.log(data.address[0]);
+          return data.address[0];
+        }
+      };
+      console.log(props.activeTab, data.address);
+      props.activeTab > data.address[0] ? props.changetab(0) : null;
     }
 
     // console.log(props.activeTab)
@@ -341,6 +356,7 @@ const LeftPanel = props => {
         remove={props.remove}
         mutate={props.mutate}
         temporalStateChange={props.temporalStateChange}
+        activeTab={props.activeTab}
       />
       {entityTypes.map((entity, index) => (
         <div
@@ -383,18 +399,22 @@ const MiddlePanel = props => (
       activeTab={props.activeTab}
       temporalStateChange={props.temporalStateChange}
     />
-    <FormComponent
-      form={props.form}
-      remove={props.remove}
-      add={props.add}
-      mutate={props.mutate}
-      mutateandadd={props.mutateandadd}
-      mutateaddremove={props.mutateaddremove}
-      activeTab={props.activeTab}
-      temporalStateChange={props.temporalStateChange}
-      mutate={props.mutate}
-      appState={props.appState}
-    />
+    {props.form.children().length ? (
+      <FormComponent
+        form={props.form}
+        remove={props.remove}
+        add={props.add}
+        mutate={props.mutate}
+        mutateandadd={props.mutateandadd}
+        mutateaddremove={props.mutateaddremove}
+        activeTab={props.activeTab}
+        temporalStateChange={props.temporalStateChange}
+        mutate={props.mutate}
+        appState={props.appState}
+      />
+    ) : (
+      <h2>Please add a Tab</h2>
+    )}
   </div>
 );
 
