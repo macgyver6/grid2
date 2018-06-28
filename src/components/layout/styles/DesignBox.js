@@ -17,7 +17,7 @@ export const TabStyle = {
   textAlign: 'center',
   padding: '10px',
   // verticalAlign: 'middle',
-  // width: '15%',
+  width: '200px',
   // height: '100%',
   marginTop: '4px',
   // margin: '4px',
@@ -25,7 +25,7 @@ export const TabStyle = {
   // marginLeft: "1%",
   backgroundColor: 'white',
   // borderTop: "0.25px solid white",
-  borderRight: '4px solid white',
+  // borderRight: '4px solid white',
 };
 
 // export const TabButtonStyle = {

@@ -191,24 +191,25 @@ const Tab = props => {
     }
   };
 
-  let mouseEnter_handler = event => {
-    const tabWrapper = document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`);
-    tabWrapper.style.backgroundColor = 'white';
-    tabWrapper.style.borderTop = '0.25px solid rgb(32, 94, 226)';
-    const deleteBtn = document.createElement('button');
-    deleteBtn.style.border = 'none';
-    deleteBtn.style.color = 'white';
-    deleteBtn.style.marginLeft = '2px';
-    deleteBtn.style.textAlign = 'center';
-    deleteBtn.style.textDecoration = 'none';
-    deleteBtn.style.fontSize = '16px';
-    deleteBtn.style.cursor = 'pointer';
-    deleteBtn.style.backgroundColor = '#ff5f56';
-    deleteBtn.innerHTML = 'X';
-    deleteBtn.id = 'deleteBtn';
-    tabWrapper.appendChild(deleteBtn);
-    deleteBtn.addEventListener('click', event => deleteTab_handler(event));
-  };
+  // let mouseEnter_handler = event => {
+  //   const tabWrapper = document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`);
+  //   tabWrapper.style.backgroundColor = 'white';
+  //   // tabWrapper.style.borderTop = '0.25px solid rgb(32, 94, 226)';
+  //   // tabWrapper.style.borderRight = '0.25px solid green';
+  //   const deleteBtn = document.createElement('button');
+  //   deleteBtn.style.border = 'none';
+  //   deleteBtn.style.color = 'white';
+  //   deleteBtn.style.marginLeft = '2px';
+  //   deleteBtn.style.textAlign = 'center';
+  //   deleteBtn.style.textDecoration = 'none';
+  //   deleteBtn.style.fontSize = '16px';
+  //   deleteBtn.style.cursor = 'pointer';
+  //   deleteBtn.style.backgroundColor = '#ff5f56';
+  //   deleteBtn.innerHTML = 'X';
+  //   deleteBtn.id = 'deleteBtn';
+  //   deleteBtn.addEventListener('click', event => deleteTab_handler(event));
+  //   tabWrapper.appendChild(deleteBtn);
+  // };
 
   let mouseLeave_handler = event => {
     const tabWrapper = document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`);
@@ -239,11 +240,10 @@ const Tab = props => {
     <div
       style={{
         ...TabStyle,
+        display: 'inline-block',
         backgroundColor: currentTab ? 'white' : TabStyle.backgroundColor,
-        fontWeight: currentTab ? '900' : '100',
-        // borderLeft: currentTab ? '0.25px solid darkgrey' : null,
-        // borderRight: currentTab ? '0.25px solid darkgrey' : null,
-        borderTop: currentTab ? '3px solid rgb(32, 94, 226)' : '3px solid white',
+        // fontWeight: currentTab ? '900' : '100',
+        // borderTop: currentTab ? '3px solid rgb(32, 94, 226)' : '3px solid white',
       }}
       id={`${props.form.children()[props.currentTab].UUID()}.tab.wrapper`}
       className="tab"
