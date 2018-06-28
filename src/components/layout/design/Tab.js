@@ -297,6 +297,7 @@ const Tab = props => {
         style={{
           width: '110px',
           cursor: 'move',
+          userSelect: 'none',
         }}
         id={`${props.form.children()[props.currentTab].UUID()}.input`}
         type={props.model.type()}
