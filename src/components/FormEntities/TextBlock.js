@@ -9,6 +9,7 @@ import { log } from 'util';
 import { address } from '../../address';
 import { entityActions } from './actions.entities';
 import AddToEnd from './subentities/AddToEnd.js';
+import TextareaAutosize from 'react-autosize-textarea';
 
 const TextBlockComponent = props => {
   const mouseDown_handler = event => entityActions.mouseDown_handler(event, props);
@@ -92,7 +93,15 @@ const TextBlockComponent = props => {
         className="TextInput"
         onMouseDown={mouseDown_handler}
       >
-        <textarea
+        <TextareaAutosize
+          style={{
+            ...inputStyle(props.model),
+            resize: 'none',
+          }}
+          value={props.model.content()}
+        />
+
+        {/* <textarea
           style={{
             ...inputStyle(props.model),
             height: 'auto',
@@ -104,7 +113,7 @@ const TextBlockComponent = props => {
           // rows={props.model.numRows()}
           value={props.model.content()}
           readonly="true"
-        />
+        /> */}
 
         {/* <input
           style={inputStyle(props.model)}
