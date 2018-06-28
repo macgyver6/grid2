@@ -200,6 +200,7 @@ const formReducer = (state, action) => {
     throw new Error('No items saved in local storage');
   }
   if (action.type === 'CHANGETAB') {
+    console.log(action.tab);
     return { ...state, app: { ...state.app, activeTab: action.tab, currententity: action.tab } };
   }
 

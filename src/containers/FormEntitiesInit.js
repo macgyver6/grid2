@@ -44,7 +44,7 @@ const BackgroundPanel = props => (
       temporalStateChange={props.temporalStateChange}
       currententity={props.currententity}
     />
-    <PropertiesPanel
+    {/* <PropertiesPanel
       add={props.add}
       form={props.form}
       temporalStateChange={props.temporalStateChange}
@@ -53,7 +53,7 @@ const BackgroundPanel = props => (
       dtLocalFilesSaved={props.dtLocalFilesSaved}
       appState={props.appState}
       model={props.appState.currententity ? address.byPath(props.form, props.appState.currententity) : null}
-    />
+    /> */}
   </div>
 );
 
@@ -245,46 +245,12 @@ const DeleteBtn = props => {
       currententity: null,
     });
 
-    if (currentTab.length === 1) {
-      const whichTab = () => {
-        if (props.activeTab === 0) {
-          console.log('here');
-          return 0;
-        }
-        if (props.activeTab === currentTab[0] && props.form.children().length - 1 !== currentTab[0]) {
-          console.log('here');
-          return props.form.children().length;
-        }
-        console.log(props.activeTab, currentTab[0], props.form.children().length - 1);
-        if (props.activeTab === currentTab[0] && props.form.children().length - 1 === currentTab[0]) {
-          console.log('here');
-          return props.form.children().length - 1;
-        }
-        if (props.activeTab !== currentTab[0]) {
-          console.log('here: ', props.form.children().length);
-          return props.form.children().length - 1;
-        }
-        // return currentTab[0]
-      };
-      console.log(event.target, currentTab[0]);
-      console.log('change current tab to: ', whichTab() - 1);
-      // @hack this needs to be more dynamic. ex: deleteing first tab, last tab, etc.
-      // props.changetab(1);
-      const whichTab2 = () => {
-        console.log(props.form.children().length - 1 === data.address[0]);
-        if (props.form.children().length === 1) {
-          console.log(1);
-          return 1;
-        } else if (props.form.children().length - 1 === data.address[0]) {
-          console.log(props.form.children().length - 3);
-          return props.form.children().length - 3;
-        } else {
-          console.log(data.address[0]);
-          return data.address[0];
-        }
-      };
-      console.log(props.activeTab, data.address);
-      props.activeTab > data.address[0] ? props.changetab(0) : null;
+    if (data.address[0] === 0) {
+      props.changetab(0);
+    } else if (props.activeTab === props.form.children().length) {
+      props.changetab(0);
+    } else {
+      props.changetab(data.address[0] - 1);
     }
 
     // console.log(props.activeTab)
@@ -413,6 +379,18 @@ const MiddlePanel = props => (
         appState={props.appState}
       />
     ) : (
+      // <FormComponent
+      //   form={props.form}
+      //   remove={props.remove}
+      //   add={props.add}
+      //   mutate={props.mutate}
+      //   mutateandadd={props.mutateandadd}
+      //   mutateaddremove={props.mutateaddremove}
+      //   activeTab={props.activeTab}
+      //   temporalStateChange={props.temporalStateChange}
+      //   mutate={props.mutate}
+      //   appState={props.appState}
+      // />
       <h2>Please add a Tab</h2>
     )}
   </div>
