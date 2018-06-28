@@ -30,21 +30,22 @@ let TabContainer = props => {
   };
 
   const style_Add_Tab = {
-    width: '100%',
     textAlign: 'center',
     borderBottom: '3px solid white',
     backgroundColor: 'white',
-    // margin: '6px',
+    // marginTop: '2px',
     // position: 'absolute',
     // right: 4,
     // bottom: 4,
+    width: '132px',
     border: '1px solid rgb(32, 94, 226)',
     draggable: 'false',
+    margin: '8px 6px 6px 6px',
   };
 
   const Add_Tab = () => (
     <button style={style_Add_Tab} className="add_tab" onClick={click_handler}>
-      <p>Add Tab</p>
+      <p style={{ margin: '2px' }}>Add Tab</p>
     </button>
   );
 
@@ -83,20 +84,23 @@ let TabContainer = props => {
   };
 
   const metaTabContainerStyle = {
-    width: '82%',
+    width: '100%',
     display: 'grid',
-    gridTemplateColumns: '70% 10%',
+    gridTemplateColumns: '80% 20%',
     position: 'relative',
+    marginBottom: '16px',
+    marginLeft: '20px',
+    // marginRight: '20px',
+    // padding: '6px',
   }; // minHeight: '46px',
 
   const TabContainerStyle = {
     // display: 'grid',
     // gridTemplateColumns: 'repeat 200px',
     // gridAutoFlow: 'column',
-    width: '90%',
+    maxWidth: '94%',
     whiteSpace: 'nowrap',
     overflowX: 'scroll',
-    marginRight: '40px',
   };
   // border: 'solid blue',
 
@@ -122,12 +126,12 @@ let TabContainer = props => {
 
   const ScrollRight = (
     <div
-      onClick={e => scroll_handler(-270, e)}
+      onClick={e => scroll_handler(-130, e)}
       style={{
         // backgroundColor: 'blue',
         position: 'absolute',
-        top: '25px',
-        left: '0px',
+        top: '9px',
+        left: '-20px',
         width: 0,
         height: 0,
         borderTop: '10px solid transparent',
@@ -143,12 +147,12 @@ let TabContainer = props => {
 
   const ScrollLeft = (
     <div
-      onClick={e => scroll_handler(270, e)}
+      onClick={e => scroll_handler(130, e)}
       style={{
         // backgroundColor: 'blue',
         position: 'absolute',
-        top: '25px',
-        right: '200px',
+        top: '9px',
+        right: '190px',
         width: 0,
         height: 0,
         borderTop: '10px solid transparent',
@@ -176,10 +180,11 @@ let TabContainer = props => {
         <div
           style={{
             textAlign: 'center',
-            // padding: '10px',
+            padding: '10px',
             // verticalAlign: 'middle',
-            width: '200px',
+            width: '110px',
             // height: '100%',
+            marginTop: '4px',
             // margin: '4px',
             // marginTop: "2%",
             // marginLeft: "1%",

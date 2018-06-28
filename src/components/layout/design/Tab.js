@@ -68,10 +68,16 @@ const Tab = props => {
     event.preventDefault();
     event.stopPropagation();
     /** if there is an entity being added or moved, show a green target */
-    if (event.dataTransfer.types[0] === 'address') {
-      event.target.style.backgroundColor = 'green';
-      document.getElementById(`${event.target.id.split('.')[0]}.input`).style.backgroundColor = '';
-    }
+    // `${event.target.id.split('.')[0]}` !== props.model.UUID() ?
+    // document.getElementById(`${props.model.UUID()}.tab.wrapper`).style.borderRight = '4px solid green';
+
+    // event.target.style.borderRight = '4px solid green';
+
+    // if (event.dataTransfer.types[0] === 'address') {
+    //   event.target.style.backgroundColor = 'green';
+    //   document.getElementById(`${event.target.id.split('.')[0]}.input`).style.backgroundColor = '';
+    // }
+
     // console.log(event.target.currentTarget)
     // console.log(event.dataTransfer.types)
     {
@@ -109,14 +115,31 @@ const Tab = props => {
     // event.target.style.removeProperty('border');
   };
 
+  let dragEnter_handler = event => {
+    console.log(event.target.id);
+  };
+
   let drop_handler = event => {
-    console.log(JSON.parse(event.dataTransfer.getData('address')));
+    console.log(event.dataTransfer.types[1], event.dataTransfer.types.length);
+    // event.dataTransfer.types.length > 1 ?
     event.stopPropagation();
     /** resets to the background from green to '' onDrop*/
     document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`).style.backgroundColor = 'white';
     document.getElementById(`${event.target.id.split('.')[0]}.input`).style.backgroundColor = '';
     let dropData = JSON.parse(event.dataTransfer.getData('address'));
-    if (dropData.action !== 'addEntity') {
+    /** moving an entity other than tab */
+    if (dropData.action !== 'addEntity' && event.dataTransfer.types.length > 1) {
+      const indexOfSource = Number(event.dataTransfer.types[1]);
+      const indexOfDestination = props.form.children().indexOf(props.model);
+      console.log(indexOfDestination, indexOfSource);
+      const _children = [...props.form.children()];
+      const entityRemoved = _children.splice(indexOfSource, 1);
+      const entityInsertedAtNewIndex = _children.splice(indexOfDestination, 0, entityRemoved[0]);
+      props.formmutate([], _children);
+      props.temporalStateChange({
+        activeTab: indexOfDestination,
+      });
+    } else if (dropData.action !== 'addEntity') {
       const destinationTabAddress = address.bySample(props.model, props.form)[0];
 
       console.log(props.model.children().length);
@@ -129,6 +152,7 @@ const Tab = props => {
       // });
       props.changetab(destinationTabAddress);
     } else {
+      /** adding a new entity directly to a tab */
       let dropData = JSON.parse(event.dataTransfer.getData('address'));
       const destinationTabAddress = address.bySample(props.model, props.form)[0];
       console.log(dropData);
@@ -191,25 +215,25 @@ const Tab = props => {
     }
   };
 
-  // let mouseEnter_handler = event => {
-  //   const tabWrapper = document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`);
-  //   tabWrapper.style.backgroundColor = 'white';
-  //   // tabWrapper.style.borderTop = '0.25px solid rgb(32, 94, 226)';
-  //   // tabWrapper.style.borderRight = '0.25px solid green';
-  //   const deleteBtn = document.createElement('button');
-  //   deleteBtn.style.border = 'none';
-  //   deleteBtn.style.color = 'white';
-  //   deleteBtn.style.marginLeft = '2px';
-  //   deleteBtn.style.textAlign = 'center';
-  //   deleteBtn.style.textDecoration = 'none';
-  //   deleteBtn.style.fontSize = '16px';
-  //   deleteBtn.style.cursor = 'pointer';
-  //   deleteBtn.style.backgroundColor = '#ff5f56';
-  //   deleteBtn.innerHTML = 'X';
-  //   deleteBtn.id = 'deleteBtn';
-  //   deleteBtn.addEventListener('click', event => deleteTab_handler(event));
-  //   tabWrapper.appendChild(deleteBtn);
-  // };
+  let mouseEnter_handler = event => {
+    const tabWrapper = document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`);
+    tabWrapper.style.backgroundColor = 'white';
+    tabWrapper.style.borderTop = '0.25px solid rgb(32, 94, 226)';
+    // tabWrapper.style.borderRight = '0.25px solid green';
+    const deleteBtn = document.createElement('button');
+    deleteBtn.style.border = 'none';
+    deleteBtn.style.color = 'white';
+    deleteBtn.style.marginLeft = '2px';
+    deleteBtn.style.textAlign = 'center';
+    deleteBtn.style.textDecoration = 'none';
+    deleteBtn.style.fontSize = '16px';
+    deleteBtn.style.cursor = 'pointer';
+    deleteBtn.style.backgroundColor = '#ff5f56';
+    deleteBtn.innerHTML = 'X';
+    deleteBtn.id = 'deleteBtn';
+    deleteBtn.addEventListener('click', event => deleteTab_handler(event));
+    tabWrapper.appendChild(deleteBtn);
+  };
 
   let mouseLeave_handler = event => {
     const tabWrapper = document.getElementById(`${event.target.id.split('.')[0]}.tab.wrapper`);
@@ -242,8 +266,11 @@ const Tab = props => {
         ...TabStyle,
         display: 'inline-block',
         backgroundColor: currentTab ? 'white' : TabStyle.backgroundColor,
-        // fontWeight: currentTab ? '900' : '100',
-        // borderTop: currentTab ? '3px solid rgb(32, 94, 226)' : '3px solid white',
+        fontWeight: currentTab ? '900' : '100',
+        // borderLeft: currentTab ? '0.25px solid darkgrey' : null,
+        // borderRight: currentTab ? '0.25px solid darkgrey' : null,
+        borderTop: currentTab ? '3px solid rgb(32, 94, 226)' : '3px solid white',
+        // borderRight: '3px solid white',
       }}
       id={`${props.form.children()[props.currentTab].UUID()}.tab.wrapper`}
       className="tab"
@@ -253,16 +280,21 @@ const Tab = props => {
       onDragOver={onDragOverHandler}
       // onMouseEnter={mouseEnter_handler}
       // onMouseLeave={mouseLeave_handler}
-      onMouseDown={mouseDown_handler}
-      onMouseUp={mouseUp_handler}
-      onDragLeave={dragLeave_handler}
+      // onMouseDown={mouseDown_handler}
+      // onMouseUp={mouseUp_handler}
+      // onDragEnter={dragEnter_handler}
+      // onDragLeave={dragLeave_handler}
       onDrop={drop_handler}
     >
       <input
+        style={{
+          width: '110px',
+          cursor: 'move',
+        }}
         id={`${props.form.children()[props.currentTab].UUID()}.input`}
-        className="form-control"
         type={props.model.type()}
         onChange={change_handler}
+        // value={props.model.UUID().slice(props.model.UUID().length - 4, props.model.UUID().length)}
         value={props.model.legend()}
         readOnly="true"
         // size={'18'}
