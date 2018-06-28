@@ -135,6 +135,13 @@ const Tab = props => {
       const _children = [...props.form.children()];
       const entityRemoved = _children.splice(indexOfSource, 1);
       const entityInsertedAtNewIndex = _children.splice(indexOfDestination, 0, entityRemoved[0]);
+
+      // reorder(arr, originIndex, destinationIndex) {
+      //   const originalDestinationItem = arr[destinationIndex];
+      //   arr[destinationIndex] = arr[originIndex];
+      //   arr[originIndex] = originalDestinationItem;
+      //   return arr;
+      // }
       props.formmutate([], _children);
       props.temporalStateChange({
         activeTab: indexOfDestination,

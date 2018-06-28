@@ -341,7 +341,7 @@ let FormSectionComponent = props => {
   /**address of less than 2 would scrolls properly with 'auto', but it affects the integrity of the grid columns */
   const scrollable = address.bySample(props.model, props.form).length < 2 ? 'visible' : 'scroll';
 
-  const showResizer = address.bySample(props.model, props.form).length < 2 ? false : true;
+  const dontResizeTopLevel = address.bySample(props.model, props.form).length < 2 ? false : true;
 
   const total = entity =>
     (entity.prePromptWidth ? entity.prePromptWidth() : 0) +
@@ -472,7 +472,7 @@ let FormSectionComponent = props => {
               });
             })
           : null}
-        {showResizer ? (
+        {dontResizeTopLevel ? (
           <Resizer
             id={`${props.model.UUID()}.resizer`}
             element="FormEntity"
@@ -485,7 +485,8 @@ let FormSectionComponent = props => {
             mutate={props.mutate}
             resizeType="width"
             style={{
-              right: '-30',
+              width: '5px',
+              padding: '0px',
             }}
           />
         ) : null}
