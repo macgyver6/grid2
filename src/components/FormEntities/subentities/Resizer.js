@@ -208,16 +208,19 @@ let Resizer = props => {
   };
 
   const mouseEnter_handler = event => {
-    console.log(event.target);
+    // console.log(event.target);
     event.target.style.backgroundColor = 'green';
+    event.target.style.width = '30px';
     // event.target.innerHTML = '<h1>↔️</h1>';
     // event.target.zIndex = '100';
   };
 
   const mouseLeave_handler = event => {
     // console.log(event.target);
-    // event.target.style.backgroundColor = '';
+    event.target.style.backgroundColor = '';
     // event.target.innerHTML = '';
+    console.log(props.model.type());
+    event.target.style.width = props.model.type() !== 'FormSection' ? resizeStyle.width : '5px';
   };
 
   const click_handler = event => {
@@ -229,11 +232,12 @@ let Resizer = props => {
       id={`${props.resizeType}`}
       className="resizer"
       style={{ ...resizeStyle, ...props.style }}
+      // style={{ ...resizeStyle, ...props.style }}
       onDragStart={dragstart_handler}
       onMouseDown={mouseDown_handler}
       onMouseUp={mouseUp_handler}
-      // onMouseEnter={mouseEnter_handler}
-      // onMouseLeave={mouseLeave_handler}
+      onMouseEnter={mouseEnter_handler}
+      onMouseLeave={mouseLeave_handler}
       draggable="true"
       // onClick={click_handler}
     />

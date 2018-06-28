@@ -122,7 +122,9 @@ const CheckBoxComponent = props => {
           type={props.model.type()}
           style={{
             ...inputStyle(props.model),
-            // margin: '4px',
+            margin: '12px 0px 0px 3px',
+            // marginTop: '12px',
+            // marginLeft: '12px',
             height: '24px',
             width: '24px',
           }}
