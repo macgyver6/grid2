@@ -3,6 +3,11 @@ import { FormSection } from '../../../data/FormSection';
 import Tab from './Tab';
 
 let TabContainer = props => {
+  const scroll_handler = (direction, e) => {
+    const tabcontainer = document.getElementById('tabcontainer');
+    tabcontainer.scrollBy(direction, 0);
+  };
+  console.log(document.getElementById('tabcontainer'));
   // const allowAddTab = props => (props.form.children().length < 5 ? true : false);
 
   const mouseEnter_handler = event => {
@@ -25,20 +30,22 @@ let TabContainer = props => {
   };
 
   const style_Add_Tab = {
-    width: '100%',
     textAlign: 'center',
     borderBottom: '3px solid white',
     backgroundColor: 'white',
+    // marginTop: '2px',
     // position: 'absolute',
     // right: 4,
     // bottom: 4,
+    width: '132px',
     border: '1px solid rgb(32, 94, 226)',
     draggable: 'false',
+    margin: '8px 6px 6px 6px',
   };
 
   const Add_Tab = () => (
     <button style={style_Add_Tab} className="add_tab" onClick={click_handler}>
-      <p>Add Tab</p>
+      <p style={{ margin: '2px' }}>Add Tab</p>
     </button>
   );
 
@@ -80,18 +87,19 @@ let TabContainer = props => {
     width: '100%',
     display: 'grid',
     gridTemplateColumns: '80% 20%',
-    // position: 'relative'
+    position: 'relative',
+    marginBottom: '16px',
+    marginLeft: '20px',
+    // marginRight: '20px',
+    // padding: '6px',
   }; // minHeight: '46px',
 
   const TabContainerStyle = {
-    // width: '80%',
-    // paddingLeft: '4px', // minHeight: '46px',
-    display: 'grid',
-    gridTemplateColumns: '1fr',
-    gridAutoFlow: 'column',
-    // position: 'relative',
-    // marginLeft: '20px', // backgroundColor: 'white',
-    // marginRight: '20px',
+    // display: 'grid',
+    // gridTemplateColumns: 'repeat 200px',
+    // gridAutoFlow: 'column',
+    maxWidth: '94%',
+    whiteSpace: 'nowrap',
     overflowX: 'scroll',
   };
   // border: 'solid blue',
@@ -116,8 +124,48 @@ let TabContainer = props => {
         />
       ));
 
+  const ScrollRight = (
+    <div
+      onClick={e => scroll_handler(-130, e)}
+      style={{
+        // backgroundColor: 'blue',
+        position: 'absolute',
+        top: '9px',
+        left: '-20px',
+        width: 0,
+        height: 0,
+        borderTop: '10px solid transparent',
+        borderBottom: '10px solid transparent',
+        borderRight: '10px solid blue',
+      }}
+    />
+  );
+
+  //   .arrow - right {
+
+  // }
+
+  const ScrollLeft = (
+    <div
+      onClick={e => scroll_handler(130, e)}
+      style={{
+        // backgroundColor: 'blue',
+        position: 'absolute',
+        top: '9px',
+        right: '190px',
+        width: 0,
+        height: 0,
+        borderTop: '10px solid transparent',
+        borderBottom: '10px solid transparent',
+        borderLeft: '10px solid blue',
+      }}
+    />
+  );
+
   return (
     <div style={metaTabContainerStyle}>
+      {ScrollRight}
+      {ScrollLeft}
       <div
         style={{
           ...TabContainerStyle,
@@ -134,15 +182,16 @@ let TabContainer = props => {
             textAlign: 'center',
             padding: '10px',
             // verticalAlign: 'middle',
-            width: '200px',
+            width: '110px',
             // height: '100%',
             marginTop: '4px',
             // margin: '4px',
             // marginTop: "2%",
             // marginLeft: "1%",
-            backgroundColor: 'white',
+            backgroundColor: '',
+            display: 'inline-block',
             // borderTop: "0.25px solid white",
-            borderRight: '4px solid white',
+            // borderRight: '4px solid white',
           }}
         />
       </div>
