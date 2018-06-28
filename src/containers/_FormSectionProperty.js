@@ -35,7 +35,7 @@ export const _FormSectionProperty = props => {
 
   return (
     <div>
-      <label htmlFor="legend">Default Text: </label>
+      <label htmlFor="legend">Name: </label>
       <input type="text" name="legend" type="text" id="legend" onChange={change_handler} value={props.model.legend()} />
     </div>
   );
