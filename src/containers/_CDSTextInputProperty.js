@@ -48,15 +48,6 @@ export const _CDSTextInputProperty = props => {
         add={props.add}
       />
       <br />
-      <DataDefinedValidation
-        model={address.byPath(props.form, props.currententity)}
-        form={props.form}
-        currententity={props.currententity}
-        mutate={props.mutate}
-        appState={props.appState}
-        temporalStateChange={props.temporalStateChange}
-      />
-      <br />
       <label htmlFor="evalidationPolicy">Script runs:</label>
       <select value={props.model.script()} className="form-control" name="script" onChange={change_handler} id="script">
         {[

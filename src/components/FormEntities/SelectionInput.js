@@ -116,7 +116,6 @@ const SelectionInputComponent = props => {
           backgroundColor="red"
         />
       ) : null}
-
       <div
         style={{
           ...entityStyle(props.model),

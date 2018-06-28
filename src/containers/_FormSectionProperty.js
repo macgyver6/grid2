@@ -35,8 +35,19 @@ export const _FormSectionProperty = props => {
 
   return (
     <div>
-      <label htmlFor="legend">Default Text: </label>
-      <input type="text" name="legend" type="text" id="legend" onChange={change_handler} value={props.model.legend()} />
+      <label htmlFor="legend">Name: </label>
+      <br />
+      <textarea
+        type="text"
+        name="legend"
+        type="text"
+        id="legend"
+        onChange={change_handler}
+        value={props.model.legend()}
+        type={props.model.type()}
+        rows="3"
+        cols="50"
+      />
     </div>
   );
 };

@@ -44,7 +44,7 @@ const BackgroundPanel = props => (
       temporalStateChange={props.temporalStateChange}
       currententity={props.currententity}
     />
-    {/* <PropertiesPanel
+    <PropertiesPanel
       add={props.add}
       form={props.form}
       temporalStateChange={props.temporalStateChange}
@@ -53,7 +53,7 @@ const BackgroundPanel = props => (
       dtLocalFilesSaved={props.dtLocalFilesSaved}
       appState={props.appState}
       model={props.appState.currententity ? address.byPath(props.form, props.appState.currententity) : null}
-    /> */}
+    />
   </div>
 );
 
@@ -379,18 +379,6 @@ const MiddlePanel = props => (
         appState={props.appState}
       />
     ) : (
-      // <FormComponent
-      //   form={props.form}
-      //   remove={props.remove}
-      //   add={props.add}
-      //   mutate={props.mutate}
-      //   mutateandadd={props.mutateandadd}
-      //   mutateaddremove={props.mutateaddremove}
-      //   activeTab={props.activeTab}
-      //   temporalStateChange={props.temporalStateChange}
-      //   mutate={props.mutate}
-      //   appState={props.appState}
-      // />
       <h2>Please add a Tab</h2>
     )}
   </div>

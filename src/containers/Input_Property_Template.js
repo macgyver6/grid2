@@ -57,7 +57,14 @@ export const Input_Property_Template = props => {
         <p>
           <label htmlFor="textInput-name">Name</label>
           <br />
-          <input type="text" id="name" name="textInput-name" onChange={change_handler} value={props.model.name()} />
+          <input
+            type="text"
+            id="name"
+            name="textInput-name"
+            onChange={change_handler}
+            value={props.model.name()}
+            size="40"
+          />
         </p>
         <p>
           <label htmlFor="externalIdentifier">Field Identifier</label>
@@ -68,6 +75,7 @@ export const Input_Property_Template = props => {
             name="externalIdentifier"
             onChange={change_handler}
             value={props.model.externalIdentifier()}
+            size="40"
           />
         </p>
 
@@ -174,13 +182,27 @@ export const Input_Property_Template = props => {
         <p>
           <label htmlFor="textInput-sasCodeLabel">Field Label: </label>
           <br />
-          <input
+
+          <textarea
+            type="text"
+            name="textInput-sasCodeLabel"
+            className="form-control"
+            type={props.model.type()}
+            // cols={props.model.numColumns()}
+            rows="3"
+            cols="50"
+            id="sasCodeLabel"
+            onChange={change_handler}
+            value={props.model.sasCodeLabel()}
+          />
+
+          {/* <input
             type="text"
             name="textInput-sasCodeLabel"
             id="sasCodeLabel"
             onChange={change_handler}
             value={props.model.sasCodeLabel()}
-          />
+          /> */}
         </p>
         <div>
           <label htmlFor="textInput-QxQ">QxQ Content</label>
