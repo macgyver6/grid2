@@ -64,7 +64,13 @@ export var initFE = {
     doubleEntry: true,
     defaultContent: '',
     renderMode: 'selection',
-    options: [{}],
+    options: [
+      { label: '', value: '' },
+      { label: 1, value: 1 },
+      { label: 2, value: 2 },
+      { label: 3, value: 3 },
+      { label: 4, value: 4 },
+    ],
     render: { backgroundColor: 'red', minWidth: 3 },
   },
   TextArea: {

@@ -44,6 +44,35 @@ export const _SelectionInputProperty = props => {
     });
   };
 
+  let onDragOverHandler = event => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
+  let dragstart_handler = (event, index) => {
+    event.dataTransfer.setData('index', event.target.id);
+    console.log(index);
+  };
+
+  let drop_handler = event => {
+    event.stopPropagation();
+    // const dropData = Number(event.dataTransfer.getData('index'));
+    // const destinationAddress = event.target.id;
+    // const _children = [...props.model.options()];
+    // const entityRemoved = _children.splice(dropData, 1);
+    // const entityInsertedAtNewIndex = _children.splice(destinationAddress, 0, entityRemoved[0]);
+
+    const indexOfSource = Number(event.dataTransfer.getData('index'));
+    const indexOfDestination = event.target.id;
+    const _options = [...props.model.options()];
+    const entityRemoved = _options.splice(indexOfSource, 1);
+    const entityInsertedAtNewIndex = _options.splice(indexOfDestination, 0, entityRemoved[0]);
+
+    props.mutate(address.bySample(props.model, props.form), {
+      options: _options,
+    });
+  };
+
   return (
     <div>
       <Input_Property_Template
@@ -79,8 +108,15 @@ export const _SelectionInputProperty = props => {
           +
         </button>
         <ul id="selectionOptions">
-          {props.model.options().map(option => (
-            <li className="flexbox-container">
+          {props.model.options().map((option, index) => (
+            <li
+              className="flexbox-container"
+              onDragStart={dragstart_handler}
+              onDragOver={onDragOverHandler}
+              onDrop={drop_handler}
+              id={index}
+              draggable="true"
+            >
               <div>
                 <label for="input">Label</label>
                 <input name="input" type="text" value={option.label} />
