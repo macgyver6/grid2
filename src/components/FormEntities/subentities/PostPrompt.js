@@ -31,14 +31,16 @@ const PostPrompt = props => {
       id={`${props.model.UUID()}.postPrompt`}
       onMouseDown={mouseDown_handler} // to set intitial mouse click loc
     >
-      <input
-        style={{
-          ...inputStyle(props.model),
-          gridColumn: `span ${props.model.postPromptWidth()}`,
-        }}
-        className="form-control"
-        value={props.model.postPrompt()}
-      />
+      {props.model.postPromptWidth() < 2 ? null : (
+        <input
+          style={{
+            ...inputStyle(props.model),
+            gridColumn: `span ${props.model.postPromptWidth()}`,
+          }}
+          className="form-control"
+          value={props.model.postPrompt()}
+        />
+      )}
       <Resizer
         id={`${props.model.UUID()}.resizer`}
         element="FormEntity"

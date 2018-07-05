@@ -89,7 +89,7 @@ const CDSTextInputComponent = props => {
           mutate={props.mutate}
         />
       ) : null}
-      {props.model.prePromptWidth() > 1 ? (
+      {props.model.prePromptWidth() > 0 ? (
         <PrePrompt
           id={`${props.model.UUID()}.prepend`}
           prePromptWidth={props.model.prePromptWidth()}
@@ -112,15 +112,17 @@ const CDSTextInputComponent = props => {
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="TextInput"
       >
-        <input
-          style={inputStyle(props.model)}
-          className="form-control"
-          name={props.model.name()}
-          // rows="5"
-          // cols="12"
-          readOnly="true"
-          // value={props.model.script()}
-        />
+        {props.model.width() < 2 ? null : (
+          <input
+            style={inputStyle(props.model)}
+            className="form-control"
+            name={props.model.name()}
+            // rows="5"
+            // cols="12"
+            readOnly="true"
+            // value={props.model.script()}
+          />
+        )}
         <Resizer
           id={`${props.model.UUID()}.resizer`}
           element="FormEntity"

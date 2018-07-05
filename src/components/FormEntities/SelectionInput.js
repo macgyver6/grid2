@@ -102,7 +102,7 @@ const SelectionInputComponent = props => {
           mutate={props.mutate}
         />
       ) : null}
-      {props.model.prePromptWidth() > 1 ? (
+      {props.model.prePromptWidth() > 0 ? (
         <PrePrompt
           id={`${props.model.UUID()}.prepend`}
           prePromptWidth={props.model.prePromptWidth()}
@@ -126,15 +126,17 @@ const SelectionInputComponent = props => {
         onMouseDown={mouseDown_handler}
       >
         {props.model.renderMode() === 'selection' ? (
-          <select
-            // style={siInputStyle}
-            style={inputStyle(props.model)}
-            className="form-control"
-            type={props.model.type()}
-          >
-            {props.model.options().map(option => <option value={option.value}>{option.label}</option>)}
-          </select>
-        ) : (
+          props.model.width() < 2 ? null : (
+            <select
+              // style={siInputStyle}
+              style={inputStyle(props.model)}
+              className="form-control"
+              type={props.model.type()}
+            >
+              {props.model.options().map(option => <option value={option.value}>{option.label}</option>)}
+            </select>
+          )
+        ) : props.model.width() < 2 ? null : (
           <div className="fancy-radio-wrapper" style={fancyRadioStyle}>
             <div className="fancy-radio-inner">
               {props.model.options().map(option => [

@@ -111,7 +111,7 @@ const TextInputComponent = props => {
           mutate={props.mutate}
         />
       ) : null}
-      {props.model.prePromptWidth() > 1 ? (
+      {props.model.prePromptWidth() > 0 ? (
         <PrePrompt
           id={`${props.model.UUID()}.prePrompt`}
           prePromptWidth={props.model.prePromptWidth()}
@@ -133,13 +133,15 @@ const TextInputComponent = props => {
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="TextInput"
       >
-        <input
-          style={inputStyle(props.model)}
-          className="form-control"
-          type={props.model.type()}
-          // size="8"
-          readOnly="true"
-        />
+        {props.model.width() < 2 ? null : (
+          <input
+            style={inputStyle(props.model)}
+            className="form-control"
+            type={props.model.type()}
+            // size="8"
+            readOnly="true"
+          />
+        )}
         <Resizer
           id="width"
           // id={`${props.model.UUID()}.resizer`}

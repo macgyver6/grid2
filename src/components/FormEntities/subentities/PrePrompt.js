@@ -24,14 +24,16 @@ const PrePrompt = props => {
       id={`${props.model.UUID()}.prePrompt`}
       onMouseDown={mouseDown_handler} // to set intitial mouse click loc
     >
-      <input
-        style={{
-          ...inputStyle(props.model),
-          gridColumn: `span ${props.model.prePromptWidth()}`,
-        }}
-        className="form-control"
-        value={props.model.prePrompt()}
-      />
+      {props.model.prePromptWidth() < 2 ? null : (
+        <input
+          style={{
+            ...inputStyle(props.model),
+            gridColumn: `span ${props.model.prePromptWidth()}`,
+          }}
+          className="form-control"
+          value={props.model.prePrompt()}
+        />
+      )}
       <Resizer
         id="prePrompt"
         element="FormEntity"

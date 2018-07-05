@@ -87,7 +87,7 @@ const CheckBoxComponent = props => {
         />
       ) : null}
 
-      {props.model.prePromptWidth() > 1 ? (
+      {props.model.prePromptWidth() > 0 ? (
         <PrePrompt
           id={`${props.model.UUID()}.prepend`}
           prePromptWidth={props.model.prePromptWidth()}
@@ -115,7 +115,7 @@ const CheckBoxComponent = props => {
         draggable="false"
       >
         {/* onChange={(e) => handleChange(e, props)} */}
-        <input type={props.model.type()} style={inputStyle(props.model)} />
+        {props.model.width() < 2 ? null : <input type={props.model.type()} style={inputStyle(props.model)} />}
         <Resizer
           id="width"
           // id={`${props.model.UUID()}.resizer`}

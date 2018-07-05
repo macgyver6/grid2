@@ -85,7 +85,7 @@ const EchoComponent = props => {
         />
       ) : null}
 
-      {props.model.prePromptWidth() > 1 ? (
+      {props.model.prePromptWidth() > 0 ? (
         <PrePrompt
           id={`${props.model.UUID()}.prepend`}
           prePromptWidth={props.model.prePromptWidth()}
@@ -111,13 +111,15 @@ const EchoComponent = props => {
         onDragStart={dragstart_handler}
         draggable="false"
       >
-        <input
-          style={inputStyle(props.model)}
-          className="form-control"
-          type={props.model.type()}
-          disabled="disabled"
-          value={props.model.sourceInput() !== '' ? props.model.sourceInput() + ` value` : ''}
-        />
+        {props.model.width() < 2 ? null : (
+          <input
+            style={inputStyle(props.model)}
+            className="form-control"
+            type={props.model.type()}
+            disabled="disabled"
+            value={props.model.sourceInput() !== '' ? props.model.sourceInput() + ` value` : ''}
+          />
+        )}
         {/*console.log(
           props.model.sourceInput() === ''
             ? ''

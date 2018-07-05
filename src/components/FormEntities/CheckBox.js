@@ -87,7 +87,7 @@ const CheckBoxComponent = props => {
         />
       ) : null}
 
-      {props.model.prePromptWidth() > 1 ? (
+      {props.model.prePromptWidth() > 0 ? (
         <PrePrompt
           id={`${props.model.UUID()}.prepend`}
           prePromptWidth={props.model.prePromptWidth()}
