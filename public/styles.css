@@ -26,9 +26,9 @@ img {
   width: 100%;
 }
 
-.resizer:hover {
+/* .resizer:hover {
     background-color: green;
-}
+} */
 
 ::-webkit-scrollbar {
 display: none;

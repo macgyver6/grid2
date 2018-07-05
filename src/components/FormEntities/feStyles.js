@@ -27,7 +27,7 @@ export const entityWrapperStyle = entity => ({
   gridColumn: `span ${calcTotal(entity)}`,
   gridTemplateColumns: 'repeat(' + `${calcTotal(entity)}` + ', [col] 1fr)',
   gridGap: '8px',
-  draggable: 'true',
+  // draggable: 'true',
   // margin: '10px 0px 10px 0px',
   minHeight: '40px',
   // zIndex: '40',

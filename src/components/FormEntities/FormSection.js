@@ -407,6 +407,7 @@ let FormSectionComponent = props => {
       }
       onMouseDown={mouseDown_handler}
       onDragStart={dragstart_handler}
+      draggable="false"
     >
       {props.model.prepend() > 0 ? (
         <Prepend

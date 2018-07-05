@@ -4,6 +4,7 @@ import { address } from '../../../address';
 import { defaultPropsFE } from '../../../constants/defaultPropsFE';
 import { initFE } from '../../../constants/defaultPropsFE';
 // import { helpers } from '../../../helpers';
+console.log('hit resize');
 
 const round = (value, decimals) => Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 
@@ -36,14 +37,11 @@ let Resizer = props => {
 
   let mouseDown_handler = event => {
     event.stopPropagation();
-    // console.log('mouseDown: ', event.clientX)
     resize.mouseMoveStartX = event.clientX;
-    console.log(event.target);
     resize.target = event.target.id;
-    console.log(event.target);
-    const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`);
-    element.addEventListener('mousemove', mouseMove_handler);
-    element.addEventListener('mouseup', mouseUp_handler);
+    // const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`);
+    document.addEventListener('mousemove', mouseMove_handler);
+    document.addEventListener('mouseup', mouseUp_handler);
   };
 
   const dragstart_handler = event => {
@@ -190,8 +188,8 @@ let Resizer = props => {
     console.log('mouseUp: ', resize);
 
     const wrapperElement = document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`);
-    wrapperElement.removeEventListener('mousemove', mouseMove_handler);
-    wrapperElement.removeEventListener('mouseup', mouseUp_handler);
+    document.removeEventListener('mousemove', mouseMove_handler);
+    document.removeEventListener('mouseup', mouseUp_handler);
     const entityToChangeColor = document.getElementById(`${props.model.UUID()}.${props.model.type()}`);
     // setTimeout(function () { element.style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor }, 120);
     // console.log(
@@ -201,7 +199,7 @@ let Resizer = props => {
     //     defaultPropsFE[props.model.type()].render.backgroundColor
     // );
     console.log(initFE[props.model.type()]);
-    event.target.style.backgroundColor = '';
+    // event.target.style.backgroundColor = '';
 
     // entityToChangeColor.style.backgroundColor =
     //   initFE[props.model.type()].render.backgroundColor;
@@ -209,7 +207,7 @@ let Resizer = props => {
 
   const mouseEnter_handler = event => {
     // console.log(event.target);
-    event.target.style.backgroundColor = 'green';
+    // event.target.style.backgroundColor = 'green';
     event.target.style.width = '30px';
     // event.target.innerHTML = '<h1>↔️</h1>';
     // event.target.zIndex = '100';
