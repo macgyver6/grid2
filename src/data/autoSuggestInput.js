@@ -2,12 +2,12 @@ const deepFreeze = require('deep-freeze');
 const { FormInput } = require('./FormInput.js');
 
 /**
- * Class representing a AdverseEventInput.
+ * Class representing a autoSuggestInput.
  * @extends FormInput
  */
-class AdverseEventInput extends FormInput {
+class autoSuggestInput extends FormInput {
   /**
-   * Create a AdverseEventInput.
+   * Create a autoSuggestInput.
    * Create a FormEntity.
    * @param {Object} properties - Properties of FormEntity
    * @property {number} properties.uuid - UUID of form entity.
@@ -39,8 +39,8 @@ class AdverseEventInput extends FormInput {
   /**
    *
    * Clone the adverse event input.
-   * @returns {AdverseEventInput}
-   * @memberof AdverseEventInput
+   * @returns {autoSuggestInput}
+   * @memberof autoSuggestInput
    */
 
   dictionaryName() {
@@ -61,12 +61,12 @@ class AdverseEventInput extends FormInput {
    *
    * Clone the adverse event input.
    * @param {Object} props
-   * @returns {AdverseEventInput}
-   * @memberof AdverseEventInput
+   * @returns {autoSuggestInput}
+   * @memberof autoSuggestInput
    */
 
   clone(props) {
-    return new AdverseEventInput(props === undefined ? this.properties() : props);
+    return new autoSuggestInput(props === undefined ? this.properties() : props);
   }
 
   /**
@@ -97,10 +97,10 @@ class AdverseEventInput extends FormInput {
   }
 }
 
-deepFreeze(AdverseEventInput);
+deepFreeze(autoSuggestInput);
 
-// let x = new AdverseEventInput({uuid: 1, width: 2, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'type', tabOrder: [1, 2, 3], inputWidth: 7, promptNumber: 'promptNumber',  prepend: 88, autoNumber: 'SEQUENTIAL', append: 4, numColumns: 10, numRows: 11});
+// let x = new autoSuggestInput({uuid: 1, width: 2, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'type', tabOrder: [1, 2, 3], inputWidth: 7, promptNumber: 'promptNumber',  prepend: 88, autoNumber: 'SEQUENTIAL', append: 4, numColumns: 10, numRows: 11});
 
 // console.log(x)
 
-module.exports = { AdverseEventInput: AdverseEventInput };
+module.exports = { autoSuggestInput: autoSuggestInput };

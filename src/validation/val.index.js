@@ -13,7 +13,7 @@ const types = [
   'CheckBox',
   'TextBlock',
   'ImageBlock',
-  'AdverseEvent',
+  'autoSuggest',
   'Echo',
   'CDSTextInput',
 ];

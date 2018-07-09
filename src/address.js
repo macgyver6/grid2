@@ -8,7 +8,7 @@ import CheckBoxComponent from './components/FormEntities/CheckBox';
 import SelectionInputComponent from './components/FormEntities/SelectionInput';
 import TextBlockComponent from './components/FormEntities/TextBlock';
 import ImageBlockComponent from './components/FormEntities/ImageBlock';
-import AdverseeventComponent from './components/FormEntities/AdverseEvent';
+import autoSuggestComponent from './components/FormEntities/autoSuggest';
 import EchoComponent from './components/FormEntities/Echo';
 import { Form } from './data/Form';
 import { FormSection } from './data/FormSection';
@@ -20,11 +20,11 @@ import { SelectionInput } from './data/SelectionInput';
 import { TextBlock } from './data/TextBlock';
 import { ImageBlock } from './data/ImageBlock';
 import { EchoInput } from './data/EchoInput';
-import { AdverseEventInput } from './data/AdverseEventInput';
+import { autoSuggestInput } from './data/autoSuggestInput';
 import { _TextInputProperty } from './containers/_TextInputProperty';
 import { _CDSTextInputProperty } from './containers/_CDSTextInputProperty';
 import { _TextAreaProperty } from './containers/_TextAreaProperty';
-import { _AdverseEventProperty } from './containers/_AdverseEventProperty';
+import { _autoSuggestProperty } from './containers/_autoSuggestProperty';
 import { _CheckBoxProperty } from './containers/_CheckBoxProperty';
 import { _SelectionInputProperty } from './containers/_SelectionInputProperty';
 import { _TextBlockProperty } from './containers/_TextBlockProperty';
@@ -106,8 +106,8 @@ export const address = {
       return TextBlockComponent;
     } else if (modelInstance instanceof ImageBlock) {
       return ImageBlockComponent;
-    } else if (modelInstance instanceof AdverseEventInput) {
-      return AdverseeventComponent;
+    } else if (modelInstance instanceof autoSuggestInput) {
+      return autoSuggestComponent;
     } else if (modelInstance instanceof EchoInput) {
       return EchoComponent;
     }
@@ -130,8 +130,8 @@ export const address = {
       return _TextBlockProperty;
     } else if (modelInstance instanceof ImageBlock) {
       return _ImageBlockProperty;
-    } else if (modelInstance instanceof AdverseEventInput) {
-      return _AdverseEventProperty;
+    } else if (modelInstance instanceof autoSuggestInput) {
+      return _autoSuggestProperty;
     } else if (modelInstance instanceof EchoInput) {
       return _EchoProperty;
     }
@@ -208,8 +208,8 @@ export const address = {
       case 'ImageBlock':
         return 'Image Block';
         break;
-      case 'AdverseEvent':
-        return 'Auto-suggest';
+      case 'autoSuggest':
+        return 'autoSuggest';
         break;
       case 'Echo':
         return 'Echo Input';
@@ -279,8 +279,8 @@ export const address = {
         return new ImageBlock({
           ...formEntitySerialized,
         });
-      case 'AdverseEvent':
-        return new AdverseEventInput({
+      case 'autoSuggest':
+        return new autoSuggestInput({
           ...formEntitySerialized,
         });
       case 'Echo':

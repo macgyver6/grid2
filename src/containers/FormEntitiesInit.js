@@ -83,7 +83,7 @@ const selectionStyles = {
   ImageBlock: {
     background: 'brown',
   },
-  ASInput: {
+  autoSuggest: {
     background: 'green',
   },
   Echo: {
@@ -110,7 +110,7 @@ const entityTypes = [
   { type: 'SelectionInput', humanName: address.getHumanName('SelectionInput') },
   { type: 'TextBlock', humanName: address.getHumanName('TextBlock') },
   { type: 'ImageBlock', humanName: address.getHumanName('ImageBlock') },
-  { type: 'ASInput', humanName: 'Auto-suggest' },
+  { type: 'autoSuggest', humanName: 'autoSuggest' },
   { type: 'Echo', humanName: 'Echo Input' },
   { type: 'CDSTextInput', humanName: address.getHumanName('CDSTextInput') },
 ];

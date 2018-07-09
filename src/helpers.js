@@ -1,5 +1,6 @@
 import { address } from './address';
-import { defaultPropsFE } from './constants/defaultPropsFE';
+import { defaultPropsFE, initFE } from './constants/defaultPropsFE';
+import { calcTotalAdd } from './components/FormEntities/feStyles';
 
 const round = (value, decimals) => Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 
@@ -13,71 +14,42 @@ export const helpers = {
    */
   dragStart_handler: (event, model, form, action) => {
     event.stopPropagation();
-    // console.log(
-    //   'dragInit info: ',
-    //   round(
-    //     event.clientX -
-    //       document
-    //         .getElementById(`${model.UUID()}.${model.type()}.wrapper`)
-    //         .getBoundingClientRect().left,
-    //     3
-    //   ) / 40
-    // );
-    let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8;
-    console.log(model);
-    event.dataTransfer.setData(
-      'address',
-      JSON.stringify({
-        action: action,
-        address: action === 'addEntity' ? null : address.bySample(model, form),
-        dragInit:
-          action === 'move'
-            ? round(
-                event.clientX -
-                  document.getElementById(`${model.UUID()}.${model.type()}.wrapper`).getBoundingClientRect().left,
-                3
-              )
-            : null,
-      })
-    );
-    // console.log(
-    //   round(
-    //     (event.clientX -
-    //       document.getElementById(`${model.UUID()}.${model.type()}.wrapper`).getBoundingClientRect().left) /
-    //       bgrndGrdWidth,
-    //     3
-    //   )
-    // );
-    // console.log(JSON.stringify({
-    //   action: action || 'move',
-    //   address: address.bySample(model, form),
-    //   dragInit: round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3)
-    // }))
-    // console.log(event, model, form, action)
-    // if (action === "resize") {
-    //   console.log({
-    //     action: action,
-    //     address: address.bySample(model, form),
-    //     dragInit: round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3)
-    //   })
-    //   event.dataTransfer.setData("address", JSON.stringify({
-    //     action: action,
-    //     address: address.bySample(model, form),
-    //     dragInit: action === 'move' ? round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3) : null
-    //   }));
-    //   var img = new Image();
-    //   img.src = '';
-    //   event.dataTransfer.setDragImage(img, 10, 10);
-    // }
-    // if (action === "move") {
-    //   event.dataTransfer.setData("address", JSON.stringify({
-    //     action: action,
-    //     address: address.bySample(model, form),
-    //     // define initial click position to offset grids if not a topLevelFormSection, or if adding a new entity
-    //     dragInit: action === 'move' && address.bySample(model, form).length > 1 ? round((event.clientX - document.getElementById(`${model.UUID()}.${model.type()}`).getBoundingClientRect().left), 3) : null
-    //   }));
-    // }
-    if (action === 'addEntity') {
+
+    if (action !== 'addEntity') {
+      let bgrndGrdWidth = document.getElementById('0.bgrndGrd').clientWidth + 8;
+      console.log(model);
+      event.dataTransfer.setData(
+        'address',
+        JSON.stringify({
+          action: action,
+          address: action === 'addEntity' ? null : address.bySample(model, form),
+          dragInit:
+            action === 'move'
+              ? round(
+                  event.clientX -
+                    document.getElementById(`${model.UUID()}.${model.type()}.wrapper`).getBoundingClientRect().left,
+                  3
+                )
+              : null,
+        })
+      );
+      const type = model.type();
+      const div = document.createElement('div');
+      div.id = 'dmg';
+      div.style.width = `${calcTotalAdd(model) * bgrndGrdWidth - 12}px`; //  gets the total with of the default entity minus the append and prepend widths. Note subtracting 12 accounts for the gap
+      div.style.height = '40px';
+      // div.style.backgroundColor = 'blue';
+      div.style.backgroundColor = initFE[`${type}`].render.backgroundColor;
+      div.style.position = 'fixed';
+      div.style.top = '-1000px';
+      div.style.left = '-1000px';
+      document.body.appendChild(div);
+      event.dataTransfer.setDragImage(
+        div,
+        round(event.clientX - document.getElementById(`${model.UUID()}.prePrompt`).getBoundingClientRect().left, 3),
+        0
+      );
+    } else if (action === 'addEntity') {
       event.dataTransfer.setData(
         'address',
         JSON.stringify({

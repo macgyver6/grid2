@@ -5,7 +5,7 @@ import { TextArea } from '../data/TextArea';
 import { SelectionInput } from '../data/SelectionInput';
 import { CDSTextInput } from '../data/CDSTextInput';
 import { EchoInput } from '../data/EchoInput';
-import { AdverseEventInput } from '../data/AdverseEventInput';
+import { autoSuggestInput } from '../data/autoSuggestInput';
 
 export var initFE = {
   FormSection: {
@@ -138,7 +138,7 @@ export var initFE = {
     type: 'ImageBlock',
     render: { backgroundColor: 'brown', minWidth: 1 },
   },
-  ASInput: {
+  autoSuggest: {
     prepend: 0,
     width: 4,
     append: 16,
@@ -146,13 +146,13 @@ export var initFE = {
     postPromptWidth: 0,
     uuid: undefined,
     name: '',
-    content: 'default ASInput content',
+    content: 'default autoSuggest content',
     promptNumber: '',
     externalIdentifier: 'CIE49sfsdf',
     prePrompt: '',
     postPrompt: '',
     dictionaryName: '',
-    type: 'AdverseEvent',
+    type: 'autoSuggest',
     render: { backgroundColor: 'green', minWidth: 1 },
   },
   Echo: {
@@ -216,7 +216,7 @@ export var defaultPropsFE = {
             type: 'FormSection',
             width: 24,
             children: [
-              new AdverseEventInput(initFE.ASInput),
+              new autoSuggestInput(initFE.autoSuggest),
               new EchoInput(initFE.Echo),
               new CDSTextInput(initFE.CDSTextInput),
               new TextInput(initFE.TextInput),

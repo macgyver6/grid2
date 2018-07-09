@@ -73,7 +73,7 @@ export const validations = {
   ImageBlock: {
     default: e => undefined,
   },
-  AdverseEvent: {
+  autoSuggest: {
     default: e => undefined,
   },
   Echo: {

@@ -11,7 +11,7 @@ import { DataDefinedValidation } from './DataDefinedValidation';
 
 // const form = new Form(defaultPropsFE.Form);
 
-export const _AdverseEventProperty = props => {
+export const _autoSuggestProperty = props => {
   const change_handler = event => {
     // console.log(event.target.value);
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
