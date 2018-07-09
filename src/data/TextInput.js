@@ -34,7 +34,6 @@ class TextInput extends FormInput {
      */
   constructor(properties) {
     super(properties);
-    console.log(properties.externalIdentifier);
     this._length = properties.length;
     this._defaultContent = properties.defaultContent || TextInput.DEFAULT_CONTENT;
     this._autoTab = properties.autoTab;

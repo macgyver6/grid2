@@ -1,5 +1,32 @@
 import { utility } from './val.utility';
 
+export const inputValidations = {
+  // shoudNotBeLargerThanSection: e =>
+  //   e.width() > 24 ? { exception: 'Must not be larger than containing section', entity: e } : undefined,
+  // shoudNotBeNegativeWidth: e => (e.width() < 1 ? { exception: 'Must not be negative width', entity: e } : undefined),
+
+  noNegativePrompts: e =>
+    e.prePromptWidth() < 0 || e.postPromptWidth() < 0
+      ? {
+          exception: 'Entity prompt widths must be non-negative',
+          entity: e,
+        }
+      : undefined,
+};
+
+export const entityValidations = {
+  shoudNotBeLargerThanSection: e =>
+    e.width() > 24 ? { exception: 'YYY Must not be larger than containing section', entity: e } : undefined,
+  shoudNotBeNegativeWidth: e => (e.width() < 1 ? { exception: 'Must not be negative width', entity: e } : undefined),
+  noNegativePrependPostpend: e =>
+    e.prepend() < 0 || e.append() < 0
+      ? {
+          exception: 'Entity prepend/postpend widths must be non-negative',
+          entity: e,
+        }
+      : undefined,
+};
+
 export const validations = {
   Form: {
     containMinOneSection: e =>
@@ -28,113 +55,31 @@ export const validations = {
     },
   },
   TextInput: {
-    shoudNotBeLargerThanSection: e =>
-      e.width() > 24 ? { exception: 'Must not be larger than containing section', entity: e } : undefined,
-    shoudNotBeNegativeWidth: e => (e.width() < 1 ? { exception: 'Must not be negative width', entity: e } : undefined),
     shouldContainDefaultContent: e =>
       e.defaultContent() === undefined ? { exception: 'must contain default text', entity: e } : undefined,
-    noNegativePrependPostpend: e =>
-      e.prepend() < 0 || e.append() < 0
-        ? {
-            exception: 'Entity must have positive prepend and postpend values',
-            entity: e,
-          }
-        : undefined,
   },
   SelectionInput: {
-    shoudNotBeLargerThanSection: e =>
-      e.width() > 24 ? { exception: 'Must not be larger than containing section', entity: e } : undefined,
-    shoudNotBeNegativeWidth: e => (e.width() < 1 ? { exception: 'Must not be negative width', entity: e } : undefined),
-    noNegativePrependPostpend: e =>
-      e.prepend() < 0 || e.append() < 0
-        ? {
-            exception: 'Entity must have positive prepend and postpend values',
-            entity: e,
-          }
-        : undefined,
+    default: e => undefined,
   },
   TextArea: {
-    shoudNotBeLargerThanSection: e =>
-      e.width() > 24 ? { exception: 'Must not be larger than containing section', entity: e } : undefined,
-    shoudNotBeNegativeWidth: e => (e.width() < 1 ? { exception: 'Must not be negative width', entity: e } : undefined),
-    noNegativePrependPostpend: e =>
-      e.prepend() < 0 || e.append() < 0
-        ? {
-            exception: 'Entity must have positive prepend and postpend values',
-            entity: e,
-          }
-        : undefined,
+    default: e => undefined,
   },
   CheckBox: {
-    shoudNotBeLargerThanSection: e =>
-      e.width() > 24 ? { exception: 'Must not be larger than containing section', entity: e } : undefined,
-    shoudNotBeNegativeWidth: e => (e.width() < 1 ? { exception: 'Must not be negative width', entity: e } : undefined),
-    noNegativePrependPostpend: e =>
-      e.prepend() < 0 || e.append() < 0
-        ? {
-            exception: 'Entity must have positive prepend and postpend values',
-            entity: e,
-          }
-        : undefined,
+    default: e => undefined,
   },
   TextBlock: {
-    shoudNotBeLargerThanSection: e =>
-      e.width() > 24 ? { exception: 'Must not be larger than containing section', entity: e } : undefined,
-    shoudNotBeNegativeWidth: e => (e.width() < 1 ? { exception: 'Must not be negative width', entity: e } : undefined),
-    noNegativePrependPostpend: e =>
-      e.prepend() < 0 || e.append() < 0
-        ? {
-            exception: 'Entity must have positive prepend and postpend values',
-            entity: e,
-          }
-        : undefined,
+    default: e => undefined,
   },
   ImageBlock: {
-    shoudNotBeLargerThanSection: e =>
-      e.width() > 24 ? { exception: 'Must not be larger than containing section', entity: e } : undefined,
-    shoudNotBeNegativeWidth: e => (e.width() < 1 ? { exception: 'Must not be negative width', entity: e } : undefined),
-    noNegativePrependPostpend: e =>
-      e.prepend() < 0 || e.append() < 0
-        ? {
-            exception: 'Entity must have positive prepend and postpend values',
-            entity: e,
-          }
-        : undefined,
+    default: e => undefined,
   },
   AdverseEvent: {
-    shoudNotBeLargerThanSection: e =>
-      e.width() > 24 ? { exception: 'Must not be larger than containing section', entity: e } : undefined,
-    shoudNotBeNegativeWidth: e => (e.width() < 1 ? { exception: 'Must not be negative width', entity: e } : undefined),
-    noNegativePrependPostpend: e =>
-      e.prepend() < 0 || e.append() < 0
-        ? {
-            exception: 'Entity must have positive prepend and postpend values',
-            entity: e,
-          }
-        : undefined,
+    default: e => undefined,
   },
   Echo: {
-    shoudNotBeLargerThanSection: e =>
-      e.width() > 24 ? { exception: 'Must not be larger than containing section', entity: e } : undefined,
-    shoudNotBeNegativeWidth: e => (e.width() < 1 ? { exception: 'Must not be negative width', entity: e } : undefined),
-    noNegativePrependPostpend: e =>
-      e.prepend() < 0 || e.append() < 0
-        ? {
-            exception: 'Entity must have positive prepend and postpend values',
-            entity: e,
-          }
-        : undefined,
+    default: e => undefined,
   },
   CDSTextInput: {
-    shoudNotBeLargerThanSection: e =>
-      e.width() > 24 ? { exception: 'Must not be larger than containing section', entity: e } : undefined,
-    shoudNotBeNegativeWidth: e => (e.width() < 1 ? { exception: 'Must not be negative width', entity: e } : undefined),
-    noNegativePrependPostpend: e =>
-      e.prepend() < 0 || e.append() < 0
-        ? {
-            exception: 'Entity must have positive prepend and postpend values',
-            entity: e,
-          }
-        : undefined,
+    default: e => undefined,
   },
 };

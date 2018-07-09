@@ -28,11 +28,13 @@ class FormInput extends FormEntity {
    */
   constructor(properties) {
     super(properties);
-
+    console.log(0 ? true : false);
     this._prePrompt = properties.prePrompt;
-    this._prePromptWidth = properties.prePromptWidth || FormInput.DEFAULT_PROMPT_PRE_WIDTH;
+    this._prePromptWidth = properties.prePromptWidth;
+    // || FormInput.DEFAULT_PROMPT_PRE_WIDTH; // default value removed as 0 === falsy
     this._postPrompt = properties.postPrompt;
-    this._postPromptWidth = properties.postPromptWidth || FormInput.DEFAULT_PROMPT_POST_WIDTH;
+    this._postPromptWidth = properties.postPromptWidth;
+    // || FormInput.DEFAULT_PROMPT_POST_WIDTH; default value removed as 0 === falsy
     this._name = properties.name;
     this._sasCodeLabel = properties.sasCodeLabel;
     this._type = properties.type;

@@ -19,17 +19,35 @@ export const Input_Property_Template = props => {
     });
   };
 
+  const resize = {
+    init_grids: null,
+    init_append: null,
+    grids: null,
+  };
+
   const layoutChange_handler = event => {
-    props.mutate(address.bySample(props.model, props.form), {
-      [event.target.id]: parseFloat(event.target.value),
-      append:
-        24 -
-        props.model.prepend() -
-        (event.target.id === 'prePromptWidth' ? parseFloat(event.target.value) : props.model.prePromptWidth()) -
-        props.model.width() -
-        (event.target.id === 'postPromptWidth' ? parseFloat(event.target.value) : props.model.postPromptWidth()),
+    // const calcAppend = () => {
+    //   event.target.value < 0 ? null :
+    //   {
+    //     append :
+    //   }
+    // }
+    resize.init_grids = props.model[`${event.target.id}`]();
+    resize.init_append = props.model.append();
+    resize.grids = event.target.value - resize.init_grids;
+    console.log(props.model.prepend() === 1, event.target.value < 1);
+    const layout_result = {
+      [event.target.id]: props.model.prepend() === 1 && event.target.value < 1 ? 0 : resize.init_grids + resize.grids,
+      append: resize.init_append - resize.grids,
+      // calcTotal(props.model) -
+      // props.model.prepend() -
+      // (event.target.id === 'prePromptWidth' ? event.target.value : props.model.prePromptWidth()) -
+      // props.model.width() -
+      // (event.target.id === 'postPromptWidth' ? event.target.value : props.model.postPromptWidth()),
       // function that calcs total width and subtracts all OTHER elements, returningt what the value should be
-    });
+    };
+    console.log(address.bySample(props.model, props.form), layout_result);
+    props.mutate(address.bySample(props.model, props.form), layout_result);
   };
 
   const copyHandler = event => {
@@ -89,7 +107,6 @@ export const Input_Property_Template = props => {
         />
 
         <label htmlFor="prePrompt">
-          {' '}
           <a
             class="tabnav-extra"
             href="https://guides.github.com/features/mastering-markdown/"
