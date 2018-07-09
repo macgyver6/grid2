@@ -110,7 +110,7 @@ const entityTypes = [
   { type: 'SelectionInput', humanName: address.getHumanName('SelectionInput') },
   { type: 'TextBlock', humanName: address.getHumanName('TextBlock') },
   { type: 'ImageBlock', humanName: address.getHumanName('ImageBlock') },
-  { type: 'ASInput', humanName: 'Adverse Event Input' },
+  { type: 'ASInput', humanName: 'Auto-suggest' },
   { type: 'Echo', humanName: 'Echo Input' },
   { type: 'CDSTextInput', humanName: address.getHumanName('CDSTextInput') },
 ];
