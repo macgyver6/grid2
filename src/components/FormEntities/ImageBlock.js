@@ -11,6 +11,7 @@ import { log } from 'util';
 import { address } from '../../address';
 import { entityActions } from './actions.entities';
 import AddToEnd from './subentities/AddToEnd.js';
+import { defaultPropsFE, initFE } from '../../constants/defaultPropsFE';
 
 const ImageBlockComponent = props => {
   const mouseDown_handler = event => entityActions.mouseDown_handler(event, props);
@@ -58,7 +59,6 @@ const ImageBlockComponent = props => {
 
   const tBStyle = {
     //     margin: helpers.marginCalc(props),
-    backgroundColor: 'brown',
     position: 'relative',
     gridColumn: `span ${props.model.width()}`,
     minHeight: '100px',
@@ -66,6 +66,7 @@ const ImageBlockComponent = props => {
     // border: '1px solid red',
     padding: '4px',
     borderRadius: '2px',
+    border: `1px solid ${initFE[`${props.model.type()}`].render.backgroundColor}`,
   };
 
   const tBInputStyle = {

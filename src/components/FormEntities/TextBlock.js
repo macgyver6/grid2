@@ -87,7 +87,7 @@ const TextBlockComponent = props => {
         style={{
           ...entityStyle(props.model),
           maxHeight: '',
-          backgroundColor: 'purple',
+          // backgroundColor: 'purple',
         }}
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="TextInput"
@@ -97,8 +97,10 @@ const TextBlockComponent = props => {
           style={{
             ...inputStyle(props.model),
             resize: 'none',
+            disabled: true,
           }}
           value={props.model.content()}
+          disabled
         />
 
         {/* <textarea

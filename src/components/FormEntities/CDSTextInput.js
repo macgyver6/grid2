@@ -100,29 +100,26 @@ const CDSTextInputComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
-          backgroundColor="blue"
         />
       ) : null}
 
       <div
         style={{
           ...entityStyle(props.model),
-          backgroundColor: 'blue',
         }}
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="TextInput"
       >
-        {props.model.width() < 2 ? null : (
-          <input
-            style={inputStyle(props.model)}
-            className="form-control"
-            name={props.model.name()}
-            // rows="5"
-            // cols="12"
-            readOnly="true"
-            // value={props.model.script()}
-          />
-        )}
+        <input
+          style={inputStyle(props.model)}
+          className="form-control"
+          name={props.model.name()}
+          // rows="5"
+          // cols="12"
+          readOnly="true"
+          // value={props.model.script()}
+        />
+
         <Resizer
           id={`${props.model.UUID()}.resizer`}
           element="FormEntity"
@@ -147,7 +144,6 @@ const CDSTextInputComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
-          backgroundColor="blue"
         />
       ) : null}
       {props.model.append() > 0 ? (

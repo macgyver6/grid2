@@ -113,30 +113,26 @@ const SelectionInputComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
-          backgroundColor="red"
         />
       ) : null}
       <div
         style={{
           ...entityStyle(props.model),
-          backgroundColor: 'red',
         }}
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="SelectionInput"
         onMouseDown={mouseDown_handler}
       >
         {props.model.renderMode() === 'selection' ? (
-          props.model.width() < 2 ? null : (
-            <select
-              // style={siInputStyle}
-              style={inputStyle(props.model)}
-              className="form-control"
-              type={props.model.type()}
-            >
-              {props.model.options().map(option => <option value={option.value}>{option.label}</option>)}
-            </select>
-          )
-        ) : props.model.width() < 2 ? null : (
+          <select
+            // style={siInputStyle}
+            style={inputStyle(props.model)}
+            className="form-control"
+            type={props.model.type()}
+          >
+            {props.model.options().map(option => <option value={option.value}>{option.label}</option>)}
+          </select>
+        ) : (
           <div className="fancy-radio-wrapper" style={fancyRadioStyle}>
             <div className="fancy-radio-inner">
               {props.model.options().map(option => [
@@ -173,7 +169,6 @@ const SelectionInputComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
-          backgroundColor="red"
         />
       ) : null}
       {props.model.append() > 0 ? (

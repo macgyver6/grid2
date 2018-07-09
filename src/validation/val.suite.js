@@ -18,10 +18,19 @@ export const entityValidations = {
   shoudNotBeLargerThanSection: e =>
     e.width() > 24 ? { exception: 'YYY Must not be larger than containing section', entity: e } : undefined,
   shoudNotBeNegativeWidth: e => (e.width() < 1 ? { exception: 'Must not be negative width', entity: e } : undefined),
+
   noNegativePrependPostpend: e =>
     e.prepend() < 0 || e.append() < 0
       ? {
           exception: 'Entity prepend/postpend widths must be non-negative',
+          entity: e,
+        }
+      : undefined,
+
+  minOneWidth: e =>
+    e.width() < 1
+      ? {
+          exception: 'Entity width must be > 0',
           entity: e,
         }
       : undefined,

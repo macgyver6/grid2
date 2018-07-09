@@ -98,7 +98,6 @@ const CheckBoxComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
-          backgroundColor="green"
         />
       ) : null}
 
@@ -106,7 +105,6 @@ const CheckBoxComponent = props => {
         id={`${props.model.UUID()}.${props.model.type()}`}
         style={{
           ...entityStyle(props.model),
-          backgroundColor: 'green',
         }}
         className="CheckBox"
         data-type="CheckBox"
@@ -114,8 +112,7 @@ const CheckBoxComponent = props => {
         onDragStart={dragstart_handler}
         draggable="false"
       >
-        {/* onChange={(e) => handleChange(e, props)} */}
-        {props.model.width() < 2 ? null : <input type={props.model.type()} style={inputStyle(props.model)} />}
+        <input type={props.model.type()} style={inputStyle(props.model)} />
         <Resizer
           id="width"
           // id={`${props.model.UUID()}.resizer`}
@@ -141,7 +138,6 @@ const CheckBoxComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
-          backgroundColor="green"
         />
       ) : null}
       {props.model.append() > 0 ? (

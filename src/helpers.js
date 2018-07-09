@@ -37,18 +37,21 @@ export const helpers = {
       const div = document.createElement('div');
       div.id = 'dmg';
       div.style.width = `${calcTotalAdd(model) * bgrndGrdWidth - 12}px`; //  gets the total with of the default entity minus the append and prepend widths. Note subtracting 12 accounts for the gap
-      div.style.height = '40px';
+      div.style.height = '32px';
       // div.style.backgroundColor = 'blue';
       div.style.backgroundColor = initFE[`${type}`].render.backgroundColor;
       div.style.position = 'fixed';
       div.style.top = '-1000px';
       div.style.left = '-1000px';
+      div.style.borderRadius = '2px';
       document.body.appendChild(div);
-      event.dataTransfer.setDragImage(
-        div,
-        round(event.clientX - document.getElementById(`${model.UUID()}.prePrompt`).getBoundingClientRect().left, 3),
-        0
-      );
+      type !== 'FormSection'
+        ? event.dataTransfer.setDragImage(
+            div,
+            round(event.clientX - document.getElementById(`${model.UUID()}.prePrompt`).getBoundingClientRect().left, 3),
+            0
+          )
+        : null;
     } else if (action === 'addEntity') {
       event.dataTransfer.setData(
         'address',

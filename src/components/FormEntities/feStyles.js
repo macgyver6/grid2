@@ -1,3 +1,5 @@
+import { defaultPropsFE, initFE } from '../../constants/defaultPropsFE';
+
 export const calcTotal = entity => {
   if (typeof entity.prePromptWidth === 'function') {
     const resultingSum =
@@ -38,29 +40,20 @@ export const entityWrapperStyle = entity => ({
 });
 
 export const inputStyle = entity => ({
-  gridColumn: `span ${entity.width()}`,
-  // position: 'absolute',
-  // right: 16,
-  // bottom: 7,
   cursor: 'move',
-  margin: '8px',
   height: '20px',
-  // width: '82%',
+  border: `1px solid ${initFE[`${entity.type()}`].render.backgroundColor}`,
+  borderRadius: '2px',
+  width: '100%',
+  boxSizing: 'border-box',
 });
 
 export const entityStyle = entity => ({
-  // //     margin: helpers.marginCalc(props),
-  display: 'grid',
-  gridTemplateColumns: 'repeat(' + `${entity.width()}` + ', [col] 1fr)',
-  gridGap: '8px',
-  minHeight: '40px',
   cursor: 'move',
-  padding: '4px',
   borderRadius: '2px',
   position: 'relative',
   gridColumn: `span ${entity.width()}`,
-  padding: '4px',
-  maxHeight: '40px',
+  maxHeight: '32px',
   // @hack
   // borderRadius: `
   // ${entity.prePromptWidth ? (entity.prePromptWidth() > 0 ? '0px' : '2px') : '0px'}

@@ -93,7 +93,6 @@ const TextAreaComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
-          backgroundColor="rgb(32, 94, 226)"
         />
       ) : null}
 
@@ -103,8 +102,6 @@ const TextAreaComponent = props => {
           ...entityStyle(props.model),
 
           maxHeight: '',
-
-          backgroundColor: '#205EE2',
         }}
         // style={{
         //   ...entityStyle(props.model),
@@ -159,7 +156,6 @@ const TextAreaComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
-          backgroundColor="rgb(32, 94, 226)"
         />
       ) : null}
 

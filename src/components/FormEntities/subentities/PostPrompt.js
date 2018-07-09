@@ -2,16 +2,19 @@ import React from 'react';
 import Resizer from './Resizer';
 import { entityActions } from '../actions.entities';
 import { entityStyle, inputStyle } from '../feStyles';
-
+import { defaultPropsFE, initFE } from '../../../constants/defaultPropsFE';
 const PostPrompt = props => {
   const postPromptStyle = {
     ...entityStyle(props.model),
     gridTemplateColumns: 'repeat(' + `${props.model.postPromptWidth()}` + ', [col] 1fr)',
     gridColumn: `span ${props.model.postPromptWidth()}`,
-    backgroundColor: props.backgroundColor,
-    padding: '4px',
-    // borderRadius: '2px',
+    // backgroundColor: 'white',
+    // padding: '4px',
+    border: `1px solid ${initFE[`${props.model.type()}`].render.backgroundColor}`,
+    // backgroundColor: `${initFE[`${props.model.type()}`].render.backgroundColor}`,
+    borderRadius: '2px',
     position: 'relative',
+    height: '22px',
     maxHeight: '40px',
   };
 
@@ -31,15 +34,17 @@ const PostPrompt = props => {
       id={`${props.model.UUID()}.postPrompt`}
       onMouseDown={mouseDown_handler} // to set intitial mouse click loc
     >
-      {props.model.postPromptWidth() < 2 ? null : (
-        <input
+      {props.model.prePromptWidth() < 2 ? null : (
+        <p
           style={{
-            ...inputStyle(props.model),
+            // paddingTop: '8px',
+            margin: '0px',
             gridColumn: `span ${props.model.postPromptWidth()}`,
           }}
           className="form-control"
-          value={props.model.postPrompt()}
-        />
+        >
+          {props.model.postPrompt()}
+        </p>
       )}
       <Resizer
         id={`${props.model.UUID()}.resizer`}

@@ -209,7 +209,7 @@ export const address = {
         return 'Image Block';
         break;
       case 'autoSuggest':
-        return 'autoSuggest';
+        return 'Auto-suggest';
         break;
       case 'Echo':
         return 'Echo Input';

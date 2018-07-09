@@ -19,14 +19,15 @@ import { FormInput } from '../data/FormInput';
 import PatternValidator from './validations/PatternValidation';
 import ValidationWrapper from './validations/ValidationWrapper';
 import DependencyWrapper from './validations/DependencyWrapper';
+import { defaultPropsFE, initFE } from '../constants/defaultPropsFE';
 
-const PropertiesPanelStyle = {
+const PropertiesPanelStyle = model => ({
   width: '40%',
   height: '100%',
   backgroundColor: 'white',
   // border: '4px solid lightgrey',
-  border: '4px solid lightgrey',
-};
+  border: `4px solid ${initFE[`${model.type()}`].render.backgroundColor}`,
+});
 
 export const PropertiesPanel = props => {
   const change_handler = event =>
@@ -123,7 +124,7 @@ export const PropertiesPanel = props => {
   };
 
   return (
-    <div style={PropertiesPanelStyle}>
+    <div style={PropertiesPanelStyle(props.model)}>
       {props.currententity ? (
         <Tabs dtLocalFilesSaved={props.dtLocalFilesSaved}>
           <TabList>

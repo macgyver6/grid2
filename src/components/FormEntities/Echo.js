@@ -96,14 +96,12 @@ const EchoComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
-          backgroundColor="orange"
         />
       ) : null}
 
       <div
         style={{
           ...entityStyle(props.model),
-          backgroundColor: 'orange',
         }}
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="EchoInput"
@@ -111,15 +109,13 @@ const EchoComponent = props => {
         onDragStart={dragstart_handler}
         draggable="false"
       >
-        {props.model.width() < 2 ? null : (
-          <input
-            style={inputStyle(props.model)}
-            className="form-control"
-            type={props.model.type()}
-            disabled="disabled"
-            value={props.model.sourceInput() !== '' ? props.model.sourceInput() + ` value` : ''}
-          />
-        )}
+        <input
+          style={inputStyle(props.model)}
+          className="form-control"
+          type={props.model.type()}
+          disabled="disabled"
+          value={props.model.sourceInput() !== '' ? props.model.sourceInput() + ` value` : ''}
+        />
         {/*console.log(
           props.model.sourceInput() === ''
             ? ''
@@ -156,7 +152,6 @@ const EchoComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
-          backgroundColor="orange"
         />
       ) : null}
 

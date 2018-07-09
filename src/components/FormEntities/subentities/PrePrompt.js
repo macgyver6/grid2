@@ -2,16 +2,20 @@ import React from 'react';
 import Resizer from './Resizer';
 import { entityActions } from '../actions.entities';
 import { entityStyle, inputStyle } from '../feStyles';
+import { defaultPropsFE, initFE } from '../../../constants/defaultPropsFE';
 
 const PrePrompt = props => {
   const prePromptStyle = {
     ...entityStyle(props.model),
     gridTemplateColumns: 'repeat(' + `${props.model.prePromptWidth()}` + ', [col] 1fr)',
     gridColumn: `span ${props.model.prePromptWidth()}`,
-    backgroundColor: props.backgroundColor,
+    // backgroundColor: 'white',
     // padding: '4px',
-    // borderRadius: '2px',
+    border: `1px solid ${initFE[`${props.model.type()}`].render.backgroundColor}`,
+    // backgroundColor: `${initFE[`${props.model.type()}`].render.backgroundColor}`,
+    borderRadius: '2px',
     position: 'relative',
+    height: '22px',
     maxHeight: '40px',
   };
   console.log(props.backgroundColor);
@@ -25,14 +29,18 @@ const PrePrompt = props => {
       onMouseDown={mouseDown_handler} // to set intitial mouse click loc
     >
       {props.model.prePromptWidth() < 2 ? null : (
-        <input
+        <p
           style={{
-            ...inputStyle(props.model),
+            height: '20px',
+            // paddingTop: '8px',
+            overflow: 'hide',
+            margin: '0px',
             gridColumn: `span ${props.model.prePromptWidth()}`,
           }}
           className="form-control"
-          value={props.model.prePrompt()}
-        />
+        >
+          {props.model.prePrompt()}
+        </p>
       )}
       <Resizer
         id="prePrompt"

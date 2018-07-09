@@ -9,6 +9,7 @@ import PostPrompt from './subentities/PostPrompt.js';
 import { address } from '../../address';
 import { entityActions } from './actions.entities';
 import AddToEnd from './subentities/AddToEnd.js';
+import { defaultPropsFE, initFE } from '../../constants/defaultPropsFE';
 
 const CheckBoxComponent = props => {
   const mouseDown_handler = event => entityActions.mouseDown_handler(event, props);
@@ -98,7 +99,6 @@ const CheckBoxComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
-          backgroundColor="rgb(0, 197, 236)"
         />
       ) : null}
 
@@ -106,10 +106,10 @@ const CheckBoxComponent = props => {
         id={`${props.model.UUID()}.${props.model.type()}`}
         style={{
           ...entityStyle(props.model),
-          backgroundColor: '#00C5EC',
           margin: '0px',
           minHeight: '48px',
           padding: '0px',
+          border: `1px solid ${initFE[`${props.model.type()}`].render.backgroundColor}`,
         }}
         className="CheckBox"
         data-type="CheckBox"
@@ -141,7 +141,6 @@ const CheckBoxComponent = props => {
           remove={props.remove}
           add={props.add}
           mutate={props.mutate}
-          backgroundColor="rgb(0, 197, 236)"
         />
       ) : null}
       {props.model.append() > 0 ? (
