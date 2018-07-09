@@ -36,7 +36,7 @@ let Resizer = props => {
   };
 
   let mouseDown_handler = event => {
-    event.stopPropagation();
+    event.preventDefault();
     resize.mouseMoveStartX = event.clientX;
     resize.target = event.target.id;
     // const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}.wrapper`);
@@ -223,6 +223,7 @@ let Resizer = props => {
 
   const click_handler = event => {
     event.stopPropagation();
+    event.preventDefault();
   };
 
   return (
