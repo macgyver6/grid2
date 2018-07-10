@@ -26,7 +26,7 @@ const PropertiesPanelStyle = model => ({
   height: '100%',
   backgroundColor: 'white',
   // border: '4px solid lightgrey',
-  border: `4px solid ${initFE[`${model.type()}`].render.backgroundColor}`,
+  border: `1px solid ${initFE[`${model.type()}`].render.backgroundColor}`,
 });
 
 export const PropertiesPanel = props => {

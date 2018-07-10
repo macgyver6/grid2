@@ -118,6 +118,7 @@ const SelectionInputComponent = props => {
       <div
         style={{
           ...entityStyle(props.model),
+          minHeight: '20px',
         }}
         id={`${props.model.UUID()}.${props.model.type()}`}
         className="SelectionInput"
@@ -126,7 +127,7 @@ const SelectionInputComponent = props => {
         {props.model.renderMode() === 'selection' ? (
           <select
             // style={siInputStyle}
-            style={inputStyle(props.model)}
+            style={{ ...inputStyle(props.model), backgroundColor: 'white' }}
             className="form-control"
             type={props.model.type()}
           >

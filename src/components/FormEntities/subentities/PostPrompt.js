@@ -3,6 +3,7 @@ import Resizer from './Resizer';
 import { entityActions } from '../actions.entities';
 import { entityStyle, inputStyle } from '../feStyles';
 import { defaultPropsFE, initFE } from '../../../constants/defaultPropsFE';
+
 const PostPrompt = props => {
   const postPromptStyle = {
     ...entityStyle(props.model),
@@ -13,9 +14,8 @@ const PostPrompt = props => {
     border: `1px solid ${initFE[`${props.model.type()}`].render.backgroundColor}`,
     // backgroundColor: `${initFE[`${props.model.type()}`].render.backgroundColor}`,
     borderRadius: '2px',
-    position: 'relative',
-    height: '22px',
-    maxHeight: '40px',
+    maxHeight: '',
+    wordBreak: 'break-all',
   };
 
   const postPromptInputStyle = {
@@ -34,7 +34,7 @@ const PostPrompt = props => {
       id={`${props.model.UUID()}.postPrompt`}
       onMouseDown={mouseDown_handler} // to set intitial mouse click loc
     >
-      {props.model.prePromptWidth() < 2 ? null : (
+      {/*props.model.prePromptWidth() < 2 ? null : (
         <p
           style={{
             // paddingTop: '8px',
@@ -45,7 +45,8 @@ const PostPrompt = props => {
         >
           {props.model.postPrompt()}
         </p>
-      )}
+      )*/}
+      {props.model.postPrompt()}
       <Resizer
         id={`${props.model.UUID()}.resizer`}
         element="FormEntity"

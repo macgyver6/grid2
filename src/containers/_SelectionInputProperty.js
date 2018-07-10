@@ -125,6 +125,8 @@ export const _SelectionInputProperty = props => {
                 <label for="value">Value</label>
                 <input name="value" type="text" value={option.value} />
               </div>
+              <i className="fas fa-ellipsis-v" />
+              <i className="fas fa-ellipsis-v" />
             </li>
           ))}
         </ul>

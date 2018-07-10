@@ -11,7 +11,7 @@ const round = (value, decimals) => Number(Math.round(value + 'e' + decimals) + '
 const resizeStyle = {
   width: '30px',
   height: '100%',
-  padding: `4px`,
+  // padding: `4px`,
   // backgroundColor: 'yellow',
   position: 'absolute',
   right: 0,

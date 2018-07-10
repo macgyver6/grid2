@@ -100,7 +100,7 @@ const TextBlockComponent = props => {
             disabled: true,
           }}
           value={props.model.content()}
-          disabled
+          readonly
         />
 
         {/* <textarea

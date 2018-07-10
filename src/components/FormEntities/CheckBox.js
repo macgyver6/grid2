@@ -107,7 +107,7 @@ const CheckBoxComponent = props => {
         style={{
           ...entityStyle(props.model),
           margin: '0px',
-          minHeight: '48px',
+          // minHeight: '48px',
           padding: '0px',
           border: `1px solid ${initFE[`${props.model.type()}`].render.backgroundColor}`,
         }}
@@ -120,14 +120,14 @@ const CheckBoxComponent = props => {
         {/* onChange={(e) => handleChange(e, props)} */}
         <input
           type={props.model.type()}
-          style={{
-            ...inputStyle(props.model),
-            margin: '12px 0px 0px 3px',
-            // marginTop: '12px',
-            // marginLeft: '12px',
-            height: '24px',
-            width: '24px',
-          }}
+          // style={{
+          //   ...inputStyle(props.model),
+          //   margin: '12px 0px 0px 3px',
+          //   // marginTop: '12px',
+          //   // marginLeft: '12px',
+          //   height: '24px',
+          //   width: '24px',
+          // }}
         />
       </div>
       {props.model.postPromptWidth() > 0 ? (
