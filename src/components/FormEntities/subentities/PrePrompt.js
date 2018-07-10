@@ -17,6 +17,8 @@ const PrePrompt = props => {
     borderRadius: '2px',
     maxHeight: '',
     wordBreak: 'break-all',
+    minHeight: '18px',
+    alignSelf: 'start',
   };
 
   const mouseDown_handler = event => entityActions.mouseDown_handler(event, props);

@@ -16,6 +16,8 @@ const PostPrompt = props => {
     borderRadius: '2px',
     maxHeight: '',
     wordBreak: 'break-all',
+    minHeight: '18px',
+    alignSelf: 'start',
   };
 
   const postPromptInputStyle = {
