@@ -70,6 +70,7 @@ export const _TextBlockProperty = props => {
             value={props.model.content()}
             rows="10"
             cols="42"
+            // style={{ whiteSpace: 'pre-line' }}
           />
         </div>
         <br />

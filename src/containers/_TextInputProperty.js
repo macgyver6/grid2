@@ -45,16 +45,6 @@ export const _TextInputProperty = props => {
         temporalStateChange={props.temporalStateChange}
         add={props.add}
       />
-      <p>
-        <label htmlFor="textInput-autoTab">Enable Auto Tabbing: </label>
-        <input
-          type="checkbox"
-          name="textInput-autoTab"
-          id="autoTab"
-          onChange={change_handler}
-          checked={props.model.autoTab()}
-        />
-      </p>
 
       <label htmlFor="textInput-defaultContent">Default Text: </label>
       <input
@@ -71,16 +61,6 @@ export const _TextInputProperty = props => {
           <br />
         </div>
         <hr />
-        <p>
-          <label htmlFor="doubleEntry">Double Entry: </label>
-          <input
-            type="checkbox"
-            name="doubleEntry"
-            id="doubleEntry"
-            onChange={change_handler}
-            checked={props.model.doubleEntry()}
-          />
-        </p>
         <DataDefinedValidation
           model={address.byPath(props.form, props.currententity)}
           form={props.form}

@@ -3,7 +3,7 @@ import Resizer from './Resizer';
 import { entityActions } from '../actions.entities';
 import { entityStyle, inputStyle } from '../feStyles';
 import { defaultPropsFE, initFE } from '../../../constants/defaultPropsFE';
-import TextareaAutosize from 'react-autosize-textarea';
+// import TextareaAutosize from 'react-autosize-textarea';
 
 const PrePrompt = props => {
   const prePromptStyle = {

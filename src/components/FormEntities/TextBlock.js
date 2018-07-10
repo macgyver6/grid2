@@ -9,7 +9,8 @@ import { log } from 'util';
 import { address } from '../../address';
 import { entityActions } from './actions.entities';
 import AddToEnd from './subentities/AddToEnd.js';
-import TextareaAutosize from 'react-autosize-textarea';
+// import TextareaAutosize from 'react-autosize-textarea';
+import showdown from 'showdown';
 
 const TextBlockComponent = props => {
   const mouseDown_handler = event => entityActions.mouseDown_handler(event, props);
@@ -58,6 +59,14 @@ const TextBlockComponent = props => {
     return runningTotal % section.width() === 0 ? true : false;
   };
 
+  const converter = new showdown.Converter({ simpleLineBreaks: true });
+  const text = '# hello, markdown!';
+  const html = converter.makeHtml(props.model.content());
+
+  const createMarkup = () => ({ __html: html });
+
+  // simpleLineBreaks;
+
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
@@ -93,7 +102,7 @@ const TextBlockComponent = props => {
         className="TextInput"
         onMouseDown={mouseDown_handler}
       >
-        <TextareaAutosize
+        {/* <TextareaAutosize
           style={{
             ...inputStyle(props.model),
             resize: 'none',
@@ -101,8 +110,13 @@ const TextBlockComponent = props => {
           }}
           value={props.model.content()}
           readonly
+        /> */}
+        {/* {html} */}
+        {/* <h1 id="hellomarkdown">hello, markdown!</h1> */}
+        <div
+          style={{ ...inputStyle(props.model), height: 'auto', minHeight: '20px', maxHeight: '', alignSelf: 'start' }}
+          dangerouslySetInnerHTML={createMarkup()}
         />
-
         {/* <textarea
           style={{
             ...inputStyle(props.model),
@@ -116,7 +130,6 @@ const TextBlockComponent = props => {
           value={props.model.content()}
           readonly="true"
         /> */}
-
         {/* <input
           style={inputStyle(props.model)}
           className="form-control"
@@ -125,7 +138,6 @@ const TextBlockComponent = props => {
           value={props.model.content()}
           disabled
         /> */}
-
         <Resizer
           id={`${props.model.UUID()}.resizer`}
           element="FormEntity"
