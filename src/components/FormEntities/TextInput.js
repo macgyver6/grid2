@@ -6,7 +6,7 @@ import Append from './subentities/Append.js';
 import Prepend from './subentities/Prepend.js';
 import PrePrompt from './subentities/PrePrompt.js';
 import PostPrompt from './subentities/PostPrompt.js';
-import { entityWrapperStyle, entityStyle, inputStyle } from './feStyles';
+import { entityWrapperStyle, entitySubWrapperStyle, entityStyle, inputStyle } from './feStyles';
 import { entityActions } from './actions.entities';
 import AddToEnd from './subentities/AddToEnd.js';
 
@@ -88,14 +88,15 @@ const TextInputComponent = props => {
   return (
     <div
       id={`${props.model.UUID()}.${props.model.type()}.wrapper`}
-      style={entityWrapperStyle(props.model)}
-      onDragOver={dragOver_handler}
+      style={{
+        ...entityWrapperStyle(props.model),
+      }}
       onDrop={drop_handler}
       onDragLeave={dragleave_handler}
       onClick={click_handler} // to select the current entity for properties panel
-      onMouseDown={mouseDown_handler} // to set intitial mouse click loc
-      onDragStart={dragstart_handler} // returns false to prevent drag image
       onMouseUp={mouseUp_handler}
+      onDragStart={dragstart_handler} // returns false to prevent drag image
+      onDragOver={dragOver_handler}
       draggable="false"
     >
       {props.model.prepend() > 0 ? (
@@ -111,61 +112,71 @@ const TextInputComponent = props => {
           mutate={props.mutate}
         />
       ) : null}
-      {props.model.prePromptWidth() > 0 ? (
-        <PrePrompt
-          id={`${props.model.UUID()}.prePrompt`}
-          prePromptWidth={props.model.prePromptWidth()}
-          uuid={props.model.UUID()}
-          className="prepend"
-          model={props.model}
-          form={props.form}
-          remove={props.remove}
-          add={props.add}
-          mutate={props.mutate}
-        />
-      ) : null}
       <div
+        id={`${props.model.UUID()}.${props.model.type()}.subWrapper`}
         style={{
-          ...entityStyle(props.model),
-          // border: '1px blue solid',
+          ...entitySubWrapperStyle(props.model),
+          // border: 'solid green 1px',
         }}
-        id={`${props.model.UUID()}.${props.model.type()}`}
-        className="TextInput"
+        onMouseDown={mouseDown_handler} // to set intitial
+        draggable="false"
       >
-        <input
-          style={{ ...inputStyle(props.model) }}
-          // className="form-control"
-          type={props.model.type()}
-          // size="8"
-          readOnly="true"
-        />
-        <Resizer
-          id="width"
-          // id={`${props.model.UUID()}.resizer`}
-          element="FormEntity"
-          uuid={props.model.UUID()}
-          className="resizer"
-          model={props.model}
-          form={props.form}
-          remove={props.remove}
-          add={props.add}
-          mutate={props.mutate}
-          resizeType="width"
-        />
+        {props.model.prePromptWidth() > 0 ? (
+          <PrePrompt
+            id={`${props.model.UUID()}.prePrompt`}
+            prePromptWidth={props.model.prePromptWidth()}
+            uuid={props.model.UUID()}
+            className="prepend"
+            model={props.model}
+            form={props.form}
+            remove={props.remove}
+            add={props.add}
+            mutate={props.mutate}
+          />
+        ) : null}
+        <div
+          style={{
+            ...entityStyle(props.model),
+            // border: '1px blue solid',
+          }}
+          id={`${props.model.UUID()}.${props.model.type()}`}
+          className="TextInput"
+        >
+          <input
+            style={{ ...inputStyle(props.model) }}
+            // className="form-control"
+            type={props.model.type()}
+            // size="8"
+            readOnly="true"
+          />
+          <Resizer
+            id="width"
+            // id={`${props.model.UUID()}.resizer`}
+            element="FormEntity"
+            uuid={props.model.UUID()}
+            className="resizer"
+            model={props.model}
+            form={props.form}
+            remove={props.remove}
+            add={props.add}
+            mutate={props.mutate}
+            resizeType="width"
+          />
+        </div>
+        {props.model.postPromptWidth() > 0 ? (
+          <PostPrompt
+            id={`${props.model.UUID()}.prepend`}
+            postPromptWidth={props.model.postPromptWidth()}
+            uuid={props.model.UUID()}
+            className="prepend"
+            model={props.model}
+            form={props.form}
+            remove={props.remove}
+            add={props.add}
+            mutate={props.mutate}
+          />
+        ) : null}
       </div>
-      {props.model.postPromptWidth() > 0 ? (
-        <PostPrompt
-          id={`${props.model.UUID()}.prepend`}
-          postPromptWidth={props.model.postPromptWidth()}
-          uuid={props.model.UUID()}
-          className="prepend"
-          model={props.model}
-          form={props.form}
-          remove={props.remove}
-          add={props.add}
-          mutate={props.mutate}
-        />
-      ) : null}
       {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}

@@ -67,15 +67,6 @@ export const drop = {
     dropObj.sourceEntity = dropData.model
       ? address.rehydrate(dropData.model)
       : address.byPath(props.form, dropData.address);
-
-    // if (dropObj.sourceAddress !== null) {
-    //   document.getElementById(
-    //     `${dropObj.sourceEntity.UUID()}.${dropObj.sourceEntity.type()}.subWrapper`
-    //   ).style.opacity =
-    //     '1';
-    // }
-    // const origTarget =
-    // origTarget.style.opacity = '1';
     const colWidthPx = document.getElementById('0.bgrndGrd').clientWidth + 8;
     console.log('colWidthPx: ', colWidthPx);
     const gridOffsetNoLocChange = () => {
@@ -379,11 +370,11 @@ export const drop = {
               ? total(props.model) -
                 gridOffsetLocChange() -
                 dropObj.sourceEntity.width() -
-                (dropObj.sourceEntity.postPromptWidth ? dropObj.sourceEntity.postPromptWidth() : 0)
+                dropObj.sourceEntity.postPromptWidth()
               : props.model.prepend() -
                 dropObj.sourceEntity.width() -
                 gridOffsetLocChange() -
-                (dropObj.sourceEntity.postPromptWidth ? dropObj.sourceEntity.postPromptWidth() : 0),
+                dropObj.sourceEntity.postPromptWidth(),
         })
       );
 

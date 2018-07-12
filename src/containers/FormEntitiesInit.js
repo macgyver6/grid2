@@ -94,10 +94,11 @@ const selectionStyles = {
   },
   Remove: {
     paddingTop: '0px',
+    paddingBottom: '12px',
     margin: '8px',
     textAlign: 'center',
     height: '42px',
-    background: '#ff5f56',
+    border: '1px solid #ff5f56',
     borderRadius: '2px',
   },
 };
@@ -264,7 +265,9 @@ const DeleteBtn = props => {
       onDragOver={dragover_handler}
       onDragLeave={dragleave_handler}
     >
-      <h1>🗑</h1>
+      <h1>
+        <i className="far fa-trash-alt" style={{ color: 'red' }} />{' '}
+      </h1>
     </div>
   );
 };
@@ -335,7 +338,7 @@ const LeftPanel = props => {
             margin: '8px',
             textAlign: 'center',
             height: '42px',
-            backgroundColor: selectionStyles[`${entity.type}`].background,
+            border: `1px solid ${selectionStyles[`${entity.type}`].background}`,
             borderRadius: '2px',
           }}
           data-type={entity.type}

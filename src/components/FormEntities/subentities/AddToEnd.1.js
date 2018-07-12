@@ -1,42 +1,62 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { address } from '../../../address';
 import { DesignBoxGridStyle } from '../../layout/styles/DesignBox';
 
-const AddToEnd = props => {
-  const entityAddress = address.bySample(props.model, props.form);
-  const parentAddress = entityAddress.slice(0, entityAddress.length - 1);
-  const parentEntity = address.byPath(props.form, parentAddress);
-  console.log(props.appState.gridWidth, parentEntity.width());
-  // const test = document.getElementById(address.byPath(props.form, parentAddress).UUID() + `.FormSection.wrapper`)
+class AddToEnd extends Component {
+  constructor(props) {
+    super(props);
+    this.restoreDonorSiblingAddress = this.restoreDonorSiblingAddress.bind(this);
+    this.drop_handler = this.drop_handler.bind(this);
+    this.dragLeave_handler = this.dragLeave_handler.bind(this);
+    this.dragEnter_handler = this.dragEnter_handler.bind(this);
+    this.total = this.total.bind(this);
+    this.firstInRow = this.firstInRow.bind(this);
+  }
+
+  // const test = document.getElementById(address.byPath(this.props.form, parentAddress).UUID() + `.FormSection.wrapper`)
   //   .clientWidth;
 
   // let bgrndGrdWidth = document.getElementById('0.bgrndGrd');
   // console.log(bgrndGrdWidth);
 
-  const wrapperStyle = {
-    width: props.appState.gridWidth * parentEntity.width(),
-    height: '10px',
-    position: 'absolute',
-    right: '0',
-    bottom: '-10px',
-    zIndex: '40',
-  };
-  console.log(wrapperStyle.width);
+  total(entity) {
+    return (
+      entity.prepend() +
+      (entity.prePromptWidth ? entity.prePromptWidth() : 0) +
+      entity.width() +
+      (entity.postPromptWidth ? entity.postPromptWidth() : 0) +
+      entity.append()
+    );
+  }
 
-  const restoreDonorSiblingAddress = (arr, props, draggedEntity) => {
+  firstInRow(entityAddress) {
+    const section = address.byPath(this.props.form, entityAddress.slice(0, entityAddress.length - 1));
+    // const section = address.byPath(this.props.form, entityAddress);
+    // console.log(entityAddress )
+    const _entityAddress = entityAddress.slice(entityAddress.length - 1, entityAddress.length + 1) - 1;
+    var runningTotal = 0;
+    // console.log(_entityAddress, section.children())
+    for (var i = 0; i <= _entityAddress; ++i) {
+      // console.log(section)
+      runningTotal += this.total(section.children()[i]);
+    }
+    return runningTotal % section.width() === 0 ? true : false;
+  }
+
+  restoreDonorSiblingAddress(arr, props, draggedEntity) {
     // get donor's parent
-    const donorParent = address.byPath(props.form, arr.slice(0, arr.length - 1));
+    const donorParent = address.byPath(this.props.form, arr.slice(0, arr.length - 1));
     console.log(arr, props, draggedEntity);
     const toLeft = arr => {
       const _toLeft = [...arr];
       console.log({
         address: _toLeft,
-        entity: address.byPath(props.form, _toLeft),
+        entity: address.byPath(this.props.form, _toLeft),
       });
       _toLeft[arr.length - 1] = _toLeft[arr.length - 1] - 1;
       return {
         address: _toLeft,
-        entity: address.byPath(props.form, _toLeft),
+        entity: address.byPath(this.props.form, _toLeft),
       };
     };
     const toRight = arr => {
@@ -44,23 +64,23 @@ const AddToEnd = props => {
       _toRight[arr.length - 1] = _toRight[arr.length - 1] + 1;
       return {
         address: _toRight,
-        entity: address.byPath(props.form, _toRight),
+        entity: address.byPath(this.props.form, _toRight),
       };
     };
-    console.log(donorParent.children().length - 1 === arr[arr.length - 1] && firstInRow(arr));
-    console.log(total(draggedEntity));
+    console.log(donorParent.children().length - 1 === arr[arr.length - 1] && this.firstInRow(arr));
+    console.log(this.total(draggedEntity));
     /** if only 1 child in section or the donor entity is the last entity in section */
     if (
       donorParent.children().length === 1 ||
-      (donorParent.children().length - 1 === arr[arr.length - 1] && firstInRow(arr))
+      (donorParent.children().length - 1 === arr[arr.length - 1] && this.firstInRow(arr))
     ) {
       // if (donorParent.children().length === 1 || (donorParent.children().length - 1
       // === arr[arr.length - 1])) {
       return false;
-    } else if (donorParent.width() === total(draggedEntity)) {
+    } else if (donorParent.width() === this.total(draggedEntity)) {
       /** in the case that the entity used the entire destination section */
       return false;
-    } else if (firstInRow(arr)) {
+    } else if (this.firstInRow(arr)) {
       console.log('firstInRow: ', toRight(arr));
       return {
         address: toRight(arr).address,
@@ -88,61 +108,39 @@ const AddToEnd = props => {
         },
       };
     }
-  };
+  }
 
-  const total = entity =>
-    entity.prepend() +
-    (entity.prePromptWidth ? entity.prePromptWidth() : 0) +
-    entity.width() +
-    (entity.postPromptWidth ? entity.postPromptWidth() : 0) +
-    entity.append();
-
-  const firstInRow = entityAddress => {
-    const section = address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1));
-    // const section = address.byPath(props.form, entityAddress);
-    // console.log(entityAddress )
-    const _entityAddress = entityAddress.slice(entityAddress.length - 1, entityAddress.length + 1) - 1;
-    var runningTotal = 0;
-    // console.log(_entityAddress, section.children())
-    for (var i = 0; i <= _entityAddress; ++i) {
-      // console.log(section)
-      runningTotal += total(section.children()[i]);
-    }
-    return runningTotal % section.width() === 0 ? true : false;
-  };
-
-  const drop_handler = event => {
+  drop_handler(event) {
     event.stopPropagation();
     let dropData = JSON.parse(event.dataTransfer.getData('address'));
     console.log(dropData);
 
     /**returns [addy, {ParentSection}] */
-    const entityAddy = address.byUuid(props.model.UUID(), props.form);
+    const entityAddy = address.byUuid(this.props.model.UUID(), this.props.form);
     /**
      * returns [parentSectionAddress, parentSectionEntity, <optional>indexToAddEntityAt]
      */
     let destinationSectionAddy = () => {
-      if (props.addToEndAction === 'insertInPlace') {
+      if (this.props.addToEndAction === 'insertInPlace') {
         const sectionAddy = [...entityAddy[0]].slice(0, entityAddy[0].length - 1);
-        const sectionEntity = address.byPath(props.form, sectionAddy);
+        const sectionEntity = address.byPath(this.props.form, sectionAddy);
         const _entityAddy = [...entityAddy[0]]
           .slice(0, entityAddy[0].length - 1)
           .concat(entityAddy[0][entityAddy.length] + 1);
         return [sectionAddy, sectionEntity, _entityAddy];
       }
-      if (props.addToEndAction === 'appendToEnd') {
+      if (this.props.addToEndAction === 'appendToEnd') {
         return entityAddy;
       }
     };
-    console.log('destinationSectionAddy: ', destinationSectionAddy());
 
-    if (props.addToEndAction === 'insertInPlace') {
+    if (this.props.addToEndAction === 'insertInPlace') {
       let loc = [...destinationSectionAddy()[0]];
       loc = loc.concat(destinationSectionAddy()[1].children().length);
       console.log(dropData.action);
       if (dropData.action !== 'addEntity') {
         console.log(dropData);
-        const droppedEntity = address.byPath(props.form, dropData.address);
+        const droppedEntity = address.byPath(this.props.form, dropData.address);
         console.log(destinationSectionAddy()[1].width(), droppedEntity.width());
         // const parentEntity = [...destinationSectionAddy()[0]].slice(0,
         // destinationSectionAddy().length - 1) console.log(parentEntity)
@@ -154,7 +152,7 @@ const AddToEnd = props => {
             droppedEntity.width() -
             (droppedEntity.postPromptWidth ? droppedEntity.postPromptWidth() : 0)
         );
-        props.add(
+        this.props.add(
           destinationSectionAddy()[2],
           address.rehydrate(
             Object.assign({}, droppedEntity.properties(), {
@@ -170,12 +168,12 @@ const AddToEnd = props => {
           )
         );
 
-        const toBeMutatedRestore = restoreDonorSiblingAddress(dropData.address, props, droppedEntity);
+        const toBeMutatedRestore = this.restoreDonorSiblingAddress(dropData.address, this.props, droppedEntity);
 
         // if (!arraysEqual(toBeMutatedRestore.address, dropObj.destinationAddress)) {
         console.log(toBeMutatedRestore);
         if (toBeMutatedRestore) {
-          props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties);
+          this.props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties);
         }
         console.log(
           destinationSectionAddy()[2],
@@ -186,11 +184,11 @@ const AddToEnd = props => {
           dropData.address[dropData.address.length - 1] >
           destinationSectionAddy()[2][destinationSectionAddy()[2].length - 1]
         ) {
-          props.remove(
+          this.props.remove(
             [...dropData.address].map((val, index, array) => (index === array.length - 1 ? (val += 1) : val))
           );
         } else {
-          props.remove(dropData.address);
+          this.props.remove(dropData.address);
         }
       } else {
         /*
@@ -204,7 +202,7 @@ const AddToEnd = props => {
             return entity.prepend + entity.width;
           }
         };
-        const newEntity = props.add(
+        const newEntity = this.props.add(
           destinationSectionAddy()[2],
           address.rehydrate(
             Object.assign({}, dropData.model, {
@@ -213,7 +211,7 @@ const AddToEnd = props => {
           )
         );
         console.log(loc);
-        // props.temporalStateChange({
+        // this.props.temporalStateChange({
         //   currententity: loc,
         // });
       }
@@ -221,18 +219,18 @@ const AddToEnd = props => {
       event.target.innerHTML = '';
     }
 
-    if (props.addToEndAction === 'appendToEnd') {
+    if (this.props.addToEndAction === 'appendToEnd') {
       let loc = [...destinationSectionAddy()[0]];
       loc = loc.concat(destinationSectionAddy()[1].children().length);
       console.log(loc);
 
       if (dropData.action !== 'addEntity') {
         console.log(dropData);
-        const droppedEntity = address.byPath(props.form, dropData.address);
+        const droppedEntity = address.byPath(this.props.form, dropData.address);
         console.log(destinationSectionAddy()[1].width(), droppedEntity.width());
         // const parentEntity = [...destinationSectionAddy()[0]].slice(0,
         // destinationSectionAddy().length - 1) console.log(parentEntity)
-        props.add(
+        this.props.add(
           loc,
           address.rehydrate(
             Object.assign({}, droppedEntity.properties(), {
@@ -243,15 +241,15 @@ const AddToEnd = props => {
           )
         );
 
-        const toBeMutatedRestore = restoreDonorSiblingAddress(dropData.address, props, droppedEntity);
+        const toBeMutatedRestore = this.restoreDonorSiblingAddress(dropData.address, this.props, droppedEntity);
 
         // if (!arraysEqual(toBeMutatedRestore.address, dropObj.destinationAddress)) {
 
         if (toBeMutatedRestore) {
-          props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties);
+          this.props.mutate(toBeMutatedRestore.address, toBeMutatedRestore.properties);
         }
 
-        props.remove(dropData.address);
+        this.props.remove(dropData.address);
       } else {
         /*
       @hack - this needs to accomodate some entities having prePrompt and others not
@@ -264,7 +262,7 @@ const AddToEnd = props => {
             return entity.prepend + entity.width;
           }
         };
-        const newEntity = props.add(
+        const newEntity = this.props.add(
           loc,
           address.rehydrate(
             Object.assign({}, dropData.model, {
@@ -272,21 +270,22 @@ const AddToEnd = props => {
             })
           )
         );
-        props.temporalStateChange(loc);
+        this.props.temporalStateChange(loc);
       }
       event.target.style.backgroundColor = '';
       event.target.innerHTML = '';
     }
-  };
-  let dragEnter_handler = event => {
+  }
+
+  dragEnter_handler(event) {
     event.stopPropagation();
     event.preventDefault();
     event.target.style.backgroundColor = 'lightgreen';
-    // event.target.innerHTML = '⬇️Insert entity here';
+    event.target.innerHTML = '⬇️Insert entity here';
 
-    // const entityAddress = address.bySample(props.model, props.form);
+    // const entityAddress = address.bySample(this.props.model, this.props.form);
     // const parentAddress = entityAddress.slice(0, entityAddress.length - 1);
-    // const test = document.getElementById(address.byPath(props.form, parentAddress).UUID() + `.FormSection.wrapper`)
+    // const test = document.getElementById(address.byPath(this.props.form, parentAddress).UUID() + `.FormSection.wrapper`)
     //   .clientWidth;
     // event.target.style.width = `${test}px`;
     // console.log(wrapperStyle);
@@ -295,49 +294,68 @@ const AddToEnd = props => {
     // div.style.width = '10px', // div.style.height = '100px', //
     // div.style.position = 'absolute', div.className = 'arrow_box';
     // event.target.appendChild(div); div.innerHTML = `<h4 class="logo">Move before
-    // <strong>${props.model._type}</strong></h1>`
-  };
+    // <strong>${this.props.model._type}</strong></h1>`
+  }
 
-  let dragLeave_handler = event => {
+  dragLeave_handler(event) {
     event.target.style.backgroundColor = '';
     event.target.innerHTML = '';
-  };
+  }
 
-  const lastInRow = entityAddress => {
-    const section = address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1));
-    console.log(
-      address.byPath(props.form, entityAddress),
-      address.byPath(props.form, entityAddress.slice(0, entityAddress.length - 1))
+  // const lastInRow = entityAddress => {
+  //   const section = address.byPath(this.props.form, entityAddress.slice(0, entityAddress.length - 1));
+  //   console.log(
+  //     address.byPath(this.props.form, entityAddress),
+  //     address.byPath(this.props.form, entityAddress.slice(0, entityAddress.length - 1))
+  //   );
+  //   const _entityAddress = entityAddress[entityAddress.length - 1];
+  //   console.log(_entityAddress);
+
+  //   const entity = address.byPath(this.props.form, entityAddress);
+  //   console.log(entity, total(entity), entityAddress[entityAddress.length - 1]);
+  //   console.log(total(this.props.model));
+  //   if (entityAddress[entityAddress.length - 1] === 0 && total(entity) !== this.props.model.width()) {
+  //     return false;
+  //   }
+  //   var runningTotal = 0;
+  //   // console.log(_entityAddress, section.children())
+  //   for (var i = 0; i <= _entityAddress; ++i) {
+  //     console.log(section.children()[i]);
+  //     runningTotal += total(section.children()[i]);
+  //   }
+  //   console.log(runningTotal);
+  //   return runningTotal % section.width() === 0 ? true : false;
+  // };
+
+  render() {
+    const entityAddress = address.bySample(this.props.model, this.props.form);
+    const parentAddress = entityAddress.slice(0, entityAddress.length - 1);
+    const parentEntity = address.byPath(this.props.form, parentAddress);
+    const wrapperStyle = {
+      // width: this.props.appState.gridWidth * parentEntity.width(),
+      width: '160px',
+      height: '15px',
+      position: 'absolute',
+      right: '0',
+      bottom: '-15px',
+      zIndex: '40',
+    };
+
+    // console.log(this.props.appState.gridWidth);
+
+    return (
+      <div
+        id={this.props.model.UUID()}
+        className="outer"
+        style={this.wrapperStyle}
+        onDrop={this.drop_handler}
+        onDragEnter={this.dragEnter_handler}
+        onDragLeave={this.dragLeave_handler}
+      >
+        'add to end'
+      </div>
     );
-    const _entityAddress = entityAddress[entityAddress.length - 1];
-    console.log(_entityAddress);
-
-    const entity = address.byPath(props.form, entityAddress);
-    console.log(entity, total(entity), entityAddress[entityAddress.length - 1]);
-    console.log(total(props.model));
-    if (entityAddress[entityAddress.length - 1] === 0 && total(entity) !== props.model.width()) {
-      return false;
-    }
-    var runningTotal = 0;
-    // console.log(_entityAddress, section.children())
-    for (var i = 0; i <= _entityAddress; ++i) {
-      console.log(section.children()[i]);
-      runningTotal += total(section.children()[i]);
-    }
-    console.log(runningTotal);
-    return runningTotal % section.width() === 0 ? true : false;
-  };
-
-  return (
-    <div
-      id={props.model.UUID()}
-      className="outer"
-      style={wrapperStyle}
-      onDrop={drop_handler}
-      onDragEnter={dragEnter_handler}
-      onDragLeave={dragLeave_handler}
-    />
-  );
-};
+  }
+}
 
 export default AddToEnd;

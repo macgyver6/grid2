@@ -2,7 +2,7 @@ import React from 'react';
 import { helpers } from '../../helpers';
 import { drop } from '../../drop';
 import Append from './subentities/Append';
-import { entityWrapperStyle, entityStyle, inputStyle } from './feStyles';
+import { entityWrapperStyle, entitySubWrapperStyle, entityStyle, inputStyle } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 import PrePrompt from './subentities/PrePrompt.js';
 import PostPrompt from './subentities/PostPrompt.js';
@@ -87,62 +87,71 @@ const CheckBoxComponent = props => {
           mutate={props.mutate}
         />
       ) : null}
-
-      {props.model.prePromptWidth() > 0 ? (
-        <PrePrompt
-          id={`${props.model.UUID()}.prepend`}
-          prePromptWidth={props.model.prePromptWidth()}
-          uuid={props.model.UUID()}
-          className="prepend"
-          model={props.model}
-          form={props.form}
-          remove={props.remove}
-          add={props.add}
-          mutate={props.mutate}
-        />
-      ) : null}
-
       <div
-        id={`${props.model.UUID()}.${props.model.type()}`}
+        id={`${props.model.UUID()}.${props.model.type()}.subWrapper`}
         style={{
-          ...entityStyle(props.model),
-          margin: '0px',
-          // minHeight: '48px',
-          padding: '0px',
-          border: `1px solid ${initFE[`${props.model.type()}`].render.backgroundColor}`,
+          ...entitySubWrapperStyle(props.model),
+          // border: 'solid green 1px',
         }}
-        className="CheckBox"
-        data-type="CheckBox"
-        onMouseDown={mouseDown_handler}
-        onDragStart={dragstart_handler}
+        onMouseDown={mouseDown_handler} // to set intitial
         draggable="false"
       >
-        {/* onChange={(e) => handleChange(e, props)} */}
-        <input
-          type={props.model.type()}
-          // style={{
-          //   ...inputStyle(props.model),
-          //   margin: '12px 0px 0px 3px',
-          //   // marginTop: '12px',
-          //   // marginLeft: '12px',
-          //   height: '24px',
-          //   width: '24px',
-          // }}
-        />
+        {props.model.prePromptWidth() > 0 ? (
+          <PrePrompt
+            id={`${props.model.UUID()}.prepend`}
+            prePromptWidth={props.model.prePromptWidth()}
+            uuid={props.model.UUID()}
+            className="prepend"
+            model={props.model}
+            form={props.form}
+            remove={props.remove}
+            add={props.add}
+            mutate={props.mutate}
+          />
+        ) : null}
+
+        <div
+          id={`${props.model.UUID()}.${props.model.type()}`}
+          style={{
+            ...entityStyle(props.model),
+            margin: '0px',
+            // minHeight: '48px',
+            padding: '0px',
+            border: `1px solid ${initFE[`${props.model.type()}`].render.backgroundColor}`,
+          }}
+          className="CheckBox"
+          data-type="CheckBox"
+          onMouseDown={mouseDown_handler}
+          onDragStart={dragstart_handler}
+          draggable="false"
+        >
+          {/* onChange={(e) => handleChange(e, props)} */}
+          <input
+            type={props.model.type()}
+            // style={{
+            //   ...inputStyle(props.model),
+            //   margin: '12px 0px 0px 3px',
+            //   // marginTop: '12px',
+            //   // marginLeft: '12px',
+            //   height: '24px',
+            //   width: '24px',
+            // }}
+          />
+        </div>
+        {props.model.postPromptWidth() > 0 ? (
+          <PostPrompt
+            id={`${props.model.UUID()}.prepend`}
+            postPromptWidth={props.model.postPromptWidth()}
+            uuid={props.model.UUID()}
+            className="prepend"
+            model={props.model}
+            form={props.form}
+            remove={props.remove}
+            add={props.add}
+            mutate={props.mutate}
+          />
+        ) : null}
       </div>
-      {props.model.postPromptWidth() > 0 ? (
-        <PostPrompt
-          id={`${props.model.UUID()}.prepend`}
-          postPromptWidth={props.model.postPromptWidth()}
-          uuid={props.model.UUID()}
-          className="prepend"
-          model={props.model}
-          form={props.form}
-          remove={props.remove}
-          add={props.add}
-          mutate={props.mutate}
-        />
-      ) : null}
       {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}

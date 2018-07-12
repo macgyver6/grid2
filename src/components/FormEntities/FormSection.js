@@ -8,6 +8,7 @@ import Append from './subentities/Append';
 import Prepend from './subentities/Prepend.js';
 import { helpers } from '../../helpers';
 import { entityActions } from './actions.entities';
+import { entityWrapperStyle, entitySubWrapperStyle, entityStyle, inputStyle } from './feStyles';
 // import AddToEnd from './subentities/AddToEnd.js';
 let FormSectionComponent = props => {
   const round = (value, decimals) => Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
@@ -421,77 +422,86 @@ let FormSectionComponent = props => {
         />
       ) : null}
       <div
-        id={`${props.model.UUID()}.${props.model.type()}`}
-        className="form-group FS"
-        /**
-         * scrolling notes: without styling the scrollbar was inadvertantly skewing the grid contents by the scrollbar width. Using this css, the scrollbar is hidden:
-         * ::-webkit-scrollbar {
-         * display: none;
-         *}
-         */
+        id={`${props.model.UUID()}.${props.model.type()}.subWrapper`}
         style={{
-          ...fsStyle,
-          // border: '1px dashed blue',
-          backgroundColor: whichBackground,
-          minHeight: minHeight,
-          maxHeight: '65vh',
-          // overflowY: 'scrollable',
-          overflowY: 'scroll', // this allows both the tab and the form section to scroll
-          overflowX: 'visible',
-          paddingTop: '18px',
+          ...entitySubWrapperStyle(props.model),
+          // border: 'solid green 1px',
         }}
-        data-action={`mover.${props.model.UUID()}.FormSection`}
-        onDrop={drop_handler}
+        onMouseDown={mouseDown_handler} // to set intitial
+        draggable="false"
       >
-        {/* <p>{address.bySample(props.model, props.form).length}</p> */}
-        {address.bySample(props.model, props.form).length > 0 ? (
-          <AddToBeginning
-            model={props.model}
-            form={props.form}
-            add={props.add}
-            remove={props.remove}
-            mutate={props.mutate}
-            temporalStateChange={props.temporalStateChange}
-            addToEndAction="insertInPlace"
-            appState={props.appState}
-          />
-        ) : null}
-        {props.model.type() === 'FormSection' && props.form.children().length >= 1
-          ? props.model.children().map((element, i) => {
-              console.log(element);
-              return React.createElement(address.lookupComponent(element), {
-                key: i,
-                model: element,
-                form: props.form,
-                remove: props.remove,
-                add: props.add,
-                mutate: props.mutate,
-                mutateandadd: props.mutateandadd,
-                mutateaddremove: props.mutateaddremove,
-                temporalStateChange: props.temporalStateChange,
-                appState: props.appState,
-              });
-            })
-          : null}
-        {dontResizeTopLevel ? (
-          <Resizer
-            id={`${props.model.UUID()}.resizer`}
-            element="FormEntity"
-            uuid={props.model.UUID()}
-            className="resizer"
-            model={props.model}
-            form={props.form}
-            remove={props.remove}
-            add={props.add}
-            mutate={props.mutate}
-            resizeType="width"
-            style={{
-              width: '5px',
-              padding: '0px',
-            }}
-          />
-        ) : null}
-        {/* <AddToEnd
+        <div
+          id={`${props.model.UUID()}.${props.model.type()}`}
+          className="form-group FS"
+          /**
+           * scrolling notes: without styling the scrollbar was inadvertantly skewing the grid contents by the scrollbar width. Using this css, the scrollbar is hidden:
+           * ::-webkit-scrollbar {
+           * display: none;
+           *}
+           */
+          style={{
+            ...fsStyle,
+            // border: '1px dashed blue',
+            backgroundColor: whichBackground,
+            minHeight: minHeight,
+            maxHeight: '65vh',
+            // overflowY: 'scrollable',
+            overflowY: 'scroll', // this allows both the tab and the form section to scroll
+            overflowX: 'visible',
+            paddingTop: '18px',
+          }}
+          data-action={`mover.${props.model.UUID()}.FormSection`}
+          onDrop={drop_handler}
+        >
+          {/* <p>{address.bySample(props.model, props.form).length}</p> */}
+          {address.bySample(props.model, props.form).length > 0 ? (
+            <AddToBeginning
+              model={props.model}
+              form={props.form}
+              add={props.add}
+              remove={props.remove}
+              mutate={props.mutate}
+              temporalStateChange={props.temporalStateChange}
+              addToEndAction="insertInPlace"
+              appState={props.appState}
+            />
+          ) : null}
+          {props.model.type() === 'FormSection' && props.form.children().length >= 1
+            ? props.model.children().map((element, i) => {
+                console.log(element);
+                return React.createElement(address.lookupComponent(element), {
+                  key: i,
+                  model: element,
+                  form: props.form,
+                  remove: props.remove,
+                  add: props.add,
+                  mutate: props.mutate,
+                  mutateandadd: props.mutateandadd,
+                  mutateaddremove: props.mutateaddremove,
+                  temporalStateChange: props.temporalStateChange,
+                  appState: props.appState,
+                });
+              })
+            : null}
+          {dontResizeTopLevel ? (
+            <Resizer
+              id={`${props.model.UUID()}.resizer`}
+              element="FormEntity"
+              uuid={props.model.UUID()}
+              className="resizer"
+              model={props.model}
+              form={props.form}
+              remove={props.remove}
+              add={props.add}
+              mutate={props.mutate}
+              resizeType="width"
+              style={{
+                width: '5px',
+                padding: '0px',
+              }}
+            />
+          ) : null}
+          {/* <AddToEnd
           model={props.model}
           form={props.form}
           add={props.add}
@@ -500,6 +510,7 @@ let FormSectionComponent = props => {
           temporalStateChange={props.temporalStateChange}
           addToEndAction="appendToEnd"
         /> */}
+        </div>
       </div>
       {props.model.append() > 0 ? (
         <Append

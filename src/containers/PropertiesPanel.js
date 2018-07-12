@@ -11,7 +11,6 @@ import DateValidationUI from './validations/DateValidationUI';
 import StringValidationUI from './validations/stringValidationUI';
 import IntegerValidationUI from './validations/integerValidationUI';
 import FloatValidationUI from './validations/floatValidationUI';
-import { Collapse } from 'react-collapse';
 import Expand from '../assets/expand.js';
 import { calcTotal } from '../components/FormEntities/feStyles';
 import { utility } from '../validation/val.utility';

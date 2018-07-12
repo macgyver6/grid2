@@ -6,7 +6,7 @@ import Append from './subentities/Append.js';
 import Prepend from './subentities/Prepend.js';
 import PrePrompt from './subentities/PrePrompt.js';
 import PostPrompt from './subentities/PostPrompt.js';
-import { entityWrapperStyle, entityStyle, inputStyle } from './feStyles';
+import { entityWrapperStyle, entitySubWrapperStyle, entityStyle, inputStyle } from './feStyles';
 import { log } from 'util';
 import { address } from '../../address';
 import RegexColorizer from 'regex-colorizer';
@@ -89,63 +89,73 @@ const CDSTextInputComponent = props => {
           mutate={props.mutate}
         />
       ) : null}
-      {props.model.prePromptWidth() > 0 ? (
-        <PrePrompt
-          id={`${props.model.UUID()}.prepend`}
-          prePromptWidth={props.model.prePromptWidth()}
-          uuid={props.model.UUID()}
-          className="prepend"
-          model={props.model}
-          form={props.form}
-          remove={props.remove}
-          add={props.add}
-          mutate={props.mutate}
-        />
-      ) : null}
-
       <div
+        id={`${props.model.UUID()}.${props.model.type()}.subWrapper`}
         style={{
-          ...entityStyle(props.model),
+          ...entitySubWrapperStyle(props.model),
+          // border: 'solid green 1px',
         }}
-        id={`${props.model.UUID()}.${props.model.type()}`}
-        className="TextInput"
+        onMouseDown={mouseDown_handler} // to set intitial
+        draggable="false"
       >
-        <input
-          style={inputStyle(props.model)}
-          className="form-control"
-          name={props.model.name()}
-          // rows="5"
-          // cols="12"
-          readOnly="true"
-          // value={props.model.script()}
-        />
+        {props.model.prePromptWidth() > 0 ? (
+          <PrePrompt
+            id={`${props.model.UUID()}.prepend`}
+            prePromptWidth={props.model.prePromptWidth()}
+            uuid={props.model.UUID()}
+            className="prepend"
+            model={props.model}
+            form={props.form}
+            remove={props.remove}
+            add={props.add}
+            mutate={props.mutate}
+          />
+        ) : null}
 
-        <Resizer
-          id={`${props.model.UUID()}.resizer`}
-          element="FormEntity"
-          uuid={props.model.UUID()}
-          className="resizer"
-          model={props.model}
-          form={props.form}
-          remove={props.remove}
-          add={props.add}
-          mutate={props.mutate}
-          resizeType="width"
-        />
+        <div
+          style={{
+            ...entityStyle(props.model),
+          }}
+          id={`${props.model.UUID()}.${props.model.type()}`}
+          className="TextInput"
+        >
+          <input
+            style={inputStyle(props.model)}
+            className="form-control"
+            name={props.model.name()}
+            // rows="5"
+            // cols="12"
+            readOnly="true"
+            // value={props.model.script()}
+          />
+
+          <Resizer
+            id={`${props.model.UUID()}.resizer`}
+            element="FormEntity"
+            uuid={props.model.UUID()}
+            className="resizer"
+            model={props.model}
+            form={props.form}
+            remove={props.remove}
+            add={props.add}
+            mutate={props.mutate}
+            resizeType="width"
+          />
+        </div>
+        {props.model.postPromptWidth() > 0 ? (
+          <PostPrompt
+            id={`${props.model.UUID()}.prepend`}
+            postPromptWidth={props.model.postPromptWidth()}
+            uuid={props.model.UUID()}
+            className="prepend"
+            model={props.model}
+            form={props.form}
+            remove={props.remove}
+            add={props.add}
+            mutate={props.mutate}
+          />
+        ) : null}
       </div>
-      {props.model.postPromptWidth() > 0 ? (
-        <PostPrompt
-          id={`${props.model.UUID()}.prepend`}
-          postPromptWidth={props.model.postPromptWidth()}
-          uuid={props.model.UUID()}
-          className="prepend"
-          model={props.model}
-          form={props.form}
-          remove={props.remove}
-          add={props.add}
-          mutate={props.mutate}
-        />
-      ) : null}
       {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}

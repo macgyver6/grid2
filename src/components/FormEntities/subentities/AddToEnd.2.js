@@ -15,11 +15,21 @@ const AddToEnd = props => {
 
   const wrapperStyle = {
     width: props.appState.gridWidth * parentEntity.width(),
-    height: '10px',
+    height: '15px',
     position: 'absolute',
     right: '0',
-    bottom: '-10px',
+    bottom: '-12px',
     zIndex: '40',
+    // border: 'grey 1px solid',
+
+    // width: '10px',
+    // height: '10px',
+    // position: 'absolute',
+    // webkitBorderRadius: '50 %',
+    // mozBorderRadius: '50 %',
+    // borderRadius: '50 %',
+    // border: '1px solid green',
+    // backgroundColor: 'green',
   };
   console.log(wrapperStyle.width);
 
@@ -281,7 +291,10 @@ const AddToEnd = props => {
   let dragEnter_handler = event => {
     event.stopPropagation();
     event.preventDefault();
-    event.target.style.backgroundColor = 'lightgreen';
+    // targetStyle['backgroundColor'] = ''lightgreen'';
+    console.log(targetStyle);
+    // event.target.style.backgroundColor = 'lightgreen';
+    document.getElementById(`${props.model.UUID()}.target`).style.backgroundColor = 'lightgreen';
     // event.target.innerHTML = '⬇️Insert entity here';
 
     // const entityAddress = address.bySample(props.model, props.form);
@@ -299,8 +312,9 @@ const AddToEnd = props => {
   };
 
   let dragLeave_handler = event => {
-    event.target.style.backgroundColor = '';
-    event.target.innerHTML = '';
+    // event.target.style.backgroundColor = '';
+    // event.target.innerHTML = '';
+    document.getElementById(`${props.model.UUID()}.target`).style.backgroundColor = '';
   };
 
   const lastInRow = entityAddress => {
@@ -328,15 +342,49 @@ const AddToEnd = props => {
     return runningTotal % section.width() === 0 ? true : false;
   };
 
+  const ballStyle = {
+    // width: props.appState.gridWidth * parentEntity.width(),
+    // height: '5px',
+    // position: 'absolute',
+    // right: '0',
+    // bottom: '-6px',
+    // zIndex: '40',
+    // content: ' ',
+    width: '10px',
+    height: '10px',
+    position: 'absolute',
+
+    left: 0,
+    bottom: '0px',
+    webkitBorderRadius: '50 %',
+    mozBorderRadius: '50 %',
+    borderRadius: '50 %',
+    border: '1px solid green',
+    backgroundColor: 'green',
+  };
+
+  const targetStyle = {
+    backgroundColor: '',
+    position: 'absolute',
+    left: '-4px',
+    bottom: '5px',
+    height: '3px',
+    // border: 'grey 1px solid',
+    width: props.appState.gridWidth * parentEntity.width(),
+  };
+
   return (
     <div
       id={props.model.UUID()}
-      className="outer"
+      className="hrBall"
       style={wrapperStyle}
       onDrop={drop_handler}
       onDragEnter={dragEnter_handler}
       onDragLeave={dragLeave_handler}
-    />
+    >
+      <div id={`${props.model.UUID()}.target`} style={targetStyle} />
+      {/* <div style={ballStyle} /> */}
+    </div>
   );
 };
 

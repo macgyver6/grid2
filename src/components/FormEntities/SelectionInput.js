@@ -2,7 +2,7 @@ import React from 'react';
 import { helpers } from '../../helpers';
 import { drop } from '../../drop';
 import Resizer from './subentities/Resizer';
-import { entityWrapperStyle, entityStyle, inputStyle } from './feStyles';
+import { entityWrapperStyle, entitySubWrapperStyle, entityStyle, inputStyle } from './feStyles';
 import Append from './subentities/Append.js';
 import Prepend from './subentities/Prepend.js';
 import PrePrompt from './subentities/PrePrompt.js';
@@ -102,76 +102,86 @@ const SelectionInputComponent = props => {
           mutate={props.mutate}
         />
       ) : null}
-      {props.model.prePromptWidth() > 0 ? (
-        <PrePrompt
-          id={`${props.model.UUID()}.prepend`}
-          prePromptWidth={props.model.prePromptWidth()}
-          uuid={props.model.UUID()}
-          className="prepend"
-          model={props.model}
-          form={props.form}
-          remove={props.remove}
-          add={props.add}
-          mutate={props.mutate}
-        />
-      ) : null}
       <div
+        id={`${props.model.UUID()}.${props.model.type()}.subWrapper`}
         style={{
-          ...entityStyle(props.model),
-          minHeight: '20px',
+          ...entitySubWrapperStyle(props.model),
+          // border: 'solid green 1px',
         }}
-        id={`${props.model.UUID()}.${props.model.type()}`}
-        className="SelectionInput"
-        onMouseDown={mouseDown_handler}
+        onMouseDown={mouseDown_handler} // to set intitial
+        draggable="false"
       >
-        {props.model.renderMode() === 'selection' ? (
-          <select
-            // style={siInputStyle}
-            style={{ ...inputStyle(props.model), backgroundColor: 'white' }}
-            className="form-control"
-            type={props.model.type()}
-          >
-            {props.model.options().map(option => <option value={option.value}>{option.label}</option>)}
-          </select>
-        ) : (
-          <div className="fancy-radio-wrapper" style={fancyRadioStyle}>
-            <div className="fancy-radio-inner">
-              {props.model.options().map(option => [
-                <input type="radio" id={option.value} name={option.value} value={option.value} />,
-                <label className="label" for="gl1">
-                  {option.label}
-                </label>,
-              ])}
+        {props.model.prePromptWidth() > 0 ? (
+          <PrePrompt
+            id={`${props.model.UUID()}.prepend`}
+            prePromptWidth={props.model.prePromptWidth()}
+            uuid={props.model.UUID()}
+            className="prepend"
+            model={props.model}
+            form={props.form}
+            remove={props.remove}
+            add={props.add}
+            mutate={props.mutate}
+          />
+        ) : null}
+        <div
+          style={{
+            ...entityStyle(props.model),
+            minHeight: '20px',
+          }}
+          id={`${props.model.UUID()}.${props.model.type()}`}
+          className="SelectionInput"
+          onMouseDown={mouseDown_handler}
+        >
+          {props.model.renderMode() === 'selection' ? (
+            <select
+              // style={siInputStyle}
+              style={{ ...inputStyle(props.model), backgroundColor: 'white' }}
+              className="form-control"
+              type={props.model.type()}
+            >
+              {props.model.options().map(option => <option value={option.value}>{option.label}</option>)}
+            </select>
+          ) : (
+            <div className="fancy-radio-wrapper" style={fancyRadioStyle}>
+              <div className="fancy-radio-inner">
+                {props.model.options().map(option => [
+                  <input type="radio" id={option.value} name={option.value} value={option.value} />,
+                  <label className="label" for="gl1">
+                    {option.label}
+                  </label>,
+                ])}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        <Resizer
-          id={`${props.model.UUID()}.resizer`}
-          element="FormEntity"
-          uuid={props.model.UUID()}
-          className="resizer"
-          model={props.model}
-          form={props.form}
-          remove={props.remove}
-          add={props.add}
-          mutate={props.mutate}
-          resizeType="width"
-        />
+          <Resizer
+            id={`${props.model.UUID()}.resizer`}
+            element="FormEntity"
+            uuid={props.model.UUID()}
+            className="resizer"
+            model={props.model}
+            form={props.form}
+            remove={props.remove}
+            add={props.add}
+            mutate={props.mutate}
+            resizeType="width"
+          />
+        </div>
+        {props.model.postPromptWidth() > 0 ? (
+          <PostPrompt
+            id={`${props.model.UUID()}.prepend`}
+            postPromptWidth={props.model.postPromptWidth()}
+            uuid={props.model.UUID()}
+            className="prepend"
+            model={props.model}
+            form={props.form}
+            remove={props.remove}
+            add={props.add}
+            mutate={props.mutate}
+          />
+        ) : null}
       </div>
-      {props.model.postPromptWidth() > 0 ? (
-        <PostPrompt
-          id={`${props.model.UUID()}.prepend`}
-          postPromptWidth={props.model.postPromptWidth()}
-          uuid={props.model.UUID()}
-          className="prepend"
-          model={props.model}
-          form={props.form}
-          remove={props.remove}
-          add={props.add}
-          mutate={props.mutate}
-        />
-      ) : null}
       {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}

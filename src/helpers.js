@@ -27,7 +27,7 @@ export const helpers = {
             action === 'move'
               ? round(
                   event.clientX -
-                    document.getElementById(`${model.UUID()}.${model.type()}.wrapper`).getBoundingClientRect().left,
+                    document.getElementById(`${model.UUID()}.${model.type()}.subWrapper`).getBoundingClientRect().left,
                   3
                 )
               : null,
@@ -37,18 +37,49 @@ export const helpers = {
       const div = document.createElement('div');
       div.id = 'dmg';
       div.style.width = `${calcTotalAdd(model) * bgrndGrdWidth - 12}px`; //  gets the total with of the default entity minus the append and prepend widths. Note subtracting 12 accounts for the gap
-      div.style.height = '32px';
+      div.style.height = '20px';
       // div.style.backgroundColor = 'blue';
       div.style.backgroundColor = initFE[`${type}`].render.backgroundColor;
+      div.style.border = '1px #BBBBBB';
+      div.style.backgroundColor = '2px #8939AD';
+      div.style.boxShadow = '0 3px 4px purple';
       div.style.position = 'fixed';
       div.style.top = '-1000px';
       div.style.left = '-1000px';
       div.style.borderRadius = '2px';
       document.body.appendChild(div);
+
+      const subWrapperWidth = document
+        .getElementById(`${model.UUID()}.${model.type()}.subWrapper`)
+        .getBoundingClientRect().width;
+      const parentDiv = document.createElement('div');
+      parentDiv.style.width = `${subWrapperWidth + 12}px`; // take the original element width and add margin so as to not clip the box shadow
+      parentDiv.style.height = '50px';
+      parentDiv.style.backgroundColor = '1';
+      parentDiv.style.position = 'fixed';
+
+      parentDiv.style.top = '-1000px';
+      parentDiv.style.left = '-1000px';
+
+      const div2 = document.getElementById(`${model.UUID()}.${model.type()}.subWrapper`).cloneNode(true);
+      // const origTarget = document.getElementById(`${model.UUID()}.${model.type()}.subWrapper`);
+      // origTarget.style.opacity = '0.4';
+      div2.style.boxShadow = '3px 4px rgba(116, 116, 116, 1)';
+      div2.style.borderTop = '1px solid #BBBBBB';
+      div2.style.borderLeft = '1px solid #BBBBBB';
+      console.log(`${calcTotalAdd(model) * bgrndGrdWidth - 12}px`);
+      div2.style.width = `${subWrapperWidth}px`;
+      parentDiv.appendChild(div2);
+      document.body.appendChild(parentDiv);
+
       type !== 'FormSection'
         ? event.dataTransfer.setDragImage(
-            div,
-            round(event.clientX - document.getElementById(`${model.UUID()}.prePrompt`).getBoundingClientRect().left, 3),
+            parentDiv,
+            round(
+              event.clientX -
+                document.getElementById(`${model.UUID()}.${model.type()}.subWrapper`).getBoundingClientRect().left,
+              3
+            ),
             0
           )
         : null;
@@ -108,7 +139,7 @@ export const helpers = {
     }
     const element = document.getElementById(`${props.model.UUID()}.${props.model.type()}`);
     // OK
-    console.log('change this: ', element.id + 'to: ' + defaultPropsFE[props.model.type()].render.backgroundColor);
+    console.log('change this: ', element.id + 'to: ' + defaultPropsFE[props.model.type()].style.zIndex);
     element.style.backgroundColor = defaultPropsFE[props.model.type()].render.backgroundColor;
   },
 

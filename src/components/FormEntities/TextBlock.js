@@ -1,7 +1,7 @@
 import React from 'react';
 import { helpers } from '../../helpers';
 import { drop } from '../../drop';
-import { entityWrapperStyle, entityStyle, inputStyle } from './feStyles';
+import { entityWrapperStyle, entitySubWrapperStyle, entityStyle, inputStyle } from './feStyles';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append.js';
 import Prepend from './subentities/Prepend.js';
@@ -78,31 +78,40 @@ const TextBlockComponent = props => {
       onDragStart={dragstart_handler}
       draggable="false"
     >
-      {props.model.prepend() > 0 ? (
-        <Prepend
-          id={`${props.model.UUID()}.prepend`}
-          prepend={props.model.prepend()}
-          uuid={props.model.UUID()}
-          className="prepend"
-          model={props.model}
-          form={props.form}
-          remove={props.remove}
-          add={props.add}
-          mutate={props.mutate}
-        />
-      ) : null}
-
       <div
+        id={`${props.model.UUID()}.${props.model.type()}.subWrapper`}
         style={{
-          ...entityStyle(props.model),
-          maxHeight: '',
-          // backgroundColor: 'purple',
+          ...entitySubWrapperStyle(props.model),
+          // border: 'solid green 1px',
         }}
-        id={`${props.model.UUID()}.${props.model.type()}`}
-        className="TextInput"
-        onMouseDown={mouseDown_handler}
+        onMouseDown={mouseDown_handler} // to set intitial
+        draggable="false"
       >
-        {/* <TextareaAutosize
+        {props.model.prepend() > 0 ? (
+          <Prepend
+            id={`${props.model.UUID()}.prepend`}
+            prepend={props.model.prepend()}
+            uuid={props.model.UUID()}
+            className="prepend"
+            model={props.model}
+            form={props.form}
+            remove={props.remove}
+            add={props.add}
+            mutate={props.mutate}
+          />
+        ) : null}
+
+        <div
+          style={{
+            ...entityStyle(props.model),
+            maxHeight: '',
+            // backgroundColor: 'purple',
+          }}
+          id={`${props.model.UUID()}.${props.model.type()}`}
+          className="TextInput"
+          onMouseDown={mouseDown_handler}
+        >
+          {/* <TextareaAutosize
           style={{
             ...inputStyle(props.model),
             resize: 'none',
@@ -111,13 +120,13 @@ const TextBlockComponent = props => {
           value={props.model.content()}
           readonly
         /> */}
-        {/* {html} */}
-        {/* <h1 id="hellomarkdown">hello, markdown!</h1> */}
-        <div
-          style={{ ...inputStyle(props.model), height: 'auto', minHeight: '20px', maxHeight: '', alignSelf: 'start' }}
-          dangerouslySetInnerHTML={createMarkup()}
-        />
-        {/* <textarea
+          {/* {html} */}
+          {/* <h1 id="hellomarkdown">hello, markdown!</h1> */}
+          <div
+            style={{ ...inputStyle(props.model), height: 'auto', minHeight: '20px', maxHeight: '', alignSelf: 'start' }}
+            dangerouslySetInnerHTML={createMarkup()}
+          />
+          {/* <textarea
           style={{
             ...inputStyle(props.model),
             height: 'auto',
@@ -130,7 +139,7 @@ const TextBlockComponent = props => {
           value={props.model.content()}
           readonly="true"
         /> */}
-        {/* <input
+          {/* <input
           style={inputStyle(props.model)}
           className="form-control"
           type={props.model.type()}
@@ -138,20 +147,20 @@ const TextBlockComponent = props => {
           value={props.model.content()}
           disabled
         /> */}
-        <Resizer
-          id={`${props.model.UUID()}.resizer`}
-          element="FormEntity"
-          uuid={props.model.UUID()}
-          className="resizer"
-          model={props.model}
-          form={props.form}
-          remove={props.remove}
-          add={props.add}
-          mutate={props.mutate}
-          resizeType="width"
-        />
+          <Resizer
+            id={`${props.model.UUID()}.resizer`}
+            element="FormEntity"
+            uuid={props.model.UUID()}
+            className="resizer"
+            model={props.model}
+            form={props.form}
+            remove={props.remove}
+            add={props.add}
+            mutate={props.mutate}
+            resizeType="width"
+          />
+        </div>
       </div>
-
       {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}

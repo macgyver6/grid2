@@ -4,7 +4,7 @@ import { drop } from '../../drop';
 import Resizer from './subentities/Resizer';
 import Append from './subentities/Append';
 import AddToEnd from './subentities/AddToEnd.js';
-import { entityWrapperStyle, entityStyle, inputStyle, calcTotal } from './feStyles';
+import { entityWrapperStyle, entitySubWrapperStyle, entityStyle, inputStyle, calcTotal } from './feStyles';
 import Prepend from './subentities/Prepend.js';
 import PrePrompt from './subentities/PrePrompt.js';
 import PostPrompt from './subentities/PostPrompt.js';
@@ -81,84 +81,92 @@ const TextAreaComponent = props => {
           mutate={props.mutate}
         />
       ) : null}
-
-      {props.model.prePromptWidth() > 0 ? (
-        <PrePrompt
-          id={`${props.model.UUID()}.prepend`}
-          prePromptWidth={props.model.prePromptWidth()}
-          uuid={props.model.UUID()}
-          className="prepend"
-          model={props.model}
-          form={props.form}
-          remove={props.remove}
-          add={props.add}
-          mutate={props.mutate}
-        />
-      ) : null}
-
       <div
-        id={`${props.model.UUID()}.${props.model.type()}`}
+        id={`${props.model.UUID()}.${props.model.type()}.subWrapper`}
         style={{
-          ...entityStyle(props.model),
-
-          maxHeight: '',
+          ...entitySubWrapperStyle(props.model),
+          // border: 'solid green 1px',
         }}
-        // style={{
-        //   ...entityStyle(props.model),
-        //   //     margin: helpers.marginCalc(props),
-        //   position: 'relative',
-        //   gridColumn: `span ${props.model.width()}`,
-        //   minHeight: '40px',
-        //   cursor: 'move',
-        //   // border: '1px solid red',
-        //   padding: '4px',
-        //   borderRadius: '2px',
-        //   backgroundColor: '#205EE2',
-        // }}
-        className="TextArea"
-        onMouseDown={mouseDown_handler}
+        onMouseDown={mouseDown_handler} // to set intitial
+        draggable="false"
       >
-        <textarea
+        {props.model.prePromptWidth() > 0 ? (
+          <PrePrompt
+            id={`${props.model.UUID()}.prepend`}
+            prePromptWidth={props.model.prePromptWidth()}
+            uuid={props.model.UUID()}
+            className="prepend"
+            model={props.model}
+            form={props.form}
+            remove={props.remove}
+            add={props.add}
+            mutate={props.mutate}
+          />
+        ) : null}
+
+        <div
+          id={`${props.model.UUID()}.${props.model.type()}`}
           style={{
-            ...inputStyle(props.model),
-            height: 'auto',
-            resize: 'none',
+            ...entityStyle(props.model),
+
+            maxHeight: '',
           }}
-          className="form-control"
-          type={props.model.type()}
-          // cols={props.model.numColumns()}
-          rows={props.model.numRows()}
-          // value={props.model.defaultContent()}
-          readonly="true"
-        />
-        <Resizer
-          id={`${props.model.UUID()}.resizer`}
-          element="FormEntity"
-          uuid={props.model.UUID()}
-          className="resizer"
-          model={props.model}
-          form={props.form}
-          remove={props.remove}
-          add={props.add}
-          mutate={props.mutate}
-          resizeType="width"
-        />
+          // style={{
+          //   ...entityStyle(props.model),
+          //   //     margin: helpers.marginCalc(props),
+          //   position: 'relative',
+          //   gridColumn: `span ${props.model.width()}`,
+          //   minHeight: '40px',
+          //   cursor: 'move',
+          //   // border: '1px solid red',
+          //   padding: '4px',
+          //   borderRadius: '2px',
+          //   backgroundColor: '#205EE2',
+          // }}
+          className="TextArea"
+          onMouseDown={mouseDown_handler}
+        >
+          <textarea
+            style={{
+              ...inputStyle(props.model),
+              height: 'auto',
+              resize: 'none',
+            }}
+            className="form-control"
+            type={props.model.type()}
+            // cols={props.model.numColumns()}
+            rows={props.model.numRows()}
+            // value={props.model.defaultContent()}
+            readonly="true"
+          />
+          <Resizer
+            id={`${props.model.UUID()}.resizer`}
+            element="FormEntity"
+            uuid={props.model.UUID()}
+            className="resizer"
+            model={props.model}
+            form={props.form}
+            remove={props.remove}
+            add={props.add}
+            mutate={props.mutate}
+            resizeType="width"
+          />
+        </div>
+
+        {props.model.postPromptWidth() > 0 ? (
+          <PostPrompt
+            id={`${props.model.UUID()}.prepend`}
+            postPromptWidth={props.model.postPromptWidth()}
+            uuid={props.model.UUID()}
+            className="prepend"
+            model={props.model}
+            form={props.form}
+            remove={props.remove}
+            add={props.add}
+            mutate={props.mutate}
+          />
+        ) : null}
       </div>
-
-      {props.model.postPromptWidth() > 0 ? (
-        <PostPrompt
-          id={`${props.model.UUID()}.prepend`}
-          postPromptWidth={props.model.postPromptWidth()}
-          uuid={props.model.UUID()}
-          className="prepend"
-          model={props.model}
-          form={props.form}
-          remove={props.remove}
-          add={props.add}
-          mutate={props.mutate}
-        />
-      ) : null}
-
       {props.model.append() > 0 ? (
         <Append
           id={`${props.model.UUID()}.append`}

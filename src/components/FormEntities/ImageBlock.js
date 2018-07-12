@@ -2,7 +2,7 @@ import React from 'react';
 import { helpers } from '../../helpers';
 import { drop } from '../../drop';
 import Resizer from './subentities/Resizer';
-import { entityWrapperStyle, entityStyle, inputStyle } from './feStyles';
+import { entityWrapperStyle, entitySubWrapperStyle, entityStyle, inputStyle } from './feStyles';
 import Append from './subentities/Append.js';
 import Prepend from './subentities/Prepend.js';
 import PrePrompt from './subentities/PrePrompt.js';
@@ -99,33 +99,42 @@ const ImageBlockComponent = props => {
           mutate={props.mutate}
         />
       ) : null}
-
       <div
-        style={tBStyle}
-        id={`${props.model.UUID()}.${props.model.type()}`}
-        className="TextInput"
-        onMouseDown={mouseDown_handler}
-        onDragStart={dragstart_handler}
+        id={`${props.model.UUID()}.${props.model.type()}.subWrapper`}
+        style={{
+          ...entitySubWrapperStyle(props.model),
+          // border: 'solid green 1px',
+        }}
+        onMouseDown={mouseDown_handler} // to set intitial
         draggable="false"
       >
-        <br />
-        {props.model.title() === '' ? (
-          <p>️️🖼️ Please select an image from Image Block Property Panel</p>
-        ) : (
-          <img src={localStorage.getItem(props.model.title())} alt={localStorage.getItem(props.model.title())} />
-        )}
-        <Resizer
-          id={`${props.model.UUID()}.resizer`}
-          element="FormEntity"
-          uuid={props.model.UUID()}
-          className="resizer"
-          model={props.model}
-          form={props.form}
-          remove={props.remove}
-          add={props.add}
-          mutate={props.mutate}
-          resizeType="width"
-        />
+        <div
+          style={tBStyle}
+          id={`${props.model.UUID()}.${props.model.type()}`}
+          className="TextInput"
+          onMouseDown={mouseDown_handler}
+          onDragStart={dragstart_handler}
+          draggable="false"
+        >
+          <br />
+          {props.model.title() === '' ? (
+            <p>️️🖼️ Please select an image from Image Block Property Panel</p>
+          ) : (
+            <img src={localStorage.getItem(props.model.title())} alt={localStorage.getItem(props.model.title())} />
+          )}
+          <Resizer
+            id={`${props.model.UUID()}.resizer`}
+            element="FormEntity"
+            uuid={props.model.UUID()}
+            className="resizer"
+            model={props.model}
+            form={props.form}
+            remove={props.remove}
+            add={props.add}
+            mutate={props.mutate}
+            resizeType="width"
+          />
+        </div>
       </div>
 
       {props.model.append() > 0 ? (

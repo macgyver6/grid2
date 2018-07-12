@@ -1,4 +1,5 @@
 import { defaultPropsFE, initFE } from '../../constants/defaultPropsFE';
+import { properties } from '../../containers/properties';
 
 export const calcTotal = entity => {
   if (typeof entity.prePromptWidth === 'function') {
@@ -40,6 +41,35 @@ export const entityWrapperStyle = entity => ({
   position: 'relative',
   // height: 'auto',
   alignSelf: 'start',
+  // border: '1px solid #BBBBBB',
+});
+
+export const entitySubWrapperStyle = entity => ({
+  display: 'grid',
+  gridColumn: `span ${(typeof entity.prePromptWidth === 'function' ? entity.prePromptWidth() : 0) +
+    entity.width() +
+    (typeof entity.postPromptWidth === 'function' ? entity.postPromptWidth() : 0)}`,
+  gridTemplateColumns:
+    'repeat(' +
+    `${(typeof entity.prePromptWidth === 'function' ? entity.prePromptWidth() : 0) +
+      entity.width() +
+      (typeof entity.postPromptWidth === 'function' ? entity.postPromptWidth() : 0)}` +
+    ', [col] 1fr)',
+  gridGap: '8px',
+  // draggable: 'true',
+  // margin: '10px 0px 10px 0px',
+  // minHeight: '40px',
+  // zIndex: '40',
+  // backgroundColor: 'white',
+  cursor: 'move',
+  // border: '1px blue dashed',
+  borderRadius: '2px',
+  position: 'relative',
+  // height: 'auto',
+  alignSelf: 'start',
+  // boxShadow: '0 3px 4px rgba(116, 116, 116, 0.3)',
+  // border: '1px solid #BBBBBB',
+  // borderLeft: '2px #8939AD',
 });
 
 export const inputStyle = entity => ({
