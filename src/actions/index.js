@@ -1,3 +1,9 @@
+/**
+ *
+ * @param {Object} action [{delete: {state}}]
+ */
+export const masterAction = actions => {};
+
 export const increment = () => ({
   type: 'INCREMENT',
 });
@@ -10,9 +16,9 @@ export const add = (path, entity, section) => ({
 });
 
 export const remove = path => ({
-  type: 'REMOVE',
-  path,
-});
+    type: 'REMOVE',
+    path,
+  });
 
 export const mutate = (path, properties, section) => ({
   type: 'MUTATE',
