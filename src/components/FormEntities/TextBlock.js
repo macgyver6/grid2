@@ -123,7 +123,14 @@ const TextBlockComponent = props => {
           {/* {html} */}
           {/* <h1 id="hellomarkdown">hello, markdown!</h1> */}
           <div
-            style={{ ...inputStyle(props.model), height: 'auto', minHeight: '20px', maxHeight: '', alignSelf: 'start' }}
+            style={{
+              ...inputStyle(props.model),
+              height: 'auto',
+              minHeight: '20px',
+              maxHeight: '',
+              alignSelf: 'start',
+              wordBreak: 'break-word',
+            }}
             dangerouslySetInnerHTML={createMarkup()}
           />
           {/* <textarea
