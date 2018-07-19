@@ -66,6 +66,16 @@ const formReducer = (state, action) => {
     });
   }
 
+  if (action.type === 'MASTER_ACTION') {
+    const result = action.resultingState;
+    console.log(result);
+    // if (validateImport(result).length === 0) {
+    return Object.assign({}, state, {
+      form: result,
+    });
+    // }
+  }
+
   if (action.type === 'ADD') {
     const result = utility.add(action.path, action.entity, state.form);
     if (validateImport(result).length === 0) {

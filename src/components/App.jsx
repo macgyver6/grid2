@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import * as actions from '../actions/index';
 import FormEntityInit from '../containers/FormEntitiesInit.js';
 import formReducer from '../reducers/form.reducer';
 import { validateImport } from '../validation/val.index';
+import { batchActions, enableBatching, batchDispatchMiddleware } from 'redux-batched-actions';
 
 class App extends Component {
   constructor() {
@@ -11,28 +14,27 @@ class App extends Component {
     this.clickHandler = this.clickHandler.bind(this);
   }
   clickHandler(event) {
-    {
-      /* attempt 1
-    const masterActionValidation = resultingState => {
-      const result = resultingState.reduce(function (accumulator, singleStateChange) {
-        return { ...accumulator, ...singleStateChange };
-      });
+    /* attempt 1
+  const masterActionValidation = resultingState => {
+    const result = resultingState.reduce(function (accumulator, singleStateChange) {
+      return { ...accumulator, ...singleStateChange };
+    });
 
-      console.log(result);
+    console.log(result);
 
-      if (validateImport(result).length === 0) {
-        return Object.assign({}, (this.props.form: result));
-      }
-    };
-
-    const resulting = masterActionValidation([
-      // formReducer({ type: 'increment' }),
-      formReducer(this.props.store.model, { type: 'remove', path: [0, 0, 3] }),
-      formReducer(this.props.store.model, { type: 'remove', path: [0, 0, 1] }),
-    ]);
-  */
+    if (validateImport(result).length === 0) {
+      return Object.assign({}, (this.props.form: result));
     }
-    const masterActionValidation = (state, resultingState) => {
+  };
+
+  const resulting = masterActionValidation([
+    // formReducer({ type: 'increment' }),
+    formReducer(this.props.store.model, { type: 'remove', path: [0, 0, 3] }),
+    formReducer(this.props.store.model, { type: 'remove', path: [0, 0, 1] }),
+  ]);
+*/
+    /** attempt 2 */
+    const batchActions2 = (state, resultingState) => {
       const resultingState2 = (state, resultingState) =>
         // console.log(state);
         resultingState.length >= 1
@@ -48,13 +50,13 @@ class App extends Component {
       }
     };
 
-    const resulting = [
-      // formReducer({ type: 'increment' }),
-      { type: 'REMOVE', path: [0, 0, 3] },
-      { type: 'REMOVE', path: [0, 0, 1] },
-    ];
+    const actionsArr = [actions.remove([0, 0, 1]), actions.remove([0, 0, 2])];
 
-    console.log(masterActionValidation(this.props.store.model, resulting));
+    this.props.actions.masterAction(batchActions2(this.props.store.model, actionsArr));
+
+    // console.log(this.props.dispatch(batchActions([actions.remove([0, 0, 1]), actions.remove([0, 0, 2])])));
+
+    // console.log(actions.remove([0, 0, 1]));
   }
   render() {
     return (
@@ -80,4 +82,8 @@ class App extends Component {
 }
 const mapStateToProps = state => ({ store: state });
 
-export default connect(mapStateToProps, actions)(App);
+function mapDispatchToProps(dispatch) {
+  return { actions: bindActionCreators(actions, dispatch), dispatch: dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
