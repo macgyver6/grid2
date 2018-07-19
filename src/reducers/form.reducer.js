@@ -4,10 +4,11 @@ import { comm } from '../comm';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
 import { Form } from '../data/Form';
 import { validateImport } from '../validation/val.index';
+import * as actions from '../actions/index';
 
 // initialize the store
 const formReducer = (state, action) => {
-  console.log(action.type);
+  console.log(state, action);
   // if (localStorage.getItem('model')) {
   //   let resurrectedEntities =
   //     comm.unserialize((JSON.parse(localStorage.getItem('model'))))
@@ -46,10 +47,15 @@ const formReducer = (state, action) => {
   }
   /** entry point to validate form IF form entities exist */
   if (state !== 'undefined') {
-    console.log('validateForm: ', validateImport(state.form));
+    // console.log('validateForm: ', validateImport(state.form));
   }
 
   if (action.type === 'INCREMENT') {
+    console.log(
+      Object.assign({}, state, {
+        value: state.value + 1,
+      })
+    );
     return Object.assign({}, state, {
       value: state.value + 1,
     });
@@ -59,6 +65,24 @@ const formReducer = (state, action) => {
     return Object.assign({}, state, {
       value: state.value - 1,
     });
+  }
+
+  if (action.type === 'BATCH_ACTIONS') {
+    const result = action.actionsArr;
+    const resultingState2 = (state, actionsArr) =>
+      // console.log(state);
+      actionsArr.length >= 1
+        ? resultingState2(formReducer(state, actionsArr[0]), actionsArr.slice(1, actionsArr.length))
+        : state;
+    // console.log(result);
+    // console.log(resultingState2(state, result).form);
+
+    // console.log(result);
+    // if (validateImport(result).length === 0) {
+    return Object.assign({}, state, {
+      form: resultingState2(state, result).form,
+    });
+    // }
   }
 
   if (action.type === 'ADD') {
@@ -73,6 +97,7 @@ const formReducer = (state, action) => {
 
   if (action.type === 'REMOVE') {
     const result = utility.remove(action.path, state.form);
+    console.log(action, result);
     if (validateImport(result).length === 0) {
       return Object.assign({}, state, {
         form: result,
@@ -224,3 +249,6 @@ const formReducer = (state, action) => {
 };
 
 export default formReducer;
+
+// console.log(formReducer({ type: 'increment' }));
+// console.log(formReducer({ type: 'remove', path: [0, 0, 3] }));

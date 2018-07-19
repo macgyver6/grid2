@@ -1,3 +1,8 @@
+export const batchActions = actionsArr => ({
+  type: 'BATCH_ACTIONS',
+  actionsArr,
+});
+
 export const increment = () => ({
   type: 'INCREMENT',
 });
