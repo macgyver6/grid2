@@ -6,7 +6,6 @@ import * as actions from '../actions/index';
 import FormEntityInit from '../containers/FormEntitiesInit.js';
 import formReducer from '../reducers/form.reducer';
 import { validateImport } from '../validation/val.index';
-import { batchActions, enableBatching, batchDispatchMiddleware } from 'redux-batched-actions';
 
 class App extends Component {
   constructor() {
@@ -34,29 +33,26 @@ class App extends Component {
   ]);
 */
     /** attempt 2 */
-    const batchActions2 = (state, resultingState) => {
-      const resultingState2 = (state, resultingState) =>
-        // console.log(state);
-        resultingState.length >= 1
-          ? resultingState2(formReducer(state, resultingState[0]), resultingState.slice(1, resultingState.length))
-          : state;
+    // const batchActions2 = (state, resultingState) => {
+    //   const resultingState2 = (state, resultingState) =>
+    //     // console.log(state);
+    //     resultingState.length >= 1
+    //       ? resultingState2(formReducer(state, resultingState[0]), resultingState.slice(1, resultingState.length))
+    //       : state;
 
-      // console.log(resultingState2(this.props.store.model, resultingState));
+    //   // console.log(resultingState2(this.props.store.model, resultingState));
 
-      if (validateImport(resultingState2(this.props.store.model, resultingState).form).length === 0) {
-        // return Object.assign({}, (this.props.form: result));
-        // dispatch the masterAction
-        return resultingState2(this.props.store.model, resultingState).form;
-      }
-    };
+    //   if (validateImport(resultingState2(this.props.store.model, resultingState).form).length === 0) {
+    //     // return Object.assign({}, (this.props.form: result));
+    //     // dispatch the masterAction
+    //     return resultingState2(this.props.store.model, resultingState).form;
+    //   }
+    // };
 
     const actionsArr = [actions.remove([0, 0, 1]), actions.remove([0, 0, 2])];
 
-    this.props.actions.masterAction(batchActions2(this.props.store.model, actionsArr));
-
-    // console.log(this.props.dispatch(batchActions([actions.remove([0, 0, 1]), actions.remove([0, 0, 2])])));
-
-    // console.log(actions.remove([0, 0, 1]));
+    this.props.actions.batchActions(actionsArr);
+    // this.props.actions.batchActions(batchActions2(this.props.store.model, actionsArr));
   }
   render() {
     return (

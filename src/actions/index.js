@@ -1,18 +1,7 @@
-/**
- *
- * @param {Object} action [{delete: {state}}]
- */
-export const masterAction = resultingState => ({
-  type: 'MASTER_ACTION',
-  resultingState,
-});
-
-export const batchActions = (...actions) => ({
+export const batchActions = actionsArr => ({
   type: 'BATCH_ACTIONS',
-  actions: actions,
+  actionsArr,
 });
-
-// usage
 
 export const increment = () => ({
   type: 'INCREMENT',

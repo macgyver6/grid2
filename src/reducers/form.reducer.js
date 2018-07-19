@@ -4,6 +4,7 @@ import { comm } from '../comm';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
 import { Form } from '../data/Form';
 import { validateImport } from '../validation/val.index';
+import * as actions from '../actions/index';
 
 // initialize the store
 const formReducer = (state, action) => {
@@ -66,12 +67,20 @@ const formReducer = (state, action) => {
     });
   }
 
-  if (action.type === 'MASTER_ACTION') {
-    const result = action.resultingState;
-    console.log(result);
+  if (action.type === 'BATCH_ACTIONS') {
+    const result = action.actionsArr;
+    const resultingState2 = (state, actionsArr) =>
+      // console.log(state);
+      actionsArr.length >= 1
+        ? resultingState2(formReducer(state, actionsArr[0]), actionsArr.slice(1, actionsArr.length))
+        : state;
+    // console.log(result);
+    // console.log(resultingState2(state, result).form);
+
+    // console.log(result);
     // if (validateImport(result).length === 0) {
     return Object.assign({}, state, {
-      form: result,
+      form: resultingState2(state, result).form,
     });
     // }
   }
