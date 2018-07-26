@@ -20,15 +20,15 @@ import ValidationWrapper from './validations/ValidationWrapper';
 import DependencyWrapper from './validations/DependencyWrapper';
 import { defaultPropsFE, initFE } from '../constants/defaultPropsFE';
 
-const PropertiesPanelStyle = model => ({
-  width: '40%',
-  height: '100%',
-  backgroundColor: 'white',
-  // border: '4px solid lightgrey',
-  border: `1px solid ${initFE[`${model.type()}`].render.backgroundColor}`,
-});
-
 export const PropertiesPanel = props => {
+  const PropertiesPanelStyle = model => ({
+    width: '40%',
+    height: '100%',
+    backgroundColor: 'white',
+    // border: '4px solid lightgrey',
+    border: props.currententity ? `1px solid ${initFE[`${model.type()}`].render.backgroundColor}` : `1px solid grey`,
+  });
+
   const change_handler = event =>
     props.mutate(address.bySample(props.model, props.form), {
       [event.target.id]: event.target.value,
@@ -179,15 +179,15 @@ export const PropertiesPanel = props => {
           </TabPanel>
         </Tabs>
       ) : (
-        <Tabs dtLocalFilesSaved={props.dtLocalFilesSaved}>
-          <TabList>
-            <Tab>Entity</Tab>
-          </TabList>
-          <TabPanel>
-            <h2>Select Form Entity to Access Properties</h2>
-          </TabPanel>
-        </Tabs>
-      )}
+          <Tabs dtLocalFilesSaved={props.dtLocalFilesSaved}>
+            <TabList>
+              <Tab>Entity</Tab>
+            </TabList>
+            <TabPanel>
+              <h2>Select Form Entity to Access Properties</h2>
+            </TabPanel>
+          </Tabs>
+        )}
     </div>
   );
 };

@@ -468,7 +468,7 @@ export const drop = {
         whereToAdd2(),
         toBeAdded2
       );
-      console.log(props.add(whereToAdd2(), toBeAdded2));
+      // console.log(props.add(whereToAdd2(), toBeAdded2));
       props.add(whereToAdd2(), toBeAdded2);
       // props.temporalStateChange({
       //   currententity: whereToAdd2(),
