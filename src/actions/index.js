@@ -45,11 +45,9 @@ export const mutateaddremove = (path, properties, pathToAdd, entityToAdd, pathTo
   section,
 });
 
-export const formmutate = (path, properties, section) => ({
+export const formmutate = properties => ({
   type: 'FORMMUTATE',
-  path,
   properties,
-  section,
 });
 
 export const decrement = () => ({

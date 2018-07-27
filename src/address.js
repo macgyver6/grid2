@@ -80,6 +80,7 @@ export const address = {
   },
 
   byPath: (section, path, entity) => {
+    console.log(section, path, entity);
     if (path.length > 1) {
       return address.byPath(section.children()[path[0]], path.slice(1));
     } else {

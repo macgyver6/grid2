@@ -22,7 +22,9 @@ const formMiddleware = ({ dispatch, getState }) => next => action => {
     } else {
       console.log('invalid form');
     }
-  } else if (validateImport(formReducer(getState().model, action).form).length === 0) {
+  }
+  //  if (validateImport(formReducer(getState().model, action).form).length === 0)
+  else {
     return next(action);
   }
 };

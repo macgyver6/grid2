@@ -3,7 +3,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import '../../node_modules/react-tabs/style/react-tabs.css';
 import { properties } from './properties';
 import { _TextInputProperty } from './_TextInputProperty';
-import { FormProperty } from './FormProperties';
+import FormProperty from './FormProperties';
 import { address } from '../address';
 
 import { _dataDefined, userDefined } from './_validations';
@@ -179,15 +179,15 @@ export const PropertiesPanel = props => {
           </TabPanel>
         </Tabs>
       ) : (
-          <Tabs dtLocalFilesSaved={props.dtLocalFilesSaved}>
-            <TabList>
-              <Tab>Entity</Tab>
-            </TabList>
-            <TabPanel>
-              <h2>Select Form Entity to Access Properties</h2>
-            </TabPanel>
-          </Tabs>
-        )}
+        <Tabs dtLocalFilesSaved={props.dtLocalFilesSaved}>
+          <TabList>
+            <Tab>Entity</Tab>
+          </TabList>
+          <TabPanel>
+            <h2>Select Form Entity to Access Properties</h2>
+          </TabPanel>
+        </Tabs>
+      )}
     </div>
   );
 };
