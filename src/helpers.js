@@ -1,6 +1,8 @@
 import { address } from './address';
 import { defaultPropsFE, initFE } from './constants/defaultPropsFE';
 import { calcTotalAdd } from './components/FormEntities/feStyles';
+import { utility } from './utility';
+import { FormInput } from './data/FormInput';
 
 const round = (value, decimals) => Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 
@@ -84,11 +86,17 @@ export const helpers = {
           )
         : null;
     } else if (action === 'addEntity') {
+      const getTabOrder = utility.findAll(form, e => e instanceof FormInput).length;
+      const assignExternalIdentifier = () => 1;
       event.dataTransfer.setData(
         'address',
         JSON.stringify({
           action: action,
-          model: model,
+          model: {
+            ...model,
+            tabOrder: getTabOrder + 1,
+            externalIdentifier: assignExternalIdentifier(),
+          },
           dragInit: null,
         })
       );

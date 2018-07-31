@@ -19,8 +19,7 @@ export var initFE = {
     render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 },
   },
   TextInput: {
-    uuid: undefined,
-    uuid: undefined,
+    autoNumberRule: 'N+',
     uuid: undefined,
     prepend: 0,
     width: 6,
@@ -33,7 +32,7 @@ export var initFE = {
     QxQ: '',
     sasCodeLabel: '',
     type: 'TextInput',
-    tabOrder: 1,
+    tabOrder: null,
     inputWidth: 8,
     promptNumber: '',
     autoNumber: 'SEQUENTIAL',
@@ -46,6 +45,7 @@ export var initFE = {
   },
   SelectionInput: {
     uuid: undefined,
+    autoNumberRule: 'N+',
     prepend: 0,
     width: 6,
     append: 14,
@@ -56,7 +56,7 @@ export var initFE = {
     name: '',
     sasCodeLabel: '',
     type: 'SelectionInput',
-    tabOrder: 1,
+    tabOrder: null,
     inputWidth: 8,
     promptNumber: '',
     externalIdentifier: 'CIE493b',
@@ -75,6 +75,7 @@ export var initFE = {
   },
   TextArea: {
     uuid: undefined,
+    autoNumberRule: 'N+',
     prepend: 0,
     width: 6,
     append: 14,
@@ -86,7 +87,7 @@ export var initFE = {
     sasCodeLabel: '',
     type: 'TextArea',
     externalIdentifier: 'CIE513c',
-    tabOrder: 1,
+    tabOrder: null,
     inputWidth: 12,
     promptNumber: 'CIE494c',
     autoNumber: 'SEQUENTIAL',
@@ -97,6 +98,7 @@ export var initFE = {
   },
   CheckBox: {
     uuid: undefined,
+    autoNumberRule: 'N+',
     prepend: 0,
     width: 1,
     append: 19,
@@ -108,7 +110,7 @@ export var initFE = {
     sasCodeLabel: '',
     externalIdentifier: 'CIE2567b',
     type: 'CheckBox',
-    tabOrder: 1,
+    tabOrder: null,
     inputWidth: 8,
     promptNumber: 'CIE493g',
     autoNumber: 'SEQUENTIAL',
@@ -139,6 +141,7 @@ export var initFE = {
     render: { backgroundColor: 'brown', minWidth: 1 },
   },
   autoSuggest: {
+    autoNumberRule: 'N+',
     prepend: 0,
     width: 4,
     append: 16,
@@ -156,6 +159,7 @@ export var initFE = {
     render: { backgroundColor: 'green', minWidth: 1 },
   },
   Echo: {
+    autoNumberRule: 'N+',
     uuid: undefined,
     name: '',
     prepend: 0,
@@ -172,6 +176,7 @@ export var initFE = {
     sourceInput: '',
   },
   CDSTextInput: {
+    autoNumberRule: 'N+',
     prepend: 0,
     width: 6,
     append: 14,
@@ -186,7 +191,7 @@ export var initFE = {
     name: '',
     sasCodeLabel: '',
     type: 'CDSTextInput',
-    tabOrder: 1,
+    tabOrder: null,
     inputWidth: 8,
     promptNumber: 'CIE492a',
     autoNumber: 'SEQUENTIAL',
@@ -203,7 +208,7 @@ export var defaultPropsFE = {
     uuid: undefined,
     type: 'Form',
     version: 1,
-    autoId: true,
+    autoId: { enable: true },
     allowEventAttachedFile: true,
     children: [
       new FormSection({
@@ -216,13 +221,14 @@ export var defaultPropsFE = {
             type: 'FormSection',
             width: 24,
             children: [
-              new autoSuggestInput(initFE.autoSuggest),
-              new EchoInput(initFE.Echo),
-              new CDSTextInput(initFE.CDSTextInput),
+              // new autoSuggestInput(initFE.autoSuggest),
+              // new EchoInput(initFE.Echo),
+              // new CDSTextInput(initFE.CDSTextInput),
+              // new TextInput(initFE.TextInput),
+              // new SelectionInput(initFE.SelectionInput),
+              // new CheckBox(initFE.CheckBox),
+              // new TextArea(initFE.TextArea),
               new TextInput(initFE.TextInput),
-              new SelectionInput(initFE.SelectionInput),
-              new CheckBox(initFE.CheckBox),
-              new TextArea(initFE.TextArea),
             ],
             // children: [new TextInput(initFE.TextInput)],
             legend: 'legend',
@@ -260,7 +266,9 @@ export var defaultPropsFE = {
             type: 'FormSection',
             width: 24,
             legend: 'legend',
-            children: [new TextArea(initFE.TextArea)],
+            children: [
+              // new TextArea(initFE.TextArea)
+            ],
             prepend: 0,
             append: 0,
             render: {

@@ -127,9 +127,12 @@ export const PropertiesPanel = props => {
       {props.currententity ? (
         <Tabs dtLocalFilesSaved={props.dtLocalFilesSaved}>
           <TabList>
-            <Tab>Entity</Tab>
             <Tab dtLocalFilesSaved={props.dtLocalFilesSaved}>Form</Tab>
+            <Tab>Entity</Tab>
           </TabList>
+          <TabPanel dtLocalFilesSaved={props.dtLocalFilesSaved}>
+            <FormProperty mutate={props.mutate} model={props.form} dtLocalFilesSaved={props.dtLocalFilesSaved} />
+          </TabPanel>
           <TabPanel style={tabPanelStyle}>
             <div>
               <Tabs>
@@ -173,9 +176,6 @@ export const PropertiesPanel = props => {
                 ) : null}
               </Tabs>
             </div>
-          </TabPanel>
-          <TabPanel dtLocalFilesSaved={props.dtLocalFilesSaved}>
-            <FormProperty mutate={props.mutate} model={props.form} dtLocalFilesSaved={props.dtLocalFilesSaved} />
           </TabPanel>
         </Tabs>
       ) : (

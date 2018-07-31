@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { address } from '../address';
 import * as actions from '../actions/index';
 import AutoId from './autoId';
+import { autoNumberRuleResult } from './autoName';
+import { utility } from '../utility';
+import { FormInput } from '../data/FormInput';
 
 let FormProperty = props => {
   const dragOverFile_handler = event => {
@@ -28,12 +31,45 @@ let FormProperty = props => {
 
   const change_handler = event => {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
-    console.log({
-      [event.target.id]: value,
-    });
     return props.formmutate({
       [event.target.id]: value,
     });
+  };
+
+  const autoId_change_handler = event => {
+    const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+    console.log({
+      autoId: {
+        ...props.model.autoId,
+        [event.target.id]: value,
+      },
+    });
+    const result = props.formmutate({
+      autoId: {
+        ...props.model.autoId(),
+        [event.target.id]: value,
+      },
+    });
+
+    if (event.target.checked) {
+      // if (event.target.id === 'allowEventAttachedFile' && event.target.checked === true) {
+      // console.log(props.model.form);
+      const inputModels = utility.findAll(props.model, e => e instanceof FormInput);
+
+      console.log(inputModels[0].autoNumberRule());
+
+      const nameAssigned = inputModels.map((input, index) => {
+        if (index === 0) {
+          autoNumberRuleResult(input.autoNumberRule());
+        }
+        // else if (index > 0) {
+        // find a way to pass the previous value
+        // }
+      });
+
+      console.log(nameAssigned[0]);
+    }
+    return result;
   };
 
   const formPropertiesStyle = {
@@ -73,13 +109,13 @@ let FormProperty = props => {
         <input
           type="checkbox"
           name="form-autoId"
-          id="autoId"
-          onChange={change_handler}
+          id="enable"
+          onChange={autoId_change_handler}
           style={cbInputStyle}
-          checked={props.model.autoId()}
+          checked={props.model.autoId().enable}
         />
       </p>
-      {props.model.autoId() ? <AutoId /> : null}
+      {props.model.autoId().enable ? <AutoId autoId_change_handler={autoId_change_handler} /> : null}
     </div>
   );
 };

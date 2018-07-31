@@ -20,6 +20,7 @@ class InputItem extends Component {
     // return props.formmutate({
     //   [event.target.id]: value,
     // });
+    this.props.collectSelected(this.props.input);
   }
 
   render(props) {
