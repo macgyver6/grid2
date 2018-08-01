@@ -19,6 +19,12 @@ export const remove = path => ({
   path,
 });
 
+/**
+ *
+ * @param {Array} path path of the entity to mutate
+ * @param {Object} properties Object of properties to update ex. {externalIdentifier: '1a'}
+ * @param {Object} section (optional) Containg section
+ */
 export const mutate = (path, properties, section) => ({
   type: 'MUTATE',
   path,

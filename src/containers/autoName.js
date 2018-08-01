@@ -2,8 +2,10 @@
  *
  * @param {string} rule ex. 'N+,L+
  * @param {string} previousInputName ex. '1a'
+ * @param {Object} currentInput ex. '1a'
  */
-export const autoNumberRuleResult = (rule, previousInputName) => {
+export const autoNumberRuleResult = (rule, previousInputName, currentInput) => {
+  console.log(currentInput);
   const alph = 'abcdefghijklmnopqrstuvwxyz'.split('');
   // This variable keeps track of whether to start over
   // at "a" for letters....
@@ -16,7 +18,7 @@ export const autoNumberRuleResult = (rule, previousInputName) => {
   // if (autoNumberRule)
 
   const lastValue = null;
-  console.log(rule && previousInputName === undefined);
+  console.log(rule);
   if (rule[0] !== 'N') {
     throw new Error(
       'Auto-numbering rule must contain strictly alternating number and letter tokens, and the first token of the first rule must be numeric.'
@@ -30,7 +32,9 @@ export const autoNumberRuleResult = (rule, previousInputName) => {
   const ruleArr = rule.split(',');
 
   const handleLetter = indexPreviousL => {
-    const previousLetter = previousInputName[indexPreviousL];
+    const previousInputNameArr = previousInputName.split('');
+    const previousLetter = previousInputNameArr[indexPreviousL];
+    console.log(previousLetter, previousInputNameArr, indexPreviousL);
     if (!previousLetter) {
       return 'a';
     } else if (previousLetter === 'z') {
@@ -43,9 +47,12 @@ export const autoNumberRuleResult = (rule, previousInputName) => {
   var incrementLetter = previousLetter => String.fromCharCode(previousLetter.charCodeAt(0) + 1);
 
   const handleNumber = indexPreviousN => {
-    const previousNumber = previousInputName[indexPreviousN];
+    console.log(previousInputName);
+    const arrPreviousInputName = previousInputName.split('');
+    const previousNumber = arrPreviousInputName[indexPreviousN];
+    console.log(arrPreviousInputName, arrPreviousInputName[indexPreviousN]);
     if (!previousNumber) {
-      return 1;
+      return '1';
     } else {
       return incrementNumber(previousNumber);
     }
@@ -53,7 +60,9 @@ export const autoNumberRuleResult = (rule, previousInputName) => {
 
   var incrementNumber = previousN => Number(previousN) + 1;
 
-  return ruleArr.map((rule, index) => (rule[0] === 'N' ? handleNumber(index) : handleLetter(index)));
+  console.log(ruleArr.map((rule, index) => (rule[0] === 'N' ? handleNumber(index) : handleLetter(index))));
+  const result = ruleArr.map((rule, index) => (rule[0] === 'N' ? handleNumber(index) : handleLetter(index)));
+  return result.toString().replace(',', '');
 };
 
 export const indent = rule => {
@@ -67,12 +76,14 @@ export const indent = rule => {
 
 export const unindent = rule => {
   const ruleArr = rule.split(',');
-  if (ruleArr[ruleArr.length - 1] !== 'L+') {
-    throw new Error('Cannot be indented less than predecessor');
-  } else {
-    ruleArr.pop();
-    return ruleArr.toString();
-  }
+  console.log(ruleArr);
+  // if (ruleArr[ruleArr.length - 1] !== 'L+') {
+  //   throw new Error('Cannot be indented less than predecessor');
+  // } else {
+  ruleArr.pop();
+  console.log(ruleArr);
+  return ruleArr.toString();
+  // }
 };
 
 /**

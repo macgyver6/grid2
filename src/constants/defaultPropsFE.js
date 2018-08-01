@@ -40,7 +40,7 @@ export var initFE = {
     autoTab: true,
     doubleEntry: true,
     defaultContent: '',
-    externalIdentifier: 'CIE492a',
+    autoNameRule: 'CIE492a',
     render: { backgroundColor: '#6C788F', minWidth: 3 },
   },
   SelectionInput: {
@@ -227,8 +227,17 @@ export var defaultPropsFE = {
               // new TextInput(initFE.TextInput),
               // new SelectionInput(initFE.SelectionInput),
               // new CheckBox(initFE.CheckBox),
-              // new TextArea(initFE.TextArea),
-              new TextInput(initFE.TextInput),
+              new TextInput({ ...initFE.TextInput, externalIdentifier: '1' }),
+              new TextArea({
+                ...initFE.TextArea,
+                externalIdentifier: '2a',
+                autoNumberRule: 'N+,L+',
+              }),
+              new TextArea({
+                ...initFE.TextArea,
+                externalIdentifier: '3b',
+                autoNumberRule: 'N+,L+',
+              }),
             ],
             // children: [new TextInput(initFE.TextInput)],
             legend: 'legend',

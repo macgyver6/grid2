@@ -116,14 +116,7 @@ const formReducer = (state, action) => {
     const mutatedEntity = Object.assign({}, initEntity.properties(), action.properties);
     const result = utility.add(action.path, address.rehydrate(mutatedEntity), removedUpdate.form);
 
-    // console.log(
-    //   validateImport(result).length === 0,
-    //   result
-    //     .children()[0]
-    //     .children()[0]
-    //     .children()[2]
-    //     .width()
-    // );
+    console.log(mutatedEntity);
     if (validateImport(result).length === 0) {
       return Object.assign({}, state, {
         form: result,

@@ -11,8 +11,12 @@ class AutoId extends Component {
     super(props);
     this.change_handler = this.change_handler.bind(this);
     this.collectSelected = this.collectSelected.bind(this);
+    this.indentHandler = this.indentHandler.bind(this);
+    this.unindentHandler = this.unindentHandler.bind(this);
+    this.checkHandler = this.checkHandler.bind(this);
     this.state = {
       selected: [],
+      checked: [],
     };
   }
 
@@ -29,6 +33,54 @@ class AutoId extends Component {
     return this.props.formmutate({
       [event.target.id]: value,
     });
+  }
+
+  checkHandler(index) {
+    console.log(index);
+    const previouslyChecked = [...this.state.checked];
+    previouslyChecked.push(index);
+    this.setState({
+      checked: previouslyChecked,
+    });
+  }
+
+  indentHandler() {
+    const result = indent(this.state.selected[0].autoNumberRule());
+    console.log(result);
+    const addressOfEntity = address.bySample(this.state.selected[0], this.props.model.form);
+    const previousEntity = () => {
+      const _currentAddress = [...addressOfEntity];
+
+      _currentAddress.splice(addressOfEntity.length - 1, 1, addressOfEntity[addressOfEntity.length - 1] - 1);
+      console.log(addressOfEntity, _currentAddress, this.props.model.form);
+      return address.byPath(this.props.model.form, _currentAddress);
+    };
+    console.log(previousEntity());
+    this.props.mutate(addressOfEntity, {
+      autoNumberRule: result,
+      externalIdentifier: autoNumberRuleResult(result, previousEntity().externalIdentifier()),
+    });
+    this.setState({ selected: [], checked: [] });
+  }
+
+  unindentHandler() {
+    console.log(this.state.selected[0].autoNumberRule());
+    const result = unindent(this.state.selected[0].autoNumberRule());
+    console.log(result);
+    const addressOfEntity = address.bySample(this.state.selected[0], this.props.model.form);
+    const previousEntity = () => {
+      const _currentAddress = [...addressOfEntity];
+
+      _currentAddress.splice(addressOfEntity.length - 1, 1, addressOfEntity[addressOfEntity.length - 1] - 1);
+      console.log(addressOfEntity, _currentAddress, this.props.model.form);
+      return address.byPath(this.props.model.form, _currentAddress);
+    };
+    console.log(previousEntity());
+    this.props.mutate(addressOfEntity, {
+      autoNumberRule: result,
+      externalIdentifier: autoNumberRuleResult(result, previousEntity().externalIdentifier()),
+    });
+    this.setState({ selected: [], checked: [] });
   }
 
   // inputModels= utility.findAll(props.model.form, e => e instanceof FormInput);
@@ -63,14 +115,23 @@ class AutoId extends Component {
             // style={cbInputStyle}
           />
         </p>
-        <i className="fas fa-chevron-circle-left" style={{ fontSize: '30px' }} />
-        <i className="fas fa-chevron-circle-right" style={{ fontSize: '30px' }} />
+        <i className="fas fa-chevron-circle-left" style={{ fontSize: '30px' }} onClick={this.unindentHandler} />
+        <i className="fas fa-chevron-circle-right" style={{ fontSize: '30px' }} onClick={this.indentHandler} />
         <i className="fas fa-chevron-circle-up" style={{ fontSize: '30px' }} />
         <i className="fas fa-chevron-circle-down" style={{ fontSize: '30px' }} />
         <ul>{}</ul>
         {utility
           .findAll(this.props.model.form, e => e instanceof FormInput)
-          .map((input, index) => <InputItem key={index} input={input} collectSelected={this.collectSelected} />)}
+          .map((input, index) => (
+            <InputItem
+              key={index}
+              index={index}
+              input={input}
+              collectSelected={this.collectSelected}
+              checkHandler={this.checkHandler}
+              checked={this.state.checked.includes(index)}
+            />
+          ))}
       </div>
     );
   }

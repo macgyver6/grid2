@@ -3,6 +3,8 @@ import { defaultPropsFE, initFE } from './constants/defaultPropsFE';
 import { calcTotalAdd } from './components/FormEntities/feStyles';
 import { utility } from './utility';
 import { FormInput } from './data/FormInput';
+import AutoId from './containers/autoId';
+import { autoNumberRuleResult } from './containers/autoName';
 
 const round = (value, decimals) => Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 
@@ -88,6 +90,11 @@ export const helpers = {
     } else if (action === 'addEntity') {
       const getTabOrder = utility.findAll(form, e => e instanceof FormInput).length;
       const assignExternalIdentifier = () => 1;
+      const lastEntity = utility.findAll(form, e => e instanceof FormInput);
+      const nextIdentifier = autoNumberRuleResult(
+        model.autoNumberRule,
+        lastEntity[lastEntity.length - 1].externalIdentifier()
+      )[0];
       event.dataTransfer.setData(
         'address',
         JSON.stringify({
@@ -95,7 +102,7 @@ export const helpers = {
           model: {
             ...model,
             tabOrder: getTabOrder + 1,
-            externalIdentifier: assignExternalIdentifier(),
+            externalIdentifier: String(nextIdentifier),
           },
           dragInit: null,
         })

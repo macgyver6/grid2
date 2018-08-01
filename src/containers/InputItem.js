@@ -9,18 +9,19 @@ class InputItem extends Component {
     };
   }
 
-  change_handler(event) {
+  change_handler(event, props) {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
     console.log({
       [event.target.id]: value,
     });
-    this.setState({
-      [event.target.id]: value,
-    });
+    // this.setState({
+    //   [event.target.id]: value,
+    // });
     // return props.formmutate({
     //   [event.target.id]: value,
     // });
     this.props.collectSelected(this.props.input);
+    this.props.checkHandler(this.props.index);
   }
 
   render(props) {
@@ -32,9 +33,9 @@ class InputItem extends Component {
           id="checked"
           onChange={this.change_handler}
           // style={cbInputStyle}
-          checked={this.state.checked}
+          checked={this.props.checked}
         />
-        {`${this.props.input.promptNumber()} - ${this.props.input.type()}`}
+        {`${this.props.input.externalIdentifier()} - ${this.props.input.type()}`}
       </li>
     );
   }
