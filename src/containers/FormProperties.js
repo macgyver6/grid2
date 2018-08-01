@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { address } from '../address';
 import * as actions from '../actions/index';
 import AutoId from './autoId';
-import { autoNumberRuleResult } from './autoName';
+import { autoNumberRuleResult, assignAllNames } from './autoName';
 import { utility } from '../utility';
 import { FormInput } from '../data/FormInput';
 
@@ -54,57 +54,9 @@ let FormProperty = props => {
     if (event.target.checked) {
       // if (event.target.id === 'allowEventAttachedFile' && event.target.checked === true) {
       // console.log(props.model.form);
-      const inputModels = utility.findAll(props.model, e => e instanceof FormInput);
 
-      console.log(inputModels[0].autoNumberRule());
-      console.log([...inputModels]);
-
-      const nameAssigned = [...inputModels].forEach((input, index) => {
-        if (index === 0) {
-          props.mutate(address.bySample([...inputModels][index], props.props.model.form), {
-            externalIdentifier: 1,
-          });
-        } else if (index >= 1) {
-          // const previousEntity = address.byPath[]
-          const currentEntityAddress = address.bySample([...inputModels][index], props.props.model.form);
-          const previousEntityAddress = [...currentEntityAddress].splice(
-            currentEntityAddress.length - 1,
-            1,
-            [...currentEntityAddress][currentEntityAddress.length - 1] - 1
-          );
-          const previousEntity = () => {
-            const _currentAddress = [...currentEntityAddress];
-
-            _currentAddress.splice(
-              currentEntityAddress.length - 1,
-              1,
-              currentEntityAddress[currentEntityAddress.length - 1] - 1
-            );
-            console.log(currentEntityAddress, _currentAddress, props.props.model.form);
-            return address.byPath(props.props.model.form, _currentAddress);
-          };
-          console.log(previousEntity().externalIdentifier());
-          console.log(autoNumberRuleResult(input.autoNumberRule(), previousEntity().externalIdentifier()));
-          // props.mutate(currentEntityAddress, {
-          //   externalIdentifier: autoNumberRuleResult(
-          //     input.autoNumberRule(),
-          //     previousEntity().externalIdentifier(),
-          //     [...inputModels][index]
-          //   )[0],
-          // });
-        }
-      });
-      // const nameAssigned = inputModels.map((input, index) => {
-      //   if (index === 0) {
-      //     return autoNumberRuleResult(input.autoNumberRule(), '1');
-      //     // return 1;
-      //   } else if (index > 0) {
-      //     autoNumberRuleResult(input.autoNumberRule());
-      //     // find a way to pass the previous value
-      //   }
-      // });
-
-      console.log(nameAssigned);
+      const arrAllInputs = utility.findAll(props.model, e => e instanceof FormInput);
+      console.log(assignAllNames(arrAllInputs, props.props.model.form, props.mutate));
     }
     return result;
   };

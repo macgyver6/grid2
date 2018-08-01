@@ -5,7 +5,7 @@ import { utility } from '../utility';
 import * as actions from '../actions/index';
 import { FormInput } from '../data/FormInput';
 import InputItem from './InputItem';
-import { autoNumberRuleResult, indent, unindent, changeOrder } from './autoName';
+import { autoNumberRuleResult, indent, unindent, changeOrder, assignAllNames } from './autoName';
 class AutoId extends Component {
   constructor(props) {
     super(props);
@@ -60,6 +60,13 @@ class AutoId extends Component {
       autoNumberRule: result,
       externalIdentifier: autoNumberRuleResult(result, previousEntity().externalIdentifier()),
     });
+
+    const arrAllInputs = utility.findAll(this.props.model.form, e => e instanceof FormInput);
+    assignAllNames(arrAllInputs, this.props.model.form, this.props.mutate);
+    this.props.mutate(addressOfEntity, {
+      // autoNumberRule: result,
+      externalIdentifier: autoNumberRuleResult(result, previousEntity().externalIdentifier()),
+    });
     this.setState({ selected: [], checked: [] });
   }
 
@@ -80,6 +87,8 @@ class AutoId extends Component {
       autoNumberRule: result,
       externalIdentifier: autoNumberRuleResult(result, previousEntity().externalIdentifier()),
     });
+    const arrAllInputs = utility.findAll(this.props.model.form, e => e instanceof FormInput);
+    assignAllNames(arrAllInputs, this.props.model.form, this.props.mutate);
     this.setState({ selected: [], checked: [] });
   }
 

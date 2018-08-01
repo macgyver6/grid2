@@ -1,3 +1,5 @@
+import { address } from '../address';
+
 /**
  *
  * @param {string} rule ex. 'N+,L+
@@ -60,7 +62,6 @@ export const autoNumberRuleResult = (rule, previousInputName, currentInput) => {
 
   var incrementNumber = previousN => Number(previousN) + 1;
 
-  console.log(ruleArr.map((rule, index) => (rule[0] === 'N' ? handleNumber(index) : handleLetter(index))));
   const result = ruleArr.map((rule, index) => (rule[0] === 'N' ? handleNumber(index) : handleLetter(index)));
   return result.toString().replace(',', '');
 };
@@ -99,6 +100,58 @@ export const changeOrder = (indexOfSource, indexOfDestination, arrInputs) => {
   const entityRemoved = _arrInputs.splice(indexOfSource, 1);
   const entityInsertedAtNewIndex = _arrInputs.splice(indexOfDestination, 0, entityRemoved[0]);
   return _arrInputs;
+};
+
+/**
+ *
+ * @param {Array} arrAllInputs instantiated instances of formEntities
+ * @param {Form} form
+ * @param {Function} mutate
+ */
+export const assignAllNames = (arrAllInputs, form, mutate) => {
+  let output = [];
+  return [...arrAllInputs].forEach((input, index) => {
+    if (index === 0) {
+      const result2 = Object.assign({}, input.properties(), {
+        externalIdentifier: '1',
+      });
+      output.push(result2);
+      mutate(address.bySample([...arrAllInputs][index], form), {
+        externalIdentifier: '1',
+      });
+    } else if (index === arrAllInputs.length) {
+      console.log('reached end', output);
+      return output;
+    } else if (index >= 1) {
+      // const previousEntity = address.byPath[]
+      const currentEntityAddress = address.bySample([...arrAllInputs][index], form);
+      const previousEntityAddress = [...currentEntityAddress].splice(
+        currentEntityAddress.length - 1,
+        1,
+        [...currentEntityAddress][currentEntityAddress.length - 1] - 1
+      );
+      const previousEntity = () => {
+        const _currentAddress = [...currentEntityAddress];
+
+        _currentAddress.splice(
+          currentEntityAddress.length - 1,
+          1,
+          currentEntityAddress[currentEntityAddress.length - 1] - 1
+        );
+
+        return address.byPath(form, _currentAddress);
+      };
+
+      const newExternalIdentifier = autoNumberRuleResult(input.autoNumberRule(), output[index - 1].externalIdentifier);
+      const result2 = Object.assign({}, input.properties(), {
+        externalIdentifier: newExternalIdentifier,
+      });
+      output.push(result2);
+      mutate(address.bySample([...arrAllInputs][index], form), {
+        externalIdentifier: newExternalIdentifier,
+      });
+    }
+  });
 };
 
 // const previousInputId = '2a1b';

@@ -138,7 +138,7 @@ class TextInput extends FormInput {
       autoTab: this.autoTab(),
       doubleEntry: this.doubleEntry(),
       validations: this.validations(),
-
+      autoNumberRule: this.autoNumberRule(),
       externalIdentifier: this.externalIdentifier(),
     };
   }

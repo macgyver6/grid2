@@ -25,8 +25,13 @@ class InputItem extends Component {
   }
 
   render(props) {
+    const calcPadding = () =>
+      this.props.input
+        .autoNumberRule()
+        .split(',')
+        .filter(item => item === 'L+').length * 30;
     return (
-      <li>
+      <li style={{ paddingLeft: `${calcPadding()}px` }}>
         <input
           type="checkbox"
           name="form-formFiles"
