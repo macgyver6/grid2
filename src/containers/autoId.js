@@ -13,6 +13,8 @@ class AutoId extends Component {
     this.collectSelected = this.collectSelected.bind(this);
     this.indentHandler = this.indentHandler.bind(this);
     this.unindentHandler = this.unindentHandler.bind(this);
+    this.moveUpHandler = this.moveUpHandler.bind(this);
+    this.moveDownHandler = this.moveDownHandler.bind(this);
     this.checkHandler = this.checkHandler.bind(this);
     this.state = {
       selected: [],
@@ -38,9 +40,15 @@ class AutoId extends Component {
   checkHandler(index) {
     console.log(index);
     const previouslyChecked = [...this.state.checked];
-    previouslyChecked.push(index);
+    if (this.state.checked.includes(index)) {
+      // add to the array
+      previouslyChecked.splice(previouslyChecked.indexOf(index), 1);
+    } else {
+      previouslyChecked.push(index);
+    }
     this.setState({
       checked: previouslyChecked,
+      selected: [],
     });
   }
 
@@ -58,7 +66,7 @@ class AutoId extends Component {
     console.log(previousEntity());
     this.props.mutate(addressOfEntity, {
       autoNumberRule: result,
-      externalIdentifier: autoNumberRuleResult(result, previousEntity().externalIdentifier()),
+      // externalIdentifier: autoNumberRuleResult(result, previousEntity().externalIdentifier()),
     });
 
     const arrAllInputs = utility.findAll(this.props.model.form, e => e instanceof FormInput);
@@ -79,16 +87,81 @@ class AutoId extends Component {
       const _currentAddress = [...addressOfEntity];
 
       _currentAddress.splice(addressOfEntity.length - 1, 1, addressOfEntity[addressOfEntity.length - 1] - 1);
-      console.log(addressOfEntity, _currentAddress, this.props.model.form);
+      console.log(addressOfEntity, _currentAddress, this.props.model.form, result);
       return address.byPath(this.props.model.form, _currentAddress);
     };
-    console.log(previousEntity());
+    // console.log(autoNumberRuleResult(result, previousEntity().externalIdentifier()));
     this.props.mutate(addressOfEntity, {
       autoNumberRule: result,
-      externalIdentifier: autoNumberRuleResult(result, previousEntity().externalIdentifier()),
+      // externalIdentifier: autoNumberRuleResult(result, previousEntity().externalIdentifier()),
     });
+    console.log(
+      this.props.model.form
+        .children()[0]
+        .children()[0]
+        .children()[1]
+    );
     const arrAllInputs = utility.findAll(this.props.model.form, e => e instanceof FormInput);
     assignAllNames(arrAllInputs, this.props.model.form, this.props.mutate);
+    console.log(
+      this.props.model.form
+        .children()[0]
+        .children()[0]
+        .children()[1]
+    );
+    this.props.mutate(addressOfEntity, {
+      // autoNumberRule: result,
+      externalIdentifier: autoNumberRuleResult(result, previousEntity().externalIdentifier()),
+    });
+    this.setState({ selected: [], checked: [] });
+  }
+
+  moveUpHandler() {
+    console.log('moveUp');
+    const addressOfEntity = address.bySample(this.state.selected[0], this.props.model.form);
+    const ruleArr = this.state.selected[0].autoNumberRule().split(',');
+    if (ruleArr[ruleArr.length - 1] === 'N') {
+      const previousEntity = () => {
+        const _currentAddress = [...addressOfEntity];
+
+        _currentAddress.splice(addressOfEntity.length - 1, 1, addressOfEntity[addressOfEntity.length - 1] - 1);
+        console.log(addressOfEntity, _currentAddress, this.props.model.form, result);
+        return address.byPath(this.props.model.form, _currentAddress);
+      };
+      const result = [...ruleArr];
+      result.pop();
+      result.push('N+');
+      console.log(result);
+      this.props.mutate(addressOfEntity, {
+        autoNumberRule: result[0],
+        externalIdentifier: autoNumberRuleResult(result[0], previousEntity().externalIdentifier()),
+      });
+    }
+    this.setState({ selected: [], checked: [] });
+  }
+
+  moveDownHandler() {
+    console.log('moveUp');
+    const addressOfEntity = address.bySample(this.state.selected[0], this.props.model.form);
+
+    const ruleArr = this.state.selected[0].autoNumberRule().split(',');
+    if (ruleArr[ruleArr.length - 1] === 'N+') {
+      const previousEntity = () => {
+        const _currentAddress = [...addressOfEntity];
+
+        _currentAddress.splice(addressOfEntity.length - 1, 1, addressOfEntity[addressOfEntity.length - 1] - 1);
+        console.log(addressOfEntity, _currentAddress, this.props.model.form, result);
+        return address.byPath(this.props.model.form, _currentAddress);
+      };
+      const result = [...ruleArr];
+      result.pop();
+      result.push('N');
+      console.log(result);
+      this.props.mutate(addressOfEntity, {
+        autoNumberRule: result[0],
+        externalIdentifier: autoNumberRuleResult(result[0], previousEntity().externalIdentifier()),
+      });
+    }
     this.setState({ selected: [], checked: [] });
   }
 
@@ -99,6 +172,9 @@ class AutoId extends Component {
       border: '2px solid',
     };
     const cbInputStyle = { height: '25px', width: '25px', margin: '8px' };
+    // const arrAllInputs = utility.findAll(this.props.model.form, e => e instanceof FormInput);
+    // assignAllNames(arrAllInputs, this.props.model.form, this.props.mutate);
+
     return (
       <div style={formPropertiesStyle}>
         <h1>Auto Id</h1>
@@ -126,10 +202,11 @@ class AutoId extends Component {
         </p>
         <i className="fas fa-chevron-circle-left" style={{ fontSize: '30px' }} onClick={this.unindentHandler} />
         <i className="fas fa-chevron-circle-right" style={{ fontSize: '30px' }} onClick={this.indentHandler} />
-        <i className="fas fa-chevron-circle-up" style={{ fontSize: '30px' }} />
-        <i className="fas fa-chevron-circle-down" style={{ fontSize: '30px' }} />
+        <i className="fas fa-chevron-circle-up" style={{ fontSize: '30px' }} onClick={this.moveUpHandler} />
+        <i className="fas fa-chevron-circle-down" style={{ fontSize: '30px' }} onClick={this.moveDownHandler} />
         <ul>{}</ul>
         {utility
+
           .findAll(this.props.model.form, e => e instanceof FormInput)
           .map((input, index) => (
             <InputItem

@@ -7,7 +7,6 @@ import { address } from '../address';
  * @param {Object} currentInput ex. '1a'
  */
 export const autoNumberRuleResult = (rule, previousInputName, currentInput) => {
-  console.log(currentInput);
   const alph = 'abcdefghijklmnopqrstuvwxyz'.split('');
   // This variable keeps track of whether to start over
   // at "a" for letters....
@@ -31,15 +30,18 @@ export const autoNumberRuleResult = (rule, previousInputName, currentInput) => {
     console.log('first input');
     return 1;
   }
+  console.log(rule);
   const ruleArr = rule.split(',');
 
-  const handleLetter = indexPreviousL => {
+  const handleLetter = (indexPreviousL, rule) => {
     const previousInputNameArr = previousInputName.split('');
     const previousLetter = previousInputNameArr[indexPreviousL];
-    console.log(previousLetter, previousInputNameArr, indexPreviousL);
+    console.log(previousLetter, previousInputNameArr, indexPreviousL, ruleArr);
     if (!previousLetter) {
       return 'a';
     } else if (previousLetter === 'z') {
+      return 'a';
+    } else if (ruleArr[indexPreviousL - 1] === 'N+') {
       return 'a';
     } else {
       return incrementLetter(previousLetter);
@@ -48,27 +50,33 @@ export const autoNumberRuleResult = (rule, previousInputName, currentInput) => {
 
   var incrementLetter = previousLetter => String.fromCharCode(previousLetter.charCodeAt(0) + 1);
 
-  const handleNumber = indexPreviousN => {
+  const handleNumber = (indexPreviousN, rule) => {
     console.log(previousInputName);
-    const arrPreviousInputName = previousInputName.split('');
+    const arrPreviousInputName = previousInputName.split(/(\d+)/).filter(item => item !== '');
     const previousNumber = arrPreviousInputName[indexPreviousN];
     console.log(arrPreviousInputName, arrPreviousInputName[indexPreviousN]);
     if (!previousNumber) {
       return '1';
-    } else {
+    } else if (ruleArr[indexPreviousN] === 'N+') {
+      console.log(incrementNumber(previousNumber));
       return incrementNumber(previousNumber);
+    } else if (ruleArr[indexPreviousN] === 'N') {
+      return previousNumber;
     }
   };
 
   var incrementNumber = previousN => Number(previousN) + 1;
 
-  const result = ruleArr.map((rule, index) => (rule[0] === 'N' ? handleNumber(index) : handleLetter(index)));
+  const result = ruleArr.map(
+    (rule, index) => (rule[0] === 'N' ? handleNumber(index, rule) : handleLetter(index, rule))
+  );
   return result.toString().replace(',', '');
 };
 
 export const indent = rule => {
   const ruleArr = rule.split(',');
-  if (ruleArr[ruleArr.length - 1] !== 'N+') {
+  // console.log(ruleArr[ruleArr.length - 1] !== 'N+' && ruleArr[ruleArr.length - 1] !== 'N');
+  if (ruleArr[ruleArr.length - 1] !== 'N+' && ruleArr[ruleArr.length - 1] !== 'N') {
     throw new Error('Must alternate number, letter');
   } else {
     return rule.concat(',L+');
@@ -85,6 +93,14 @@ export const unindent = rule => {
   console.log(ruleArr);
   return ruleArr.toString();
   // }
+};
+
+export const moveUp = rule => {
+  const ruleArr = rule.split(',');
+};
+
+export const movDown = rule => {
+  const ruleArr = rule.split(',');
 };
 
 /**

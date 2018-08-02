@@ -208,7 +208,7 @@ export var defaultPropsFE = {
     uuid: undefined,
     type: 'Form',
     version: 1,
-    autoId: { enable: true },
+    autoId: { enable: false },
     allowEventAttachedFile: true,
     children: [
       new FormSection({
@@ -228,6 +228,51 @@ export var defaultPropsFE = {
               // new SelectionInput(initFE.SelectionInput),
               // new CheckBox(initFE.CheckBox),
               new TextInput({ ...initFE.TextInput, externalIdentifier: '' }),
+              new TextArea({
+                ...initFE.TextArea,
+                externalIdentifier: '',
+                autoNumberRule: 'N+',
+              }),
+              new TextArea({
+                ...initFE.TextArea,
+                externalIdentifier: '',
+                autoNumberRule: 'N+',
+              }),
+              new TextArea({
+                ...initFE.TextArea,
+                externalIdentifier: '',
+                autoNumberRule: 'N+',
+              }),
+              new TextArea({
+                ...initFE.TextArea,
+                externalIdentifier: '',
+                autoNumberRule: 'N+',
+              }),
+              new TextArea({
+                ...initFE.TextArea,
+                externalIdentifier: '',
+                autoNumberRule: 'N+',
+              }),
+              new TextArea({
+                ...initFE.TextArea,
+                externalIdentifier: '',
+                autoNumberRule: 'N+',
+              }),
+              new TextArea({
+                ...initFE.TextArea,
+                externalIdentifier: '',
+                autoNumberRule: 'N+',
+              }),
+              new TextArea({
+                ...initFE.TextArea,
+                externalIdentifier: '',
+                autoNumberRule: 'N+',
+              }),
+              new TextArea({
+                ...initFE.TextArea,
+                externalIdentifier: '',
+                autoNumberRule: 'N+',
+              }),
               new TextArea({
                 ...initFE.TextArea,
                 externalIdentifier: '',
