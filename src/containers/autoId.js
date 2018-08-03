@@ -19,6 +19,7 @@ class AutoId extends Component {
     this.reorderHandler = this.reorderHandler.bind(this);
     this.state = {
       selected: null,
+      indexCurrent: null,
       checked: [],
     };
   }
@@ -28,7 +29,16 @@ class AutoId extends Component {
     // const result = [...this.state.selected];
     // result.push(input);
     // console.log({ selected: result });
-    this.state.selected === null ? this.setState({ selected: input }) : this.setState({ selected: null });
+
+    const arrAllInputs = utility.findAll(this.props.model.form, e => e instanceof FormInput).sort(function(a, b) {
+      return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
+    });
+
+    const indexCurrent = arrAllInputs.indexOf(input);
+
+    this.state.selected === null
+      ? this.setState({ selected: input, indexCurrent })
+      : this.setState({ selected: null, indexCurrent: null });
   }
   change_handler(event) {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
@@ -74,7 +84,7 @@ class AutoId extends Component {
       return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
     });
 
-    const indexCurrent = arrAllInputs.indexOf(this.state.selected);
+    const indexCurrent = this.state.indexCurrent;
     arrAllInputs[indexCurrent] = address.rehydrate(
       Object.assign({}, arrAllInputs[indexCurrent].properties(), {
         autoNumberRule: result,
@@ -87,7 +97,7 @@ class AutoId extends Component {
       assignAllNamesBatch(arrAllInputs, this.props.model.form, this.props.mutate),
     ]);
     this.props.batchActions(actionsArr);
-    this.setState({ selected: null });
+    // this.setState({ selected: null });
     console.log(address.byPath(this.props.model.form, addressOfEntity));
   }
 
@@ -116,7 +126,7 @@ class AutoId extends Component {
         .children()[1]
     );
 
-    const indexCurrent = arrAllInputs.indexOf(this.state.selected);
+    const indexCurrent = this.state.indexCurrent;
     arrAllInputs[indexCurrent] = address.rehydrate(
       Object.assign({}, arrAllInputs[indexCurrent].properties(), {
         autoNumberRule: result,
@@ -129,7 +139,7 @@ class AutoId extends Component {
       assignAllNamesBatch(arrAllInputs, this.props.model.form, this.props.mutate),
     ]);
     this.props.batchActions(actionsArr);
-    this.setState({ selected: null, checked: [] });
+    // this.setState({ selected: null, checked: [] });
   }
 
   moveUpHandler() {
@@ -152,7 +162,7 @@ class AutoId extends Component {
         return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
       });
 
-      const indexCurrent = arrAllInputs.indexOf(this.state.selected);
+      const indexCurrent = this.state.indexCurrent;
 
       arrAllInputs[indexCurrent] = address.rehydrate(
         Object.assign({}, arrAllInputs[indexCurrent].properties(), {
@@ -167,7 +177,7 @@ class AutoId extends Component {
       ]);
       this.props.batchActions(actionsArr);
     }
-    this.setState({ selected: null, checked: [] });
+    // this.setState({ selected: null, checked: [] });
   }
 
   moveDownHandler() {
@@ -186,16 +196,17 @@ class AutoId extends Component {
       const result = [...ruleArr];
       result.pop();
       result.push('N');
+      console.log('ran');
       const arrAllInputs = utility.findAll(this.props.model.form, e => e instanceof FormInput).sort(function(a, b) {
         return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
       });
       console.log(this.state.selected);
-      const indexCurrent = arrAllInputs.indexOf(this.state.selected);
+      const indexCurrent = this.state.indexCurrent;
       console.log({
         autoNumberRule: result[0],
         // externalIdentifier: autoNumberRuleResult(result[0], arrAllInputs[indexCurrent - 1].externalIdentifier()),
       });
-
+      console.log(arrAllInputs, indexCurrent);
       arrAllInputs[indexCurrent] = address.rehydrate(
         Object.assign({}, arrAllInputs[indexCurrent].properties(), {
           autoNumberRule: result[0],
@@ -209,7 +220,7 @@ class AutoId extends Component {
       ]);
       this.props.batchActions(actionsArr);
     }
-    this.setState({ selected: null, checked: [] });
+    // this.setState({ selected: null, checked: [] });
   }
 
   reorderHandler(event, destinationInput) {
@@ -234,6 +245,12 @@ class AutoId extends Component {
     result.forEach((input, index) =>
       this.props.mutate(address.bySample(input, this.props.model.form), { tabOrder: index + 1 })
     );
+
+    const indexCurrent = this.state.indexCurrent;
+
+    var actionsArr = utility.flatten([assignAllNamesBatch(result, this.props.model.form, this.props.mutate)]);
+    this.props.batchActions(actionsArr);
+    this.setState({ indexCurrent: null, selected: null });
   }
 
   // inputModels= utility.findAll(props.model.form, e => e instanceof FormInput);

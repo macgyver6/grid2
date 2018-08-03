@@ -78,11 +78,20 @@ export const autoNumberRuleResult = (rule, previousInputName, currentInput) => {
 export const indent = rule => {
   const ruleArr = rule.split(',');
   // console.log(ruleArr[ruleArr.length - 1] !== 'N+' && ruleArr[ruleArr.length - 1] !== 'N');
-  if (ruleArr[ruleArr.length - 1] !== 'N+' && ruleArr[ruleArr.length - 1] !== 'N') {
-    throw new Error('Must alternate number, letter');
-  } else {
+  // if (ruleArr[ruleArr.length - 1] !== 'N+' && ruleArr[ruleArr.length - 1] !== 'N') {
+  //   throw new Error('Must alternate number, letter');
+  // } else {
+
+  if (ruleArr[ruleArr.length - 1] === 'N+') {
     return rule.concat(',L+');
+  } else if (ruleArr[ruleArr.length - 1] === 'N') {
+    return rule.concat(',L+');
+  } else if (ruleArr[ruleArr.length - 1] === 'L') {
+    return rule.concat(',N+');
+  } else if (ruleArr[ruleArr.length - 1] === 'L+') {
+    return rule.concat(',N+');
   }
+  // }
 };
 
 export const unindent = rule => {
