@@ -5,7 +5,7 @@ import { utility } from '../utility';
 import * as actions from '../actions/index';
 import { FormInput } from '../data/FormInput';
 import InputItem from './InputItem';
-import { autoNumberRuleResult, indent, unindent, changeOrder, assignAllNames } from './autoName';
+import { autoNumberRuleResult, indent, unindent, changeOrder, assignAllNames, assignAllNamesBatch } from './autoName';
 class AutoId extends Component {
   constructor(props) {
     super(props);
@@ -68,10 +68,6 @@ class AutoId extends Component {
       return address.byPath(this.props.model.form, _currentAddress);
     };
     console.log(previousEntity());
-    this.props.mutate(addressOfEntity, {
-      autoNumberRule: result,
-      // externalIdentifier: autoNumberRuleResult(result, previousEntity().externalIdentifier()),
-    });
     console.log(address.byPath(this.props.model.form, addressOfEntity));
 
     const arrAllInputs = utility.findAll(this.props.model.form, e => e instanceof FormInput).sort(function(a, b) {
@@ -79,11 +75,18 @@ class AutoId extends Component {
     });
 
     const indexCurrent = arrAllInputs.indexOf(this.state.selected);
-    // assignAllNames(arrAllInputs, this.props.model.form, this.props.mutate);
-    this.props.mutate(addressOfEntity, {
-      // autoNumberRule: result,
-      externalIdentifier: autoNumberRuleResult(result, arrAllInputs[indexCurrent - 1].externalIdentifier()),
-    });
+    arrAllInputs[indexCurrent] = address.rehydrate(
+      Object.assign({}, arrAllInputs[indexCurrent].properties(), {
+        autoNumberRule: result,
+      })
+    );
+    var actionsArr = utility.flatten([
+      actions.mutate(addressOfEntity, {
+        autoNumberRule: result,
+      }),
+      assignAllNamesBatch(arrAllInputs, this.props.model.form, this.props.mutate),
+    ]);
+    this.props.batchActions(actionsArr);
     this.setState({ selected: null });
     console.log(address.byPath(this.props.model.form, addressOfEntity));
   }
@@ -101,16 +104,7 @@ class AutoId extends Component {
       return address.byPath(this.props.model.form, _currentAddress);
     };
     // console.log(autoNumberRuleResult(result, previousEntity().externalIdentifier()));
-    this.props.mutate(addressOfEntity, {
-      autoNumberRule: result,
-      // externalIdentifier: autoNumberRuleResult(result, previousEntity().externalIdentifier()),
-    });
-    console.log(
-      this.props.model.form
-        .children()[0]
-        .children()[0]
-        .children()[1]
-    );
+
     const arrAllInputs = utility.findAll(this.props.model.form, e => e instanceof FormInput).sort(function(a, b) {
       return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
     });
@@ -123,10 +117,18 @@ class AutoId extends Component {
     );
 
     const indexCurrent = arrAllInputs.indexOf(this.state.selected);
-    this.props.mutate(addressOfEntity, {
-      // autoNumberRule: result,
-      externalIdentifier: autoNumberRuleResult(result, arrAllInputs[indexCurrent - 1].externalIdentifier()),
-    });
+    arrAllInputs[indexCurrent] = address.rehydrate(
+      Object.assign({}, arrAllInputs[indexCurrent].properties(), {
+        autoNumberRule: result,
+      })
+    );
+    var actionsArr = utility.flatten([
+      actions.mutate(addressOfEntity, {
+        autoNumberRule: result,
+      }),
+      assignAllNamesBatch(arrAllInputs, this.props.model.form, this.props.mutate),
+    ]);
+    this.props.batchActions(actionsArr);
     this.setState({ selected: null, checked: [] });
   }
 
@@ -151,16 +153,19 @@ class AutoId extends Component {
       });
 
       const indexCurrent = arrAllInputs.indexOf(this.state.selected);
-      this.props.mutate(addressOfEntity, {
-        autoNumberRule: result[0],
-        // externalIdentifier: autoNumberRuleResult(result[0], arrAllInputs[indexCurrent - 1].externalIdentifier()),
-      });
 
-      assignAllNames(arrAllInputs, this.props.model.form, this.props.mutate);
-      this.props.mutate(addressOfEntity, {
-        // autoNumberRule: result,
-        externalIdentifier: autoNumberRuleResult(result[0], arrAllInputs[indexCurrent - 1].externalIdentifier()),
-      });
+      arrAllInputs[indexCurrent] = address.rehydrate(
+        Object.assign({}, arrAllInputs[indexCurrent].properties(), {
+          autoNumberRule: result[0],
+        })
+      );
+      var actionsArr = utility.flatten([
+        actions.mutate(addressOfEntity, {
+          autoNumberRule: result[0],
+        }),
+        assignAllNamesBatch(arrAllInputs, this.props.model.form, this.props.mutate),
+      ]);
+      this.props.batchActions(actionsArr);
     }
     this.setState({ selected: null, checked: [] });
   }
@@ -190,17 +195,19 @@ class AutoId extends Component {
         autoNumberRule: result[0],
         // externalIdentifier: autoNumberRuleResult(result[0], arrAllInputs[indexCurrent - 1].externalIdentifier()),
       });
-      this.props.mutate(addressOfEntity, {
-        autoNumberRule: result[0],
-        // externalIdentifier: autoNumberRuleResult(result[0], arrAllInputs[indexCurrent - 1].externalIdentifier()),
-      });
-      console.log(arrAllInputs.map(item => item.autoNumberRule()), this.props.model.form, this.props.mutate);
-      assignAllNames(arrAllInputs, this.props.model.form, this.props.mutate);
-      console.log(result[0]);
-      this.props.mutate(addressOfEntity, {
-        // autoNumberRule: result[0],
-        externalIdentifier: autoNumberRuleResult(result[0], arrAllInputs[indexCurrent - 1].externalIdentifier()),
-      });
+
+      arrAllInputs[indexCurrent] = address.rehydrate(
+        Object.assign({}, arrAllInputs[indexCurrent].properties(), {
+          autoNumberRule: result[0],
+        })
+      );
+      var actionsArr = utility.flatten([
+        actions.mutate(addressOfEntity, {
+          autoNumberRule: result[0],
+        }),
+        assignAllNamesBatch(arrAllInputs, this.props.model.form, this.props.mutate),
+      ]);
+      this.props.batchActions(actionsArr);
     }
     this.setState({ selected: null, checked: [] });
   }
