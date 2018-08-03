@@ -7,6 +7,7 @@ import { address } from '../address';
  * @param {Object} currentInput ex. '1a'
  */
 export const autoNumberRuleResult = (rule, previousInputName, currentInput) => {
+  console.log(rule, previousInputName, currentInput);
   const alph = 'abcdefghijklmnopqrstuvwxyz'.split('');
   // This variable keeps track of whether to start over
   // at "a" for letters....
@@ -20,11 +21,11 @@ export const autoNumberRuleResult = (rule, previousInputName, currentInput) => {
 
   const lastValue = null;
   console.log(rule);
-  if (rule[0] !== 'N') {
-    throw new Error(
-      'Auto-numbering rule must contain strictly alternating number and letter tokens, and the first token of the first rule must be numeric.'
-    );
-  }
+  // if (rule[0] !== 'N') {
+  //   throw new Error(
+  //     'Auto-numbering rule must contain strictly alternating number and letter tokens, and the first token of the first rule must be numeric.'
+  //   );
+  // }
   // console.log(rule, previousInputId === 'undefined');
   if (rule && previousInputName === undefined) {
     console.log('first input');
@@ -110,11 +111,13 @@ export const movDown = rule => {
  * @param {Array} arrInputs
  */
 export const changeOrder = (indexOfSource, indexOfDestination, arrInputs) => {
+  console.log(indexOfSource, indexOfDestination, arrInputs);
   // const indexOfSource = Number(event.dataTransfer.types[1]);
   // const indexOfDestination = props.form.children().indexOf(props.model);
   const _arrInputs = [...arrInputs];
-  const entityRemoved = _arrInputs.splice(indexOfSource, 1);
-  const entityInsertedAtNewIndex = _arrInputs.splice(indexOfDestination, 0, entityRemoved[0]);
+  const entityRemoved = _arrInputs.splice(indexOfSource - 1, 1);
+  const entityInsertedAtNewIndex = _arrInputs.splice(indexOfDestination - 1, 0, entityRemoved[0]);
+  console.log(entityRemoved, _arrInputs);
   return _arrInputs;
 };
 
@@ -157,7 +160,7 @@ export const assignAllNames = (arrAllInputs, form, mutate) => {
 
         return address.byPath(form, _currentAddress);
       };
-
+      console.log(input, input.autoNumberRule(), output[index - 1].externalIdentifier);
       const newExternalIdentifier = autoNumberRuleResult(input.autoNumberRule(), output[index - 1].externalIdentifier);
       const result2 = Object.assign({}, input.properties(), {
         externalIdentifier: newExternalIdentifier,

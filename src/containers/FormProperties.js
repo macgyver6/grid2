@@ -55,8 +55,10 @@ let FormProperty = props => {
       // if (event.target.id === 'allowEventAttachedFile' && event.target.checked === true) {
       // console.log(props.model.form);
 
-      const arrAllInputs = utility.findAll(props.model, e => e instanceof FormInput);
-      console.log(assignAllNames(arrAllInputs, props.props.model.form, props.mutate));
+      const arrAllInputs = utility.findAll(props.model, e => e instanceof FormInput).sort(function(a, b) {
+        return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
+      });
+      assignAllNames(arrAllInputs, props.props.model.form, props.mutate);
     }
     return result;
   };

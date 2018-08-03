@@ -269,7 +269,6 @@ class FormInput extends FormEntity {
       inputType: this.inputType(),
       maxLength: this.maxLength(),
       externalIdentifier: this.externalIdentifier(),
-      autoNumberRule: this.autoNumberRule(),
     };
   }
 }

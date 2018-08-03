@@ -16,16 +16,19 @@ class AutoId extends Component {
     this.moveUpHandler = this.moveUpHandler.bind(this);
     this.moveDownHandler = this.moveDownHandler.bind(this);
     this.checkHandler = this.checkHandler.bind(this);
+    this.reorderHandler = this.reorderHandler.bind(this);
     this.state = {
-      selected: [],
+      selected: null,
       checked: [],
     };
   }
 
   collectSelected(input) {
-    const result = [...this.state.selected];
-    result.push(input);
-    this.setState({ selected: result });
+    // console.log(input);
+    // const result = [...this.state.selected];
+    // result.push(input);
+    // console.log({ selected: result });
+    this.state.selected === null ? this.setState({ selected: input }) : this.setState({ selected: null });
   }
   change_handler(event) {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
@@ -48,14 +51,15 @@ class AutoId extends Component {
     }
     this.setState({
       checked: previouslyChecked,
-      selected: [],
+      selected: null,
     });
   }
 
   indentHandler() {
-    const result = indent(this.state.selected[0].autoNumberRule());
+    const result = indent(this.state.selected.autoNumberRule());
     console.log(result);
-    const addressOfEntity = address.bySample(this.state.selected[0], this.props.model.form);
+    const addressOfEntity = address.bySample(this.state.selected, this.props.model.form);
+
     const previousEntity = () => {
       const _currentAddress = [...addressOfEntity];
 
@@ -68,21 +72,27 @@ class AutoId extends Component {
       autoNumberRule: result,
       // externalIdentifier: autoNumberRuleResult(result, previousEntity().externalIdentifier()),
     });
+    console.log(address.byPath(this.props.model.form, addressOfEntity));
 
-    const arrAllInputs = utility.findAll(this.props.model.form, e => e instanceof FormInput);
-    assignAllNames(arrAllInputs, this.props.model.form, this.props.mutate);
+    const arrAllInputs = utility.findAll(this.props.model.form, e => e instanceof FormInput).sort(function(a, b) {
+      return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
+    });
+
+    const indexCurrent = arrAllInputs.indexOf(this.state.selected);
+    // assignAllNames(arrAllInputs, this.props.model.form, this.props.mutate);
     this.props.mutate(addressOfEntity, {
       // autoNumberRule: result,
-      externalIdentifier: autoNumberRuleResult(result, previousEntity().externalIdentifier()),
+      externalIdentifier: autoNumberRuleResult(result, arrAllInputs[indexCurrent - 1].externalIdentifier()),
     });
-    this.setState({ selected: [], checked: [] });
+    this.setState({ selected: null });
+    console.log(address.byPath(this.props.model.form, addressOfEntity));
   }
 
   unindentHandler() {
-    console.log(this.state.selected[0].autoNumberRule());
-    const result = unindent(this.state.selected[0].autoNumberRule());
+    console.log(this.state.selected.autoNumberRule());
+    const result = unindent(this.state.selected.autoNumberRule());
     console.log(result);
-    const addressOfEntity = address.bySample(this.state.selected[0], this.props.model.form);
+    const addressOfEntity = address.bySample(this.state.selected, this.props.model.form);
     const previousEntity = () => {
       const _currentAddress = [...addressOfEntity];
 
@@ -101,7 +111,9 @@ class AutoId extends Component {
         .children()[0]
         .children()[1]
     );
-    const arrAllInputs = utility.findAll(this.props.model.form, e => e instanceof FormInput);
+    const arrAllInputs = utility.findAll(this.props.model.form, e => e instanceof FormInput).sort(function(a, b) {
+      return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
+    });
     assignAllNames(arrAllInputs, this.props.model.form, this.props.mutate);
     console.log(
       this.props.model.form
@@ -109,17 +121,19 @@ class AutoId extends Component {
         .children()[0]
         .children()[1]
     );
+
+    const indexCurrent = arrAllInputs.indexOf(this.state.selected);
     this.props.mutate(addressOfEntity, {
       // autoNumberRule: result,
-      externalIdentifier: autoNumberRuleResult(result, previousEntity().externalIdentifier()),
+      externalIdentifier: autoNumberRuleResult(result, arrAllInputs[indexCurrent - 1].externalIdentifier()),
     });
-    this.setState({ selected: [], checked: [] });
+    this.setState({ selected: null, checked: [] });
   }
 
   moveUpHandler() {
     console.log('moveUp');
-    const addressOfEntity = address.bySample(this.state.selected[0], this.props.model.form);
-    const ruleArr = this.state.selected[0].autoNumberRule().split(',');
+    const addressOfEntity = address.bySample(this.state.selected, this.props.model.form);
+    const ruleArr = this.state.selected.autoNumberRule().split(',');
     if (ruleArr[ruleArr.length - 1] === 'N') {
       const previousEntity = () => {
         const _currentAddress = [...addressOfEntity];
@@ -132,20 +146,31 @@ class AutoId extends Component {
       result.pop();
       result.push('N+');
       console.log(result);
+      const arrAllInputs = utility.findAll(this.props.model.form, e => e instanceof FormInput).sort(function(a, b) {
+        return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
+      });
+
+      const indexCurrent = arrAllInputs.indexOf(this.state.selected);
       this.props.mutate(addressOfEntity, {
         autoNumberRule: result[0],
-        externalIdentifier: autoNumberRuleResult(result[0], previousEntity().externalIdentifier()),
+        // externalIdentifier: autoNumberRuleResult(result[0], arrAllInputs[indexCurrent - 1].externalIdentifier()),
+      });
+
+      assignAllNames(arrAllInputs, this.props.model.form, this.props.mutate);
+      this.props.mutate(addressOfEntity, {
+        // autoNumberRule: result,
+        externalIdentifier: autoNumberRuleResult(result[0], arrAllInputs[indexCurrent - 1].externalIdentifier()),
       });
     }
-    this.setState({ selected: [], checked: [] });
+    this.setState({ selected: null, checked: [] });
   }
 
   moveDownHandler() {
-    console.log('moveUp');
-    const addressOfEntity = address.bySample(this.state.selected[0], this.props.model.form);
+    const addressOfEntity = address.bySample(this.state.selected, this.props.model.form);
 
-    const ruleArr = this.state.selected[0].autoNumberRule().split(',');
-    if (ruleArr[ruleArr.length - 1] === 'N+') {
+    const ruleArr = this.state.selected.autoNumberRule().split(',');
+    console.log('moveDown', ruleArr);
+    if (ruleArr[ruleArr.length - 1] === 'N+' && this.state.selected.externalIdentifier !== '1') {
       const previousEntity = () => {
         const _currentAddress = [...addressOfEntity];
 
@@ -156,13 +181,52 @@ class AutoId extends Component {
       const result = [...ruleArr];
       result.pop();
       result.push('N');
-      console.log(result);
+      const arrAllInputs = utility.findAll(this.props.model.form, e => e instanceof FormInput).sort(function(a, b) {
+        return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
+      });
+      console.log(this.state.selected);
+      const indexCurrent = arrAllInputs.indexOf(this.state.selected);
+      console.log({
+        autoNumberRule: result[0],
+        // externalIdentifier: autoNumberRuleResult(result[0], arrAllInputs[indexCurrent - 1].externalIdentifier()),
+      });
       this.props.mutate(addressOfEntity, {
         autoNumberRule: result[0],
-        externalIdentifier: autoNumberRuleResult(result[0], previousEntity().externalIdentifier()),
+        // externalIdentifier: autoNumberRuleResult(result[0], arrAllInputs[indexCurrent - 1].externalIdentifier()),
+      });
+      console.log(arrAllInputs.map(item => item.autoNumberRule()), this.props.model.form, this.props.mutate);
+      assignAllNames(arrAllInputs, this.props.model.form, this.props.mutate);
+      console.log(result[0]);
+      this.props.mutate(addressOfEntity, {
+        // autoNumberRule: result[0],
+        externalIdentifier: autoNumberRuleResult(result[0], arrAllInputs[indexCurrent - 1].externalIdentifier()),
       });
     }
-    this.setState({ selected: [], checked: [] });
+    this.setState({ selected: null, checked: [] });
+  }
+
+  reorderHandler(event, destinationInput) {
+    event.stopPropagation();
+    const inputModels = utility.findAll(this.props.model.form, e => e instanceof FormInput).sort(function(a, b) {
+      return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
+    });
+    console.log(event.target);
+    const sourceInput = inputModels[Number(event.dataTransfer.getData('tabOrder')) - 1];
+    const sourceIndex = Number(event.dataTransfer.getData('tabOrder'));
+    const destinationIndex = destinationInput.tabOrder();
+    console.log('sourceInput', sourceInput.type(), sourceInput.tabOrder(), { tabOrder: destinationIndex });
+    console.log('destinationInput', destinationInput.type(), destinationInput.tabOrder(), { tabOrder: sourceIndex });
+    // console.log(event.dataTransfer.getData('tabOrder'));
+    // this.props.mutate(address.bySample(sourceInput, this.props.model.form), { tabOrder: destinationIndex });
+    // this.props.mutate(address.bySample(destinationInput, this.props.model.form), {
+    //   tabOrder: sourceIndex,
+    // });
+    // const destination = this.props.;
+    const result = changeOrder(sourceIndex, destinationIndex, inputModels);
+    console.log(result);
+    result.forEach((input, index) =>
+      this.props.mutate(address.bySample(input, this.props.model.form), { tabOrder: index + 1 })
+    );
   }
 
   // inputModels= utility.findAll(props.model.form, e => e instanceof FormInput);
@@ -204,18 +268,20 @@ class AutoId extends Component {
         <i className="fas fa-chevron-circle-right" style={{ fontSize: '30px' }} onClick={this.indentHandler} />
         <i className="fas fa-chevron-circle-up" style={{ fontSize: '30px' }} onClick={this.moveUpHandler} />
         <i className="fas fa-chevron-circle-down" style={{ fontSize: '30px' }} onClick={this.moveDownHandler} />
-        <ul>{}</ul>
         {utility
-
           .findAll(this.props.model.form, e => e instanceof FormInput)
+          .sort(function(a, b) {
+            return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
+          })
           .map((input, index) => (
             <InputItem
               key={index}
               index={index}
               input={input}
               collectSelected={this.collectSelected}
-              checkHandler={this.checkHandler}
-              checked={this.state.checked.includes(index)}
+              reorderHandler={this.reorderHandler}
+              // checkHandler={this.checkHandler}
+              checked={this.state.selected ? this.state.selected.UUID() === input.UUID() : false}
             />
           ))}
       </div>
