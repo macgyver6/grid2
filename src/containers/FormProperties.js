@@ -1,7 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { address } from '../address';
+import * as actions from '../actions/index';
+import AutoId from './autoId';
+import { autoNumberRuleResult, assignAllNames } from './autoName';
+import { utility } from '../utility';
+import { FormInput } from '../data/FormInput';
 
-export const FormProperty = props => {
+let FormProperty = props => {
   const dragOverFile_handler = event => {
     event.preventDefault();
   };
@@ -24,13 +30,37 @@ export const FormProperty = props => {
   };
 
   const change_handler = event => {
-    const value =
-      event.target.type === 'checkbox'
-        ? event.target.checked
-        : event.target.value;
-    return props.mutate(props.form, {
+    const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+    return props.formmutate({
       [event.target.id]: value,
     });
+  };
+
+  const autoId_change_handler = event => {
+    const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+    console.log({
+      autoId: {
+        ...props.model.autoId,
+        [event.target.id]: value,
+      },
+    });
+    const result = props.formmutate({
+      autoId: {
+        ...props.model.autoId(),
+        [event.target.id]: value,
+      },
+    });
+
+    if (event.target.checked) {
+      // if (event.target.id === 'allowEventAttachedFile' && event.target.checked === true) {
+      // console.log(props.model.form);
+
+      const arrAllInputs = utility.findAll(props.model, e => e instanceof FormInput).sort(function(a, b) {
+        return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
+      });
+      assignAllNames(arrAllInputs, props.props.model.form, props.mutate);
+    }
+    return result;
   };
 
   const formPropertiesStyle = {
@@ -48,13 +78,9 @@ export const FormProperty = props => {
   }
 
   const cbInputStyle = { height: '25px', width: '25px', margin: '8px' };
-
+  console.log(props.model);
   return (
-    <div
-      style={formPropertiesStyle}
-      onDragOver={dragOverFile_handler}
-      onDrop={dropFile_handler}
-    >
+    <div style={formPropertiesStyle} onDragOver={dragOverFile_handler} onDrop={dropFile_handler}>
       <h1>Form Properties</h1>
       <h2>Accept Form Attached Files</h2>
       <p>
@@ -66,10 +92,26 @@ export const FormProperty = props => {
           style={cbInputStyle}
           checked={props.model.allowEventAttachedFile()}
         />
-        <label for="textInput-formFiles">Accept Form Attached Files</label>
       </p>
       <h2>Files Uploaded</h2>
       <ul>{localFiles.map(file => <li>{file.name}</li>)}</ul>
+      <h2>Auto Number</h2>
+      <p>
+        <input
+          type="checkbox"
+          name="form-autoId"
+          id="enable"
+          onChange={autoId_change_handler}
+          style={cbInputStyle}
+          checked={props.model.autoId().enable}
+        />
+      </p>
+      {props.model.autoId().enable ? <AutoId autoId_change_handler={autoId_change_handler} /> : null}
     </div>
   );
 };
+
+const mapStateToProps = props => ({ props });
+FormProperty = connect(mapStateToProps, actions)(FormProperty);
+
+export default FormProperty;

@@ -266,7 +266,7 @@ const DeleteBtn = props => {
       onDragLeave={dragleave_handler}
     >
       <h1>
-        <i className="far fa-trash-alt" style={{ color: 'red' }} />{' '}
+        <i className="far fa-trash-alt" style={{ color: 'red' }} />
       </h1>
     </div>
   );

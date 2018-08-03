@@ -50,16 +50,20 @@ import { SubjectInputValidator } from './containers/validations/data/SubjectInpu
 import { entityActions } from './components/FormEntities/actions.entities';
 
 export const address = {
-  bySample: (target, node, path = []) => {
+  /**
+   * @param {Object} target entity itself you're needing to locate
+   * @param {Object} parentSection section or form to search within
+   */
+  bySample: (target, parentSection, path = []) => {
     if (target.type() === 'Form') {
       return [];
     }
-    if (node.UUID() === target.UUID()) {
+    if (parentSection.UUID() === target.UUID()) {
       return path;
     }
 
-    if (node.children) {
-      return node
+    if (parentSection.children) {
+      return parentSection
         .children()
         .reduce((acc, child, index) => acc || address.bySample(target, child, [...path, index]), null);
     }

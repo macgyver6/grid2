@@ -34,6 +34,7 @@ class TextInput extends FormInput {
      */
   constructor(properties) {
     super(properties);
+    console.log(properties);
     this._length = properties.length;
     this._defaultContent = properties.defaultContent || TextInput.DEFAULT_CONTENT;
     this._autoTab = properties.autoTab;
@@ -137,7 +138,7 @@ class TextInput extends FormInput {
       autoTab: this.autoTab(),
       doubleEntry: this.doubleEntry(),
       validations: this.validations(),
-
+      autoNumberRule: this.autoNumberRule(),
       externalIdentifier: this.externalIdentifier(),
     };
   }

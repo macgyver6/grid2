@@ -3,7 +3,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import '../../node_modules/react-tabs/style/react-tabs.css';
 import { properties } from './properties';
 import { _TextInputProperty } from './_TextInputProperty';
-import { FormProperty } from './FormProperties';
+import FormProperty from './FormProperties';
 import { address } from '../address';
 
 import { _dataDefined, userDefined } from './_validations';
@@ -127,9 +127,12 @@ export const PropertiesPanel = props => {
       {props.currententity ? (
         <Tabs dtLocalFilesSaved={props.dtLocalFilesSaved}>
           <TabList>
-            <Tab>Entity</Tab>
             <Tab dtLocalFilesSaved={props.dtLocalFilesSaved}>Form</Tab>
+            <Tab>Entity</Tab>
           </TabList>
+          <TabPanel dtLocalFilesSaved={props.dtLocalFilesSaved}>
+            <FormProperty mutate={props.mutate} model={props.form} dtLocalFilesSaved={props.dtLocalFilesSaved} />
+          </TabPanel>
           <TabPanel style={tabPanelStyle}>
             <div>
               <Tabs>
@@ -174,20 +177,17 @@ export const PropertiesPanel = props => {
               </Tabs>
             </div>
           </TabPanel>
-          <TabPanel dtLocalFilesSaved={props.dtLocalFilesSaved}>
-            <FormProperty mutate={props.mutate} model={props.form} dtLocalFilesSaved={props.dtLocalFilesSaved} />
-          </TabPanel>
         </Tabs>
       ) : (
-          <Tabs dtLocalFilesSaved={props.dtLocalFilesSaved}>
-            <TabList>
-              <Tab>Entity</Tab>
-            </TabList>
-            <TabPanel>
-              <h2>Select Form Entity to Access Properties</h2>
-            </TabPanel>
-          </Tabs>
-        )}
+        <Tabs dtLocalFilesSaved={props.dtLocalFilesSaved}>
+          <TabList>
+            <Tab>Entity</Tab>
+          </TabList>
+          <TabPanel>
+            <h2>Select Form Entity to Access Properties</h2>
+          </TabPanel>
+        </Tabs>
+      )}
     </div>
   );
 };

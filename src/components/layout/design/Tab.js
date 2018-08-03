@@ -142,7 +142,7 @@ const Tab = props => {
       //   arr[originIndex] = originalDestinationItem;
       //   return arr;
       // }
-      props.formmutate([], _children);
+      props.formmutate({ children: _children });
       props.temporalStateChange({
         activeTab: indexOfDestination,
       });

@@ -25,6 +25,8 @@ class FormInput extends FormEntity {
    * @property {string} properties.QxQ - Field to provide additional information that may assist the user in filling out the form. This is rendered in a "tool tip", or if a TextBlock Entity property "QxQ" is true, the currently selected entity's QxQ information will be rendered in this field.
    * @property {inputType} properties.inputType - The type of input to be expected.
    * @property {maxLength} properties.maxLength - The length of input to be expected.
+   * @property {autoNumberRule} properties.autoNumberRule
+ - The rule by which the externalIdentifier is defined.
    */
   constructor(properties) {
     super(properties);
@@ -54,6 +56,7 @@ class FormInput extends FormEntity {
     this._inputType = properties.inputType || 'String';
     this._maxLength = properties.maxLength || 2;
     this._externalIdentifier = properties.externalIdentifier;
+    this._autoNumberRule = properties.autoNumberRule;
 
     // { userDefinedNonSelection: _dataDefined }
 
@@ -224,6 +227,17 @@ class FormInput extends FormEntity {
    */
   externalIdentifier() {
     return this._externalIdentifier;
+  }
+
+  /**
+   *
+   *
+   * The rule by which the externalIdentifier is assigned.
+   * @returns {string}
+   * @memberof TextInput
+   */
+  autoNumberRule() {
+    return this._autoNumberRule;
   }
 
   /**
