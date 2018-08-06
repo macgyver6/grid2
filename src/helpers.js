@@ -4,7 +4,7 @@ import { calcTotalAdd } from './components/FormEntities/feStyles';
 import { utility } from './utility';
 import { FormInput } from './data/FormInput';
 import AutoId from './containers/autoId';
-import { autoNumberRuleResult } from './containers/autoName';
+import { getExternalIdentifier } from './containers/autoName';
 
 const round = (value, decimals) => Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 
@@ -91,7 +91,7 @@ export const helpers = {
       const getTabOrder = utility.findAll(form, e => e instanceof FormInput).length;
       const assignExternalIdentifier = () => 1;
       const lastEntity = utility.findAll(form, e => e instanceof FormInput);
-      const nextIdentifier = autoNumberRuleResult(
+      const nextIdentifier = getExternalIdentifier(
         model.autoNumberRule,
         lastEntity[lastEntity.length - 1].externalIdentifier()
       )[0];

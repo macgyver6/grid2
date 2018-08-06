@@ -32,16 +32,15 @@ class InputItem extends Component {
   }
 
   render(props) {
-    const calcPadding = () =>
-      this.props.input
-        .autoNumberRule()
-        .split(',')
-        .filter(item => item === 'L+').length * 30;
+    const calcPadding = () => this.props.input.autoNumberRule().includes('N,L+');
     return (
       <li
-        style={{}}
         onClick={this.clickHandler}
-        style={{ border: this.props.checked ? '1px blue solid' : null }}
+        style={{
+          border: this.props.checked ? '1px blue solid' : null,
+          paddingLeft: calcPadding() ? '30px' : null,
+          padding: '2px',
+        }}
         onDrop={e => this.props.reorderHandler(e, this.props.input)}
         onDragStart={e => this.dragStartHandler(e, this.props.input)}
         draggable
@@ -56,7 +55,9 @@ class InputItem extends Component {
           // style={cbInputStyle}
           checked={this.props.checked}
         /> */}
-        {`${this.props.input.tabOrder()}(Tab Order) - ${this.props.input.externalIdentifier()} (External Identifier) - ${this.props.input.type()} - ${this.props.input.autoNumberRule()}`}
+        {`${this.props.input.tabOrder()}(Tab Order) - ${this.props.input.externalIdentifier()} (External Identifier) - ${this.props.input.type()} - ${this.props.input.autoNumberRule()} - ${this.props.input
+          .UUID()
+          .substr(this.props.input.UUID().length - 5)}`}
       </li>
     );
   }
