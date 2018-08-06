@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { address } from '../address';
 import * as actions from '../actions/index';
 import AutoId from './autoId';
-import { autoNumberRuleResult, assignAllNames } from './autoName';
+import { getExternalIdentifier, assignAllNames } from './autoName';
 import { utility } from '../utility';
 import { FormInput } from '../data/FormInput';
 

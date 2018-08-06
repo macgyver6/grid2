@@ -7,7 +7,7 @@ import * as actions from '../actions/index';
  * @param {string} previousInputName ex. '1a'
  * @param {Object} currentInput ex. '1a'
  */
-export const autoNumberRuleResult = (rule, previousInputName, currentInput) => {
+export const getExternalIdentifier = (rule, previousInputName, currentInput) => {
   console.log(rule, previousInputName, currentInput);
   const alph = 'abcdefghijklmnopqrstuvwxyz'.split('');
   // This variable keeps track of whether to start over
@@ -72,16 +72,18 @@ export const autoNumberRuleResult = (rule, previousInputName, currentInput) => {
   const result = ruleArr.map(
     (rule, index) => (rule[0] === 'N' ? handleNumber(index, rule) : handleLetter(index, rule))
   );
-  return result.toString().replace(',', '');
+  console.log(result.toString().replace(/\,/g, ''));
+  return result.toString().replace(/\,/g, '');
 };
 
 export const indent = rule => {
   const ruleArr = rule.split(',');
+  console.log(ruleArr);
   // console.log(ruleArr[ruleArr.length - 1] !== 'N+' && ruleArr[ruleArr.length - 1] !== 'N');
   // if (ruleArr[ruleArr.length - 1] !== 'N+' && ruleArr[ruleArr.length - 1] !== 'N') {
   //   throw new Error('Must alternate number, letter');
   // } else {
-
+  console.log(ruleArr, ruleArr[ruleArr.length - 1]);
   if (ruleArr[ruleArr.length - 1] === 'N+') {
     return rule.concat(',L+');
   } else if (ruleArr[ruleArr.length - 1] === 'N') {
@@ -95,15 +97,19 @@ export const indent = rule => {
 };
 
 export const unindent = rule => {
+  console.log(rule);
   const ruleArr = rule.split(',');
   console.log(ruleArr);
-  // if (ruleArr[ruleArr.length - 1] !== 'L+') {
-  //   throw new Error('Cannot be indented less than predecessor');
-  // } else {
-  ruleArr.pop();
-  console.log(ruleArr);
-  return ruleArr.toString();
-  // }
+  if (ruleArr[ruleArr.length - 1] !== 'N') {
+    // console.log('Cannot be indented less than predecessor');
+
+    // else {
+    ruleArr.pop();
+    console.log(ruleArr);
+    return ruleArr.toString();
+  } else {
+    return rule;
+  }
 };
 
 export const moveUp = rule => {
@@ -179,7 +185,7 @@ export const assignAllNamesBatch = (arrAllInputs, form, mutate) => {
         return address.byPath(form, _currentAddress);
       };
       console.log(input, input.autoNumberRule(), output[index - 1].externalIdentifier);
-      const newExternalIdentifier = autoNumberRuleResult(input.autoNumberRule(), output[index - 1].externalIdentifier);
+      const newExternalIdentifier = getExternalIdentifier(input.autoNumberRule(), output[index - 1].externalIdentifier);
       const result2 = Object.assign({}, input.properties(), {
         externalIdentifier: newExternalIdentifier,
       });
@@ -231,7 +237,7 @@ export const assignAllNames = (arrAllInputs, form, mutate) => {
         return address.byPath(form, _currentAddress);
       };
       console.log(input, input.autoNumberRule(), output[index - 1].externalIdentifier);
-      const newExternalIdentifier = autoNumberRuleResult(input.autoNumberRule(), output[index - 1].externalIdentifier);
+      const newExternalIdentifier = getExternalIdentifier(input.autoNumberRule(), output[index - 1].externalIdentifier);
       const result2 = Object.assign({}, input.properties(), {
         externalIdentifier: newExternalIdentifier,
       });
@@ -245,7 +251,7 @@ export const assignAllNames = (arrAllInputs, form, mutate) => {
 
 // const previousInputId = '2a1b';
 // const testRule = 'N+,L+,N+,L+,N+,L+';
-// console.log(autoNumberRuleResult(testRule, previousInputId));
+// console.log(getExternalIdentifier(testRule, previousInputId));
 // console.log(indent(testRule))
 // console.log(unindent(testRule))
 // console.log(changeOrder(0, 3, [

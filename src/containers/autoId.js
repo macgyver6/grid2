@@ -5,7 +5,7 @@ import { utility } from '../utility';
 import * as actions from '../actions/index';
 import { FormInput } from '../data/FormInput';
 import InputItem from './InputItem';
-import { autoNumberRuleResult, indent, unindent, changeOrder, assignAllNames, assignAllNamesBatch } from './autoName';
+import { getExternalIdentifier, indent, unindent, changeOrder, assignAllNames, assignAllNamesBatch } from './autoName';
 class AutoId extends Component {
   constructor(props) {
     super(props);
@@ -35,10 +35,19 @@ class AutoId extends Component {
     });
 
     const indexCurrent = arrAllInputs.indexOf(input);
+    // const addressOfEntity = address.bySample(input, this.props.model.form);
 
-    this.state.selected === null
-      ? this.setState({ selected: input, indexCurrent })
-      : this.setState({ selected: null, indexCurrent: null });
+    if (this.state.selected !== indexCurrent) {
+      this.setState({
+        selected: input,
+        indexCurrent,
+      });
+    } else if (this.state.selected === indexCurrent) {
+      this.setState({
+        selected: null,
+        indexCurrent: null,
+      });
+    }
   }
   change_handler(event) {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
@@ -66,8 +75,11 @@ class AutoId extends Component {
   }
 
   indentHandler() {
-    const result = indent(this.state.selected.autoNumberRule());
-    console.log(result);
+    const arrAllInputs = utility.findAll(this.props.model.form, e => e instanceof FormInput).sort(function(a, b) {
+      return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
+    });
+    const result = indent(arrAllInputs[this.state.indexCurrent].autoNumberRule());
+    console.log(this.state.selected.autoNumberRule());
     const addressOfEntity = address.bySample(this.state.selected, this.props.model.form);
 
     const previousEntity = () => {
@@ -79,10 +91,6 @@ class AutoId extends Component {
     };
     console.log(previousEntity());
     console.log(address.byPath(this.props.model.form, addressOfEntity));
-
-    const arrAllInputs = utility.findAll(this.props.model.form, e => e instanceof FormInput).sort(function(a, b) {
-      return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
-    });
 
     const indexCurrent = this.state.indexCurrent;
     arrAllInputs[indexCurrent] = address.rehydrate(
@@ -102,8 +110,11 @@ class AutoId extends Component {
   }
 
   unindentHandler() {
-    console.log(this.state.selected.autoNumberRule());
-    const result = unindent(this.state.selected.autoNumberRule());
+    const arrAllInputs = utility.findAll(this.props.model.form, e => e instanceof FormInput).sort(function(a, b) {
+      return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
+    });
+    console.log(arrAllInputs[this.state.indexCurrent]);
+    const result = unindent(arrAllInputs[this.state.indexCurrent].autoNumberRule());
     console.log(result);
     const addressOfEntity = address.bySample(this.state.selected, this.props.model.form);
     const previousEntity = () => {
@@ -113,11 +124,8 @@ class AutoId extends Component {
       console.log(addressOfEntity, _currentAddress, this.props.model.form, result);
       return address.byPath(this.props.model.form, _currentAddress);
     };
-    // console.log(autoNumberRuleResult(result, previousEntity().externalIdentifier()));
+    // console.log(getExternalIdentifier(result, previousEntity().externalIdentifier()));
 
-    const arrAllInputs = utility.findAll(this.props.model.form, e => e instanceof FormInput).sort(function(a, b) {
-      return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
-    });
     assignAllNames(arrAllInputs, this.props.model.form, this.props.mutate);
     console.log(
       this.props.model.form
@@ -125,7 +133,7 @@ class AutoId extends Component {
         .children()[0]
         .children()[1]
     );
-
+    console.log(result);
     const indexCurrent = this.state.indexCurrent;
     arrAllInputs[indexCurrent] = address.rehydrate(
       Object.assign({}, arrAllInputs[indexCurrent].properties(), {
@@ -204,7 +212,7 @@ class AutoId extends Component {
       const indexCurrent = this.state.indexCurrent;
       console.log({
         autoNumberRule: result[0],
-        // externalIdentifier: autoNumberRuleResult(result[0], arrAllInputs[indexCurrent - 1].externalIdentifier()),
+        // externalIdentifier: getExternalIdentifier(result[0], arrAllInputs[indexCurrent - 1].externalIdentifier()),
       });
       console.log(arrAllInputs, indexCurrent);
       arrAllInputs[indexCurrent] = address.rehydrate(
@@ -292,22 +300,28 @@ class AutoId extends Component {
         <i className="fas fa-chevron-circle-right" style={{ fontSize: '30px' }} onClick={this.indentHandler} />
         <i className="fas fa-chevron-circle-up" style={{ fontSize: '30px' }} onClick={this.moveUpHandler} />
         <i className="fas fa-chevron-circle-down" style={{ fontSize: '30px' }} onClick={this.moveDownHandler} />
-        {utility
-          .findAll(this.props.model.form, e => e instanceof FormInput)
-          .sort(function(a, b) {
-            return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
-          })
-          .map((input, index) => (
-            <InputItem
-              key={index}
-              index={index}
-              input={input}
-              collectSelected={this.collectSelected}
-              reorderHandler={this.reorderHandler}
-              // checkHandler={this.checkHandler}
-              checked={this.state.selected ? this.state.selected.UUID() === input.UUID() : false}
-            />
-          ))}
+        <ul
+          style={{
+            listStyleType: 'none',
+          }}
+        >
+          {utility
+            .findAll(this.props.model.form, e => e instanceof FormInput)
+            .sort(function(a, b) {
+              return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
+            })
+            .map((input, index) => (
+              <InputItem
+                key={index}
+                index={index}
+                input={input}
+                collectSelected={this.collectSelected}
+                reorderHandler={this.reorderHandler}
+                // checkHandler={this.checkHandler}
+                checked={this.state.selected ? this.state.selected.UUID() === input.UUID() : false}
+              />
+            ))}
+        </ul>
       </div>
     );
   }
