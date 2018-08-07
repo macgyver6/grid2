@@ -79,7 +79,7 @@ class AutoId extends Component {
       return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
     });
     const result = indent(arrAllInputs[this.state.indexCurrent].autoNumberRule());
-    console.log(this.state.selected.autoNumberRule());
+    console.log(result);
     const addressOfEntity = address.bySample(this.state.selected, this.props.model.form);
 
     const previousEntity = () => {
@@ -104,9 +104,8 @@ class AutoId extends Component {
       }),
       assignAllNamesBatch(arrAllInputs, this.props.model.form, this.props.mutate),
     ]);
+    console.log(actionsArr);
     this.props.batchActions(actionsArr);
-    // this.setState({ selected: null });
-    console.log(address.byPath(this.props.model.form, addressOfEntity));
   }
 
   unindentHandler() {
@@ -124,16 +123,7 @@ class AutoId extends Component {
       console.log(addressOfEntity, _currentAddress, this.props.model.form, result);
       return address.byPath(this.props.model.form, _currentAddress);
     };
-    // console.log(getExternalIdentifier(result, previousEntity().externalIdentifier()));
 
-    assignAllNames(arrAllInputs, this.props.model.form, this.props.mutate);
-    console.log(
-      this.props.model.form
-        .children()[0]
-        .children()[0]
-        .children()[1]
-    );
-    console.log(result);
     const indexCurrent = this.state.indexCurrent;
     arrAllInputs[indexCurrent] = address.rehydrate(
       Object.assign({}, arrAllInputs[indexCurrent].properties(), {
@@ -147,7 +137,7 @@ class AutoId extends Component {
       assignAllNamesBatch(arrAllInputs, this.props.model.form, this.props.mutate),
     ]);
     this.props.batchActions(actionsArr);
-    // this.setState({ selected: null, checked: [] });
+    // this.setState({ selected: null });  }
   }
 
   moveUpHandler() {
@@ -220,6 +210,7 @@ class AutoId extends Component {
           autoNumberRule: result[0],
         })
       );
+      console.log(assignAllNamesBatch(arrAllInputs, this.props.model.form, this.props.mutate));
       var actionsArr = utility.flatten([
         actions.mutate(addressOfEntity, {
           autoNumberRule: result[0],
@@ -286,13 +277,13 @@ class AutoId extends Component {
           />
         </p>
         <p>
-          <label forHTML="form-seperator">Seperator: </label>
+          <label forHTML="form-separator">Separator: </label>
           <input
             type="text"
-            name="form-seperator"
+            name="form-separator"
             id="separator"
             onChange={this.props.autoId_change_handler}
-            value={this.props.seperator}
+            value={this.props.separator}
             // style={cbInputStyle}
           />
         </p>
