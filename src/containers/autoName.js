@@ -3,87 +3,106 @@ import * as actions from '../actions/index';
 
 /**
  *
- * @param {string} rule ex. 'N+,L+
- * @param {string} previousInputName ex. '1a'
- * @param {Object} currentInput ex. '1a'
+ * @param {Number} evaluateThisIndexOfRule The index of the current ruleArr being evaluated
+ * @param {Array} currentIdArr The last detirmined ID that will be used to detirmine the next ID
+ * @param {String} currentRule The rule of the last detirmined ID that will be used to detirmine the next ID
+ * @param {String} nextRule The rule of the next input that will be evaluated
+ * @param {Number} currentIndex Index of current rule in arr of rules
  */
-export const getExternalIdentifier = (rule, previousInputName, currentInput) => {
-  console.log(rule, previousInputName, currentInput);
-  const alph = 'abcdefghijklmnopqrstuvwxyz'.split('');
-  // This variable keeps track of whether to start over
-  // at "a" for letters....
-
-  const resetLetter = false;
-
-  // This variable keeps track of whether to start over
-  // at [0|1] for numbers....
-  const resetNumber = false;
-  // if (autoNumberRule)
-
-  const lastValue = null;
-  console.log(rule);
-  // if (rule[0] !== 'N') {
-  //   throw new Error(
-  //     'Auto-numbering rule must contain strictly alternating number and letter tokens, and the first token of the first rule must be numeric.'
-  //   );
-  // }
-  // console.log(rule, previousInputId === 'undefined');
-  if (rule && previousInputName === undefined) {
-    console.log('first input');
-    return 1;
+const handleLetter = (evaluateThisIndexOfRule, currentIdArr, currentRule, nextRule, currentIndex) => {
+  console.log(currentIndex);
+  // const currentRuleArr = currentRule.split(',');
+  const nextRuleArr = nextRule.split(',');
+  if (currentIndex === 0) {
+    return 'a';
   }
-  console.log(rule);
-  const ruleArr = rule.split(',');
+  const previousLetter = currentIdArr[evaluateThisIndexOfRule];
+  if (!previousLetter) {
+    return 'a';
+  } else if (previousLetter === 'z') {
+    return 'a';
+  } else if (currentRule.split(',')[currentRule.split(',').length - 1] === 'N+') {
+    return 'a';
+  } else if (previousLetter && nextRuleArr[nextRuleArr.length - 2] !== 'N+') {
+    // console.log('look at previous ending letter', incrementLetter(currentIdArr[currentIdArr.length - 1]))
+    return incrementLetter(previousLetter);
+  } else if (nextRuleArr[nextRuleArr.length - 2] === 'N+') {
+    // console.log('here 4: ', currentIdArr)
+    return 'a';
+  }
+};
 
-  const handleLetter = (indexPreviousL, rule) => {
-    const previousInputNameArr = previousInputName.split('');
-    const previousLetter = previousInputNameArr[indexPreviousL];
-    console.log(previousLetter, previousInputNameArr, indexPreviousL, ruleArr);
-    if (!previousLetter) {
-      return 'a';
-    } else if (previousLetter === 'z') {
-      return 'a';
-    } else if (ruleArr[indexPreviousL - 1] === 'N+') {
-      return 'a';
-    } else {
-      return incrementLetter(previousLetter);
-    }
-  };
+const incrementLetter = previousLetter => String.fromCharCode(previousLetter.charCodeAt(0) + 1);
 
-  var incrementLetter = previousLetter => String.fromCharCode(previousLetter.charCodeAt(0) + 1);
+/**
+ *
+ * @param {String} nextRule The rule of the next input that will be evaluated
+ * @param {Number} evaluateThisIndexOfRule The index of the current ruleArr being evaluated
+ * @param {Array} currentIdArr The last detirmined ID that will be used to detirmine the next ID
+ * @param {Number} currentIndex Index of current rule in arr of rules
+ */
+const handleNumber = (nextRule, evaluateThisIndexOfRule, currentIdArr, currentIndex) => {
+  const nextRuleArr = nextRule.split(',');
+  // handle case where currentIndex === 0 and rule is N
+  if (nextRuleArr[evaluateThisIndexOfRule] === 'N' && currentIndex === 0) {
+    return '0';
+  } else if (nextRuleArr[0] === 'N+' && currentIndex === 0) {
+    // handle case where currentIndex === 0 and rule is N+
+    return '1';
+  } else if (nextRuleArr[evaluateThisIndexOfRule] === 'N+') {
+    // get next number rule: N+ (typical case)
+    return incrementNumber(currentIdArr[evaluateThisIndexOfRule]);
+  } else if (nextRuleArr[evaluateThisIndexOfRule] === 'N') {
+    // N (typical case)
+    return currentIdArr[evaluateThisIndexOfRule];
+  }
+};
 
-  const handleNumber = (indexPreviousN, rule) => {
-    console.log(previousInputName);
-    const arrPreviousInputName = previousInputName.split(/(\d+)/).filter(item => item !== '');
-    const previousNumber = arrPreviousInputName[indexPreviousN];
-    console.log(arrPreviousInputName, arrPreviousInputName[indexPreviousN]);
-    if (!previousNumber) {
-      return '1';
-    } else if (ruleArr[indexPreviousN] === 'N+') {
-      console.log(incrementNumber(previousNumber));
-      return incrementNumber(previousNumber);
-    } else if (ruleArr[indexPreviousN] === 'N') {
-      return previousNumber;
-    }
-  };
+const incrementNumber = previousN => Number(previousN) + 1;
 
-  var incrementNumber = previousN => Number(previousN) + 1;
-
-  const result = ruleArr.map(
-    (rule, index) => (rule[0] === 'N' ? handleNumber(index, rule) : handleLetter(index, rule))
+/**
+ *
+ * @param {Array} ruleArr ex. ['N+', 'L+'] Array of the current auto name rule to evaluate
+ * @param {Number} currentIndex  Index within ruleArr currently being evaluated
+ * @param {String} currentId The last detirmined ID that will be used to detirmine the next ID
+ * @param {Array} arrRules Array of all rules being evaluated
+ */
+const evaluateCurrentRule = (ruleArr, currentIndex, currentId, arrRules) =>
+  ruleArr.map(
+    (rule, index) =>
+      rule[0] === 'N'
+        ? handleNumber(arrRules[currentIndex], index, currentId, currentIndex)
+        : handleLetter(index, currentId, arrRules[currentIndex - 1], arrRules[currentIndex], currentIndex)
   );
-  console.log(result.toString().replace(/\,/g, ''));
-  return result.toString().replace(/\,/g, '');
+
+/**
+ *
+ * @param {Array} arrRules ex. ['1', '1a'...]
+ * @param {Number} goalIndex ex. 2
+ * @param {Number} [currentId] optional - Current ID being evaluated
+ * @param {Number} [currentIndex=0] optional - Current index of arrRules to evaluate
+ */
+export const getExternalIdentifier = (arrRules, goalIndex, currentId, currentIndex = 0) => {
+  const alph = 'abcdefghijklmnopqrstuvwxyz'.split('');
+  if (goalIndex === 0) {
+    const ruleArr = arrRules[currentIndex].split(',');
+    return evaluateCurrentRule(ruleArr, currentIndex, currentId, arrRules)
+      .toString()
+      .replace(/\,/g, '');
+  } else if (currentIndex === goalIndex) {
+    const ruleArr = arrRules[currentIndex].split(',');
+    return evaluateCurrentRule(ruleArr, currentIndex, currentId, arrRules);
+  } else {
+    const ruleArr = arrRules[currentIndex].split(',');
+    const result = evaluateCurrentRule(ruleArr, currentIndex, currentId, arrRules);
+    return getExternalIdentifier(arrRules, goalIndex, result, currentIndex + 1)
+      .toString()
+      .replace(/\,/g, '');
+  }
 };
 
 export const indent = rule => {
   const ruleArr = rule.split(',');
-  console.log(ruleArr);
-  // console.log(ruleArr[ruleArr.length - 1] !== 'N+' && ruleArr[ruleArr.length - 1] !== 'N');
-  // if (ruleArr[ruleArr.length - 1] !== 'N+' && ruleArr[ruleArr.length - 1] !== 'N') {
-  //   throw new Error('Must alternate number, letter');
-  // } else {
-  console.log(ruleArr, ruleArr[ruleArr.length - 1]);
   if (ruleArr[ruleArr.length - 1] === 'N+') {
     return rule.concat(',L+');
   } else if (ruleArr[ruleArr.length - 1] === 'N') {
@@ -97,15 +116,9 @@ export const indent = rule => {
 };
 
 export const unindent = rule => {
-  console.log(rule);
   const ruleArr = rule.split(',');
-  console.log(ruleArr);
   if (ruleArr[ruleArr.length - 1] !== 'N') {
-    // console.log('Cannot be indented less than predecessor');
-
-    // else {
     ruleArr.pop();
-    console.log(ruleArr);
     return ruleArr.toString();
   } else {
     return rule;
@@ -127,13 +140,9 @@ export const movDown = rule => {
  * @param {Array} arrInputs
  */
 export const changeOrder = (indexOfSource, indexOfDestination, arrInputs) => {
-  console.log(indexOfSource, indexOfDestination, arrInputs);
-  // const indexOfSource = Number(event.dataTransfer.types[1]);
-  // const indexOfDestination = props.form.children().indexOf(props.model);
   const _arrInputs = [...arrInputs];
   const entityRemoved = _arrInputs.splice(indexOfSource - 1, 1);
   const entityInsertedAtNewIndex = _arrInputs.splice(indexOfDestination - 1, 0, entityRemoved[0]);
-  console.log(entityRemoved, _arrInputs);
   return _arrInputs;
 };
 
@@ -143,119 +152,14 @@ export const changeOrder = (indexOfSource, indexOfDestination, arrInputs) => {
  * @param {Form} form
  * @param {Function} mutate
  */
-export const assignAllNamesBatch = (arrAllInputs, form, mutate) => {
-  let output = [];
-  let actionsOutput = [];
-  return [...arrAllInputs].map((input, index) => {
-    if (index === 0) {
-      const result2 = Object.assign({}, input.properties(), {
-        externalIdentifier: '1',
-      });
-      output.push(result2);
-      console.log(
-        actions.mutate(address.bySample([...arrAllInputs][index], form), {
-          externalIdentifier: '1',
-        })
-      );
-      return actions.mutate(address.bySample([...arrAllInputs][index], form), {
-        externalIdentifier: '1',
-      });
-    }
-    // else if (index === arrAllInputs.length - 1) {
-    //   console.log('reached end', actionsOutput);
-    //   return actionsOutput;
-    // }
-    else if (index >= 1) {
-      // const previousEntity = address.byPath[]
-      const currentEntityAddress = address.bySample([...arrAllInputs][index], form);
-      const previousEntityAddress = [...currentEntityAddress].splice(
-        currentEntityAddress.length - 1,
-        1,
-        [...currentEntityAddress][currentEntityAddress.length - 1] - 1
-      );
-      const previousEntity = () => {
-        const _currentAddress = [...currentEntityAddress];
-
-        _currentAddress.splice(
-          currentEntityAddress.length - 1,
-          1,
-          currentEntityAddress[currentEntityAddress.length - 1] - 1
-        );
-
-        return address.byPath(form, _currentAddress);
-      };
-      console.log(input, input.autoNumberRule(), output[index - 1].externalIdentifier);
-      const newExternalIdentifier = getExternalIdentifier(input.autoNumberRule(), output[index - 1].externalIdentifier);
-      const result2 = Object.assign({}, input.properties(), {
-        externalIdentifier: newExternalIdentifier,
-      });
-      output.push(result2);
-      return actions.mutate(address.bySample([...arrAllInputs][index], form), {
-        externalIdentifier: newExternalIdentifier,
-      });
-    }
-  });
+export const assignAllNamesBatch = (arrAllInputs, form) => {
+  const arrRules = [...arrAllInputs].map(input => input.autoNumberRule());
+  const applyPrefix = form.autoId().prefix ? form.autoId().prefix : '';
+  console.log(applyPrefix);
+  const result = [...arrAllInputs].map((inputs, index) =>
+    actions.mutate(address.bySample([...arrAllInputs][index], form), {
+      externalIdentifier: `${applyPrefix}${getExternalIdentifier(arrRules, index)}`,
+    })
+  );
+  return result;
 };
-
-/**
- *
- * @param {Array} arrAllInputs instantiated instances of formEntities
- * @param {Form} form
- * @param {Function} mutate
- */
-export const assignAllNames = (arrAllInputs, form, mutate) => {
-  let output = [];
-  return [...arrAllInputs].forEach((input, index) => {
-    if (index === 0) {
-      const result2 = Object.assign({}, input.properties(), {
-        externalIdentifier: '1',
-      });
-      output.push(result2);
-      mutate(address.bySample([...arrAllInputs][index], form), {
-        externalIdentifier: '1',
-      });
-    } else if (index === arrAllInputs.length) {
-      console.log('reached end', output);
-      return output;
-    } else if (index >= 1) {
-      // const previousEntity = address.byPath[]
-      const currentEntityAddress = address.bySample([...arrAllInputs][index], form);
-      const previousEntityAddress = [...currentEntityAddress].splice(
-        currentEntityAddress.length - 1,
-        1,
-        [...currentEntityAddress][currentEntityAddress.length - 1] - 1
-      );
-      const previousEntity = () => {
-        const _currentAddress = [...currentEntityAddress];
-
-        _currentAddress.splice(
-          currentEntityAddress.length - 1,
-          1,
-          currentEntityAddress[currentEntityAddress.length - 1] - 1
-        );
-
-        return address.byPath(form, _currentAddress);
-      };
-      console.log(input, input.autoNumberRule(), output[index - 1].externalIdentifier);
-      const newExternalIdentifier = getExternalIdentifier(input.autoNumberRule(), output[index - 1].externalIdentifier);
-      const result2 = Object.assign({}, input.properties(), {
-        externalIdentifier: newExternalIdentifier,
-      });
-      output.push(result2);
-      mutate(address.bySample([...arrAllInputs][index], form), {
-        externalIdentifier: newExternalIdentifier,
-      });
-    }
-  });
-};
-
-// const previousInputId = '2a1b';
-// const testRule = 'N+,L+,N+,L+,N+,L+';
-// console.log(getExternalIdentifier(testRule, previousInputId));
-// console.log(indent(testRule))
-// console.log(unindent(testRule))
-// console.log(changeOrder(0, 3, [
-//   {name: 'one', tabOrder: 1},
-//   {name: 'two', tabOrder: 2},
-//   {name: 'three', tabOrder: 3}
-// ]))

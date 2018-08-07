@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { address } from '../address';
 import * as actions from '../actions/index';
 import AutoId from './autoId';
-import { getExternalIdentifier, assignAllNames } from './autoName';
+import { getExternalIdentifier, assignAllNamesBatch } from './autoName';
 import { utility } from '../utility';
 import { FormInput } from '../data/FormInput';
 
@@ -58,7 +58,7 @@ let FormProperty = props => {
       const arrAllInputs = utility.findAll(props.model, e => e instanceof FormInput).sort(function(a, b) {
         return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
       });
-      assignAllNames(arrAllInputs, props.props.model.form, props.mutate);
+      props.batchActions(assignAllNamesBatch(arrAllInputs, props.props.model.form));
     }
     return result;
   };

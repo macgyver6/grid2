@@ -227,7 +227,7 @@ export var defaultPropsFE = {
               // new TextInput(initFE.TextInput),
               // new SelectionInput(initFE.SelectionInput),
               // new CheckBox(initFE.CheckBox),
-              new TextInput({ ...initFE.TextInput, externalIdentifier: '', tabOrder: 1 }),
+              new TextInput({ ...initFE.TextInput, externalIdentifier: '', autoNumberRule: 'N+', tabOrder: 1 }),
               new TextArea({
                 ...initFE.TextArea,
                 externalIdentifier: '',
