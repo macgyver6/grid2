@@ -6,7 +6,7 @@ import { Form } from '../data/Form';
 import { FormInput } from '../data/FormInput';
 import { entityWrapperStyle, entityStyle, inputStyle, calcTotal } from '../components/FormEntities/feStyles';
 import { _dataDefined, userDefined } from './_validations';
-import { Input_Property_Template } from './Input_Property_Template';
+import Input_Property_Template from './Input_Property_Template';
 import { DataDefinedValidation } from './DataDefinedValidation';
 
 // const form = new Form(defaultPropsFE.Form);

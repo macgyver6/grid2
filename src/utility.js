@@ -96,6 +96,7 @@ export const utility = {
    * @returns {Array} utility.flattened array
    */
   flatten: arr => arr.reduce((a, b) => a.concat(Array.isArray(b) ? utility.flatten(b) : b), []),
+
   total: entity => entity.prepend() + entity.width() + entity.append(),
 };
 
