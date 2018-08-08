@@ -272,7 +272,7 @@ class AutoId extends Component {
             name="form-prefix"
             id="prefix"
             onChange={this.props.autoId_change_handler}
-            value={this.props.prefix}
+            value={this.props.model.form.autoId().prefix}
             // style={cbInputStyle}
           />
         </p>
@@ -283,7 +283,7 @@ class AutoId extends Component {
             name="form-separator"
             id="separator"
             onChange={this.props.autoId_change_handler}
-            value={this.props.separator}
+            value={this.props.model.form.autoId().separator}
             // style={cbInputStyle}
           />
         </p>

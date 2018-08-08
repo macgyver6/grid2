@@ -22,10 +22,6 @@ export const utility = {
    * @param {Array} arr array to flatter, not undefined
    * @returns {Array} utility.flattened array
    */
-  flatten: arr =>
-    arr.reduce(
-      (a, b) => a.concat(Array.isArray(b) ? utility.flatten(b) : b),
-      []
-    ),
+  flatten: arr => arr.reduce((a, b) => a.concat(Array.isArray(b) ? utility.flatten(b) : b), []),
   total: entity => entity.prepend() + entity.width() + entity.append(),
 };

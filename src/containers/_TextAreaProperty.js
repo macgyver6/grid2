@@ -7,7 +7,7 @@ import { FormInput } from '../data/FormInput';
 import { calcTotal } from '../components/FormEntities/feStyles';
 import { _dataDefined, userDefined } from './_validations';
 import { DataDefinedValidation } from './DataDefinedValidation';
-import { Input_Property_Template } from './Input_Property_Template';
+import Input_Property_Template from './Input_Property_Template';
 
 export const _TextAreaProperty = props => {
   const change_handler = event => {

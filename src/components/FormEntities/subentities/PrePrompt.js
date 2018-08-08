@@ -23,7 +23,9 @@ const PrePrompt = props => {
 
   const mouseDown_handler = event => entityActions.mouseDown_handler(event, props);
   const applyPrefix = props.form.autoId().prefix ? props.form.autoId().prefix : '';
-  const applySeparator = props.form.autoId().separator ? props.form.autoId().separator : '';
+  const applySeparator = props.form.autoId().separator
+    ? props.form.autoId().prefix + props.model.externalIdentifier() + props.form.autoId().separator
+    : '';
   return (
     <div
       style={prePromptStyle}
@@ -45,7 +47,7 @@ const PrePrompt = props => {
         </p>
       )} */}
 
-      {`${props.model.externalIdentifier()}${applySeparator} ${props.model.prePrompt()}`}
+      {applySeparator + ` ${props.model.prePrompt()}`}
 
       {/* <TextareaAutosize
         style={{
