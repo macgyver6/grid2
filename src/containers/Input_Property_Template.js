@@ -36,19 +36,17 @@ class Input_Property_Template extends Component {
     };
   }
 
-  change_handler(ref) {
-    console.log(ref.id);
+  change_handler(event) {
     // const value = ref.type === 'checkbox' ? ref.checked : ref.value;
     this.setState({
-      [ref.id]: ref.value,
+      [event.target.id]: event.target.value,
     });
-    this.debounceRedux(ref);
+    this.debounceRedux(event.target);
   }
 
-  debounceRedux(ref) {
-    console.log('debounceRef');
+  debounceRedux(target) {
     return this.props.mutate(address.bySample(this.props.model, this.props.form), {
-      [ref.id]: ref.value,
+      [target.id]: target.value,
     });
   }
 
@@ -114,23 +112,7 @@ class Input_Property_Template extends Component {
           <p>
             <label htmlFor="textInput-name">Name</label>
             <br />
-            {/* <input
-              type="text"
-              id="name"
-              name="textInput-name"
-              onChange={this.debouncedOnChange}
-              value={this.props.model.name()}
-              size="40"
-              ref={el => (this.inputTitle = el)}
-            /> */}
-            <input
-              id="name"
-              size="40"
-              ref="name"
-              onChange={() => this.change_handler(this.refs.name)}
-              type="text"
-              value={this.state.name}
-            />
+            <input id="name" size="40" onChange={this.change_handler} type="text" value={this.state.name} />
           </p>
           <p>
             <label htmlFor="externalIdentifier">Field Identifier</label>
@@ -139,8 +121,7 @@ class Input_Property_Template extends Component {
               type="text"
               id="externalIdentifier"
               name="externalIdentifier"
-              ref="externalIdentifier"
-              onChange={() => this.change_handler(this.refs.externalIdentifier)}
+              onChange={this.change_handler}
               value={this.state.externalIdentifier}
               size="40"
             />
@@ -161,8 +142,7 @@ class Input_Property_Template extends Component {
             name="prePrompt"
             type="text"
             id="prePrompt"
-            ref="prePrompt"
-            onChange={() => this.change_handler(this.refs.prePrompt)}
+            onChange={this.change_handler}
             value={this.state.prePrompt}
           />
           <br />
@@ -182,8 +162,7 @@ class Input_Property_Template extends Component {
             name="posPrompt"
             type="text"
             id="postPrompt"
-            ref="postPrompt"
-            onChange={() => this.change_handler(this.refs.postPrompt)}
+            onChange={this.change_handler}
             value={this.state.postPrompt}
           />
         </div>
@@ -196,8 +175,7 @@ class Input_Property_Template extends Component {
               name="textInput-tabOrder"
               id="tabOrder"
               size="2"
-              ref="tabOrder"
-              onChange={() => this.change_handler(this.refs.tabOrder)}
+              onChange={this.change_handler}
               value={this.state.tabOrder}
             />
           </p>
@@ -214,8 +192,7 @@ class Input_Property_Template extends Component {
               rows="3"
               cols="50"
               id="sasCodeLabel"
-              ref="sasCodeLabel"
-              onChange={() => this.change_handler(this.refs.sasCodeLabel)}
+              onChange={this.change_handler}
               value={this.state.sasCodeLabel}
             />
 
@@ -234,8 +211,7 @@ class Input_Property_Template extends Component {
               name="textInput-QxQ"
               type="text"
               id="QxQ"
-              ref="QxQ"
-              onChange={() => this.change_handler(this.refs.QxQ)}
+              onChange={this.change_handler}
               value={this.state.QxQ}
               rows="3"
               cols="50"

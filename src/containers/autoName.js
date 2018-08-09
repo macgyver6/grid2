@@ -90,9 +90,12 @@ export const getExternalIdentifier = (arrRules, goalIndex, currentId, currentInd
       .toString()
       .replace(/\,/g, '');
   } else if (currentIndex === goalIndex) {
+    console.log(arrRules, currentIndex);
+
     const ruleArr = arrRules[currentIndex].split(',');
     return evaluateCurrentRule(ruleArr, currentIndex, currentId, arrRules);
   } else {
+    console.log(arrRules[currentIndex]);
     const ruleArr = arrRules[currentIndex].split(',');
     const result = evaluateCurrentRule(ruleArr, currentIndex, currentId, arrRules);
     return getExternalIdentifier(arrRules, goalIndex, result, currentIndex + 1)
