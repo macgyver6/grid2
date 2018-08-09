@@ -62,10 +62,10 @@ class App extends Component {
           <h4><span className="badge badge-danger">Unsaved Changes</span></h4>
         } */}
 
-        <button type="button" className="btn btn-primary btn-lg btn-block" onClick={this.props.savestate}>
+        <button type="button" className="btn btn-primary btn-lg btn-block" onClick={this.props.actions.savestate}>
           Save Model State
         </button>
-        <button type="button" className="btn btn-success btn-lg btn-block" onClick={this.props.loadstate}>
+        <button type="button" className="btn btn-success btn-lg btn-block" onClick={this.props.actions.loadstate}>
           Load Model State
         </button>
         <button type="button" className="btn btn-success btn-lg btn-block" onClick={this.clickHandler}>

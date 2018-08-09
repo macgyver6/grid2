@@ -126,21 +126,22 @@ export const PropertiesPanel = props => {
       {props.currententity ? (
         <Tabs dtLocalFilesSaved={props.dtLocalFilesSaved}>
           <TabList>
-            <Tab dtLocalFilesSaved={props.dtLocalFilesSaved}>Form</Tab>
             <Tab>Entity</Tab>
+            <Tab dtLocalFilesSaved={props.dtLocalFilesSaved}>Form</Tab>
           </TabList>
-          <TabPanel dtLocalFilesSaved={props.dtLocalFilesSaved}>
-            <FormProperty mutate={props.mutate} model={props.form} dtLocalFilesSaved={props.dtLocalFilesSaved} />
-          </TabPanel>
+
           <TabPanel style={tabPanelStyle}>
             <div>
               <Tabs>
                 <TabList>
                   <Tab>{address.getHumanName(props.model.type())} Properties</Tab>
-                  {showValidator(props.model.type()) ? (
+                  {props.model instanceof FormInput && props.model.type() !== 'autoSuggest' ? (
                     <Tab key="0">{address.getHumanName(props.model.type())} Validations</Tab>
                   ) : null}
-                  <Tab key="1">{address.getHumanName(props.model.type())} Dependencies</Tab>
+                  {console.log(props.model.type())}
+                  {props.model instanceof FormInput && props.model.type() !== 'autoSuggest' ? (
+                    <Tab key="1">{address.getHumanName(props.model.type())} Dependencies</Tab>
+                  ) : null}
                 </TabList>
                 <TabPanel add={props.add} style={tabPanelStyle}>
                   {React.createElement(address.whichEntity(address.byPath(props.form, props.currententity)), {
@@ -175,6 +176,9 @@ export const PropertiesPanel = props => {
                 ) : null}
               </Tabs>
             </div>
+          </TabPanel>
+          <TabPanel dtLocalFilesSaved={props.dtLocalFilesSaved}>
+            <FormProperty mutate={props.mutate} model={props.form} dtLocalFilesSaved={props.dtLocalFilesSaved} />
           </TabPanel>
         </Tabs>
       ) : (
