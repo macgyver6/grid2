@@ -23,7 +23,7 @@ class EchoInput extends FormInput {
     * @property {string} properties.promptNumber - The text corresponding to the question number and separator, which prefixes a prompt when auto-numbering has been enabled.
     * @property {number} properties.prepend - Get the number of grid units prepended to rendered representations of the form entity.
     * @property {number} properties.append - Get the number of grid units appended to rendered representations of the form entity.
-    * @property {autoNumber} properties.autoNumber - The expression used to determine how to automatically number inputs after this one in a form hierarchy.
+    * @property {autoNumberRule} properties.autoNumberRule - The expression used to determine how to automatically number inputs after this one in a form hierarchy.
     *@property {string} properties.externalIdentifier - Known as external identifier to the user - the field ID used to access a local or remote field.
     @property {number} properties.length - Max length for input. Default is 60, and if NO_MAX is passed in, no max length will be applied to this field.
     @property {string} properties.sourceInput - Form input that serves as the source for the echo input.
@@ -108,9 +108,8 @@ class EchoInput extends FormInput {
       inputWidth: this.inputWidth(),
       promptNumber: this.promptNumber(),
       defaultContent: this.defaultContent(),
-      autoNumber: this.autoNumber(),
+      autoNumberRule: this.autoNumberRule(),
       sourceInput: this.sourceInput(),
-
       externalIdentifier: this.externalIdentifier(),
       editeable: this.editeable(),
     };
@@ -119,7 +118,7 @@ class EchoInput extends FormInput {
 
 deepFreeze(EchoInput);
 
-// let x = new EchoInput({uuid: 1, width: 2, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'type', tabOrder: [1, 2, 3], inputWidth: 7, promptNumber: 'promptNumber',  prepend: 88, autoNumber: 'SEQUENTIAL', append: 4, length: 'DEFAULT', autoTab: true, doubleEntry: true, sourceInput: 'sourceInput' });
+// let x = new EchoInput({uuid: 1, width: 2, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'type', tabOrder: [1, 2, 3], inputWidth: 7, promptNumber: 'promptNumber',  prepend: 88,  append: 4, length: 'DEFAULT', autoTab: true, doubleEntry: true, sourceInput: 'sourceInput' });
 
 // console.log(x)
 

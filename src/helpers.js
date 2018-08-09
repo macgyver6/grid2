@@ -91,16 +91,14 @@ export const helpers = {
       const getTabOrder = utility.findAll(form, e => e instanceof FormInput).length;
       const lastEntity = utility.findAll(form, e => e instanceof FormInput);
       console.log(lastEntity);
-      lastEntity.push(
-        address.rehydrate({
-          ...model,
-          tabOrder: getTabOrder + 1,
-        })
-      );
+      const hydratedEntity = address.rehydrate({
+        ...model,
+        tabOrder: getTabOrder + 1,
+      });
+      lastEntity.push(hydratedEntity);
       const nextIdentifier = () =>
         getExternalIdentifier(lastEntity.map(entity => entity.autoNumberRule()), lastEntity.length - 1);
 
-      console.log(form.autoId().enable && 'autoNumberRule' in model, lastEntity);
       event.dataTransfer.setData(
         'address',
         JSON.stringify({

@@ -21,7 +21,7 @@ class FormInput extends FormEntity {
    * @property {string} properties.promptNumber - The text corresponding to the question number and separator, which prefixes a prompt when auto-numbering has been enabled.
    * @property {number} properties.prepend - Get the number of grid units prepended to rendered representations of the form entity.
    * @property {number} properties.append - Get the number of grid units appended to rendered representations of the form entity.
-   * @property {autoNumber} properties.autoNumber - The expression used to determine how to automatically number inputs after this one in a form hierarchy.
+   * @property {autoNumberRule} properties.autoNumberRule - The expression used to determine how to automatically number inputs after this one in a form hierarchy.
    * @property {string} properties.QxQ - Field to provide additional information that may assist the user in filling out the form. This is rendered in a "tool tip", or if a TextBlock Entity property "QxQ" is true, the currently selected entity's QxQ information will be rendered in this field.
    * @property {inputType} properties.inputType - The type of input to be expected.
    * @property {maxLength} properties.maxLength - The length of input to be expected.
@@ -44,19 +44,11 @@ class FormInput extends FormEntity {
     this._inputWidth = properties.inputWidth;
     this._promptNumber = properties.promptNumber;
     this._QxQ = properties.QxQ;
-    this._autoNumber =
-      typeof properties.autoNumber === 'string'
-        ? FormInput.AutoNumberRuleToken[properties.autoNumber]
-        : properties.autoNumber;
+    this._autoNumberRule = 'N+';
     this._validations = properties.validations || [];
-
-    // || FormInput.DEFAULT_VALIDATIONS, {
-    //   defaultUserVal: _dataDefined[FormInput.DEFAULT_VALIDATIONS.valType].userDefined,
-    // }
     this._inputType = properties.inputType || 'String';
     this._maxLength = properties.maxLength || 2;
     this._externalIdentifier = properties.externalIdentifier;
-    this._autoNumberRule = properties.autoNumberRule;
 
     // { userDefinedNonSelection: _dataDefined }
 
@@ -169,8 +161,9 @@ class FormInput extends FormEntity {
    * @return {string}
    * @memberof FormInput
    */
-  autoNumber() {
-    return this._autoNumber;
+  autoNumberRule() {
+    console.log(this._autoNumberRule);
+    return this._autoNumberRule;
   }
 
   /**
@@ -263,7 +256,7 @@ class FormInput extends FormEntity {
       tabOrder: this.tabOrder(),
       inputWidth: this.inputWidth(),
       promptNumber: this.promptNumber(),
-      autoNumber: this.autoNumber(),
+      autoNumberRule: this.autoNumberRule(),
       validations: this.validations(),
       inputType: this.inputType(),
       inputType: this.inputType(),
@@ -292,7 +285,7 @@ if (this.constructor === FormInput) {
   deepFreeze(FormInput);
 }
 
-// let x = new FormInput({uuid: 1, width: 2, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'type', tabOrder: [1, 2, 3], inputWidth: 7, promptNumber: 'promptNumber',  prepend: 88, autoNumber: 'SEQUENTIAL', append: 4});
+// let x = new FormInput({uuid: 1, width: 2, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'type', tabOrder: [1, 2, 3], inputWidth: 7, promptNumber: 'promptNumber',  prepend: 88,  append: 4});
 
 // console.log(x)
 
