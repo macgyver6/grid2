@@ -49,33 +49,15 @@ const click_handler = event => {
 // };
 
 export const NoOpValidation = props => (
-  // const change_handler = event => {   return
-  // props.mutate(address.bySample(props.model, props.form), {     validations: {
-  // ...props.model.validations(),       [event.target.id]: event.target.value,
-  // },   }); };
-
   <div>
     <br />
 
-    <select value={props.value} className="form-control" name="value" onChange={props.handleChange} id="value">
-      {/* <option selected value>
-              {' '}
-              -- select an option --{' '}
-      </option> */}
-
+    <select value={props.value} className="form-control" name="nullIsValid" onChange={props.handleChange} id="value">
       <option value={true}>Field Is Empty</option>
       <option value={false}>Any Value</option>
     </select>
 
-    {/* <div>
-      <input type="radio" id="empty" name="empty" checked={props.value === true} value={true} />
-      <label for="empty">Field is empty</label>
-
-      <input type="radio" id="any" name="any" checked={props.value === false} value={false} />
-      <label for="any">Field has any value</label>
-    </div> */}
-
-    <div className="fancy-radio-wrapper">
+    {/* <div className="fancy-radio-wrapper">
       <fieldset className="fancy-radio-inner">
         <input type="radio" id="empty" name="empty" checked={props.value === true} />
         <label for="empty" id={true}>
@@ -85,57 +67,14 @@ export const NoOpValidation = props => (
         <label for="any" id={false}>
           Field Has Any Value
         </label>
-
-        {/* {[
-          { label: 'Field is empty', value: false, operator: 0 },
-          { label: 'Field has any value', value: true, operator: 1 },
-        ].map(option => [
-          <input
-            type="radio"
-            id={option.value}
-            name={option.value}
-            value={option.value}
-            checked={this.state.value === true}
-          />,
-          <label className="label" for={option.value} id={option.value}>
-            {option.label}
-          </label>,
-        ])} */}
       </fieldset>
     </div>
-
-    {/* <div className="fancy-radio-wrapper" style={fancyRadioStyle}>
-      <div className="fancy-radio-inner">
-        {[{ label: 'Field is empty', value: false }, { label: 'Field has any value', value: true }].map(option => [
-          <input type="radio" id={option.value} name={option.value} value={option.value} />,
-          <label className="label" for="gl1" onClick={click_handler}>
-            {option.label}
-          </label>,
-        ])}
-      </div>
-    </div> */}
-
-    {/* <label>
-      Validation Pattern:
-      <input type="text" size="25" name="value" id="value" onChange={props.handleChange} value={props.value} />
-    </label> */}
+  */}
 
     <div>
       <div id="edu_unc_tcrdms_model_form_validation_validators_PatternValidator">
         {/* begin AppliedValidator*/}
 
-        <ConfigApplyMethod
-          handleChange={props.handleChange}
-          handleSubmit={props.handleSubmit}
-          handleAdd={props.handleAdd}
-          allowSubmit={props.allowSubmit}
-          loadExistingValidator={props.loadExistingValidator}
-          handleUpdate={props.handleUpdate}
-          validState={props.validState}
-          strong={props.strong}
-          nullIsValid={props.nullIsValid}
-          failureMode={props.failureMode}
-        />
         <div>
           {props.failureMode === 'validation' ? (
             <FailureMessage

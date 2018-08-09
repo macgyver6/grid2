@@ -293,7 +293,10 @@ const Tab = props => {
       // onDragLeave={dragLeave_handler}
       onDrop={drop_handler}
     >
-      <input
+      <p id={`${props.form.children()[props.currentTab].UUID()}.input`} style={{ fontSize: '.8rem' }}>
+        {props.model.legend()}
+      </p>
+      {/* <input
         style={{
           width: '110px',
           cursor: 'move',
@@ -307,7 +310,7 @@ const Tab = props => {
         readOnly="true"
         // size={'18'}
         // maxLength={'18'}
-      />
+      /> */}
     </div>
   );
 };

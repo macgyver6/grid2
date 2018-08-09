@@ -87,7 +87,6 @@ class SelectionInput extends FormInput {
       tabOrder: this.tabOrder(),
       inputWidth: this.inputWidth(),
       promptNumber: this.promptNumber(),
-      autoNumber: this.autoNumber(),
       options: this.options(),
       renderMode: this.renderMode(),
       autoNumberRule: this.autoNumberRule(),
@@ -123,7 +122,7 @@ deepFreeze(SelectionInput);
 //   tabOrder: [1, 2, 3],
 //   inputWidth: 33,
 //   promptNumber: 'promptNumber',
-//   autoNumber: 'SEQUENTIAL',
+//
 // });
 // console.log(x.mutate({ width: 2003 }));
 

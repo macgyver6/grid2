@@ -1,5 +1,4 @@
 import { defaultPropsFE, initFE } from '../../constants/defaultPropsFE';
-import { properties } from '../../containers/properties';
 
 export const calcTotal = entity => {
   if (typeof entity.prePromptWidth === 'function') {

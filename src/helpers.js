@@ -89,12 +89,16 @@ export const helpers = {
         : null;
     } else if (action === 'addEntity') {
       const getTabOrder = utility.findAll(form, e => e instanceof FormInput).length;
-      const assignExternalIdentifier = () => 1;
       const lastEntity = utility.findAll(form, e => e instanceof FormInput);
-      const nextIdentifier = getExternalIdentifier(
-        model.autoNumberRule,
-        lastEntity[lastEntity.length - 1].externalIdentifier()
-      )[0];
+      console.log(lastEntity);
+      const hydratedEntity = address.rehydrate({
+        ...model,
+        tabOrder: getTabOrder + 1,
+      });
+      lastEntity.push(hydratedEntity);
+      const nextIdentifier = () =>
+        getExternalIdentifier(lastEntity.map(entity => entity.autoNumberRule()), lastEntity.length - 1);
+
       event.dataTransfer.setData(
         'address',
         JSON.stringify({
@@ -102,7 +106,10 @@ export const helpers = {
           model: {
             ...model,
             tabOrder: getTabOrder + 1,
-            externalIdentifier: String(nextIdentifier),
+            // ...(cond ? { a: 1 } : {})
+            ...(form.autoId().enable && 'autoNumberRule' in model
+              ? { externalIdentifier: String(nextIdentifier()) }
+              : {}),
           },
           dragInit: null,
         })

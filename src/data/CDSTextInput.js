@@ -23,7 +23,7 @@ class CDSTextInput extends TextInput {
     * @property {string} properties.promptNumber - The text corresponding to the question number and separator, which prefixes a prompt when auto-numbering has been enabled.
     * @property {number} properties.prepend - Get the number of grid units prepended to rendered representations of the form entity.
     * @property {number} properties.append - Get the number of grid units appended to rendered representations of the form entity.
-    * @property {autoNumber} properties.autoNumber - The expression used to determine how to automatically number inputs after this one in a form hierarchy.
+    * @property {autoNumberRule} properties.autoNumberRule - The expression used to determine how to automatically number inputs after this one in a form hierarchy.
     @property {number} properties.length - Max length for input. Default is 60, and if NO_MAX is passed in, no max length will be applied to this field.
     @property {boolean} properties.autoTab - Whether the input is defined as permitting auto tab to the next field during data collection.
     @property {string} properties.defaultContent - The default contents of representations of this input item.
@@ -117,7 +117,7 @@ class CDSTextInput extends TextInput {
       tabOrder: this.tabOrder(),
       inputWidth: this.inputWidth(),
       promptNumber: this.promptNumber(),
-      autoNumber: this.autoNumber(),
+      autoNumberRule: this.autoNumberRule(),
       length: this.length(),
       defaultContent: this.defaultContent(),
       autoTab: this.autoTab(),
@@ -146,7 +146,7 @@ let x = new CDSTextInput({
   inputWidth: 7,
   promptNumber: 'promptNumber',
   prepend: 88,
-  autoNumber: 'SEQUENTIAL',
+
   append: 4,
   length: 'DEFAULT',
   autoTab: true,
@@ -154,7 +154,5 @@ let x = new CDSTextInput({
   editeable: false,
   script: 'script',
 });
-
-console.log(x);
 
 module.exports = { CDSTextInput: CDSTextInput };

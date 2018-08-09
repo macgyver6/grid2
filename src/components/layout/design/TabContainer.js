@@ -39,6 +39,7 @@ let TabContainer = props => {
     // bottom: 4,
     width: '132px',
     border: '1px solid rgb(32, 94, 226)',
+    borderRadius: '2px',
     draggable: 'false',
     margin: '8px 6px 6px 6px',
   };

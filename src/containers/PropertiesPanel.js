@@ -1,7 +1,6 @@
 import React from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import '../../node_modules/react-tabs/style/react-tabs.css';
-import { properties } from './properties';
 import { _TextInputProperty } from './_TextInputProperty';
 import FormProperty from './FormProperties';
 import { address } from '../address';

@@ -32,13 +32,14 @@ class InputItem extends Component {
   }
 
   render(props) {
-    const calcPadding = () => this.props.input.autoNumberRule().includes('N,L+');
+    const calcPadding = () => (this.props.input.autoNumberRule().includes('N,L+') ? '30px' : null);
+    console.log('autoNumberRule' in this.props.input, this.props.input.properties());
     return (
       <li
         onClick={this.clickHandler}
         style={{
           border: this.props.checked ? '1px blue solid' : null,
-          paddingLeft: calcPadding() ? '30px' : null,
+          paddingLeft: 'autoNumberRule' in this.props.input ? calcPadding() : null,
           padding: '2px',
         }}
         onDrop={e => this.props.reorderHandler(e, this.props.input)}

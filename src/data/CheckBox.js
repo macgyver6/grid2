@@ -24,8 +24,8 @@ class CheckBox extends FormInput {
    * @property {string} properties.promptNumber - The text corresponding to the question number and separator, which prefixes a prompt when auto-numbering has been enabled.
    * @property {number} properties.prepend - Get the number of grid units prepended to rendered representations of the form entity.
    * @property {number} properties.append - Get the number of grid units appended to rendered representations of the form entity.
-   * @property {string} properties.autoNumber - The expression used to determine how to automatically number inputs after this one in a form hierarchy.
-   *     @property {string} properties.externalIdentifier - Known as external identifier to the user - the field ID used to access a local or remote field.
+   * @property {string} properties.autoNumberRule - The expression used to determine how to automatically number inputs after this one in a form hierarchy.
+   * @property {string} properties.externalIdentifier - Known as external identifier to the user - the field ID used to access a local or remote field.
    * @property {boolean} properties.defaultState - Default state of the CheckBox.
    * @property {string} properties.QxQ - Field to provide additional information that may assist the user in filling out the form. This is rendered in a "tool tip", or if a TextBlock Entity property "QxQ" is true, the currently selected entity's QxQ information will be rendered in this field.
    */
@@ -92,7 +92,7 @@ class CheckBox extends FormInput {
       tabOrder: this.tabOrder(),
       inputWidth: this.inputWidth(),
       promptNumber: this.promptNumber(),
-      autoNumber: this.autoNumber(),
+      autoNumberRule: this.autoNumberRule(),
       defaultState: this.defaultState(),
       externalIdentifier: this.externalIdentifier(),
     };
@@ -101,7 +101,7 @@ class CheckBox extends FormInput {
 
 deepFreeze(CheckBox);
 
-// let x = new CheckBox({uuid: 1, width: 2, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'type', tabOrder: [1, 2, 3], inputWidth: 7, promptNumber: 'promptNumber',  prepend: 88, autoNumber: 'SEQUENTIAL', append: 4, defaultState: true});
+// let x = new CheckBox({uuid: 1, width: 2, prePrompt: 'prePromptString', prePromptWidth: 6, postPrompt: 'postPromptString', postPromptWidth: 6, name: 'name', sasCodeLabel: 'sasCodeLabel', type: 'type', tabOrder: [1, 2, 3], inputWidth: 7, promptNumber: 'promptNumber',  prepend: 88,  append: 4, defaultState: true});
 
 // console.log(x.mutate({uuid: 234}))
 
