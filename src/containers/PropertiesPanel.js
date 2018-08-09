@@ -18,6 +18,7 @@ import PatternValidator from './validations/PatternValidation';
 import ValidationWrapper from './validations/ValidationWrapper';
 import DependencyWrapper from './validations/DependencyWrapper';
 import { defaultPropsFE, initFE } from '../constants/defaultPropsFE';
+import { TabStyle } from '../components/layout/styles/DesignBox';
 
 export const PropertiesPanel = props => {
   const PropertiesPanelStyle = model => ({
@@ -177,7 +178,7 @@ export const PropertiesPanel = props => {
               </Tabs>
             </div>
           </TabPanel>
-          <TabPanel dtLocalFilesSaved={props.dtLocalFilesSaved}>
+          <TabPanel dtLocalFilesSaved={props.dtLocalFilesSaved} style={tabPanelStyle}>
             <FormProperty mutate={props.mutate} model={props.form} dtLocalFilesSaved={props.dtLocalFilesSaved} />
           </TabPanel>
         </Tabs>

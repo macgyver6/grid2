@@ -58,7 +58,9 @@ class InputItem extends Component {
         /> */}
         {`${this.props.input.tabOrder()}(Tab Order) - ${this.props.input.externalIdentifier()} (External Identifier) - ${this.props.input.type()} - ${this.props.input.autoNumberRule()} - ${this.props.input
           .UUID()
-          .substr(this.props.input.UUID().length - 5)}`}
+          .substr(this.props.input.UUID().length - 5)} `}
+        <i className="fas fa-ellipsis-v" />
+        <i className="fas fa-ellipsis-v" />
       </li>
     );
   }
