@@ -256,7 +256,7 @@ class AutoId extends Component {
   render() {
     const formPropertiesStyle = {
       height: '900px',
-      border: '2px solid',
+      // border: '2px solid',
     };
     const cbInputStyle = { height: '25px', width: '25px', margin: '8px' };
     // const arrAllInputs = utility.findAll(this.props.model.form, e => e instanceof FormInput);
@@ -264,7 +264,7 @@ class AutoId extends Component {
 
     return (
       <div style={formPropertiesStyle}>
-        <h1>Auto Id</h1>
+        {/* <h1>Auto Id</h1> */}
         <p>
           <label forHTML="form-prefix">Prefix: </label>
           <input

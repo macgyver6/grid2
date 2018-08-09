@@ -92,7 +92,9 @@ class Input_Property_Template extends Component {
     let sectionAddress = entityAddress.slice(0, entityAddress.length - 1);
     const howManyChildren = address.byPath(this.props.form, sectionAddress).children().length;
     const combinedAddress = sectionAddress.concat(howManyChildren);
-    this.props.add(combinedAddress, this.props.model);
+    const properties = this.props.model.properties();
+    const entityToAdd = Object.assign({}, this.props.model.properties(), { UUID: null });
+    this.props.add(combinedAddress, address.rehydrate(entityToAdd));
     console.log(combinedAddress);
   }
 
