@@ -106,7 +106,6 @@ export const helpers = {
           model: {
             ...model,
             tabOrder: getTabOrder + 1,
-            // ...(cond ? { a: 1 } : {})
             ...(form.autoId().enable && 'autoNumberRule' in model
               ? { externalIdentifier: String(nextIdentifier()) }
               : {}),

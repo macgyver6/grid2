@@ -21,12 +21,13 @@ import { defaultPropsFE, initFE } from '../constants/defaultPropsFE';
 import { TabStyle } from '../components/layout/styles/DesignBox';
 
 export const PropertiesPanel = props => {
+  console.log(props.currententity);
   const PropertiesPanelStyle = model => ({
     width: '40%',
     height: '100%',
     backgroundColor: 'white',
     // border: '4px solid lightgrey',
-    border: props.currententity ? `1px solid ${initFE[`${model.type()}`].render.backgroundColor}` : `1px solid grey`,
+    ...(props.currententity ? { border: `1px solid ${initFE[`${model.type()}`].render.backgroundColor}` } : {}),
   });
 
   const change_handler = event =>

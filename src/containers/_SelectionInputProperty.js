@@ -16,7 +16,7 @@ class _SelectionInputProperty extends Component {
     // this.clickHandler = this.clickHandler.bind(this);
     this.state = {
       value: '',
-      isValid: null,
+      isValid: true,
     };
     this.change_handler = this.change_handler.bind(this);
     this.addOption_handler = this.addOption_handler.bind(this);
@@ -24,6 +24,7 @@ class _SelectionInputProperty extends Component {
     this.onDragOverHandler = this.onDragOverHandler.bind(this);
     this.drop_handler = this.drop_handler.bind(this);
     this.handleValue = this.handleValue.bind(this);
+    this.editOption_handler = this.editOption_handler.bind(this);
   }
   change_handler(event) {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
@@ -43,6 +44,24 @@ class _SelectionInputProperty extends Component {
         this.props.model.width() -
         (event.target.id === 'postPromptWidth' ? parseFloat(event.target.value) : this.props.model.postPromptWidth()),
       // function that calcs total width and subtracts all OTHER elements, returningt what the value should be
+    });
+  }
+
+  editOption_handler(event) {
+    const indexToEdit = Number(event.currentTarget.id);
+    const _options = [...this.props.model.options()];
+    const _option = { ..._options[indexToEdit] };
+    // console.log(_options);
+    _option[event.target.name] = event.target.value;
+    // const editedEntity = {
+    //   [event.target.name]: event.target.value,
+    // };
+    _options.splice(indexToEdit, 1, _option);
+    console.log(_options);
+    // console.log('entityRemoved: ', entityRemoved);
+    // const entitityInsertedAtNewIndex = _options.splice(indexToEdit, 0, entityRemoved[0]);
+    this.props.mutate(address.bySample(this.props.model, this.props.form), {
+      options: _options,
     });
   }
 
@@ -77,10 +96,12 @@ class _SelectionInputProperty extends Component {
     // const entityInsertedAtNewIndex = _children.splice(destinationAddress, 0, entityRemoved[0]);
 
     const indexOfSource = Number(event.dataTransfer.getData('index'));
-    const indexOfDestination = event.target.id;
+    const indexOfDestination = Number(event.currentTarget.id);
+    console.log(indexOfSource, indexOfDestination);
     const _options = [...this.props.model.options()];
     const entityRemoved = _options.splice(indexOfSource, 1);
-    const entityInsertedAtNewIndex = _options.splice(indexOfDestination, 0, entityRemoved[0]);
+    console.log('entityRemoved: ', entityRemoved);
+    const entitityInsertedAtNewIndex = _options.splice(indexOfDestination, 0, entityRemoved[0]);
 
     this.props.mutate(address.bySample(this.props.model, this.props.form), {
       options: _options,
@@ -148,18 +169,10 @@ class _SelectionInputProperty extends Component {
           />
           <br />
           <hr />
+
           {this.state.isValid ? null : (
             <p style={{ color: 'red' }}>Invalid value - must be of type: {this.props.model.inputType()}</p>
           )}
-          <label for="label">Label</label>
-          <input type="text" id="si-label" name="label" class="text" />
-
-          <label for="value">Value</label>
-          <input type="text" id="si-value" name="value" class="text" onChange={this.handleValue} />
-
-          <button id="addSi" onClick={this.addOption_handler} disabled={this.state.value !== '' && !this.state.isValid}>
-            +
-          </button>
           <ul id="selectionOptions">
             {this.props.model.options().map((option, index) => (
               <li
@@ -172,16 +185,54 @@ class _SelectionInputProperty extends Component {
               >
                 <div>
                   <label for="input">Label</label>
-                  <input name="input" type="text" value={option.label} />
+                  <input name="label" type="text" value={option.label} id={index} onChange={this.editOption_handler} />
                 </div>
                 <div>
                   <label for="value">Value</label>
-                  <input name="value" type="text" value={option.value} />
+                  <input name="value" type="text" value={option.value} id={index} onChange={this.editOption_handler} />
                 </div>
                 <i className="fas fa-ellipsis-v" />
                 <i className="fas fa-ellipsis-v" />
               </li>
             ))}
+          </ul>
+          <ul id="selectionOptions">
+            <li
+              className="flexbox-container"
+              onDragStart={this.dragstart_handler}
+              onDragOver={this.onDragOverHandler}
+              onDrop={this.drop_handler}
+              // id={index}
+              draggable="true"
+            >
+              <div>
+                <label for="label">Label</label>
+                <input type="text" id="si-label" name="label" class="text" />
+              </div>
+              <div>
+                <label for="value">Value</label>
+                {console.log(this.state.isValid ? 'black' : 'red')}
+                <input
+                  type="text"
+                  id="si-value"
+                  name="value"
+                  class="text"
+                  onChange={this.handleValue}
+                  style={{
+                    color: this.state.isValid ? 'black' : 'red',
+                  }}
+                />
+              </div>
+              <div>
+                <button
+                  id="addSi"
+                  onClick={this.addOption_handler}
+                  disabled={this.state.value !== '' && !this.state.isValid}
+                >
+                  +
+                </button>
+              </div>
+            </li>
           </ul>
         </div>
       </div>
