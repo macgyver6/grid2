@@ -28,21 +28,28 @@ const formReducer = (state, action) => {
     //   JSON.parse(localStorage.getItem('model'))
     // );
     // console.log(resurrectedEntities)
+    const getLocalStorageForm = () => {
+      if (localStorage.getItem('model')) {
+        const resurrectedEntities = comm.unserialize(JSON.parse(localStorage.getItem('model')));
+        return resurrectedEntities;
+      } else {
+        return new Form(defaultPropsFE.Form);
+      }
+    };
 
     state = {
       value: 0,
-      form: new Form(defaultPropsFE.Form),
+      form: getLocalStorageForm(),
       app: {
         dateTime: null,
         activeTab: 0,
-        // currententity: null,
-        currententity: null,
+        currententity: address.byPath(getLocalStorageForm(), [0, 0, 0]) ? [0, 0, 0] : null,
         validations: true,
         dataDefinedValidationPane: true,
         gridWidth: null,
-        // currententity: null
       },
     };
+    console.log(getLocalStorageForm(), new Form(defaultPropsFE.Form));
     return state;
   }
   /** entry point to validate form IF form entities exist */
@@ -215,6 +222,7 @@ const formReducer = (state, action) => {
   }
 
   if (action.type === 'LOADSTATE') {
+    console.log(localStorage.getItem('model'));
     if (localStorage.getItem('model')) {
       const resurrectedEntities = comm.unserialize(JSON.parse(localStorage.getItem('model')));
       return { ...state, form: resurrectedEntities };

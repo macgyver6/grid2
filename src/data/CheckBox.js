@@ -95,6 +95,7 @@ class CheckBox extends FormInput {
       autoNumberRule: this.autoNumberRule(),
       defaultState: this.defaultState(),
       externalIdentifier: this.externalIdentifier(),
+      validations: this.validations(),
     };
   }
 }

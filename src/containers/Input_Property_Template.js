@@ -8,9 +8,6 @@ import { calcTotal } from '../components/FormEntities/feStyles';
 import { _dataDefined, userDefined } from './_validations';
 import { entityActions } from '../components/FormEntities/actions.entities';
 import { debounce } from './debounce';
-// import _ from 'lodash';
-
-// const form = new Form(defaultPropsFE.Form);
 
 class Input_Property_Template extends Component {
   constructor(props) {
@@ -19,7 +16,7 @@ class Input_Property_Template extends Component {
     this.copyHandler = this.copyHandler.bind(this);
     this.change_handler = this.change_handler.bind(this);
     // this.change_handler = this.change_handler.bind(this);
-    this.debounceRedux = debounce.debounce(this.debounceRedux, 250);
+    this.debounceRedux = debounce(this.debounceRedux, 250);
     this.state = {
       init_grids: null,
       init_append: null,

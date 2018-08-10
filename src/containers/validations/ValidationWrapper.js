@@ -14,8 +14,10 @@ class ValidationWrapper extends React.Component {
       // failMsg: '',
       // failLocal: '',
       // failLang: '',
-      // value: '',
+      value: '',
       mode: 'add',
+      currentValidator: _dataDefined[`${this.props.model.inputType()}`].userDefined[0],
+
       // currentIndex: '',
       // strong: true,
     };
@@ -57,7 +59,9 @@ class ValidationWrapper extends React.Component {
     // }
 
     const name = target.name;
-
+    console.log({
+      [name]: value,
+    });
     this.setState({
       [name]: value,
     });
@@ -84,18 +88,6 @@ class ValidationWrapper extends React.Component {
               },
           }
         : { customFailureMessage: '' };
-
-    // console.log(
-    //   address.hydrateValidator(this.state.currentValidator, {...this.state, type: this.state.currentValidator, customFailureMessage })
-    // );
-
-    console.log(
-      address.hydrateValidator(this.state.currentValidator, {
-        ...this.state,
-        ...customFailureMessage(),
-        type: this.state.currentValidator,
-      })
-    );
 
     this.props.mutate(address.bySample(this.props.model, this.props.form), {
       validations: [
@@ -157,23 +149,24 @@ class ValidationWrapper extends React.Component {
   }
 
   allowSubmit() {
-    if (
-      this.state.failMsg !== '' &&
-      this.state.failLocal !== '' &&
-      this.state.failLang !== '' &&
-      this.state.value !== ''
-    ) {
-      return false;
-    } else if (
-      this.state.failMsg === '' &&
-      this.state.failLocal === '' &&
-      this.state.failLang === '' &&
-      this.state.value !== ''
-    ) {
-      return false;
-    } else {
-      return true;
-    }
+    // if (
+    //   this.state.failMsg !== '' &&
+    //   this.state.failLocal !== '' &&
+    //   this.state.failLang !== '' &&
+    //   this.state.value !== ''
+    // ) {
+    //   return false;
+    // } else if (
+    //   this.state.failMsg === '' &&
+    //   this.state.failLocal === '' &&
+    //   this.state.failLang === '' &&
+    //   this.state.value !== ''
+    // ) {
+    //   return false;
+    // } else {
+    //   return true;
+    // }
+    return false;
   }
 
   loadExistingValidator(event) {
@@ -181,10 +174,10 @@ class ValidationWrapper extends React.Component {
       mode: 'update',
       currentIndex: event.target.id,
     });
-    console.log(this.props.model.validations()[event.target.id].type());
+    // console.log(this.props.model.validations()[event.target.id].type());
     this.props.mutate(address.bySample(this.props.model, this.props.form), {
       // ...this.props.model,
-      currentValidator: this.props.model.validations()[event.target.id].type(),
+      currentValidator: this.props.model.validations()[event.target.id].type,
     });
 
     const flattenObject = function(ob) {
@@ -210,22 +203,26 @@ class ValidationWrapper extends React.Component {
     // Object.keys(new PatternValidator({ type: 'PatternValidator' }).properties()).forEach(
     //   property => (this.state[property] = '')
     // );
+    console.log(Object.keys(this.props.model.validations()[0].properties()));
     Object.keys(this.props.model.validations()[event.target.id].properties()).forEach(value =>
+      // console.log({
+      //   [`${value}`]: this.props.model.validations()[event.target.id][`${value}`],
+      // })
       this.setState({
-        [`${value}`]: this.props.model.validations()[event.target.id].properties()[`${value}`],
+        [`${value}`]: this.props.model.validations()[event.target.id][`${value}`],
       })
     );
 
-    this.props.model.validations()[event.target.id].properties()['customFailureMessage'] !== ''
-      ? Object.keys(this.props.model.validations()[event.target.id].properties()['customFailureMessage']).forEach(
-          value =>
-            this.setState({
-              [`${value}`]: this.props.model.validations()[event.target.id].properties()['customFailureMessage'][
-                `${value}`
-              ],
-            })
-        )
-      : null;
+    // this.props.model.validations()[event.target.id].properties()['customFailureMessage'] !== ''
+    //   ? Object.keys(this.props.model.validations()[event.target.id].properties()['customFailureMessage']).forEach(
+    //       value =>
+    //         this.setState({
+    //           [`${value}`]: this.props.model.validations()[event.target.id].properties()['customFailureMessage'][
+    //             `${value}`
+    //           ],
+    //         })
+    //     )
+    //   : null;
   }
 
   handleUpdate(event) {
@@ -233,8 +230,6 @@ class ValidationWrapper extends React.Component {
     console.log(this.state);
     const index = this.state.currentIndex;
     const originalValidators = [...this.props.model.validations()];
-    // months.splice(4, 1, 'May');
-    // replaces 1 element at 4th index
 
     const customFailureMessage = () =>
       this.state.failMsg !== '' && this.state.failLocal !== '' && this.state.failLang !== ''
@@ -383,7 +378,7 @@ class ValidationWrapper extends React.Component {
     //   this.addFailureMessage();
     // }
     // console.log(address.hydrateValidator('Pattern'));
-
+    console.log(new PatternValidator({ type: 'PatternValidator' }).properties());
     return (
       <div>
         <div
@@ -402,16 +397,22 @@ class ValidationWrapper extends React.Component {
             {this.props.model.validations().length > 0 ? (
               this.props.model.validations().map((validation, index) => (
                 <li>
-                  {this.props.model.inputType()} {validation.type()}
-                  {validation.value()}
+                  {this.props.model.inputType()} {validation.type}
+                  {validation.value}
                   {'        '}
                   <span id={index} onClick={this.loadExistingValidator}>
                     ✏️
                   </span>
                   {'        '}
-                  <span id={index} onClick={this.handleDelete}>
+                  <i
+                    className="far fa-trash-alt"
+                    style={{ color: 'red' }}
+                    id={index}
+                    onClick={this.loadExistingValidator}
+                  />
+                  {/* <span id={index} onClick={this.handleDelete}>
                     🗑️
-                  </span>
+                  </span> */}
                 </li>
               ))
             ) : (
@@ -440,27 +441,22 @@ class ValidationWrapper extends React.Component {
           <div id="validation">
             {this.state.currentValidator
               ? React.createElement(address.whichValidationComponent(this.state.currentValidator), {
+                  value: this.state.value,
                   model: address.byPath(this.props.form, this.props.currententity),
                   form: this.props.form,
                   currententity: this.props.currententity,
                   mutate: this.props.mutate,
                   appState: this.props.appState,
                   temporalStateChange: this.props.temporalStateChange,
-
                   handleChange: this.handleChange,
                   handleSubmit: this.handleSubmit,
                   handleAdd: this.handleAdd,
-                  // addFailureMessage: this.addFailureMessage,
                   allowSubmit: this.allowSubmit,
                   loadExistingValidator: this.loadExistingValidator,
                   handleUpdate: this.handleUpdate,
-                  // mode: this.state.mode,
-                  // currentIndex: this.state.currentIndex,
-
                   failMsg: this.state.failMsg,
                   failLocal: this.state.failLocal,
                   failLang: this.state.failLang,
-                  value: this.state.value,
                   mode: this.state.mode,
                   currentIndex: this.state.currentIndex,
                   validState: this.state.validState,

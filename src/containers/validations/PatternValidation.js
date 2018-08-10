@@ -11,10 +11,11 @@ import ConfigApplyMethod from './ConfigApplyMethod';
 
 export const PatternValidation = props => (
   <div>
+    {console.log(props)}
     <br />
     <label>
       Validation Pattern:
-      <input type="text" size="25" name="value" id="value" value={props.value} onChange={props.handleChange} />
+      <input type="text" size="25" name="value" id="value" value={props.value()} onChange={props.handleChange} />
     </label>
     <div>
       <div id="edu_unc_tcrdms_model_form_validation_validators_PatternValidator">
