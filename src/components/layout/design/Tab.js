@@ -8,6 +8,9 @@ const Tab = props => {
     event.preventDefault();
     event.stopPropagation();
     props.changetab(props.currentTab);
+    props.temporalStateChange({
+      currententity: address.bySample(props.model, props.form),
+    });
   };
 
   let deleteTab_handler = event => {
