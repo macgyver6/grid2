@@ -134,7 +134,7 @@ export const PropertiesPanel = props => {
 
           <TabPanel style={tabPanelStyle}>
             <div>
-              <Tabs /*temporary - dev validation*/ selectedIndex={1}>
+              <Tabs /*temporary - dev validation selectedIndex={1}*/>
                 <TabList>
                   <Tab>{address.getHumanName(props.model.type())} Properties</Tab>
                   {props.model instanceof FormInput && props.model.type() !== 'autoSuggest' ? (

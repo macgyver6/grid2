@@ -164,7 +164,7 @@ export const address = {
       return new EnumerationValidator(properties);
     } else if (validatorInstance === 'NoOpValidator') {
       return new NoOpValidator(properties);
-    } else if (validatorInstance === 'Range') {
+    } else if (validatorInstance === 'RangeValidator') {
       return new RangeValidator(properties);
     } else if (validatorInstance === 'SubjectInputValidator') {
       return new SubjectInputValidator(properties);
@@ -240,7 +240,7 @@ export const address = {
         return 'Enumeration Validator';
         break;
       case 'SubjectInputValidator':
-        return 'Selection Input';
+        return 'Subject Input Validator';
         break;
     }
   },

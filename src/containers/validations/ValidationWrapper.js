@@ -18,6 +18,7 @@ class ValidationWrapper extends React.Component {
       mode: 'add',
       currentValidator: _dataDefined[`${this.props.model.inputType()}`].userDefined[0],
       customFailureMessage: { failMsg: null, failLang: null, failLocal: null },
+      nullIsValid: false,
       // currentIndex: '',
       // strong: null,
     };
@@ -58,10 +59,15 @@ class ValidationWrapper extends React.Component {
     //   default:
     //     return target.value;
     // }
-
     const name = target.name;
-    if (name !== 'failMsg' && name !== 'failLang' && name !== 'failLocal') {
+    if (name !== 'failMsg' && name !== 'failLang' && name !== 'failLocal' && name !== 'currentValidator') {
       this.setState({
+        [name]: value,
+      });
+    } else if (name === 'currentValidator') {
+      this.setState({
+        ...this.getResetObj(value),
+        mode: 'add',
         [name]: value,
       });
     } else {
@@ -109,10 +115,10 @@ class ValidationWrapper extends React.Component {
       ],
     });
 
-    this.setState(this.getResetObj());
+    this.setState(this.getResetObj(this.state.currentValidator));
   }
 
-  getResetObj() {
+  getResetObj(validatorType) {
     const resetObj = {
       customFailureMessage: {
         failMsg: '',
@@ -121,7 +127,13 @@ class ValidationWrapper extends React.Component {
       },
     };
 
-    Object.keys(new PatternValidator({ type: 'PatternValidator' }).properties()).forEach(
+    Object.keys(
+      address
+        .hydrateValidator(validatorType, {
+          type: validatorType,
+        })
+        .properties()
+    ).forEach(
       property =>
         property !== 'customFailureMessage'
           ? (resetObj[property] = '')
@@ -274,7 +286,7 @@ class ValidationWrapper extends React.Component {
     });
 
     this.setState({
-      ...this.getResetObj(),
+      ...this.getResetObj(this.state.currentValidator),
       mode: 'add',
       currentIndex: event.target.id,
     });
@@ -358,15 +370,25 @@ class ValidationWrapper extends React.Component {
     this.props.mutate(address.bySample(this.props.model, this.props.form), {
       validations: originalValidators,
     });
-    this.setState({ ...this.getResetObj(), mode: 'add' });
+    this.setState({ ...this.getResetObj(this.state.currentValidator), mode: 'add' });
   }
 
   render() {
-    // if (this.state._failMsg !== '' && this.state._failLocal !== '' && this.state._failLang !== '') {
-    //   this.addFailureMessage();
-    // }
-    // console.log(address.hydrateValidator('Pattern'));
-    console.log(new PatternValidator({ type: 'PatternValidator' }).properties());
+    const getBadge = validatorType => {
+      console.log(address.getHumanValidatorName(validatorType));
+      if (validatorType === 'PatternValidator') {
+        return <span className="badge badge-primary">{address.getHumanValidatorName(validatorType)}</span>;
+      } else if (validatorType === 'NoOpValidator') {
+        return <span className="badge badge-danger">{address.getHumanValidatorName(validatorType)}</span>;
+      } else if (validatorType === 'EnumerationValidator') {
+        return <span className="badge badge-success">{address.getHumanValidatorName(validatorType)}</span>;
+      } else if (validatorType === 'RangeValidator') {
+        return <span className="badge badge-light">{address.getHumanValidatorName(validatorType)}</span>;
+      } else if (validatorType === 'SubjectInputValidator') {
+        return <span className="badge badge-info">{address.getHumanValidatorName(validatorType)}</span>;
+      }
+    };
+    const getDataTypeBadge = validatorType => <span className="badge badge-primary">{validatorType}</span>;
     return (
       <div>
         <div
@@ -385,8 +407,12 @@ class ValidationWrapper extends React.Component {
             {this.props.model.validations().length > 0 ? (
               this.props.model.validations().map((validation, index) => (
                 <li>
-                  {`${this.props.model.inputType()} ${validation.type()}
-                  ${validation.value()}`}
+                  {getBadge(validation.type())}
+                  {` `}
+                  {getDataTypeBadge(this.props.model.inputType())}
+                  {` `}
+                  {`${typeof validation.value === 'function' ? validation.value() : ''}`}
+                  {` `}
                   <span id={index} onClick={this.loadExistingValidator}>
                     ✏️
                   </span>

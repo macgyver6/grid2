@@ -12,7 +12,6 @@ class NoOpValidator extends AppliedValidator {
    * @param {string} properties.inputIndex
    * @param {string} properties.externalId
    * @param {string} properties.name
-   * @param {string} properties.value
    */
   constructor(properties) {
     super(properties);
@@ -21,10 +20,6 @@ class NoOpValidator extends AppliedValidator {
 
   name() {
     return this._name;
-  }
-
-  value() {
-    return this._value;
   }
 
   properties() {
@@ -37,7 +32,6 @@ class NoOpValidator extends AppliedValidator {
       inputIndex: this.inputIndex(),
       externalId: this.externalId(),
       name: this.name(),
-      value: this.value() || false,
     };
   }
 }
