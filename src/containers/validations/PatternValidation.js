@@ -15,7 +15,7 @@ export const PatternValidation = props => (
     <br />
     <label>
       Validation Pattern:
-      <input type="text" size="25" name="value" id="value" value={props.value()} onChange={props.handleChange} />
+      <input type="text" size="25" name="value" id="value" value={props.value} onChange={props.handleChange} />
     </label>
     <div>
       <div id="edu_unc_tcrdms_model_form_validation_validators_PatternValidator">
@@ -41,9 +41,10 @@ export const PatternValidation = props => (
               allowSubmit={props.allowSubmit}
               loadExistingValidator={props.loadExistingValidator}
               handleUpdate={props.handleUpdate}
-              failMsg={props.failMsg}
-              failLocal={props.failLocal}
-              failLang={props.failLang}
+              customFailureMessage={props.customFailureMessage}
+              // failMsg={props.failMsg}
+              // failLocal={props.failLocal}
+              // failLang={props.failLang}
               failureMode={props.failureMode}
             />
           ) : null}
