@@ -37,19 +37,31 @@ const formReducer = (state, action) => {
       }
     };
 
+    // state = {
+    //   value: 0,
+    //   form: getLocalStorageForm(),
+    //   app: {
+    //     dateTime: null,
+    //     activeTab: 0,
+    //     currententity: address.byPath(getLocalStorageForm(), [0, 0, 0]) ? [0, 0, 0] : null,
+    //     validations: true,
+    //     dataDefinedValidationPane: true,
+    //     gridWidth: null,
+    //   },
+    // };
     state = {
       value: 0,
-      form: getLocalStorageForm(),
+      form: new Form(defaultPropsFE.Form),
       app: {
         dateTime: null,
         activeTab: 0,
-        currententity: address.byPath(getLocalStorageForm(), [0, 0, 0]) ? [0, 0, 0] : null,
+        currententity: address.byPath(new Form(defaultPropsFE.Form), [0, 0, 0]) ? [0, 0, 0] : null,
         validations: true,
         dataDefinedValidationPane: true,
         gridWidth: null,
       },
     };
-    console.log(getLocalStorageForm(), new Form(defaultPropsFE.Form));
+
     return state;
   }
   /** entry point to validate form IF form entities exist */
