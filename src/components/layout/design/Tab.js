@@ -145,10 +145,12 @@ const Tab = props => {
       //   arr[originIndex] = originalDestinationItem;
       //   return arr;
       // }
-      props.formmutate({ children: _children });
+
+      props.changetab(indexOfDestination);
       props.temporalStateChange({
-        activeTab: indexOfDestination,
+        currententity: [indexOfDestination],
       });
+      props.formmutate({ children: _children });
     } else if (dropData.action !== 'addEntity') {
       const destinationTabAddress = address.bySample(props.model, props.form)[0];
 
@@ -182,10 +184,10 @@ const Tab = props => {
       };
 
       props.add([destinationTabAddress, props.model.children().length], address.rehydrate(dropData.model));
-      console.log(destinationTabAddress);
 
+      /** to set newly added entity as currententity */
       // props.temporalStateChange({
-      //   currententity: [destinationTabAddress, props.model.children().length],
+      //   currententity: [1, 1],
       // });
       props.changetab(destinationTabAddress);
     }

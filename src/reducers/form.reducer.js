@@ -55,7 +55,7 @@ const formReducer = (state, action) => {
       app: {
         dateTime: null,
         activeTab: 0,
-        currententity: address.byPath(new Form(defaultPropsFE.Form), [0, 0, 0]) ? [0, 0, 0] : null,
+        currententity: null,
         validations: true,
         dataDefinedValidationPane: true,
         gridWidth: null,
