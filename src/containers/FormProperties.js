@@ -65,7 +65,6 @@ let FormProperty = props => {
 
   const formPropertiesStyle = {
     height: '900px',
-    border: '2px solid',
   };
 
   let localFiles = [];

@@ -11,6 +11,7 @@ import ConfigApplyMethod from './ConfigApplyMethod';
 
 export const PatternValidation = props => (
   <div>
+    {console.log(props)}
     <br />
     <label>
       Validation Pattern:
@@ -40,9 +41,10 @@ export const PatternValidation = props => (
               allowSubmit={props.allowSubmit}
               loadExistingValidator={props.loadExistingValidator}
               handleUpdate={props.handleUpdate}
-              failMsg={props.failMsg}
-              failLocal={props.failLocal}
-              failLang={props.failLang}
+              customFailureMessage={props.customFailureMessage}
+              // failMsg={props.failMsg}
+              // failLocal={props.failLocal}
+              // failLang={props.failLang}
               failureMode={props.failureMode}
             />
           ) : null}

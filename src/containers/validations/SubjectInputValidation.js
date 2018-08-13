@@ -48,9 +48,10 @@ export const SubjectInputValidation = props => (
               allowSubmit={props.allowSubmit}
               loadExistingValidator={props.loadExistingValidator}
               handleUpdate={props.handleUpdate}
-              failMsg={props.failMsg}
-              failLocal={props.failLocal}
-              failLang={props.failLang}
+              customFailureMessage={props.customFailureMessage}
+              // failMsg={props.failMsg}
+              // failLocal={props.failLocal}
+              // failLang={props.failLang}
               failureMode={props.failureMode}
             />
           ) : null}

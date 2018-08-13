@@ -26,7 +26,7 @@ import { _CDSTextInputProperty } from './containers/_CDSTextInputProperty';
 import { _TextAreaProperty } from './containers/_TextAreaProperty';
 import { _autoSuggestProperty } from './containers/_autoSuggestProperty';
 import { _CheckBoxProperty } from './containers/_CheckBoxProperty';
-import { _SelectionInputProperty } from './containers/_SelectionInputProperty';
+import _SelectionInputProperty from './containers/_SelectionInputProperty';
 import { _TextBlockProperty } from './containers/_TextBlockProperty';
 import { _ImageBlockProperty } from './containers/_ImageBlockProperty';
 import { _EchoProperty } from './containers/_EchoProperty';
@@ -164,7 +164,7 @@ export const address = {
       return new EnumerationValidator(properties);
     } else if (validatorInstance === 'NoOpValidator') {
       return new NoOpValidator(properties);
-    } else if (validatorInstance === 'Range') {
+    } else if (validatorInstance === 'RangeValidator') {
       return new RangeValidator(properties);
     } else if (validatorInstance === 'SubjectInputValidator') {
       return new SubjectInputValidator(properties);
@@ -240,7 +240,7 @@ export const address = {
         return 'Enumeration Validator';
         break;
       case 'SubjectInputValidator':
-        return 'Selection Input';
+        return 'Subject Input Validator';
         break;
     }
   },

@@ -126,6 +126,7 @@ class CDSTextInput extends TextInput {
       editing: this.editeable(),
       externalIdentifier: this.externalIdentifier(),
       evaluationPolicy: this.evaluationPolicy(),
+      validations: this.validations(),
     };
   }
 }

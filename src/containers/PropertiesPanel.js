@@ -18,14 +18,16 @@ import PatternValidator from './validations/PatternValidation';
 import ValidationWrapper from './validations/ValidationWrapper';
 import DependencyWrapper from './validations/DependencyWrapper';
 import { defaultPropsFE, initFE } from '../constants/defaultPropsFE';
+import { TabStyle } from '../components/layout/styles/DesignBox';
 
 export const PropertiesPanel = props => {
+  console.log(props.currententity);
   const PropertiesPanelStyle = model => ({
     width: '40%',
     height: '100%',
     backgroundColor: 'white',
     // border: '4px solid lightgrey',
-    border: props.currententity ? `1px solid ${initFE[`${model.type()}`].render.backgroundColor}` : `1px solid grey`,
+    ...(props.currententity ? { border: `1px solid ${initFE[`${model.type()}`].render.backgroundColor}` } : {}),
   });
 
   const change_handler = event =>
@@ -126,21 +128,22 @@ export const PropertiesPanel = props => {
       {props.currententity ? (
         <Tabs dtLocalFilesSaved={props.dtLocalFilesSaved}>
           <TabList>
-            <Tab dtLocalFilesSaved={props.dtLocalFilesSaved}>Form</Tab>
             <Tab>Entity</Tab>
+            <Tab dtLocalFilesSaved={props.dtLocalFilesSaved}>Form</Tab>
           </TabList>
-          <TabPanel dtLocalFilesSaved={props.dtLocalFilesSaved}>
-            <FormProperty mutate={props.mutate} model={props.form} dtLocalFilesSaved={props.dtLocalFilesSaved} />
-          </TabPanel>
+
           <TabPanel style={tabPanelStyle}>
             <div>
-              <Tabs>
+              <Tabs /*temporary - dev validation selectedIndex={1}*/>
                 <TabList>
                   <Tab>{address.getHumanName(props.model.type())} Properties</Tab>
-                  {showValidator(props.model.type()) ? (
+                  {props.model instanceof FormInput && props.model.type() !== 'autoSuggest' ? (
                     <Tab key="0">{address.getHumanName(props.model.type())} Validations</Tab>
                   ) : null}
-                  <Tab key="1">{address.getHumanName(props.model.type())} Dependencies</Tab>
+                  {console.log(props.model.type())}
+                  {props.model instanceof FormInput && props.model.type() !== 'autoSuggest' ? (
+                    <Tab key="1">{address.getHumanName(props.model.type())} Dependencies</Tab>
+                  ) : null}
                 </TabList>
                 <TabPanel add={props.add} style={tabPanelStyle}>
                   {React.createElement(address.whichEntity(address.byPath(props.form, props.currententity)), {
@@ -175,6 +178,9 @@ export const PropertiesPanel = props => {
                 ) : null}
               </Tabs>
             </div>
+          </TabPanel>
+          <TabPanel dtLocalFilesSaved={props.dtLocalFilesSaved} style={tabPanelStyle}>
+            <FormProperty mutate={props.mutate} model={props.form} dtLocalFilesSaved={props.dtLocalFilesSaved} />
           </TabPanel>
         </Tabs>
       ) : (

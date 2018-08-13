@@ -8,9 +8,6 @@ import { calcTotal } from '../components/FormEntities/feStyles';
 import { _dataDefined, userDefined } from './_validations';
 import { entityActions } from '../components/FormEntities/actions.entities';
 import { debounce } from './debounce';
-// import _ from 'lodash';
-
-// const form = new Form(defaultPropsFE.Form);
 
 class Input_Property_Template extends Component {
   constructor(props) {
@@ -19,7 +16,7 @@ class Input_Property_Template extends Component {
     this.copyHandler = this.copyHandler.bind(this);
     this.change_handler = this.change_handler.bind(this);
     // this.change_handler = this.change_handler.bind(this);
-    this.debounceRedux = debounce.debounce(this.debounceRedux, 250);
+    this.debounceRedux = debounce(this.debounceRedux, 250);
     this.state = {
       init_grids: null,
       init_append: null,
@@ -84,16 +81,14 @@ class Input_Property_Template extends Component {
 
   copyHandler(event) {
     event.preventDefault();
-    console.log('copyHandler');
 
     const entityAddress = address.bySample(this.props.model, this.props.form);
     let sectionAddress = entityAddress.slice(0, entityAddress.length - 1);
     const howManyChildren = address.byPath(this.props.form, sectionAddress).children().length;
     const combinedAddress = sectionAddress.concat(howManyChildren);
-    const properties = this.props.model.properties();
-    const entityToAdd = Object.assign({}, this.props.model.properties(), { UUID: null });
+    // copy all input properties, but pass uuid: undefined so that a new uuid is assigned in model during instantiation
+    const entityToAdd = Object.assign({}, this.props.model.properties(), { uuid: undefined });
     this.props.add(combinedAddress, address.rehydrate(entityToAdd));
-    console.log(combinedAddress);
   }
 
   render() {

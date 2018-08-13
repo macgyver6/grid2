@@ -64,7 +64,7 @@ let FormSectionComponent = props => {
               (data.model.postPromptWidth ? data.model.postPromptWidth : 0)),
         })
       );
-      console.log('here: ', data.model);
+      console.log('here: ', entityToAdd.prepend());
       // @hack - only adds to position 0 at this point
       let addressNewEntity = [...location];
       addressNewEntity[addressNewEntity.length] = props.model.children().length;

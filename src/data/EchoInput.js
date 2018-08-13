@@ -112,6 +112,7 @@ class EchoInput extends FormInput {
       sourceInput: this.sourceInput(),
       externalIdentifier: this.externalIdentifier(),
       editeable: this.editeable(),
+      validations: this.validations(),
     };
   }
 }

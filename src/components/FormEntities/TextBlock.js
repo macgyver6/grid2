@@ -78,6 +78,19 @@ const TextBlockComponent = props => {
       onDragStart={dragstart_handler}
       draggable="false"
     >
+      {props.model.prepend() > 0 ? (
+        <Prepend
+          id={`${props.model.UUID()}.prepend`}
+          prepend={props.model.prepend()}
+          uuid={props.model.UUID()}
+          className="prepend"
+          model={props.model}
+          form={props.form}
+          remove={props.remove}
+          add={props.add}
+          mutate={props.mutate}
+        />
+      ) : null}
       <div
         id={`${props.model.UUID()}.${props.model.type()}.subWrapper`}
         style={{
@@ -87,20 +100,6 @@ const TextBlockComponent = props => {
         onMouseDown={mouseDown_handler} // to set intitial
         draggable="false"
       >
-        {props.model.prepend() > 0 ? (
-          <Prepend
-            id={`${props.model.UUID()}.prepend`}
-            prepend={props.model.prepend()}
-            uuid={props.model.UUID()}
-            className="prepend"
-            model={props.model}
-            form={props.form}
-            remove={props.remove}
-            add={props.add}
-            mutate={props.mutate}
-          />
-        ) : null}
-
         <div
           style={{
             ...entityStyle(props.model),
