@@ -35,7 +35,7 @@ export const DataDefinedValidation = props => {
 
   return (
     <div>
-      <label htmlFor="textInput-val-type">Input Type</label>
+      <label htmlFor="textInput-val-type">Data Type</label>
       <br />
       <select
         value={props.model.inputType()}

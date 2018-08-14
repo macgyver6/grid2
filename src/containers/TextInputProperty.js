@@ -267,7 +267,7 @@ export const TextInputProperty = props => {
               />
             </div>
             <hr />
-            <label htmlFor="textInput-val-type">Input Type</label>
+            <label htmlFor="textInput-val-type">Data Type</label>
             <br />
             <select
               value={props.model.inputType()}
