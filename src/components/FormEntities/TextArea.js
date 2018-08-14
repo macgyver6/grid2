@@ -131,13 +131,14 @@ const TextAreaComponent = props => {
               ...inputStyle(props.model),
               height: 'auto',
               resize: 'none',
+              background: 'white',
             }}
             className="form-control"
             type={props.model.type()}
             // cols={props.model.numColumns()}
             rows={props.model.numRows()}
             // value={props.model.defaultContent()}
-            readonly="true"
+            disabled
           />
           <Resizer
             id={`${props.model.UUID()}.resizer`}

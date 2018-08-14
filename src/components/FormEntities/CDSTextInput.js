@@ -125,7 +125,7 @@ const CDSTextInputComponent = props => {
             name={props.model.name()}
             // rows="5"
             // cols="12"
-            readOnly="true"
+            disabled
             // value={props.model.script()}
           />
 

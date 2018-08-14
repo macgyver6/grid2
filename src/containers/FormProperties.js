@@ -38,12 +38,7 @@ let FormProperty = props => {
 
   const autoId_change_handler = event => {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
-    console.log({
-      autoId: {
-        ...props.model.autoId,
-        [event.target.id]: value,
-      },
-    });
+
     const result = props.formmutate({
       autoId: {
         ...props.model.autoId(),
@@ -51,10 +46,7 @@ let FormProperty = props => {
       },
     });
 
-    if (event.target.checked) {
-      // if (event.target.id === 'allowEventAttachedFile' && event.target.checked === true) {
-      // console.log(props.model.form);
-
+    if (event.target.name === 'form-prefix' || event.target.name === 'form-separator') {
       const arrAllInputs = utility.findAll(props.model, e => e instanceof FormInput).sort(function(a, b) {
         return a.tabOrder() > b.tabOrder() ? 1 : b.tabOrder() > a.tabOrder() ? -1 : 0;
       });

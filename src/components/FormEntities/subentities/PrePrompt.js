@@ -24,41 +24,20 @@ const PrePrompt = props => {
   const mouseDown_handler = event => entityActions.mouseDown_handler(event, props);
   const applyPrefix = props.form.autoId().prefix ? props.form.autoId().prefix : '';
   const applySeparator = props.form.autoId().separator
-    ? props.form.autoId().prefix + props.model.externalIdentifier() + props.form.autoId().separator
+    ? props.form.autoId().prefix +
+      props.form.autoId().separator +
+      ' ' +
+      props.model.externalIdentifier().split(props.form.autoId().prefix)[1]
     : '';
+
   return (
     <div
       style={prePromptStyle}
       id={`${props.model.UUID()}.prePrompt`}
       onMouseDown={mouseDown_handler} // to set intitial mouse click loc
     >
-      {/* {props.model.prePromptWidth() < 2 ? null : (
-        <p
-          style={{
-            height: '20px',
-            // paddingTop: '8px',
-            overflow: 'hide',
-            margin: '0px',
-            gridColumn: `span ${props.model.prePromptWidth()}`,
-          }}
-          className="form-control"
-        >
-          {props.model.prePrompt()}
-        </p>
-      )} */}
-
       {applySeparator + ` ${props.model.prePrompt()}`}
 
-      {/* <TextareaAutosize
-        style={{
-          ...inputStyle(props.model),
-          resize: 'none',
-          background: '',
-          // disabled: true,
-        }}
-        value={props.model.prePrompt()}
-        readonly
-      /> */}
       <Resizer
         id="prePrompt"
         element="FormEntity"

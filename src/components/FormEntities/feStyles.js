@@ -78,6 +78,7 @@ export const inputStyle = entity => ({
   borderRadius: '2px',
   width: '100%',
   boxSizing: 'border-box',
+  background: 'white',
 });
 
 export const entityStyle = entity => ({

@@ -32,14 +32,14 @@ class InputItem extends Component {
   }
 
   render(props) {
-    const calcPadding = () => (this.props.input.autoNumberRule().includes('N,L+') ? '30px' : null);
-    console.log('autoNumberRule' in this.props.input, this.props.input.properties());
+    // can be used to conditionally add padding
+    // const calcPadding = () => (this.props.input.autoNumberRule().includes('N,L+') ? '30px' : null);
     return (
       <li
         onClick={this.clickHandler}
         style={{
           border: this.props.checked ? '1px blue solid' : null,
-          paddingLeft: 'autoNumberRule' in this.props.input ? calcPadding() : null,
+          // paddingLeft: 'autoNumberRule' in this.props.input ? calcPadding() : null,
           padding: '2px',
         }}
         onDrop={e => this.props.reorderHandler(e, this.props.input)}
@@ -47,20 +47,11 @@ class InputItem extends Component {
         draggable
         id={this.props.index}
       >
-        {/* <li style={{ paddingLeft: `${calcPadding()}px` }}> */}
-        {/* <input
-          type="checkbox"
-          name="form-formFiles"
-          id="checked"
-          onClick={this.change_handler}
-          // style={cbInputStyle}
-          checked={this.props.checked}
-        /> */}
+        <i className="fas fa-ellipsis-v" />
+        <i className="fas fa-ellipsis-v" />
         {`${this.props.input.tabOrder()}(Tab Order) - ${this.props.input.externalIdentifier()} (External Identifier) - ${this.props.input.type()} - ${this.props.input.autoNumberRule()} - ${this.props.input
           .UUID()
           .substr(this.props.input.UUID().length - 5)} `}
-        <i className="fas fa-ellipsis-v" />
-        <i className="fas fa-ellipsis-v" />
       </li>
     );
   }

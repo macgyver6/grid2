@@ -87,7 +87,7 @@ class Input_Property_Template extends Component {
     const howManyChildren = address.byPath(this.props.form, sectionAddress).children().length;
     const combinedAddress = sectionAddress.concat(howManyChildren);
     // copy all input properties, but pass uuid: undefined so that a new uuid is assigned in model during instantiation
-    const entityToAdd = Object.assign({}, this.props.model.properties(), { uuid: undefined });
+    const entityToAdd = Object.assign({}, this.props.model.properties(), { uuid: undefined, tabOrder: undefined });
     this.props.add(combinedAddress, address.rehydrate(entityToAdd));
   }
 
