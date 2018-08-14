@@ -140,6 +140,7 @@ class TextInput extends FormInput {
       validations: this.validations(),
       autoNumberRule: this.autoNumberRule(),
       externalIdentifier: this.externalIdentifier(),
+      inputType: this.inputType(),
     };
   }
 }

@@ -92,6 +92,7 @@ class SelectionInput extends FormInput {
       autoNumberRule: this.autoNumberRule(),
       externalIdentifier: this.externalIdentifier(),
       validations: this.validations(),
+      inputType: this.inputType(),
     };
   }
 }

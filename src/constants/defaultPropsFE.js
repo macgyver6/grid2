@@ -57,6 +57,7 @@ export var initFE = {
     type: 'SelectionInput',
     tabOrder: null,
     inputWidth: 8,
+    inputType: 'String',
     promptNumber: '',
     // externalIdentifier: 'CIE493b',
     doubleEntry: true,
@@ -229,12 +230,12 @@ export var defaultPropsFE = {
                 autoNumberRule: 'N+',
                 tabOrder: 2,
               }),
-              // new TextInput({
-              //   ...initFE.TextInput,
-              //   externalIdentifier: '',
-              //   autoNumberRule: 'N+',
-              //   tabOrder: 7,
-              // }),
+              new SelectionInput({
+                ...initFE.SelectionInput,
+                externalIdentifier: '',
+                autoNumberRule: 'N+',
+                tabOrder: 3,
+              }),
               // new TextArea({
               //   ...initFE.TextArea,
               //   externalIdentifier: '',

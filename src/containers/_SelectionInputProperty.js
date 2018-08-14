@@ -8,6 +8,7 @@ import { calcTotal } from '../components/FormEntities/feStyles';
 import { _dataDefined, userDefined } from './_validations';
 import Input_Property_Template from './Input_Property_Template';
 import { DataDefinedValidation } from './DataDefinedValidation';
+import { EventEmitter } from 'events';
 // const form = new Form(defaultPropsFE.Form);
 
 class _SelectionInputProperty extends Component {
@@ -17,20 +18,35 @@ class _SelectionInputProperty extends Component {
     this.state = {
       value: '',
       isValid: true,
+      label: '',
+      value: '',
     };
     this.change_handler = this.change_handler.bind(this);
     this.addOption_handler = this.addOption_handler.bind(this);
     this.dragstart_handler = this.dragstart_handler.bind(this);
     this.onDragOverHandler = this.onDragOverHandler.bind(this);
     this.drop_handler = this.drop_handler.bind(this);
-    this.handleValue = this.handleValue.bind(this);
     this.editOption_handler = this.editOption_handler.bind(this);
+    this.validateValue = this.validateValue.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
   change_handler(event) {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
 
-    return this.props.mutate(address.bySample(this.props.model, this.props.form), {
-      [event.target.id]: value,
+    this.setState({
+      [event.target.name]: event.target.value,
+      ...(event.target.id === 'si-value' ? { isValid: this.validateValue(event.target.value) } : {}),
+    });
+  }
+
+  handleDelete(event) {
+    const index = event.target.id;
+    const originalOptions = [...this.props.model.options()];
+
+    originalOptions.splice(index, 1);
+
+    this.props.mutate(address.bySample(this.props.model, this.props.form), {
+      options: originalOptions,
     });
   }
 
@@ -51,15 +67,8 @@ class _SelectionInputProperty extends Component {
     const indexToEdit = Number(event.currentTarget.id);
     const _options = [...this.props.model.options()];
     const _option = { ..._options[indexToEdit] };
-    // console.log(_options);
     _option[event.target.name] = event.target.value;
-    // const editedEntity = {
-    //   [event.target.name]: event.target.value,
-    // };
     _options.splice(indexToEdit, 1, _option);
-    console.log(_options);
-    // console.log('entityRemoved: ', entityRemoved);
-    // const entitityInsertedAtNewIndex = _options.splice(indexToEdit, 0, entityRemoved[0]);
     this.props.mutate(address.bySample(this.props.model, this.props.form), {
       options: _options,
     });
@@ -69,11 +78,15 @@ class _SelectionInputProperty extends Component {
     const labelToAdd = document.getElementById('si-label').value;
     const valueToAdd = document.getElementById('si-value').value;
     var existing = [...this.props.model.options()];
-    return this.props.mutate(address.bySample(this.props.model, this.props.form), {
+    this.props.mutate(address.bySample(this.props.model, this.props.form), {
       options: existing.concat({
         label: labelToAdd,
         value: valueToAdd,
       }),
+    });
+    this.setState({
+      value: '',
+      label: '',
     });
   }
 
@@ -108,30 +121,23 @@ class _SelectionInputProperty extends Component {
     });
   }
 
-  handleValue(event) {
-    const value = event.target.value;
+  validateValue(value) {
     const getRegex = () => {
       if (this.props.model.inputType() === 'Integer') {
         return /^\d+$/;
       } else if (this.props.model.inputType() === 'Float') {
         return /^[+-]?\d+(\.\d+)?$/;
       } else if (this.props.model.inputType() === 'String') {
-        return /^[a-z]*$/;
+        return /[\s\S]+/;
       }
     };
-    const validateValue = () => {
-      // string, integer, float
-      // var regex = /^\d+$/;
-      if (getRegex().test(value)) {
-        return true;
-      } else {
-        return false;
-      }
-    };
-    this.setState({
-      value: value,
-      isValid: validateValue(),
-    });
+    if (value === '') {
+      return true;
+    } else if (getRegex().test(value)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   render() {
@@ -170,9 +176,6 @@ class _SelectionInputProperty extends Component {
           <br />
           <hr />
 
-          {this.state.isValid ? null : (
-            <p style={{ color: 'red' }}>Invalid value - must be of type: {this.props.model.inputType()}</p>
-          )}
           <ul id="selectionOptions">
             {this.props.model.options().map((option, index) => (
               <li
@@ -183,6 +186,8 @@ class _SelectionInputProperty extends Component {
                 id={index}
                 draggable="true"
               >
+                <i className="fas fa-ellipsis-v" />
+                <i className="fas fa-ellipsis-v" />
                 <div>
                   <label for="input">Label</label>
                   <input name="label" type="text" value={option.label} id={index} onChange={this.editOption_handler} />
@@ -191,8 +196,8 @@ class _SelectionInputProperty extends Component {
                   <label for="value">Value</label>
                   <input name="value" type="text" value={option.value} id={index} onChange={this.editOption_handler} />
                 </div>
-                <i className="fas fa-ellipsis-v" />
-                <i className="fas fa-ellipsis-v" />
+                <i className="far fa-trash-alt" style={{ color: 'red' }} id={index} onClick={this.handleDelete} />
+                <div> {this.validateValue(option.value) ? null : <p style={{ color: 'red' }}>invalid type</p>}</div>
               </li>
             ))}
           </ul>
@@ -207,17 +212,24 @@ class _SelectionInputProperty extends Component {
             >
               <div>
                 <label for="label">Label</label>
-                <input type="text" id="si-label" name="label" class="text" />
+                <input
+                  type="text"
+                  id="si-label"
+                  name="label"
+                  class="text"
+                  value={this.state.label}
+                  onChange={this.change_handler}
+                />
               </div>
               <div>
                 <label for="value">Value</label>
-                {console.log(this.state.isValid ? 'black' : 'red')}
                 <input
                   type="text"
                   id="si-value"
                   name="value"
                   class="text"
-                  onChange={this.handleValue}
+                  onChange={this.change_handler}
+                  value={this.state.value}
                   style={{
                     color: this.state.isValid ? 'black' : 'red',
                   }}
@@ -232,6 +244,9 @@ class _SelectionInputProperty extends Component {
                   +
                 </button>
               </div>
+              {this.state.isValid ? null : (
+                <p style={{ color: 'red' }}>Invalid value - must be of type: {this.props.model.inputType()}</p>
+              )}
             </li>
           </ul>
         </div>

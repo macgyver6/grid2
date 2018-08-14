@@ -56,17 +56,6 @@ export const DataDefinedValidation = props => {
       {typeof props.model.length === 'function' && props.model.inputType() === 'Date' ? (
         <DateValidationUI model={props.model} form={props.form} mutate={props.mutate} />
       ) : null}
-      {/* {typeof props.model.length === 'function' && props.model.inputType() === 'date'
-        ? React.createElement(address.whichValidation(props.model.inputType()), {
-            // key: i,
-            model: props.model,
-            form: props.form,
-            // remove: props.remove,
-            // add: props.add,
-            mutate: props.mutate,
-            // temporalStateChange: props.temporalStateChange
-          })
-        : null} */}
     </div>
   );
 };
