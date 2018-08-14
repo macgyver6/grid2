@@ -49,6 +49,7 @@ export const drop = {
     event.stopPropagation();
     console.log(dropObj.offsetInit);
     const dropData = JSON.parse(event.dataTransfer.getData('address'));
+    console.log(event.target, dropData, dropObj);
     const previousSibling = () => {
       const _sourceAddress = [...dropObj.sourceAddress];
       if (dropObj.sourceAddress[dropObj.sourceAddress.length - 1] > 0) {
@@ -111,8 +112,9 @@ export const drop = {
         };
       };
       console.log(donorParent.children().length - 1 === arr[arr.length - 1] && firstInRow(arr));
-      /** if only 1 child in section or the donor entity is the last entity in section */
+
       if (
+        /** if only 1 child in section or the donor entity is the last entity in section */
         donorParent.children().length === 1 ||
         (donorParent.children().length - 1 === arr[arr.length - 1] && firstInRow(arr))
       ) {
@@ -316,6 +318,12 @@ export const drop = {
       });
       console.log('test');
     } else {
+      if (event.target.id.split('.')[1] !== 'prepend' && event.target.id.split('.')[1] !== 'append') {
+        console.warn(
+          'attempted to move existing entity, but total of source entity is larger than the sub portion that was the target (i.e. append or prepend)'
+        );
+        return;
+      }
       console.log('here');
 
       const whereToAccommodate = () => {
