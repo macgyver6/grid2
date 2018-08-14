@@ -140,7 +140,7 @@ const SelectionInputComponent = props => {
         >
           {props.model.renderMode() === 'selection' ? (
             <select
-              style={{ ...inputStyle(props.model), height: '18px', backgroundColor: 'white' }}
+              style={{ ...inputStyle(props.model), height: '18px' }}
               className="form-control"
               type={props.model.type()}
             >

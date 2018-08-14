@@ -123,7 +123,7 @@ const EchoComponent = props => {
           draggable="false"
         >
           <input
-            style={inputStyle(props.model)}
+            style={{ ...inputStyle(props.model), height: '18px' }}
             className="form-control"
             type={props.model.type()}
             disabled="disabled"

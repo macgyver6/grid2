@@ -22,6 +22,7 @@ const BackgroundPanel = props => (
   <div style={backgroundPanelStyle}>
     <LeftPanel
       form={props.form}
+      appState={props.appState}
       changetab={props.changetab}
       remove={props.remove}
       add={props.add}
@@ -244,19 +245,15 @@ const DeleteBtn = props => {
     console.log('test');
     props.temporalStateChange({
       currententity: null,
+      ...(data.address.length === 1 && data.address[0] === props.appState.activeTab ? { activeTab: null } : {}),
     });
 
+    /** handle case where the activeTab is deleted */
     if (data.address[0] === 0) {
-      props.changetab(0);
-    } else if (props.activeTab === props.form.children().length) {
       props.changetab(0);
     } else {
       props.changetab(data.address[0] - 1);
     }
-
-    // console.log(props.activeTab)
-    // console.log((props.activeTab - 1 >= 0 ? props.activeTab - 1 : currentTab[0] - 1))
-    // props.changetab(props.activeTab - 1 >= 0 ? props.activeTab - 1 : currentTab[0] - 1)
   };
   return (
     <div
@@ -326,6 +323,7 @@ const LeftPanel = props => {
         mutate={props.mutate}
         temporalStateChange={props.temporalStateChange}
         activeTab={props.activeTab}
+        appState={props.appState}
       />
       {entityTypes.map((entity, index) => (
         <div

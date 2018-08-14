@@ -247,6 +247,7 @@ const formReducer = (state, action) => {
   }
 
   if (action.type === 'temporalStateChange') {
+    console.log(action.payload);
     return {
       ...state,
       app: {

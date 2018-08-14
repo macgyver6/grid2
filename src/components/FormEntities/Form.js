@@ -45,6 +45,7 @@ const FormComponent = props => {
       <div className="grid">
         {/* loop through and render all children entities of top level section */}
         {/* instead of looping through the first form section's children, and rendering those, the top level form sections should be rendered, which then would render their own children */}
+        {console.log(address.lookupComponent(props.form.children()[props.activeTab]))}
         {React.createElement(address.lookupComponent(props.form.children()[props.activeTab]), {
           model: props.form.children()[props.activeTab],
           form: props.form,
