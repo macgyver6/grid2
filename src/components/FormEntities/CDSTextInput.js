@@ -106,6 +106,7 @@ const CDSTextInputComponent = props => {
           <PrePrompt
             id={`${props.model.UUID()}.prepend`}
             prePromptWidth={props.model.prePromptWidth()}
+            temporalStateChange={props.temporalStateChange}
             uuid={props.model.UUID()}
             className="prepend"
             model={props.model}
@@ -150,6 +151,7 @@ const CDSTextInputComponent = props => {
           <PostPrompt
             id={`${props.model.UUID()}.prepend`}
             postPromptWidth={props.model.postPromptWidth()}
+            temporalStateChange={props.temporalStateChange}
             uuid={props.model.UUID()}
             className="prepend"
             model={props.model}

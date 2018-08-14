@@ -472,9 +472,8 @@ let FormSectionComponent = props => {
             />
           ) : null}
           {props.model.type() === 'FormSection' && props.form.children().length >= 1
-            ? props.model.children().map((element, i) => {
-                console.log(utility.arraysEqual(address.bySample(element, props.form), props.appState.currententity));
-                return React.createElement(address.lookupComponent(element), {
+            ? props.model.children().map((element, i) =>
+                React.createElement(address.lookupComponent(element), {
                   key: i,
                   model: element,
                   form: props.form,
@@ -486,8 +485,8 @@ let FormSectionComponent = props => {
                   temporalStateChange: props.temporalStateChange,
                   appState: props.appState,
                   selected: utility.arraysEqual(address.bySample(element, props.form), props.appState.currententity),
-                });
-              })
+                })
+              )
             : null}
           {dontResizeTopLevel ? (
             <Resizer

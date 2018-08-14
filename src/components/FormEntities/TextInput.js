@@ -129,6 +129,7 @@ const TextInputComponent = props => {
           <PrePrompt
             id={`${props.model.UUID()}.prePrompt`}
             prePromptWidth={props.model.prePromptWidth()}
+            temporalStateChange={props.temporalStateChange}
             uuid={props.model.UUID()}
             className="prepend"
             model={props.model}
@@ -171,6 +172,7 @@ const TextInputComponent = props => {
           <PostPrompt
             id={`${props.model.UUID()}.prepend`}
             postPromptWidth={props.model.postPromptWidth()}
+            temporalStateChange={props.temporalStateChange}
             uuid={props.model.UUID()}
             className="prepend"
             model={props.model}

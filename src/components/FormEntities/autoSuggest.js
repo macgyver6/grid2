@@ -103,6 +103,7 @@ const CheckBoxComponent = props => {
           <PrePrompt
             id={`${props.model.UUID()}.prepend`}
             prePromptWidth={props.model.prePromptWidth()}
+            temporalStateChange={props.temporalStateChange}
             uuid={props.model.UUID()}
             className="prepend"
             model={props.model}
@@ -124,7 +125,7 @@ const CheckBoxComponent = props => {
           onDragStart={dragstart_handler}
           draggable="false"
         >
-          <input type={props.model.type()} style={inputStyle(props.model)} />
+          <input type={props.model.type()} style={inputStyle(props.model)} disabled />
           <Resizer
             id="width"
             // id={`${props.model.UUID()}.resizer`}
@@ -143,6 +144,7 @@ const CheckBoxComponent = props => {
           <PostPrompt
             id={`${props.model.UUID()}.prepend`}
             postPromptWidth={props.model.postPromptWidth()}
+            temporalStateChange={props.temporalStateChange}
             uuid={props.model.UUID()}
             className="prepend"
             model={props.model}

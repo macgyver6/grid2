@@ -5,9 +5,13 @@ import { drop } from '../../drop';
 export const entityActions = {
   mouseDown_handler: (event, props) => {
     event.stopPropagation();
+
     const entity = document.getElementById(`${props.model.UUID()}.${props.model.type()}.subWrapper`);
     entity.draggable = true;
     drop.mouseDown_handler(event, props, 'move');
+    props.temporalStateChange({
+      currententity: address.bySample(props.model, props.form),
+    });
   },
 
   /** Set dataTransfer in the case the entity is dropped on target:
@@ -39,14 +43,5 @@ export const entityActions = {
 
   click_handler: (event, props, selected) => {
     event.stopPropagation();
-    const prePrompt = document.getElementById(`${props.model.UUID()}.prePrompt`);
-    // prePrompt && selected ? (prePrompt.style.boxShadow = '3px 3px blue') : null;
-    const postPrompt = document.getElementById(`${props.model.UUID()}.postPrompt`);
-    // postPrompt && selected ? (postPrompt.style.boxShadow = '3px 3px blue') : null;
-    const inputEntity = document.getElementById(`${props.model.UUID()}.${props.model.type()}`);
-    // selected ? (inputEntity.style.boxShadow = '3px 3px blue') : null;
-    props.temporalStateChange({
-      currententity: address.bySample(props.model, props.form),
-    });
   },
 };

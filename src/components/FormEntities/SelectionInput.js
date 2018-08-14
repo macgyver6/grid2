@@ -119,6 +119,7 @@ const SelectionInputComponent = props => {
           <PrePrompt
             id={`${props.model.UUID()}.prepend`}
             prePromptWidth={props.model.prePromptWidth()}
+            temporalStateChange={props.temporalStateChange}
             uuid={props.model.UUID()}
             className="prepend"
             model={props.model}
@@ -131,7 +132,7 @@ const SelectionInputComponent = props => {
         <div
           style={{
             ...entityStyle(props.model),
-            minHeight: '20px',
+            // minHeight: '20px',
           }}
           id={`${props.model.UUID()}.${props.model.type()}`}
           className="SelectionInput"
@@ -139,8 +140,7 @@ const SelectionInputComponent = props => {
         >
           {props.model.renderMode() === 'selection' ? (
             <select
-              // style={siInputStyle}
-              style={{ ...inputStyle(props.model), backgroundColor: 'white' }}
+              style={{ ...inputStyle(props.model), height: '18px', backgroundColor: 'white' }}
               className="form-control"
               type={props.model.type()}
             >
@@ -176,6 +176,7 @@ const SelectionInputComponent = props => {
           <PostPrompt
             id={`${props.model.UUID()}.prepend`}
             postPromptWidth={props.model.postPromptWidth()}
+            temporalStateChange={props.temporalStateChange}
             uuid={props.model.UUID()}
             className="prepend"
             model={props.model}

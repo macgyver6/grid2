@@ -73,7 +73,8 @@ export const entitySubWrapperStyle = entity => ({
 
 export const inputStyle = entity => ({
   cursor: 'move',
-  height: '20px',
+  // height: '20px',
+  paddingTop: '2px',
   border: `1px solid ${initFE[`${entity.type()}`].render.backgroundColor}`,
   borderRadius: '2px',
   width: '100%',
