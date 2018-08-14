@@ -11,6 +11,7 @@ import { log } from 'util';
 import { address } from '../../address';
 import { entityActions } from './actions.entities';
 import AddToEnd from './subentities/AddToEnd.js';
+import { initFE } from '../../constants/defaultPropsFE';
 
 const SelectionInputComponent = props => {
   const mouseDown_handler = event => entityActions.mouseDown_handler(event, props);
@@ -106,6 +107,9 @@ const SelectionInputComponent = props => {
         id={`${props.model.UUID()}.${props.model.type()}.subWrapper`}
         style={{
           ...entitySubWrapperStyle(props.model),
+          ...(props.selected
+            ? { boxShadow: `3px 3px ${initFE[`${props.model.type()}`].render.backgroundColor} ` }
+            : {}),
           // border: 'solid green 1px',
         }}
         onMouseDown={mouseDown_handler} // to set intitial

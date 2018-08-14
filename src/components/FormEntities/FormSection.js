@@ -1,14 +1,16 @@
 import React from 'react';
 import { address } from '../../address';
-import { defaultPropsFE } from '../../constants/defaultPropsFE';
+import { initFE } from '../../constants/defaultPropsFE';
 import Resizer from './subentities/Resizer.js';
 import AddToEnd from './subentities/AddToEnd.js';
 import AddToBeginning from './subentities/AddToBeginning.js';
 import Append from './subentities/Append';
 import Prepend from './subentities/Prepend.js';
 import { helpers } from '../../helpers';
+import { utility } from '../../utility';
 import { entityActions } from './actions.entities';
 import { entityWrapperStyle, entitySubWrapperStyle, entityStyle, inputStyle } from './feStyles';
+
 // import AddToEnd from './subentities/AddToEnd.js';
 let FormSectionComponent = props => {
   const round = (value, decimals) => Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
@@ -425,6 +427,9 @@ let FormSectionComponent = props => {
         id={`${props.model.UUID()}.${props.model.type()}.subWrapper`}
         style={{
           ...entitySubWrapperStyle(props.model),
+          ...(props.selected
+            ? { boxShadow: `3px 3px ${initFE[`${props.model.type()}`].render.backgroundColor} ` }
+            : {}),
           // border: 'solid green 1px',
         }}
         onMouseDown={mouseDown_handler} // to set intitial
@@ -468,7 +473,7 @@ let FormSectionComponent = props => {
           ) : null}
           {props.model.type() === 'FormSection' && props.form.children().length >= 1
             ? props.model.children().map((element, i) => {
-                console.log(element);
+                console.log(utility.arraysEqual(address.bySample(element, props.form), props.appState.currententity));
                 return React.createElement(address.lookupComponent(element), {
                   key: i,
                   model: element,
@@ -480,6 +485,7 @@ let FormSectionComponent = props => {
                   mutateaddremove: props.mutateaddremove,
                   temporalStateChange: props.temporalStateChange,
                   appState: props.appState,
+                  selected: utility.arraysEqual(address.bySample(element, props.form), props.appState.currententity),
                 });
               })
             : null}

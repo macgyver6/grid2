@@ -42,15 +42,10 @@ const FormComponent = props => {
       // onDrag={drag_handler}
       // onDragOver={dragover_handler}
     >
-      {/* {  console.log(props.form.children())} */}
       <div className="grid">
         {/* loop through and render all children entities of top level section */}
         {/* instead of looping through the first form section's children, and rendering those, the top level form sections should be rendered, which then would render their own children */}
-        {// props.form.children()[props.activeTab]((element, i) => {
-
-        // props.form.children()[props.activeTab].children().map((element, i) => {
-        React.createElement(address.lookupComponent(props.form.children()[props.activeTab]), {
-          // key: i,
+        {React.createElement(address.lookupComponent(props.form.children()[props.activeTab]), {
           model: props.form.children()[props.activeTab],
           form: props.form,
           remove: props.remove,
@@ -60,9 +55,7 @@ const FormComponent = props => {
           mutateaddremove: props.mutateaddremove,
           temporalStateChange: props.temporalStateChange,
           appState: props.appState,
-        })
-        // })
-        }
+        })}
       </div>
       <div className="grid grid_background">{bgColumns}</div>
     </div>

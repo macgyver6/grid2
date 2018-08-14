@@ -37,14 +37,14 @@ export const entityActions = {
     // }
   },
 
-  click_handler: (event, props) => {
+  click_handler: (event, props, selected) => {
     event.stopPropagation();
     const prePrompt = document.getElementById(`${props.model.UUID()}.prePrompt`);
-    // prePrompt ? (prePrompt.style.boxShadow = '3px 3px blue') : null;
+    // prePrompt && selected ? (prePrompt.style.boxShadow = '3px 3px blue') : null;
     const postPrompt = document.getElementById(`${props.model.UUID()}.postPrompt`);
-    // postPrompt ? (postPrompt.style.boxShadow = '3px 3px blue') : null;
+    // postPrompt && selected ? (postPrompt.style.boxShadow = '3px 3px blue') : null;
     const inputEntity = document.getElementById(`${props.model.UUID()}.${props.model.type()}`);
-    // inputEntity.style.boxShadow = '3px 3px blue';
+    // selected ? (inputEntity.style.boxShadow = '3px 3px blue') : null;
     props.temporalStateChange({
       currententity: address.bySample(props.model, props.form),
     });

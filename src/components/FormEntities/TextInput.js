@@ -9,7 +9,7 @@ import PostPrompt from './subentities/PostPrompt.js';
 import { entityWrapperStyle, entitySubWrapperStyle, entityStyle, inputStyle } from './feStyles';
 import { entityActions } from './actions.entities';
 import AddToEnd from './subentities/AddToEnd.js';
-
+import { initFE } from '../../constants/defaultPropsFE';
 import { log } from 'util';
 import { address } from '../../address';
 import RegexColorizer from 'regex-colorizer';
@@ -27,7 +27,7 @@ const TextInputComponent = props => {
 
   const dragleave_handler = event => entityActions.dragleave_handler(event, props);
 
-  const click_handler = event => entityActions.click_handler(event, props);
+  const click_handler = event => entityActions.click_handler(event, props, props.selected);
 
   const mouseUp_handler = event => {
     event.stopPropagation();
@@ -91,6 +91,7 @@ const TextInputComponent = props => {
       style={{
         ...entityWrapperStyle(props.model),
       }}
+      // selected ? (inputEntity.style.boxShadow = '3px 3px blue') : null
       onDrop={drop_handler}
       onDragLeave={dragleave_handler}
       onClick={click_handler} // to select the current entity for properties panel
@@ -116,6 +117,9 @@ const TextInputComponent = props => {
         id={`${props.model.UUID()}.${props.model.type()}.subWrapper`}
         style={{
           ...entitySubWrapperStyle(props.model),
+          ...(props.selected
+            ? { boxShadow: `3px 3px ${initFE[`${props.model.type()}`].render.backgroundColor} ` }
+            : {}),
           // border: 'solid green 1px',
         }}
         onMouseDown={mouseDown_handler} // to set intitial
