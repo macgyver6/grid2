@@ -1,4 +1,4 @@
-import { utility } from './val.utility';
+import { valUtility } from './val.utility';
 
 export const inputValidations = {
   // shoudNotBeLargerThanSection: e =>
@@ -60,7 +60,7 @@ export const validations = {
           return { exception: 'sum child width must be less than parents' };
         }
       };
-      return section.children().forEach(e => validate(utility.total(e), 18));
+      return section.children().forEach(e => validate(valUtility.total(e), 18));
     },
   },
   TextInput: {

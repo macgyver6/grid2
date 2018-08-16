@@ -19,6 +19,7 @@ class SelectionInput extends FormInput {
     // this._renderMode = SelectionInput.RenderMode[properties.renderMode];
     this._renderMode = properties.renderMode;
     this._externalIdentifier = properties.externalIdentifier;
+    this._inputType = properties.inputType;
 
     deepFreeze(this);
   }
@@ -63,6 +64,17 @@ class SelectionInput extends FormInput {
    */
   externalIdentiexternalIdentifierfier() {
     return this._autoTab;
+  }
+
+  /**
+   *
+   * Get inputType on the form input.
+   * @param {Object} props
+   * @returns {FormInput}
+   * @memberof FormInput
+   */
+  inputType() {
+    return this._inputType;
   }
 
   /**

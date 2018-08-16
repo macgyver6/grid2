@@ -5,6 +5,7 @@ import * as actions from '../actions/index';
 import FormComponent from '../components/FormEntities/Form';
 // import { utility } from '../utility';
 import { address } from '../address';
+import { utility } from '../utility';
 import { defaultPropsFE, initFE } from '../constants/defaultPropsFE';
 import { helpers } from '../helpers';
 import {
@@ -15,7 +16,7 @@ import {
   // headerPanelStyle,
 } from '../components/layout/styles/Layout';
 import TabContainer from '../components/layout/design/TabContainer';
-import { PropertiesPanel } from './PropertiesPanel';
+import PropertiesPanel from './PropertiesPanel';
 import { calcTotalAdd } from '../components/FormEntities/feStyles';
 
 const BackgroundPanel = props => (

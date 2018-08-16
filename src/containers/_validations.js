@@ -24,10 +24,22 @@ export const _dataDefined = {
   },
 };
 
+export const inputDefinedValidator = {
+  Echo: ['PatternValidator', 'NoOpValidator', 'EnumerationValidator', 'RangeValidator'],
+  CDSTextInput: ['PatternValidator', 'NoOpValidator', 'EnumerationValidator', 'SubjectInputValidator'],
+  TextArea: null,
+  autoSuggest: null,
+  TextInput: true,
+};
+
 export const dataDefinedByInput = {
   TextInput: ['String', 'Integer', 'Date', 'Float'],
-  SelectionInput: ['String', 'Integer', 'Float'],
   CDSTextInput: ['String', 'Date', 'Integer', 'Float'],
+  autoSuggest: false,
+  TextArea: false,
+  SelectionInput: ['String', 'Integer', 'Float'],
+  CheckBox: false,
+  autoSuggest: false,
 };
 //string //string //string //string
 // ['Pattern', 'NoOp', 'Enumeration', 'SubjectInputValidation']

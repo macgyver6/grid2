@@ -1,23 +1,23 @@
 import React from 'react';
 import { address } from '../../address';
 import { timeZones } from './timeZones';
-import { utility } from '../../validation/val.utility';
+import { valUtility } from '../../validation/val.utility';
 import { FormInput } from '../../data/FormInput';
-import { _dataDefined, locals } from '../_validations';
+import { _dataDefined, locals, inputDefinedValidator } from '../_validations';
 import AppliedValidator from './AppliedValidator';
 import { PatternValidator } from './data/PatternValidator';
 
 class ValidationWrapper extends React.Component {
   constructor(props) {
     super(props);
+    console.log(this.props.model.inputType);
     this.state = {
       // failMsg: '',
       // failLocal: '',
       // failLang: '',
       value: '',
       mode: 'add',
-      currentValidator: _dataDefined[`${this.props.model.inputType()}`].userDefined[0],
-      customFailureMessage: { failMsg: null, failLang: null, failLocal: null },
+      currentValidator: null,
       nullIsValid: false,
       // currentIndex: '',
       // strong: null,
@@ -435,13 +435,17 @@ class ValidationWrapper extends React.Component {
           onChange={this.handleChange}
           id="currentValidator"
         >
-          {/* <option selected value>
-              {' '}
-              -- select an option --{' '}
-      </option> */}
-          {_dataDefined[`${this.props.model.inputType()}`].userDefined.map(userDefinedVal => (
-            <option value={userDefinedVal}>{address.getHumanValidatorName(userDefinedVal)}</option>
-          ))}
+          <option selected value>
+            {' '}
+            -- select a validator --{' '}
+          </option>
+          {typeof this.props.model.inputType === 'function'
+            ? _dataDefined[`${this.props.model.inputType()}`].userDefined.map(userDefinedVal => (
+                <option value={userDefinedVal}>{address.getHumanValidatorName(userDefinedVal)}</option>
+              ))
+            : inputDefinedValidator[`${this.props.model.type()}`].map(userDefinedVal => (
+                <option value={userDefinedVal}>{address.getHumanValidatorName(userDefinedVal)}</option>
+              ))}
         </select>
 
         <form>

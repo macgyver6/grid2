@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
 import { address } from '../address';
-import { utility } from '../validation/val.utility';
+import { valUtility } from '../validation/val.utility';
 import { Form } from '../data/Form';
 import { FormInput } from '../data/FormInput';
 import { calcTotal } from '../components/FormEntities/feStyles';
@@ -92,7 +92,6 @@ class Input_Property_Template extends Component {
   }
 
   render() {
-    console.log(utility);
     return (
       <div>
         <p style={{ fontSize: 8, margin: '0px' }}>{this.props.model.UUID()}</p>

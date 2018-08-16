@@ -8,7 +8,7 @@ import IntegerValidationUI from './validations/integerValidationUI';
 import FloatValidationUI from './validations/floatValidationUI';
 import Expand from '../assets/expand.js';
 import { calcTotal } from '../components/FormEntities/feStyles';
-import { utility } from '../validation/val.utility';
+import { valUtility } from '../validation/val.utility';
 import { FormInput } from '../data/FormInput';
 import PatternValidator from './validations/PatternValidation';
 import ValidationWrapper from './validations/ValidationWrapper';

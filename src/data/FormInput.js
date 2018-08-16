@@ -198,17 +198,6 @@ class FormInput extends FormEntity {
 
   /**
    *
-   * Get inputType on the form input.
-   * @param {Object} props
-   * @returns {FormInput}
-   * @memberof FormInput
-   */
-  inputType() {
-    return this._inputType;
-  }
-
-  /**
-   *
    * Get maxLength on the form input.
    * @param {Object} props
    * @returns {FormInput}
@@ -265,8 +254,6 @@ class FormInput extends FormEntity {
       promptNumber: this.promptNumber(),
       autoNumber: this.autoNumber(),
       validations: this.validations(),
-      inputType: this.inputType(),
-      inputType: this.inputType(),
       maxLength: this.maxLength(),
       externalIdentifier: this.externalIdentifier(),
     };

@@ -1,11 +1,14 @@
 import React from 'react';
 import { address } from '../../address';
 import { timeZones } from './timeZones';
-import { utility } from '../../validation/val.utility';
+import { valUtility } from '../../validation/val.utility';
 import { FormInput } from '../../data/FormInput';
 import { _dataDefined, locals } from '../_validations';
 import AppliedValidator from './AppliedValidator';
+import { DependencyExpression } from './data/DependencyExpression';
+import Validator from './data/Validator';
 import { PatternValidator } from './data/PatternValidator';
+import { sample } from './data/PatternValidator';
 import DropToSelect from '../DropToSelect';
 import ValidationWrapper from './ValidationWrapper';
 
@@ -382,14 +385,19 @@ class DependencyWrapper extends React.Component {
   }
 
   render() {
-    // if (this.state._failMsg !== '' && this.state._failLocal !== '' && this.state._failLang !== '') {
-    //   this.addFailureMessage();
-    // }
-    // console.log(address.hydrateValidator('Pattern'));
+    const newDependecyExpression = new DependencyExpression({
+      type: 'type',
+      operator: 'OR',
+      conditions: [{ type: 'appliedValidator' }],
+    });
+    // const newDependecyExpression = new DependencyExpression('type', 'OR', [{ type: 'appliedValidator' }]);
+    console.log(newDependecyExpression);
+
+    // const sample2 = new PatternValidator({ type: 'Pattern' });
+    // console.log(sample2);
 
     return (
       <div>
-        <h3>Configure dependencies here</h3>
         <div
           style={{
             margin: '20px',
@@ -438,26 +446,15 @@ class DependencyWrapper extends React.Component {
           id="validationSelector"
           // style={inputStyle(this.props.model)}
         >
-          {utility
+          {/* {valUtility
             .findAll(this.props.form, e => e instanceof FormInput)
             .map(formInput => (
               <option
                 value={JSON.stringify(address.bySample(this.props.model, this.props.form))}
               >{`${formInput.externalIdentifier()} - ${formInput.type()} - ${formInput.inputType()}`}</option>
-            ))}
+            ))} */}
         </select>
-        {/* {console.log(
-          this.state.validationSelector
-            ? address.byPath(this.state.validationSelector, this.props.form).inputType()
-            : null
-        )} */}
-        {/* {console.log(
-          this.state.validationSelector
-            ? _dataDefined[address.byPath(this.props.form, this.state.validationSelector).inputType()]
-            : null
-        )} */}
-        {/* {console.log(this.state.validationSelector)} */}
-        {/* <p>{this.state.validationSelector}</p> */}
+
         <br />
         <DropToSelect form={this.props.form} model={this.props.model} />
         {/* <select
@@ -468,7 +465,7 @@ class DependencyWrapper extends React.Component {
             onChange={change_handler}
             id="sourceInput"
           >
-            {utility
+            {valUtility
               .findAll(this.props.form, e => e instanceof FormInput)
               .map(formInput => (
                 <option value={formInput.promptNumber()}>{`${formInput.promptNumber()} - ${formInput.type()}`}</option>

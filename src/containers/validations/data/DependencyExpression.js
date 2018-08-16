@@ -1,15 +1,16 @@
 const { Validator } = require('./Validator');
 
 /** Class represents a Validator */
-class DependecyExpression extends Validator {
+class DependencyExpression extends Validator {
   /**
    *
-   * @param {string} typ()e
+   * @param {string} properties.type
    * @param {string} properties.operator
    * @param {array} properties.conditions
    */
   constructor(properties) {
     super(properties);
+    console.log(properties);
     this._type = 'DependencyExpression';
     this._operator = properties.operator;
     this._conditions = properties.conditions;
@@ -32,8 +33,8 @@ class DependecyExpression extends Validator {
   }
 }
 
-const newDependecyExpression = new DependecyExpression('type', 'OR', [{ type: 'appliedValidator' }]);
+// const newDependencyExpression = new DependencyExpression('type', 'OR', [{ type: 'appliedValidator' }]);
 
-// console.log(newDependecyExpression.operator())
+// console.log(newDependencyExpression.operator());
 
-module.exports = { DependecyExpression };
+module.exports = { DependencyExpression };

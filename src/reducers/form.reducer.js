@@ -55,7 +55,8 @@ const formReducer = (state, action) => {
       app: {
         dateTime: null,
         activeTab: 0,
-        currententity: null,
+        currententity: [0, 0, 0],
+        // currententity: null,
         validations: true,
         dataDefinedValidationPane: true,
         gridWidth: null,

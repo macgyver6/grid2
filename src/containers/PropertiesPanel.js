@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import '../../node_modules/react-tabs/style/react-tabs.css';
 import { _TextInputProperty } from './_TextInputProperty';
 import FormProperty from './FormProperties';
 import { address } from '../address';
+import { utility } from '../utility';
 
-import { _dataDefined, userDefined } from './_validations';
+import { _dataDefined, userDefined, inputDefinedValidator, dataDefinedByInput, _validations } from './_validations';
 import DateValidationUI from './validations/DateValidationUI';
 import StringValidationUI from './validations/stringValidationUI';
 import IntegerValidationUI from './validations/integerValidationUI';
 import FloatValidationUI from './validations/floatValidationUI';
 import Expand from '../assets/expand.js';
 import { calcTotal } from '../components/FormEntities/feStyles';
-import { utility } from '../validation/val.utility';
+import { valUtility } from '../validation/val.utility';
 import { FormInput } from '../data/FormInput';
 import PatternValidator from './validations/PatternValidation';
 import ValidationWrapper from './validations/ValidationWrapper';
@@ -20,179 +21,206 @@ import DependencyWrapper from './validations/DependencyWrapper';
 import { defaultPropsFE, initFE } from '../constants/defaultPropsFE';
 import { TabStyle } from '../components/layout/styles/DesignBox';
 
-export const PropertiesPanel = props => {
-  console.log(props.currententity);
-  const PropertiesPanelStyle = model => ({
-    width: '40%',
-    height: '100%',
-    backgroundColor: 'white',
-    // border: '4px solid lightgrey',
-    ...(props.currententity ? { border: `1px solid ${initFE[`${model.type()}`].render.backgroundColor}` } : {}),
-  });
+class PropertiesPanel extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentAddress: null,
+      tabIndex: 0,
+      // ...(props.selected ? { boxShadow: `3px 3px ${initFE[`${props.model.type()}`].render.backgroundColor} ` } : {}),
+      ...(!inputDefinedValidator[`${this.props.model.type()}`] ? { tabIndex: 0 } : {}),
+    };
+    console.log(!inputDefinedValidator[`${this.props.model.type()}`] ? { tabIndex: 0 } : {});
+    // inputDefinedValidator[`${this.props.model.type()}`] ? null : 0;
 
-  const change_handler = event =>
-    props.mutate(address.bySample(props.model, props.form), {
+    this.change_handler = this.change_handler.bind(this);
+    this.validationSelector_handler = this.validationSelector_handler.bind(this);
+    this.collapse_handler = this.collapse_handler.bind(this);
+  }
+
+  change_handler(event) {
+    this.props.mutate(address.bySample(this.props.model, this.props.form), {
       [event.target.id]: event.target.value,
     });
+  }
 
-  const layoutChange_handler = event => {
-    props.mutate(address.bySample(props.model, props.form), {
+  componentWillReceiveProps(props) {
+    console.log(utility.arraysEqual(this.state.currentAddress, props.appState.currententity));
+    if (!utility.arraysEqual(this.state.currentAddress, props.appState.currententity)) {
+      console.log(this.state.currentAddress, props.appState.currententity);
+      this.setState({
+        tabIndex: 0,
+        currentAddress: props.appState.currententity,
+      });
+    }
+  }
+
+  layoutChange_handler(event) {
+    this.props.mutate(address.bySample(this.props.model, this.props.form), {
       [event.target.id]: parseFloat(event.target.value),
       append:
         24 -
-        props.model.prepend() -
-        (event.target.id === 'prePromptWidth' ? parseFloat(event.target.value) : props.model.prePromptWidth()) -
-        props.model.width() -
-        (event.target.id === 'postPromptWidth' ? parseFloat(event.target.value) : props.model.postPromptWidth()),
+        this.props.model.prepend() -
+        (event.target.id === 'prePromptWidth' ? parseFloat(event.target.value) : this.props.model.prePromptWidth()) -
+        this.props.model.width() -
+        (event.target.id === 'postPromptWidth' ? parseFloat(event.target.value) : this.props.model.postPromptWidth()),
       // function that calcs total width and subtracts all OTHER elements, returningt what the value should be
     });
-  };
+  }
 
-  const validationSelector_handler = event =>
+  validationSelector_handler(event) {
     // return {
     //   validations: {
-    //     ...props.model.validations(),
+    //     ...this.props.model.validations(),
     //     [event.target.id]: event.target.value
     //   }
     // };
 
-    props.mutate(address.bySample(props.model, props.form), {
-      ...props.model,
+    this.props.mutate(address.bySample(this.props.model, this.props.form), {
+      ...this.props.model,
       [event.target.id]: event.target.value,
     });
-  // props.mutate(address.bySample(props.model, props.form), {
-  //   validations: {
-  //     ...props.model.validations(),
-  //     [event.target.id]: event.target.value,
-  //   },
-  // });
+    // this.props.mutate(address.bySample(this.props.model, this.props.form), {
+    //   validations: {
+    //     ...this.props.model.validations(),
+    //     [event.target.id]: event.target.value,
+    //   },
+    // });
+  }
 
-  const collapse_handler = event => {
-    props.temporalStateChange({
-      [event.target.id]: !props.appState[event.target.id],
+  collapse_handler(event) {
+    this.props.temporalStateChange({
+      [event.target.id]: !this.props.appState[event.target.id],
     });
-  };
+  }
 
-  // const dataDefined = {
-  //   String: ['Pattern', 'NoOp', 'Enumeration', 'SubjectInputValidation'],
-  //   Date: ['NoOp', 'Enumeration', 'Range'],
-  //   Integer: ['Pattern', 'NoOp', 'Enumeration', 'Range'],
-  //   Float: ['Pattern', 'NoOp', 'Enumeration', 'Range']
-  // };
+  render() {
+    const PropertiesPanelStyle = model => ({
+      width: '40%',
+      height: '100%',
+      backgroundColor: 'white',
+      // border: '4px solid lightgrey',
+      ...(this.props.currententity ? { border: `1px solid ${initFE[`${model.type()}`].render.backgroundColor}` } : {}),
+    });
 
-  const userDefinedValOptionsArr = Object.keys(_dataDefined).map(userDefinedValOption => (
-    <option value={userDefinedValOption}>{userDefinedValOption}</option>
-  ));
+    const userDefinedValOptionsArr = Object.keys(_dataDefined).map(userDefinedValOption => (
+      <option value={userDefinedValOption}>{userDefinedValOption}</option>
+    ));
 
-  let currentSelectedValidator = 'PatternValidator';
-  const validationSelector_handler2 = event => (currentSelectedValidator = event.target.value);
+    let currentSelectedValidator = 'PatternValidator';
+    const validationSelector_handler2 = event => (currentSelectedValidator = event.target.value);
 
-  console.log(currentSelectedValidator);
+    const tabPanelStyle = {
+      padding: '10px',
+    };
 
-  // return {
-  //   validations: {
-  //     ...props.model.validations(),
-  //     [event.target.id]: event.target.value
-  //   }
-  // };
+    const showValidator = entity => {
+      console.log(entity);
+      switch (entity) {
+        case 'TextArea':
+          return false;
+          break;
+        case 'CheckBox':
+          return false;
+          break;
+        case 'SelectionInput':
+          return false;
+          break;
+        default:
+          return true;
+      }
+    };
+    return (
+      <div style={PropertiesPanelStyle(this.props.model)}>
+        <p>{JSON.stringify(this.state.currentAddress)}</p>
+        <p>{JSON.stringify(this.state.tabIndex)}</p>
+        {this.props.currententity ? (
+          <Tabs dtLocalFilesSaved={this.props.dtLocalFilesSaved}>
+            <TabList>
+              <Tab>Entity</Tab>
+              <Tab dtLocalFilesSaved={this.props.dtLocalFilesSaved}>Form</Tab>
+            </TabList>
 
-  // const collapse_handler = event => {
-  //   props.temporalStateChange({
-  //     [event.target.id]: !props.appState[event.target.id],
-  //   });
-  // };
-
-  const showValidator = entity => {
-    console.log(entity);
-    switch (entity) {
-      case 'TextArea':
-        return false;
-        break;
-      case 'CheckBox':
-        return false;
-        break;
-      case 'SelectionInput':
-        return false;
-        break;
-      default:
-        return true;
-    }
-  };
-
-  const tabPanelStyle = {
-    padding: '10px',
-  };
-
-  return (
-    <div style={PropertiesPanelStyle(props.model)}>
-      {props.currententity ? (
-        <Tabs dtLocalFilesSaved={props.dtLocalFilesSaved}>
-          <TabList>
-            <Tab>Entity</Tab>
-            <Tab dtLocalFilesSaved={props.dtLocalFilesSaved}>Form</Tab>
-          </TabList>
-
-          <TabPanel style={tabPanelStyle}>
-            <div>
-              <Tabs /*temporary - dev validation selectedIndex={1}*/>
-                <TabList>
-                  <Tab>{address.getHumanName(props.model.type())} Properties</Tab>
-                  {props.model instanceof FormInput && props.model.type() !== 'autoSuggest' ? (
-                    <Tab key="0">{address.getHumanName(props.model.type())} Validations</Tab>
-                  ) : null}
-                  {console.log(props.model.type())}
-                  {props.model instanceof FormInput && props.model.type() !== 'autoSuggest' ? (
-                    <Tab key="1">{address.getHumanName(props.model.type())} Dependencies</Tab>
-                  ) : null}
-                </TabList>
-                <TabPanel add={props.add} style={tabPanelStyle}>
-                  {React.createElement(address.whichEntity(address.byPath(props.form, props.currententity)), {
-                    model: address.byPath(props.form, props.currententity),
-                    form: props.form,
-                    currententity: props.currententity,
-                    mutate: props.mutate,
-                    appState: props.appState,
-                    temporalStateChange: props.temporalStateChange,
-                    add: props.add,
-                  })}
-                </TabPanel>
-                {props.model instanceof FormInput ? (
+            <TabPanel style={tabPanelStyle}>
+              <div>
+                <Tabs
+                  /*temporary - dev validation */
+                  // selectedIndex={
+                  //   inputDefinedValidator[`${this.props.model.type()}`] ? null : 0
+                  // }
+                  selectedIndex={this.state.tabIndex}
+                  onSelect={tabIndex => this.setState({ tabIndex })}
+                >
+                  <TabList>
+                    <Tab>{address.getHumanName(this.props.model.type())} Properties</Tab>
+                    {this.props.model instanceof FormInput &&
+                    this.props.model.type() !== 'autoSuggest' &&
+                    this.props.model.type() !== 'TextArea' &&
+                    this.props.model.type() !== 'SelectionInput' &&
+                    this.props.model.type() !== 'CheckBox' &&
+                    this.props.model.type() !== 'autoSuggest' ? (
+                      <Tab key="0">{address.getHumanName(this.props.model.type())} Validations</Tab>
+                    ) : null}
+                    {this.props.model instanceof FormInput && this.props.model.type() !== 'autoSuggest' ? (
+                      <Tab key="1">{address.getHumanName(this.props.model.type())} Dependencies</Tab>
+                    ) : null}
+                  </TabList>
+                  <TabPanel add={this.props.add} style={tabPanelStyle}>
+                    {React.createElement(
+                      address.whichEntity(address.byPath(this.props.form, this.props.currententity)),
+                      {
+                        model: address.byPath(this.props.form, this.props.currententity),
+                        form: this.props.form,
+                        currententity: this.props.currententity,
+                        mutate: this.props.mutate,
+                        appState: this.props.appState,
+                        temporalStateChange: this.props.temporalStateChange,
+                        add: this.props.add,
+                      }
+                    )}
+                  </TabPanel>
+                  {console.log(inputDefinedValidator[this.props.model.type()])}
                   <TabPanel style={tabPanelStyle}>
                     <ValidationWrapper
-                      form={props.form}
-                      model={props.model}
-                      currententity={props.appState.currententity}
-                      mutate={props.mutate}
+                      form={this.props.form}
+                      model={this.props.model}
+                      currententity={this.props.appState.currententity}
+                      mutate={this.props.mutate}
                     />
                   </TabPanel>
-                ) : null}
-                {props.model instanceof FormInput ? (
+                  {/* {this.props.model instanceof FormInput ? ( */}
                   <TabPanel>
                     <DependencyWrapper
-                      form={props.form}
-                      model={props.model}
-                      currententity={props.appState.currententity}
-                      mutate={props.mutate}
+                      form={this.props.form}
+                      model={this.props.model}
+                      currententity={this.props.appState.currententity}
+                      mutate={this.props.mutate}
                     />
                   </TabPanel>
-                ) : null}
-              </Tabs>
-            </div>
-          </TabPanel>
-          <TabPanel dtLocalFilesSaved={props.dtLocalFilesSaved} style={tabPanelStyle}>
-            <FormProperty mutate={props.mutate} model={props.form} dtLocalFilesSaved={props.dtLocalFilesSaved} />
-          </TabPanel>
-        </Tabs>
-      ) : (
-        <Tabs dtLocalFilesSaved={props.dtLocalFilesSaved}>
-          <TabList>
-            <Tab>Entity</Tab>
-          </TabList>
-          <TabPanel>
-            <h2>Select Form Entity to Access Properties</h2>
-          </TabPanel>
-        </Tabs>
-      )}
-    </div>
-  );
-};
+                </Tabs>
+              </div>
+            </TabPanel>
+            <TabPanel dtLocalFilesSaved={this.props.dtLocalFilesSaved} style={tabPanelStyle}>
+              <FormProperty
+                mutate={this.props.mutate}
+                model={this.props.form}
+                dtLocalFilesSaved={this.props.dtLocalFilesSaved}
+              />
+            </TabPanel>
+          </Tabs>
+        ) : (
+          <Tabs dtLocalFilesSaved={this.props.dtLocalFilesSaved}>
+            <TabList>
+              <Tab>Entity</Tab>
+            </TabList>
+            <TabPanel>
+              <h2>Select Form Entity to Access Properties</h2>
+            </TabPanel>
+          </Tabs>
+        )}
+      </div>
+    );
+  }
+}
+
+export default PropertiesPanel;

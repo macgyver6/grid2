@@ -9,7 +9,7 @@ import PrePrompt from './subentities/PrePrompt.js';
 import PostPrompt from './subentities/PostPrompt.js';
 import { log } from 'util';
 import { address } from '../../address';
-import { utility } from '../../validation/val.utility';
+import { valUtility } from '../../validation/val.utility';
 import { FormInput } from '../../data/FormInput';
 import { entityActions } from './actions.entities';
 import AddToEnd from './subentities/AddToEnd.js';
@@ -129,18 +129,7 @@ const EchoComponent = props => {
             disabled="disabled"
             value={props.model.sourceInput() !== '' ? props.model.sourceInput() + ` value` : ''}
           />
-          {/*console.log(
-          props.model.sourceInput() === ''
-            ? ''
-            : utility
-                .findAll(
-                  props.form,
-                  e =>
-                    typeof e.promptNumber === 'function' &&
-                    e.promptNumber() === props.model.sourceInput()
-                )[0]
-                .defaultContent()
-        )} */}
+
           <Resizer
             resizeType="width"
             element="FormEntity"

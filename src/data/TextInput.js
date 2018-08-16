@@ -40,6 +40,7 @@ class TextInput extends FormInput {
     this._autoTab = properties.autoTab;
     this._doubleEntry = properties.doubleEntry;
     this._externalIdentifier = properties.externalIdentifier;
+    this._inputType = properties.inputType;
 
     if (this.constructor === TextInput) {
       deepFreeze(this);
@@ -108,6 +109,17 @@ class TextInput extends FormInput {
 
   clone(props) {
     return new TextInput(props === undefined ? this.properties() : props);
+  }
+
+  /**
+   *
+   * Get inputType on the form input.
+   * @param {Object} props
+   * @returns {FormInput}
+   * @memberof FormInput
+   */
+  inputType() {
+    return this._inputType;
   }
 
   /**

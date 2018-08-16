@@ -1,7 +1,7 @@
 import React from 'react';
 import { defaultPropsFE } from '../constants/defaultPropsFE';
 import { address } from '../address';
-import { utility } from '../validation/val.utility';
+import { valUtility } from '../validation/val.utility';
 import { Form } from '../data/Form';
 import { FormInput } from '../data/FormInput';
 import { entityWrapperStyle, entityStyle, inputStyle, calcTotal } from '../components/FormEntities/feStyles';
@@ -56,7 +56,7 @@ export const _EchoProperty = props => {
           id="sourceInput"
           style={inputStyle(props.model)}
         >
-          {utility
+          {valUtility
             .findAll(props.form, e => e instanceof FormInput)
             .map(formInput => (
               <option value={formInput.promptNumber()}>{`${formInput.promptNumber()} - ${formInput.type()}`}</option>

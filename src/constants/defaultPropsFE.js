@@ -34,6 +34,7 @@ export var initFE = {
     type: 'TextInput',
     tabOrder: null,
     inputWidth: 8,
+    inputType: 'String',
     promptNumber: '',
     length: 80,
     autoTab: true,
@@ -84,6 +85,8 @@ export var initFE = {
     postPrompt: '',
     name: '',
     sasCodeLabel: '',
+    inputType: 'String',
+
     type: 'TextArea',
     // externalIdentifier: 'CIE513c',
     tabOrder: null,
