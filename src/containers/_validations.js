@@ -41,6 +41,10 @@ export const dataDefinedByInput = {
   CheckBox: false,
   autoSuggest: false,
 };
+
+export const validatorsByInput = {
+  Any: ['PatternValidator', 'NoOpValidator', 'EnumerationValidator', 'SubjectInputValidator'],
+};
 //string //string //string //string
 // ['Pattern', 'NoOp', 'Enumeration', 'SubjectInputValidation']
 
