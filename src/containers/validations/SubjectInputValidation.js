@@ -13,7 +13,7 @@ export const SubjectInputValidation = props => (
     <br />
     <label for="value">Subject Input Validation Script</label>
     <br />
-    <select id="value" name="value" onChange={props.handleChange}>
+    <select name="properties" id="value" value={props.properties.value} onChange={props.handleStateSet}>
       <option selected value>
         {' '}
         -- select a script --{' '}

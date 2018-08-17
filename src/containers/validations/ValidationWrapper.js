@@ -15,7 +15,10 @@ class ValidationWrapper extends React.Component {
       // failMsg: '',
       // failLocal: '',
       // failLang: '',
-      value: '',
+      properties: {
+        name: '',
+        value: '',
+      },
       mode: 'add',
       currentValidator: null,
       nullIsValid: false,
@@ -23,7 +26,7 @@ class ValidationWrapper extends React.Component {
       // strong: null,
     };
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handleStateSet = this.handleStateSet.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     // this.addFailureMessage = this.addFailureMessage.bind(this);
@@ -34,12 +37,19 @@ class ValidationWrapper extends React.Component {
     this.getResetObj = this.getResetObj.bind(this);
   }
 
-  handleChange(event) {
+  handleStateSet(event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-
     const name = target.name;
-    if (name !== 'failMsg' && name !== 'failLang' && name !== 'failLocal' && name !== 'currentValidator') {
+    const id = target.id;
+    if (name === 'properties') {
+      this.setState(prevState => ({
+        properties: {
+          ...prevState.properties,
+          [id]: value,
+        },
+      }));
+    } else if (name !== 'failMsg' && name !== 'failLang' && name !== 'failLocal' && name !== 'currentValidator') {
       this.setState({
         [name]: value,
       });
@@ -266,7 +276,7 @@ class ValidationWrapper extends React.Component {
           value={this.state.currentValidator}
           className="form-control"
           name="currentValidator"
-          onChange={this.handleChange}
+          onChange={this.handleStateSet}
           id="currentValidator"
         >
           <option selected value>
@@ -287,14 +297,14 @@ class ValidationWrapper extends React.Component {
           <div id="validation">
             {this.state.currentValidator
               ? React.createElement(address.whichValidationComponent(this.state.currentValidator), {
-                  value: this.state.value,
+                  properties: this.state.properties,
                   model: address.byPath(this.props.form, this.props.currententity),
                   form: this.props.form,
                   currententity: this.props.currententity,
                   mutate: this.props.mutate,
                   appState: this.props.appState,
                   temporalStateChange: this.props.temporalStateChange,
-                  handleChange: this.handleChange,
+                  handleStateSet: this.handleStateSet,
                   handleSubmit: this.handleSubmit,
                   handleAdd: this.handleAdd,
                   allowSubmit: this.allowSubmit,
