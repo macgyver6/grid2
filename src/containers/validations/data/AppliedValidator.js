@@ -49,7 +49,7 @@ class AppliedValidator extends Validator {
 
   properties() {
     return {
-      uuid: this.type(),
+      uuid: this.uuid(),
       type: this.type(),
       customFailureMessage: this.customFailureMessage(),
       validState: this.validState(),

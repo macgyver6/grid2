@@ -18,7 +18,7 @@ const click_handler = event => {
   console.log(event.target.value);
   if (event.target.id === true) {
     event.target.style.backgroundColor = 'blue';
-    // props.handleChange({});
+    // props.handleStateSet({});
   }
   // this.setState({
   //   value: event.target.id,
@@ -52,7 +52,7 @@ export const NoOpValidation = props => (
   <div>
     <br />
 
-    <select value={props.value} className="form-control" name="nullIsValid" onChange={props.handleChange} id="value">
+    <select value={props.value} className="form-control" name="nullIsValid" onChange={props.handleStateSet} id="value">
       <option value={true}>Field Is Empty</option>
       <option value={false}>Any Value</option>
     </select>
@@ -78,7 +78,7 @@ export const NoOpValidation = props => (
         <div>
           {props.failureMode === 'validation' ? (
             <FailureMessage
-              handleChange={props.handleChange}
+              handleStateSet={props.handleStateSet}
               handleSubmit={props.handleSubmit}
               handleAdd={props.handleAdd}
               allowSubmit={props.allowSubmit}

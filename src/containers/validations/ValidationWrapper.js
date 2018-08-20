@@ -38,11 +38,18 @@ class ValidationWrapper extends React.Component {
   }
 
   handleStateSet(event) {
+    console.log(event.target);
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
     const id = target.id;
     if (name === 'properties') {
+      console.log({
+        properties: {
+          ...this.state.properties,
+          [id]: value,
+        },
+      });
       this.setState(prevState => ({
         properties: {
           ...prevState.properties,
@@ -92,7 +99,13 @@ class ValidationWrapper extends React.Component {
               },
           }
         : { customFailureMessage: '' };
-
+    console.log(
+      address.hydrateValidator(this.state.currentValidator, {
+        ...this.state,
+        ...customFailureMessage(),
+        type: this.state.currentValidator,
+      })
+    );
     this.props.mutate(address.bySample(this.props.model, this.props.form), {
       validations: [
         ...this.props.model.validations(),
@@ -132,6 +145,10 @@ class ValidationWrapper extends React.Component {
               failLang: '',
             })
     );
+    resetObj['properties'] = { name: '', value: '' };
+    resetObj['nullIsValid'] = false;
+    resetObj['validState'] = false;
+    resetObj['strong'] = false;
     return resetObj;
   }
 
@@ -186,14 +203,16 @@ class ValidationWrapper extends React.Component {
               },
           }
         : { customFailureMessage: '' };
+
     originalValidators.splice(
       this.state.currentIndex,
       1,
       // ...this.props.model.validations(),
-      new PatternValidator({ ...this.state, ...customFailureMessage() })
+      address.hydrateValidator(this.props.model.validations()[this.state.currentIndex].type(), {
+        ...this.state,
+        ...customFailureMessage(),
+      })
     );
-
-    console.log(originalValidators);
 
     this.props.mutate(address.bySample(this.props.model, this.props.form), {
       validations: originalValidators,

@@ -15,7 +15,7 @@ class RangeValidator extends AppliedValidator {
    * @param {boolean} properties.minInclusive
    * @param {number} properties.min
    * @param {string} properties.externalId
-   * @param {string} properties.externalId
+   * @param {Object} properties.properties
    */
   constructor(properties) {
     super(properties);
@@ -30,6 +30,7 @@ class RangeValidator extends AppliedValidator {
     this._max = properties.max;
     this._minInclusive = properties.minInclusive;
     this._maxInclusive = properties.maxInclusive;
+    this._properties = properties.properties;
   }
 
   customFailureMessage() {
@@ -72,6 +73,10 @@ class RangeValidator extends AppliedValidator {
     return this._max;
   }
 
+  getProperties() {
+    return this._properties;
+  }
+
   properties() {
     return {
       type: this.type(),
@@ -85,6 +90,7 @@ class RangeValidator extends AppliedValidator {
       max: this.max(),
       minInclusive: this.minInclusive(),
       maxInclusive: this.maxInclusive(),
+      properties: this.getProperties(),
     };
   }
 }

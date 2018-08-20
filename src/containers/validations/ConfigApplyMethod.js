@@ -15,7 +15,7 @@ export const ConfigApplyMethod = props => (
         type="checkbox"
         name="validState"
         checked={props.validState}
-        onChange={props.handleChange}
+        onChange={props.handleStateSet}
         // checked={props.model.validations().defaultUserVal.Pattern.validState}
         id="validState"
       />
@@ -27,7 +27,7 @@ export const ConfigApplyMethod = props => (
         type="checkbox"
         name="nullIsValid"
         checked={props.nullIsValid}
-        onChange={props.handleChange}
+        onChange={props.handleStateSet}
         // checked={props.model.validations().defaultUserVal.Pattern.nullIsValid}
         // id="nullIsValid-pattern"
       />
@@ -42,7 +42,7 @@ export const ConfigApplyMethod = props => (
               name="strong"
               id="strong-pattern"
               checked={props.strong}
-              onChange={props.handleChange}
+              onChange={props.handleStateSet}
             />,
             <label for="strong-pattern">Cannot be overridden</label>,
           ]

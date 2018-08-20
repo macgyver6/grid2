@@ -15,20 +15,20 @@ export const FailureMessage = props => (
         Custom failure message (optional):
       </label>
       <br />
-      <textarea name="failMsg" id="failMsg" onChange={props.handleChange} value={props.customFailureMessage.failMsg} />
+      <textarea name="failMsg" id="failMsg" onChange={props.handleStateSet} value={props.customFailureMessage.failMsg} />
       <br />
       <label for="failLang">
         <span>*</span>
         Language
       </label>
-      <select name="failLang" id="failLang" onChange={props.handleChange} value={props.customFailureMessage.failLang}>
+      <select name="failLang" id="failLang" onChange={props.handleStateSet} value={props.customFailureMessage.failLang}>
         {locals.map(local => <option>{local}</option>)}
       </select>
       <label for="failLocal">Country</label>
       <select
         name="failLocal"
         id="failLocal"
-        onChange={props.handleChange}
+        onChange={props.handleStateSet}
         value={props.customFailureMessage.failLocal}
       >
         <option value="" />

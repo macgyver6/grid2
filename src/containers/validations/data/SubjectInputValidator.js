@@ -12,7 +12,7 @@ class SubjectInputValidator extends AppliedValidator {
    * @param {string} properties.inputIndex
    * @param {string} properties.externalId
    * @param {string} properties.name
-   * @param {string} properties.value
+   * @param {Object} properties.properties
    */
   constructor(properties) {
     super(properties);
@@ -24,15 +24,15 @@ class SubjectInputValidator extends AppliedValidator {
     this._inputIndex = properties.inputIndex;
     this._externalId = properties.externalId;
     this._name = properties.name;
-    this._value = properties.value;
+    this._properties = properties.properties;
   }
 
   name() {
     return this._name;
   }
 
-  value() {
-    return this._value;
+  getProperties() {
+    return this._properties;
   }
 
   type() {
@@ -49,7 +49,7 @@ class SubjectInputValidator extends AppliedValidator {
       inputIndex: this.inputIndex(),
       externalId: this.externalId(),
       name: this.name(),
-      value: this.value(),
+      properties: this.getProperties(),
     };
   }
 }

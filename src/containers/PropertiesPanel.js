@@ -28,7 +28,7 @@ class PropertiesPanel extends React.Component {
       currentAddress: null,
       tabIndex: 0,
       // ...(props.selected ? { boxShadow: `3px 3px ${initFE[`${props.model.type()}`].render.backgroundColor} ` } : {}),
-      ...(!inputDefinedValidator[`${this.props.model.type()}`] ? { tabIndex: 0 } : {}),
+      // ...(!inputDefinedValidator[`${this.props.model.type()}`] ? { tabIndex: 0 } : {}),
     };
     console.log(!inputDefinedValidator[`${this.props.model.type()}`] ? { tabIndex: 0 } : {});
     // inputDefinedValidator[`${this.props.model.type()}`] ? null : 0;
@@ -46,7 +46,12 @@ class PropertiesPanel extends React.Component {
 
   componentWillReceiveProps(props) {
     console.log(utility.arraysEqual(this.state.currentAddress, props.appState.currententity));
-    if (!utility.arraysEqual(this.state.currentAddress, props.appState.currententity)) {
+    if (this.state.currentAddress === null) {
+      this.setState({
+        // tabIndex: 0,
+        currentAddress: props.appState.currententity,
+      });
+    } else if (!utility.arraysEqual(this.state.currentAddress, props.appState.currententity)) {
       console.log(this.state.currentAddress, props.appState.currententity);
       this.setState({
         tabIndex: 0,
@@ -132,8 +137,8 @@ class PropertiesPanel extends React.Component {
     };
     return (
       <div style={PropertiesPanelStyle(this.props.model)}>
-        <p>{JSON.stringify(this.state.currentAddress)}</p>
-        <p>{JSON.stringify(this.state.tabIndex)}</p>
+        {/* <p>{JSON.stringify(this.state.currentAddress)}</p>
+        <p>{JSON.stringify(this.state.tabIndex)}</p> */}
         {this.props.currententity ? (
           <Tabs dtLocalFilesSaved={this.props.dtLocalFilesSaved}>
             <TabList>
@@ -148,6 +153,7 @@ class PropertiesPanel extends React.Component {
                   // selectedIndex={
                   //   inputDefinedValidator[`${this.props.model.type()}`] ? null : 0
                   // }
+                  // selectedIndex={1}
                   selectedIndex={this.state.tabIndex}
                   onSelect={tabIndex => this.setState({ tabIndex })}
                 >
@@ -179,24 +185,33 @@ class PropertiesPanel extends React.Component {
                       }
                     )}
                   </TabPanel>
-                  {console.log(inputDefinedValidator[this.props.model.type()])}
-                  <TabPanel style={tabPanelStyle}>
-                    <ValidationWrapper
-                      form={this.props.form}
-                      model={this.props.model}
-                      currententity={this.props.appState.currententity}
-                      mutate={this.props.mutate}
-                    />
-                  </TabPanel>
-                  {/* {this.props.model instanceof FormInput ? ( */}
-                  <TabPanel>
-                    <DependencyWrapper
-                      form={this.props.form}
-                      model={this.props.model}
-                      currententity={this.props.appState.currententity}
-                      mutate={this.props.mutate}
-                    />
-                  </TabPanel>
+                  {this.props.model instanceof FormInput &&
+                  this.props.model.type() !== 'autoSuggest' &&
+                  this.props.model.type() !== 'TextArea' &&
+                  this.props.model.type() !== 'SelectionInput' &&
+                  this.props.model.type() !== 'CheckBox' &&
+                  this.props.model.type() !== 'autoSuggest' ? (
+                    <TabPanel style={tabPanelStyle}>
+                      <ValidationWrapper
+                        form={this.props.form}
+                        model={this.props.model}
+                        currententity={this.props.appState.currententity}
+                        mutate={this.props.mutate}
+                        tabIndex={this.state.tabIndex}
+                      />
+                    </TabPanel>
+                  ) : null}
+
+                  {this.props.model instanceof FormInput && this.props.model.type() !== 'autoSuggest' ? (
+                    <TabPanel>
+                      <DependencyWrapper
+                        form={this.props.form}
+                        model={this.props.model}
+                        currententity={this.props.appState.currententity}
+                        mutate={this.props.mutate}
+                      />
+                    </TabPanel>
+                  ) : null}
                 </Tabs>
               </div>
             </TabPanel>

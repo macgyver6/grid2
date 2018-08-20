@@ -29,7 +29,7 @@ export const PatternValidation = props => (
         {/* begin AppliedValidator*/}
         <div>
           <ConfigApplyMethod
-            handleChange={props.handleChange}
+            handleStateSet={props.handleStateSet}
             handleSubmit={props.handleSubmit}
             handleAdd={props.handleAdd}
             allowSubmit={props.allowSubmit}
@@ -42,7 +42,7 @@ export const PatternValidation = props => (
           />
           {props.failureMode === 'validation' ? (
             <FailureMessage
-              handleChange={props.handleChange}
+              handleStateSet={props.handleStateSet}
               handleSubmit={props.handleSubmit}
               handleAdd={props.handleAdd}
               allowSubmit={props.allowSubmit}

@@ -22,14 +22,14 @@ export const SubjectInputValidation = props => (
     </select>
     {/* <label>
         Validation Pattern:
-      <input type="text" size="25" name="value" id="value" onChange={props.handleChange} value={props.value} />
+      <input type="text" size="25" name="value" id="value" onChange={props.handleStateSet} value={props.value} />
       </label> */}
     <div>
       <div id="edu_unc_tcrdms_model_form_validation_validators_PatternValidator">
         {/* begin AppliedValidator*/}
         <div>
           <ConfigApplyMethod
-            handleChange={props.handleChange}
+            handleStateSet={props.handleStateSet}
             handleSubmit={props.handleSubmit}
             handleAdd={props.handleAdd}
             allowSubmit={props.allowSubmit}
@@ -42,7 +42,7 @@ export const SubjectInputValidation = props => (
           />
           {props.failureMode === 'validation' ? (
             <FailureMessage
-              handleChange={props.handleChange}
+              handleStateSet={props.handleStateSet}
               handleSubmit={props.handleSubmit}
               handleAdd={props.handleAdd}
               allowSubmit={props.allowSubmit}
