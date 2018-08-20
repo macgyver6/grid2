@@ -62,17 +62,6 @@ export const SubjectInputValidation = props => (
     <div id="validators">
       <ul />
     </div>
-    <p>
-      {props.mode === 'add' ? (
-        <button disabled={props.allowSubmit()} value="PatternValidator" onClick={props.handleAdd}>
-          Add
-        </button>
-      ) : (
-        <button value="PatternValidator" onClick={props.handleUpdate}>
-          Update
-        </button>
-      )}
-    </p>
     <div>
       <label>
         <span>*</span>

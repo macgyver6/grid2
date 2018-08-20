@@ -11,6 +11,8 @@ import { PatternValidator } from './data/PatternValidator';
 import { sample } from './data/PatternValidator';
 import DropToSelect from '../DropToSelect';
 import ValidationWrapper from './ValidationWrapper';
+import JSONPretty from 'react-json-pretty';
+import { getBadge } from './ValidationWrapper';
 
 class DependencyWrapper extends React.Component {
   constructor(props) {
@@ -22,33 +24,100 @@ class DependencyWrapper extends React.Component {
       // value: '',
       value: '',
       mode: 'add',
-      currentValidator: null,
       nullIsValid: false,
       relativeInput: null,
       // currentIndex: '',
       // strong: true,
+      currentValidator: null,
+      currentInput: null,
+      conditions: [],
     };
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handleStateSet = this.handleStateSet.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
+    this.handleAddValidator = this.handleAddValidator.bind(this);
     // this.addFailureMessage = this.addFailureMessage.bind(this);
     this.allowSubmit = this.allowSubmit.bind(this);
     this.loadExistingValidator = this.loadExistingValidator.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.validationSelector_handler = this.validationSelector_handler.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.getResetObj = this.getResetObj.bind(this);
+    this.allowSubmit = this.allowSubmit.bind(this);
   }
 
-  handleChange(event) {
+  getResetObj(validatorType) {
+    const resetObj = {
+      customFailureMessage: {
+        failMsg: '',
+        failLocal: '',
+        failLang: '',
+      },
+    };
+
+    Object.keys(
+      address
+        .hydrateValidator(validatorType, {
+          type: validatorType,
+        })
+        .properties()
+    ).forEach(
+      property =>
+        property !== 'customFailureMessage'
+          ? (resetObj[property] = '')
+          : (resetObj['customFailureMessage'] = {
+              failMsg: '',
+              failLocal: '',
+              failLang: '',
+            })
+    );
+    resetObj['properties'] = { name: '', value: '' };
+    resetObj['nullIsValid'] = false;
+    resetObj['validState'] = false;
+    resetObj['strong'] = false;
+    return resetObj;
+  }
+
+  allowSubmit() {
+    // if (
+    //   this.state.failMsg !== '' &&
+    //   this.state.failLocal !== '' &&
+    //   this.state.failLang !== '' &&
+    //   this.state.value !== ''
+    // ) {
+    //   return false;
+    // } else if (
+    //   this.state.failMsg === '' &&
+    //   this.state.failLocal === '' &&
+    //   this.state.failLang === '' &&
+    //   this.state.value !== ''
+    // ) {
+    //   return false;
+    // } else {
+    //   return true;
+    // }
+    return false;
+  }
+
+  handleStateSet(event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-
+    console.log(event.target.name, event.target.value);
     const name = target.name;
-    if (name === 'relativeInput') {
+    const id = target.id;
+    if (name === 'properties') {
+      this.setState(prevState => ({
+        properties: {
+          ...prevState.properties,
+          [id]: value,
+        },
+      }));
+    } else if (name === 'relativeInput') {
       const addressToAdd = address.byPath(this.props.form, JSON.parse(value));
       this.setState({
         relativeInput: addressToAdd,
+        relativeEntity: value,
       });
     } else if (name !== 'failMsg' && name !== 'failLang' && name !== 'failLocal' && name !== 'currentValidator') {
       this.setState({
@@ -56,10 +125,12 @@ class DependencyWrapper extends React.Component {
       });
     } else if (name === 'currentValidator') {
       console.log({
+        ...this.getResetObj(value),
         mode: 'add',
         [name]: value,
       });
       this.setState({
+        ...this.getResetObj(value),
         mode: 'add',
         [name]: value,
       });
@@ -97,45 +168,47 @@ class DependencyWrapper extends React.Component {
           }
         : { customFailureMessage: '' };
 
-    this.props.mutate(address.bySample(this.props.model, this.props.form), {
-      validations: [
-        ...this.props.model.validations(),
-        address.hydrateValidator(this.state.currentValidator, {
-          ...this.state,
-          ...customFailureMessage(),
-          type: this.state.currentValidator,
+    const dependencyToAdd = {
+      dependencies: [
+        ...this.props.model.dependencies(),
+        new DependencyExpression({
+          operator: this.state.currentOperator,
+          conditions: this.state.conditions,
+          // ...customFailureMessage(),
+          // type: this.state.currentValidator,
         }),
       ],
-    });
+    };
+
+    console.log(this.props.model.dependencies());
+    console.log(dependencyToAdd);
+
+    // this.props.mutate(address.bySample(this.props.model, this.props.form), dependencyToAdd);
 
     this.setState(this.getResetObj(this.state.currentValidator));
   }
 
-  allowSubmit() {
-    if (
-      this.state.failMsg !== '' &&
-      this.state.failLocal !== '' &&
-      this.state.failLang !== '' &&
-      this.state.value !== ''
-    ) {
-      return false;
-    } else if (
-      this.state.failMsg === '' &&
-      this.state.failLocal === '' &&
-      this.state.failLang === '' &&
-      this.state.value !== ''
-    ) {
-      return false;
-    } else {
-      return true;
-    }
+  handleAddValidator(event) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    const resultingConditions = [
+      ...this.state.conditions,
+      address.hydrateValidator(this.state.currentValidator, {
+        properties: this.state.properties,
+        validState: this.state.validState,
+        strong: this.state.strong,
+        nullIsValid: this.state.nullIsValid,
+      }),
+    ];
+    this.setState({ ...this.getResetObj(this.state.currentValidator), conditions: resultingConditions });
   }
 
   handleUpdate(event) {
     event.preventDefault();
     console.log(this.state);
     const index = this.state.currentIndex;
-    const originalValidators = [...this.props.model.validations()];
+    const originalConditions = [...this.state.conditions];
 
     const customFailureMessage = () =>
       this.state.customFailureMessage.failMsg !== '' &&
@@ -151,23 +224,20 @@ class DependencyWrapper extends React.Component {
               },
           }
         : { customFailureMessage: '' };
-    originalValidators.splice(
+    originalConditions.splice(
       this.state.currentIndex,
       1,
       // ...this.props.model.validations(),
-      new PatternValidator({ ...this.state, ...customFailureMessage() })
+      address.hydrateValidator(this.state.currentValidator, {
+        ...this.state,
+      })
     );
-
-    console.log(originalValidators);
-
-    this.props.mutate(address.bySample(this.props.model, this.props.form), {
-      validations: originalValidators,
-    });
 
     this.setState({
       ...this.getResetObj(this.state.currentValidator),
       mode: 'add',
-      currentIndex: event.target.id,
+      // currentIndex: event.target.id,
+      conditions: originalConditions,
     });
   }
 
@@ -230,31 +300,30 @@ class DependencyWrapper extends React.Component {
     this.setState({
       mode: 'update',
       currentIndex: event.target.id,
-      currentValidator: this.props.model.validations()[event.target.id].type(),
+      currentValidator: this.state.conditions[event.target.id].type(),
     });
 
-    this.setState(this.props.model.validations()[event.target.id].properties());
+    this.setState(this.state.conditions[event.target.id].properties());
   }
 
   handleDelete(event) {
     event.preventDefault();
     console.log(this.state);
-    const index = this.state.currentIndex;
-    const originalValidators = [...this.props.model.validations()];
+    const originalConditions = [...this.state.conditions];
 
-    originalValidators.splice(this.state.currentIndex, 1);
+    originalConditions.splice(this.state.currentIndex, 1);
 
     this.props.mutate(address.bySample(this.props.model, this.props.form), {
-      validations: originalValidators,
+      validations: originalConditions,
     });
-    this.setState({ ...this.getResetObj(this.state.currentValidator), mode: 'add' });
+    this.setState({ ...this.getResetObj(this.state.currentValidator), mode: 'add', conditions: originalConditions });
   }
 
   render() {
     const newDependecyExpression = new DependencyExpression({
       type: 'type',
       operator: 'OR',
-      conditions: [{ type: 'appliedValidator' }],
+      conditions: [{ type: 'ValidationWrapper' }],
     });
     // const newDependecyExpression = new DependencyExpression('type', 'OR', [{ type: 'appliedValidator' }]);
     console.log(newDependecyExpression);
@@ -262,15 +331,15 @@ class DependencyWrapper extends React.Component {
     // const sample2 = new PatternValidator({ type: 'Pattern' });
     // console.log(sample2);
 
-    this.state.relativeInput
-      ? typeof this.state.relativeInput.inputType === 'function'
-        ? console.log(this.state.relativeInput.type())
-        : null
-      : null;
+    // this.state.relativeInput
+    //   ? typeof this.state.relativeInput.inputType === 'function'
+    //     ? console.log(this.state.relativeInput.type())
+    //     : null
+    //   : null;
 
     return (
       <div>
-        <p>{JSON.stringify(this.state)}</p>
+        <JSONPretty id="json-pretty" json={JSON.stringify(this.state)} />
         <div
           style={{
             margin: '20px',
@@ -282,7 +351,7 @@ class DependencyWrapper extends React.Component {
           }}
         >
           {/* {JSON.stringify(this.props.model.validations())} */}
-          <h4>Dependencies Applied to this Field</h4>
+          <h4>Inputs this Input is Dependent Upon</h4>
           <ul>
             <li>
               Any of the following
@@ -292,69 +361,84 @@ class DependencyWrapper extends React.Component {
               </ul>
             </li>
           </ul>
-
-          {/* {this.props.model.validations().length > 0 ? (
-                this.props.model.validations().map(validation => (
-                  <li>
-                    {this.props.model.inputType()} {validation.type()} {validation.value()}
-                  </li>
-                ))
-              ) : (
-                <li>None</li>
-              )} */}
         </div>
         <h3>1. Select dependency input Operator</h3>
         <select
           name="currentOperator"
           value={this.state.currentOperator}
-          onChange={this.handleChange}
+          onChange={this.handleStateSet}
           id="currentOperator"
         >
           <option>All</option>
           <option>Any</option>
           <option>Exactly One</option>
         </select>
-        <h3>2. Select Entity to Apply Dependency To (implement eye-dropper - future)</h3>
+        <h3>2. Select Entity to Apply Dependency To</h3>
         <select
           className="form-control"
           name="relativeInput"
           type={this.props.model.type()}
-          value={this.state.relativeInput}
-          onChange={this.handleChange}
+          value={this.state.relativeEntity}
+          onChange={this.handleStateSet}
           id="validationSelector"
           // style={inputStyle(this.props.model)}
         >
-          {valUtility
-            .findAll(this.props.form, e => e instanceof FormInput)
-            .map(formInput => (
-              <option
-                value={JSON.stringify(address.bySample(formInput, this.props.form))}
-              >{`${formInput.externalIdentifier()} - ${formInput.type()}`}</option>
-            ))}
+          {valUtility.findAll(this.props.form, e => e instanceof FormInput && e !== this.props.model).map(formInput => (
+            <option value={JSON.stringify(address.bySample(formInput, this.props.form))}>
+              {/* ${formInput.externalIdentifier()} - */}
+              {`
+               ${formInput.type()}`}
+            </option>
+          ))}
         </select>
 
         <br />
-        <DropToSelect form={this.props.form} model={this.props.model} />
-        {/* <select
-            className="form-control"
-            name="dependency-selection"
-            type={this.props.model.type()}
-            // value={this.props.model.sourceInput()}
-            onChange={change_handler}
-            id="sourceInput"
-          >
-            {valUtility
-              .findAll(this.props.form, e => e instanceof FormInput)
-              .map(formInput => (
-                <option value={formInput.promptNumber()}>{`${formInput.promptNumber()} - ${formInput.type()}`}</option>
-              ))}
-          </select> */}
+        {/* <DropToSelect form={this.props.form} model={this.props.model} /> */}
+
+        <div
+          style={{
+            margin: '20px',
+            padding: '4px',
+            minHeight: '60px',
+            width: '80%',
+            border: 'solid black 1px',
+            background: 'orange',
+          }}
+        >
+          {/* {JSON.stringify(this.props.model.validations())} */}
+          <h4>Validators currently added</h4>
+          <ul>
+            {this.state.conditions.length ? (
+              this.state.conditions.map((validation, index) => (
+                <li>
+                  {/* {validation.type()} {validation.getProperties().value} */}
+
+                  {getBadge(validation.type())}
+                  {` `}
+                  {`${typeof validation.getProperties === 'function' ? validation.getProperties().value : ''}`}
+                  {` `}
+                  <span id={index} onClick={this.loadExistingValidator}>
+                    ✏️
+                  </span>
+                  {'        '}
+                  <i className="far fa-trash-alt" style={{ color: 'red' }} id={index} onClick={this.handleDelete} />
+                  {/* <span id={index} onClick={this.handleDelete}>
+                    🗑️
+                  </span> */}
+                </li>
+              ))
+            ) : (
+              <li>None</li>
+            )}
+          </ul>
+        </div>
+
         <h3>3. Select validator to apply</h3>
         <select
           value={this.state.currentValidator}
           className="form-control"
           name="currentValidator"
-          onChange={this.handleChange}
+          onChange={this.handleStateSet}
           id="currentValidator"
         >
           {console.log(validatorsByInput)}
@@ -388,7 +472,7 @@ class DependencyWrapper extends React.Component {
                 appState: this.props.appState,
                 temporalStateChange: this.props.temporalStateChange,
 
-                handleChange: this.handleChange,
+                handleStateSet: this.handleStateSet,
                 handleSubmit: this.handleSubmit,
                 handleAdd: this.handleAdd,
                 // addFailureMessage: this.addFailureMessage,
@@ -401,15 +485,31 @@ class DependencyWrapper extends React.Component {
                 failMsg: this.state.failMsg,
                 failLocal: this.state.failLocal,
                 failLang: this.state.failLang,
-                value: this.state.value,
+                properties: this.state.properties,
                 mode: this.state.mode,
                 currentIndex: this.state.currentIndex,
                 validState: this.state.validState,
                 strong: this.state.strong,
                 nullIsValid: this.state.nullIsValid,
                 failureMode: this.props.failureMode ? this.props.failureMode : 'dependency',
+                addType: 'addValToDep',
               })
             : null}
+          <p>
+            {this.state.mode === 'add' ? (
+              <button disabled={this.allowSubmit()} onClick={this.handleAddValidator}>
+                Add Validator
+              </button>
+            ) : (
+              <button value={this.state.currentValidator} onClick={this.handleUpdate}>
+                Update
+              </button>
+            )}
+
+            <button disabled={this.allowSubmit()} onClick={this.handleAdd}>
+              Add Dependency
+            </button>
+          </p>
         </div>
       </div>
     );

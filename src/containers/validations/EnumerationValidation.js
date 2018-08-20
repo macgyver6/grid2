@@ -18,8 +18,8 @@ export const EnumerationValidation = props => (
         size="25"
         name="properties"
         id="value"
-        onChange={props.handleStateSet}
         value={props.properties.value}
+        onChange={props.handleStateSet}
       />
     </label>
     <div>
@@ -60,17 +60,7 @@ export const EnumerationValidation = props => (
     <div id="validators">
       <ul />
     </div>
-    <p>
-      {props.mode === 'add' ? (
-        <button disabled={props.allowSubmit()} value="PatternValidator" onClick={props.handleAdd}>
-          Add
-        </button>
-      ) : (
-        <button value="PatternValidator" onClick={props.handleUpdate}>
-          Update
-        </button>
-      )}
-    </p>
+
     <div>
       <label>
         <span>*</span>
