@@ -14,6 +14,7 @@ import DropToSelect from '../DropToSelect';
 import ValidationWrapper from './ValidationWrapper';
 import JSONPretty from 'react-json-pretty';
 import { getBadge } from './ValidationWrapper';
+import { throws } from 'assert';
 
 class DependencyWrapper extends React.Component {
   constructor(props) {
@@ -25,40 +26,41 @@ class DependencyWrapper extends React.Component {
       // failLang: '',
       // value: '',
       conditions: [
-        // new EnumerationValidator({
-        //   type: 'EnumerationValidator',
-        //   validState: false,
-        //   strong: false,
-        //   nullIsValid: false,
-        //   properties: {
-        //     name: '',
-        //     value: '1',
-        //   },
-        // }),
-        // new PatternValidator({
-        //   type: 'PatternValidator',
-        //   validState: false,
-        //   strong: false,
-        //   nullIsValid: false,
-        //   properties: {
-        //     name: '',
-        //     value: '2',
-        //   },
-        // }),
-        // new PatternValidator({
-        //   type: 'PatternValidator',
-        //   validState: false,
-        //   strong: false,
-        //   nullIsValid: false,
-        //   properties: {
-        //     name: '',
-        //     value: '3',
-        //   },
-        // }),
+        new EnumerationValidator({
+          type: 'EnumerationValidator',
+          validState: false,
+          strong: false,
+          nullIsValid: false,
+          properties: {
+            name: '',
+            value: '1',
+          },
+        }),
+        new PatternValidator({
+          type: 'PatternValidator',
+          validState: false,
+          strong: false,
+          nullIsValid: false,
+          properties: {
+            name: '',
+            value: '2',
+          },
+        }),
+        new PatternValidator({
+          type: 'PatternValidator',
+          validState: false,
+          strong: false,
+          nullIsValid: false,
+          properties: {
+            name: '',
+            value: '3',
+          },
+        }),
       ],
       properties: { name: '', value: '' },
       value: '',
       mode: 'add',
+      dependencyMode: 'add',
       nullIsValid: false,
       relativeInput: null,
       // currentIndex: '',
@@ -237,6 +239,7 @@ class DependencyWrapper extends React.Component {
         validState: this.state.validState,
         strong: this.state.strong,
         nullIsValid: this.state.nullIsValid,
+        externalId: this.state.relativeInput.externalIdentifier(),
       }),
     ];
     this.setState({ ...this.getResetObj(this.state.currentValidator), conditions: resultingConditions });
@@ -298,13 +301,17 @@ class DependencyWrapper extends React.Component {
               },
           }
         : { customFailureMessage: '' };
-
+    console.log(new DependencyExpression(this.state));
     originalDependencies.splice(
       event.target.id,
       1,
       // ...this.props.model.validations(),
       new DependencyExpression(this.state)
     );
+
+    this.props.mutate(address.bySample(this.props.model, this.props.form), {
+      dependencies: originalDependencies,
+    });
 
     this.setState({
       ...this.getResetObj(this.state.currentValidator),
@@ -385,6 +392,7 @@ class DependencyWrapper extends React.Component {
       // currentIndex: event.target.id,
       // currentValidator: this.state.conditions[event.target.id].type(),
     });
+    console.log(this.props.model.dependencies()[event.target.id].properties());
 
     this.setState(this.props.model.dependencies()[event.target.id].properties());
   }
@@ -395,9 +403,6 @@ class DependencyWrapper extends React.Component {
 
     originalConditions.splice(event.target.id, 1);
 
-    this.props.mutate(address.bySample(this.props.model, this.props.form), {
-      validations: originalConditions,
-    });
     this.setState({ ...this.getResetObj(this.state.currentValidator), mode: 'add', conditions: originalConditions });
   }
 
@@ -445,7 +450,7 @@ class DependencyWrapper extends React.Component {
           }}
         >
           {/* {JSON.stringify(this.props.model.validations())} */}
-          <h4>Inputs this Input is Dependent Upon</h4>
+          <h4>Dependencies</h4>
           {this.props.model.dependencies().length ? (
             this.props.model.dependencies().map((dependency, index) => (
               <li>
@@ -500,13 +505,21 @@ class DependencyWrapper extends React.Component {
             {' '}
             -- select an entity --{' '}
           </option>{' '}
-          {valUtility.findAll(this.props.form, e => e instanceof FormInput && e !== this.props.model).map(formInput => (
-            <option value={JSON.stringify(address.bySample(formInput, this.props.form))}>
-              {/* ${formInput.externalIdentifier()} - */}
-              {`
+          {valUtility
+            .findAll(this.props.form, e => e instanceof FormInput && e !== this.props.model)
+            .filter(input =>
+              address
+                .bySample(input, this.props.form)
+                .every(
+                  (currentValue, index) => currentValue <= address.bySample(this.props.model, this.props.form)[index]
+                )
+            )
+            .map(formInput => (
+              <option value={JSON.stringify(address.bySample(formInput, this.props.form))}>
+                {`  ${formInput.externalIdentifier()} -
                ${formInput.type()}`}
-            </option>
-          ))}
+              </option>
+            ))}
         </select>
 
         <br />
@@ -622,13 +635,24 @@ class DependencyWrapper extends React.Component {
               </button>
             ) : (
               <button value={this.state.currentValidator} onClick={this.handleUpdate}>
-                Update
+                Update Validator
               </button>
             )}
           </p>
-          <button disabled={this.allowSubmit()} onClick={this.handleAdd}>
+          <p>
+            {this.state.dependencyMode === 'add' ? (
+              <button disabled={this.allowSubmit()} onClick={this.handleAdd}>
+                Add Dependency
+              </button>
+            ) : (
+              <button value={this.state.currentValidator} onClick={this.handleUpdateDependency}>
+                Update Dependency
+              </button>
+            )}
+          </p>
+          {/* <button disabled={this.allowSubmit()} onClick={this.handleAdd}>
             Add Dependency
-          </button>
+          </button> */}
         </div>
       </div>
     );
