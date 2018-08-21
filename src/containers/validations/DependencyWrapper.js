@@ -8,6 +8,7 @@ import AppliedValidator from './AppliedValidator';
 import { DependencyExpression } from './data/DependencyExpression';
 import Validator from './data/Validator';
 import { PatternValidator } from './data/PatternValidator';
+import { EnumerationValidator } from './data/EnumerationValidator';
 import { sample } from './data/PatternValidator';
 import DropToSelect from '../DropToSelect';
 import ValidationWrapper from './ValidationWrapper';
@@ -17,32 +18,68 @@ import { getBadge } from './ValidationWrapper';
 class DependencyWrapper extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       // failMsg: '',
       // failLocal: '',
       // failLang: '',
       // value: '',
+      conditions: [
+        // new EnumerationValidator({
+        //   type: 'EnumerationValidator',
+        //   validState: false,
+        //   strong: false,
+        //   nullIsValid: false,
+        //   properties: {
+        //     name: '',
+        //     value: '1',
+        //   },
+        // }),
+        // new PatternValidator({
+        //   type: 'PatternValidator',
+        //   validState: false,
+        //   strong: false,
+        //   nullIsValid: false,
+        //   properties: {
+        //     name: '',
+        //     value: '2',
+        //   },
+        // }),
+        // new PatternValidator({
+        //   type: 'PatternValidator',
+        //   validState: false,
+        //   strong: false,
+        //   nullIsValid: false,
+        //   properties: {
+        //     name: '',
+        //     value: '3',
+        //   },
+        // }),
+      ],
+      properties: { name: '', value: '' },
       value: '',
       mode: 'add',
       nullIsValid: false,
       relativeInput: null,
       // currentIndex: '',
       // strong: true,
-      currentValidator: null,
+      operator: 'All',
+      currentValidator: 'PatternValidator',
       currentInput: null,
-      conditions: [],
     };
 
     this.handleStateSet = this.handleStateSet.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.handleAddValidator = this.handleAddValidator.bind(this);
-    // this.addFailureMessage = this.addFailureMessage.bind(this);
     this.allowSubmit = this.allowSubmit.bind(this);
     this.loadExistingValidator = this.loadExistingValidator.bind(this);
+    this.loadExistingDependency = this.loadExistingDependency.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleUpdateDependency = this.handleUpdateDependency.bind(this);
     this.validationSelector_handler = this.validationSelector_handler.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleDeleteDependency = this.handleDeleteDependency.bind(this);
     this.getResetObj = this.getResetObj.bind(this);
     this.allowSubmit = this.allowSubmit.bind(this);
   }
@@ -103,6 +140,7 @@ class DependencyWrapper extends React.Component {
   handleStateSet(event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
+
     console.log(event.target.name, event.target.value);
     const name = target.name;
     const id = target.id;
@@ -172,7 +210,7 @@ class DependencyWrapper extends React.Component {
       dependencies: [
         ...this.props.model.dependencies(),
         new DependencyExpression({
-          operator: this.state.currentOperator,
+          operator: this.state.operator,
           conditions: this.state.conditions,
           // ...customFailureMessage(),
           // type: this.state.currentValidator,
@@ -183,9 +221,9 @@ class DependencyWrapper extends React.Component {
     console.log(this.props.model.dependencies());
     console.log(dependencyToAdd);
 
-    // this.props.mutate(address.bySample(this.props.model, this.props.form), dependencyToAdd);
+    this.props.mutate(address.bySample(this.props.model, this.props.form), dependencyToAdd);
 
-    this.setState(this.getResetObj(this.state.currentValidator));
+    this.setState({ ...this.getResetObj(this.state.currentValidator), conditions: [] });
   }
 
   handleAddValidator(event) {
@@ -238,6 +276,41 @@ class DependencyWrapper extends React.Component {
       mode: 'add',
       // currentIndex: event.target.id,
       conditions: originalConditions,
+    });
+  }
+
+  handleUpdateDependency(event) {
+    event.preventDefault();
+    console.log(this.state);
+    const originalDependencies = [...this.props.model.dependencies()];
+
+    const customFailureMessage = () =>
+      this.state.customFailureMessage.failMsg !== '' &&
+      this.state.customFailureMessage.failLocal !== '' &&
+      this.state.customFailureMessage.failLang !== ''
+        ? {
+            customFailureMessage:
+              // ...this.state.customFailureMessage.customFailureMessage,
+              {
+                failMsg: this.state.customFailureMessage.failMsg,
+                failLocal: this.state.customFailureMessage.failLocal,
+                failLang: this.state.customFailureMessage.failLang,
+              },
+          }
+        : { customFailureMessage: '' };
+
+    originalDependencies.splice(
+      event.target.id,
+      1,
+      // ...this.props.model.validations(),
+      new DependencyExpression(this.state)
+    );
+
+    this.setState({
+      ...this.getResetObj(this.state.currentValidator),
+      dependencyMode: 'add',
+      // currentIndex: event.target.id,
+      // conditions: originalDependencies,
     });
   }
 
@@ -306,17 +379,38 @@ class DependencyWrapper extends React.Component {
     this.setState(this.state.conditions[event.target.id].properties());
   }
 
+  loadExistingDependency(event) {
+    this.setState({
+      dependencyMode: 'update',
+      // currentIndex: event.target.id,
+      // currentValidator: this.state.conditions[event.target.id].type(),
+    });
+
+    this.setState(this.props.model.dependencies()[event.target.id].properties());
+  }
+
   handleDelete(event) {
     event.preventDefault();
-    console.log(this.state);
     const originalConditions = [...this.state.conditions];
 
-    originalConditions.splice(this.state.currentIndex, 1);
+    originalConditions.splice(event.target.id, 1);
 
     this.props.mutate(address.bySample(this.props.model, this.props.form), {
       validations: originalConditions,
     });
     this.setState({ ...this.getResetObj(this.state.currentValidator), mode: 'add', conditions: originalConditions });
+  }
+
+  handleDeleteDependency(event) {
+    event.preventDefault();
+    const originalDependencies = [...this.state.conditions];
+
+    originalDependencies.splice(event.target.id, 1);
+
+    this.props.mutate(address.bySample(this.props.model, this.props.form), {
+      dependencies: originalDependencies,
+    });
+    this.setState({ ...this.getResetObj(this.state.currentValidator) });
   }
 
   render() {
@@ -339,7 +433,7 @@ class DependencyWrapper extends React.Component {
 
     return (
       <div>
-        <JSONPretty id="json-pretty" json={JSON.stringify(this.state)} />
+        {/* <JSONPretty id="json-pretty" json={JSON.stringify(this.state)} /> */}
         <div
           style={{
             margin: '20px',
@@ -352,7 +446,31 @@ class DependencyWrapper extends React.Component {
         >
           {/* {JSON.stringify(this.props.model.validations())} */}
           <h4>Inputs this Input is Dependent Upon</h4>
-          <ul>
+          {this.props.model.dependencies().length ? (
+            this.props.model.dependencies().map((dependency, index) => (
+              <li>
+                {dependency.type()}
+
+                {/* {getBadge(dependency.type())} */}
+                {` `}
+                {`${typeof dependency.getProperties === 'function' ? dependency.getProperties().value : ''}`}
+                {` `}
+                <span id={index} onClick={this.loadExistingDependency}>
+                  ✏️
+                </span>
+                {'        '}
+                <i
+                  className="far fa-trash-alt"
+                  style={{ color: 'red' }}
+                  id={index}
+                  onClick={this.handleDeleteDependency}
+                />
+              </li>
+            ))
+          ) : (
+            <li>None</li>
+          )}
+          {/* <ul>
             <li>
               Any of the following
               <ul>
@@ -360,15 +478,10 @@ class DependencyWrapper extends React.Component {
                 <li>a2 - Text Input Patient Gender Female</li>
               </ul>
             </li>
-          </ul>
+          </ul> */}
         </div>
         <h3>1. Select dependency input Operator</h3>
-        <select
-          name="currentOperator"
-          value={this.state.currentOperator}
-          onChange={this.handleStateSet}
-          id="currentOperator"
-        >
+        <select name="operator" value={this.state.operator} onChange={this.handleStateSet} id="operator">
           <option>All</option>
           <option>Any</option>
           <option>Exactly One</option>
@@ -383,6 +496,10 @@ class DependencyWrapper extends React.Component {
           id="validationSelector"
           // style={inputStyle(this.props.model)}
         >
+          <option selected value>
+            {' '}
+            -- select an entity --{' '}
+          </option>{' '}
           {valUtility.findAll(this.props.form, e => e instanceof FormInput && e !== this.props.model).map(formInput => (
             <option value={JSON.stringify(address.bySample(formInput, this.props.form))}>
               {/* ${formInput.externalIdentifier()} - */}
@@ -441,7 +558,10 @@ class DependencyWrapper extends React.Component {
           onChange={this.handleStateSet}
           id="currentValidator"
         >
-          {console.log(validatorsByInput)}
+          <option selected value>
+            {' '}
+            -- select a validator --{' '}
+          </option>{' '}
           {this.state.relativeInput
             ? this.state.relativeInput.type() === 'TextInput' ||
               this.state.relativeInput.type() === 'SelectionInput' ||
@@ -505,11 +625,10 @@ class DependencyWrapper extends React.Component {
                 Update
               </button>
             )}
-
-            <button disabled={this.allowSubmit()} onClick={this.handleAdd}>
-              Add Dependency
-            </button>
           </p>
+          <button disabled={this.allowSubmit()} onClick={this.handleAdd}>
+            Add Dependency
+          </button>
         </div>
       </div>
     );

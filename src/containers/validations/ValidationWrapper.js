@@ -6,6 +6,7 @@ import { FormInput } from '../../data/FormInput';
 import { _dataDefined, locals, inputDefinedValidator } from '../_validations';
 import AppliedValidator from './AppliedValidator';
 import { PatternValidator } from './data/PatternValidator';
+import { CLIENT_RENEG_LIMIT } from 'tls';
 export const getBadge = validatorType => {
   if (validatorType === 'PatternValidator') {
     return <span className="badge badge-primary">{address.getHumanValidatorName(validatorType)}</span>;
