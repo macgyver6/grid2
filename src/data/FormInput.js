@@ -49,6 +49,7 @@ class FormInput extends FormEntity {
         ? FormInput.AutoNumberRuleToken[properties.autoNumber]
         : properties.autoNumber;
     this._validations = properties.validations || [];
+    this._dependencies = properties.dependencies || [];
 
     // || FormInput.DEFAULT_VALIDATIONS, {
     //   defaultUserVal: _dataDefined[FormInput.DEFAULT_VALIDATIONS.valType].userDefined,
@@ -187,13 +188,25 @@ class FormInput extends FormEntity {
   /**
    *
    * Get validation properties on the form input.
-   * @param {Object} props
+   * @param {Array} props
    * @returns {FormInput}
    * @memberof FormInput
    */
   validations() {
     console.log('validations hit: ', this._validations);
     return this._validations;
+  }
+
+  /**
+   *
+   * Get dependency properties on the form input.
+   * @param {Array} props
+   * @returns {FormInput}
+   * @memberof FormInput
+   */
+  dependencies() {
+    console.log('dependencies hit: ', this._dependencies);
+    return this._dependencies;
   }
 
   /**
@@ -254,6 +267,7 @@ class FormInput extends FormEntity {
       promptNumber: this.promptNumber(),
       autoNumber: this.autoNumber(),
       validations: this.validations(),
+      dependencies: this.dependencies(),
       maxLength: this.maxLength(),
       externalIdentifier: this.externalIdentifier(),
     };

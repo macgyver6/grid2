@@ -26,7 +26,7 @@ class PropertiesPanel extends React.Component {
     super(props);
     this.state = {
       currentAddress: null,
-      tabIndex: 0,
+      tabIndex: 2,
       // ...(props.selected ? { boxShadow: `3px 3px ${initFE[`${props.model.type()}`].render.backgroundColor} ` } : {}),
       // ...(!inputDefinedValidator[`${this.props.model.type()}`] ? { tabIndex: 0 } : {}),
     };

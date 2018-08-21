@@ -6,6 +6,20 @@ import { FormInput } from '../../data/FormInput';
 import { _dataDefined, locals, inputDefinedValidator } from '../_validations';
 import AppliedValidator from './AppliedValidator';
 import { PatternValidator } from './data/PatternValidator';
+import { CLIENT_RENEG_LIMIT } from 'tls';
+export const getBadge = validatorType => {
+  if (validatorType === 'PatternValidator') {
+    return <span className="badge badge-primary">{address.getHumanValidatorName(validatorType)}</span>;
+  } else if (validatorType === 'NoOpValidator') {
+    return <span className="badge badge-danger">{address.getHumanValidatorName(validatorType)}</span>;
+  } else if (validatorType === 'EnumerationValidator') {
+    return <span className="badge badge-success">{address.getHumanValidatorName(validatorType)}</span>;
+  } else if (validatorType === 'RangeValidator') {
+    return <span className="badge badge-light">{address.getHumanValidatorName(validatorType)}</span>;
+  } else if (validatorType === 'SubjectInputValidator') {
+    return <span className="badge badge-info">{address.getHumanValidatorName(validatorType)}</span>;
+  }
+};
 
 class ValidationWrapper extends React.Component {
   constructor(props) {
@@ -99,13 +113,7 @@ class ValidationWrapper extends React.Component {
               },
           }
         : { customFailureMessage: '' };
-    console.log(
-      address.hydrateValidator(this.state.currentValidator, {
-        ...this.state,
-        ...customFailureMessage(),
-        type: this.state.currentValidator,
-      })
-    );
+
     this.props.mutate(address.bySample(this.props.model, this.props.form), {
       validations: [
         ...this.props.model.validations(),
@@ -240,19 +248,6 @@ class ValidationWrapper extends React.Component {
   }
 
   render() {
-    const getBadge = validatorType => {
-      if (validatorType === 'PatternValidator') {
-        return <span className="badge badge-primary">{address.getHumanValidatorName(validatorType)}</span>;
-      } else if (validatorType === 'NoOpValidator') {
-        return <span className="badge badge-danger">{address.getHumanValidatorName(validatorType)}</span>;
-      } else if (validatorType === 'EnumerationValidator') {
-        return <span className="badge badge-success">{address.getHumanValidatorName(validatorType)}</span>;
-      } else if (validatorType === 'RangeValidator') {
-        return <span className="badge badge-light">{address.getHumanValidatorName(validatorType)}</span>;
-      } else if (validatorType === 'SubjectInputValidator') {
-        return <span className="badge badge-info">{address.getHumanValidatorName(validatorType)}</span>;
-      }
-    };
     const getDataTypeBadge = validatorType => <span className="badge badge-primary">{validatorType}</span>;
     return (
       <div>
@@ -341,6 +336,17 @@ class ValidationWrapper extends React.Component {
                   failureMode: this.props.failureMode ? this.props.failureMode : 'validation',
                 })
               : null}
+            <p>
+              {this.state.mode === 'add' ? (
+                <button disabled={this.allowSubmit()} value={this.state.currentValidator} onClick={this.handleAdd}>
+                  Add
+                </button>
+              ) : (
+                <button value={this.state.currentValidator} onClick={this.handleUpdate}>
+                  Update
+                </button>
+              )}
+            </p>
           </div>
         </form>
       </div>
