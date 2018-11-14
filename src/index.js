@@ -1,21 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App.jsx';
-import reducer from './reducers';
-import { createStore, applyMiddleware, compose } from 'redux';
+import './index.css';
+import * as serviceWorker from './serviceWorker';
+import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
-import logger from 'redux-logger';
-// import { batchActions, enableBatching, batchDispatchMiddleware } from 'redux-batched-actions';
-import formValidator from './middleware/formValidator';
-
-// Implementation of Redux DevTools
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const store = createStore(reducer, composeEnhancers(applyMiddleware(logger, formValidator)));
+import thunk from 'redux-thunk';
+import rootReducer from './redux-modules/index';
+import LayoutRoot from './components/layout/LayoutRoot';
+import { sampleMiddleware } from './sampleMiddleware';
+export const store = createStore(
+  rootReducer,
+  compose(
+    applyMiddleware(thunk, sampleMiddleware),
+    window.devToolsExtension ? window.devToolsExtension() : f => f
+  )
+);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <LayoutRoot />
   </Provider>,
   document.getElementById('root')
 );
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: http://bit.ly/CRA-PWA
+serviceWorker.unregister();

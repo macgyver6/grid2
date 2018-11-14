@@ -1,3 +1,0 @@
-- do I need to add a blank selection input in form designer, or does data collection add that on that backend
-- [selection input] - examples of string, float and integer
--
