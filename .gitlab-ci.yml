@@ -16,7 +16,6 @@ install-deps:
   script:
     - npm install
 
-
 build-image:
   image: docker:latest
   stage: build
