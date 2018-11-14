@@ -1,0 +1,15 @@
+export enum EntityTypes {
+  CDSTextInput,
+  TextInput,
+  TextArea,
+  CheckBox,
+  SelectionInput,
+  TextBlock,
+  ImageBlock,
+  AutoSuggestInput,
+  Echo,
+  FormSection,
+  Form,
+  Padding,
+  EchoInput,
+}

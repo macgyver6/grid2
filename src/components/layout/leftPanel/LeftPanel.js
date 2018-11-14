@@ -11,8 +11,7 @@ export const leftPanelStyle = {
   width: '8%',
   height: '100%',
   backgroundColor: 'white',
-  filter: 'drop-shadow(0 0 0.2rem grey)'
-  ,
+  filter: 'drop-shadow(0 0 0.2rem grey)',
   padding: '0px 6px 0px 6px',
 };
 
@@ -81,7 +80,7 @@ const entityTypes = [
   { type: 'CDSTextInput', humanName: address.getHumanName('CDSTextInput') },
 ];
 
-// const dragover_handler = event => {
+// const dragOverHandler = event => {
 //     event.preventDefault();
 // };
 
@@ -92,20 +91,20 @@ const entityTypes = [
 class LeftPanel extends Component {
   constructor(props) {
     super(props);
-    this.dragstart_handler = this.dragstart_handler.bind(this);
-    this.dragend_handler = this.dragend_handler.bind(this);
+    this.dragStartHandler = this.dragStartHandler.bind(this);
+    this.dragEndHandler = this.dragEndHandler.bind(this);
   }
-  dragend_handler(event) {
+  dragEndHandler(event) {
     this.props.addEnd();
   }
-  dragstart_handler(event) {
+  dragStartHandler(event) {
     // console.log(
     //     event.target.dataset.type,
     //     _styles[event.target.dataset.type]_styles
     // );
 
     this.props.addStart(event.target.dataset.type);
-    // helpers.dragStart_handler(
+    // helpers.dragStartHandler(
     //     event,
     //     _styles[event.target.dataset.type],_styles
     //     'addEntity'
@@ -134,8 +133,8 @@ class LeftPanel extends Component {
           <div
             key={index}
             draggable="true"
-            onDragStart={this.dragstart_handler}
-            onDragEnd={this.dragend_handler}
+            onDragStart={this.dragStartHandler}
+            onDragEnd={this.dragEndHandler}
             style={{
               // paddingBottom: '6px',
               marginBottom: '8px',
@@ -143,7 +142,7 @@ class LeftPanel extends Component {
               height: '42px',
               border: `3px solid ${
                 selectionStyles[`${entity.type}`].background
-                }`,
+              }`,
               borderRadius: '2px',
               display: 'flex',
               alignItems: 'center',

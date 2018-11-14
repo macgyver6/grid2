@@ -30,16 +30,14 @@ export const helpers = {
     ];
 
     return reorderedItems;
-  }, // dragStart_handler: (event, model, form, action) => {
+  }, // dragStartHandler: (event, model, form, action) => { //     event.stopPropagation();
   /**
    *
    * @param {FormEntity} entity
    * @param {FormSection} section
    * @param {number[]} path
    * @returns {FormEntity}
-   */ //     event.stopPropagation();
-
-  //     if (action !== 'addEntity') {
+   */ //     if (action !== 'addEntity') {
   //         let bgrndGrdWidth =
   //             document.getElementById('0.bgrndGrd').clientWidth + 8;
   //         console.log(model);

@@ -3,7 +3,7 @@ import FormProperty from "./FormProperty";
 import React from 'react'
 
 const tabContent = {
-      TextInput: EntityProperty,
+      EntityProperty: EntityProperty,
       FormProperty: FormProperty,
       default: () => <p>Please select an entity to view property</p>
   }

@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 // import Tab from './Tab';
 import { setActiveTab, reorderFormTabs } from '../../../redux-modules/actions';
 import { connect } from 'react-redux';
-import Tabs from "../../common/Tabs";
-import Tab from "../../common/Tab";
+import Tabs from '../../common/Tabs';
+import Tab from '../../common/Tab';
 // import { helpers } from '../../../lib/helpers';
 // import { TabContent } from "./TabContent";
-import { TabContent } from "./TabContent";
+import { TabContent } from './TabContent';
 const propertyPanelStyle = {
   width: '46%',
   // display: 'grid',
@@ -18,12 +18,8 @@ const propertyPanelStyle = {
   // border: '1px solid blue',
   filter: 'drop-shadow(0 0 0.2rem grey)',
   padding: '6px',
-  backgroundColor: 'white'
+  backgroundColor: 'white',
 };
-
-
-
-
 
 class PropertyPanel extends Component {
   constructor(props) {
@@ -31,18 +27,15 @@ class PropertyPanel extends Component {
 
     this.activeRef = React.createRef();
     this.state = {
-      currentTab: 'TextInput'
-    }
+      currentTab: 'EntityProperty',
+    };
   }
 
-  mouseDownHandler = event => {
+  mouseDownHandler = tabUUID => {
     // const id = parseInt(event.target.id, 10);
-    console.log(event.target.id);
-
-    this.setState({
-      currentTab: event.target.id
-    })
-  }
+    // console.log(event.target.id);
+    this.setState({ currentTab: tabUUID });
+  };
 
   dragOverHandler(event) {
     event.preventDefault();
@@ -55,16 +48,38 @@ class PropertyPanel extends Component {
   }
 
   render() {
-    const { activeEntity } = this.props
-    const { currentTab } = this.state
-
+    const { activeEntity } = this.props;
+    const { currentTab } = this.state;
 
     return (
       <div style={propertyPanelStyle}>
         <Tabs style={{ width: '100%', border: 'green', padding: '6px' }}>
-          <Tab mouseDownHandler={this.mouseDownHandler} active={currentTab === 'TextInput'} uuid={'TextInput'} legend={activeEntity ? `${activeEntity.type} Properties` : 'Entity Properties'} style={{ width: '100px', height: '100px', border: '1px solid blue' }}>
-          </Tab>
-          <Tab mouseDownHandler={this.mouseDownHandler} active={currentTab === 'FormProperty'} uuid={'FormProperty'} legend='Form Properties' style={{ width: '100px', height: '100px', border: '1px solid blue' }} />
+          <Tab
+            mouseDownHandler={() => this.mouseDownHandler('EntityProperty')}
+            active={currentTab === 'EntityProperty'}
+            uuid={'EntityProperty'}
+            legend={
+              activeEntity
+                ? `${activeEntity.type} Properties`
+                : 'Entity Properties'
+            }
+            style={{
+              width: '100px',
+              height: '100px',
+              border: '1px solid blue',
+            }}
+          />
+          <Tab
+            mouseDownHandler={() => this.mouseDownHandler('FormProperty')}
+            active={currentTab === 'FormProperty'}
+            uuid={'FormProperty'}
+            legend="Form Properties"
+            style={{
+              width: '100px',
+              height: '100px',
+              border: '1px solid blue',
+            }}
+          />
         </Tabs>
         {/* {console.log(TabContent activeTab={currentTab})} */}
         <TabContent activeTab={currentTab} />
@@ -74,12 +89,11 @@ class PropertyPanel extends Component {
 }
 
 const mapStateToProps = state => {
-
-  const { activeEntityUUID } = state.app
-  const activeEntity = state.form.byId[activeEntityUUID]
-  return ({
+  const { activeEntityUUID } = state.app;
+  const activeEntity = state.form.byId[activeEntityUUID];
+  return {
     activeEntity: activeEntityUUID ? activeEntity : null,
-  })
+  };
 };
 
 PropertyPanel = connect(

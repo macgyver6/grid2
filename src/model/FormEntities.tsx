@@ -1,6 +1,6 @@
 type Partial<T> = { [P in keyof T]?: T[P] };
-
-const uuidv4 = require("uuid/v4");
+import { EntityTypes } from './types';
+const uuidv4 = require('uuid/v4');
 
 interface Form {
   /** The entities which exist directly beneath the form. */
@@ -23,16 +23,16 @@ type FormConfig = Partial<Form>;
 
 export function generateForm(config?: FormConfig): Form {
   const FormDefault = {
-    type: "Form",
+    type: EntityTypes.Form,
     children: [],
     topLevel: false,
     allowEventAttachedFiles: false,
     autoIds: {
       enabled: false,
-      separator: "",
-      prefix: ""
+      separator: '',
+      prefix: '',
     },
-    sectionTabs: true
+    sectionTabs: true,
   };
   return { ...FormDefault, ...config };
 }
@@ -48,7 +48,9 @@ type FormEntityConfig = Partial<FormEntity>;
 export function generateFormEntity(config?: FormEntityConfig): FormEntity {
   const FORM_ENTITY_DEFAULT = {
     width: 6,
-    uuid: uuidv4()
+    uuid: uuidv4(),
+    prepend: 0,
+    append: 0,
   };
   return { ...FORM_ENTITY_DEFAULT, ...config };
 }
@@ -63,18 +65,18 @@ type FormSectionConfig = Partial<FormSection>;
 
 export function generateFormSection(config?: FormSectionConfig): FormSection {
   const FORM_SECTION_DEFAULT = {
-    type: "FormSection",
+    type: EntityTypes.FormSection,
     width: 24,
     children: [],
     topLevel: false,
     prepend: 0,
     append: 0,
-    legend: ""
+    legend: '',
   };
   return {
     ...generateFormEntity(),
     ...FORM_SECTION_DEFAULT,
-    ...config
+    ...config,
   };
 }
 
@@ -98,12 +100,12 @@ type FormInputConfig = Partial<FormInput>;
 
 export function generateFormInput(config?: FormInputConfig): FormInput {
   const FORM_INPUT_DEFAULT = {
-    externalId: "",
+    externalId: '',
     prePromptWidth: 0,
-    prePrompt: "",
+    prePrompt: '',
     postPromptWidth: 0,
-    postPrompt: "",
-    tabOrder: 0
+    postPrompt: '',
+    tabOrder: 0,
   };
   return { ...generateFormEntity(), ...FORM_INPUT_DEFAULT, ...config };
 }
@@ -120,16 +122,16 @@ type TextInputConfig = Partial<TextInput>;
 
 export function generateTextInput(config?: TextInputConfig): TextInput {
   const TEXT_INPUT_DEFAULT = {
-    type: "TextInput",
+    type: EntityTypes.TextInput,
     maxLength: 60,
-    defaultContent: "",
-    autoTab: false
+    defaultContent: '',
+    autoTab: false,
   };
   return {
     ...generateFormEntity(),
     ...generateFormInput(),
     ...TEXT_INPUT_DEFAULT,
-    ...config
+    ...config,
   };
 }
 
@@ -143,15 +145,15 @@ type TextAreaConfig = Partial<TextArea>;
 
 export function generateTextArea(config?: TextAreaConfig): TextArea {
   const TEXT_AREA_DEFAULT = {
-    type: "TextArea",
+    type: EntityTypes.TextArea,
     numRows: 3,
-    numColumns: 0
+    numColumns: 0,
   };
   return {
     ...generateFormEntity(),
     ...generateFormInput(),
     ...TEXT_AREA_DEFAULT,
-    ...config
+    ...config,
   };
 }
 
@@ -162,8 +164,8 @@ type PaddingConfig = Partial<Padding>;
 
 export function generatePadding(config?: PaddingConfig): Padding {
   const PADDING_DEFAULT = {
-    type: "Padding",
-    width: 1
+    type: EntityTypes.Padding,
+    width: 1,
   };
   return { ...generateFormEntity(), ...PADDING_DEFAULT, ...config };
 }
@@ -177,26 +179,27 @@ type CheckBoxConfig = Partial<Padding>;
 
 export function generateCheckBox(config?: CheckBoxConfig): CheckBox {
   const CHECK_BOX_DEFAULT = {
-    defaultState: false
+    type: EntityTypes.CheckBox,
+    defaultState: false,
   };
   return {
     ...generateFormEntity(),
     ...generateFormInput(),
     ...CHECK_BOX_DEFAULT,
-    ...config
+    ...config,
   };
 }
 
 enum RenderModes {
   radio,
-  selection
+  selection,
 }
 
 enum InputTypes {
   string,
   number,
   boolean,
-  null
+  null,
 }
 
 type SelectionInputTypes = InputTypes.string | InputTypes.number;
@@ -214,14 +217,15 @@ export function generateSelectionInput(
   config?: SelectionInputConfig
 ): SelectionInput {
   const SELECTION_INPUT_DEFAULT = {
+    type: EntityTypes.SelectionInput,
     renderMode: RenderModes.selection,
-    inputType: 0
+    inputType: 0,
   };
   return {
     ...generateFormEntity(),
     ...generateFormInput(),
     ...SELECTION_INPUT_DEFAULT,
-    ...config
+    ...config,
   };
 }
 
@@ -234,16 +238,17 @@ interface TextBlock extends FormEntity {
 
 type TextBlockConfig = Partial<TextBlock>;
 
-export function TextBlock(config?: TextBlockConfig): TextBlock {
+export function generateTextBlock(config?: TextBlockConfig): TextBlock {
   const TEXT_BLOCK_DEFAULT = {
-    content: "",
-    backgroundColor: "blue"
+    type: EntityTypes.TextBlock,
+    content: '',
+    backgroundColor: 'blue',
   };
   return {
     ...generateFormEntity(),
     ...generateFormInput(),
     ...TEXT_BLOCK_DEFAULT,
-    ...config
+    ...config,
   };
 }
 
@@ -260,15 +265,16 @@ type ImageBlockConfig = Partial<ImageBlock>;
 
 export function generateImageBlock(config?: ImageBlockConfig): ImageBlock {
   const IMAGE_BLOCK_DEFAULT = {
-    alt: "",
-    title: "",
-    url: ""
+    type: EntityTypes.ImageBlock,
+    alt: '',
+    title: '',
+    url: '',
   };
   return {
     ...generateFormEntity(),
     ...generateFormInput(),
     ...IMAGE_BLOCK_DEFAULT,
-    ...config
+    ...config,
   };
 }
 
@@ -284,13 +290,14 @@ export function generateAutoSuggestInput(
   config?: AutoSuggestInputConfig
 ): AutoSuggestInput {
   const AUTO_SUGGEST_INPUT_DEFAULT = {
-    dictionaryName: ""
+    type: EntityTypes.AutoSuggestInput,
+    dictionaryName: '',
   };
   return {
     ...generateFormEntity(),
     ...generateFormInput(),
     ...AUTO_SUGGEST_INPUT_DEFAULT,
-    ...config
+    ...config,
   };
 }
 
@@ -305,20 +312,21 @@ type EchoInputConfig = Partial<EchoInput>;
 
 export function generateEchoInput(config?: EchoInputConfig): EchoInput {
   const ECHO_INPUT_DEFAULT = {
+    type: EntityTypes.EchoInput,
     editeable: false,
-    sourceInput: ""
+    sourceInput: '',
   };
   return {
     ...generateFormEntity(),
     ...generateFormInput(),
     ...generateTextInput(),
     ...ECHO_INPUT_DEFAULT,
-    ...config
+    ...config,
   };
 }
 
 enum EvaluationPolicy {
-  placeHolder
+  placeHolder,
 }
 
 interface CDSTextInput extends TextInput {
@@ -336,15 +344,16 @@ export function generateCDSTextInput(
   config?: CDSTextInputConfig
 ): CDSTextInput {
   const CDSTextInputDefault = {
+    type: EntityTypes.CDSTextInput,
     editeable: false,
     evaluationPolicy: EvaluationPolicy.placeHolder,
-    script: ""
+    script: '',
   };
   return {
     ...generateFormEntity(),
     ...generateFormInput(),
     ...generateTextInput(),
     ...CDSTextInputDefault,
-    ...config
+    ...config,
   };
 }

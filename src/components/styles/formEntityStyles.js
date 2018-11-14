@@ -1,5 +1,5 @@
 import { _styles } from './_styles';
-
+import { EntityTypes } from "../../model/types";
 export const calcTotal = entity => {
   if ('prePromptWidth' in entity) {
     const resultingSum =
@@ -49,11 +49,11 @@ export const entitySubWrapperStyle = entity => ({
   // zIndex: '40',
   // backgroundColor: 'white',
   cursor: 'move',
-  border: entity.type === 'TextInput' ? '1px solid #BBBBBB' : null,  borderRadius: '2px',
+  border: entity.type === EntityTypes.TextInput ? '1px solid #BBBBBB' : null,  borderRadius: '2px',
   position: 'relative',
   // height: 'auto',
   alignSelf: 'start',
-  backgroundColor: entity.type === 'TextInput' ? 'white' : null,   // border: entity.type === 'TextInput' ? '1px solid red' : null
+  backgroundColor: entity.type === EntityTypes.TextInput ? 'white' : null,   // border: entity.type === 'TextInput' ? '1px solid red' : null
   // boxShadow: '0 3px 4px rgba(116, 116, 116, 0.3)',
   // border: '1px solid #BBBBBB',
   // borderLeft: '2px #8939AD',

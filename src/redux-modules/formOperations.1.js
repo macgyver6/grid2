@@ -1,5 +1,5 @@
 import * as model from "../model/TextInput";
-
+import { EntityTypes } from "../model/types";
 export const reformat = (state, action) => {
   const { dropTargetUUID, dragTargetUUID, sectionUUID, dragDistance } = action;
   console.log(dragDistance > 0 ? "greater" : "less");
@@ -15,26 +15,15 @@ export const reformat = (state, action) => {
   };
 
   const getTarget = index => {
-    if (state[siblings[index]].type === "Padding") {
+    if (state[siblings[index]].type === EntityTypes.Padding) {
       const entity = state[siblings[index]];
 
-      return {
-        [entity.uuid]: {
-          ...entity,
-          width: entity.width + Math.abs(dragDistance)
-        }
-      };
+      return { [entity.uuid]: { ...entity, width: entity.width + Math.abs(dragDistance) } };
     } else {
       const eToAdd = new model.generatePadding({
-        width: Math.abs(dragDistance)
+        width: Math.abs(dragDistance),
       });
-      return {
-        [eToAdd.uuid]: eToAdd,
-        [sectionUUID]: {
-          ...state[sectionUUID],
-          children: addToSection(index, `${eToAdd.uuid}`)
-        }
-      };
+      return { [eToAdd.uuid]: eToAdd, [sectionUUID]: { ...state[sectionUUID], children: addToSection(index, `${eToAdd.uuid}`) } };
     }
   };
 

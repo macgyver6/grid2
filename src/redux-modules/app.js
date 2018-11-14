@@ -1,5 +1,6 @@
 const defaultAppState = {
   activeTab: "1",
+  activeEntity: null,
   activeEntityUUID: null,
   gridWidth: null,
   isResizing: false
@@ -29,7 +30,8 @@ const app = (state = defaultAppState, action) => {
         metaData: action.metaData
       }
     },
-    SETACTIVETAB: { ...state, activeTab: action.formSectionUUID }
+    SETACTIVETAB: { ...state, activeTab: action.formSectionUUID },
+    ENTITYSELECTED: {...state, activeEntity: action.uuid}
   };
 
   return actions[action.type] || actions.default;

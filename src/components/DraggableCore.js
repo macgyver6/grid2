@@ -11,29 +11,44 @@ class DraggableCore extends Component {
   dragOverHandler(event) {
     event.preventDefault();
   }
+
+
+  mouseDownHandler = (event) => {
+    console.log(this.props);
+
+    const { model: {  uuid } } = this.props
+    event.stopPropagation();
+    this.props.entitySelected(
+      uuid,
+    );
+  }
+
   render(props) {
+    console.log(this.props.uuid, this.props.active)
     return (
       <div
         id={`${this.props.model.uuid}.${this.props.model.type}`}
         style={{
           ...entitySubWrapperStyle(this.props.model),
-          ...(this.props.selected
+          ...(this.props.active
             ? {
-                boxShadow: `3px 3px ${
-                  _styles[`${this.props.model.type}`].render.backgroundColor
-                } `,
+                boxShadow: `3px 3px blue`,
               }
             : {}),
+          // ...(this.props.active
+          //   ? {
+          //       boxShadow: `3px 3px ${
+          //         _styles[`${this.props.model.type}`].render.backgroundColor
+          //       } `,
+          //     }
+          //   : {}),
         }}
-        onMouseDown={this.mouseDown_handler}
+        onMouseDown={this.mouseDownHandler}
         onDragStart={
           this.props.dragStartHandler // to set intitial
         }
         onDragOver={this.dragOverHandler}
         onDrop={this.props.dropHandler}
-        onClick={() =>
-          console.log('test: ', this.props.model) && this.props.clickHandler
-        }
         draggable={!this.props.isResizing}
       >
         {this.props.children}

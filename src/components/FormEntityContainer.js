@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Prompt from './subentities/Prompt';
 import Wrapper from './Wrapper';
 import DraggableCore from './DraggableCore';
-
+import { EntityTypes } from "../model/types";
 import {
   entitySelected,
   dragStart,
@@ -17,15 +17,14 @@ import FormEntityFragment from './input_fragments/FormEntityFragment';
 class FormEntityContainer extends Component {
   constructor(props) {
     super(props);
-    this.mouseDown_handler = this.mouseDown_handler.bind(this);
+
     this.dropHandler = this.dropHandler.bind(this);
     this.dragOverHandler = this.dragOverHandler.bind(this);
-    this.dragstart_handler = this.dragstart_handler.bind(this);
-    this.mouseUp_handler = this.mouseUp_handler.bind(this);
+    this.mouseUpHandler = this.mouseUpHandler.bind(this);
     this.clickHandler = this.clickHandler.bind(this);
   }
 
-  mouseUp_handler(event) {
+  mouseUpHandler(event) {
     this.props.saveProperty({ isResizing: false });
   }
 
@@ -33,14 +32,6 @@ class FormEntityContainer extends Component {
     console.log(event.target);
   }
 
-  mouseDown_handler(event) {
-    event.stopPropagation();
-    this.props.entitySelected(
-      `${this.props.model.type}.${this.props.model.id}`,
-      Number(event.target.id),
-      this.props.sectionUUID
-    );
-  }
 
   dropHandler(event) {
     event.stopPropagation();
@@ -54,9 +45,10 @@ class FormEntityContainer extends Component {
     event.preventDefault();
   }
 
-  dragstart_handler(event) {
+  dragStartHandler = event => {
+    const { model: {uuid}, dragStart, sectionUUID} = this.props
     event.stopPropagation();
-    this.props.dragStart(this.props.model.uuid, this.props.sectionUUID, {
+    dragStart(uuid, sectionUUID, {
       screenX: event.screenX,
     });
   }
@@ -74,9 +66,13 @@ class FormEntityContainer extends Component {
         ) : null} */}
 
         <DraggableCore
+        active={this.props.active}
+        uuid={this.props.model.uuid}
           model={this.props.model}
           isResizing={this.props.isResizing}
-          dragStartHandler={this.dragstart_handler}
+          dragStartHandler={this.dragStartHandler}
+          entitySelected={this.props.entitySelected}
+          // mouseDownHandler={this.mouseDownHandler}
           dropHandler={this.dropHandler}
           // dragEndHandler = {this.props.dragend}
         >
@@ -97,10 +93,12 @@ class FormEntityContainer extends Component {
             entityComponent={address.lookupFragment(this.props.model.type)}
             model={this.props.model}
           >
-            {this.props.model.type === 'FormSection'
+            {this.props.model.type === EntityTypes.FormSection
               ? this.props.children.map(child => (
                   <ConnectedFormEntityContainer
-                  key={`${child.id}.${this.props.model.uuid}.renderedFromSection`}
+                    key={`${child.id}.${
+                      this.props.model.uuid
+                    }.renderedFromSection`}
                     id={child.id}
                     sectionUUID={this.props.model.uuid}
                   />
@@ -149,21 +147,23 @@ class FormEntityContainer extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  model: state.form.byId[ownProps.id],
-  ...(state.form.byId[ownProps.id].type === 'FormSection'
-    ? {
-        children: state.form.byId[ownProps.id].children.map(child => ({
-          id: child,
-          type: state.form.byId[child].type,
-        })),
-      }
-    : {}),
-  id: ownProps.id,
-  isResizing: state.app.isResizing,
-  //   isDragging: state.dnd.isDragging,
-  currententity: state.app.currententity,
-});
+const mapStateToProps = (state, ownProps) =>
+  console.log(state.app.activeEntity === ownProps.id) || {
+    model: state.form.byId[ownProps.id],
+    ...(state.form.byId[ownProps.id].type === EntityTypes.FormSection
+      ? {
+          children: state.form.byId[ownProps.id].children.map(child => ({
+            id: child,
+            type: state.form.byId[child].type,
+          })),
+        }
+      : {}),
+    id: ownProps.id,
+    active: state.app.activeEntity === ownProps.id,
+    // activeEntity: state.app.activeEntity,
+    isResizing: state.app.isResizing,
+    //   isDragging: state.dnd.isDragging,
+  };
 
 const ConnectedFormEntityContainer = connect(
   mapStateToProps,

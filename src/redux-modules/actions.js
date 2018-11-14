@@ -5,10 +5,7 @@ export const setGridWidth = gridWidth => ({
   gridWidth,
 });
 
-export const entitySelected = entity => ({
-  type: 'ENTITYSELECTED',
-  currentEntity: entity,
-});
+export const entitySelected = uuid => ({ type: 'ENTITYSELECTED', uuid });
 
 export const resizeStart = resizeTarget => ({
   type: 'RESIZESTART',

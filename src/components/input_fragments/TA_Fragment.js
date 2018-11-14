@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { inputStyle } from '../feStyles';
+// import { inputStyle } from '../feStyles';
 
 class TA_Fragment extends Component {
   render() {
     return (
       <textarea
-        style={{
-          ...inputStyle(this.props.model),
-          height: 'auto',
-          resize: 'none',
-          background: 'white',
-        }}
+        // style={{
+        //   ...inputStyle(this.props.model),
+        //   height: 'auto',
+        //   resize: 'none',
+        //   background: 'white',
+        // }}
         className="form-control"
         type={this.props.model.type}
         // cols={this.props.model.numColumns}

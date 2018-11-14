@@ -4,6 +4,7 @@ import Tab from '../../common/Tab';
 import { setActiveTab, reorderFormTabs } from '../../../redux-modules/actions';
 import { connect } from 'react-redux';
 import Tabs from '../../common/Tabs';
+const uuidv4 = require('uuid/v4');
 
 const AddTab = () => {
   const style_Add_Tab = {
@@ -38,57 +39,56 @@ class TabContainer extends Component {
   constructor(props) {
     super(props);
     this.activeRef = React.createRef();
-    this.mouseDownHandler = this.mouseDownHandler.bind(this);
-    this.dragOverHandler = this.dragOverHandler.bind(this);
-    this.drop_handler = this.drop_handler.bind(this);
-    this.dragEnd_handler = this.dragEnd_handler.bind(this);
+    // this.mouseDownHandler = this.mouseDownHandler.bind(this);
+    // this.dragOverHandler = this.dragOverHandler.bind(this);
+    // this.dropHandler = this.dropHandler.bind(this);
+    // this.dragEndHandler = this.dragEndHandler.bind(this);
     this.state = {
       isOver: null,
     };
   }
 
-  dragOverHandler(event) {
+  dragOverHandler = uuid => event => {
     event.preventDefault();
-    const { id } = event.target;
 
-    if (id !== this.state.isOver) {
+    if (uuid !== this.state.isOver) {
       this.setState({
-        isOver: id,
+        isOver: uuid,
       });
     }
-  }
+  };
 
-  drop_handler(event) {
+  dropHandler = droppedTabUUID => event => {
     const draggedTabUUID = this.props.activeTab;
-    const droppedTabUUID = event.target.id;
-    this.props.reorderFormTabs(draggedTabUUID, droppedTabUUID);
+    // const droppedTabUUID = event.target.id;
+    if (draggedTabUUID !== droppedTabUUID)
+      this.props.reorderFormTabs(draggedTabUUID, droppedTabUUID);
     this.setState({ isOver: null });
-  }
+  };
 
-  dragEnd_handler(event) {
+  dragEndHandler = event => {
     this.setState({ isOver: null });
-  }
+  };
 
-  mouseLeave_handler(event) {
+  mouseLeaveHandler = event => {
     const tabContainer = document.getElementById('tabcontainer');
     tabContainer.removeChild(
       tabContainer.children[tabContainer.children.length - 1]
     );
     document.getElementById('tabcontainer').style.backgroundColor =
       this.props.form.children().length > 1 ? 'darkgrey' : 'white';
-  }
+  };
 
-  componentDidMount() {
+  componentDidMount = () => {
     if (this.activeRef.current) {
       this.activeRef.current.scrollIntoView();
     }
-  }
+  };
 
-  mouseDownHandler(event) {
+  mouseDownHandler = tabUUID => event => {
     event.stopPropagation();
-    const { id } = event.target;
-    this.props.setActiveTab(id);
-  }
+    if (this.props.activeTab !== tabUUID) this.props.setActiveTab(tabUUID);
+  };
 
   render() {
     return (
@@ -111,10 +111,10 @@ class TabContainer extends Component {
                   legend: tab.legend,
                   active: tab.uuid === this.props.activeTab,
                   setActiveTab: this.props.setActiveTab,
-                  dragOverHandler: this.dragOverHandler,
-                  mouseDownHandler: this.mouseDownHandler,
-                  dragEnd_handler: this.dragEnd_handler,
-                  drop_handler: this.drop_handler,
+                  dragOverHandler: this.dragOverHandler(tab.uuid),
+                  mouseDownHandler: this.mouseDownHandler(tab.uuid),
+                  dragEndHandler: this.dragEndHandler,
+                  dropHandler: this.dropHandler(tab.uuid),
                   // ...(tab.uuid === this.props.activeTab && {
                   //   ref: this.activeRef,
                   // }),

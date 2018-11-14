@@ -7,11 +7,11 @@ import { helpers } from '../../lib/helpers';
 class Prompt extends Component {
   // constructor() {
   //   super();
-  //   // this.mouseDown_handler = this.mouseDown_handler.bind(this);
+  //   // this.mouseDownHandler = this.mouseDownHandler.bind(this);
   // }
 
-  // mouseDown_handler(event) {
-  //   entityActions.mouseDown_handler(event, this.props);
+  // mouseDownHandler(event) {
+  //   entityActions.mouseDownHandler(event, this.props);
   // }
   // const applyPrefix = this.props.autoId.prefix ? this.props.autoId.prefix : '';
 
@@ -35,7 +35,7 @@ class Prompt extends Component {
       textOverflow: 'ellipsis',
       minHeight: '18px',
       alignSelf: 'start',
-      padding: '6px'
+      padding: '6px',
     };
 
     // const applySeparator =
@@ -50,7 +50,7 @@ class Prompt extends Component {
       <div
         style={promptStyle}
         id={`${this.props.id}`}
-      // onMouseDown={this.mouseDown_handler} // to set intitial mouse click loc
+        // onMouseDown={this.mouseDownHandler} // to set intitial mouse click loc
       >
         {/* {applySeparator + ` ${this.props.prompt}`} */}
         {/* <input
@@ -60,11 +60,16 @@ class Prompt extends Component {
           // size="8"
           readOnly="true"
         /> */}
-        <p style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}> {this.props.model[this.props.mode]}</p>
+        <p
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {' '}
+          {this.props.model[this.props.mode]}
+        </p>
 
         <Resizer
           // id={`${this.props.model.uuid}.resizer`}

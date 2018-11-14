@@ -31,10 +31,10 @@ const Tab = props => (
     id={props.uuid}
     onMouseDown={props.mouseDownHandler}
     draggable={props.draggable}
-    // onDragStart={dragstart_handler}
+    // onDragStart={dragStartHandler}
     onDragOver={props.dragOverHandler}
-    onDrop={props.drop_handler}
-    onDragEnd={props.dragEnd_handler}
+    onDrop={() => props.dropHandler(props.uuid)}
+    onDragEnd={props.dragEndHandler}
     active={props.active}
     isOver={props.isOver}
   >

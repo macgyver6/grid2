@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 class DeleteBtn extends Component {
   constructor(props) {
     super();
-    this.drop_handler = this.drop_handler.bind(this);
-    this.dragover_handler = this.dragover_handler.bind(this);
+    this.dropHandler = this.dropHandler.bind(this);
+    this.dragOverHandler = this.dragOverHandler.bind(this);
   }
-  drop_handler(event) {
+  dropHandler(event) {
     const droppedEntity = event.dataTransfer.getData('hash');
     const sectionUUID = event.dataTransfer.getData('sectionUUID');
 
@@ -20,7 +20,7 @@ class DeleteBtn extends Component {
     // }
   }
 
-  dragover_handler(event) {
+  dragOverHandler(event) {
     event.preventDefault();
   }
 
@@ -40,8 +40,8 @@ class DeleteBtn extends Component {
     return (
       <div
         style={deleteBtnStyle}
-        onDrop={this.drop_handler}
-        onDragOver={this.dragover_handler}
+        onDrop={this.dropHandler}
+        onDragOver={this.dragOverHandler}
       >
         <h1>
           <i className="far fa-trash-alt" style={{ color: 'red' }} />

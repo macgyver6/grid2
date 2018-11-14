@@ -6,7 +6,6 @@ import {
   entityResized,
 } from '../../redux-modules/actions';
 import { utility } from '../../lib/utility';
-
 const resizeStyle = {
   // width: '30px',
   height: '100%',
@@ -56,6 +55,13 @@ class Resizer extends Component {
           timeInitResize: Date.now(),
         });
 
+        console.log(
+          this.props.resizeType,
+          this.state.resizeTargetInitWidth,
+          this.state.appendInitialWidth,
+          numGridsMoved
+        );
+
         const newProps = {
           [this.props.resizeType]:
             this.state.resizeTargetInitWidth + numGridsMoved,
@@ -83,6 +89,7 @@ class Resizer extends Component {
         append: this.props.model.append,
       },
     });
+    console.log(this.props.model);
 
     this.setState({
       initialMousePosition: event.clientX,

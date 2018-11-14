@@ -8,7 +8,11 @@ class Wrapper extends Component {
         id={`${this.props.id}.${this.props.model.type}.wrapper`}
         style={{
           ...entityWrapperStyle(this.props.model),
-          margin: this.props.model.type !== 'FormSection' && this.props.model.type !== 'Padding' ? '20px 4px 0px 4px' : '20px 0px 0px 0px',
+          margin:
+            this.props.model.type !== 'FormSection' &&
+            this.props.model.type !== 'Padding'
+              ? '20px 4px 0px 4px'
+              : '20px 0px 0px 0px',
           //   ...(this.props.currententity === `${this.props.id}` &&
           //   this.props.isDragging
           //     ? {
@@ -20,7 +24,7 @@ class Wrapper extends Component {
         onDragOver={this.dragOverHandler}
         onDrop={this.dropHandler}
         onMouseUp={this.mouseUp_Section}
-        onDragStart={!this.props.isResizing ? this.dragstart_handler : null}
+        onDragStart={!this.props.isResizing ? this.dragStartHandler : null}
         draggable="false"
       >
         {this.props.children}
