@@ -1,5 +1,7 @@
+import { EntityTypes } from "../../model/types";
+
 export var _styles = {
-  FormSection: {
+  [EntityTypes.FormSection]: {
     uuid: undefined,
     prepend: 0,
     width: 24,
@@ -9,7 +11,7 @@ export var _styles = {
     legend: 'legend',
     render: { backgroundColor: 'rgba(243, 234, 95, 0.7)', minWidth: 3 },
   },
-  TextInput: {
+  [EntityTypes.TextInput]: {
     autoNumberRule: 'N+',
     uuid: undefined,
     prepend: 0,
@@ -34,7 +36,7 @@ export var _styles = {
     // autoNameRule: 'CIE492a',
     render: { backgroundColor: '#6C788F', minWidth: 3 },
   },
-  SelectionInput: {
+  [EntityTypes.SelectionInput]: {
     uuid: undefined,
     autoNumberRule: 'N+',
     prepend: 0,
@@ -64,7 +66,7 @@ export var _styles = {
     ],
     render: { backgroundColor: 'red', minWidth: 3 },
   },
-  TextArea: {
+  [EntityTypes.TextArea]: {
     uuid: undefined,
     autoNumberRule: 'N+',
     prepend: 0,
@@ -88,7 +90,7 @@ export var _styles = {
     defaultContent: '',
     render: { backgroundColor: '#205EE2', minWidth: 3 },
   },
-  CheckBox: {
+  [EntityTypes.CheckBox]: {
     uuid: undefined,
     autoNumberRule: 'N+',
     prepend: 0,
@@ -108,7 +110,7 @@ export var _styles = {
     defaultState: true,
     render: { backgroundColor: '#00C5EC', minWidth: 1 },
   },
-  TextBlock: {
+  [EntityTypes.TextBlock]: {
     uuid: undefined,
     name: '',
     width: 6,
@@ -118,7 +120,7 @@ export var _styles = {
     type: 'TextBlock',
     render: { backgroundColor: 'purple', minWidth: 1 },
   },
-  ImageBlock: {
+  [EntityTypes.ImageBlock]: {
     alt: 'alt',
     title: '',
     url: '',
@@ -131,7 +133,7 @@ export var _styles = {
     type: 'ImageBlock',
     render: { backgroundColor: 'brown', minWidth: 1 },
   },
-  AutoSuggestInput: {
+  [EntityTypes.AutoSuggestInput]: {
     autoNumberRule: 'N+',
     prepend: 0,
     width: 4,
@@ -149,7 +151,7 @@ export var _styles = {
     type: 'AutoSuggestInput',
     render: { backgroundColor: 'green', minWidth: 1 },
   },
-  EchoInput: {
+  [EntityTypes.EchoInput]: {
     autoNumberRule: 'N+',
     uuid: undefined,
     name: '',
@@ -166,7 +168,7 @@ export var _styles = {
     render: { backgroundColor: 'orange', minWidth: 1 },
     sourceInput: '',
   },
-  CDSTextInput: {
+  [EntityTypes.CDSTextInput]: {
     autoNumberRule: 'N+',
     prepend: 0,
     width: 6,

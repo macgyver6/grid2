@@ -2,6 +2,7 @@
 // import FormComponent from '../components/FormEntities/Form';
 // import FormSectionComponent from '../components/FormSection';
 import FormEntityContainer from '../components/FormEntityContainer';
+import { EntityTypes } from '../model/types';
 // import SelectionInputComponent from '../components/FormEntities/SelectionInput';
 // import TextBlockComponent from '../components/FormEntities/TextBlock';
 // import ImageBlockComponent from '../components/FormEntities/ImageBlock';
@@ -41,17 +42,19 @@ import FormEntityContainer from '../components/FormEntityContainer';
 // import NoOpValidator from '../containers/validations/data/NoOpValidator';
 // import RangeValidator from '../containers/validations/data/RangeValidator';
 // import SubjectInputValidator from '../containers/validations/data/SubjectInputValidator';
-import TI_Fragment from '../components/input_fragments/TI_Fragment';
-import TA_Fragment from '../components/input_fragments/TA_Fragment';
-import CB_Fragment from '../components/input_fragments/CB_Fragment';
 import FS_Fragment from '../components/input_fragments/FS_Fragment';
+import CB_Fragment from '../components/input_fragments/CB_Fragment';
+import TA_Fragment from '../components/input_fragments/TA_Fragment';
+import TI_Fragment from '../components/input_fragments/TI_Fragment';
+import SI_Fragment from '../components/input_fragments/SI_Fragment';
+import TB_Fragment from '../components/input_fragments/TB_Fragment';
+import IB_Fragment from '../components/input_fragments/IB_Fragment';
 import Padding_Fragment from '../components/input_fragments/Padding_Fragment';
 // import TA_Fragment from '../components/FormEntities/input_fragments/TA_Fragment';
 // import TB_Fragment from '../components/FormEntities/input_fragments/TB_Fragment';
 // import IB_Fragment from '../components/FormEntities/input_fragments/IB_Fragment';
 // import SI_Fragment from '../components/FormEntities/input_fragments/SI_Fragment';
 // import AI_Fragment from '../components/FormEntities/input_fragments/AI_Fragment';
-import { EntityTypes } from "../model/types";
 export const address = {
   lookupComponent: modelInstance => {
     const FormEntities = {
@@ -60,41 +63,24 @@ export const address = {
     };
     return FormEntities[modelInstance] || FormEntities.default;
   },
-  lookupFragment: modelInstance =>  {
+  lookupFragment: modelInstance => {
     const Fragments = {
       [EntityTypes.FormSection]: FS_Fragment,
-      [EntityTypes.TextInput]: TI_Fragment,
       [EntityTypes.TextArea]: TA_Fragment,
       [EntityTypes.CheckBox]: CB_Fragment,
+      [EntityTypes.TextInput]: TI_Fragment,
+      [EntityTypes.SelectionInput]: SI_Fragment,
+      [EntityTypes.TextBlock]: TB_Fragment,
+      [EntityTypes.ImageBlock]: IB_Fragment,
+      [EntityTypes.AutoSuggestInput]: TI_Fragment,
+      [EntityTypes.EchoInput]: TI_Fragment,
+      [EntityTypes.CDSTextInput]: TI_Fragment,
       [EntityTypes.Padding]: Padding_Fragment,
     };
+    if (!Fragments[modelInstance])
+      throw Error(`lookupFragment OOB: ${modelInstance}`);
+
     return Fragments[modelInstance];
-  },
-  getHumanName: entityType => {
-    switch (entityType) {
-      case 'CDSTextInput':
-        return 'CDS Text Input';
-      case 'TextInput':
-        return 'Text Input';
-      case 'TextArea':
-        return 'Text Area';
-      case 'CheckBox':
-        return 'Check Box';
-      case 'SelectionInput':
-        return 'Selection Input';
-      case 'TextBlock':
-        return 'Text Block';
-      case 'ImageBlock':
-        return 'Image Block';
-      case 'AutoSuggestInput':
-        return 'Auto-suggest';
-      case 'Echo':
-        return 'Echo Input';
-      case 'FormSection':
-        return 'Form Section';
-      default:
-        return null;
-    }
   },
 };
 //   lookupFragment: modelInstance => {

@@ -19,7 +19,7 @@ export const middlePanelStyle = {
   backgroundColor: 'white',
   padding: '6px',
   filter: 'drop-shadow(0 0 0.2rem grey)',
-  margin: '0px 20px 0px 20px'
+  margin: '0px 20px 0px 20px',
 };
 
 class LayoutRoot extends Component {

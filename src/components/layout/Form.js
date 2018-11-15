@@ -22,7 +22,6 @@ const divStyle = {
   // boxShadow: `3px 3px 3px 3px grey`
 };
 
-
 const bgrndGrd = {
   padding: '6px 0px 60px 0px',
   // margin: '0px',
@@ -41,14 +40,16 @@ const bgrndGrd = {
 const bgColumns = [];
 for (var i = 0; i < 24; i++) {
   bgColumns.push(
-    <div id={`${i + 1}.bgrndGrd`} className="noselect" key={i} style={{
-
-      ...bgrndGrd,
-      // gridColumn: `span 1`,
-      // backgroundColor: !(i % 2) ?  '#06f' : 'white',
-
-    }}
-      >
+    <div
+      id={`${i + 1}.bgrndGrd`}
+      className="noselect"
+      key={i}
+      style={{
+        ...bgrndGrd,
+        // gridColumn: `span 1`,
+        // backgroundColor: !(i % 2) ?  '#06f' : 'white',
+      }}
+    >
       {i + 1}
     </div>
   );

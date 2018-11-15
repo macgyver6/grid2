@@ -7,7 +7,7 @@ class FS_Fragment extends Component {
       position: 'relative',
       borderRadius: '6px',
       gridTemplateColumns: `repeat(${this.props.model.width}, [col] 1fr)`,
-      backgroundColor:'#fff45f', // 'rgba(255,244,95, 0.9)', //#fff45f
+      backgroundColor: '#fff45f', // 'rgba(255,244,95, 0.9)', //#fff45f
       minWidth: '100px',
       paddingBottom: '40px',
       gridColumn: `span ${this.props.model.width}`,

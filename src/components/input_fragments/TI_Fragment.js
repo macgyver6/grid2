@@ -1,5 +1,15 @@
 import React, { Component } from 'react';
+import { EntityTypes } from '../../model/types';
 
+const label = entityType => {
+  const types = {
+    [EntityTypes.TextInput]: 'Text Input',
+    [EntityTypes.AutoSuggestInput]: 'Auto Suggest Input',
+    [EntityTypes.EchoInput]: 'Echo Input',
+    [EntityTypes.CDSTextInput]: 'CDS Text Input',
+  };
+  return types[entityType];
+};
 class TI_Fragment extends Component {
   render() {
     return (
@@ -22,7 +32,9 @@ class TI_Fragment extends Component {
           borderRadius: '6px',
         }}
       >
-        <p style={{ display: 'grid', placeItems: 'center' }}>Text Input</p>
+        <p style={{ display: 'grid', placeItems: 'center' }}>
+          {label(this.props.model.type)}
+        </p>
       </div>
     );
   }

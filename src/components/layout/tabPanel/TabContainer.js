@@ -4,7 +4,6 @@ import Tab from '../../common/Tab';
 import { setActiveTab, reorderFormTabs } from '../../../redux-modules/actions';
 import { connect } from 'react-redux';
 import Tabs from '../../common/Tabs';
-const uuidv4 = require('uuid/v4');
 
 const AddTab = () => {
   const style_Add_Tab = {

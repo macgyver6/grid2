@@ -7,9 +7,20 @@ export enum EntityTypes {
   TextBlock,
   ImageBlock,
   AutoSuggestInput,
-  Echo,
   FormSection,
   Form,
   Padding,
   EchoInput,
+}
+
+export enum RenderModes {
+  radio,
+  selection,
+}
+
+export enum InputTypes {
+  string,
+  number,
+  boolean,
+  null,
 }

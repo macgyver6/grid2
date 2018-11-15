@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Prompt from './subentities/Prompt';
 import Wrapper from './Wrapper';
 import DraggableCore from './DraggableCore';
-import { EntityTypes } from "../model/types";
+import { EntityTypes } from '../model/types';
 import {
   entitySelected,
   dragStart,
@@ -32,7 +32,6 @@ class FormEntityContainer extends Component {
     console.log(event.target);
   }
 
-
   dropHandler(event) {
     event.stopPropagation();
     this.props.drop(this.props.model.uuid, this.props.sectionUUID, {
@@ -46,12 +45,16 @@ class FormEntityContainer extends Component {
   }
 
   dragStartHandler = event => {
-    const { model: {uuid}, dragStart, sectionUUID} = this.props
+    const {
+      model: { uuid },
+      dragStart,
+      sectionUUID,
+    } = this.props;
     event.stopPropagation();
     dragStart(uuid, sectionUUID, {
       screenX: event.screenX,
     });
-  }
+  };
 
   render() {
     return (
@@ -66,8 +69,8 @@ class FormEntityContainer extends Component {
         ) : null} */}
 
         <DraggableCore
-        active={this.props.active}
-        uuid={this.props.model.uuid}
+          active={this.props.active}
+          uuid={this.props.model.uuid}
           model={this.props.model}
           isResizing={this.props.isResizing}
           dragStartHandler={this.dragStartHandler}
@@ -88,7 +91,6 @@ class FormEntityContainer extends Component {
               model={this.props.model}
             />
           ) : null}
-
           <FormEntityFragment
             entityComponent={address.lookupFragment(this.props.model.type)}
             model={this.props.model}
@@ -147,23 +149,22 @@ class FormEntityContainer extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) =>
-  console.log(state.app.activeEntity === ownProps.id) || {
-    model: state.form.byId[ownProps.id],
-    ...(state.form.byId[ownProps.id].type === EntityTypes.FormSection
-      ? {
-          children: state.form.byId[ownProps.id].children.map(child => ({
-            id: child,
-            type: state.form.byId[child].type,
-          })),
-        }
-      : {}),
-    id: ownProps.id,
-    active: state.app.activeEntity === ownProps.id,
-    // activeEntity: state.app.activeEntity,
-    isResizing: state.app.isResizing,
-    //   isDragging: state.dnd.isDragging,
-  };
+const mapStateToProps = (state, ownProps) => ({
+  model: state.form.byId[ownProps.id],
+  ...(state.form.byId[ownProps.id].type === EntityTypes.FormSection
+    ? {
+        children: state.form.byId[ownProps.id].children.map(child => ({
+          id: child,
+          type: state.form.byId[child].type,
+        })),
+      }
+    : {}),
+  id: ownProps.id,
+  active: state.app.activeEntityUUID === ownProps.id,
+  // activeEntity: state.app.activeEntity,
+  isResizing: state.app.isResizing,
+  //   isDragging: state.dnd.isDragging,
+});
 
 const ConnectedFormEntityContainer = connect(
   mapStateToProps,

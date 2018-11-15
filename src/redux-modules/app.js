@@ -1,9 +1,8 @@
 const defaultAppState = {
-  activeTab: "1",
-  activeEntity: null,
+  activeTab: '1',
   activeEntityUUID: null,
   gridWidth: null,
-  isResizing: false
+  isResizing: false,
 };
 const app = (state = defaultAppState, action) => {
   const actions = {
@@ -17,8 +16,8 @@ const app = (state = defaultAppState, action) => {
       isDragging: {
         targetUUID: action.targetUUID,
         sectionUUID: action.sectionUUID,
-        metaData: action.metaData
-      }
+        metaData: action.metaData,
+      },
     },
     ADDEND: { ...state, isAddingInput: false },
     DRAGEND: { ...state, isDragging: false },
@@ -27,11 +26,15 @@ const app = (state = defaultAppState, action) => {
       dropTarget: {
         targetUUID: action.targetUUID,
         sectionUUID: action.sectionUUID,
-        metaData: action.metaData
-      }
+        metaData: action.metaData,
+      },
     },
-    SETACTIVETAB: { ...state, activeTab: action.formSectionUUID },
-    ENTITYSELECTED: {...state, activeEntity: action.uuid}
+    SETACTIVETAB: {
+      ...state,
+      activeTab: action.formSectionUUID,
+      activeEntityUUID: null,
+    },
+    ENTITYSELECTED: { ...state, activeEntityUUID: action.uuid },
   };
 
   return actions[action.type] || actions.default;

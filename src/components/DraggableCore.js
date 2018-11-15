@@ -12,19 +12,15 @@ class DraggableCore extends Component {
     event.preventDefault();
   }
 
-
-  mouseDownHandler = (event) => {
-    console.log(this.props);
-
-    const { model: {  uuid } } = this.props
+  mouseDownHandler = event => {
+    const {
+      model: { uuid },
+    } = this.props;
     event.stopPropagation();
-    this.props.entitySelected(
-      uuid,
-    );
-  }
+    this.props.entitySelected(uuid);
+  };
 
   render(props) {
-    console.log(this.props.uuid, this.props.active)
     return (
       <div
         id={`${this.props.model.uuid}.${this.props.model.type}`}
@@ -32,16 +28,11 @@ class DraggableCore extends Component {
           ...entitySubWrapperStyle(this.props.model),
           ...(this.props.active
             ? {
-                boxShadow: `3px 3px blue`,
+                boxShadow: `0 0 2px 3px ${
+                  _styles[`${this.props.model.type}`].render.backgroundColor
+                }`,
               }
             : {}),
-          // ...(this.props.active
-          //   ? {
-          //       boxShadow: `3px 3px ${
-          //         _styles[`${this.props.model.type}`].render.backgroundColor
-          //       } `,
-          //     }
-          //   : {}),
         }}
         onMouseDown={this.mouseDownHandler}
         onDragStart={

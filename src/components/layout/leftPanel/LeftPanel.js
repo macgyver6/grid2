@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { address } from '../../../lib/address';
+import { translate } from '../../../lib/translate';
 import { _styles } from '../../styles/_styles';
 import { widthSubWrapper } from '../../styles/formEntityStyles';
 import DeleteBtn from './DeleteBtn';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { addStart, addEnd } from '../../../redux-modules/actions';
+import { EntityTypes } from '../../../model/types';
 
 export const leftPanelStyle = {
   width: '8%',
@@ -16,68 +17,89 @@ export const leftPanelStyle = {
 };
 
 const selectionStyles = {
-  TextInput: {
+  [EntityTypes.TextInput]: {
     background: '#6C788F',
   },
 
-  TextArea: {
+  [EntityTypes.TextArea]: {
     background: '#205EE2',
   },
 
-  CheckBox: {
+  [EntityTypes.CheckBox]: {
     background: '#00C5EC',
   },
 
-  SelectionInput: {
+  [EntityTypes.SelectionInput]: {
     background: 'red',
   },
 
-  FormSection: {
+  [EntityTypes.FormSection]: {
     background: '#f3ea5f',
   },
-  TextBlock: {
+  [EntityTypes.TextBlock]: {
     background: 'purple',
   },
-  ImageBlock: {
+  [EntityTypes.ImageBlock]: {
     background: 'brown',
   },
-  AutoSuggestInput: {
+  [EntityTypes.AutoSuggestInput]: {
     background: 'green',
   },
-  Echo: {
+  [EntityTypes.EchoInput]: {
     background: 'orange',
   },
-  CDSTextInput: {
+  [EntityTypes.CDSTextInput]: {
     background: 'blue',
   },
-  Remove: {
-    paddingTop: '0px',
-    paddingBottom: '12px',
-    margin: '8px',
-    textAlign: 'center',
-    height: '42px',
-    border: '3px solid #ff5f56',
-    borderRadius: '2px',
-  },
+  // Remove: {
+  //   paddingTop: '0px',
+  //   paddingBottom: '12px',
+  //   margin: '8px',
+  //   textAlign: 'center',
+  //   height: '42px',
+  //   border: '3px solid #ff5f56',
+  //   borderRadius: '2px',
+  // },
 };
 
 const entityTypes = [
-  { type: 'FormSection', humanName: address.getHumanName('FormSection') },
-  { type: 'CheckBox', humanName: address.getHumanName('CheckBox') },
-  { type: 'TextArea', humanName: address.getHumanName('TextArea') },
-  { type: 'TextInput', humanName: address.getHumanName('TextInput') },
   {
-    type: 'SelectionInput',
-    humanName: address.getHumanName('SelectionInput'),
+    type: EntityTypes.FormSection,
+    humanName: translate.entityTypeToDescriptor(EntityTypes.FormSection),
   },
-  { type: 'TextBlock', humanName: address.getHumanName('TextBlock') },
-  { type: 'ImageBlock', humanName: address.getHumanName('ImageBlock') },
   {
-    type: 'AutoSuggestInput',
-    humanName: address.getHumanName('AutoSuggestInput'),
+    type: EntityTypes.CheckBox,
+    humanName: translate.entityTypeToDescriptor(EntityTypes.CheckBox),
   },
-  { type: 'Echo', humanName: 'Echo Input' },
-  { type: 'CDSTextInput', humanName: address.getHumanName('CDSTextInput') },
+  {
+    type: EntityTypes.TextArea,
+    humanName: translate.entityTypeToDescriptor(EntityTypes.TextArea),
+  },
+  {
+    type: EntityTypes.TextInput,
+    humanName: translate.entityTypeToDescriptor(EntityTypes.TextInput),
+  },
+  {
+    type: EntityTypes.SelectionInput,
+    humanName: translate.entityTypeToDescriptor(EntityTypes.SelectionInput),
+  },
+  {
+    type: EntityTypes.TextBlock,
+    humanName: translate.entityTypeToDescriptor(EntityTypes.TextBlock),
+  },
+  {
+    type: EntityTypes.ImageBlock,
+    humanName: translate.entityTypeToDescriptor(EntityTypes.ImageBlock),
+  },
+  {
+    type: EntityTypes.AutoSuggestInput,
+    humanName: translate.entityTypeToDescriptor(EntityTypes.AutoSuggestInput),
+  },
+  { type: EntityTypes.EchoInput, humanName: 'Echo Input' },
+  {
+    type: EntityTypes.CDSTextInput,
+    humanName: translate.entityTypeToDescriptor(EntityTypes.CDSTextInput),
+  },
 ];
 
 // const dragOverHandler = event => {
@@ -140,9 +162,7 @@ class LeftPanel extends Component {
               marginBottom: '8px',
               textAlign: 'center',
               height: '42px',
-              border: `3px solid ${
-                selectionStyles[`${entity.type}`].background
-              }`,
+              border: `3px solid ${selectionStyles[entity.type].background}`,
               borderRadius: '2px',
               display: 'flex',
               alignItems: 'center',

@@ -8,6 +8,7 @@ import Tab from '../../common/Tab';
 // import { helpers } from '../../../lib/helpers';
 // import { TabContent } from "./TabContent";
 import { TabContent } from './TabContent';
+import { translate } from '../../../lib/translate';
 const propertyPanelStyle = {
   width: '46%',
   // display: 'grid',
@@ -27,7 +28,7 @@ class PropertyPanel extends Component {
 
     this.activeRef = React.createRef();
     this.state = {
-      currentTab: 'EntityProperty',
+      currentTab: 'EntityExplorer',
     };
   }
 
@@ -48,20 +49,20 @@ class PropertyPanel extends Component {
   }
 
   render() {
-    const { activeEntity } = this.props;
+    const { model } = this.props;
     const { currentTab } = this.state;
 
     return (
       <div style={propertyPanelStyle}>
         <Tabs style={{ width: '100%', border: 'green', padding: '6px' }}>
           <Tab
-            mouseDownHandler={() => this.mouseDownHandler('EntityProperty')}
-            active={currentTab === 'EntityProperty'}
-            uuid={'EntityProperty'}
+            mouseDownHandler={() => this.mouseDownHandler('EntityExplorer')}
+            active={currentTab === 'EntityExplorer'}
+            uuid={'EntityExplorer'}
             legend={
-              activeEntity
-                ? `${activeEntity.type} Properties`
-                : 'Entity Properties'
+              model
+                ? `${translate.entityTypeToDescriptor(model.type)}`
+                : 'Entity'
             }
             style={{
               width: '100px',
@@ -73,7 +74,7 @@ class PropertyPanel extends Component {
             mouseDownHandler={() => this.mouseDownHandler('FormProperty')}
             active={currentTab === 'FormProperty'}
             uuid={'FormProperty'}
-            legend="Form Properties"
+            legend="Form"
             style={{
               width: '100px',
               height: '100px',
@@ -81,8 +82,7 @@ class PropertyPanel extends Component {
             }}
           />
         </Tabs>
-        {/* {console.log(TabContent activeTab={currentTab})} */}
-        <TabContent activeTab={currentTab} />
+        <TabContent activeTab={currentTab} model={model} />
       </div>
     );
   }
@@ -90,9 +90,9 @@ class PropertyPanel extends Component {
 
 const mapStateToProps = state => {
   const { activeEntityUUID } = state.app;
-  const activeEntity = state.form.byId[activeEntityUUID];
+  const model = activeEntityUUID ? state.form.byId[activeEntityUUID] : null;
   return {
-    activeEntity: activeEntityUUID ? activeEntity : null,
+    model,
   };
 };
 

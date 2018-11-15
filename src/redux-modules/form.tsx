@@ -2,10 +2,9 @@ import * as model from '../model/FormEntities';
 import { reformat } from './reformat';
 import { move } from './move';
 import { reorderTabs } from './reorderTabs';
-const test = model.generateEchoInput({});
-console.log(test);
-
-const defaultState = {
+import { RenderModes, EntityTypes } from '../model/types';
+import { generateEntity } from './formModelHelpers';
+const formSeed = {
   byId: {
     1: model.generateFormSection({
       uuid: '1',
@@ -22,25 +21,41 @@ const defaultState = {
       children: [],
       legend: 'Third Tab',
     }),
-    4: model.generateFormSection({ uuid: '4', children: ['6', '8', '9'] }),
+    4: model.generateFormSection({
+      uuid: '4',
+      children: ['6', '7'],
+    }),
     5: model.generateTextInput({ uuid: '5' }),
     6: model.generateTextInput({ uuid: '6' }),
-    7: model.generateTextInput({ uuid: '7' }),
-    8: model.generateTextArea({ uuid: '8' }),
-    9: model.generateCheckBox({ uuid: '9' }),
-    // 2: model.generateTextInput({
-    //   uuid: '2',
-    //   prePromptWidth: 3,
-    //   postPromptWidth: 4,
-    //   prePrompt: 'this is a preprompt',
-    //   postPrompt: 'this is a postprompt',
-    // }),
-
-    // 3: model.generatePadding({ uuid: '3', width: 1 }),
-    // 4: model.generateTextInput({ uuid: '4' }),
-    // 5: model.generatePadding({ uuid: '5', width: 24 }),
+    7: model.generateImageBlock({ uuid: '7' }),
   },
   topLevelIds: ['1', '2', '3'],
+};
+
+const createEntity = (
+  entityTypes: Array<EntityTypes>,
+  sectionUUID: string = '4',
+  initialFormValue: any = formSeed
+) => {
+  const startIndex = '50';
+
+  const reducer = (accumulator: any, currentValue: any) => {
+    const parent = accumulator.byId[sectionUUID];
+    const newEntity = generateEntity(currentValue);
+    const addToSection = () => {
+      return { ...parent, children: parent.children.concat(newEntity.uuid) };
+    };
+
+    return {
+      ...accumulator,
+      byId: {
+        ...accumulator.byId,
+        [newEntity.uuid]: newEntity,
+        [addToSection().uuid]: addToSection(),
+      },
+    };
+  };
+  return entityTypes.reduce(reducer, initialFormValue);
 };
 
 const reducers: any = {
@@ -62,8 +77,22 @@ const reducers: any = {
     ...reorderTabs(state, action),
   }),
 };
-export default function form(state = defaultState, action: any = '') {
-  /* tslint:disable */
+const arrEntitiesToCreate = [
+  EntityTypes.TextInput,
+  EntityTypes.TextInput,
+  EntityTypes.TextArea,
+  EntityTypes.CheckBox,
+  EntityTypes.SelectionInput,
+  EntityTypes.TextBlock,
+  EntityTypes.ImageBlock,
+  EntityTypes.AutoSuggestInput,
+  EntityTypes.EchoInput,
+  EntityTypes.CDSTextInput,
+];
+export default function form(
+  state = createEntity(arrEntitiesToCreate),
+  action: any = ''
+) {
   const nextReducer = reducers[action.type];
 
   return nextReducer ? nextReducer(state, action) : state;

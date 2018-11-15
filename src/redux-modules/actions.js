@@ -1,4 +1,3 @@
-import * as model from '../model/FormEntities';
 import { utility } from '../lib/utility';
 export const setGridWidth = gridWidth => ({
   type: 'SETGRIDWIDTH',
@@ -22,7 +21,7 @@ export const entityResized = (entityId, newProps) => ({
 
 export const addStart = entity => ({
   type: 'ADDSTART',
-  entity: model[entity](),
+  entity: entity,
 });
 
 export const addEnd = entity => ({

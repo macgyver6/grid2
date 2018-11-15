@@ -1,5 +1,5 @@
 type Partial<T> = { [P in keyof T]?: T[P] };
-import { EntityTypes } from './types';
+import { EntityTypes, RenderModes, InputTypes } from './types';
 const uuidv4 = require('uuid/v4');
 
 interface Form {
@@ -190,18 +190,6 @@ export function generateCheckBox(config?: CheckBoxConfig): CheckBox {
   };
 }
 
-enum RenderModes {
-  radio,
-  selection,
-}
-
-enum InputTypes {
-  string,
-  number,
-  boolean,
-  null,
-}
-
 type SelectionInputTypes = InputTypes.string | InputTypes.number;
 
 interface SelectionInput extends FormInput {
@@ -209,6 +197,8 @@ interface SelectionInput extends FormInput {
   renderMode: RenderModes;
   /** Expected type of the selection input */
   inputType: SelectionInputTypes;
+  /** Options to be rendered */
+  options: Array<Object>;
 }
 
 type SelectionInputConfig = Partial<SelectionInput>;
@@ -218,9 +208,11 @@ export function generateSelectionInput(
 ): SelectionInput {
   const SELECTION_INPUT_DEFAULT = {
     type: EntityTypes.SelectionInput,
+    options: [{ value: '', label: 'Select One' }],
     renderMode: RenderModes.selection,
     inputType: 0,
   };
+
   return {
     ...generateFormEntity(),
     ...generateFormInput(),
