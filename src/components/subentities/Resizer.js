@@ -62,12 +62,12 @@ class Resizer extends Component {
           numGridsMoved
         );
 
-        const newProps = {
+        const resizeUpdatedProps = {
           [this.props.resizeType]:
             this.state.resizeTargetInitWidth + numGridsMoved,
           append: this.state.appendInitialWidth - numGridsMoved,
         };
-        this.props.entityResized(this.props.model.uuid, newProps);
+        this.props.entityResized(this.props.model.uuid, resizeUpdatedProps);
       }
     }
   }
@@ -77,19 +77,19 @@ class Resizer extends Component {
     //   isResizing: false,
     //   resizingType: '',
     // });
-    this.props.resizeEnd();
+    this.props.resizeEnd(this.props.model.uuid);
     document.removeEventListener('mousemove', this.mousemovehandler);
     document.removeEventListener('mouseup', this.mouseuphandler);
   }
   mouseDownHandler(event) {
     this.props.resizeStart({
       resizeTarget: {
-        type: [this.props.resizeType],
+        type: this.props.resizeType,
         initWidth: this.props.model[this.props.resizeType],
         append: this.props.model.append,
       },
+      uuid: this.props.model.uuid,
     });
-    console.log(this.props.model);
 
     this.setState({
       initialMousePosition: event.clientX,

@@ -7,19 +7,13 @@ import { utility } from '../../lib/utility';
 import FormEntityContainer from '../FormEntityContainer';
 
 const divStyle = {
-  // margin: '20px',
   position: 'relative',
   gridTemplateColumns: `repeat(24, [col] 1fr)`,
   gridTemplateRows: `[row] auto`,
-  // gridGap: '8px',
   backgroundColor: '#06f',
   zIndex: '0',
   minHeight: '80vh',
   paddingTop: '6px',
-  // padding: '2px ',
-  // filter: 'drop-shadow(0 0 0.2rem grey)'
-
-  // boxShadow: `3px 3px 3px 3px grey`
 };
 
 const bgrndGrd = {
@@ -72,14 +66,13 @@ class FormComponent extends Component {
         <div className="grid">
           {/* loop through and render all children entities of top level section */}
           {/* instead of looping through the first form section's children, and rendering those, the top level form sections should be rendered, which then would render their own children */}
-          {this.props.activeTab.children.map(child =>
-            React.createElement(FormEntityContainer, {
-              key: `${child}.fromRoot`,
-              id: child,
-              sectionUUID: 0,
-            })
-          )}
+          {React.createElement(FormEntityContainer, {
+            key: `root.fromRoot`,
+            id: this.props.activeTab.uuid,
+            sectionUUID: 0,
+          })}
         </div>
+        <div className="grid_backgroundFix" />
         <div className="grid grid_background" ref={this.gridWidth}>
           {bgColumns}
         </div>

@@ -11,6 +11,17 @@
 // import { CheckBox } from './data/CheckBox';
 
 export const utility = {
+  lastInRow: (sectionWidth, model, children) => {
+    const indexOfEntity = children.map(child => child.id).indexOf(model.uuid);
+
+    var runningTotal = 0;
+    for (var i = 0; i <= indexOfEntity; ++i) {
+      // console.log(section)
+      runningTotal += utility.total(model);
+    }
+    return runningTotal % sectionWidth === 0 ? true : false;
+  },
+
   /**
    *
    * @param {FormEntity} entity
@@ -88,7 +99,7 @@ export const utility = {
       []
     ),
 
-  total: entity => entity.prepend() + entity.width() + entity.append(),
+  total: entity => entity.prepend + entity.width + entity.append,
 
   arraysEqual: (a, b) => {
     if (a === b) return true;
@@ -101,5 +112,5 @@ export const utility = {
   },
 
   round: (value, decimals) =>
-    Number(Math.round(value + "e" + decimals) + "e-" + decimals)
+    Number(Math.round(value + 'e' + decimals) + 'e-' + decimals),
 };

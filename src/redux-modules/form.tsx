@@ -64,7 +64,10 @@ const reducers: any = {
 
     return {
       ...state,
-      [action.entityId]: { ...state[action.entityId], ...action.newProps },
+      [action.entityUUID]: {
+        ...state[action.entityUUID],
+        ...action.resizeUpdatedProps,
+      },
     };
   },
   REFORMAT: (state: any, action: any) => ({
@@ -78,8 +81,6 @@ const reducers: any = {
   }),
 };
 const arrEntitiesToCreate = [
-  EntityTypes.TextInput,
-  EntityTypes.TextInput,
   EntityTypes.TextArea,
   EntityTypes.CheckBox,
   EntityTypes.SelectionInput,

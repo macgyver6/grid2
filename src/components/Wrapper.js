@@ -13,13 +13,6 @@ class Wrapper extends Component {
             this.props.model.type !== 'Padding'
               ? '20px 4px 0px 4px'
               : '20px 0px 0px 0px',
-          //   ...(this.props.currententity === `${this.props.id}` &&
-          //   this.props.isDragging
-          //     ? {
-          //         backgroundColor: 'orange',
-          //         border: '1px solid blue',
-          //       }
-          //     : {}),
         }}
         onDragOver={this.dragOverHandler}
         onDrop={this.dropHandler}

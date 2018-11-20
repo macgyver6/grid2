@@ -16,8 +16,17 @@ body {
   left: 0px;
   right: 0px;
   bottom: 0px;
+  margin-right: 17px;
 }
 
+.grid_backgroundFix {
+  background-color: white;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  width: 17px;
+}
 /* push first form section down px to expose grid numbers
 .grid > .FS {
   margin-top: 20px;

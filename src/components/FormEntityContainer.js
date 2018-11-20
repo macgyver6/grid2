@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import Pend from './subentities/Pend';
 import Prompt from './subentities/Prompt';
+import AddToEnd from './subentities/AddToEnd';
 import Wrapper from './Wrapper';
 import DraggableCore from './DraggableCore';
 import { EntityTypes } from '../model/types';
@@ -13,7 +14,7 @@ import {
 } from '../redux-modules/actions';
 import { address } from '../lib/address';
 import FormEntityFragment from './input_fragments/FormEntityFragment';
-
+import { utility } from '../lib/utility';
 class FormEntityContainer extends Component {
   constructor(props) {
     super(props);
@@ -94,6 +95,7 @@ class FormEntityContainer extends Component {
           <FormEntityFragment
             entityComponent={address.lookupFragment(this.props.model.type)}
             model={this.props.model}
+            sectionUUID={this.props.sectionUUID}
           >
             {this.props.model.type === EntityTypes.FormSection
               ? this.props.children.map(child => (
@@ -132,18 +134,14 @@ class FormEntityContainer extends Component {
           />
         ) : null} */}
 
-        {/*lastInRow(entityAddress) ? (
-        <AddToEnd
-          model={this.props.model}
-          form={this.props.form}
-          add={this.props.add}
-          remove={this.props.remove}
-          mutate={this.props.mutate}
-          temporalStateChange={this.props.temporalStateChange}
-          addToEndAction="insertInPlace"
-          appState={this.props.appState}
-        />
-      ) : null*/}
+        {this.props.lastInRow ? (
+          <AddToEnd
+            model={this.props.model}
+            addToEndAction="insertInPlace"
+            parentWidth={this.props.parentWidth}
+            gridWidth={this.props.gridWidth}
+          />
+        ) : null}
       </Wrapper>
     );
   }
@@ -163,7 +161,25 @@ const mapStateToProps = (state, ownProps) => ({
   active: state.app.activeEntityUUID === ownProps.id,
   // activeEntity: state.app.activeEntity,
   isResizing: state.app.isResizing,
+  ...(state.app.gridWidth ? { gridWidth: state.app.gridWidth } : {}),
   //   isDragging: state.dnd.isDragging,
+  ...(state.form.byId[ownProps.sectionUUID]
+    ? { sectionWidth: state.form.byId[ownProps.sectionUUID] }
+    : {}),
+  ...(ownProps.sectionUUID !== 0 &&
+  utility.lastInRow(
+    state.form.byId[ownProps.sectionUUID].width,
+    state.form.byId[ownProps.id],
+    state.form.byId[ownProps.sectionUUID].children.map(childUUID => ({
+      id: childUUID,
+      width: state.form.byId[childUUID].width,
+    }))
+  )
+    ? {
+        lastInRow: true,
+        parentWidth: state.form.byId[ownProps.sectionUUID].width,
+      }
+    : null),
 });
 
 const ConnectedFormEntityContainer = connect(
