@@ -26,7 +26,8 @@ class AddToEnd extends Component {
 
   render(props) {
     const wrapperStyle = {
-      width: this.props.gridWidth * this.props.parentWidth - 14,
+      width: '0px',
+      // width: this.props.gridWidth * this.props.parentWidth - 14,
       height: '10px',
       position: 'absolute',
       right: '0',
